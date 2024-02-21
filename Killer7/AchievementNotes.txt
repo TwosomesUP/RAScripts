@@ -1,0 +1,306 @@
+Health (c8 = Max?)
+16bit - 71b640
+
+Vial Code?
+32bit - 17ea04,17ea08,17ea0c
+
+Blood-o-meter?
+32bit - 17f2c8, 25812c, 258130, 258134, 258138
+
+Serum?
+32bit - 17f2d8, 2593f0, 2593f4, 2593f8, 2593fc
+
+Characters?
+32bit - 2d2518, 2d251c
+
+Character States?
+32bit - 2d2510, 2d2514
+
+Power?
+8bit - 2d7788 (Dan), 2d77c0 (Kaede), 2d77b8 (Coyote), 2d7798 (Con), 2d77c8 (Kevin), 2d77d0 (Mask)
+
+Speed
+8bit - 2d77d8 (Dan), 2d7810 (Kaede), 2d7808 (Coyote), 2d77e8 (Con), 2d7818 (Kevin), 2d7820 (Mask)
+
+Waver
+8bit - 2d7828 (Dan), 2d7860 (Kaede), 2d7858 (Coyote), 2d7838 (Con), 2d7870 (Mask)
+
+Criticals
+8bit - 2d7878 (Dan), 2d78b0 (Kaede), 2d78a8 (Coyote), 2d7888 (Con), 2d78b8 (Kevin), 2d78c0 (Mask)
+
+Invisibility
+8bit - 2d7868 (Kevin)
+
+Stage?
+32bit - 10f91c (last byte is the level number - 00 to 06??)
+
+=============================================================================
+** The below addresses are for the PAL version - Subtract 0x13400 to get the NTSC values 
+
+Enable Debug Menu
+32bit - 0x3221F4 = 00000001
+
+L/R             = Switch between debug pages
+DPad Left/Right = Select a debug option
+DPad Up/Down    = Change value
+
+Start Scenario Modifier (New Game)
+32bit = 10F91C (3BE000xx)
+xx = Scenario (00..06)
+
+Weapon Data
+**Power and Capacity are actually 2 16bit values)
+Dolphin Offset = -0x13400?
+
+Young Harman Weapon
+16bit - 282e88 (ID = 1C)
+32bit - 282e84 (Power/Capacity = 12C/32)
+
+Old Harman Weapon
+16bit = 282e38 (ID = 00)
+32bit = 282e34 (Power/Capacity = 190/6)
+
+Garcian
+16bit = 282de8 (ID = 0b)
+32bit = 282de4 (Power/Capacity = c8/5)
+
+Dan 
+16bit = 282dc0 (ID = 04)
+32bit = 282dbc (Power/Capacity = 96/06)
+
+Kaede
+16bit = 282ed8 (ID = a)
+32bit = 282ed4 (Power/Capacity = 64/0a)
+
+Con
+32bit = 282e10 (Left/Right Hand ID 06/05)
+32bit = 282e0c (Power/Capacity = 64/0a) 
+
+Coyote
+16bit = 282eb0 (ID = 0c)
+32bit = 282eac (Power/Capacity = 96/06)
+
+Kevin
+32bit = 282f00 (Left/Right Hand ID = 13/12)
+32bit = 282efc (Power/Capacity = 96/01)
+
+Mask 
+32bit 282f28 (Left/Right Hand ID = 09/08)
+32bit 282e24 (Power/Capacity = fa/01)
+
+Weapon IDs
+0000 - Barret M82A1 (R)
+0001 - Browning HP (L)
+0002 - Browning HP (R)
+0003 - Colt Government M1911 (R)
+0004 - Colt Python 4 Inch (R)
+0005 - Glock 26 (L)
+0006 - Glock 26 (R)
+0007 - Walther PPK (L)
+0008 - M79 Grenade Launcher / Demon Gun (L)
+0009 - M79 Grenade Launcher / Demon Gun (R)
+000A - Colt Government Strayer Voigt (R)
+000B - Walther PPK/S (R)
+000C - Enfield Revolver (R)
+000D - Kimber Pro (L)
+000E - Kimber Pro (R)
+000F - Colt Python 6 Inch (R)
+0010 - Beretta 8040 Cougar F (L)
+0011 - Beretta 8040 Cougar F (R)
+0012 - H&K Knife (L)
+0013 - TH Knife (R)
+0014 - H&K MP5A5 (R)
+0015 - Jericho 941 (R)
+0016 - Desert Eagle (R)
+0017 - S&W M36 CS (R)
+0018 - S&W M629 HR (R)
+0019 - S&W M29 MB (R)
+001A - Colt Python SP (R)
+001B - Colt Python 2.5 Inch (R)
+001C - Thompson Sub-Machine Gun (R)
+FFFF - No Weapon
+
+Background Music 
+32bit = 0D3044 3BC0xxxx
+xxxx = Song ID
+
+== Song IDS ==
+DISC 1
+0000 - Chillout
+0001 - hageshi
+0003 - road_to_horkin
+0004 - sentou
+0005 - horaizon
+0006 - freemoveA
+0007 - freemoveB
+0008 - freemoveC
+0009 - choir
+000A - choir2
+000B - choir3
+000C - choir4
+000D - sentou_silence
+000E - idou
+000F - idou_silen
+0010 - idou_syouen
+0011 - TenshiA
+0012 - TenshiB
+0013 - TenshiC
+0014 - TenshiD
+0015 - TenshiE
+0016 - rakujituA
+0017 - rakujituB
+0018 - rakujituC
+0019 - rakujituD
+001A - rakujituE
+001B - rakujituF
+001C - rakujituG
+001D - rakujituH
+001E - rakujituI
+001F - horaizonB
+0020 - idouB
+0021 - ToiletKey
+0022 - KrakujituA
+0023 - KrakujituB
+0024 - KrakujituC
+0025 - KrakujituD
+0026 - KrakujituE
+0027 - KrakujituF
+0028 - KrakujituG
+0029 - Cloudsman_A
+002A - Cloudsman_B
+002B - Cloudsman_Bdush
+002C - Cloudsman_C
+002D - Cloudsman_D
+002E - Cloudsman_E
+002F - Cloudsman_Edush
+0030 - Cloudsman_F
+0031 - Cloudsman_G
+0032 - Cloudsman_H
+0033 - iszkA
+0034 - iszkB
+0035 - iszkC
+0036 - iszkD
+0037 - iszkE
+0038 - iszkF
+0039 - iszkG
+003A - iszkH
+003B - iszkI
+003C - iszkJ
+003D - iszkK
+003E - iszkL
+003F - iszkM
+0040 - iszkN
+0041 - iszkO
+0042 - iszkD1
+0043 - iszkD2
+0044 - iszkD3
+0045 - iszkD4
+0046 - iszkH1
+0047 - iszkH2
+0048 - iszkH3
+0049 - iszkH4
+004A - iszkH5
+004B - ISZKsofa313
+004C - ISZKsofa315
+004D - dead
+004E - safe_place
+004F - safe_placeB
+0050 - safe_placeC
+0051 - safe_placeD
+0052 - safe_placeE
+0053 - speed_HS
+0054 - Title_Back
+0055 - Title
+0056 - dead_gameover
+0057 - gunkan
+005B - monban
+005C - monbanflont
+005D - CurtiesA
+005E - CurtiesB
+005F - CurtiesC
+0060 - CurtiesD
+0061 - CurtiesE
+0067 - pop
+007B - Boss_KUN
+007C - Boss_ANG
+007D - Boss_KIS
+007E - Boss_uruend
+007F - Boss_AKANE
+0081 - Boss_DEP
+0087 - Map
+0088 - nanido1
+0089 - nanido2
+008A - nanido3
+0095 - End_01
+0096 - End_02
+0097 - End_04
+0098 - KAIKOUEND
+0099 - monbanKmix
+
+
+DISC 2
+0005 - horaizon
+0006 - freemoveA
+001F - horaizonB
+004D - dead
+004E - safe_place
+004F - safe_placeB
+0050 - safe_placeC
+0051 - safe_placeD
+0052 - safe_placeE
+0053 - speed_HS
+0054 - Title_Back
+0055 - Title
+0056 - dead_gameover
+0057 - gunkan
+0058 - gunkanB
+0059 - gunkanC
+005A - gunkanD
+005B - monban
+005C - monbanflont
+0062 - HotelA
+0063 - HotelB
+0064 - HotelC
+0065 - HotelD
+0066 - HotelE
+0068 - schoolA
+0069 - schoolB
+006A - schoolC
+006B - schoolD
+006C - schoolE
+006D - schoolF
+006E - BunsinA
+006F - BunsinB
+0070 - BunsinC
+0071 - BunsinD
+0072 - BunsinE
+0073 - BunsinF
+0074 - BunsinG
+0075 - BunsinH
+0076 - BunsinI
+0077 - BunsinJ
+0078 - BunsinK
+0079 - BunsinL
+007A - BunsinM
+0080 - Boss_HSM
+0082 - Boss_CHO
+0083 - Boss_CHO2
+0084 - last_room
+0085 - 1STstaffroll
+0086 - 2NDstaffroll
+0087 - Map
+0088 - nanido1
+0089 - nanido2
+008A - nanido3
+008B - FBITape1
+008C - FBITape2
+008D - FBITape3
+008E - FBITape4
+008F - FBITape5
+0090 - FBITape6
+0091 - FBITape7
+0092 - FBITape8
+0093 - FBITape9
+0094 - FBITape10
+0097 - End_04
+0099 - monbanKmix

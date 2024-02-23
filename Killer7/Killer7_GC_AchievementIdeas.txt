@@ -1,4 +1,4 @@
-Achievement Ideas:
+vAchievement Ideas:
 - Max out all skills for each character (1 for each?)
 - Reach the limit for the blood rooms on each level (1 for each)
 	- Target 05 Part 2 is the only exception (allows infinite blood collection?)
@@ -73,3 +73,14 @@ Achievement Ideas:
 - Find each type of ring?
 	- Stamina ring specifically?
 - Beat the game using only Garcian (any difficulty?)
+
+
+===================
+N = Turtle
+S = Phoenix
+W = Lion
+E = Dragon
+
+BTJ CSC WTS
+
+

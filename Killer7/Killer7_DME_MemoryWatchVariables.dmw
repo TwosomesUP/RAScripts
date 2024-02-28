@@ -1,0 +1,55 @@
+{
+    "watchList": [
+        {
+            "address": "802D21DA",
+            "baseIndex": 0,
+            "label": "Target Overall Kills",
+            "typeIndex": 1,
+            "unsigned": true
+        },
+        {
+            "address": "802D21E6",
+            "baseIndex": 0,
+            "label": "Target Current Kills",
+            "typeIndex": 1,
+            "unsigned": true
+        },
+        {
+            "address": "802D21EE",
+            "baseIndex": 0,
+            "label": "Combo Count",
+            "typeIndex": 1,
+            "unsigned": true
+        },
+        {
+            "address": "802CFB9C",
+            "baseIndex": 0,
+            "label": "Current Thin Blood",
+            "pointerOffsets": [
+                "4169"
+            ],
+            "typeIndex": 1,
+            "unsigned": false
+        },
+        {
+            "address": "802CFB9C",
+            "baseIndex": 0,
+            "label": "Current Blood Vials",
+            "pointerOffsets": [
+                "416B"
+            ],
+            "typeIndex": 1,
+            "unsigned": false
+        },
+        {
+            "address": "802CFB9C",
+            "baseIndex": 0,
+            "label": "Current Thick Blood",
+            "pointerOffsets": [
+                "416D"
+            ],
+            "typeIndex": 1,
+            "unsigned": false
+        }
+    ]
+}

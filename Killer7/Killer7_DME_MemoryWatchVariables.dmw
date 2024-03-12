@@ -1,55 +1,1723 @@
 {
     "watchList": [
         {
-            "address": "802D21DA",
-            "baseIndex": 0,
-            "label": "Target Overall Kills",
-            "typeIndex": 1,
-            "unsigned": true
-        },
-        {
-            "address": "802D21E6",
-            "baseIndex": 0,
-            "label": "Target Current Kills",
-            "typeIndex": 1,
-            "unsigned": true
-        },
-        {
-            "address": "802D21EE",
-            "baseIndex": 0,
-            "label": "Combo Count",
-            "typeIndex": 1,
-            "unsigned": true
-        },
-        {
-            "address": "802CFB9C",
-            "baseIndex": 0,
-            "label": "Current Thin Blood",
-            "pointerOffsets": [
-                "4169"
+            "groupEntries": [
+                {
+                    "address": "80000000",
+                    "baseIndex": 0,
+                    "label": "ID",
+                    "length": 6,
+                    "typeIndex": 5,
+                    "unsigned": false
+                },
+                {
+                    "address": "80000006",
+                    "baseIndex": 1,
+                    "label": "Disc Number",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "80000007",
+                    "baseIndex": 1,
+                    "label": "Disc Version",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7580",
+                    "baseIndex": 1,
+                    "label": "Screen State",
+                    "typeIndex": 2,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7A6E",
+                    "baseIndex": 3,
+                    "label": "Difficulty/Rings",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7A6F",
+                    "baseIndex": 3,
+                    "label": "Modes",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "8030A510",
+                    "baseIndex": 1,
+                    "label": "Room",
+                    "typeIndex": 2,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7A75",
+                    "baseIndex": 3,
+                    "label": "Pigeons",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
             ],
-            "typeIndex": 1,
-            "unsigned": false
+            "groupName": "Game"
         },
         {
-            "address": "802CFB9C",
-            "baseIndex": 0,
-            "label": "Current Blood Vials",
-            "pointerOffsets": [
-                "416B"
+            "groupEntries": [
+                {
+                    "address": "8071B640",
+                    "baseIndex": 0,
+                    "label": "Current Character Health",
+                    "typeIndex": 1,
+                    "unsigned": false
+                },
+                {
+                    "address": "8071B668",
+                    "baseIndex": 0,
+                    "label": "Current Character Ammo",
+                    "typeIndex": 1,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D21DA",
+                    "baseIndex": 0,
+                    "label": "Overall Kills",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "802D21E6",
+                    "baseIndex": 0,
+                    "label": "Current Kills",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "802D21EE",
+                    "baseIndex": 0,
+                    "label": "Combo Count",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "802D21E2",
+                    "baseIndex": 1,
+                    "label": "Serum",
+                    "typeIndex": 1,
+                    "unsigned": false
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802CFB9C",
+                            "baseIndex": 1,
+                            "label": "Struct Pointer",
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802CFB9C",
+                            "baseIndex": 0,
+                            "label": "Current Thin Blood",
+                            "pointerOffsets": [
+                                "4169"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802CFB9C",
+                            "baseIndex": 0,
+                            "label": "Current Blood Vials",
+                            "pointerOffsets": [
+                                "416B"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802CFB9C",
+                            "baseIndex": 0,
+                            "label": "Current Thick Blood",
+                            "pointerOffsets": [
+                                "416D"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Target Stats"
+                }
             ],
-            "typeIndex": 1,
-            "unsigned": false
+            "groupName": "Player"
         },
         {
-            "address": "802CFB9C",
-            "baseIndex": 0,
-            "label": "Current Thick Blood",
-            "pointerOffsets": [
-                "416D"
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Health",
+                                    "pointerOffsets": [
+                                        "234"
+                                    ],
+                                    "typeIndex": 1,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Speed Smile"
+                        }
+                    ],
+                    "groupName": "Vinculum Gate"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "8030B730",
+                            "baseIndex": 0,
+                            "label": "Hits",
+                            "pointerOffsets": [
+                                "40C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Hits - Pointer Chain",
+                            "pointerOffsets": [
+                                "4",
+                                "40C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "8030B730",
+                            "baseIndex": 0,
+                            "label": "State",
+                            "pointerOffsets": [
+                                "420"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "State - Pointer Chain",
+                            "pointerOffsets": [
+                                "4",
+                                "420"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Angel"
+                }
             ],
-            "typeIndex": 1,
-            "unsigned": false
+            "groupName": "Target00"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "groupEntries": [
+                                {
+                                    "groupEntries": [
+                                        {
+                                            "address": "802B7DF0",
+                                            "baseIndex": 0,
+                                            "label": "Health",
+                                            "pointerOffsets": [
+                                                "234"
+                                            ],
+                                            "typeIndex": 1,
+                                            "unsigned": false
+                                        }
+                                    ],
+                                    "groupName": "Phantom Smile"
+                                }
+                            ],
+                            "groupName": "Vinculum Gate"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "80755690",
+                                    "baseIndex": 0,
+                                    "label": "Match Timer",
+                                    "pointerOffsets": [
+                                        "8",
+                                        "0"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Match Timer - Pointer Chain",
+                                    "pointerOffsets": [
+                                        "3F0",
+                                        "8",
+                                        "0"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "807556C4",
+                                    "baseIndex": 0,
+                                    "label": "Match State",
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Match State - Pointer Chain",
+                                    "pointerOffsets": [
+                                        "424"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "807556A0",
+                                    "baseIndex": 0,
+                                    "label": "Hits Taken",
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Hits Taken - Pointer Chain",
+                                    "pointerOffsets": [
+                                        "400"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "807556A4",
+                                    "baseIndex": 0,
+                                    "label": "Hits Given",
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Hits Given - Pointer Chain",
+                                    "pointerOffsets": [
+                                        "404"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Julia Kisugi"
+                        }
+                    ],
+                    "groupName": "Part 1"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "groupEntries": [
+                                {
+                                    "groupEntries": [
+                                        {
+                                            "address": "802B7DF0",
+                                            "baseIndex": 0,
+                                            "label": "Health",
+                                            "pointerOffsets": [
+                                                "234"
+                                            ],
+                                            "typeIndex": 1,
+                                            "unsigned": false
+                                        }
+                                    ],
+                                    "groupName": "Backside Smile"
+                                }
+                            ],
+                            "groupName": "Vinculum Gate"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "8030AE18",
+                                    "baseIndex": 0,
+                                    "label": "State",
+                                    "pointerOffsets": [
+                                        "420"
+                                    ],
+                                    "typeIndex": 0,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "8030AE18",
+                                    "baseIndex": 0,
+                                    "label": "Rocks Hit",
+                                    "pointerOffsets": [
+                                        "421"
+                                    ],
+                                    "typeIndex": 0,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Jean DePaul"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "8073FC80",
+                                    "baseIndex": 1,
+                                    "label": "Kurahashi State",
+                                    "pointerOffsets": [
+                                        "30"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Kurahashi State - Pointer Chain",
+                                    "pointerOffsets": [
+                                        "4",
+                                        "30"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "8073FCB0",
+                                    "baseIndex": 0,
+                                    "label": "Akiba State",
+                                    "pointerOffsets": [
+                                        "30"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Akiba State - Pointer Chain",
+                                    "pointerOffsets": [
+                                        "30"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Kurahashi & Akiba"
+                        }
+                    ],
+                    "groupName": "Part 2"
+                }
+            ],
+            "groupName": "Target01"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "8030B7B8",
+                            "baseIndex": 0,
+                            "label": "State",
+                            "pointerOffsets": [
+                                "30"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "State - Pointer Chain",
+                            "pointerOffsets": [
+                                "30"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Andrei Ulmeyda"
+                }
+            ],
+            "groupName": "Target02"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Health",
+                                    "pointerOffsets": [
+                                        "234"
+                                    ],
+                                    "typeIndex": 1,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Ayami Blackburn"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "groupEntries": [
+                                        {
+                                            "address": "802B7DF0",
+                                            "baseIndex": 0,
+                                            "label": "Health",
+                                            "pointerOffsets": [
+                                                "234"
+                                            ],
+                                            "typeIndex": 1,
+                                            "unsigned": false
+                                        }
+                                    ],
+                                    "groupName": "Mithril Smile"
+                                }
+                            ],
+                            "groupName": "Vinculum Gate"
+                        }
+                    ],
+                    "groupName": "Part 1"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Health",
+                                    "pointerOffsets": [
+                                        "410"
+                                    ],
+                                    "typeIndex": 1,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Ayami Blackburn"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "groupEntries": [
+                                        {
+                                            "address": "802B7DF0",
+                                            "baseIndex": 0,
+                                            "label": "Health",
+                                            "pointerOffsets": [
+                                                "234"
+                                            ],
+                                            "typeIndex": 1,
+                                            "unsigned": false
+                                        }
+                                    ],
+                                    "groupName": "Laser Smile"
+                                }
+                            ],
+                            "groupName": "Vinculum Gate"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Hits Given",
+                                    "pointerOffsets": [
+                                        "444"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Hits Taken",
+                                    "pointerOffsets": [
+                                        "448"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Curtis Blackburn"
+                        }
+                    ],
+                    "groupName": "Part 2"
+                }
+            ],
+            "groupName": "Target03"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802B7A7F",
+                    "baseIndex": 3,
+                    "label": "Color Samples 1",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7A7E",
+                    "baseIndex": 3,
+                    "label": "Color Samples 2",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Target04"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Health",
+                                    "pointerOffsets": [
+                                        "234"
+                                    ],
+                                    "typeIndex": 1,
+                                    "unsigned": false
+                                },
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Weakpoints Hit",
+                                    "pointerOffsets": [
+                                        "3F0"
+                                    ],
+                                    "typeIndex": 2,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Timer Smile"
+                        },
+                        {
+                            "groupEntries": [
+                                {
+                                    "address": "802B7DF0",
+                                    "baseIndex": 0,
+                                    "label": "Health",
+                                    "pointerOffsets": [
+                                        "234"
+                                    ],
+                                    "typeIndex": 1,
+                                    "unsigned": false
+                                }
+                            ],
+                            "groupName": "Galactic Tomahawk Smile"
+                        }
+                    ],
+                    "groupName": "Vinculum Gate"
+                }
+            ],
+            "groupName": "Target05"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802B7A7F",
+                    "baseIndex": 0,
+                    "label": "Matsuken Decision",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Target06"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "State",
+                            "pointerOffsets": [
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Current Enemy"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 1"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 2"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2? ",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 3"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 4"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 5"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 6"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 1,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 7"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 8"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Health",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "234"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "State?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "5B"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "ID?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "1C"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "ID 2?",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "20"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Visibility",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "22C"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Critical",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "238"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "802B7DF0",
+                            "baseIndex": 0,
+                            "label": "Next",
+                            "pointerOffsets": [
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4",
+                                "4"
+                            ],
+                            "typeIndex": 2,
+                            "unsigned": false
+                        }
+                    ],
+                    "groupName": "Next Enemy 9"
+                }
+            ],
+            "groupName": "Enemy List"
         }
     ]
 }

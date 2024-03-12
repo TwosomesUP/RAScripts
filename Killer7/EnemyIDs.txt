@@ -1,0 +1,29 @@
+8000 = Gray Mithril Smile
+8002 = Yellow Mithril Smile
+6600(7300) = Purple Smile
+6600(FFFF) = Roller Purple Smile
+7b01 = Mother Smile
+760a = Duplicator Smile
+7000 = Phantom Smile
+7f00 = Green Diver Smile?
+1D00 = Mr Nightmare (2A = Final Shot State)
+8200 = Invincible Smile
+664c = Green Running Smile
+664a = Pink Running Smile
+665b = Yellow Smile
+6603 = Red Smile
+6607 = Green Smile
+6605 = Gray Smile
+6613 = Gray Smile
+660c = Orange Smile
+6d00 = Protector Smile - Potential Extra Achievement (Kill 2 at once)
+7a00 = Ceramic Smile - Potential Extra Achievement
+1700 = Yellow Micro Smile (C = Dead, Health = 0)
+7c00 = Giant Smile (C or 13 = Dead, Health = 0)
+7900 = Broken Smile (C = Dead, or Health = 0)
+1701 = Red/Blue Micro Smile (C = Dead, or Health = 0) 
+7d00 = Laser Smile (C or 13 = Dead, Health = 0)
+7400 = Camellia Smile (C or 13 = Dead, Health = 0)
+8003 = Vinculum Mithril Smile
+7800 = Vinculum Timer Smile
+7100 = Vinculum Galactic Tomahawk Smile

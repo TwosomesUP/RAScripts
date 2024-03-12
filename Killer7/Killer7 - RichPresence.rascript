@@ -18,6 +18,7 @@ GameStates = {
 }
 
 TargetSelectScreens = {
+    "TargetSelect0": 0x8077ad40,
     "TargetSelect1": 0x8077ae00,
     "TargetSelect2": 0x8077b5e0,
     "TargetSelect3": 0x8077c4a0,
@@ -28,10 +29,19 @@ TargetSelectScreens = {
     "TargetSelect8": 0x8077e700
 }
 
-function IsInGame() => GameState > GameStates["None"]
-function IsOnTitle() => (GameState == GameStates["None"] || GameState == GameStates["TargetEnd"]) && ScenePointer == 0
-function IsOnTargetSelect() => GameState == GameStates["TargetEnd"] && any_of(TargetSelectScreens, scene => ScenePointer == TargetSelectScreens[scene])
+TargetEndScreens = {
+    "Results": 0x80734120,
+    "Pre-Save": 0x8073b380,
+    "Save": 0x8073b220,
+    "Post-Save": 0x8073b5a0
+}
 
+GamePointer = dword_be(0x000030c8)
+
+function IsInGame() => GamePointer != 0 && ScenePointer != 0
+function IsOnTitle() => GamePointer == 0 && ScenePointer == 0
+function IsOnTargetEnd() => GamePointer == 0 && ScenePointer != 0 && any_of(TargetEndScreens, scene => ScenePointer == TargetEndScreens[scene])
+function IsOnTargetSelect() => GamePointer == 0 && ScenePointer != 0 && none_of(TargetEndScreens, scene => ScenePointer == TargetEndScreens[scene])
 Target = dword_be(0x002b7554)
 Mission = dword_be(0x002b7558)
 
@@ -79,6 +89,8 @@ StandardCharacterLookup = {
     4: "Coyote",
     5: "Mask de",
     6: "Kevin",
+    7: "Harman",
+    8: "Garcian"
 }
 
 Dan = {
@@ -154,10 +166,11 @@ CharacterStat1Lookup = {
     7: YoungHarman["Power"]
 }
 
-rich_presence_conditional_display(IsOnTitle(), "The Killer 7 are preparing for their next assignment")
-rich_presence_conditional_display(IsOnTargetSelect(), "The Killer 7 are selecting their next target")
+rich_presence_conditional_display(IsOnTitle(), "On Title")
+rich_presence_conditional_display(IsOnTargetEnd(), "Wrapping Up the Assignment")
+rich_presence_conditional_display(IsOnTargetSelect(), "Selecting a Target")
 
-rich_presence_conditional_display(IsInGame() && !IsYoungHarman && !IsOldHarman && !IsGarcian, "{0} Smith is seeking out their next target on assignment [{1}]",
+rich_presence_conditional_display(IsInGame(), "{0} Smith is seeking out their next target on assignment [{1}]",
     rich_presence_lookup("CharacterLookup", SelectedCharacter, StandardCharacterLookup),
     rich_presence_lookup("TargetLookup", Mission, TargetLookup)
 )

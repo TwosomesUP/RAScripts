@@ -3,11 +3,11 @@
 Disc = byte(0x00000006)
 
 Difficulty = bit0(0x002b7a6e)
-Mode = byte(0x002b7a6f)
+Mode = high4(0x002b7a6f)
 
 function IsKiller7() => bit5(Mode) != 1 && bit6(Mode) != 1
-function IsKiller8() => bit5(Mode) == 1
-function IsHopper7() => bit6(Mode) == 1
+function IsKiller8() => Mode == 2
+function IsHopper7() => Mode == 4
 
 GameState = dword_be(0x002b7580)
 ScenePointer = dword_be(0x002b7538)
@@ -32,13 +32,12 @@ TargetSelectScreens = {
 TargetEndScreens = {
     "Results": 0x80734120,
     "Pre-Save": 0x8073b380,
-    "Save": 0x8073b220,
-    "Post-Save": 0x8073b5a0
+    "Save": 0x8073b220
 }
 
 GamePointer = dword_be(0x000030c8)
 
-function IsInGame() => GamePointer != 0 && ScenePointer != 0
+function IsInGame() => GamePointer != 0
 function IsOnTitle() => GamePointer == 0 && ScenePointer == 0
 function IsOnTargetEnd() => GamePointer == 0 && ScenePointer != 0 && any_of(TargetEndScreens, scene => ScenePointer == TargetEndScreens[scene])
 function IsOnTargetSelect() => GamePointer == 0 && ScenePointer != 0 && none_of(TargetEndScreens, scene => ScenePointer == TargetEndScreens[scene])
@@ -83,14 +82,15 @@ IsOldHarman = SelectedCharacter == 7 && AmmoCapacity == 6
 IsGarcian = SelectedCharacter == 8
 
 StandardCharacterLookup = {
-    1: "Dan",
-    2: "Con",
-    3: "KAEDE",
-    4: "Coyote",
-    5: "Mask de",
-    6: "Kevin",
-    7: "Harman",
-    8: "Garcian"
+    0: "The Smiths",
+    1: "Dan Smith",
+    2: "Con Smith",
+    3: "KAEDE Smith",
+    4: "Coyote Smith",
+    5: "Mask de Smith",
+    6: "Kevin Smith",
+    7: "Harman Smith",
+    8: "Garcian Smith"
 }
 
 Dan = {
@@ -143,17 +143,17 @@ YoungHarman = {
 }
 
 TargetLookup = {
-    0x00: "Angel",
-    0x01: "Sunset",
-    0x02: "Sunset",
-    0x03: "Cloudman",
-    0x04: "Encounter",
-    0x05: "Encounter",
-    0x06: "Alter Ego",
-    0x07: "Alter Ego",
-    0x08: "Smile",
-    0x09: "Smile",
-    0x0b: "Lion"
+    0x00: "33 [Angel]",
+    0x01: "34 [Sunset]",
+    0x02: "35 [Sunset]",
+    0x03: "36 [Cloudman]",
+    0x04: "37 [Encounter]",
+    0x05: "37 [Encounter]",
+    0x06: "38 [Alter Ego]",
+    0x07: "39 [Alter Ego]",
+    0x08: "40 [Smile]",
+    0x09: "41 [Smile]",
+    0x0b: "43 [Lion]"
 }
 
 CharacterStat1Lookup = {
@@ -166,13 +166,32 @@ CharacterStat1Lookup = {
     7: YoungHarman["Power"]
 }
 
+ModeLookup = {
+    2: "Killer8",
+    3: "Killer8",
+    5: "Hopper7"
+}
+
+DifficultyLookup2 = {
+    2: "Bloodbath",
+    3: "Bloodbath",
+    5: "Swarm"
+}
+
+DifficultyLookup = {
+    0: "Deadly",
+    1: "Deadly"
+}
+
 rich_presence_conditional_display(IsOnTitle(), "On Title")
 rich_presence_conditional_display(IsOnTargetEnd(), "Wrapping Up the Assignment")
 rich_presence_conditional_display(IsOnTargetSelect(), "Selecting a Target")
 
-rich_presence_conditional_display(IsInGame(), "{0} Smith is seeking out their next target on assignment [{1}]",
+rich_presence_conditional_display(IsInGame(), "{0} | ASSIGNMENT: No. {1} | {2} [{3}]",
     rich_presence_lookup("CharacterLookup", SelectedCharacter, StandardCharacterLookup),
-    rich_presence_lookup("TargetLookup", Mission, TargetLookup)
+    rich_presence_lookup("TargetLookup", Mission, TargetLookup),
+    rich_presence_lookup("ModeLookup", Mode, ModeLookup, "Killer7"),
+    rich_presence_lookup("ModeLookup", Difficulty, DifficultyLookup, "Killer7")
 )
 
 rich_presence_display("Playing Killer7")

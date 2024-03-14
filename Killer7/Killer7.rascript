@@ -93,7 +93,8 @@ Rings = {
     "Water": bit3(0x002b7a6e),
     "Time": bit4(0x002b7a6e),
     "Wind": bit5(0x002b7a6e),
-    "Stamina": bit5(0x002b7a7f), //Uses Event Trigger
+    //Stamina uses alt event trigger for timing
+    "Stamina": bit5(0x002b7a7f), 
     "Power": bit7(0x002b7a6e)
 }
 
@@ -135,7 +136,7 @@ function CollectedRing(ringName){
 // ======================================================================= //
 
 achievement(
-    title = "[Draft] Collect the Fire Ring", points = 2,
+    title = "[Coded] Collect the Fire Ring", points = 2,
     description = "While playing Target 00 [Angel], collect the Fire Ring in any mode and on any difficulty",
     trigger = CollectedRing("Fire"),
     type = "progression",
@@ -162,7 +163,7 @@ achievement(
     id = 407755
 )
 achievement(
-    title = "[Draft] Collect the Water Ring", points = 5,
+    title = "[Coded] Collect the Water Ring", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], collect the Water Ring in any mode and on any difficulty",
     trigger = CollectedRing("Water"),
     type = "progression",
@@ -176,7 +177,7 @@ achievement(
     id = 407757
 )
 achievement(
-    title = "[Draft] Collect the Wind Ring", points = 5,
+    title = "[Coded] Collect the Wind Ring", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], collect the Wind Ring in any mode and on any difficulty",
     trigger = CollectedRing("Wind"),
     type = "progression",
@@ -203,7 +204,7 @@ achievement(
     id = 407761
 )
 achievement(
-    title = "[Draft] Collect the Stamina Ring", points = 5,
+    title = "[Coded] Collect the Stamina Ring", points = 5,
     description = "While playing Target 02 [Cloudman], collect the Stamina Ring in any mode and on any difficulty",
     trigger = CollectedRing("Stamina"),
     type = "progression",
@@ -230,7 +231,7 @@ achievement(
     id = 407765
 )
 achievement(
-    title = "[Draft] Collect the Time Ring", points = 5,
+    title = "[Coded] Collect the Time Ring", points = 5,
     description = "While playing Target 03 Part 01 [Encounter], collect the Time Ring in any mode and on any difficulty",
     trigger = CollectedRing("Time"),
     type = "progression",
@@ -244,7 +245,7 @@ achievement(
     id = 407767
 )
 achievement(
-    title = "[Draft] Collect the Power Ring", points = 5,
+    title = "[Coded] Collect the Power Ring", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], collect the Power Ring in any mode and on any difficulty",
     trigger = CollectedRing("Power"),
     type = "progression",

@@ -382,11 +382,11 @@ function CheckForEnemyDeath(enemy){
         word_be(MaskedEnemyListPointer + EnemyHealthOffset) <= 0
     )
         
-    for index in range(1, 9){    
+    for i in range(1, 9){    
         nextPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset)
         maskedNextPointer = nextPointer & EnemyPointerMask
-        for index2 in range(1, index){
-            if(index2 > 1){
+        for j in range(1, i){
+            if(j > 1){
                 nextPointer = dword_be(maskedNextPointer + NextEnemyOffset)
                 maskedNextPointer = nextPointer & EnemyPointerMask
             }

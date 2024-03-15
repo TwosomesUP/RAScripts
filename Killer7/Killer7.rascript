@@ -160,8 +160,79 @@ TargetEndLocations = {
 PreEndingLocation = 0x80802a60
 EndingLocation = 0x80816a80
 
+VinculumSmileMissions = {
+    "Speed": 0,
+    "Phantom": 1,
+    "Backside": 2,
+    "Mithril": 4,
+    "Laser": 5,
+    "Timer": 8,
+    "Galactic": 9
+}
+
+VinculumSmileDiscs = {
+    "Speed": 0,
+    "Phantom": 0,
+    "Backside": 0,
+    "Mithril": 0,
+    "Laser": 0,
+    "Timer": 1,
+    "Galactic": 1
+}
+
+VinculumSmileRooms = {
+    "Speed": 0x30702,
+    "Phantom": 0x7600,
+    "Backside": 0x8a00,
+    "Mithril": 0x14800,
+    "Laser": 0x16d00,
+    "Timer": 0x20800,
+    "Galactic": 0x22d00
+}
+
+
+
+function UlmeydaFigureCount(){
+    return
+        bit0(0x002b7a83) + bit1(0x002b7a83) + bit2(0x002b7a83) + bit3(0x002b7a83) + 
+        bit4(0x002b7a83) + bit1(0x002b7a7c) + bit2(0x002b7a7c) + bit3(0x002b7a7c) + 
+        bit4(0x002b7a7c) + bit5(0x002b7a7c) + bit6(0x002b7a7c) + bit7(0x002b7a7c)
+}
+
+function ColorSampleCount(){
+    return
+        bit0(0x002b7a7f) + bit1(0x002b7a7f) + bit2(0x002b7a7f) + bit3(0x002b7a7f) + 
+        bit4(0x002b7a7f) + bit5(0x002b7a7f) + bit6(0x002b7a7f) + bit7(0x002b7a7f) +
+        bit0(0x002b7a7e)
+}
+    
+function CassetteCount(){
+    return
+        bit3(0x002b7a7c) + bit4(0x002b7a7c) + bit5(0x002b7a7c) + bit6(0x002b7a7c) + 
+        bit7(0x002b7a7c) + bit0(0x002b7a83) + bit1(0x002b7a83) + bit2(0x002b7a83) + 
+        bit3(0x002b7a83) + bit4(0x002b7a83)
+}
+
+EnemyListPointer = dword_be(0x002b7df0)
+
+NextEnemyOffset = 0x004
+EnemyIDOffset = 0x01c
+EnemyHealthOffset = 0x234
+EnemyPointerMask = 0x7fffffff
+
+MaskedEnemyListPointer = EnemyListPointer & EnemyPointerMask
+
+EnemyIDs = {
+    "Camellia": 0x7400,
+    "Laser": 0x7d00,
+    "Micro1": 0x1701,
+    "Micro2": 0x1700,
+    "Broken": 0x7900,
+    "Giant": 0x7c00
+}
+
 // ======================================================================= //
-// Achievement Functions
+// Achievement Trigger Functions
 // ======================================================================= //
 
 function CollectedRing(ringName){
@@ -178,8 +249,10 @@ function CompletedTarget(target, mode, difficulty){
         IsInGame() &&
         Disc == TargetDisc[target] &&
         Target == target &&
-        ((prev(ScenePointer) == PreTargetEndLocations[target] && ScenePointer == TargetEndLocations[target]) ||
-         (prev(ScenePointer) == MidTargetEndLocations[target] && ScenePointer == TargetEndLocations[target]))
+        (
+            (prev(ScenePointer) == PreTargetEndLocations[target] && ScenePointer == TargetEndLocations[target]) ||
+            (prev(ScenePointer) == MidTargetEndLocations[target] && ScenePointer == TargetEndLocations[target])
+        )
         
     if(mode == "Killer7"){
         trigger = trigger && IsKiller7()
@@ -226,6 +299,110 @@ function CompleteGame(ending, mode, difficulty){
     return trigger
 }
 
+function DefeatedVinculumSmile(smile){
+    trigger = 
+        IsInGame() &&
+        Disc == VinculumSmileDiscs[smile] &&
+        Mission == VinculumSmileMissions[smile] &&
+        RoomIndex == VinculumSmileRooms[smile]
+        
+    if(smile == "Timer"){
+        timerHitsOffset = 0x444
+        timerHits = word_be(MaskedEnemyListPointer + timerHitsOffset)
+        
+        trigger = trigger &&
+            prev(timerHits) < 8 && timerHits == 8
+    } 
+    else {
+        healthOffset = 0x234
+        health = word_be(MaskedEnemyListPointer + healthOffset)
+    
+        trigger = trigger &&
+            prev(health) > 0 && health <= 0
+    }
+        
+    return trigger
+}
+
+function CollectedUlmeydaFigures(){
+    return
+        IsInGame() &&
+        Disc == 0 &&
+        Mission == 4 &&
+        prev(UlmeydaFigureCount()) == 11 &&
+        UlmeydaFigureCount() == 12
+}
+
+function CollectedColorSamples(){
+    return
+        IsInGame() &&
+        Disc == 1 &&
+        Mission == 6 &&
+        prev(ColorSampleCount()) == 8 &&
+        ColorSampleCount() == 9
+}
+
+function CollectedCassettes(){
+    return
+        IsInGame() &&
+        Disc == 1 &&
+        Mission == 9 &&
+        prev(CassetteCount()) == 9 &&
+        CassetteCount() == 10
+}
+
+function CollectedPigeons() {
+    return
+        IsInGame() &&
+        prev(Pigeons) == 7 &&
+        Pigeons == 8
+}
+
+function AllSkillsUpgraded(){
+    return
+        IsInGame() &&
+        (
+            (prev(sum_of(Dan, skill => Dan[skill])) == 19 && sum_of(Dan, skill => Dan[skill]) == 20) ||
+            (prev(sum_of(Con, skill => Con[skill])) == 19 && sum_of(Con, skill => Con[skill]) == 20) ||
+            (prev(sum_of(Coyote, skill => Coyote[skill])) == 19 && sum_of(Coyote, skill => Coyote[skill]) == 20) ||
+            (prev(sum_of(Kaede, skill => Kaede[skill])) == 19 && sum_of(Kaede, skill => Kaede[skill]) == 20) ||
+            (prev(sum_of(Kevin, skill => Kevin[skill])) == 19 && sum_of(Kevin, skill => Kevin[skill]) == 20) ||
+            (prev(sum_of(Mask, skill => Mask[skill])) == 19 && sum_of(Mask, skill => Mask[skill]) == 20) ||
+            (prev(sum_of(YoungHarman, skill => YoungHarman[skill])) == 19 && sum_of(YoungHarman, skill => YoungHarman[skill]) == 20)
+        )
+}
+
+function CheckForEnemyDeath(enemy){
+    trigger = IsInGame() && EnemyListPointer != 0
+        
+    enemyFound = 
+    (
+        word_be(MaskedEnemyListPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
+        prev(word_be(MaskedEnemyListPointer + EnemyHealthOffset)) > 0 && 
+        word_be(MaskedEnemyListPointer + EnemyHealthOffset) <= 0
+    )
+        
+    for index in range(1, 9){    
+        nextPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset)
+        maskedNextPointer = nextPointer & EnemyPointerMask
+        for index2 in range(1, index){
+            if(index2 > 1){
+                nextPointer = dword_be(maskedNextPointer + NextEnemyOffset)
+                maskedNextPointer = nextPointer & EnemyPointerMask
+            }
+        }
+        enemyFound = enemyFound || 
+        (
+            nextPointer != 0 &&
+            word_be(maskedNextPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
+            prev(word_be(maskedNextPointer + EnemyHealthOffset)) > 0 && 
+            word_be(maskedNextPointer + EnemyHealthOffset) <= 0
+        )
+    }
+
+    return trigger && (enemyFound)
+}
+
 // ======================================================================= //
 // Progression Achievement Definitions
 // ======================================================================= //
@@ -240,7 +417,7 @@ achievement(
 achievement(
     title = "[Draft] Vinculum Speed Smile", points = 2,
     description = "While playing Target 00 [Angel], enter the Vinculum Gate and defeat the Speed Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Speed"),
     type = "progression",
     id = 407753
 )
@@ -267,7 +444,7 @@ achievement(
 achievement(
     title = "[Draft] Vinculum Phantom Smile", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], enter the Vinculum Gate and defeat the Phantom Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Phantom"),
     type = "progression",
     id = 407757
 )
@@ -281,7 +458,7 @@ achievement(
 achievement(
     title = "[Draft] Vinculum Backside Smile", points = 5,
     description = "While playing Target 01 Part 02 [Sunset], enter the Vinculum Gate and defeat the Backside Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Backside"),
     type = "progression",
     id = 407759
 )
@@ -308,7 +485,7 @@ achievement(
 achievement(
     title = "[Draft] Collect the Ulmeyda Figures", points = 5,
     description = "While playing Target 02 [Cloudman], collect all of the Ulmeyda Figures in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CollectedUlmeydaFigures(),
     type = "progression",
     id = 407763
 )
@@ -335,7 +512,7 @@ achievement(
 achievement(
     title = "[Draft] Vinculum Mithril Smile", points = 5,
     description = "While playing Target 03 Part 01 [Encounter], enter the Vinculum Gate and defeat the Mithril Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Mithril"),
     type = "progression",
     id = 407767
 )
@@ -349,7 +526,7 @@ achievement(
 achievement(
     title = "[Draft] Vinculum Laser Smile", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], enter the Vinculum Gate and defeat the Laser Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Laser"),
     type = "progression",
     id = 407769
 )
@@ -369,7 +546,7 @@ achievement(
 achievement(
     title = "[Draft] Collect the Punishing Rangers Color Samples", points = 5,
     description = "While playing Target 04 Part 01 [Cloudman], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CollectedColorSamples(),
     type = "progression",
     id = 407772
 )
@@ -389,21 +566,21 @@ achievement(
 achievement(
     title = "[Draft] Vinculum Timer Smile", points = 5,
     description = "While playing Target 05 Part 01 [Smile], enter the Vinculum Gate and defeat the Timer Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Timer"),
     type = "progression",
     id = 407775
 )
 achievement(
     title = "[Draft] Collect the Holbert's Cassettes", points = 5,
     description = "While playing Target 05 Part 02 [Smile], collect all of the Holbert's Cassettes in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CollectedCassettes(),
     type = "progression",
     id = 407776
 )
 achievement(
     title = "[Draft] Vinculum Galactic Tomahawk Smile", points = 5,
     description = "While playing Target 05 Part 02 [Smile], enter the Vinculum Gate and defeat the Galactic Tomahawk Smile in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = DefeatedVinculumSmile("Galactic"),
     type = "progression",
     id = 407777
 )
@@ -532,31 +709,31 @@ achievement(
 achievement(
     title = "[Draft] Camellia Smile Kill", points = 10,
     description = "Kill a Camellia Smile by shooting its weakpoint and gain an excess of Thin Blood, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CheckForEnemyDeath("Camellia"),
     id = 407797
 )
 achievement(
     title = "[Draft] Micro Smile Kill", points = 5,
     description = "Kill a Micro Smile and recieve its reward, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CheckForEnemyDeath("Micro1") || CheckForEnemyDeath("Micro2"),
     id = 407798
 )
 achievement(
     title = "[Draft] Broken Smile Kill", points = 50,
     description = "Kill a Broken Smile by shooting the weakpoint on its jetpack, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CheckForEnemyDeath("Broken"),
     id = 407799
 )
 achievement(
     title = "[Draft] Giant Smile Kill", points = 25,
     description = "Kill a Giant Smile by shooting its eye, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CheckForEnemyDeath("Giant"),
     id = 407800
 )
 achievement(
     title = "[Draft] Laser Smile Kill", points = 10,
-    description = "Kill a Giant Smile by shooting its eye, in any mode and on any difficulty",
-    trigger = always_false(),
+    description = "Kill a Laser Smile by shooting its weakpoint, in any mode and on any difficulty",
+    trigger = CheckForEnemyDeath("Laser"),
     id = 407801
 )
 achievement(
@@ -669,7 +846,7 @@ achievement(
 achievement(
     title = "[Draft] Upgrade All Skills", points = 25,
     description = "Upgrade all skills for any Smith, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AllSkillsUpgraded(),
     id = 407819
 )
 
@@ -680,7 +857,7 @@ achievement(
 achievement(
     title = "[Draft] Pigeon Collector", points = 10,
     description = "Collect all Carrier Pigeons, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CollectedPigeons(),
     id = 407820
 )
 achievement(

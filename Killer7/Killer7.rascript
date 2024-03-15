@@ -126,8 +126,9 @@ TargetDisc = {
     0x5: 1
 }
 
+//Cutscene before the end scene
 PreTargetEndLocations = {
-    0x0: 0x8082c260,
+    0x0: 0x808a9100,
     0x1: 0x8082ed80,
     0x2: 0x8074d4e0,
     0x3: 0x8083d7c0,
@@ -135,6 +136,18 @@ PreTargetEndLocations = {
     0x5: 0x807546c0
 }
 
+//Transition scene before the end scene
+//Not seen if the player skips the end cutscene so included in OR condition
+MidTargetEndLocations = {
+    0x0: 0x8082c260,
+    0x1: 0x8074d9c0,
+    0x2: 0x8074d4e0,
+    0x3: 0x8074da00,
+    0x4: 0x8074d520,
+    0x5: 0x807546c0
+}
+
+//End scene
 TargetEndLocations = {
     0x0: 0x80836cc0,
     0x1: 0x80759120,
@@ -160,16 +173,14 @@ function CollectedRing(ringName){
         prev(Rings[ringName]) == 0 && Rings[ringName] == 1
 }
 
-// Scene transition is different if you watch the end cutscene vs skip it
-// Update logic to accomodate
 function CompletedTarget(target, mode, difficulty){
     trigger = 
         IsInGame() &&
         Disc == TargetDisc[target] &&
         Target == target &&
-        prev(ScenePointer) == PreTargetEndLocations[target] &&
-        ScenePointer == TargetEndLocations[target]
-    
+        ((prev(ScenePointer) == PreTargetEndLocations[target] && ScenePointer == TargetEndLocations[target]) ||
+         (prev(ScenePointer) == MidTargetEndLocations[target] && ScenePointer == TargetEndLocations[target]))
+        
     if(mode == "Killer7"){
         trigger = trigger && IsKiller7()
         if(difficulty == "Deadly"){
@@ -234,14 +245,14 @@ achievement(
     id = 407753
 )
 achievement(
-    title = "[Draft] Complete Target 00 [Angel] on Normal", points = 3,
+    title = "[Coded] Complete Target 00 [Angel] on Normal", points = 3,
     description = "Complete Target 00 [Angel] in Killer7 mode and on Normal difficulty or higher",
     trigger = CompletedTarget(0, "Killer7", "Normal"),
     type = "progression",
     id = 407754
 )
 achievement(
-    title = "[Draft] Complete Target 00 [Angel] on Deadly", points = 5,
+    title = "[Coded] Complete Target 00 [Angel] on Deadly", points = 5,
     description = "Complete Target 00 [Angel] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(0, "Killer7", "Deadly"),
     id = 407755
@@ -275,14 +286,14 @@ achievement(
     id = 407759
 )
 achievement(
-    title = "[Draft] Complete Target 01 [Sunset] on Normal", points = 5,
+    title = "[Coded] Complete Target 01 [Sunset] on Normal", points = 5,
     description = "Complete Target 01 [Sunset] in Killer7 mode and on Normal difficulty or higher",
     trigger = CompletedTarget(1, "Killer7", "Normal"),
     type = "progression",
     id = 407760
 )
 achievement(
-    title = "[Draft] Complete Target 01 [Sunset] on Deadly", points = 10,
+    title = "[Coded] Complete Target 01 [Sunset] on Deadly", points = 10,
     description = "Complete Target 01 [Sunset] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(1, "Killer7", "Deadly"),
     id = 407761
@@ -302,14 +313,14 @@ achievement(
     id = 407763
 )
 achievement(
-    title = "[Draft] Complete Target 02 [Cloudman] on Normal", points = 5,
+    title = "[Coded] Complete Target 02 [Cloudman] on Normal", points = 5,
     description = "Complete Target 02 [Cloudman] in Killer7 mode and on Normal difficulty or higher",
     trigger = CompletedTarget(2, "Killer7", "Normal"),
     type = "progression",
     id = 407764
 )
 achievement(
-    title = "[Draft] Complete Target 02 [Cloudman] on Deadly", points = 10,
+    title = "[Coded] Complete Target 02 [Cloudman] on Deadly", points = 10,
     description = "Complete Target 02 [Cloudman] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(2, "Killer7", "Deadly"),
     id = 407765
@@ -343,14 +354,14 @@ achievement(
     id = 407769
 )
 achievement(
-    title = "[Draft] Complete Target 03 [Encounter] on Normal", points = 5,
+    title = "[Coded] Complete Target 03 [Encounter] on Normal", points = 5,
     description = "Complete Target 03 [Encounter] in Killer7 mode and on Normal difficulty or higher",
     trigger = CompletedTarget(3, "Killer7", "Normal"),
     type = "progression",
     id = 407770
 )
 achievement(
-    title = "[Draft] Complete Target 03 [Encounter] on Deadly", points = 10,
+    title = "[Coded] Complete Target 03 [Encounter] on Deadly", points = 10,
     description = "Complete Target 03 [Encounter] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(3, "Killer7", "Deadly"),
     id = 407771
@@ -363,14 +374,14 @@ achievement(
     id = 407772
 )
 achievement(
-    title = "[Draft] Complete Target 04 [Alter Ego] on Normal", points = 5,
+    title = "[Coded] Complete Target 04 [Alter Ego] on Normal", points = 5,
     description = "Complete Target 04 [Alter Ego] in Killer7 mode and on Normal difficulty or higher",
     trigger = CompletedTarget(4, "Killer7", "Normal"),
     type = "progression",
     id = 407773
 )
 achievement(
-    title = "[Draft] Complete Target 04 [Alter Ego] on Deadly", points = 10,
+    title = "[Coded] Complete Target 04 [Alter Ego] on Deadly", points = 10,
     description = "Complete Target 04 [Alter Ego] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(4, "Killer7", "Deadly"),
     id = 407774
@@ -397,40 +408,40 @@ achievement(
     id = 407777
 )
 achievement(
-    title = "[Draft] Complete Target 05 [Smile] on Normal", points = 5,
+    title = "[Coded] Complete Target 05 [Smile] on Normal", points = 5,
     description = "Complete Target 05 [Smile] in Killer7 mode and on Normal difficulty or higher",
     trigger = CompletedTarget(5, "Killer7", "Normal"),
     type = "progression",
     id = 407778
 )
 achievement(
-    title = "[Draft] Complete Target 05 [Smile] on Deadly", points = 10,
+    title = "[Coded] Complete Target 05 [Smile] on Deadly", points = 10,
     description = "Complete Target 05 [Smile] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(5, "Killer7", "Deadly"),
     id = 407779
 )
 achievement(
-    title = "[Draft] Complete Target 06 [Lion] on Normal with Defy Ending", points = 10,
+    title = "[Coded] Complete Target 06 [Lion] on Normal with Defy Ending", points = 10,
     description = "After defying Matsuken, complete Target 06 [Lion] on Normal difficulty or higher",
     trigger = CompleteGame(1, "Killer7", "Normal"),
     type = "win_condition",
     id = 407780
 )
 achievement(
-    title = "[Draft] Complete Target 06 [Lion] on Normal with Side Ending", points = 10,
+    title = "[Coded] Complete Target 06 [Lion] on Normal with Side Ending", points = 10,
     description = "After siding with Matsuken, complete Target 06 [Lion] on Normal difficulty or higher",
     trigger = CompleteGame(0, "Killer7", "Normal"),
     type = "win_condition",
     id = 407781
 )
 achievement(
-    title = "[Draft] Complete Target 06 [Lion] on Deadly with Defy Ending", points = 25,
+    title = "[Coded] Complete Target 06 [Lion] on Deadly with Defy Ending", points = 25,
     description = "After defying Matsuken, complete Target 06 [Lion] on Deadly difficulty",
     trigger = CompleteGame(1, "Killer7", "Deadly"),
     id = 407782
 )
 achievement(
-    title = "[Draft] Complete Target 06 [Lion] on Deadly with Side Ending", points = 25,
+    title = "[Coded] Complete Target 06 [Lion] on Deadly with Side Ending", points = 25,
     description = "After siding with Matsuken, complete Target 06 [Lion] on Deadly difficulty",
     trigger = CompleteGame(0, "Killer7", "Deadly"),
     id = 407783
@@ -608,49 +619,49 @@ achievement(
 // ======================================================================= //
 
 achievement(
-    title = "[Draft] Complete Target 00 [Angel] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 00 [Angel] on Killer8 Mode", points = 10,
     description = "Complete Target 00 [Angel] on Killer8 mode",
     trigger = CompletedTarget(0, "Killer8", "Bloodbath"),
     id = 407811
 )
 achievement(
-    title = "[Draft] Complete Target 01 [Sunset] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 01 [Sunset] on Killer8 Mode", points = 10,
     description = "Complete Target 01 [Sunset] on Killer8 mode",
     trigger = CompletedTarget(1, "Killer8", "Bloodbath"),
     id = 407812
 )
 achievement(
-    title = "[Draft] Complete Target 02 [Cloudman] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 02 [Cloudman] on Killer8 Mode", points = 10,
     description = "Complete Target 02 [Cloudman] on Killer8 mode",
     trigger = CompletedTarget(2, "Killer8", "Bloodbath"),
     id = 407813
 )
 achievement(
-    title = "[Draft] Complete Target 03 [Encounter] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 03 [Encounter] on Killer8 Mode", points = 10,
     description = "Complete Target 03 [Encounter] on Killer8 mode",
     trigger = CompletedTarget(3, "Killer8", "Bloodbath"),
     id = 407814
 )
 achievement(
-    title = "[Draft] Complete Target 04 [Alter Ego] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 04 [Alter Ego] on Killer8 Mode", points = 10,
     description = "Complete Target 04 [Alter Ego] on Killer8 mode",
     trigger = CompletedTarget(4, "Killer8", "Bloodbath"),
     id = 407815
 )
 achievement(
-    title = "[Draft] Complete Target 05 [Smile] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 05 [Smile] on Killer8 Mode", points = 10,
     description = "Complete Target 05 [Smile] on Killer8 mode",
     trigger = CompletedTarget(5, "Killer8", "Bloodbath"),
     id = 407816
 )
 achievement(
-    title = "[Draft] Complete Target 06 [Lion] on Killer8 Mode", points = 10,
+    title = "[Coded] Complete Target 06 [Lion] on Killer8 Mode", points = 10,
     description = "Complete Target 06 [Lion] on Killer8 mode",
     trigger = CompleteGame(0, "Killer8", "Bloodbath") || CompleteGame(1, "Killer8", "Bloodbath"),
     id = 407817
 )
 achievement(
-    title = "[Draft] Complete Target 00 [Angel] on Hopper7 Mode", points = 10,
+    title = "[Coded] Complete Target 00 [Angel] on Hopper7 Mode", points = 10,
     description = "Complete Target 00 [Angel] on Hopper7 mode",
     trigger = CompletedTarget(0, "Hopper7", "FaceTheSwarm"),
     id = 407818

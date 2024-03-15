@@ -231,6 +231,16 @@ EnemyIDs = {
     "Giant": 0x7c00
 }
 
+DeadCharacters = {
+    "Dan": bit0(0x002d2513),
+    "Con": bit2(0x002d2513),
+    "YoungHarmen": bit5(0x002d2513),
+    "Coyote": bit6(0x002d2513),
+    "Kaede": bit7(0x002d2513),
+    "Kevin": bit0(0x002d2512),
+    "Mask": bit1(0x002d2512)
+}
+
 // ======================================================================= //
 // Achievement Trigger Functions
 // ======================================================================= //
@@ -406,23 +416,24 @@ function CheckForEnemyDeath(enemy){
 //Will need to check with both Kevin and Mask
 //their ammo behaves a bit differently
 function AchievedComboCount(count, type){
-    trigger = IsInGame() &&
-        repeated(count, prev(TargetComboCount) < TargetComboCount)
+    trigger = repeated(count, prev(TargetComboCount) < TargetComboCount)
     
     if(type == "NoMiss"){
         trigger = trigger && never(prev(TargetComboCount) == TargetComboCount && prev(Ammo) < Ammo)
     }
     
-    trigger = trigger && never(TargetComboCount == 0)
+    trigger = trigger && 
+        never(TargetComboCount == 0) &&
+        never(!IsInGame())
     
     return trigger
 }
 
 function AchievedKillCount(count){
     return 
-        IsInGame() &&
         repeated(count, prev(TargetKills) < TargetKills) &&
-        never(TargetKills == 0)
+        never(TargetKills == 0) &&
+        never(!IsInGame())
 }
 
 function BreakBloodBank(mission){
@@ -433,6 +444,20 @@ function BreakBloodBank(mission){
         RoomIndex == 0xffff &&
         prev(BloodRoomState) == 0x03 &&
         BloodRoomState == 0x04
+}
+
+//Track when player starts a mission (save protection)
+//Challenge should start when they have control in the mission (save protection)
+//Challenge will reset if any character dies
+//Challenge will reset when the player is not in the correct mission
+function CompletedMissionNoDeath(mission){
+    return
+        IsInGame() &&
+        //Add Mission Start conditions
+        //Add Mission/Disc Lookup condition
+        //Add Mission End Scene Lookup condition
+        never(Mission != mission) &&
+        never(any_of(DeadCharacters, character => DeadCharacters[character] == 1))
 }
 
 // ======================================================================= //
@@ -771,55 +796,55 @@ achievement(
 achievement(
     title = "[Draft] No Death Target 00", points = 10,
     description = "In a single session, complete Target 00 [Angel] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(0),
     id = 407802
 )
 achievement(
     title = "[Draft] No Death Target 01 Part 01", points = 10,
     description = "In a single session, complete Target 01 Part 01 [Sunset] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(1),
     id = 407803
 )
 achievement(
     title = "[Draft] No Death Target 01 Part 02", points = 10,
     description = "In a single session, complete Target 01 Part 02 [Sunset] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(2),
     id = 407804
 )
 achievement(
     title = "[Draft] No Death Target 02", points = 10,
     description = "In a single session, complete Target 02 [Cloudman] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(3),
     id = 407805
 )
 achievement(
     title = "[Draft] No Death Target 03 Part 01", points = 10,
     description = "In a single session, complete Target 03 Part 01 [Encounter] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(4),
     id = 407806
 )
 achievement(
     title = "[Draft] No Death Target 03 Part 02", points = 10,
     description = "In a single session, complete Target 03 Part 02 [Encounter] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(5),
     id = 407807
 )
 achievement(
     title = "[Draft] No Death Target 04 Part 01", points = 10,
     description = "In a single session, complete Target 04 Part 01 [Alter Ego] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(6),
     id = 407808
 )
 achievement(
     title = "[Draft] No Death Target 05 Part 01", points = 25,
     description = "In a single session, complete Target 05 Part 01 [Smile] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(8),
     id = 407809
 )
 achievement(
     title = "[Draft] No Death Target 05 Part 02", points = 25,
     description = "In a single session, complete Target 05 Part 02 [Smile] without losing a Smith in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CompletedMissionNoDeath(9),
     id = 407810
 )
 

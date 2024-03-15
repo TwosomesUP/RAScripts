@@ -241,6 +241,45 @@ DeadCharacters = {
     "Mask": bit1(0x002d2512)
 }
 
+BossLocations = {
+    "Angel": 0x30802,
+    "JuliaKisugi": 0x7300,
+    "JeanDepaul": 0x8800,
+    "KurashiAkiba": 0xa00,
+    "AndreiUlmeyda": 0xce00,
+    "AyamiBlackburn1": 0x13c00,
+    "AyamiBlackburn2": 0x16900,
+    "CurtisBlackburn": 0x16b00,
+    "GregNightmare": 0x22900
+}
+
+BossDiscs = {
+    "Angel": 0,
+    "JuliaKisugi": 0,
+    "JeanDepaul": 0,
+    "KurashiAkiba": 0,
+    "AndreiUlmeyda": 0,
+    "AyamiBlackburn1": 0,
+    "AyamiBlackburn2": 0,
+    "CurtisBlackburn": 0,
+    "GregNightmare": 1
+}
+
+BossMissions = {
+    "Angel": 0,
+    "JuliaKisugi": 1,
+    "JeanDepaul": 2,
+    "KurashiAkiba": 2,
+    "AndreiUlmeyda": 3,
+    "AyamiBlackburn1": 4,
+    "AyamiBlackburn2": 5,
+    "CurtisBlackburn": 5,
+    "GregNightmare": 9
+}
+
+JeanDepaulPointer = dword_be(0x0030ae18)
+MaskedJeanDepaulPointer = JeanDepaulPointer & EnemyPointerMask
+
 // ======================================================================= //
 // Achievement Trigger Functions
 // ======================================================================= //
@@ -458,6 +497,48 @@ function CompletedMissionNoDeath(mission){
         //Add Mission End Scene Lookup condition
         never(Mission != mission) &&
         never(any_of(DeadCharacters, character => DeadCharacters[character] == 1))
+}
+
+function AngelChallenge(){
+    angelPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset) & EnemyPointerMask
+    angelHits = dword_be(angelPointer + 0x40c)
+
+    return 
+        //Store hits for transition to boss room (once player has control)
+        once(RoomIndex == BossLocations["Angel"] && angelHits == 0) && 
+        trigger_when(prev(angelHits) == 3 && angelHits == 4) &&
+        never(prev(angelHits) == angelHits && prev(Ammo) < Ammo) &&
+        never(!IsInGame()) &&
+        never(Mission != BossMissions["Angel"]) &&
+        never(Disc != BossDiscs["Angel"]) &&
+        never(RoomIndex != BossLocations["Angel"])
+        
+}
+
+function JuliaKisugiChallenge(){
+    juliaHits = dword_be(MaskedEnemyListPointer + 0x400)
+    juliaState = dword_be(MaskedEnemyListPointer + 0x424)
+    
+    return
+        IsInGame() &&
+        Mission == BossMissions["JuliaKisugi"] &&
+        Disc == BossDiscs["JuliaKisugi"] &&
+        RoomIndex == BossLocations["JuliaKisugi"] &&
+        trigger_when(juliaHits >= 140 && prev(juliaState) == 0x7 && juliaState == 0x8)
+}
+
+function JeanDepaulChallenge(){
+    jeanState = byte(MaskedJeanDepaulPointer + 0x420)
+    jeanHits = byte(MaskedJeanDepaulPointer + 0x421)
+    
+    return
+        once(RoomIndex == BossLocations["JeanDepaul"] && jeanHits == 0) &&
+        trigger_when(jeanHits == 1 && prev(jeanState) == 0 && jeanState == 1) &&
+        never(!IsInGame()) &&
+        never(Mission != BossMissions["JeanDepaul"]) &&
+        never(Disc != BossDiscs["JeanDepaul"]) &&
+        never(RoomIndex != BossLocations["JeanDepaul"]) &&
+        never(jeanHits >= 1 && jeanState == 0)
 }
 
 // ======================================================================= //
@@ -712,19 +793,19 @@ achievement(
 achievement(
     title = "[Draft] No Miss Angel", points = 5,
     description = "While playing Target 00 [Angel], defeat Angel without missing a shot, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AngelChallenge(),
     id = 407788
 )
 achievement(
     title = "[Draft] 140 Hit Julia Kisugi", points = 10,
     description = "While playing Target 01 Part 01 [Sunset], defeat Julia Kisugi by scoring 140 or more hits, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = JuliaKisugiChallenge(),
     id = 407789
 )
 achievement(
     title = "[Draft] One Shot Jean DePaul", points = 5,
     description = "While playing Target 01 Part 02 [Sunset], defeat Jean DePaul with one shot, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = JeanDepaulChallenge(),
     id = 407790
 )
 achievement(

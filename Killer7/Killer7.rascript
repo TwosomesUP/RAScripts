@@ -18,9 +18,11 @@ Health = word_be(0x0071b640)
 Ammo = word_be(0x0071b668)
 AmmoCapacity = word_be(0x0071b642)
 RoomIndex = dword_be(0x0030a510)
+PrevRoomIndex = dword_be(0x0030a518)
 Killer8 = bit5(0x002b7a6f)
 Hopper7 = bit6(0x002b7a6f)
 KillMatsuken = bit0(0x002b7a7f)
+BloodRoomState = byte(0x002cd83c)
 
 function IsInGame() => GamePointer != 0
 
@@ -189,8 +191,6 @@ VinculumSmileRooms = {
     "Timer": 0x20800,
     "Galactic": 0x22d00
 }
-
-
 
 function UlmeydaFigureCount(){
     return
@@ -401,6 +401,38 @@ function CheckForEnemyDeath(enemy){
     }
 
     return trigger && (enemyFound)
+}
+
+//Will need to check with both Kevin and Mask
+//their ammo behaves a bit differently
+function AchievedComboCount(count, type){
+    trigger = IsInGame() &&
+        repeated(count, prev(TargetComboCount) < TargetComboCount)
+    
+    if(type == "NoMiss"){
+        trigger = trigger && never(prev(TargetComboCount) == TargetComboCount && prev(Ammo) < Ammo)
+    }
+    
+    trigger = trigger && never(TargetComboCount == 0)
+    
+    return trigger
+}
+
+function AchievedKillCount(count){
+    return 
+        IsInGame() &&
+        repeated(count, prev(TargetKills) < TargetKills) &&
+        never(TargetKills == 0)
+}
+
+function BreakBloodBank(mission){
+    return
+        IsInGame() &&
+        Mission == mission &&
+        PrevRoomIndex == 0x7200 &&
+        RoomIndex == 0xffff &&
+        prev(BloodRoomState) == 0x03 &&
+        BloodRoomState == 0x04
 }
 
 // ======================================================================= //
@@ -631,25 +663,25 @@ achievement(
 achievement(
     title = "[Draft] No Miss Kill Combo", points = 10,
     description = "Reach a Kill Combo of 7 or more without missing, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AchievedComboCount(7, "NoMiss"),
     id = 407784
 )
 achievement(
     title = "[Draft] Kill Combo", points = 10,
     description = "Maintain a Kill Combo of 28 or more, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AchievedComboCount(28, "Standard"),
     id = 407785
 )
 achievement(
     title = "[Draft] 77 Smiles", points = 5,
     description = "Kill 77 Smiles or more in any single assignment, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AchievedKillCount(77),
     id = 407786
 )
 achievement(
     title = "[Draft] 154 Smiles", points = 10,
     description = "Kill 154 Smiles or more in any single assignment, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AchievedKillCount(154),
     id = 407787
 )
 achievement(
@@ -863,48 +895,48 @@ achievement(
 achievement(
     title = "[Draft] Break the Bank [Angel]", points = 5,
     description = "While playing Target 00 [Angel], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(0),
     id = 407821
 )
 achievement(
     title = "[Draft] Break the Bank [Sunset 1]", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(1),
     id = 407822
 )
 achievement(
     title = "[Draft] Break the Bank [Sunset 2]", points = 5,
     description = "While playing Target 01 Part 02 [Sunset], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(2),
     id = 407823
 )
 achievement(
     title = "[Draft] Break the Bank [Cloudman]", points = 5,
     description = "While playing Target 02 [Cloudman], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(3),
     id = 407824
 )
 achievement(
     title = "[Draft] Break the Bank [Encounter 1]", points = 5,
     description = "While playing Target 03 Part 01 [Encounter], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(4),
     id = 407825
 )
 achievement(
     title = "[Draft] Break the Bank [Encounter 2]", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(5),
     id = 407826
 )
 achievement(
     title = "[Draft] Break the Bank [Alter Ego]", points = 5,
-    description = "While playing Target 04 Part 01 [Angel], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    description = "While playing Target 04 Part 01 [Alter Ego], break the Blood Room blood tank, in any mode and on any difficulty",
+    trigger = BreakBloodBank(6),
     id = 407827
 )
 achievement(
     title = "[Draft] Break the Bank [Smile 1]", points = 10,
     description = "While playing Target 05 Part 01 [Smile], break the Blood Room blood tank, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = BreakBloodBank(8),
     id = 407828
 )

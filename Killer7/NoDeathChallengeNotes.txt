@@ -1,17 +1,13 @@
+All progress is reset when a stage is selected from the Target Select menu, even if you've already completed the mission. Permanent items remain however - like the Rings.
+
 Progress Check Logic:
 if (
-	(TargetEventsCount() - Target##ExcludedEventsCount() + Target##RouteEventsCount()) == 0 && 
-	KillCombo == 0 && 
-	KillCount == 0 && 
-	all_of(Target##AvailableCharacters, character => Target##AvailableCharacter[character] = CharacterAvailability[character])
+	Target##RouteEventsCount() == 0 && 
+	all_of(AvailableCharacters, character => AvailableCharacters[character] = AliveCharacters[character])
 )
 
 == Target 00 Start ==
-Target Events == 0 
-Excluded Events = bit4(0x002d054b)
-Route Events = bit2(0x0026a02a)
-Kill Count == 0
-Combo Count == 0
+Route Events = bit2(0x0026a02a) //Opened first door
 Dan = 1
 Kaede = 1
 Kevin = 0
@@ -19,15 +15,72 @@ Coyote = 1
 Con = 1
 Mask = 0
 
+End Cutscene 	= 808a9100
+End Transition 	= 8082c260 (skipped if cutscene is skipped)
+End Screen 		= 80836cc0
+
 == Target 01 Part 01 Start ==
-Target Events == 0 
-Excluded Events = bit4(0x002d0545)
-Route Events = bit4(0x0026a23c)
-Kill Count == 0
-Combo Count == 0
+Events = bit4(0x0026a23c) //Rock Broken
 Dan = 0
 Kaede = 1
 Kevin = 0
 Coyote = 1
 Con = 0
 Mask = 1
+
+End Cutscene 	= 80823da0
+End Transition 	= 80754760 (skipped if cutscene is skipped)
+End Screen 		= 80759120
+
+== Target 01 Part 02 Start ==
+BTJ - CSC - WTS
+Events = bit7(0x0026a242) //Vending Machine solved
+Dan = 0
+Kaede = 0
+Kevin = 1
+Coyote = 1
+Con = 0
+Mask = 1
+
+End Cutscene 	= 8082ed80
+End Transition 	= 8074d9c0 (skipped if cutscene is skipped)
+End Screen 		= 80759120
+
+== Target 02 Start ==
+Events = bit0() //Semi-Truck Moved, bit6(0x0026a22a) //Left Gas Station Area
+Dan = 0
+Kaede = 1
+Kevin = 0
+Coyote = 1
+Con = 0
+Mask = 1
+
+End Cutscene 	= 8074d4e0
+End Transition 	= 8074d4e0 (skipped if cutscene is skipped)
+End Screen 		= 807590c0 
+
+== Target 03 Part 01 Start ==
+Events = bit0(0x0026a22b) //Enter Arcade
+Dan = 0
+Kaede = 0
+Kevin = 0
+Coyote = 1
+Con = 1
+Mask = 1
+
+End Cutscene 	= 808265a0
+End Transition 	= 8074da00 (skipped if cutscene is skipped)
+End Screen 		= 80759160 
+
+== Target 03 Part 02 Start ==
+Events = bit0(0x0026a246) //Enter Garden
+Dan = 1
+Kaede = 0
+Kevin = 1
+Coyote = 0
+Con = 1
+Mask = 1
+
+End Cutscene 	= 8083d7c0
+End Transition 	= 8074da00 (skipped if cutscene is skipped)
+End Screen 		= 80835240 

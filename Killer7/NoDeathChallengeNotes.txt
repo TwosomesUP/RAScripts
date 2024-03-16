@@ -1,0 +1,33 @@
+Progress Check Logic:
+if (
+	(TargetEventsCount() - Target##ExcludedEventsCount() + Target##RouteEventsCount()) == 0 && 
+	KillCombo == 0 && 
+	KillCount == 0 && 
+	all_of(Target##AvailableCharacters, character => Target##AvailableCharacter[character] = CharacterAvailability[character])
+)
+
+== Target 00 Start ==
+Target Events == 0 
+Excluded Events = bit4(0x002d054b)
+Route Events = bit2(0x0026a02a)
+Kill Count == 0
+Combo Count == 0
+Dan = 1
+Kaede = 1
+Kevin = 0
+Coyote = 1
+Con = 1
+Mask = 0
+
+== Target 01 Part 01 Start ==
+Target Events == 0 
+Excluded Events = bit4(0x002d0545)
+Route Events = bit4(0x0026a23c)
+Kill Count == 0
+Combo Count == 0
+Dan = 0
+Kaede = 1
+Kevin = 0
+Coyote = 1
+Con = 0
+Mask = 1

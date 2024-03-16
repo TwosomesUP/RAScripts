@@ -128,6 +128,20 @@ TargetDisc = {
     0x5: 1
 }
 
+MissionDiscs = {
+    0x00: 0,
+    0x01: 0,
+    0x02: 0,
+    0x03: 0,
+    0x04: 0,
+    0x05: 0,
+    0x06: 1,
+    0x07: 1,
+    0x08: 1,
+    0x09: 1,
+    0x0b: 1
+}
+
 //Cutscene before the end scene
 PreTargetEndLocations = {
     0x0: 0x808a9100,
@@ -493,8 +507,8 @@ function CompletedMissionNoDeath(mission){
     return
         IsInGame() &&
         //Add Mission Start conditions
-        //Add Mission/Disc Lookup condition
         //Add Mission End Scene Lookup condition
+        never(Disc != MissionDiscs[mission]) &&
         never(Mission != mission) &&
         never(any_of(DeadCharacters, character => DeadCharacters[character] == 1))
 }

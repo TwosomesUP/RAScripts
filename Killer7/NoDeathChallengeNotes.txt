@@ -84,3 +84,30 @@ Mask = 1
 End Cutscene 	= 8083d7c0
 End Transition 	= 8074da00 (skipped if cutscene is skipped)
 End Screen 		= 80835240 
+
+== Target 04 Part 01 Start ==
+Events = bit1(0x002b7a7d) //Break Barrels, bit1(0x002b7a7f) //First Color Sample, bit0(0x0026a22a) //Leave First Area
+Dan = 1
+Kaede = 0
+Kevin = 0
+Coyote = 0
+Con = 1
+Mask = 1
+
+//After cinematic
+End Cutscene 	= 8074d520
+End Transition 	= 8074d520
+End Screen 		= 80759080
+
+== Target 05 Part 01 ==
+Events = bit0(0x002b7a82) //Lobby Bloodwall, bit0(0x0026a034), bit0(0x0026a043)
+Dan = 1
+Kaede = 1
+Kevin = 1
+Coyote = 1
+Con = 1
+Mask = 1
+
+End Cutscene 	= 8074d520
+End Transition 	= 8074d520
+End Screen 		= 80759080

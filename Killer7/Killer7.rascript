@@ -6,7 +6,6 @@ Difficulty = bit0(0x002b7a6e)
 Mode = high4(0x002b7a6f) - ((bit7(0x002b7a6f) * 8) + bit4(0x002b7a6f))
 GameState = dword_be(0x002b7580)
 GamePointer = dword_be(0x000030c8)
-ScenePointer = dword_be(0x002b7538) 
 Target = dword_be(0x002b7554)
 Mission = dword_be(0x002b7558)
 Pigeons = bitcount(0x002b7a75)
@@ -23,6 +22,7 @@ Killer8 = bit5(0x002b7a6f)
 Hopper7 = bit6(0x002b7a6f)
 KillMatsuken = bit0(0x002b7a7f)
 BloodRoomState = byte(0x002cd83c)
+TargetComplete = bit7(0x002b7a6f)
 
 function IsInGame() => GamePointer != 0
 
@@ -125,7 +125,18 @@ TargetDisc = {
     0x2: 0,
     0x3: 0,
     0x4: 1,
-    0x5: 1
+    0x5: 1,
+    0x6: 1
+}
+
+TargetFinalMission = {
+    0x0: 0x0,
+    0x1: 0x2,
+    0x2: 0x3,
+    0x3: 0x5,
+    0x4: 0x7,
+    0x5: 0xa,
+    0x6: 0xb
 }
 
 MissionDiscs = {
@@ -139,42 +150,9 @@ MissionDiscs = {
     0x07: 1,
     0x08: 1,
     0x09: 1,
+    0x0a: 1,
     0x0b: 1
 }
-
-//Cutscene before the end scene
-PreTargetEndLocations = {
-    0x0: 0x808a9100,
-    0x1: 0x8082ed80,
-    0x2: 0x8074d4e0,
-    0x3: 0x8083d7c0,
-    0x4: 0x8074d520,
-    0x5: 0x807546c0
-}
-
-//Transition scene before the end scene
-//Not seen if the player skips the end cutscene so included in OR condition
-MidTargetEndLocations = {
-    0x0: 0x8082c260,
-    0x1: 0x8074d9c0,
-    0x2: 0x8074d4e0,
-    0x3: 0x8074da00,
-    0x4: 0x8074d520,
-    0x5: 0x807546c0
-}
-
-//End scene
-TargetEndLocations = {
-    0x0: 0x80836cc0,
-    0x1: 0x80759120,
-    0x2: 0x807590c0,
-    0x3: 0x80835240,
-    0x4: 0x80759160,
-    0x5: 0x8075db60,
-}
-
-PreEndingLocation = 0x80802a60
-EndingLocation = 0x80816a80
 
 VinculumSmileMissions = {
     "Speed": 0,
@@ -312,10 +290,8 @@ function CompletedTarget(target, mode, difficulty){
         IsInGame() &&
         Disc == TargetDisc[target] &&
         Target == target &&
-        (
-            (prev(ScenePointer) == PreTargetEndLocations[target] && ScenePointer == TargetEndLocations[target]) ||
-            (prev(ScenePointer) == MidTargetEndLocations[target] && ScenePointer == TargetEndLocations[target])
-        )
+        Mission == TargetFinalMission[target] &&
+        prev(TargetComplete) < TargetComplete
         
     if(mode == "Killer7"){
         trigger = trigger && IsKiller7()
@@ -340,8 +316,8 @@ function CompleteGame(ending, mode, difficulty){
         IsInGame() &&
         Disc == 1 &&
         Target == 6 &&
-        prev(ScenePointer) == PreEndingLocation &&
-        ScenePointer == EndingLocation &&
+        Mission == TargetFinalMission[6] &&
+        prev(TargetComplete) < TargetComplete &&
         KillMatsuken == ending
         
     if(mode == "Killer7"){

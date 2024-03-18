@@ -145,6 +145,7 @@ TargetLookup = {
     0x07: "39 [Alter Ego]",
     0x08: "40 [Smile]",
     0x09: "41 [Smile]",
+    0x0a: "42 [Smile]",
     0x0b: "43 [Lion]"
 }
 

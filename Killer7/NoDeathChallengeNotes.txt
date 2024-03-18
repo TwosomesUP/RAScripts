@@ -15,9 +15,7 @@ Coyote = 1
 Con = 1
 Mask = 0
 
-End Cutscene 	= 808a9100
-End Transition 	= 8082c260 (skipped if cutscene is skipped)
-End Screen 		= 80836cc0
+Scene Complete: prev(bit7(0x002b7a6f)) < bit7(0x002b7a6f) && Mission == 00
 
 == Target 01 Part 01 Start ==
 Events = bit4(0x0026a23c) //Rock Broken
@@ -28,9 +26,7 @@ Coyote = 1
 Con = 0
 Mask = 1
 
-End Cutscene 	= 80823da0
-End Transition 	= 80754760 (skipped if cutscene is skipped)
-End Screen 		= 80759120
+Scene Complete: prev(Mission) == 01 && Mission == 02
 
 == Target 01 Part 02 Start ==
 BTJ - CSC - WTS
@@ -42,9 +38,7 @@ Coyote = 1
 Con = 0
 Mask = 1
 
-End Cutscene 	= 8082ed80
-End Transition 	= 8074d9c0 (skipped if cutscene is skipped)
-End Screen 		= 80759120
+Scene Complete: prev(bit7(0x002b7a6f)) < bit7(0x002b7a6f) && Mission == 02
 
 == Target 02 Start ==
 Events = bit0() //Semi-Truck Moved, bit6(0x0026a22a) //Left Gas Station Area
@@ -55,9 +49,7 @@ Coyote = 1
 Con = 0
 Mask = 1
 
-End Cutscene 	= 8074d4e0
-End Transition 	= 8074d4e0 (skipped if cutscene is skipped)
-End Screen 		= 807590c0 
+Scene Complete: prev(bit7(0x002b7a6f)) < bit7(0x002b7a6f) && Mission == 03
 
 == Target 03 Part 01 Start ==
 Events = bit0(0x0026a22b) //Enter Arcade
@@ -68,9 +60,7 @@ Coyote = 1
 Con = 1
 Mask = 1
 
-End Cutscene 	= 808265a0
-End Transition 	= 8074da00 (skipped if cutscene is skipped)
-End Screen 		= 80759160 
+Scene Complete: prev(Mission) == 04 && Mission == 05
 
 == Target 03 Part 02 Start ==
 Events = bit0(0x0026a246) //Enter Garden
@@ -81,9 +71,7 @@ Coyote = 0
 Con = 1
 Mask = 1
 
-End Cutscene 	= 8083d7c0
-End Transition 	= 8074da00 (skipped if cutscene is skipped)
-End Screen 		= 80835240 
+Scene Complete: prev(bit7(0x002b7a6f)) < bit7(0x002b7a6f) && Mission == 05
 
 == Target 04 Part 01 Start ==
 Events = bit1(0x002b7a7d) //Break Barrels, bit1(0x002b7a7f) //First Color Sample, bit0(0x0026a22a) //Leave First Area
@@ -94,13 +82,11 @@ Coyote = 0
 Con = 1
 Mask = 1
 
-//After cinematic
-End Cutscene 	= 8074d520
-End Transition 	= 8074d520
-End Screen 		= 80759080
+Scene Complete: prev(Mission) == 06 && Mission == 07
 
 == Target 05 Part 01 ==
-Events = bit0(0x002b7a82) //Lobby Bloodwall, bit0(0x0026a034), bit0(0x0026a043)
+Events = bit0(0x002b7a82) //Lobby Bloodwall, bit0(0x0026a034) //Visited Floor 2, bit0(0x0026a043) //Visited Floor 3,  bit4(0x0026a044) //Visited Floor 4, bit0(0x0026a053) //Visited Floor 5,
+	bit4(0x0026a05b) //Visited Floor 6, bit4(0x0026a058) //Visited Floor 7
 Dan = 1
 Kaede = 1
 Kevin = 1
@@ -108,6 +94,15 @@ Coyote = 1
 Con = 1
 Mask = 1
 
-End Cutscene 	= 8074d520
-End Transition 	= 8074d520
-End Screen 		= 80759080
+Scene Complete: prev(Mission) == 08 && Mission == 09
+
+== Target 05 Part 02 ==
+Events = 
+Dan = 1
+Kaede = 1
+Kevin = 1
+Coyote = 1
+Con = 1
+Mask = 1
+
+Scene Complete: prev(bit7(0x002b7a6f)) < bit7(0x002b7a6f) && Mission == 0a

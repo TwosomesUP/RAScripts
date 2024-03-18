@@ -1,0 +1,193 @@
+- Once you're able to find an entity they all seem to follow a similar structure with consistent offsets.
+- The offsets from the start of a level data block to an entity may change from level to level, but are
+  typically consistent. Offsets for specific levels may need to be created.
+- Shop is broken into two pieces the "NPC" entity and the actual shop data. Offsets for the shop data seems
+  to be variable.
+  
+======================================================
+
+Base Entity Structure
++04 = Entity ID
++d4 = Health [16-bit]
++d8 = Spirit [16-bit]
++e0 = Attribute [8-bit]
++e4 = Money [16-bit]
+
+Attribute
+	- 0 = Normal
+	- 1 = Mirage
+	- 2 = Silhouette
+	
+======================================================
+
+Player Entity Structure
++2a = Parasite Bomb Timer [8-bit]
++4c = Player State
++b0 = Held Enemy State [8-bit]
++b4 = Held Enemy Pointer [32-bit]
++107 = Jump Counter [8-bit]
++14c = Attribute State [8-bit]
+
+Parasite Bomb Timer
+	- Active when > 0
+Player State
+	- 02 = Dashing
+	- 03 = Sliding
+	- 05 = In Air/Falling
+	- 07 = Knocked Back
+	- 08 = Damaged
+	- 18 = Parasite Bomb
+	- 1a = Crouching
+	- 1b = Crouch Dashing
+	- 1c = Reflector Shield Up
+	- 1d = Holding Enemy
+Held Enemy State
+	- 10 when holding an enemy
+Held Enemy Pointer
+	- Address of currently held enemy entity
+Jump Counter
+	- After initial jump set to 2. 
+	- Each subsequent midair jump decrements this by one.
+	- When 0 and airborn, no more jumps remaining.
+Attribute State
+	- 0 = Normal
+	- 1 = Inverse
+	
+======================================================
+
+Shop Entity Structure
++12 = Shop Index
+
+======================================================
+
+Shop Items (Special)
+- Typically item count will only go to 09
+- Special shops the item count will go to 24. This is the secret level 6 parasite.
+
+Surosa Lv 6 (Area 1-2)
+Priday Lv 6 (Area 1-3)
+Angara Lv 6 (Area 3-1)
+Rasti Lv 6 (Area 3-2)
+Grattoni Lv 6 (Area 4-3)
+Envia Lv 6 (Area 5-2)
+	
+======================================================
+
+Area/Level Stucture
++4b34 - Collision Pointer??
+
+======================================================
+
+Area 1-1
+Data: 13ab58
+Shop: 13dec0 (+3368)
+	1401ec = Selected Shop Item(+5694)
+Character: 13fcc0 (+5168)
+	13fd94 = Health
+	13fd98 = Spirit
+	13fda0 = Attribute
+	13fda4 = Money
+	13fcea = Parasite Bomb Timer
+	13fd70 = Held Enemy State
+	13fd74 = Held Enemy Pointer
+	13fdc7 = Jump Counter
+	13fe0c = Attribute State
+Boss: N/A
+
+======================================================
+
+Area 1-2
+Data: 136d70
+Shop: 13a0d8 (+3368)
+	13ce04 = Selected Shop Item [Special](+6094)
+Character: 13bed8 (+5168)
+	13bfac = Health
+	13bfb0 = Spirit
+	13bfb8 = Attribute
+	13bfbc = Money
+	13bf02 = Parasite Bomb Timer
+	13bf88 = Held Enemy State
+	13bf8c = Held Enemy Pointer
+	13bfdf = Jump Counter
+	13c024 = Attribute State
+Boss: 13c558 (+57e8)
+	13c62c = Health
+	13c630 = Spirit
+	13c638 = Attribute
+	13c63c = Money
+Walker: 13c758 (+59e8)
+	13c82c = Health
+	13c830 = Spirit
+	13c838 = Attribute
+	13c83c = Money
+	
+======================================================
+	
+Area 1-3
+Data: 131ce0
+Shop: 135048 (+3368)
+	137374 = Selected Shop Item [Special](+5694)
+Character: 136e48 (+5168)
+	136f1c = Health
+	136f20 = Spirit
+	136f28 = Attribute
+	136f2c = Money
+	136e72 = Parasite Bomb Timer
+	136ef8 = Held Enemy State
+	136efc = Held Enemy Pointer
+	136f4f = Jump Counter
+	136f94 = Attribute State
+Boss: 1375c8 (+58e8)
+	13769c = Health
+	1376a0 = Spirit
+	1376a8 = Attribute
+	1376ac = Money
+Walker: N/A
+	
+======================================================
+
+Area 2-1
+Data: 14a2d8
+Shop: 14d640 (+3368)
+	14d652 = Shop Index
+	14f96c = Selected Shop Item (+5694)
+Character: 14f440 (+5168)
+	14f514 = Health
+	14f518 = Spirit
+	14f520 = Attribute
+	14f524 = Money
+	14f46a = Parasite Bomb Timer
+	14f4f0 = Held Enemy State
+	14f4f4 = Held Enemy Pointer
+	14f547 = Jump Counter
+	14f58c = Attribute State
+Boss: 14f9c0 (+56e8)
+	14fa94 = Health
+	14fa98 = Spirit
+	14faa0 = Attribute
+	14faa4 = Money
+Walker: N/A
+
+======================================================
+	
+Area 2-2
+Data: 14f430
+Shop: 152798 (+3368)
+	1527aa = Shop Index
+	154ac4 = Selected Shop Item (+5694)
+Character: 154598 (+5168)
+	14f514 = Health
+	14f518 = Spirit
+	14f520 = Attribute
+	14f524 = Money
+	14f46a = Parasite Bomb Timer
+	14f4f0 = Held Enemy State
+	14f4f4 = Held Enemy Pointer
+	14f547 = Jump Counter
+	14f58c = Attribute State
+Boss: 154a18 (+55e8)
+	14fa94 = Health
+	14fa98 = Spirit
+	14faa0 = Attribute
+	14faa4 = Money
+Walker: N/A

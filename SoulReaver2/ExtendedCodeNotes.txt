@@ -1,0 +1,89 @@
+== Animation Indexes ==
+-- Non-Weapon --
+0 = Idle
+2 = Run
+3 = Begin Duck
+4 = Duck
+4a = Crawl
+22 = Begin Jump
+23 = Jumping Up
+24 = Falling
+25 = End Jump
+10d = Phase to Material
+b9 = Phase to Spectral
+ae = Guard
+4e = Begin Soul Suck
+4f = Soul Suck
+2f = End Soul Suck
+50 = Absord Soul
+10e = Take Damage (Stumble)
+6c = Phase through Bars
+
+-- Claws --
+-- Weapon Type = 0 --
+80 = Light Attack 1
+81 = Light Attack 2
+82 = Light Attack 3
+db = Heavy Attack 1
+dc = Heavy Attack 2
+20 = Rend Execution (Sarafan Priestess)
+44 = Rend Execution (Sword Vampire Hunter/Sword Demon Hunter)
+45 = Rend Execution (Sword Sarafan)
+47 = Rend Execution (Halbert Vampire Hunter/Axe Demon Hunter/Trident Sarafan)
+3a = Rend Execution (Cannon Vampire Hunter/Cannon Demon Hunter)
+5a = Rend Execution (Greater Thrall)
+5b = Rend Execution (Sword Thrall)
+54 = Rend Execution (Sorcerer Thrall)
+
+-- Air Forge Axe --
+-- Weapon Type = 1 --
+1 = Light Attack 1
+2 = Light Attack 2
+3 = Light Attack 3
+f4 = Heavy Attack 1
+f5 = Heavy Attack 2
+59 = Cleave Execution (Greater Thrall)
+5a = Cleave Execution (Sword Thrall)
+53 = Cleave Execution (Sorcerer Thrall)
+
+-- Light Forge Halbert --
+-- Weapon Type = 1 --
+2 = Light Attack 1
+3 = Light Attack 2
+4 = Light Attack 3
+f4 = Heavy Attack 1
+f5 = Heavy Attack 2
+10b = Cleave Execution
+
+-- Hunter Sword --
+-- Thrall Short Sword --
+-- Thrall Long Sword -- 
+-- Weapon Type = 2 --
+58 = Light Attack 1
+59 = Light Attack 2
+5a = Light Attack 3
+104 = Heavy Attack 1
+10a = Heavy Attack 2
+10b = Cleave Execution
+
+-- Torch --
+-- Weapon Type = 2 --
+58 = Light Attack 1
+59 = Light Attack 2
+5a = Light Attack 3
+104 = Heavy Attack 1
+10a = Heavy Attack 2
+86 = Immolate Execution
+
+-- Ligth Forge Spear --
+-- Sarafan Trident --
+-- Demon Hunter Axe --
+-- Vampire Hunter Halbert --
+-- Dark Staff --
+-- Weapon Type = 1 -- 
+30 = Light Attack 1
+84 = Light Attack 2
+31 = Light Attack 3
+f4 = Heavy Attack 1
+f5 = Heavy Attack 2
+3b = Impale Execution

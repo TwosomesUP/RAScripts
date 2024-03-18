@@ -1,0 +1,120 @@
+13ce70
+13fcea
+53148
+140640
+
+140440 -> 140518 (HP)
+13fcc0
+
+140640 - Enemy Struct
+140714 - Enemy HP
+140718 - Enemy Spirit
+140724 - Enemy Money
+
+Regular Punch - Subtrack 9
+Big Punch - Subtrack 30
+
+151748
+
+Enemy Pointer - 15464c 
+-> 154a18 (Goliath)
+-> 158598 (Attribute Gun?)
+00 = Enemy Type? (2 = Boss, 4 = Enemy?)
+
+15466c????
+
+13fcc0 <- 13ce70
+
+154598 <- 151748
+
+132500 <- 12f6b0
+
+154590 <- 
+
+
+867c Game Data
+============= Shop Struct Begin =============
++33a5 - Menu State (0 = Buy, 1 = Sell, 2 = Exit)
++6094 - Selected Item (24 = Secret)
+
+There are 6 secret items:
+Surosa Lv 6 (Area 1-2)
+Priday Lv 6 (Area 1-3)
+Angara Lv 6 (Area 3-1)
+Rasti Lv 6 (Area 3-2)
+Grattoni Lv 6 (Area 4-3)
+Envia Lv 6 (Area 5-2)
+============== Shop Struct End ==============
+
+============ Player Struct Begin ============
++5168 - Player Struct
++5192 - Parasite Bomb Timer
++5218 - Held Enemy/Boss State
++521c - Held Enemy/Boss Struct Pointer
++523c - Health
++5240 - Spirit
++524c - Money
++526f - Double Jump Counter
++52b4 - Attribute State
+============= Player Struct End =============
+
+============= Boss Struct Begin =============
+When pointed to by player struct
++00 - Entity Type (4 = Boss)
++D4 - Health
++D8 - Spirit
++E4 - Money
+============== Boss Struct End ==============
+
+============ Enemy Struct Begin =============
+When pointed to by player struct
++00 - Entity Type (2 = Enemy)
++d4 - Health
++d8 - Spirit
++e4 - Money
+============= Enemy Struct End ==============
+
+Bug = 1375c8
+HP = 13769c
+Spirit = 1376a0
+Money = 1376ac
+
+
+Bug - 1375c8 (136e48) +5168
+Mergido - 12cc20
+Werewolf - 1307e8
+Geluve - 148890
+Goliath - 154a18
+
+13fcc0 Area 1 - 1 (13911c) 
+130268 Area 3 - 3 (12e69c) 
+154598 Area 2 - 2 (14d9ec) +148d8
+148410 Area 7 - 2 (14183c) -c188
+
+value of 00867c + 28090 (26950) = pointer to player struct (so far) 
+value of 00867c + 280b8 (26958) = pointer to boss struct?
+
+10020 + 270f (13dee0)
+10066 --^
+
+13ab58
+
+bd88
+
+==
+x8588 -> Entity Collection Pointer
++71f8 - Character Pointer
+
+1b2cb8
+1c45e4
+1f996c
+1e31d4
+
+==
+size: 1f758 (17180) (-85d8)
+save: 12b15f - 122b87 + 139d07
+save: 14f4bf - 146ee7 + 15e067 -> Chara: 154598
+
+
+
+1227d0 

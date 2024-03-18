@@ -1,0 +1,116 @@
+== Planned ==
+
+Defeat Y2K Bug (No Damage) [New][Challenge]
+Defeat Kleptopatra (Bombs only, first or second fight) [New][Challenge]
+Defeat Nofungus (Don't Kill Any Mushrooms, first or second fight) [New][Challenge]
+Defeat Gorgo (Don't Miss A Bubble) [New][Challenge]
+Defeat Underlord (Arrows only, first or second fight) [New][Challenge]
+
+Complete the three dungeons entering the minimum amount of rooms
+
+== Existing Achievements ==
+
+- Progression - Finished (Need Badges)
+
+Get Sword (Ittoryu) [Works] -- Keep
+Trade for the Winged Boots (Shojo Jump) [Worked] -- Requires Kleptopatra -- -- Keep
+Trade for the Bicep Card (No Training Arc Needed) [Worked] -- Requires Nofungus -- Keep
+Trade for the Skeleton Key [Missing][Progression] -- Done
+Get the Anime Club Membership Card (The Ultimate Weeb) [Worked] -- Requires TV and DVD -- Keep
+
+- Optional -
+
+Flip the switch in Junji Ito's Bedroom for a surprise (DRR...DRR...DRR) [Works] -- Keep
+** Buy Bomb License (Explooooosion!) [Worked] -- Keep
+** Purchase the Bomb Upgrade (You've got spirit!) [Worked] -- Keep
+** Trade for a Bow (Jelly-Filled Are My Favorite) [Worked] -- Keep
+** Purchase arrow upgrade (Love Arrow, Shoot!) [Worked] -- Keep
+** Purchase a Boomerang (Hiraikotsu) [Worked] -- Keep
+** Collect the CD Player (Hime, She's Really Cool) [Worked] -- Requires Office Key -- Keep
+** Find Cursed Amulete (up, up, down, down, left, right, left, right) (Binding Vow) [Worked] -- Keep
+
+- Boss Fights -
+
+Defeat Gorgo (Hikikomori) [Works] -- Keep
+Defeat Kleptopatra (You're Mine Darling) [Worked] -- Keep
+Defeat Nofungus (Smells Like Anime Con) [Worked] -- Keep
+Defeat Underlord (Son of a lich) [Worked] -- Keep
+Defeat Y2K bug (With the power of god and anime) [Worked] -- Keep
+
+- Challenges -
+
+Pet your cat without getting scratched [New] [Challenge] -- Done
+Find all Heart Containers (Harem Protagonist) [Worked] -- Keep
+Treasures in New Cruchy City (Treasures Hidden in the Trees) [Worked] -- Keep Arborial Abundance
+Treasures in Swamp (Rusty Hinges) [Worked] -- Keep (Includes dungeon) -- Add Office Key Treasure (found in Swamp)
+Find all treasures in the Desert [Missing][Challenge] -- Done
+Find all treasures in the Mountains [Missing][Challenge] -- Done
+Find all treasures in the Hills [Missing][Challenge] -- Done
+Complete Map (Navigator's Dream) [Worked] -- Keep
+All Train Stations (Instant Transmission) [Works] -- Keep
+Defeat Gorgo (Cursed) (Trial of the Destitute) [Worked] -- Keep
+Defeat Kleptopatra (Cursed) (Trial of the Plunderous) [Worked] -- Keep
+Defeat Nofungus (Cursed) (Trial of the Malodorous) [Worked] -- Keep
+Defeat Underlord (Cursed) (Trial of the Delusional) [Worked] -- Keep
+Defeat Y2K Bug (Cursed) (Trial of the Defective) [Worked] -- Keep
+
+- Remove -
+
+Complete Desert Dungeon (Bombs Only) [Incomplete] -- Maybe (have to test how the challenge would work)
+
+== Treasure Chests ==
+
+NCC - Gorgo's Basement - E3 (cc3b)
+NCC - Three Story House - F3 (d271)
+NCC - Mall - G5 (d2d7)
+NCC - Field - D5 (d077)
+NCC - Field - E2 (d04f)
+
+Desert - Field - H8 (ce2d)
+Desert - Field - I6 (ce05)
+Desert - Dungeon (Right Path) - H7 (ccaf)
+Desert - Dungeon (Left Path) - H7 (cc87)
+Desert - Cave - G9 (d0a7)
+Desert - Cave - E9 (ce63)
+
+Swamp - Cave - J4 (d09d)
+Swamp - Field - I1 (cead)
+Swamp - Cave (Office Key) - G2 (d2b1) -- Should this be its own?
+Swamp - Dungeon (First Key) - J1 (cf01)
+Swamp - Dungeon (Right Key) - J1 (cfb9)
+Swamp - Dungeon (Left Key) - J1 (cf5b)
+Swamp - Dungeon (Secret Room Left) - J1 (cfd3)
+Swamp - Dungeon (Secret Room Right) - J1 (cfd5)
+
+Mountain - Cave - C5 (d269)
+Mountain - Field - B3 (d0bd)
+Mountain - Cave - C3 (d26f)
+Mountain - Field - A4 (d017)
+Mountain - Field - A6 (d0dd)
+
+Hills - Cave - B8 (d267)
+Hills - Dungeon (Right Path 1) - A9 (d19f)
+Hills - Dungeon (Right Path 2) - A9 (d1b3)
+Hills - Dungeon (Left Path 1) - A9 (d163)
+Hills - Dungeon (Left Path 2) - A9 (d1f9)
+
+== Desert Dungeon Rooms IDs ==
+//Transition from outside to dungeon = start (check for chests open or keys collected)
+//Transition from dungeon to outside = reset
+4e19 - Outside Dungeon Entrance
+63e0 - Start
+6110
+47c0
+5030
+6980
+55d0
+5300
+6c50
+66b0
+4d60
+58a0
+5e40 - Boss Fight
+5b70 - Post Boss Fight
+
+== Swamp Dungeon Room IDs ==
+6817 - Outside Dungeon Entrance

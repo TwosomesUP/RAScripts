@@ -1,0 +1,35 @@
+Id,Title,Description,Points
+111000001,"High Score > 30000","Achieve a high score greater than 30000",5
+111000002,"High Score > 120000","Achieve a high score greater than 120000",25
+111000003,"Power Crystal Collected","Collect a Power Crystal and become invulnerable",1
+111000004,"Life Up Collected","Collected a Life Up item and replenished your health",1
+111000005,"Zen Up Collected","Collected a Zen Up item and increase your lives",1
+111000006,"Oil Area - Complete","Complete the Oil Area",2
+111000007,"Oil Area - No Deaths","Complete the Oil Area without losing a life",10
+111000008,"Down the Drain","Reach the bottom of the Pipes Decent in the Oil Area without taking damage (no power crystal)",10
+111000009,"Not that Slick","Defeat Oil Slick in the Oil Area using only melee attacks",5
+111000010,"Oil Area - Phase Challenge","Damage Oil Slick 3 times with charged attacks in a single phase",3
+111000011,"Seabird Sanctuary","Complete the Oil Area Bonus Stage and save all of the Sea Birds",5
+111000012,"Dam Area - Complete","Complete the Dam Area",2
+111000013,"Dam Area - No Deaths","Complete the Dam Area without losing a life",10
+111000014,"Fighting the Current","Reach the top of the Waterfall Ascent in the Dam Area without falling too far",5
+111000015,"Rainy Day Parade","Defeat Sulfura in the Dam Area using only melee attacks",5
+111000016,"Rain Check","Defeat Sulfura in the Dam Area before her acid rain phase",3
+111000017,"Nature is Saved","Complete the Dam Area Bonus Stage and shoot all of the cans",5
+111000018,"Dust Area - Complete","Complete the Dust Area",2
+111000019,"Dust Area - No Deaths","Complete the Dust Area without losing a life",10
+111000020,"Dust Area - Mudslide Decent","Collect the Zen Up during the Mudslide Decent in the Dust Area and reach the bottom without losing a life",5
+111000021,"Stinky Stopper","Defeat Garbageman in the Dust Area using only melee attacks",5
+111000022,"Taking out the Trash","Defeat Garbageman in the Dust Area in 2 phases or less",3
+111000023,"Dust Area - 100% Bonus","Complete the Dust Area Bonus Stage and collect all of the cans",5
+111000024,"Smog Area - Complete","Complete the Smog Area",2
+111000025,"Smog Area - No Deaths","Complete the Smog Area without losing a life",10
+111000026,"Storm Sidestepper","Reach the end of the Acid Rain section of the Smog Area without taking damage from any source (no power crystal)",5
+111000027,"Clean Air Reigns","Defeat Smogger in the Smog Area using only melee attacks",5
+111000028,"Smog Area - Phase Challenge","Defeat Smogger in the Smog Area in 2 phases or less",3
+111000029,"Clear Skies","Complete the Smog Area Bonus Stage and destroy every smoke cloud",5
+111000030,"Emission Accomplished","Complete the Final Area",4
+111000031,"Flawless Finale","Complete the Final Area without losing a life",10
+111000032,"Hard Rain","Collect the Zen Up during the Rockfall Decent in the Final Area and reach the bottom without taking damage (no power crystal)",10
+111000033,"Creepazoid Crusher","Free Jeremy and defeat Lord Contanimous in the Final Area using only melee attacks",5
+111000034,"Industrial Wasted","Free Jeremy and defeat Lord Contanimous before reaching his Oil Phase",3

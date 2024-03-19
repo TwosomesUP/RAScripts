@@ -4,7 +4,6 @@
 Disc = byte(0x00000006)
 Difficulty = bit0(0x002b7a6e)
 Mode = high4(0x002b7a6f) - ((bit7(0x002b7a6f) * 8) + bit4(0x002b7a6f))
-GameState = dword_be(0x002b7580)
 GamePointer = dword_be(0x000030c8)
 Target = dword_be(0x002b7554)
 Mission = dword_be(0x002b7558)

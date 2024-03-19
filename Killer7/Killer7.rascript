@@ -22,6 +22,7 @@ Hopper7 = bit6(0x002b7a6f)
 KillMatsuken = bit0(0x002b7a7f)
 BloodRoomState = byte(0x002cd83c)
 TargetComplete = bit7(0x002b7a6f)
+ScreenState = dword_be(0x002b7580)
 
 function IsInGame() => GamePointer != 0
 
@@ -153,6 +154,11 @@ MissionDiscs = {
     0x0b: 1
 }
 
+ScreenStates = {
+    "Cutscene": 0x04,
+    "TargetEnd": 0x10
+}
+
 VinculumSmileMissions = {
     "Speed": 0,
     "Phantom": 1,
@@ -216,8 +222,8 @@ MaskedEnemyListPointer = EnemyListPointer & EnemyPointerMask
 EnemyIDs = {
     "Camellia": 0x7400,
     "Laser": 0x7d00,
-    "Micro1": 0x1701,
-    "Micro2": 0x1700,
+    "Micro2": 0x1701,
+    "Micro1": 0x1700,
     "Broken": 0x7900,
     "Giant": 0x7c00
 }
@@ -289,22 +295,25 @@ function CompletedTarget(target, mode, difficulty){
         IsInGame() &&
         Disc == TargetDisc[target] &&
         Target == target &&
-        Mission == TargetFinalMission[target] &&
-        prev(TargetComplete) < TargetComplete
+        Mission == TargetFinalMission[target] 
         
     if(mode == "Killer7"){
-        trigger = trigger && IsKiller7()
+        trigger = trigger && IsKiller7() &&
+        prev(TargetComplete) < TargetComplete
         if(difficulty == "Deadly"){
             trigger = trigger && IsDeadly()
         }
     }
     
     if(mode == "Killer8"){
-        trigger = trigger && IsKiller8()
+        trigger = trigger && IsKiller8() &&
+        prev(TargetComplete) < TargetComplete
     }
     
     if(mode == "Hopper7"){
-        trigger = trigger && IsHopper7()
+        trigger = trigger && IsHopper7() &&
+        prev(ScreenState) == ScreenStates["Cutscene"] &&
+        ScreenState == ScreenStates["TargetEnd"]
     }
     
     return trigger
@@ -345,8 +354,8 @@ function DefeatedVinculumSmile(smile){
         RoomIndex == VinculumSmileRooms[smile]
         
     if(smile == "Timer"){
-        timerHitsOffset = 0x444
-        timerHits = word_be(MaskedEnemyListPointer + timerHitsOffset)
+        timerHitsOffset = 0x3f0
+        timerHits = dword_be(MaskedEnemyListPointer + timerHitsOffset)
         
         trigger = trigger &&
             prev(timerHits) < 8 && timerHits == 8
@@ -366,7 +375,7 @@ function CollectedUlmeydaFigures(){
     return
         IsInGame() &&
         Disc == 0 &&
-        Mission == 4 &&
+        Mission == 3 &&
         prev(UlmeydaFigureCount()) == 11 &&
         UlmeydaFigureCount() == 12
 }
@@ -415,7 +424,7 @@ function CheckForEnemyDeath(enemy){
         
     enemyFound = 
     (
-        word_be(MaskedEnemyListPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
+        dword_be(MaskedEnemyListPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
         prev(word_be(MaskedEnemyListPointer + EnemyHealthOffset)) > 0 && 
         word_be(MaskedEnemyListPointer + EnemyHealthOffset) <= 0
     )
@@ -432,10 +441,14 @@ function CheckForEnemyDeath(enemy){
         enemyFound = enemyFound || 
         (
             nextPointer != 0 &&
-            word_be(maskedNextPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
+            dword_be(maskedNextPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
             prev(word_be(maskedNextPointer + EnemyHealthOffset)) > 0 && 
             word_be(maskedNextPointer + EnemyHealthOffset) <= 0
         )
+    }
+    
+    if(enemy != "Micro1" && enemy != "Micro2"){
+        trigger = trigger && prev(TargetComboCount) < TargetComboCount
     }
 
     return trigger && (enemyFound)
@@ -542,7 +555,7 @@ achievement(
     id = 407752
 )
 achievement(
-    title = "[Draft] Vinculum Speed Smile", points = 2,
+    title = "[Coded] Vinculum Speed Smile", points = 2,
     description = "While playing Target 00 [Angel], enter the Vinculum Gate and defeat the Speed Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Speed"),
     type = "progression",
@@ -569,7 +582,7 @@ achievement(
     id = 407756
 )
 achievement(
-    title = "[Draft] Vinculum Phantom Smile", points = 5,
+    title = "[Coded] Vinculum Phantom Smile", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], enter the Vinculum Gate and defeat the Phantom Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Phantom"),
     type = "progression",
@@ -583,7 +596,7 @@ achievement(
     id = 407758
 )
 achievement(
-    title = "[Draft] Vinculum Backside Smile", points = 5,
+    title = "[Coded] Vinculum Backside Smile", points = 5,
     description = "While playing Target 01 Part 02 [Sunset], enter the Vinculum Gate and defeat the Backside Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Backside"),
     type = "progression",
@@ -610,7 +623,7 @@ achievement(
     id = 407762
 )
 achievement(
-    title = "[Draft] Collect the Ulmeyda Figures", points = 5,
+    title = "[Coded] Collect the Ulmeyda Figures", points = 5,
     description = "While playing Target 02 [Cloudman], collect all of the Ulmeyda Figures in any mode and on any difficulty",
     trigger = CollectedUlmeydaFigures(),
     type = "progression",
@@ -637,7 +650,7 @@ achievement(
     id = 407766
 )
 achievement(
-    title = "[Draft] Vinculum Mithril Smile", points = 5,
+    title = "[Coded] Vinculum Mithril Smile", points = 5,
     description = "While playing Target 03 Part 01 [Encounter], enter the Vinculum Gate and defeat the Mithril Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Mithril"),
     type = "progression",
@@ -651,7 +664,7 @@ achievement(
     id = 407768
 )
 achievement(
-    title = "[Draft] Vinculum Laser Smile", points = 5,
+    title = "[Coded] Vinculum Laser Smile", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], enter the Vinculum Gate and defeat the Laser Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Laser"),
     type = "progression",
@@ -691,7 +704,7 @@ achievement(
     id = 407774
 )
 achievement(
-    title = "[Draft] Vinculum Timer Smile", points = 5,
+    title = "[Coded] Vinculum Timer Smile", points = 5,
     description = "While playing Target 05 Part 01 [Smile], enter the Vinculum Gate and defeat the Timer Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Timer"),
     type = "progression",
@@ -705,7 +718,7 @@ achievement(
     id = 407776
 )
 achievement(
-    title = "[Draft] Vinculum Galactic Tomahawk Smile", points = 5,
+    title = "[Coded] Vinculum Galactic Tomahawk Smile", points = 5,
     description = "While playing Target 05 Part 02 [Smile], enter the Vinculum Gate and defeat the Galactic Tomahawk Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Galactic"),
     type = "progression",
@@ -792,7 +805,7 @@ achievement(
     id = 407789
 )
 achievement(
-    title = "[Draft] One Shot Jean DePaul", points = 5,
+    title = "[Draft] One Shot Jean DePaul", points = 10,
     description = "While playing Target 01 Part 02 [Sunset], defeat Jean DePaul with one shot, in any mode and on any difficulty",
     trigger = JeanDepaulChallenge(),
     id = 407790
@@ -834,33 +847,33 @@ achievement(
     id = 407796
 )
 achievement(
-    title = "[Draft] Camellia Smile Kill", points = 10,
+    title = "[Coded] Camellia Smile Kill", points = 10,
     description = "Kill a Camellia Smile by shooting its weakpoint and gain an excess of Thin Blood, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Camellia"),
     id = 407797
 )
 achievement(
-    title = "[Draft] Micro Smile Kill", points = 5,
-    description = "Kill a Micro Smile and recieve its reward, in any mode and on any difficulty",
-    trigger = CheckForEnemyDeath("Micro1") || CheckForEnemyDeath("Micro2"),
+    title = "[Coded] Yellow Micro Smile Kill", points = 5,
+    description = "Kill a Yellow Micro Smile and refill your health, in any mode and on any difficulty",
+    trigger = CheckForEnemyDeath("Micro1"),
     id = 407798
 )
 achievement(
-    title = "[Draft] Broken Smile Kill", points = 50,
+    title = "[Coded] Broken Smile Kill", points = 50,
     description = "Kill a Broken Smile by shooting the weakpoint on its jetpack, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Broken"),
     id = 407799
 )
 achievement(
-    title = "[Draft] Giant Smile Kill", points = 25,
+    title = "[Coded] Giant Smile Kill", points = 25,
     description = "Kill a Giant Smile by shooting its eye, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Giant"),
     id = 407800
 )
 achievement(
-    title = "[Draft] Laser Smile Kill", points = 10,
-    description = "Kill a Laser Smile by shooting its weakpoint, in any mode and on any difficulty",
-    trigger = CheckForEnemyDeath("Laser"),
+    title = "[Coded] Red Micro Smile Kill", points = 5,
+    description = "Kill a Red Micro Smile and gain an excess of Thin Blood, in any mode and on any difficulty",
+    trigger =  CheckForEnemyDeath("Micro2"),
     id = 407801
 )
 achievement(

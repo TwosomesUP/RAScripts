@@ -23,6 +23,7 @@ KillMatsuken = bit0(0x002b7a7f)
 BloodRoomState = byte(0x002cd83c)
 TargetComplete = bit7(0x002b7a6f)
 ScreenState = dword_be(0x002b7580)
+ShotAnimationTimer = dword_be(0x0071b5e8)
 
 function IsInGame() => GamePointer != 0
 
@@ -460,7 +461,10 @@ function AchievedComboCount(count, type){
     trigger = repeated(count, prev(TargetComboCount) < TargetComboCount)
     
     if(type == "NoMiss"){
-        trigger = trigger && never(prev(TargetComboCount) == TargetComboCount && prev(Ammo) < Ammo)
+        //Bullet seems to hit after 4 frames.
+        //If Kevin, the timer is good enough.
+        //Everyone else we'll check to make sure their ammo depletes due to double and triple shot
+        trigger = trigger && never(prev(TargetComboCount) == TargetComboCount && prev(ShotAnimationTimer) < 0x04 && ShotAnimationTimer >= 0x04) 
     }
     
     trigger = trigger && 
@@ -684,7 +688,7 @@ achievement(
     id = 407771
 )
 achievement(
-    title = "[Draft] Collect the Punishing Rangers Color Samples", points = 5,
+    title = "[Coded] Collect the Punishing Rangers Color Samples", points = 5,
     description = "While playing Target 04 Part 01 [Cloudman], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",
     trigger = CollectedColorSamples(),
     type = "progression",
@@ -711,7 +715,7 @@ achievement(
     id = 407775
 )
 achievement(
-    title = "[Draft] Collect the Holbert's Cassettes", points = 5,
+    title = "[Coded] Collect the Holbert's Cassettes", points = 5,
     description = "While playing Target 05 Part 02 [Smile], collect all of the Holbert's Cassettes in any mode and on any difficulty",
     trigger = CollectedCassettes(),
     type = "progression",

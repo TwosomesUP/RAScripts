@@ -24,6 +24,8 @@ BloodRoomState = byte(0x002cd83c)
 TargetComplete = bit7(0x002b7a6f)
 ScreenState = dword_be(0x002b7580)
 ShotAnimationTimer = dword_be(0x0071b5e8)
+//If more than one shot is fired (double or triple shot), this will be greater than 0
+AdditionalShots = word_be(0x0071b610)
 
 function IsInGame() => GamePointer != 0
 
@@ -457,28 +459,16 @@ function CheckForEnemyDeath(enemy){
 
 //Will need to check with both Kevin and Mask
 //their ammo behaves a bit differently
-function AchievedComboCount(count, type){
-    trigger = repeated(count, prev(TargetComboCount) < TargetComboCount)
-    
-    if(type == "NoMiss"){
-        //Bullet seems to hit after 4 frames.
-        //If Kevin, the timer is good enough.
-        //Everyone else we'll check to make sure their ammo depletes due to double and triple shot
-        trigger = trigger && never(prev(TargetComboCount) == TargetComboCount && prev(ShotAnimationTimer) < 0x04 && ShotAnimationTimer >= 0x04) 
-    }
-    
-    trigger = trigger && 
-        never(TargetComboCount == 0) &&
-        never(!IsInGame())
-    
-    return trigger
+function AchievedComboCount(count){
+    return IsInGame() && prev(TargetComboCount) == count - 1 && TargetComboCount == count
 }
 
 function AchievedKillCount(count){
-    return 
-        repeated(count, prev(TargetKills) < TargetKills) &&
-        never(TargetKills == 0) &&
-        never(!IsInGame())
+    return IsInGame() && prev(TargetKills) == count - 1 && TargetKills == count
+}
+
+function CountShotsFired(count){
+    return tally(count, AdditionalShots == 0 && prev(ShotAnimationTimer) == 0 && ShotAnimationTimer > 0)
 }
 
 function BreakBloodBank(mission){
@@ -505,21 +495,16 @@ function CompletedMissionNoDeath(mission){
         never(any_of(DeadCharacters, character => DeadCharacters[character] == 1))
 }
 
+//If you're fighting Angel for the first time, the memory placement is different than if you retry after dying.
+//Retrying there isn't a second pointer in the enemy list
 function AngelChallenge(){
     angelPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset) & EnemyPointerMask
     angelHits = dword_be(angelPointer + 0x40c)
 
     return 
-        //Store hits for transition to boss room (once player has control)
-        once(RoomIndex == BossLocations["Angel"] && angelHits == 0) && 
         trigger_when(prev(angelHits) == 3 && angelHits == 4) &&
-        never(prev(angelHits) == angelHits && prev(Ammo) < Ammo) &&
-        never(!IsInGame()) &&
-        never(Mission != BossMissions["Angel"]) &&
-        never(Disc != BossDiscs["Angel"]) &&
-        never(RoomIndex != BossLocations["Angel"])
-        
-}
+        disable_when(CountShotsFired(5), !IsInGame() || Mission != BossMissions["Angel"] || Disc != BossDiscs["Angel"] || RoomIndex != BossLocations["Angel"])  
+}   
 
 function JuliaKisugiChallenge(){
     juliaHits = dword_be(MaskedEnemyListPointer + 0x400)
@@ -773,15 +758,15 @@ achievement(
 // ======================================================================= //
 
 achievement(
-    title = "[Draft] No Miss Kill Combo", points = 10,
-    description = "Reach a Kill Combo of 7 or more without missing, in any mode and on any difficulty",
-    trigger = AchievedComboCount(7, "NoMiss"),
+    title = "[Coded] 14 Kill Combo", points = 5,
+    description = "Maintain a Kill Combo of 14 or more, in any mode and on any difficulty",
+    trigger = AchievedComboCount(14),
     id = 407784
 )
 achievement(
-    title = "[Draft] Kill Combo", points = 10,
-    description = "Maintain a Kill Combo of 28 or more, in any mode and on any difficulty",
-    trigger = AchievedComboCount(28, "Standard"),
+    title = "[Coded] 35 Kill Combo", points = 10,
+    description = "Maintain a Kill Combo of 35 or more, in any mode and on any difficulty",
+    trigger = AchievedComboCount(35),
     id = 407785
 )
 achievement(
@@ -797,7 +782,7 @@ achievement(
     id = 407787
 )
 achievement(
-    title = "[Draft] No Miss Angel", points = 5,
+    title = "[Draft] No Miss Angel", points = 10,
     description = "While playing Target 00 [Angel], defeat Angel without missing a shot, in any mode and on any difficulty",
     trigger = AngelChallenge(),
     id = 407788

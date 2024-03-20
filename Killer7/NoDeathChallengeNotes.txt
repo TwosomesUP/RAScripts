@@ -41,7 +41,7 @@ Mask = 1
 Scene Complete: prev(bit7(0x002b7a6f)) < bit7(0x002b7a6f) && Mission == 02
 
 == Target 02 Start ==
-Events = bit0() //Semi-Truck Moved, bit6(0x0026a22a) //Left Gas Station Area
+Events = bit0(0x002b7a7f) //Semi-Truck Moved, bit6(0x0026a22a) //Left Gas Station Area
 Dan = 0
 Kaede = 1
 Kevin = 0
@@ -97,7 +97,7 @@ Mask = 1
 Scene Complete: prev(Mission) == 08 && Mission == 09
 
 == Target 05 Part 02 ==
-Events = 
+Events = bit7(0x002b7a7c) //First Cassette, bit0(0x002b7a7d) //Solve Robot Puzzle, bit6(0x0026a230) //Enter Hallway
 Dan = 1
 Kaede = 1
 Kevin = 1

@@ -1,12 +1,19 @@
 // ~Homebrew~ FX Unit Yuki: The Henshin Engine
 // #ID = 28624
 
-Offset = 0x234
-BasePointer = dword(0x000) & 0x7fffffff
-
-function Test(){
-    health = dword(BasePointer + Offset)
-    return prev(health) > 0 && health == 0
+US = "US"
+EU = 1
+Dict = {
+    "US": [],
+    "EU": []
 }
 
-achievement(title = "Test", description = "Test", points = 25, trigger = Test())
+function TestPush(){
+    for i in range(0, 9){
+        array_push(Dict[US], 1)
+    }
+    
+    return all_of(Dict, key => Dict[key] == 1)
+}
+
+achievement(title = "Test", description = "Test", points = 25, trigger = TestPush())

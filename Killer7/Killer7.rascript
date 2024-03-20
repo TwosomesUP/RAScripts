@@ -228,7 +228,8 @@ EnemyIDs = {
     "Micro2": 0x1701,
     "Micro1": 0x1700,
     "Broken": 0x7900,
-    "Giant": 0x7c00
+    "Giant": 0x7c00,
+    "Angel": 0x1800
 }
 
 DeadCharacters = {
@@ -279,6 +280,39 @@ BossMissions = {
 
 JeanDepaulPointer = dword_be(0x0030ae18)
 MaskedJeanDepaulPointer = JeanDepaulPointer & EnemyPointerMask
+
+MissionStartEvents = {
+    //Don't open first door
+    0x0: bit2(0x0026a02a),
+    //Don't break rock
+    0x1: bit4(0x0026a23c),
+    //Don't solve vending machine
+    0x2: bit7(0x0026a242),
+    //Don't move semi-truck, and don't exit gas station area
+    0x3: (bit0(0x002b7a7f) + bit6(0x0026a22a)),
+    //Don't enter arcade
+    0x4: bit0(0x0026a22b),
+    //Don't enter garden
+    0x5: bit0(0x0026a246),
+    //Don't break barrels, don't collect 1st sample, and don't leave first area
+    0x6: (bit1(0x002b7a7d) + bit1(0x002b7a7f) + bit0(0x0026a22a)),
+    //Don't activate blood wall, and don't use the elevator to visit another floor
+    0x8: (bit0(0x002b7a82) + bit0(0x0026a034) + bit0(0x0026a043) + bit4(0x0026a044) + bit0(0x0026a053) + bit4(0x0026a05b) + bit4(0x0026a058)),
+    //Don't collect cassette, don't solve robot puzzle, and don't enter the corridor
+    0x9: (bit7(0x002b7a7c) + bit0(0x002b7a7d) + bit6(0x0026a230))
+}
+
+MissionCompleteTriggers = {
+    0x0: (prev(TargetComplete) < TargetComplete),
+    0x1: (prev(Mission) < Mission),
+    0x2: (prev(TargetComplete) < TargetComplete),
+    0x3: (prev(TargetComplete) < TargetComplete),
+    0x4: (prev(Mission) < Mission),
+    0x5: (prev(TargetComplete) < TargetComplete),
+    0x6: (prev(Mission) < Mission),
+    0x8: (prev(Mission) < Mission),
+    0x9: (prev(TargetComplete) < TargetComplete)
+}
 
 // ======================================================================= //
 // Achievement Trigger Functions
@@ -417,8 +451,9 @@ function AllSkillsUpgraded(){
             (prev(sum_of(Coyote, skill => Coyote[skill])) == 19 && sum_of(Coyote, skill => Coyote[skill]) == 20) ||
             (prev(sum_of(Kaede, skill => Kaede[skill])) == 19 && sum_of(Kaede, skill => Kaede[skill]) == 20) ||
             (prev(sum_of(Kevin, skill => Kevin[skill])) == 19 && sum_of(Kevin, skill => Kevin[skill]) == 20) ||
-            (prev(sum_of(Mask, skill => Mask[skill])) == 19 && sum_of(Mask, skill => Mask[skill]) == 20) ||
-            (prev(sum_of(YoungHarman, skill => YoungHarman[skill])) == 19 && sum_of(YoungHarman, skill => YoungHarman[skill]) == 20)
+            (prev(sum_of(Mask, skill => Mask[skill])) == 19 && sum_of(Mask, skill => Mask[skill]) == 20)
+            //Young Harman can't be upgraded
+            //(prev(sum_of(YoungHarman, skill => YoungHarman[skill])) == 19 && sum_of(YoungHarman, skill => YoungHarman[skill]) == 20)
         )
 }
 
@@ -475,35 +510,39 @@ function BreakBloodBank(mission){
     return
         IsInGame() &&
         Mission == mission &&
-        PrevRoomIndex == 0x7200 &&
-        RoomIndex == 0xffff &&
-        prev(BloodRoomState) == 0x03 &&
+        PrevRoomIndex == 0x7900 &&
+        RoomIndex == 0xffffffff &&
+        prev(BloodRoomState) == 0x02 &&
         BloodRoomState == 0x04
 }
 
-//Track when player starts a mission (save protection)
-//Challenge should start when they have control in the mission (save protection)
-//Challenge will reset if any character dies
-//Challenge will reset when the player is not in the correct mission
 function CompletedMissionNoDeath(mission){
-    return
-        IsInGame() &&
-        //Add Mission Start conditions
-        //Add Mission End Scene Lookup condition
-        never(Disc != MissionDiscs[mission]) &&
+    return 
+        once(Mission == mission && MissionStartEvents[mission] == 0) &&
+        Disc == MissionDiscs[mission] &&
+        trigger_when(MissionCompleteTriggers[mission]) &&
+        never(IsInGame()) &&
         never(Mission != mission) &&
         never(any_of(DeadCharacters, character => DeadCharacters[character] == 1))
 }
 
-//If you're fighting Angel for the first time, the memory placement is different than if you retry after dying.
-//Retrying there isn't a second pointer in the enemy list
 function AngelChallenge(){
-    angelPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset) & EnemyPointerMask
-    angelHits = dword_be(angelPointer + 0x40c)
+    angelHitsLv1 = dword_be(MaskedEnemyListPointer + 0x40c)
+    angelIDLv1 = dword_be(MaskedEnemyListPointer + EnemyIDOffset)
+
+    altAngelPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset)
+    maskedAltAngelPointer = altAngelPointer & EnemyPointerMask
+    angelHitsLv2 = dword_be(maskedAltAngelPointer + 0x40c)
+    angelIDLv2 = dword_be(maskedAltAngelPointer + EnemyIDOffset)
 
     return 
-        trigger_when(prev(angelHits) == 3 && angelHits == 4) &&
-        disable_when(CountShotsFired(5), !IsInGame() || Mission != BossMissions["Angel"] || Disc != BossDiscs["Angel"] || RoomIndex != BossLocations["Angel"])  
+        IsInGame() &&
+        Mission == BossMissions["Angel"] &&
+        Disc == BossDiscs["Angel"] &&
+        disable_when(CountShotsFired(5), IsOldHarman() || RoomIndex != BossLocations["Angel"]) &&
+        ((angelIDLv1 == EnemyIDs["Angel"] && trigger_when(prev(angelHitsLv1) == 3 && angelHitsLv1 == 4)) || 
+        (angelIDLv2 == EnemyIDs["Angel"] && altAngelPointer != 0 && trigger_when(prev(angelHitsLv2) == 3 && angelHitsLv2 == 4)))
+        
 }   
 
 function JuliaKisugiChallenge(){
@@ -770,20 +809,20 @@ achievement(
     id = 407785
 )
 achievement(
-    title = "[Draft] 77 Smiles", points = 5,
-    description = "Kill 77 Smiles or more in any single assignment, in any mode and on any difficulty",
+    title = "[Coded] 77 Smiles", points = 5,
+    description = "Kill 77 Smiles or more in any single Target, in any mode and on any difficulty",
     trigger = AchievedKillCount(77),
     id = 407786
 )
 achievement(
-    title = "[Draft] 154 Smiles", points = 10,
-    description = "Kill 154 Smiles or more in any single assignment, in any mode and on any difficulty",
+    title = "[Coded] 154 Smiles", points = 10,
+    description = "Kill 154 Smiles or more in any single Target, in any mode and on any difficulty",
     trigger = AchievedKillCount(154),
     id = 407787
 )
 achievement(
-    title = "[Draft] No Miss Angel", points = 10,
-    description = "While playing Target 00 [Angel], defeat Angel without missing a shot, in any mode and on any difficulty",
+    title = "[Coded] Minimum Shots Angel", points = 10,
+    description = "While playing Target 00 [Angel], defeat Angel without shooting more than 4 shots, in any mode and on any difficulty",
     trigger = AngelChallenge(),
     id = 407788
 )
@@ -973,7 +1012,7 @@ achievement(
     id = 407818
 )
 achievement(
-    title = "[Draft] Upgrade All Skills", points = 25,
+    title = "[Coded] Upgrade All Skills", points = 25,
     description = "Upgrade all skills for any Smith, in any mode and on any difficulty",
     trigger = AllSkillsUpgraded(),
     id = 407819
@@ -984,56 +1023,56 @@ achievement(
 // ======================================================================= //
 
 achievement(
-    title = "[Draft] Pigeon Collector", points = 10,
+    title = "[Coded] Pigeon Collector", points = 10,
     description = "Collect all Carrier Pigeons, in any mode and on any difficulty",
     trigger = CollectedPigeons(),
     id = 407820
 )
 achievement(
-    title = "[Draft] Break the Bank [Angel]", points = 5,
-    description = "While playing Target 00 [Angel], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Angel]", points = 5,
+    description = "While playing Target 00 [Angel], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(0),
     id = 407821
 )
 achievement(
-    title = "[Draft] Break the Bank [Sunset 1]", points = 5,
-    description = "While playing Target 01 Part 01 [Sunset], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Sunset 1]", points = 5,
+    description = "While playing Target 01 Part 01 [Sunset], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(1),
     id = 407822
 )
 achievement(
-    title = "[Draft] Break the Bank [Sunset 2]", points = 5,
-    description = "While playing Target 01 Part 02 [Sunset], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Sunset 2]", points = 5,
+    description = "While playing Target 01 Part 02 [Sunset], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(2),
     id = 407823
 )
 achievement(
-    title = "[Draft] Break the Bank [Cloudman]", points = 5,
-    description = "While playing Target 02 [Cloudman], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Cloudman]", points = 5,
+    description = "While playing Target 02 [Cloudman], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(3),
     id = 407824
 )
 achievement(
-    title = "[Draft] Break the Bank [Encounter 1]", points = 5,
-    description = "While playing Target 03 Part 01 [Encounter], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Encounter 1]", points = 5,
+    description = "While playing Target 03 Part 01 [Encounter], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(4),
     id = 407825
 )
 achievement(
-    title = "[Draft] Break the Bank [Encounter 2]", points = 5,
-    description = "While playing Target 03 Part 02 [Encounter], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Encounter 2]", points = 5,
+    description = "While playing Target 03 Part 02 [Encounter], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(5),
     id = 407826
 )
 achievement(
-    title = "[Draft] Break the Bank [Alter Ego]", points = 5,
-    description = "While playing Target 04 Part 01 [Alter Ego], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Alter Ego]", points = 5,
+    description = "While playing Target 04 Part 01 [Alter Ego], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(6),
     id = 407827
 )
 achievement(
-    title = "[Draft] Break the Bank [Smile 1]", points = 10,
-    description = "While playing Target 05 Part 01 [Smile], break the Blood Room blood tank, in any mode and on any difficulty",
+    title = "[Coded] Break the Bank [Smile 1]", points = 10,
+    description = "While playing Target 05 Part 01 [Smile], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(8),
     id = 407828
 )

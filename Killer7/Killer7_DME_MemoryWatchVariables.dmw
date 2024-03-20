@@ -53,6 +53,13 @@
                     "unsigned": false
                 },
                 {
+                    "address": "802B7538",
+                    "baseIndex": 1,
+                    "label": "Level Pointer",
+                    "typeIndex": 2,
+                    "unsigned": false
+                },
+                {
                     "address": "802B7A75",
                     "baseIndex": 3,
                     "label": "Pigeons",
@@ -1718,6 +1725,267 @@
                 }
             ],
             "groupName": "Enemy List"
+        },
+        {
+            "address": "802B7538",
+            "baseIndex": 1,
+            "label": "SceneID?",
+            "pointerOffsets": [
+                "C0"
+            ],
+            "typeIndex": 2,
+            "unsigned": false
+        },
+        {
+            "address": "802B7538",
+            "baseIndex": 1,
+            "label": "SceneID?",
+            "pointerOffsets": [
+                "C4"
+            ],
+            "typeIndex": 2,
+            "unsigned": false
+        },
+        {
+            "address": "802B7538",
+            "baseIndex": 1,
+            "label": "SceneID?",
+            "pointerOffsets": [
+                "34"
+            ],
+            "typeIndex": 2,
+            "unsigned": false
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D7788",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D77D8",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7828",
+                    "baseIndex": 0,
+                    "label": "Waver",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7878",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Dan"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D77C0",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7810",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7860",
+                    "baseIndex": 0,
+                    "label": "Waver",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D78B0",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "KAEDE"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D77C8",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7818",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7868",
+                    "baseIndex": 0,
+                    "label": "Invisibility",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D78B8",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Kevin"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D77B8",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7808",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7858",
+                    "baseIndex": 0,
+                    "label": "Waver",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D78A8",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Coyote"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D7798",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D77E8",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7838",
+                    "baseIndex": 0,
+                    "label": "Waver",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7888",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Con"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D77D0",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7820",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7870",
+                    "baseIndex": 0,
+                    "label": "Waver",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D78C0",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Mask"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "802D7790",
+                    "baseIndex": 0,
+                    "label": "Power",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D77E0",
+                    "baseIndex": 0,
+                    "label": "Speed",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7830",
+                    "baseIndex": 0,
+                    "label": "Waver",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802D7880",
+                    "baseIndex": 0,
+                    "label": "Criticals",
+                    "typeIndex": 0,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Young Harman"
         }
     ]
 }

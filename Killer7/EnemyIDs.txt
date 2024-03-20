@@ -27,3 +27,5 @@
 8003 = Vinculum Mithril Smile
 7800 = Vinculum Timer Smile
 7100 = Vinculum Galactic Tomahawk Smile
+1800 = Angel
+0B00 = Angel (Harman Fight) 

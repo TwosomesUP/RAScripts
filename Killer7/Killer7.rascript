@@ -587,8 +587,34 @@ function AndreiUlmeydaChallenge(){
         IsInGame() &&
         Mission == BossMissions["AndreiUlmeyda"] &&
         Disc == BossDiscs["AndreiUlmeyda"] &&
-        disable_when(measured(tally(60*77, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1)), RoomIndex != BossLocations["AndreiUlmeyda"]) &&
+        andreiState != 0 &&
+        disable_when(measured(tally(60*49, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1 && andreiState != 0)), RoomIndex != BossLocations["AndreiUlmeyda"]) &&
         trigger_when(prev(andreiState) == 1 && andreiState == 6)
+}
+
+function AyamiBlackburn1Challenge(){
+    ayamiAnimation = dword_be(MaskedEnemyListPointer + 0x30)
+    ayamiState = byte(MaskedEnemyListPointer + 0x176)
+    //ayamiHealth = word_be(MaskedEnemyListPointer + 0x234)
+
+    return IsInGame() &&
+        Mission == BossMissions["AyamiBlackburn1"] &&
+        Disc == BossDiscs["AyamiBlackburn1"] &&
+        ayamiState == 1 &&
+        disable_when(measured(tally(60*49, RoomIndex == BossLocations["AyamiBlackburn1"] && PlayerState == 1 && ayamiState != 0)), RoomIndex != BossLocations["AyamiBlackburn1"]) &&
+        trigger_when(prev(ayamiAnimation) != 6 && ayamiAnimation == 6)
+}
+
+function AyamiBlackburn2Challenge(){
+    ayamiAnimation = dword_be(MaskedEnemyListPointer + 0x30)
+
+    return IsInGame() &&
+        Mission == BossMissions["AyamiBlackburn2"] &&
+        Disc == BossDiscs["AyamiBlackburn2"] &&
+        ayamiAnimation != 0xc &&
+        ScreenState != 4 &&
+        disable_when(measured(tally(60*119, RoomIndex == BossLocations["AyamiBlackburn2"] && PlayerState == 1)), RoomIndex != BossLocations["AyamiBlackburn2"]) &&
+        trigger_when(prev(ayamiAnimation) != 0xc && ayamiAnimation == 0xc)
 }
 
 // ======================================================================= //
@@ -866,20 +892,20 @@ achievement(
 )
 achievement(
     title = "[Coded] Speed Kill Andrei Ulmeyda", points = 10,
-    description = "While playing Target 02 [Cloudman], defeat Andrei Ulmeyda in 77 seconds or less, in any mode and on any difficulty",
+    description = "While playing Target 02 [Cloudman], defeat Andrei Ulmeyda in 49 seconds or less, in any mode and on any difficulty",
     trigger = AndreiUlmeydaChallenge(),
     id = 407792
 )
 achievement(
-    title = "[Draft] No Miss Ayame Blackburn 1", points = 25,
-    description = "While playing Target 03 Part 01 [Encounter], defeat Ayame Blackburn without missing a shot, in any mode and on any difficulty",
-    trigger = always_false(),
+    title = "[Coded] Speed Kill Ayame Blackburn 1", points = 25,
+    description = "While playing Target 03 Part 01 [Encounter], defeat Ayame Blackburn in 49 seconds or less, in any mode and on any difficulty",
+    trigger = AyamiBlackburn1Challenge(),
     id = 407793
 )
 achievement(
-    title = "[Draft] No Damage Ayame Blackburn 2", points = 50,
-    description = "While playing Target 03 Part 02 [Encounter], defeat Ayame Blackburn without taking damage, in any mode and on any difficulty",
-    trigger = always_false(),
+    title = "[Draft] Speed Kill Ayame Blackburn 2", points = 50,
+    description = "While playing Target 03 Part 02 [Encounter], defeat Ayame Blackburn in 140 seconds or less, in any mode and on any difficulty",
+    trigger = AyamiBlackburn2Challenge(),
     id = 407794
 )
 achievement(

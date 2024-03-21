@@ -26,6 +26,7 @@ ScreenState = dword_be(0x002b7580)
 ShotAnimationTimer = dword_be(0x0071b5e8)
 //If more than one shot is fired (double or triple shot), this will be greater than 0
 AdditionalShots = word_be(0x0071b610)
+PlayerState = byte(0x002b7628)
 
 function IsInGame() => GamePointer != 0
 
@@ -246,7 +247,7 @@ BossLocations = {
     "Angel": 0x30802,
     "JuliaKisugi": 0x7300,
     "JeanDepaul": 0x8800,
-    "KurashiAkiba": 0xa00,
+    "KurashiAkiba": 0xa000,
     "AndreiUlmeyda": 0xce00,
     "AyamiBlackburn1": 0x13c00,
     "AyamiBlackburn2": 0x16900,
@@ -485,9 +486,7 @@ function CheckForEnemyDeath(enemy){
         )
     }
     
-    if(enemy != "Micro1" && enemy != "Micro2"){
-        trigger = trigger && prev(TargetComboCount) < TargetComboCount
-    }
+    trigger = trigger && prev(TargetComboCount) < TargetComboCount
 
     return trigger && (enemyFound)
 }
@@ -516,14 +515,13 @@ function BreakBloodBank(mission){
         BloodRoomState == 0x04
 }
 
+DeadCharacterCheck = dword_be(0x002d2510)
+
 function CompletedMissionNoDeath(mission){
     return 
-        once(Mission == mission && MissionStartEvents[mission] == 0) &&
-        Disc == MissionDiscs[mission] &&
+        once(IsInGame() && Mission == mission && MissionStartEvents[mission] == 0) &&
         trigger_when(MissionCompleteTriggers[mission]) &&
-        never(IsInGame()) &&
-        never(Mission != mission) &&
-        never(any_of(DeadCharacters, character => DeadCharacters[character] == 1))
+        never(DeadCharacterCheck > 0 || !IsInGame() || Mission != mission)
 }
 
 function AngelChallenge(){
@@ -558,17 +556,39 @@ function JuliaKisugiChallenge(){
 }
 
 function JeanDepaulChallenge(){
+    jeanEvent = bit1(0x002b7a87)
     jeanState = byte(MaskedJeanDepaulPointer + 0x420)
     jeanHits = byte(MaskedJeanDepaulPointer + 0x421)
     
     return
-        once(RoomIndex == BossLocations["JeanDepaul"] && jeanHits == 0) &&
-        trigger_when(jeanHits == 1 && prev(jeanState) == 0 && jeanState == 1) &&
-        never(!IsInGame()) &&
-        never(Mission != BossMissions["JeanDepaul"]) &&
-        never(Disc != BossDiscs["JeanDepaul"]) &&
-        never(RoomIndex != BossLocations["JeanDepaul"]) &&
-        never(jeanHits >= 1 && jeanState == 0)
+        IsInGame() &&
+        Mission == BossMissions["JeanDepaul"] &&
+        Disc == BossDiscs["JeanDepaul"] &&
+        RoomIndex == BossLocations["JeanDepaul"] &&
+        jeanHits < 2 &&
+        trigger_when(prev(jeanEvent) == 0 && jeanEvent == 1)
+}
+
+function KurashiAkibaChallenge(){
+    akibaState = dword_be(MaskedEnemyListPointer + 0x30)
+    
+    return
+        IsInGame() &&
+        Mission == BossMissions["KurashiAkiba"] &&
+        Disc == BossDiscs["KurashiAkiba"] &&
+        trigger_when(prev(akibaState) == 6 && akibaState == 3) &&
+        disable_when(CountShotsFired(14), RoomIndex != BossLocations["KurashiAkiba"])
+} 
+
+function AndreiUlmeydaChallenge(){
+    andreiState = dword_be(MaskedEnemyListPointer + 0x30)
+    
+    return
+        IsInGame() &&
+        Mission == BossMissions["AndreiUlmeyda"] &&
+        Disc == BossDiscs["AndreiUlmeyda"] &&
+        disable_when(measured(tally(60*77, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1)), RoomIndex != BossLocations["AndreiUlmeyda"]) &&
+        trigger_when(prev(andreiState) == 1 && andreiState == 6)
 }
 
 // ======================================================================= //
@@ -822,32 +842,32 @@ achievement(
 )
 achievement(
     title = "[Coded] Minimum Shots Angel", points = 10,
-    description = "While playing Target 00 [Angel], defeat Angel without shooting more than 4 shots, in any mode and on any difficulty",
+    description = "While playing Target 00 [Angel], defeat Angel without firing more than 4 shots, in any mode and on any difficulty",
     trigger = AngelChallenge(),
     id = 407788
 )
 achievement(
-    title = "[Draft] 140 Hit Julia Kisugi", points = 10,
+    title = "[Coded] 140 Hit Julia Kisugi", points = 10,
     description = "While playing Target 01 Part 01 [Sunset], defeat Julia Kisugi by scoring 140 or more hits, in any mode and on any difficulty",
     trigger = JuliaKisugiChallenge(),
     id = 407789
 )
 achievement(
-    title = "[Draft] One Shot Jean DePaul", points = 10,
+    title = "[Coded] One Shot Jean DePaul", points = 10,
     description = "While playing Target 01 Part 02 [Sunset], defeat Jean DePaul with one shot, in any mode and on any difficulty",
     trigger = JeanDepaulChallenge(),
     id = 407790
 )
 achievement(
-    title = "[Draft] Minimum Shots Kurahashi & Akiba", points = 10,
+    title = "[Coded] Minimum Shots Kurahashi & Akiba", points = 10,
     description = "While playing Target 01 Part 02 [Sunset], defeat Kurahashi & Akiba without firing more than 14 shots, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = KurashiAkibaChallenge(),
     id = 407791
 )
 achievement(
-    title = "[Draft] Speed Kill Andrei Ulmeyda", points = 10,
+    title = "[Coded] Speed Kill Andrei Ulmeyda", points = 10,
     description = "While playing Target 02 [Cloudman], defeat Andrei Ulmeyda in 77 seconds or less, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = AndreiUlmeydaChallenge(),
     id = 407792
 )
 achievement(
@@ -905,56 +925,56 @@ achievement(
     id = 407801
 )
 achievement(
-    title = "[Draft] No Death Target 00", points = 10,
-    description = "In a single session, complete Target 00 [Angel] without losing a Smith in any mode and on any difficulty",
+    title = "[Coded] No Death Target 00", points = 10,
+    description = "In a single session and with no prior progress, complete Target 00 [Angel] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(0),
     id = 407802
 )
 achievement(
     title = "[Draft] No Death Target 01 Part 01", points = 10,
-    description = "In a single session, complete Target 01 Part 01 [Sunset] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(1),
     id = 407803
 )
 achievement(
     title = "[Draft] No Death Target 01 Part 02", points = 10,
-    description = "In a single session, complete Target 01 Part 02 [Sunset] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 01 Part 02 [Sunset] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(2),
     id = 407804
 )
 achievement(
     title = "[Draft] No Death Target 02", points = 10,
-    description = "In a single session, complete Target 02 [Cloudman] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 02 [Cloudman] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(3),
     id = 407805
 )
 achievement(
     title = "[Draft] No Death Target 03 Part 01", points = 10,
-    description = "In a single session, complete Target 03 Part 01 [Encounter] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 03 Part 01 [Encounter] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(4),
     id = 407806
 )
 achievement(
     title = "[Draft] No Death Target 03 Part 02", points = 10,
-    description = "In a single session, complete Target 03 Part 02 [Encounter] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 03 Part 02 [Encounter] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(5),
     id = 407807
 )
 achievement(
     title = "[Draft] No Death Target 04 Part 01", points = 10,
-    description = "In a single session, complete Target 04 Part 01 [Alter Ego] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 04 Part 01 [Alter Ego] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(6),
     id = 407808
 )
 achievement(
     title = "[Draft] No Death Target 05 Part 01", points = 25,
-    description = "In a single session, complete Target 05 Part 01 [Smile] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 05 Part 01 [Smile] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(8),
     id = 407809
 )
 achievement(
     title = "[Draft] No Death Target 05 Part 02", points = 25,
-    description = "In a single session, complete Target 05 Part 02 [Smile] without losing a Smith in any mode and on any difficulty",
+    description = "In a single session and with no prior progress, complete Target 05 Part 02 [Smile] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(9),
     id = 407810
 )

@@ -518,10 +518,19 @@ function BreakBloodBank(mission){
 DeadCharacterCheck = dword_be(0x002d2510)
 
 function CompletedMissionNoDeath(mission){
+    characterCheck = DeadCharacterCheck > 0
+    missionCheck = prev(Mission) != mission
+    
+    if(mission == 9) {
+        invincibleSmiles = bit2(0x002b7a7e)
+        characterCheck = (characterCheck && invincibleSmiles != 1)
+        missionCheck = (missionCheck && Mission != 0xa)
+    }
+
     return 
         once(IsInGame() && Mission == mission && MissionStartEvents[mission] == 0) &&
         trigger_when(MissionCompleteTriggers[mission]) &&
-        never(DeadCharacterCheck > 0 || !IsInGame() || Mission != mission)
+        never(characterCheck || !IsInGame() || missionCheck)
 }
 
 function AngelChallenge(){
@@ -985,49 +994,49 @@ achievement(
     id = 407802
 )
 achievement(
-    title = "[Draft] No Death Target 01 Part 01", points = 10,
+    title = "[Coded] No Death Target 01 Part 01", points = 10,
     description = "In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(1),
     id = 407803
 )
 achievement(
-    title = "[Draft] No Death Target 01 Part 02", points = 10,
+    title = "[Coded] No Death Target 01 Part 02", points = 10,
     description = "In a single session and with no prior progress, complete Target 01 Part 02 [Sunset] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(2),
     id = 407804
 )
 achievement(
-    title = "[Draft] No Death Target 02", points = 10,
+    title = "[Coded] No Death Target 02", points = 10,
     description = "In a single session and with no prior progress, complete Target 02 [Cloudman] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(3),
     id = 407805
 )
 achievement(
-    title = "[Draft] No Death Target 03 Part 01", points = 10,
+    title = "[Coded] No Death Target 03 Part 01", points = 10,
     description = "In a single session and with no prior progress, complete Target 03 Part 01 [Encounter] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(4),
     id = 407806
 )
 achievement(
-    title = "[Draft] No Death Target 03 Part 02", points = 10,
+    title = "[Coded] No Death Target 03 Part 02", points = 10,
     description = "In a single session and with no prior progress, complete Target 03 Part 02 [Encounter] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(5),
     id = 407807
 )
 achievement(
-    title = "[Draft] No Death Target 04 Part 01", points = 10,
+    title = "[Coded] No Death Target 04 Part 01", points = 10,
     description = "In a single session and with no prior progress, complete Target 04 Part 01 [Alter Ego] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(6),
     id = 407808
 )
 achievement(
-    title = "[Draft] No Death Target 05 Part 01", points = 25,
+    title = "[Coded] No Death Target 05 Part 01", points = 25,
     description = "In a single session and with no prior progress, complete Target 05 Part 01 [Smile] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(8),
     id = 407809
 )
 achievement(
-    title = "[Draft] No Death Target 05 Part 02", points = 25,
+    title = "[Coded] No Death Target 05 Part 02", points = 25,
     description = "In a single session and with no prior progress, complete Target 05 Part 02 [Smile] without losing a Smith in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(9),
     id = 407810

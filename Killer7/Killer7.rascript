@@ -577,7 +577,7 @@ function KurashiAkibaChallenge(){
         Mission == BossMissions["KurashiAkiba"] &&
         Disc == BossDiscs["KurashiAkiba"] &&
         trigger_when(prev(akibaState) == 6 && akibaState == 3) &&
-        disable_when(CountShotsFired(14), RoomIndex != BossLocations["KurashiAkiba"])
+        disable_when(CountShotsFired(15), RoomIndex != BossLocations["KurashiAkiba"])
 } 
 
 function AndreiUlmeydaChallenge(){
@@ -588,7 +588,7 @@ function AndreiUlmeydaChallenge(){
         Mission == BossMissions["AndreiUlmeyda"] &&
         Disc == BossDiscs["AndreiUlmeyda"] &&
         andreiState != 0 &&
-        disable_when(measured(tally(60*49, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1 && andreiState != 0)), RoomIndex != BossLocations["AndreiUlmeyda"]) &&
+        disable_when(tally(60*49, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1 && andreiState != 0), RoomIndex != BossLocations["AndreiUlmeyda"]) &&
         trigger_when(prev(andreiState) == 1 && andreiState == 6)
 }
 
@@ -601,20 +601,48 @@ function AyamiBlackburn1Challenge(){
         Mission == BossMissions["AyamiBlackburn1"] &&
         Disc == BossDiscs["AyamiBlackburn1"] &&
         ayamiState == 1 &&
-        disable_when(measured(tally(60*49, RoomIndex == BossLocations["AyamiBlackburn1"] && PlayerState == 1 && ayamiState != 0)), RoomIndex != BossLocations["AyamiBlackburn1"]) &&
+        disable_when(tally(60*49, RoomIndex == BossLocations["AyamiBlackburn1"] && PlayerState == 1 && ayamiState != 0), RoomIndex != BossLocations["AyamiBlackburn1"]) &&
         trigger_when(prev(ayamiAnimation) != 6 && ayamiAnimation == 6)
 }
 
 function AyamiBlackburn2Challenge(){
+    ayamiEvent = bit5(0x002b7a8b)
     ayamiAnimation = dword_be(MaskedEnemyListPointer + 0x30)
+    ayamiState = dword_be(MaskedEnemyListPointer + 0x530)
 
     return IsInGame() &&
         Mission == BossMissions["AyamiBlackburn2"] &&
         Disc == BossDiscs["AyamiBlackburn2"] &&
-        ayamiAnimation != 0xc &&
-        ScreenState != 4 &&
-        disable_when(measured(tally(60*119, RoomIndex == BossLocations["AyamiBlackburn2"] && PlayerState == 1)), RoomIndex != BossLocations["AyamiBlackburn2"]) &&
+        ayamiState == 1 &&
+        disable_when(tally(60*140, RoomIndex == BossLocations["AyamiBlackburn2"] && PlayerState == 1) , RoomIndex != BossLocations["AyamiBlackburn2"] || ayamiEvent == 1) &&
         trigger_when(prev(ayamiAnimation) != 0xc && ayamiAnimation == 0xc)
+}
+
+function CurtisBlackburnChallenge(){
+    curtisAnimation = dword_be(MaskedEnemyListPointer + 0x30)
+    curtisHitsGiven = dword_be(MaskedEnemyListPointer + 0x444)
+    
+    return IsInGame() &&
+        Mission == BossMissions["CurtisBlackburn"] &&
+        Disc == BossDiscs["CurtisBlackburn"] &&
+        RoomIndex == BossLocations["CurtisBlackburn"] &&
+        curtisHitsGiven == 0 &&
+        trigger_when(prev(curtisAnimation) != 6 && curtisAnimation == 6)
+}
+
+function GregNightmareChallenge(){
+    gregState = byte(MaskedEnemyListPointer + 0x5b)
+    gregActivated = byte(MaskedEnemyListPointer + 0x51c)
+    gregDefeated = bit1(0x002b7a7e)
+    
+    return 
+        IsInGame() &&
+        Mission == BossMissions["GregNightmare"] &&
+        Disc == BossDiscs["GregNightmare"] &&
+        gregActivated == 1 &&
+        gregDefeated == 0 &&
+        trigger_when(prev(gregState) != 0x2a && gregState == 0x2a) &&
+        disable_when(CountShotsFired(22), RoomIndex != BossLocations["GregNightmare"] || gregDefeated == 1)
 }
 
 // ======================================================================= //
@@ -903,21 +931,21 @@ achievement(
     id = 407793
 )
 achievement(
-    title = "[Draft] Speed Kill Ayame Blackburn 2", points = 50,
+    title = "[Coded] Speed Kill Ayame Blackburn 2", points = 50,
     description = "While playing Target 03 Part 02 [Encounter], defeat Ayame Blackburn in 140 seconds or less, in any mode and on any difficulty",
     trigger = AyamiBlackburn2Challenge(),
     id = 407794
 )
 achievement(
-    title = "[Draft] No Shot Curtis Blackburn", points = 10,
+    title = "[Coded] No Shot Curtis Blackburn", points = 10,
     description = "While playing Target 03 Part 02 [Encounter], defeat Curtis Blackburn without letting him get a shot off, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = CurtisBlackburnChallenge(),
     id = 407795
 )
 achievement(
-    title = "[Draft] Minimum Shots Greg Nightmare", points = 10,
+    title = "[Coded] Minimum Shots Greg Nightmare", points = 10,
     description = "While playing Target 05 Part 02 [Smile], defeat Greg Nightmare without firing more than 21 shots, in any mode and on any difficulty",
-    trigger = always_false(),
+    trigger = GregNightmareChallenge(),
     id = 407796
 )
 achievement(

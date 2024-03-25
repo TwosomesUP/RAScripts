@@ -219,6 +219,7 @@ EnemyListPointer = dword_be(0x002b7df0)
 NextEnemyOffset = 0x004
 EnemyIDOffset = 0x01c
 EnemyHealthOffset = 0x234
+EnemyStateOffset = 0x176
 EnemyPointerMask = 0x7fffffff
 
 MaskedEnemyListPointer = EnemyListPointer & EnemyPointerMask
@@ -440,7 +441,7 @@ function CollectedPigeons() {
     return
         IsInGame() &&
         prev(Pigeons) == 7 &&
-        Pigeons == 8
+        measured(Pigeons == 8)
 }
 
 function AllSkillsUpgraded(){
@@ -459,15 +460,21 @@ function AllSkillsUpgraded(){
 }
 
 function CheckForEnemyDeath(enemy){
-    trigger = IsInGame() && EnemyListPointer != 0
+    trigger = IsInGame() && EnemyListPointer != 0 && prev(TargetComboCount) < TargetComboCount
         
-    enemyFound = 
-    (
-        dword_be(MaskedEnemyListPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
-        prev(word_be(MaskedEnemyListPointer + EnemyHealthOffset)) > 0 && 
-        word_be(MaskedEnemyListPointer + EnemyHealthOffset) <= 0
-    )
-        
+    enemyFound = dword_be(MaskedEnemyListPointer + EnemyIDOffset) == EnemyIDs[enemy]
+    
+    //if(enemy != "Broken"){
+        //enemyFound = (enemyFound && 
+        //prev(word_be(MaskedEnemyListPointer + EnemyHealthOffset)) > 0 && 
+        //word_be(MaskedEnemyListPointer + EnemyHealthOffset) <= 0)
+    //} else {
+        enemyFound = (enemyFound && 
+        prev(word_be(MaskedEnemyListPointer + EnemyStateOffset)) > 0 && 
+        word_be(MaskedEnemyListPointer + EnemyStateOffset) <= 0)
+    //}
+    
+ 
     for i in range(1, 9){    
         nextPointer = dword_be(MaskedEnemyListPointer + NextEnemyOffset)
         maskedNextPointer = nextPointer & EnemyPointerMask
@@ -477,28 +484,32 @@ function CheckForEnemyDeath(enemy){
                 maskedNextPointer = nextPointer & EnemyPointerMask
             }
         }
-        enemyFound = enemyFound || 
-        (
-            nextPointer != 0 &&
-            dword_be(maskedNextPointer + EnemyIDOffset) == EnemyIDs[enemy] &&
-            prev(word_be(maskedNextPointer + EnemyHealthOffset)) > 0 && 
-            word_be(maskedNextPointer + EnemyHealthOffset) <= 0
-        )
+        
+        nextEnemyFound = nextPointer != 0 && dword_be(maskedNextPointer + EnemyIDOffset) == EnemyIDs[enemy]
+        
+        //if(enemy != "Broken"){
+            //nextEnemyFound = (nextEnemyFound &&
+            //prev(word_be(maskedNextPointer + EnemyHealthOffset)) > 0 && 
+            //word_be(maskedNextPointer + EnemyHealthOffset) <= 0)
+        //} else {
+            nextEnemyFound = (nextEnemyFound &&
+            prev(word_be(maskedNextPointer + EnemyStateOffset)) > 0 && 
+            word_be(maskedNextPointer + EnemyStateOffset) <= 0)
+        //}
+        
+
+        enemyFound = enemyFound || nextEnemyFound
     }
-    
-    trigger = trigger && prev(TargetComboCount) < TargetComboCount
 
     return trigger && (enemyFound)
 }
 
-//Will need to check with both Kevin and Mask
-//their ammo behaves a bit differently
 function AchievedComboCount(count){
     return IsInGame() && prev(TargetComboCount) == count - 1 && TargetComboCount == count
 }
 
 function AchievedKillCount(count){
-    return IsInGame() && prev(TargetKills) == count - 1 && TargetKills == count
+    return IsInGame() && prev(TargetKills) == count - 1 && measured(TargetKills == count)
 }
 
 function CountShotsFired(count){

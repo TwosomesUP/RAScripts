@@ -295,7 +295,7 @@ MissionStartEvents = {
     //Don't enter arcade
     0x4: bit0(0x0026a22b),
     //Don't enter garden
-    0x5: bit0(0x0026a246),
+    0x5: bit6(0x0026a246),
     //Don't break barrels, don't collect 1st sample, and don't leave first area
     0x6: (bit1(0x002b7a7d) + bit1(0x002b7a7f) + bit0(0x0026a22a)),
     //Don't activate blood wall, and don't use the elevator to visit another floor
@@ -304,6 +304,7 @@ MissionStartEvents = {
     0x9: (bit7(0x002b7a7c) + bit0(0x002b7a7d) + bit6(0x0026a230))
 }
 
+LoadingScene = dword_be(0x002b7a98)
 MissionCompleteTriggers = {
     0x0: (prev(TargetComplete) < TargetComplete),
     0x1: (prev(Mission) < Mission),
@@ -662,7 +663,7 @@ function GregNightmareChallenge(){
         gregActivated == 1 &&
         gregDefeated == 0 &&
         trigger_when(prev(gregState) != 0x2a && gregState == 0x2a) &&
-        disable_when(CountShotsFired(22), RoomIndex != BossLocations["GregNightmare"] || gregDefeated == 1)
+        disable_when(CountShotsFired(36), RoomIndex != BossLocations["GregNightmare"] || gregDefeated == 1)
 }
 
 // ======================================================================= //

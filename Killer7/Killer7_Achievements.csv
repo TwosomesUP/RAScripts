@@ -1,78 +1,78 @@
 Id,Title,Description,Points
-407752,[Coded] Collect the Fire Ring,"While playing Target 00 [Angel], collect the Fire Ring in any mode and on any difficulty",2
-407753,[Coded] Vinculum Speed Smile,"While playing Target 00 [Angel], enter the Vinculum Gate and defeat the Speed Smile in any mode and on any difficulty",2
-407754,[Coded] Complete Target 00 [Angel] on Normal,Complete Target 00 [Angel] in Killer7 mode and on Normal difficulty or higher,3
-407755,[Coded] Complete Target 00 [Angel] on Deadly,Complete Target 00 [Angel] in Killer7 mode and on Deadly difficulty,5
-407756,[Coded] Collect the Water Ring,"While playing Target 01 Part 01 [Sunset], collect the Water Ring in any mode and on any difficulty",5
-407757,[Coded] Vinculum Phantom Smile,"While playing Target 01 Part 01 [Sunset], enter the Vinculum Gate and defeat the Phantom Smile in any mode and on any difficulty",5
-407758,[Coded] Collect the Wind Ring,"While playing Target 01 Part 01 [Sunset], collect the Wind Ring in any mode and on any difficulty",5
-407759,[Coded] Vinculum Backside Smile,"While playing Target 01 Part 02 [Sunset], enter the Vinculum Gate and defeat the Backside Smile in any mode and on any difficulty",5
-407760,[Coded] Complete Target 01 [Sunset] on Normal,Complete Target 01 [Sunset] in Killer7 mode and on Normal difficulty or higher,5
-407761,[Coded] Complete Target 01 [Sunset] on Deadly,Complete Target 01 [Sunset] in Killer7 mode and on Deadly difficulty,10
-407762,[Coded] Collect the Stamina Ring,"While playing Target 02 [Cloudman], collect the Stamina Ring in any mode and on any difficulty",5
-407763,[Coded] Collect the Ulmeyda Figures,"While playing Target 02 [Cloudman], collect all of the Ulmeyda Figures in any mode and on any difficulty",5
-407764,[Coded] Complete Target 02 [Cloudman] on Normal,Complete Target 02 [Cloudman] in Killer7 mode and on Normal difficulty or higher,5
-407765,[Coded] Complete Target 02 [Cloudman] on Deadly,Complete Target 02 [Cloudman] in Killer7 mode and on Deadly difficulty,10
-407766,[Coded] Collect the Time Ring,"While playing Target 03 Part 01 [Encounter], collect the Time Ring in any mode and on any difficulty",5
-407767,[Coded] Vinculum Mithril Smile,"While playing Target 03 Part 01 [Encounter], enter the Vinculum Gate and defeat the Mithril Smile in any mode and on any difficulty",5
-407768,[Coded] Collect the Power Ring,"While playing Target 03 Part 02 [Encounter], collect the Power Ring in any mode and on any difficulty",5
-407769,[Coded] Vinculum Laser Smile,"While playing Target 03 Part 02 [Encounter], enter the Vinculum Gate and defeat the Laser Smile in any mode and on any difficulty",5
-407770,[Coded] Complete Target 03 [Encounter] on Normal,Complete Target 03 [Encounter] in Killer7 mode and on Normal difficulty or higher,5
-407771,[Coded] Complete Target 03 [Encounter] on Deadly,Complete Target 03 [Encounter] in Killer7 mode and on Deadly difficulty,10
-407772,[Coded] Collect the Punishing Rangers Color Samples,"While playing Target 04 Part 01 [Cloudman], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",5
-407773,[Coded] Complete Target 04 [Alter Ego] on Normal,Complete Target 04 [Alter Ego] in Killer7 mode and on Normal difficulty or higher,5
-407774,[Coded] Complete Target 04 [Alter Ego] on Deadly,Complete Target 04 [Alter Ego] in Killer7 mode and on Deadly difficulty,10
-407775,[Coded] Vinculum Timer Smile,"While playing Target 05 Part 01 [Smile], enter the Vinculum Gate and defeat the Timer Smile in any mode and on any difficulty",5
-407776,[Coded] Collect the Holbert's Cassettes,"While playing Target 05 Part 02 [Smile], collect all of the Holbert's Cassettes in any mode and on any difficulty",5
-407777,[Coded] Vinculum Galactic Tomahawk Smile,"While playing Target 05 Part 02 [Smile], enter the Vinculum Gate and defeat the Galactic Tomahawk Smile in any mode and on any difficulty",5
-407778,[Coded] Complete Target 05 [Smile] on Normal,Complete Target 05 [Smile] in Killer7 mode and on Normal difficulty or higher,5
-407779,[Coded] Complete Target 05 [Smile] on Deadly,Complete Target 05 [Smile] in Killer7 mode and on Deadly difficulty,10
-407780,[Coded] Complete Target 06 [Lion] on Normal with Defy Ending,"After defying Matsuken, complete Target 06 [Lion] on Normal difficulty or higher",10
-407781,[Coded] Complete Target 06 [Lion] on Normal with Side Ending,"After siding with Matsuken, complete Target 06 [Lion] on Normal difficulty or higher",10
-407782,[Coded] Complete Target 06 [Lion] on Deadly with Defy Ending,"After defying Matsuken, complete Target 06 [Lion] on Deadly difficulty",25
-407783,[Coded] Complete Target 06 [Lion] on Deadly with Side Ending,"After siding with Matsuken, complete Target 06 [Lion] on Deadly difficulty",25
-407784,[Coded] 14 Kill Combo,"Maintain a Kill Combo of 14 or more, in any mode and on any difficulty",5
-407785,[Coded] 35 Kill Combo,"Maintain a Kill Combo of 35 or more, in any mode and on any difficulty",10
-407786,[Coded] 77 Smiles,"Kill 77 Smiles or more in any single Target, in any mode and on any difficulty",5
-407787,[Coded] 154 Smiles,"Kill 154 Smiles or more in any single Target, in any mode and on any difficulty",10
-407788,[Coded] Minimum Shots Angel,"While playing Target 00 [Angel], defeat Angel without firing more than 4 shots, in any mode and on any difficulty",10
-407789,[Coded] 140 Hit Julia Kisugi,"While playing Target 01 Part 01 [Sunset], defeat Julia Kisugi by scoring 140 or more hits, in any mode and on any difficulty",10
-407790,[Coded] One Shot Jean DePaul,"While playing Target 01 Part 02 [Sunset], defeat Jean DePaul with one shot, in any mode and on any difficulty",10
-407791,[Coded] Minimum Shots Kurahashi & Akiba,"While playing Target 01 Part 02 [Sunset], defeat Kurahashi & Akiba without firing more than 14 shots, in any mode and on any difficulty",10
-407792,[Coded] Speed Kill Andrei Ulmeyda,"While playing Target 02 [Cloudman], defeat Andrei Ulmeyda in 49 seconds or less, in any mode and on any difficulty",10
-407793,[Coded] Speed Kill Ayame Blackburn 1,"While playing Target 03 Part 01 [Encounter], defeat Ayame Blackburn in 49 seconds or less, in any mode and on any difficulty",25
-407794,[Coded] Speed Kill Ayame Blackburn 2,"While playing Target 03 Part 02 [Encounter], defeat Ayame Blackburn in 140 seconds or less, in any mode and on any difficulty",50
-407795,[Coded] No Shot Curtis Blackburn,"While playing Target 03 Part 02 [Encounter], defeat Curtis Blackburn without letting him get a shot off, in any mode and on any difficulty",10
-407796,[Coded] Minimum Shots Greg Nightmare,"While playing Target 05 Part 02 [Smile], defeat Greg Nightmare without firing more than 21 shots, in any mode and on any difficulty",10
-407797,[Coded] Camellia Smile Kill,"Kill a Camellia Smile by shooting its weakpoint and gain an excess of Thin Blood, in any mode and on any difficulty",10
-407798,[Coded] Yellow Micro Smile Kill,"Kill a Yellow Micro Smile and refill your health, in any mode and on any difficulty",5
-407799,[Coded] Broken Smile Kill,"Kill a Broken Smile by shooting the weakpoint on its jetpack, in any mode and on any difficulty",50
-407800,[Coded] Giant Smile Kill,"Kill a Giant Smile by shooting its eye, in any mode and on any difficulty",25
-407801,[Coded] Red Micro Smile Kill,"Kill a Red Micro Smile and gain an excess of Thin Blood, in any mode and on any difficulty",5
-407802,[Coded] No Death Target 00,"In a single session and with no prior progress, complete Target 00 [Angel] without losing a Smith in any mode and on any difficulty",10
-407803,[Draft] No Death Target 01 Part 01,"In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith in any mode and on any difficulty",10
-407804,[Draft] No Death Target 01 Part 02,"In a single session and with no prior progress, complete Target 01 Part 02 [Sunset] without losing a Smith in any mode and on any difficulty",10
-407805,[Draft] No Death Target 02,"In a single session and with no prior progress, complete Target 02 [Cloudman] without losing a Smith in any mode and on any difficulty",10
-407806,[Draft] No Death Target 03 Part 01,"In a single session and with no prior progress, complete Target 03 Part 01 [Encounter] without losing a Smith in any mode and on any difficulty",10
-407807,[Draft] No Death Target 03 Part 02,"In a single session and with no prior progress, complete Target 03 Part 02 [Encounter] without losing a Smith in any mode and on any difficulty",10
-407808,[Draft] No Death Target 04 Part 01,"In a single session and with no prior progress, complete Target 04 Part 01 [Alter Ego] without losing a Smith in any mode and on any difficulty",10
-407809,[Draft] No Death Target 05 Part 01,"In a single session and with no prior progress, complete Target 05 Part 01 [Smile] without losing a Smith in any mode and on any difficulty",25
-407810,[Draft] No Death Target 05 Part 02,"In a single session and with no prior progress, complete Target 05 Part 02 [Smile] without losing a Smith in any mode and on any difficulty",25
-407811,[Coded] Complete Target 00 [Angel] on Killer8 Mode,Complete Target 00 [Angel] on Killer8 mode,10
-407812,[Coded] Complete Target 01 [Sunset] on Killer8 Mode,Complete Target 01 [Sunset] on Killer8 mode,10
-407813,[Coded] Complete Target 02 [Cloudman] on Killer8 Mode,Complete Target 02 [Cloudman] on Killer8 mode,10
-407814,[Coded] Complete Target 03 [Encounter] on Killer8 Mode,Complete Target 03 [Encounter] on Killer8 mode,10
-407815,[Coded] Complete Target 04 [Alter Ego] on Killer8 Mode,Complete Target 04 [Alter Ego] on Killer8 mode,10
-407816,[Coded] Complete Target 05 [Smile] on Killer8 Mode,Complete Target 05 [Smile] on Killer8 mode,10
-407817,[Coded] Complete Target 06 [Lion] on Killer8 Mode,Complete Target 06 [Lion] on Killer8 mode,10
-407818,[Coded] Complete Target 00 [Angel] on Hopper7 Mode,Complete Target 00 [Angel] on Hopper7 mode,10
-407819,[Coded] Upgrade All Skills,"Upgrade all skills for any Smith, in any mode and on any difficulty",25
-407820,[Coded] Pigeon Collector,"Collect all Carrier Pigeons, in any mode and on any difficulty",10
-407821,[Coded] Break the Bank [Angel],"While playing Target 00 [Angel], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407822,[Coded] Break the Bank [Sunset 1],"While playing Target 01 Part 01 [Sunset], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407823,[Coded] Break the Bank [Sunset 2],"While playing Target 01 Part 02 [Sunset], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407824,[Coded] Break the Bank [Cloudman],"While playing Target 02 [Cloudman], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407825,[Coded] Break the Bank [Encounter 1],"While playing Target 03 Part 01 [Encounter], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407826,[Coded] Break the Bank [Encounter 2],"While playing Target 03 Part 02 [Encounter], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407827,[Coded] Break the Bank [Alter Ego],"While playing Target 04 Part 01 [Alter Ego], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",5
-407828,[Coded] Break the Bank [Smile 1],"While playing Target 05 Part 01 [Smile], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",10
+407752,"Hot Headed","While playing Target 00 [Angel], collect the Fire Ring in any mode and on any difficulty",2
+407753,"Break Into a Smile","While playing Target 00 [Angel], enter the Vinculum Gate and defeat the Speed Smile in any mode and on any difficulty",2
+407754,"Seventh Heaven","Complete Target 00 [Angel] in Killer7 mode on any difficulty",3
+407755,"Deadly Hell","Complete Target 00 [Angel] in Killer7 mode and on Deadly difficulty",5
+407756,"Head Above Water","While playing Target 01 Part 01 [Sunset], collect the Water Ring in any mode and on any difficulty",5
+407757,"Swell Smile","While playing Target 01 Part 01 [Sunset], enter the Vinculum Gate and defeat the Phantom Smile in any mode and on any difficulty",5
+407758,"Airhead","While playing Target 01 Part 01 [Sunset], collect the Wind Ring in any mode and on any difficulty",5
+407759,"Back Burner","While playing Target 01 Part 02 [Sunset], enter the Vinculum Gate and defeat the Backside Smile in any mode and on any difficulty",5
+407760,"Seventh Dawn","Complete Target 01 [Sunset] in Killer7 mode on any difficulty",5
+407761,"Deadly Dusk","Complete Target 01 [Sunset] in Killer7 mode on Deadly difficulty",10
+407762,"Bullheaded","While playing Target 02 [Cloudman], collect the Stamina Ring in any mode and on any difficulty",5
+407763,"Gatch-em All","While playing Target 02 [Cloudman], collect all of the Ulmeyda Figures in any mode and on any difficulty",5
+407764,"Seventh Sun","Complete Target 02 [Cloudman] in Killer7 mode on any difficulty",5
+407765,"Deadly Storm","Complete Target 02 [Cloudman] in Killer7 mode on Deadly difficulty",10
+407766,"Ahead of Time","While playing Target 03 Part 01 [Encounter], collect the Time Ring in any mode and on any difficulty",5
+407767,"Bulletproof Smile","While playing Target 03 Part 01 [Encounter], enter the Vinculum Gate and defeat the Mithril Smile in any mode and on any difficulty",5
+407768,"Strong Headed","While playing Target 03 Part 02 [Encounter], collect the Power Ring in any mode and on any difficulty",5
+407769,"Flash a Smile","While playing Target 03 Part 02 [Encounter], enter the Vinculum Gate and defeat the Laser Smile in any mode and on any difficulty",5
+407770,"Seventh Rendezvous","Complete Target 03 [Encounter] in Killer7 mode on any difficulty",5
+407771,"Deadly Tryst","Complete Target 03 [Encounter] in Killer7 mode on Deadly difficulty",10
+407772,"Chasing the Rainbow","While playing Target 04 Part 01 [Cloudman], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",5
+407773,"Seventh Self","Complete Target 04 [Alter Ego] in Killer7 mode on any difficulty",5
+407774,"Deadly Personality","Complete Target 04 [Alter Ego] in Killer7 mode on Deadly difficulty",10
+407775,"Smile that Pops","While playing Target 05 Part 01 [Smile], enter the Vinculum Gate and defeat the Timer Smile in any mode and on any difficulty",5
+407776,"Cassette Curator","While playing Target 05 Part 02 [Smile], collect all of the Holbert's Cassettes in any mode and on any difficulty",5
+407777,"Stratospheric Smile","While playing Target 05 Part 02 [Smile], enter the Vinculum Gate and defeat the Galactic Tomahawk Smile in any mode and on any difficulty",5
+407778,"Seventh Smile","Complete Target 05 [Smile] in Killer7 mode on any difficulty",5
+407779,"Deadly Scowl","Complete Target 05 [Smile] in Killer7 mode on Deadly difficulty",10
+407780,"Seventh Defector","After defying Matsuken, complete Target 06 [Lion] in Killer7 mode on any difficulty",10
+407781,"Seventh Adherent","After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode on any difficulty",10
+407782,"Deadly Apostate","After defying Matsuken, complete Target 06 [Lion] in Killer7 mode on Deadly difficulty",25
+407783,"Deadly Loyalist","After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode on Deadly difficulty",25
+407784,"Two by Seven","Maintain a Kill Combo of 14 or more, in any mode and on any difficulty",5
+407785,"Five by Seven","Maintain a Kill Combo of 35 or more, in any mode and on any difficulty",10
+407786,"Piles of Smiles","Kill 77 Smiles or more during any single Target, in any mode and on any difficulty",5
+407787,"Miles of Smiles","Kill 154 Smiles or more during any single Target, in any mode and on any difficulty",10
+407788,"Devine Restraint","While playing Target 00 [Angel], defeat Angel firing 4 shots or less, in any mode and on any difficulty",10
+407789,"Riddled","While playing Target 01 Part 01 [Sunset], defeat Julia Kisugi by scoring 140 or more hits, in any mode and on any difficulty",10
+407790,"Tactical Espionage Crack Shot","While playing Target 01 Part 02 [Sunset], defeat Jean DePaul with one shot, in any mode and on any difficulty",10
+407791,"Two for One","While playing Target 01 Part 02 [Sunset], defeat Kurahashi & Akiba firing 14 shots or less, in any mode and on any difficulty",10
+407792,"Nipped in the Bud","While playing Target 02 [Cloudman], defeat Andrei Ulmeyda in 49 seconds or less, in any mode and on any difficulty",10
+407793,"Speed Trap","While playing Target 03 Part 01 [Encounter], defeat Ayame Blackburn in 49 seconds or less, in any mode and on any difficulty",25
+407794,"Open and Shut","While playing Target 03 Part 02 [Encounter], defeat Ayame Blackburn in 140 seconds or less, in any mode and on any difficulty",50
+407795,"Quick Draw Denial","While playing Target 03 Part 02 [Encounter], defeat Curtis Blackburn without letting him get any shots off, in any mode and on any difficulty",10
+407796,"Swing Vote","While playing Target 05 Part 02 [Smile], defeat Greg Nightmare firing 35 shots or less, in any mode and on any difficulty",10
+407797,"Sanguined Fink","Kill a Camellia Smile by shooting its weakpoint and gain an excess of Thin Blood, in any mode and on any difficulty",10
+407798,"Minuscule MD","Kill a Yellow Micro Smile and refill your health, in any mode and on any difficulty",5
+407799,"Out of Order","Kill a Broken Smile by shooting its weakpoint, in any mode and on any difficulty",50
+407800,"Toppled Titan","Kill a Giant Smile by shooting its weakpoint, in any mode and on any difficulty",25
+407801,"Pint-sized Liquidator","Kill a Red Micro Smile and gain an excess of Thin Blood, in any mode and on any difficulty",5
+407802,"Untouched","In a single session and with no prior progress, complete Target 00 [Angel] without losing a Smith, in any mode and on any difficulty",10
+407803,"Spotless","In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith, in any mode and on any difficulty",10
+407804,"Cherry","In a single session and with no prior progress, complete Target 01 Part 02 [Sunset] without losing a Smith, in any mode and on any difficulty",10
+407805,"Unbroken","In a single session and with no prior progress, complete Target 02 [Cloudman] without losing a Smith, in any mode and on any difficulty",10
+407806,"Intact","In a single session and with no prior progress, complete Target 03 Part 01 [Encounter] without losing a Smith, in any mode and on any difficulty",10
+407807,"Spotless","In a single session and with no prior progress, complete Target 03 Part 02 [Encounter] without losing a Smith, in any mode and on any difficulty",10
+407808,"Infallible","In a single session and with no prior progress, complete Target 04 Part 01 [Alter Ego] without losing a Smith, in any mode and on any difficulty",10
+407809,"Impeccable","In a single session and with no prior progress, complete Target 05 Part 01 [Smile] without losing a Smith, in any mode and on any difficulty",25
+407810,"Flawless","In a single session and with no prior progress, complete Target 05 Part 02 [Smile] without losing a Smith, in any mode and on any difficulty",25
+407811,"Soaked in Supremacy","Complete Target 00 [Angel] on Killer8 mode",10
+407812,"Drenched in Dominance","Complete Target 01 [Sunset] on Killer8 mode",10
+407813,"Saturated in Success","Complete Target 02 [Cloudman] on Killer8 mode",10
+407814,"Covered in Conquest","Complete Target 03 [Encounter] on Killer8 mode",10
+407815,"Awash in Ascendancy","Complete Target 04 [Alter Ego] on Killer8 mode",10
+407816,"Flushed with Finesse","Complete Target 05 [Smile] on Killer8 mode",10
+407817,"Steeped in Superiority","Complete Target 06 [Lion] on Killer8 mode",10
+407818,"The Eighth Plague","Complete Target 00 [Angel] on Hopper7 mode",10
+407819,"Fleshed Out","Upgrade all skills for any Smith, in any mode and on any difficulty",25
+407820,"Birds of a Feather","Collect all Carrier Pigeons, in any mode and on any difficulty",10
+407821,"Bloody Overflow","While playing Target 00 [Angel], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407822,"Bloody Exorbitance","While playing Target 01 Part 01 [Sunset], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407823,"Bloody Surplus","While playing Target 01 Part 02 [Sunset], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407824,"Bloody Overdose","While playing Target 02 [Cloudman], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407825,"Bloody Plenitude","While playing Target 03 Part 01 [Encounter], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407826,"Bloody Abundance","While playing Target 03 Part 02 [Encounter], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407827,"Bloody Overload","While playing Target 04 Part 01 [Alter Ego], break the blood machine with an excess of blood, in any mode and on any difficulty",5
+407828,"Bloody Opulence","While playing Target 05 Part 01 [Smile], break the blood machine with an excess of blood, in any mode and on any difficulty",10

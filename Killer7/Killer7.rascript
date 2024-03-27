@@ -671,138 +671,138 @@ function GregNightmareChallenge(){
 // ======================================================================= //
 
 achievement(
-    title = "[Coded] Collect the Fire Ring", points = 2,
+    title = "Hot Headed", points = 2,
     description = "While playing Target 00 [Angel], collect the Fire Ring in any mode and on any difficulty",
     trigger = CollectedRing("Fire"),
     type = "progression",
     id = 407752
 )
 achievement(
-    title = "[Coded] Vinculum Speed Smile", points = 2,
+    title = "Break Into a Smile", points = 2,
     description = "While playing Target 00 [Angel], enter the Vinculum Gate and defeat the Speed Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Speed"),
     type = "progression",
     id = 407753
 )
 achievement(
-    title = "[Coded] Complete Target 00 [Angel] on Normal", points = 3,
-    description = "Complete Target 00 [Angel] in Killer7 mode and on Normal difficulty or higher",
+    title = "Seventh Heaven", points = 3,
+    description = "Complete Target 00 [Angel] in Killer7 mode on any difficulty",
     trigger = CompletedTarget(0, "Killer7", "Normal"),
     type = "progression",
     id = 407754
 )
 achievement(
-    title = "[Coded] Complete Target 00 [Angel] on Deadly", points = 5,
+    title = "Deadly Hell", points = 5,
     description = "Complete Target 00 [Angel] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(0, "Killer7", "Deadly"),
     id = 407755
 )
 achievement(
-    title = "[Coded] Collect the Water Ring", points = 5,
+    title = "Head Above Water", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], collect the Water Ring in any mode and on any difficulty",
     trigger = CollectedRing("Water"),
     type = "progression",
     id = 407756
 )
 achievement(
-    title = "[Coded] Vinculum Phantom Smile", points = 5,
+    title = "Swell Smile", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], enter the Vinculum Gate and defeat the Phantom Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Phantom"),
     type = "progression",
     id = 407757
 )
 achievement(
-    title = "[Coded] Collect the Wind Ring", points = 5,
+    title = "Airhead", points = 5,
     description = "While playing Target 01 Part 01 [Sunset], collect the Wind Ring in any mode and on any difficulty",
     trigger = CollectedRing("Wind"),
     type = "progression",
     id = 407758
 )
 achievement(
-    title = "[Coded] Vinculum Backside Smile", points = 5,
+    title = "Back Burner", points = 5,
     description = "While playing Target 01 Part 02 [Sunset], enter the Vinculum Gate and defeat the Backside Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Backside"),
     type = "progression",
     id = 407759
 )
 achievement(
-    title = "[Coded] Complete Target 01 [Sunset] on Normal", points = 5,
-    description = "Complete Target 01 [Sunset] in Killer7 mode and on Normal difficulty or higher",
+    title = "Seventh Dawn", points = 5,
+    description = "Complete Target 01 [Sunset] in Killer7 mode on any difficulty",
     trigger = CompletedTarget(1, "Killer7", "Normal"),
     type = "progression",
     id = 407760
 )
 achievement(
-    title = "[Coded] Complete Target 01 [Sunset] on Deadly", points = 10,
-    description = "Complete Target 01 [Sunset] in Killer7 mode and on Deadly difficulty",
+    title = "Deadly Dusk", points = 10,
+    description = "Complete Target 01 [Sunset] in Killer7 mode on Deadly difficulty",
     trigger = CompletedTarget(1, "Killer7", "Deadly"),
     id = 407761
 )
 achievement(
-    title = "[Coded] Collect the Stamina Ring", points = 5,
+    title = "Bullheaded", points = 5,
     description = "While playing Target 02 [Cloudman], collect the Stamina Ring in any mode and on any difficulty",
     trigger = CollectedRing("Stamina"),
     type = "progression",
     id = 407762
 )
 achievement(
-    title = "[Coded] Collect the Ulmeyda Figures", points = 5,
+    title = "Gatch-em All", points = 5,
     description = "While playing Target 02 [Cloudman], collect all of the Ulmeyda Figures in any mode and on any difficulty",
     trigger = CollectedUlmeydaFigures(),
     type = "progression",
     id = 407763
 )
 achievement(
-    title = "[Coded] Complete Target 02 [Cloudman] on Normal", points = 5,
-    description = "Complete Target 02 [Cloudman] in Killer7 mode and on Normal difficulty or higher",
+    title = "Seventh Sun", points = 5,
+    description = "Complete Target 02 [Cloudman] in Killer7 mode on any difficulty",
     trigger = CompletedTarget(2, "Killer7", "Normal"),
     type = "progression",
     id = 407764
 )
 achievement(
-    title = "[Coded] Complete Target 02 [Cloudman] on Deadly", points = 10,
-    description = "Complete Target 02 [Cloudman] in Killer7 mode and on Deadly difficulty",
+    title = "Deadly Storm", points = 10,
+    description = "Complete Target 02 [Cloudman] in Killer7 mode on Deadly difficulty",
     trigger = CompletedTarget(2, "Killer7", "Deadly"),
     id = 407765
 )
 achievement(
-    title = "[Coded] Collect the Time Ring", points = 5,
+    title = "Ahead of Time", points = 5,
     description = "While playing Target 03 Part 01 [Encounter], collect the Time Ring in any mode and on any difficulty",
     trigger = CollectedRing("Time"),
     type = "progression",
     id = 407766
 )
 achievement(
-    title = "[Coded] Vinculum Mithril Smile", points = 5,
+    title = "Bulletproof Smile", points = 5,
     description = "While playing Target 03 Part 01 [Encounter], enter the Vinculum Gate and defeat the Mithril Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Mithril"),
     type = "progression",
     id = 407767
 )
 achievement(
-    title = "[Coded] Collect the Power Ring", points = 5,
+    title = "Strong Headed", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], collect the Power Ring in any mode and on any difficulty",
     trigger = CollectedRing("Power"),
     type = "progression",
     id = 407768
 )
 achievement(
-    title = "[Coded] Vinculum Laser Smile", points = 5,
+    title = "Flash a Smile", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], enter the Vinculum Gate and defeat the Laser Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Laser"),
     type = "progression",
     id = 407769
 )
 achievement(
-    title = "[Coded] Complete Target 03 [Encounter] on Normal", points = 5,
-    description = "Complete Target 03 [Encounter] in Killer7 mode and on Normal difficulty or higher",
+    title = "Seventh Rendezvous", points = 5,
+    description = "Complete Target 03 [Encounter] in Killer7 mode on any difficulty",
     trigger = CompletedTarget(3, "Killer7", "Normal"),
     type = "progression",
     id = 407770
 )
 achievement(
-    title = "[Coded] Complete Target 03 [Encounter] on Deadly", points = 10,
-    description = "Complete Target 03 [Encounter] in Killer7 mode and on Deadly difficulty",
+    title = "Deadly Tryst", points = 10,
+    description = "Complete Target 03 [Encounter] in Killer7 mode on Deadly difficulty",
     trigger = CompletedTarget(3, "Killer7", "Deadly"),
     id = 407771
 )

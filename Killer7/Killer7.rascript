@@ -807,82 +807,82 @@ achievement(
     id = 407771
 )
 achievement(
-    title = "[Coded] Collect the Punishing Rangers Color Samples", points = 5,
+    title = "Chasing the Rainbow", points = 5,
     description = "While playing Target 04 Part 01 [Cloudman], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",
     trigger = CollectedColorSamples(),
     type = "progression",
     id = 407772
 )
 achievement(
-    title = "[Coded] Complete Target 04 [Alter Ego] on Normal", points = 5,
-    description = "Complete Target 04 [Alter Ego] in Killer7 mode and on Normal difficulty or higher",
+    title = "Seventh Self", points = 5,
+    description = "Complete Target 04 [Alter Ego] in Killer7 mode on any difficulty",
     trigger = CompletedTarget(4, "Killer7", "Normal"),
     type = "progression",
     id = 407773
 )
 achievement(
-    title = "[Coded] Complete Target 04 [Alter Ego] on Deadly", points = 10,
-    description = "Complete Target 04 [Alter Ego] in Killer7 mode and on Deadly difficulty",
+    title = "Deadly Personality", points = 10,
+    description = "Complete Target 04 [Alter Ego] in Killer7 mode on Deadly difficulty",
     trigger = CompletedTarget(4, "Killer7", "Deadly"),
     id = 407774
 )
 achievement(
-    title = "[Coded] Vinculum Timer Smile", points = 5,
+    title = "Smile that Pops", points = 5,
     description = "While playing Target 05 Part 01 [Smile], enter the Vinculum Gate and defeat the Timer Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Timer"),
     type = "progression",
     id = 407775
 )
 achievement(
-    title = "[Coded] Collect the Holbert's Cassettes", points = 5,
+    title = "Cassette Curator", points = 5,
     description = "While playing Target 05 Part 02 [Smile], collect all of the Holbert's Cassettes in any mode and on any difficulty",
     trigger = CollectedCassettes(),
     type = "progression",
     id = 407776
 )
 achievement(
-    title = "[Coded] Vinculum Galactic Tomahawk Smile", points = 5,
+    title = "Stratospheric Smile", points = 5,
     description = "While playing Target 05 Part 02 [Smile], enter the Vinculum Gate and defeat the Galactic Tomahawk Smile in any mode and on any difficulty",
     trigger = DefeatedVinculumSmile("Galactic"),
     type = "progression",
     id = 407777
 )
 achievement(
-    title = "[Coded] Complete Target 05 [Smile] on Normal", points = 5,
-    description = "Complete Target 05 [Smile] in Killer7 mode and on Normal difficulty or higher",
+    title = "Seventh Smile", points = 5,
+    description = "Complete Target 05 [Smile] in Killer7 mode on any difficulty",
     trigger = CompletedTarget(5, "Killer7", "Normal"),
     type = "progression",
     id = 407778
 )
 achievement(
-    title = "[Coded] Complete Target 05 [Smile] on Deadly", points = 10,
-    description = "Complete Target 05 [Smile] in Killer7 mode and on Deadly difficulty",
+    title = "Deadly Scowl", points = 10,
+    description = "Complete Target 05 [Smile] in Killer7 mode on Deadly difficulty",
     trigger = CompletedTarget(5, "Killer7", "Deadly"),
     id = 407779
 )
 achievement(
-    title = "[Coded] Complete Target 06 [Lion] on Normal with Defy Ending", points = 10,
-    description = "After defying Matsuken, complete Target 06 [Lion] on Normal difficulty or higher",
+    title = "Seventh Defector", points = 10,
+    description = "After defying Matsuken, complete Target 06 [Lion] in Killer7 mode on any difficulty",
     trigger = CompleteGame(1, "Killer7", "Normal"),
     type = "win_condition",
     id = 407780
 )
 achievement(
-    title = "[Coded] Complete Target 06 [Lion] on Normal with Side Ending", points = 10,
-    description = "After siding with Matsuken, complete Target 06 [Lion] on Normal difficulty or higher",
+    title = "Seventh Adherent", points = 10,
+    description = "After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode on any difficulty",
     trigger = CompleteGame(0, "Killer7", "Normal"),
     type = "win_condition",
     id = 407781
 )
 achievement(
-    title = "[Coded] Complete Target 06 [Lion] on Deadly with Defy Ending", points = 25,
-    description = "After defying Matsuken, complete Target 06 [Lion] on Deadly difficulty",
+    title = "Deadly Apostate", points = 25,
+    description = "After defying Matsuken, complete Target 06 [Lion] in Killer7 mode on Deadly difficulty",
     trigger = CompleteGame(1, "Killer7", "Deadly"),
     id = 407782
 )
 achievement(
-    title = "[Coded] Complete Target 06 [Lion] on Deadly with Side Ending", points = 25,
-    description = "After siding with Matsuken, complete Target 06 [Lion] on Deadly difficulty",
+    title = "Deadly Loyalist", points = 25,
+    description = "After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode on Deadly difficulty",
     trigger = CompleteGame(0, "Killer7", "Deadly"),
     id = 407783
 )
@@ -892,164 +892,164 @@ achievement(
 // ======================================================================= //
 
 achievement(
-    title = "[Coded] 14 Kill Combo", points = 5,
+    title = "Two by Seven", points = 5,
     description = "Maintain a Kill Combo of 14 or more, in any mode and on any difficulty",
     trigger = AchievedComboCount(14),
     id = 407784
 )
 achievement(
-    title = "[Coded] 35 Kill Combo", points = 10,
+    title = "Five by Seven", points = 10,
     description = "Maintain a Kill Combo of 35 or more, in any mode and on any difficulty",
     trigger = AchievedComboCount(35),
     id = 407785
 )
 achievement(
-    title = "[Coded] 77 Smiles", points = 5,
-    description = "Kill 77 Smiles or more in any single Target, in any mode and on any difficulty",
+    title = "Piles of Smiles", points = 5,
+    description = "Kill 77 Smiles or more during any single Target, in any mode and on any difficulty",
     trigger = AchievedKillCount(77),
     id = 407786
 )
 achievement(
-    title = "[Coded] 154 Smiles", points = 10,
-    description = "Kill 154 Smiles or more in any single Target, in any mode and on any difficulty",
+    title = "Miles of Smiles", points = 10,
+    description = "Kill 154 Smiles or more during any single Target, in any mode and on any difficulty",
     trigger = AchievedKillCount(154),
     id = 407787
 )
 achievement(
-    title = "[Coded] Minimum Shots Angel", points = 10,
-    description = "While playing Target 00 [Angel], defeat Angel without firing more than 4 shots, in any mode and on any difficulty",
+    title = "Devine Restraint", points = 10,
+    description = "While playing Target 00 [Angel], defeat Angel firing 4 shots or less, in any mode and on any difficulty",
     trigger = AngelChallenge(),
     id = 407788
 )
 achievement(
-    title = "[Coded] 140 Hit Julia Kisugi", points = 10,
+    title = "Riddled", points = 10,
     description = "While playing Target 01 Part 01 [Sunset], defeat Julia Kisugi by scoring 140 or more hits, in any mode and on any difficulty",
     trigger = JuliaKisugiChallenge(),
     id = 407789
 )
 achievement(
-    title = "[Coded] One Shot Jean DePaul", points = 10,
+    title = "Tactical Espionage Crack Shot", points = 10,
     description = "While playing Target 01 Part 02 [Sunset], defeat Jean DePaul with one shot, in any mode and on any difficulty",
     trigger = JeanDepaulChallenge(),
     id = 407790
 )
 achievement(
-    title = "[Coded] Minimum Shots Kurahashi & Akiba", points = 10,
-    description = "While playing Target 01 Part 02 [Sunset], defeat Kurahashi & Akiba without firing more than 14 shots, in any mode and on any difficulty",
+    title = "Two for One", points = 10,
+    description = "While playing Target 01 Part 02 [Sunset], defeat Kurahashi & Akiba firing 14 shots or less, in any mode and on any difficulty",
     trigger = KurashiAkibaChallenge(),
     id = 407791
 )
 achievement(
-    title = "[Coded] Speed Kill Andrei Ulmeyda", points = 10,
+    title = "Nipped in the Bud", points = 10,
     description = "While playing Target 02 [Cloudman], defeat Andrei Ulmeyda in 49 seconds or less, in any mode and on any difficulty",
     trigger = AndreiUlmeydaChallenge(),
     id = 407792
 )
 achievement(
-    title = "[Coded] Speed Kill Ayame Blackburn 1", points = 25,
+    title = "Speed Trap", points = 25,
     description = "While playing Target 03 Part 01 [Encounter], defeat Ayame Blackburn in 49 seconds or less, in any mode and on any difficulty",
     trigger = AyamiBlackburn1Challenge(),
     id = 407793
 )
 achievement(
-    title = "[Coded] Speed Kill Ayame Blackburn 2", points = 50,
+    title = "Open and Shut", points = 50,
     description = "While playing Target 03 Part 02 [Encounter], defeat Ayame Blackburn in 140 seconds or less, in any mode and on any difficulty",
     trigger = AyamiBlackburn2Challenge(),
     id = 407794
 )
 achievement(
-    title = "[Coded] No Shot Curtis Blackburn", points = 10,
-    description = "While playing Target 03 Part 02 [Encounter], defeat Curtis Blackburn without letting him get a shot off, in any mode and on any difficulty",
+    title = "Quick Draw Denial", points = 10,
+    description = "While playing Target 03 Part 02 [Encounter], defeat Curtis Blackburn without letting him get any shots off, in any mode and on any difficulty",
     trigger = CurtisBlackburnChallenge(),
     id = 407795
 )
 achievement(
-    title = "[Coded] Minimum Shots Greg Nightmare", points = 10,
-    description = "While playing Target 05 Part 02 [Smile], defeat Greg Nightmare without firing more than 21 shots, in any mode and on any difficulty",
+    title = "Swing Vote", points = 10,
+    description = "While playing Target 05 Part 02 [Smile], defeat Greg Nightmare firing 35 shots or less, in any mode and on any difficulty",
     trigger = GregNightmareChallenge(),
     id = 407796
 )
 achievement(
-    title = "[Coded] Camellia Smile Kill", points = 10,
+    title = "Sanguined Fink", points = 10,
     description = "Kill a Camellia Smile by shooting its weakpoint and gain an excess of Thin Blood, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Camellia"),
     id = 407797
 )
 achievement(
-    title = "[Coded] Yellow Micro Smile Kill", points = 5,
+    title = "Minuscule MD", points = 5,
     description = "Kill a Yellow Micro Smile and refill your health, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Micro1"),
     id = 407798
 )
 achievement(
-    title = "[Coded] Broken Smile Kill", points = 50,
-    description = "Kill a Broken Smile by shooting the weakpoint on its jetpack, in any mode and on any difficulty",
+    title = "Out of Order", points = 50,
+    description = "Kill a Broken Smile by shooting its weakpoint, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Broken"),
     id = 407799
 )
 achievement(
-    title = "[Coded] Giant Smile Kill", points = 25,
-    description = "Kill a Giant Smile by shooting its eye, in any mode and on any difficulty",
+    title = "Toppled Titan", points = 25,
+    description = "Kill a Giant Smile by shooting its weakpoint, in any mode and on any difficulty",
     trigger = CheckForEnemyDeath("Giant"),
     id = 407800
 )
 achievement(
-    title = "[Coded] Red Micro Smile Kill", points = 5,
+    title = "Pint-sized Liquidator", points = 5,
     description = "Kill a Red Micro Smile and gain an excess of Thin Blood, in any mode and on any difficulty",
     trigger =  CheckForEnemyDeath("Micro2"),
     id = 407801
 )
 achievement(
-    title = "[Coded] No Death Target 00", points = 10,
-    description = "In a single session and with no prior progress, complete Target 00 [Angel] without losing a Smith in any mode and on any difficulty",
+    title = "Untouched", points = 10,
+    description = "In a single session and with no prior progress, complete Target 00 [Angel] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(0),
     id = 407802
 )
 achievement(
-    title = "[Coded] No Death Target 01 Part 01", points = 10,
-    description = "In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith in any mode and on any difficulty",
+    title = "Spotless", points = 10,
+    description = "In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(1),
     id = 407803
 )
 achievement(
-    title = "[Coded] No Death Target 01 Part 02", points = 10,
-    description = "In a single session and with no prior progress, complete Target 01 Part 02 [Sunset] without losing a Smith in any mode and on any difficulty",
+    title = "Cherry", points = 10,
+    description = "In a single session and with no prior progress, complete Target 01 Part 02 [Sunset] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(2),
     id = 407804
 )
 achievement(
-    title = "[Coded] No Death Target 02", points = 10,
-    description = "In a single session and with no prior progress, complete Target 02 [Cloudman] without losing a Smith in any mode and on any difficulty",
+    title = "Unbroken", points = 10,
+    description = "In a single session and with no prior progress, complete Target 02 [Cloudman] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(3),
     id = 407805
 )
 achievement(
-    title = "[Coded] No Death Target 03 Part 01", points = 10,
-    description = "In a single session and with no prior progress, complete Target 03 Part 01 [Encounter] without losing a Smith in any mode and on any difficulty",
+    title = "Intact", points = 10,
+    description = "In a single session and with no prior progress, complete Target 03 Part 01 [Encounter] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(4),
     id = 407806
 )
 achievement(
-    title = "[Coded] No Death Target 03 Part 02", points = 10,
-    description = "In a single session and with no prior progress, complete Target 03 Part 02 [Encounter] without losing a Smith in any mode and on any difficulty",
+    title = "Spotless", points = 10,
+    description = "In a single session and with no prior progress, complete Target 03 Part 02 [Encounter] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(5),
     id = 407807
 )
 achievement(
-    title = "[Coded] No Death Target 04 Part 01", points = 10,
-    description = "In a single session and with no prior progress, complete Target 04 Part 01 [Alter Ego] without losing a Smith in any mode and on any difficulty",
+    title = "Infallible", points = 10,
+    description = "In a single session and with no prior progress, complete Target 04 Part 01 [Alter Ego] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(6),
     id = 407808
 )
 achievement(
-    title = "[Coded] No Death Target 05 Part 01", points = 25,
-    description = "In a single session and with no prior progress, complete Target 05 Part 01 [Smile] without losing a Smith in any mode and on any difficulty",
+    title = "Impeccable", points = 25,
+    description = "In a single session and with no prior progress, complete Target 05 Part 01 [Smile] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(8),
     id = 407809
 )
 achievement(
-    title = "[Coded] No Death Target 05 Part 02", points = 25,
-    description = "In a single session and with no prior progress, complete Target 05 Part 02 [Smile] without losing a Smith in any mode and on any difficulty",
+    title = "Flawless", points = 25,
+    description = "In a single session and with no prior progress, complete Target 05 Part 02 [Smile] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(9),
     id = 407810
 )
@@ -1059,55 +1059,55 @@ achievement(
 // ======================================================================= //
 
 achievement(
-    title = "[Coded] Complete Target 00 [Angel] on Killer8 Mode", points = 10,
+    title = "Soaked in Supremacy", points = 10,
     description = "Complete Target 00 [Angel] on Killer8 mode",
     trigger = CompletedTarget(0, "Killer8", "Bloodbath"),
     id = 407811
 )
 achievement(
-    title = "[Coded] Complete Target 01 [Sunset] on Killer8 Mode", points = 10,
+    title = "Drenched in Dominance", points = 10,
     description = "Complete Target 01 [Sunset] on Killer8 mode",
     trigger = CompletedTarget(1, "Killer8", "Bloodbath"),
     id = 407812
 )
 achievement(
-    title = "[Coded] Complete Target 02 [Cloudman] on Killer8 Mode", points = 10,
+    title = "Saturated in Success", points = 10,
     description = "Complete Target 02 [Cloudman] on Killer8 mode",
     trigger = CompletedTarget(2, "Killer8", "Bloodbath"),
     id = 407813
 )
 achievement(
-    title = "[Coded] Complete Target 03 [Encounter] on Killer8 Mode", points = 10,
+    title = "Covered in Conquest", points = 10,
     description = "Complete Target 03 [Encounter] on Killer8 mode",
     trigger = CompletedTarget(3, "Killer8", "Bloodbath"),
     id = 407814
 )
 achievement(
-    title = "[Coded] Complete Target 04 [Alter Ego] on Killer8 Mode", points = 10,
+    title = "Awash in Ascendancy", points = 10,
     description = "Complete Target 04 [Alter Ego] on Killer8 mode",
     trigger = CompletedTarget(4, "Killer8", "Bloodbath"),
     id = 407815
 )
 achievement(
-    title = "[Coded] Complete Target 05 [Smile] on Killer8 Mode", points = 10,
+    title = "Flushed with Finesse", points = 10,
     description = "Complete Target 05 [Smile] on Killer8 mode",
     trigger = CompletedTarget(5, "Killer8", "Bloodbath"),
     id = 407816
 )
 achievement(
-    title = "[Coded] Complete Target 06 [Lion] on Killer8 Mode", points = 10,
+    title = "Steeped in Superiority", points = 10,
     description = "Complete Target 06 [Lion] on Killer8 mode",
     trigger = CompleteGame(0, "Killer8", "Bloodbath") || CompleteGame(1, "Killer8", "Bloodbath"),
     id = 407817
 )
 achievement(
-    title = "[Coded] Complete Target 00 [Angel] on Hopper7 Mode", points = 10,
+    title = "The Eighth Plague", points = 10,
     description = "Complete Target 00 [Angel] on Hopper7 mode",
     trigger = CompletedTarget(0, "Hopper7", "FaceTheSwarm"),
     id = 407818
 )
 achievement(
-    title = "[Coded] Upgrade All Skills", points = 25,
+    title = "Fleshed Out", points = 25,
     description = "Upgrade all skills for any Smith, in any mode and on any difficulty",
     trigger = AllSkillsUpgraded(),
     id = 407819
@@ -1118,56 +1118,56 @@ achievement(
 // ======================================================================= //
 
 achievement(
-    title = "[Coded] Pigeon Collector", points = 10,
+    title = "Birds of a Feather", points = 10,
     description = "Collect all Carrier Pigeons, in any mode and on any difficulty",
     trigger = CollectedPigeons(),
     id = 407820
 )
 achievement(
-    title = "[Coded] Break the Bank [Angel]", points = 5,
-    description = "While playing Target 00 [Angel], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Overflow", points = 5,
+    description = "While playing Target 00 [Angel], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(0),
     id = 407821
 )
 achievement(
-    title = "[Coded] Break the Bank [Sunset 1]", points = 5,
-    description = "While playing Target 01 Part 01 [Sunset], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Exorbitance", points = 5,
+    description = "While playing Target 01 Part 01 [Sunset], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(1),
     id = 407822
 )
 achievement(
-    title = "[Coded] Break the Bank [Sunset 2]", points = 5,
-    description = "While playing Target 01 Part 02 [Sunset], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Surplus", points = 5,
+    description = "While playing Target 01 Part 02 [Sunset], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(2),
     id = 407823
 )
 achievement(
-    title = "[Coded] Break the Bank [Cloudman]", points = 5,
-    description = "While playing Target 02 [Cloudman], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Overdose", points = 5,
+    description = "While playing Target 02 [Cloudman], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(3),
     id = 407824
 )
 achievement(
-    title = "[Coded] Break the Bank [Encounter 1]", points = 5,
-    description = "While playing Target 03 Part 01 [Encounter], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Plenitude", points = 5,
+    description = "While playing Target 03 Part 01 [Encounter], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(4),
     id = 407825
 )
 achievement(
-    title = "[Coded] Break the Bank [Encounter 2]", points = 5,
-    description = "While playing Target 03 Part 02 [Encounter], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Abundance", points = 5,
+    description = "While playing Target 03 Part 02 [Encounter], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(5),
     id = 407826
 )
 achievement(
-    title = "[Coded] Break the Bank [Alter Ego]", points = 5,
-    description = "While playing Target 04 Part 01 [Alter Ego], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Overload", points = 5,
+    description = "While playing Target 04 Part 01 [Alter Ego], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(6),
     id = 407827
 )
 achievement(
-    title = "[Coded] Break the Bank [Smile 1]", points = 10,
-    description = "While playing Target 05 Part 01 [Smile], break the Blood Room blood tank with an excess of blood, in any mode and on any difficulty",
+    title = "Bloody Opulence", points = 10,
+    description = "While playing Target 05 Part 01 [Smile], break the blood machine with an excess of blood, in any mode and on any difficulty",
     trigger = BreakBloodBank(8),
     id = 407828
 )

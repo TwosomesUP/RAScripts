@@ -686,7 +686,7 @@ achievement(
 )
 achievement(
     title = "Seventh Heaven", points = 3,
-    description = "Complete Target 00 [Angel] in Killer7 mode on any difficulty",
+    description = "Complete Target 00 [Angel] in Killer7 mode and on any difficulty",
     trigger = CompletedTarget(0, "Killer7", "Normal"),
     type = "progression",
     id = 407754
@@ -727,14 +727,14 @@ achievement(
 )
 achievement(
     title = "Seventh Dawn", points = 5,
-    description = "Complete Target 01 [Sunset] in Killer7 mode on any difficulty",
+    description = "Complete Target 01 [Sunset] in Killer7 mode and on any difficulty",
     trigger = CompletedTarget(1, "Killer7", "Normal"),
     type = "progression",
     id = 407760
 )
 achievement(
     title = "Deadly Dusk", points = 10,
-    description = "Complete Target 01 [Sunset] in Killer7 mode on Deadly difficulty",
+    description = "Complete Target 01 [Sunset] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(1, "Killer7", "Deadly"),
     id = 407761
 )
@@ -753,14 +753,14 @@ achievement(
 )
 achievement(
     title = "Seventh Sun", points = 5,
-    description = "Complete Target 02 [Cloudman] in Killer7 mode on any difficulty",
+    description = "Complete Target 02 [Cloudman] in Killer7 mode and on any difficulty",
     trigger = CompletedTarget(2, "Killer7", "Normal"),
     type = "progression",
     id = 407764
 )
 achievement(
     title = "Deadly Storm", points = 10,
-    description = "Complete Target 02 [Cloudman] in Killer7 mode on Deadly difficulty",
+    description = "Complete Target 02 [Cloudman] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(2, "Killer7", "Deadly"),
     id = 407765
 )
@@ -793,34 +793,34 @@ achievement(
 )
 achievement(
     title = "Seventh Rendezvous", points = 5,
-    description = "Complete Target 03 [Encounter] in Killer7 mode on any difficulty",
+    description = "Complete Target 03 [Encounter] in Killer7 mode and on any difficulty",
     trigger = CompletedTarget(3, "Killer7", "Normal"),
     type = "progression",
     id = 407770
 )
 achievement(
     title = "Deadly Tryst", points = 10,
-    description = "Complete Target 03 [Encounter] in Killer7 mode on Deadly difficulty",
+    description = "Complete Target 03 [Encounter] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(3, "Killer7", "Deadly"),
     id = 407771
 )
 achievement(
     title = "Chasing the Rainbow", points = 5,
-    description = "While playing Target 04 Part 01 [Cloudman], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",
+    description = "While playing Target 04 Part 01 [Alter Ego], collect all of the Punishing Rangers Color Samples in any mode and on any difficulty",
     trigger = CollectedColorSamples(),
     type = "progression",
     id = 407772
 )
 achievement(
     title = "Seventh Self", points = 5,
-    description = "Complete Target 04 [Alter Ego] in Killer7 mode on any difficulty",
+    description = "Complete Target 04 [Alter Ego] in Killer7 mode and on any difficulty",
     trigger = CompletedTarget(4, "Killer7", "Normal"),
     type = "progression",
     id = 407773
 )
 achievement(
     title = "Deadly Personality", points = 10,
-    description = "Complete Target 04 [Alter Ego] in Killer7 mode on Deadly difficulty",
+    description = "Complete Target 04 [Alter Ego] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(4, "Killer7", "Deadly"),
     id = 407774
 )
@@ -846,40 +846,40 @@ achievement(
 )
 achievement(
     title = "Seventh Smile", points = 5,
-    description = "Complete Target 05 [Smile] in Killer7 mode on any difficulty",
+    description = "Complete Target 05 [Smile] in Killer7 mode and on any difficulty",
     trigger = CompletedTarget(5, "Killer7", "Normal"),
     type = "progression",
     id = 407778
 )
 achievement(
     title = "Deadly Scowl", points = 10,
-    description = "Complete Target 05 [Smile] in Killer7 mode on Deadly difficulty",
+    description = "Complete Target 05 [Smile] in Killer7 mode and on Deadly difficulty",
     trigger = CompletedTarget(5, "Killer7", "Deadly"),
     id = 407779
 )
 achievement(
     title = "Seventh Defector", points = 10,
-    description = "After defying Matsuken, complete Target 06 [Lion] in Killer7 mode on any difficulty",
+    description = "After defying Matsuken, complete Target 06 [Lion] in Killer7 mode and on any difficulty",
     trigger = CompleteGame(1, "Killer7", "Normal"),
     type = "win_condition",
     id = 407780
 )
 achievement(
     title = "Seventh Adherent", points = 10,
-    description = "After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode on any difficulty",
+    description = "After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode and on any difficulty",
     trigger = CompleteGame(0, "Killer7", "Normal"),
     type = "win_condition",
     id = 407781
 )
 achievement(
     title = "Deadly Apostate", points = 25,
-    description = "After defying Matsuken, complete Target 06 [Lion] in Killer7 mode on Deadly difficulty",
+    description = "After defying Matsuken, complete Target 06 [Lion] in Killer7 mode and on Deadly difficulty",
     trigger = CompleteGame(1, "Killer7", "Deadly"),
     id = 407782
 )
 achievement(
     title = "Deadly Loyalist", points = 25,
-    description = "After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode on Deadly difficulty",
+    description = "After siding with Matsuken, complete Target 06 [Lion] in Killer7 mode and on Deadly difficulty",
     trigger = CompleteGame(0, "Killer7", "Deadly"),
     id = 407783
 )
@@ -913,7 +913,7 @@ achievement(
     id = 407787
 )
 achievement(
-    title = "Devine Restraint", points = 10,
+    title = "Divine Restraint", points = 10,
     description = "While playing Target 00 [Angel], defeat Angel firing 4 shots or less, in any mode and on any difficulty",
     trigger = AngelChallenge(),
     id = 407788

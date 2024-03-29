@@ -742,7 +742,6 @@ achievement(
     title = "Bullheaded", points = 5,
     description = "While playing Target 02 [Cloudman], collect the Stamina Ring in any mode and on any difficulty",
     trigger = CollectedRing("Stamina"),
-    type = "progression",
     id = 407762
 )
 achievement(
@@ -783,7 +782,6 @@ achievement(
     title = "Strong Headed", points = 5,
     description = "While playing Target 03 Part 02 [Encounter], collect the Power Ring in any mode and on any difficulty",
     trigger = CollectedRing("Power"),
-    type = "progression",
     id = 407768
 )
 achievement(
@@ -837,7 +835,6 @@ achievement(
     title = "Cassette Curator", points = 5,
     description = "While playing Target 05 Part 02 [Smile], collect all of the Holbert's Cassettes in any mode and on any difficulty",
     trigger = CollectedCassettes(),
-    type = "progression",
     id = 407776
 )
 achievement(
@@ -1006,7 +1003,7 @@ achievement(
     id = 407802
 )
 achievement(
-    title = "Spotless", points = 10,
+    title = "Pristine", points = 10,
     description = "In a single session and with no prior progress, complete Target 01 Part 01 [Sunset] without losing a Smith, in any mode and on any difficulty",
     trigger = CompletedMissionNoDeath(1),
     id = 407803

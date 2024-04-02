@@ -69,7 +69,7 @@ IsKaede = SelectedCharacter == 3
 IsCoyote = SelectedCharacter == 4
 IsKevin = SelectedCharacter == 6
 IsMask = SelectedCharacter == 5
-IsYoungHarman = SelectedCharacter == 7 && AmmoCapacity == 50
+IsYoungHarman = SelectedCharacter == 7 && AmmoCapacity == 0x12c
 IsOldHarman = SelectedCharacter == 7 && AmmoCapacity == 6
 IsGarcian = SelectedCharacter == 8
 

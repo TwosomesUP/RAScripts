@@ -1,7 +1,241 @@
 // Deathsmiles
-// #ID = 25979
+// #ID = 21889
 
-test = byte(0x00)
-function test2() => test < 0
+// ======================================================================= //
+// Accessors
+// ======================================================================= //
 
-achievement(title="test", description="test", points=0, trigger=test2())
+GameState = byte(0x38870e)
+
+ActivePlayers = {
+    "Player1": byte(0x60b0a),
+    "Player2": byte(0x60b0e)
+}
+
+GameOptions = {
+    "Extends": byte(0x388628),
+    "Difficulty": byte(0x388629),
+    "EnemyDamage": byte(0x38862a),
+    "LifeCapacity": byte(0x38862b),
+    "BulletDamage": byte(0x38862d)
+}
+
+ValidOptions = {
+    "Extends": 0x00,
+    "Difficulty": 0x01,
+    "EnemyDamage": 0x03,
+    "LifeCapacity": 0x00,
+    "BulletDamage": 0x04
+}
+
+// ======================================================================= //
+// Helper Functions
+// ======================================================================= //
+
+function IsInGame() => GameState == 0x01
+
+function IsValidSession(){
+    return
+        IsInGame() &&
+        ((ActivePlayers["Player1"] == 0x01 && ActivePlayers["Player2"] == 0x00) ||
+        (ActivePlayers["Player2"] == 0x01 && ActivePlayers["Player1"] == 0x00)) &&
+        all_of(GameOptions, option => GameOptions[option] == ValidOptions[option])
+}
+
+// ======================================================================= //
+// Progression Achievement Definitions
+// ======================================================================= //
+
+achievement(title = "[DRAFT] Wandering Grim Reaper", description = "Defeat Deathscyth and clear Stage A-1 [Port Town]", points = 3, type = "progression", id = 418205,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Buried Baron", description = "Defeat Jordan and clear Stage A-2 [Boneyard]", points = 3, type = "progression", id = 418206,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Forest Illusionist", description = "Defeat Whroon and clear Stage B-1 [Forest]", points = 3, type = "progression", id = 418207,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Swamp Witch", description = "Defeat Sakura and clear Stage B-2 [Swamp]", points = 3, type = "progression", id = 418208,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Colossal Bovine", description = "Defeat Mary and clear Stage C-1 [Lakeside]", points = 3, type = "progression", id = 418209,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] God of Flame", description = "Defeat Bavaria and clear Stage C-2 [Volcano]", points = 3, type = "progression", id = 418210,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Demon Hunter Windia", description = "Defeat Tyrannosatan and clear the game as Windia", points = 5, type = "win_condition", id = 418211,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Demon Hunter Casper", description = "Defeat Tyrannosatan and clear the game as Casper", points = 5, type = "win_condition", id = 418212,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Demon Hunter Follett", description = "Defeat Tyrannosatan and clear the game as Follett", points = 5, type = "win_condition", id = 418213,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Defeat Tyrannosatan and clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Play Challenge Achievement Definitions
+// ======================================================================= //
+
+achievement(title = "[DRAFT] Prine a la mode", description = "Collect a Small Life-Up and replenish half a life block", points = 3, id = 418215,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Strawberry Parfeit", description = "Collect a Medium Life-Up and replenish one life block", points = 3, id = 418216,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Decoration Cake", description = "Collect a Large Life-Up and replenish two life blocks", points = 3, id = 418217,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Magical Destruction", description = "College a Magic Item and increase your bomb stock", points = 3, id = 418218,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Four Course Dessert", description = "Collect 4 life recovery items in a single playthrough using 3 continues or less", points = 25, id = 418219,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Untouchable", description = "Complete any stage on Level 3 or higher without taking damage", points = 10, id = 418220,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Max Destruction", description = "Increase your bomb stock to 6", points = 50, id = 418221,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Max Restraint", description = "Complete the game without using any bombs in 3 continues or less", points = 25, id = 418222,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Extend 1", description = "Extend your life gauge to 4", points = 10, id = 418223,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Extend 2", description = "Extend your life gauge to 5", points = 25, id = 418224,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Power-Up Mode", description = "Enter Power-Up mode for the first time", points = 5, id = 418225,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Fever Mode", description = "Enter Fever mode for the first time", points = 10, id = 418226,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Death Mode", description = "Activate Death Mode for the first time", points = 3, id = 418227,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Windia All-Clear", description = "Clear the game with Windia without using a continue", points = 25, id = 418228,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Casper All-Clear", description = "Clear the game with Casper without using a continue", points = 25, id = 418229,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Follett All-Clear", description = "Clear the game with Follett without using a continue", points = 25, id = 418230,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Rosa All-Clear", description = "Clear the game with Rosa without using a continue", points = 25, id = 418231,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Death Mode Level 2", description = "Activate Death Mode Level 2 and complete the game without using a continue", points = 100, id = 418232,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Point Challenge Achievement Definitions
+// ======================================================================= //
+
+achievement(title = "[DRAFT] 1 Million", description = "Score 1000000 points or more", points = 5, id = 418233,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] 10 Million", description = "Score 10000000 points or more", points = 10, id = 418234,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] 100 Million", description = "Score 100000000 points or more", points = 25, id = 418235,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] 200 Million", description = "Score 200000000 points or more", points = 50, id = 418236,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] 300 Million", description = "Score 300000000 points or more", points = 100, id = 418237,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Boss Challenge Achievement Definitions
+// ======================================================================= //
+
+achievement(title = "[DRAFT] Twin Dragon Kings", 
+    description = "Defeat Devaria and Givaria and clear Stage EXTRA [Canyon]", points = 5, id = 418238,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Deathscyth No Damage", 
+    description = "While playing Stage A-1 [Port Town] at Level 3, defeat Deathscyth without taking damage", points = 25, id = 418239,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Jordan No Damage", 
+    description = "While playing Stage A-2 [Boneyard] at Level 3, defeat Jordan without taking damage", points = 25, id = 418240,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Whroon No Damage", 
+    description = "While playing Stage B-1 [Forest] at Level 3, defeat Whroon without taking damage", points = 25,  id = 418241,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Sakura No Damage", 
+    description = "While playing Stage B-2 [Swamp] at Level 3, defeat Sakura without taking damage", points = 25, id = 418242,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Mary No Damage", 
+    description = "While playing Stage C-1 [Lakeside] at Level 3, defeat Mary without taking damage", points = 25, id = 418243,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Bavaria No Damage", 
+    description = "While playing Stage C-2 [Volcano] at Level 3, defeat Bavaria without taking damage", points = 25, id = 418244,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Jitterbug No Damage", 
+    description = "While playing Stage FINAL [Castle] on Death Mode or higher, defeat Jitterbug without taking damage", points = 50, id = 418245,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Tyrannosatan No Damage", 
+    description = "While playing Stage FINAL [Castle] on Death Mode or higher, defeat Tyrannosatan without taking damage", points = 50, id = 418246,
+    trigger = always_false()
+)
+
+achievement(title = "[DRAFT] Devaria & Givaria No Damage", 
+    description = "While playing Stage EXTRA [Canyon] on Deah Mode or higher, defeat Devaria and Givaria without taking damage", points = 25, id = 418247,
+    trigger = always_false()
+)

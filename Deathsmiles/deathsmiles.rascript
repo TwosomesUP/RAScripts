@@ -6,6 +6,78 @@
 // ======================================================================= //
 
 GameState = byte(0x38870e)
+TutorialFlag = byte(0x53b4f0)
+Players = byte(0x38870e)
+
+FollettUnlocked = byte(0x38861d)
+RosaUnlocked = byte(0x38861c)
+CanyonUnlocked = byte(0x38861f)
+
+Character = {
+    "P1": byte(0x53b546),
+    "P2": byte(0x53b5ca)
+}
+
+Score = {
+    "P1": (word(0x388f60) * 0x10000 + word(0x388f62)),
+    "P2": (word(0x389090) * 0x10000 + word(0x389092))
+}
+
+Lives = {
+    "P1": byte(0x388f38),
+    "P2": byte(0x389068)
+}
+
+Health = {
+    "P1": word(0x388f3a),
+    "P2": word(0x38906a)
+}
+
+Continues = {
+    "P1": byte(0x388f66),
+    "P2": byte(0x389096)
+}
+
+ResultScreenState = {
+    "P1": byte(0x540944),
+    "P2": byte(0x54156c)
+}
+
+ResultScreenCharacter = {
+    "P1": byte(0x540942),
+    "P2": byte(0x54156a)
+}
+
+ResultScreenCharacters = {
+    "Windia": 0,
+    "Casper": 1,
+    "Follett": 2,
+    "Rosa": 3
+}
+
+ResultScreenScore = {
+    "P1": (word(0x54093c) * 0x10000 + word(0x54093e)),
+    "P2": (word(0x541564) * 0x10000 + word(0x541566))
+}
+
+ResultScreenContinues = {
+    "P1": byte(0x540950),
+    "P2": byte(0x541578)
+}
+
+ResultScreenEX = {
+    "P1": byte(0x54094e),
+    "P2": byte(0x541576)
+}
+
+Bombs = byte(0x3887f6)
+
+StageSelectState = byte(0x540316)
+SelectedStage = byte(0x5402ea)
+SelectedStageLevel = byte(0x5408a6)
+
+DeathMode = byte(0x388822)
+EXCompleted = byte(0x388820)
 
 ActivePlayers = {
     "Player1": byte(0x60b0a),
@@ -32,14 +104,28 @@ ValidOptions = {
 // Helper Functions
 // ======================================================================= //
 
-function IsInGame() => GameState == 0x01
-
 function IsValidSession(){
-    return
-        IsInGame() &&
-        ((ActivePlayers["Player1"] == 0x01 && ActivePlayers["Player2"] == 0x00) ||
-        (ActivePlayers["Player2"] == 0x01 && ActivePlayers["Player1"] == 0x00)) &&
+    return 
+        GameState == 1 && 
+        Players == 1 && 
+        Tutorial == 0 &&
         all_of(GameOptions, option => GameOptions[option] == ValidOptions[option])
+}
+
+//Placeholder function to detect 64bit integer comparisons
+//This might be useful in MBL where the score can be in the hundres of billions
+function Test64bitScore(thresholdUpper, thresholdLower){
+    //threshold represents 10 billion
+    thresholdUpper = 0x2
+    thresholdLower = 0x540be400
+    
+    //Update addresses for score location in MBL
+    scoreUpper = word(0x389090) * 0x10000 + word(0x389092)
+    scoreLower = word(0x389094) * 0x10000 + word(0x389096)
+    
+    trigger = (scoreUpper > thresholdUpper) || (scoreUpper == thresholdUpper && scoreLower > thresholdLower)
+    
+    return trigger
 }
 
 // ======================================================================= //

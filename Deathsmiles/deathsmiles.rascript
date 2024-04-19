@@ -5,15 +5,43 @@
 // Accessors
 // ======================================================================= //
 
-GameState = byte(0x38870e)
-TutorialFlag = byte(0x53b4f0)
+// Game Accessors //
+GameState = byte(0x53b4bc)
+Tutorial = byte(0x53b4f0)
 Players = byte(0x38870e)
 
 FollettUnlocked = byte(0x38861d)
 RosaUnlocked = byte(0x38861c)
 CanyonUnlocked = byte(0x38861f)
 
-Character = {
+GameOptions = {
+    "Extends": byte(0x388628),
+    "Difficulty": byte(0x388629),
+    "EnemyDamage": byte(0x38862a),
+    "LifeCapacity": byte(0x38862b),
+    "BulletDamage": byte(0x38862d)
+}
+
+ValidOptions = {
+    "Extends": 0x00,
+    "Difficulty": 0x01,
+    "EnemyDamage": 0x03,
+    "LifeCapacity": 0x00,
+    "BulletDamage": 0x04
+}
+
+ActivePlayers = {
+    "P1": byte(0x60b0a),
+    "P2": byte(0x60b0e)
+}
+
+DeathMode = byte(0x388822)
+EXCompleted = byte(0x388820)
+
+// Player Accessors //
+Bombs = byte(0x3887f6)
+
+SelectedCharacter = {
     "P1": byte(0x53b546),
     "P2": byte(0x53b5ca)
 }
@@ -33,11 +61,27 @@ Health = {
     "P2": word(0x38906a)
 }
 
+ItemCounter = {
+    "P1": word(0x389036),
+    "P2": word(0x389166)
+}
+
+PlusValueCounter = {
+    "P1": word(0x389032),
+    "P2": word(0x389162)
+}
+
+PowerUp = {
+    "P1": byte(0x389054),
+    "P2": byte(0x389184)
+}
+
 Continues = {
     "P1": byte(0x388f66),
     "P2": byte(0x389096)
 }
 
+// Result Screen Accessors //
 ResultScreenState = {
     "P1": byte(0x540944),
     "P2": byte(0x54156c)
@@ -70,35 +114,41 @@ ResultScreenEX = {
     "P2": byte(0x541576)
 }
 
-Bombs = byte(0x3887f6)
-
+// Stage Accessors //
 StageSelectState = byte(0x540316)
+StageClearState = byte(0x5402ce)
+GameClearState = byte(0x5487a2)
+
+Stages = {
+    "A1": 0,
+    "A2": 1,
+    "B1": 2,
+    "B2": 3,
+    "C1": 4,
+    "C2": 5,
+    "EX": 6,
+    "FINAL": 7
+}
+
 SelectedStage = byte(0x5402ea)
 SelectedStageLevel = byte(0x5408a6)
 
-DeathMode = byte(0x388822)
-EXCompleted = byte(0x388820)
+StagesCompleted = byte(0x38871e)
+StagesCompletedLV3 = byte(0x38881e)
 
-ActivePlayers = {
-    "Player1": byte(0x60b0a),
-    "Player2": byte(0x60b0e)
+BossIndex = byte(0x38872a)
+BossState = byte(0x38873e)
+
+LifeUpCollected = word(0x50d660)
+LifeUpSize = word(0x50d662)
+
+LifeUpSizes = {
+    "Small": 0x0000,
+    "Medium": 0x0100,
+    "Large": 0x0200
 }
 
-GameOptions = {
-    "Extends": byte(0x388628),
-    "Difficulty": byte(0x388629),
-    "EnemyDamage": byte(0x38862a),
-    "LifeCapacity": byte(0x38862b),
-    "BulletDamage": byte(0x38862d)
-}
-
-ValidOptions = {
-    "Extends": 0x00,
-    "Difficulty": 0x01,
-    "EnemyDamage": 0x03,
-    "LifeCapacity": 0x00,
-    "BulletDamage": 0x04
-}
+BombCollected = word(0x50dfa0)
 
 // ======================================================================= //
 // Helper Functions
@@ -112,20 +162,63 @@ function IsValidSession(){
         all_of(GameOptions, option => GameOptions[option] == ValidOptions[option])
 }
 
-//Placeholder function to detect 64bit integer comparisons
-//This might be useful in MBL where the score can be in the hundres of billions
-function Test64bitScore(thresholdUpper, thresholdLower){
-    //threshold represents 10 billion
-    thresholdUpper = 0x2
-    thresholdLower = 0x540be400
-    
-    //Update addresses for score location in MBL
-    scoreUpper = word(0x389090) * 0x10000 + word(0x389092)
-    scoreLower = word(0x389094) * 0x10000 + word(0x389096)
-    
-    trigger = (scoreUpper > thresholdUpper) || (scoreUpper == thresholdUpper && scoreLower > thresholdLower)
-    
+function GetUnlockedCharacters() => FollettUnlocked + RosaUnlocked
+
+function IsWindia(player){
+    return 
+        (GetUnlockedCharacters() == 0 && SelectedCharacter[player] == 0) || 
+        (GetUnlockedCharacters() != 0 && SelectedCharacter[player] == 1)
+}
+
+function IsCasper(player){
+    return 
+        (GetUnlockedCharacters() == 0 && SelectedCharacter[player] == 1) || 
+        (GetUnlockedCharacters() != 0 && SelectedCharacter[player] == 0)
+}
+
+function IsFollett(player) => SelectedCharacter[player] == 2
+function IsRosa(player) => SelectedCharacter[player] == 3
+
+function StageClear(stage){
+    return
+        IsValidSession() &&
+        SelectedStage == Stages[stage] &&
+        prev(StageClearState) < StageClearState
+}
+
+function GameClear(character){
+    trigger = IsValidSession() &&
+        prev(SelectedStage) == Stages["FINAL"] &&
+        SelectedStage == 0
+
+    if(character == "Windia")
+        trigger = trigger && (ActivePlayers["P1"] == 1 && IsWindia("P1") || ActivePlayers["P2"] == 1 && IsWindia("P2"))
+        
+    if(character == "Casper")
+        trigger = trigger && (ActivePlayers["P1"] == 1 && IsCasper("P1") || ActivePlayers["P2"] == 1 && IsCasper("P2"))
+        
+    if(character == "Follett")
+        trigger = trigger && (ActivePlayers["P1"] == 1 && IsFollett("P1") || ActivePlayers["P2"] == 1 && IsFollett("P2"))
+        
+    if(character == "Rosa")
+        trigger = trigger && (ActivePlayers["P1"] == 1 && IsRosa("P1") || ActivePlayers["P2"] == 1 && IsRosa("P2"))
+
     return trigger
+}
+
+function AllClear(character){
+    return GameClear(character) && Continues["P1"] == 0 && Continues["P2"] == 0
+}
+
+function AllClearDeathModeEX(){
+    return IsValidSession() &&
+        prev(SelectedStage) == Stages["FINAL"] &&
+        SelectedStage == 0 &&
+        Continues["P1"] == 0 && 
+        Continues["P2"] == 0 &&
+        DeathMode == 1 &&
+        EXCompleted == 1 &&
+        StagesCompletedLV3 == 6
 }
 
 // ======================================================================= //
@@ -133,43 +226,43 @@ function Test64bitScore(thresholdUpper, thresholdLower){
 // ======================================================================= //
 
 achievement(title = "[DRAFT] Wandering Grim Reaper", description = "Defeat Deathscyth and clear Stage A-1 [Port Town]", points = 3, type = "progression", id = 418205,
-    trigger = always_false()
+    trigger = StageClear("A1")
 )
 
 achievement(title = "[DRAFT] Buried Baron", description = "Defeat Jordan and clear Stage A-2 [Boneyard]", points = 3, type = "progression", id = 418206,
-    trigger = always_false()
+    trigger = StageClear("A2")
 )
 
 achievement(title = "[DRAFT] Forest Illusionist", description = "Defeat Whroon and clear Stage B-1 [Forest]", points = 3, type = "progression", id = 418207,
-    trigger = always_false()
+    trigger = StageClear("B1")
 )
 
 achievement(title = "[DRAFT] Swamp Witch", description = "Defeat Sakura and clear Stage B-2 [Swamp]", points = 3, type = "progression", id = 418208,
-    trigger = always_false()
+    trigger = StageClear("B2")
 )
 
 achievement(title = "[DRAFT] Colossal Bovine", description = "Defeat Mary and clear Stage C-1 [Lakeside]", points = 3, type = "progression", id = 418209,
-    trigger = always_false()
+    trigger = StageClear("C1")
 )
 
 achievement(title = "[DRAFT] God of Flame", description = "Defeat Bavaria and clear Stage C-2 [Volcano]", points = 3, type = "progression", id = 418210,
-    trigger = always_false()
+    trigger = StageClear("C2")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Windia", description = "Defeat Tyrannosatan and clear the game as Windia", points = 5, type = "win_condition", id = 418211,
-    trigger = always_false()
+    trigger = GameClear("Windia")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Casper", description = "Defeat Tyrannosatan and clear the game as Casper", points = 5, type = "win_condition", id = 418212,
-    trigger = always_false()
+    trigger = GameClear("Casper")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Follett", description = "Defeat Tyrannosatan and clear the game as Follett", points = 5, type = "win_condition", id = 418213,
-    trigger = always_false()
+    trigger = GameClear("Follett")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Defeat Tyrannosatan and clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
-    trigger = always_false()
+    trigger = GameClear("Rosa")
 )
 
 // ======================================================================= //
@@ -229,23 +322,23 @@ achievement(title = "[DRAFT] Death Mode", description = "Activate Death Mode for
 )
 
 achievement(title = "[DRAFT] Windia All-Clear", description = "Clear the game with Windia without using a continue", points = 25, id = 418228,
-    trigger = always_false()
+    trigger = AllClear("Windia")
 )
 
 achievement(title = "[DRAFT] Casper All-Clear", description = "Clear the game with Casper without using a continue", points = 25, id = 418229,
-    trigger = always_false()
+    trigger = AllClear("Casper")
 )
 
 achievement(title = "[DRAFT] Follett All-Clear", description = "Clear the game with Follett without using a continue", points = 25, id = 418230,
-    trigger = always_false()
+    trigger = AllClear("Follett")
 )
 
 achievement(title = "[DRAFT] Rosa All-Clear", description = "Clear the game with Rosa without using a continue", points = 25, id = 418231,
-    trigger = always_false()
+    trigger = AllClear("Rosa")
 )
 
 achievement(title = "[DRAFT] Death Mode Level 2", description = "Activate Death Mode Level 2 and complete the game without using a continue", points = 100, id = 418232,
-    trigger = always_false()
+    trigger = AllClearDeathModeEX()
 )
 
 // ======================================================================= //

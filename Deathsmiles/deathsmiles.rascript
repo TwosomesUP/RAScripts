@@ -179,6 +179,10 @@ function IsCasper(player){
 function IsFollett(player) => SelectedCharacter[player] == 2
 function IsRosa(player) => SelectedCharacter[player] == 3
 
+// ======================================================================= //
+// Achievement Logic Functions
+// ======================================================================= //
+
 function StageClear(stage){
     return
         IsValidSession() &&
@@ -186,10 +190,13 @@ function StageClear(stage){
         prev(StageClearState) < StageClearState
 }
 
-function GameClear(character){
-    trigger = IsValidSession() &&
-        prev(SelectedStage) == Stages["FINAL"] &&
-        SelectedStage == 0
+function GameClear(character, isChallenge){
+    trigger = IsValidSession()
+    
+    if(isChallenge)
+        trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
+    else
+        trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
 
     if(character == "Windia")
         trigger = trigger && (ActivePlayers["P1"] == 1 && IsWindia("P1") || ActivePlayers["P2"] == 1 && IsWindia("P2"))
@@ -207,18 +214,38 @@ function GameClear(character){
 }
 
 function AllClear(character){
-    return GameClear(character) && Continues["P1"] == 0 && Continues["P2"] == 0
+    return GameClear(character, true) && Continues["P1"] == 0 && Continues["P2"] == 0
 }
 
 function AllClearDeathModeEX(){
     return IsValidSession() &&
-        prev(SelectedStage) == Stages["FINAL"] &&
-        SelectedStage == 0 &&
+        trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0) &&
         Continues["P1"] == 0 && 
         Continues["P2"] == 0 &&
         DeathMode == 1 &&
         EXCompleted == 1 &&
         StagesCompletedLV3 == 6
+}
+
+function LifeUpCollected(size){
+    trigger = IsValidSession() &&
+        prev(LifeUpCollected) != 0xff00 && 
+        LifeUpCollected == 0xff00
+        
+    if(size != "Any")
+        trigger = trigger && LifeUpSize == LifeUpSizes[size]
+
+    return trigger
+}
+
+function BombCollected(){
+    return IsValidSession() &&
+        prev(BombCollected) != 0xff00 && 
+        BombCollected == 0xff00
+}
+
+function Collect4LifeUp(){
+    return repeated(4, LifeUpCollected("Any")) && never(GameState == 0 || Continues["P1"] + Continues["P2"] > 3)
 }
 
 // ======================================================================= //
@@ -250,19 +277,19 @@ achievement(title = "[DRAFT] God of Flame", description = "Defeat Bavaria and cl
 )
 
 achievement(title = "[DRAFT] Demon Hunter Windia", description = "Defeat Tyrannosatan and clear the game as Windia", points = 5, type = "win_condition", id = 418211,
-    trigger = GameClear("Windia")
+    trigger = GameClear("Windia", false)
 )
 
 achievement(title = "[DRAFT] Demon Hunter Casper", description = "Defeat Tyrannosatan and clear the game as Casper", points = 5, type = "win_condition", id = 418212,
-    trigger = GameClear("Casper")
+    trigger = GameClear("Casper", false)
 )
 
 achievement(title = "[DRAFT] Demon Hunter Follett", description = "Defeat Tyrannosatan and clear the game as Follett", points = 5, type = "win_condition", id = 418213,
-    trigger = GameClear("Follett")
+    trigger = GameClear("Follett", false)
 )
 
 achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Defeat Tyrannosatan and clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
-    trigger = GameClear("Rosa")
+    trigger = GameClear("Rosa", false)
 )
 
 // ======================================================================= //
@@ -270,23 +297,23 @@ achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Defeat Tyrannosa
 // ======================================================================= //
 
 achievement(title = "[DRAFT] Prine a la mode", description = "Collect a Small Life-Up and replenish half a life block", points = 3, id = 418215,
-    trigger = always_false()
+    trigger = LifeUpCollected("Small")
 )
 
 achievement(title = "[DRAFT] Strawberry Parfeit", description = "Collect a Medium Life-Up and replenish one life block", points = 3, id = 418216,
-    trigger = always_false()
+    trigger = LifeUpCollected("Medium")
 )
 
 achievement(title = "[DRAFT] Decoration Cake", description = "Collect a Large Life-Up and replenish two life blocks", points = 3, id = 418217,
-    trigger = always_false()
+    trigger = LifeUpCollected("Large")
 )
 
 achievement(title = "[DRAFT] Magical Destruction", description = "College a Magic Item and increase your bomb stock", points = 3, id = 418218,
-    trigger = always_false()
+    trigger = BombCollected()
 )
 
 achievement(title = "[DRAFT] Four Course Dessert", description = "Collect 4 life recovery items in a single playthrough using 3 continues or less", points = 25, id = 418219,
-    trigger = always_false()
+    trigger = Collect4LifeUp()
 )
 
 achievement(title = "[DRAFT] Untouchable", description = "Complete any stage on Level 3 or higher without taking damage", points = 10, id = 418220,

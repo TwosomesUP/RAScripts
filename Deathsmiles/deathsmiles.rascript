@@ -198,7 +198,7 @@ function StageClear(stage){
         prev(StageClearState) < StageClearState
 }
 
-function GameClear(character, isChallenge){
+function GameClear(character, isChallenge = false, continues = 100){
     trigger = IsValidSession()
     
     if(isChallenge)
@@ -206,23 +206,43 @@ function GameClear(character, isChallenge){
     else
         trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
 
-    if(character == "Windia")
-        trigger = trigger && (ActivePlayers["P1"] == 1 && IsWindia("P1") || ActivePlayers["P2"] == 1 && IsWindia("P2"))
+    if(character == "Windia"){
+        if(isChallenge){
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsWindia("P1") && Continues["P1"] <= continues || ActivePlayers["P2"] == 1 && IsWindia("P2") && Continues["P2"] <= continues)
+        } else {
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsWindia("P1") || ActivePlayers["P2"] == 1 && IsWindia("P2"))
+        }
+    }
+       
+    if(character == "Casper"){
+        if(isChallenge){
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsCasper("P1") && Continues["P1"] <= continues || ActivePlayers["P2"] == 1 && IsCasper("P2") && Continues["P2"] <= continues)
+        } else {
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsCasper("P1") || ActivePlayers["P2"] == 1 && IsCasper("P2"))
+        }
+    }
         
-    if(character == "Casper")
-        trigger = trigger && (ActivePlayers["P1"] == 1 && IsCasper("P1") || ActivePlayers["P2"] == 1 && IsCasper("P2"))
+    if(character == "Follett"){
+        if(isChallenge){
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsFollett("P1") && Continues["P1"] <= continues || ActivePlayers["P2"] == 1 && IsFollett("P2") && Continues["P2"] <= continues)
+        } else {
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsFollett("P1") || ActivePlayers["P2"] == 1 && IsFollett("P2"))
+        }
+    }
         
-    if(character == "Follett")
-        trigger = trigger && (ActivePlayers["P1"] == 1 && IsFollett("P1") || ActivePlayers["P2"] == 1 && IsFollett("P2"))
+    if(character == "Rosa"){
+        if(isChallenge){
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsRosa("P1") && Continues["P1"] <= continues || ActivePlayers["P2"] == 1 && IsRosa("P2") && Continues["P2"] <= continues)
+        } else {
+            trigger = trigger && (ActivePlayers["P1"] == 1 && IsRosa("P1") || ActivePlayers["P2"] == 1 && IsRosa("P2"))
+        }
+    }
         
-    if(character == "Rosa")
-        trigger = trigger && (ActivePlayers["P1"] == 1 && IsRosa("P1") || ActivePlayers["P2"] == 1 && IsRosa("P2"))
-
     return trigger
 }
 
 function AllClear(character){
-    return GameClear(character, true) && Continues["P1"] == 0 && Continues["P2"] == 0
+    return GameClear(character, true, 0)
 }
 
 function AllClearDeathModeEX(){
@@ -277,6 +297,38 @@ function NoBombClear(continues){
         disable_when(Continues["P1"] > 3 || Continues["P2"] > 3 || BombActive == 1, GameState == 0)
 }
 
+function GotExtend(number){
+    if(number < 1 || number > 2)
+        number = 1
+
+    return IsValidSession() &&
+        ((ActivePlayers["P1"] == 1 && prev(Lives["P1"]) == 3 + number / 2 && Lives["P1"] == 3 + number) ||
+        (ActivePlayers["P2"] == 1 && prev(Lives["P2"]) == 3 + number / 2 && Lives["P2"] == 3 + number))
+}
+
+function ActivatedPowerUp(){
+    return IsValidSession() &&
+    ((ActivePlayers["P1"] == 1 && prev(PowerUp["P1"]) == 0 && PowerUp["P1"] == 1) ||
+    (ActivePlayers["P2"] == 1 && prev(PowerUp["P2"]) == 0 && PowerUp["P2"] == 1))
+}
+
+
+function ActivatedFeverMode(){
+    return IsValidSession() &&
+    ((ActivePlayers["P1"] == 1 && prev(PlusValueCounter["P1"]) < 10000 && PlusValueCounter["P1"] >= 10000) ||
+    (ActivePlayers["P2"] == 1 && prev(PlusValueCounter["P2"]) < 10000 && PlusValueCounter["P2"] >= 10000))
+}
+
+function ActivatedDeathMode(){
+    return IsValidSession() && prev(DeathMode) == 0 && DeathMode == 1
+}
+
+function AchievedScore(points){
+    return IsValidSession() &&
+    ((ActivePlayers["P1"] == 1 && prev(Score["P1"]) < points && Score["P1"] > points) ||
+    (ActivePlayers["P2"] == 1 && prev(Score["P2"]) < points && Score["P2"] > points))
+}
+
 // ======================================================================= //
 // Progression Achievement Definitions
 // ======================================================================= //
@@ -306,19 +358,19 @@ achievement(title = "[DRAFT] God of Flame", description = "Defeat Bavaria and cl
 )
 
 achievement(title = "[DRAFT] Demon Hunter Windia", description = "Defeat Tyrannosatan and clear the game as Windia", points = 5, type = "win_condition", id = 418211,
-    trigger = GameClear("Windia", false)
+    trigger = GameClear("Windia")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Casper", description = "Defeat Tyrannosatan and clear the game as Casper", points = 5, type = "win_condition", id = 418212,
-    trigger = GameClear("Casper", false)
+    trigger = GameClear("Casper")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Follett", description = "Defeat Tyrannosatan and clear the game as Follett", points = 5, type = "win_condition", id = 418213,
-    trigger = GameClear("Follett", false)
+    trigger = GameClear("Follett")
 )
 
 achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Defeat Tyrannosatan and clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
-    trigger = GameClear("Rosa", false)
+    trigger = GameClear("Rosa")
 )
 
 // ======================================================================= //
@@ -357,36 +409,56 @@ achievement(title = "[DRAFT] Max Restraint", description = "Complete the game wi
     trigger = NoBombClear(3)
 )
 
+achievement(title = "[DRAFT] Ultra Restraint", description = "Complete the game without using any bombs and without using a continue", points = 50, id = 419773,
+    trigger = NoBombClear(0)
+)
+
 achievement(title = "[DRAFT] Extend 1", description = "Extend your life gauge to 4", points = 10, id = 418223,
-    trigger = always_false()
+    trigger = GotExtend(1)
 )
 
 achievement(title = "[DRAFT] Extend 2", description = "Extend your life gauge to 5", points = 25, id = 418224,
-    trigger = always_false()
+    trigger = GotExtend(2)
 )
 
 achievement(title = "[DRAFT] Power-Up Mode", description = "Enter Power-Up mode for the first time", points = 5, id = 418225,
-    trigger = always_false()
+    trigger = ActivatedPowerUp()
 )
 
 achievement(title = "[DRAFT] Fever Mode", description = "Enter Fever mode for the first time", points = 10, id = 418226,
-    trigger = always_false()
+    trigger = ActivatedFeverMode()
 )
 
 achievement(title = "[DRAFT] Death Mode", description = "Activate Death Mode for the first time", points = 3, id = 418227,
-    trigger = always_false()
+    trigger = ActivatedDeathMode()
+)
+
+achievement(title = "[DRAFT] Windia 3cc", description = "Clear the game with Windia using 3 continues or less", points = 10, id = 419772,
+    trigger = GameClear("Windia", true, 3)
 )
 
 achievement(title = "[DRAFT] Windia All-Clear", description = "Clear the game with Windia without using a continue", points = 25, id = 418228,
     trigger = AllClear("Windia")
 )
 
+achievement(title = "[DRAFT] Casper 3cc", description = "Clear the game with Casper using 3 continues or less", points = 10, id = 419776,
+    trigger = GameClear("Casper", true, 3)
+)
+
 achievement(title = "[DRAFT] Casper All-Clear", description = "Clear the game with Casper without using a continue", points = 25, id = 418229,
     trigger = AllClear("Casper")
 )
 
+achievement(title = "[DRAFT] Follett 3cc", description = "Clear the game with Follett using 3 continues or less", points = 10, id = 419775,
+    trigger = GameClear("Follett", true, 3)
+)
+
 achievement(title = "[DRAFT] Follett All-Clear", description = "Clear the game with Follett without using a continue", points = 25, id = 418230,
     trigger = AllClear("Follett")
+)
+
+achievement(title = "[DRAFT] Rosa 3cc", description = "Clear the game with Rosa using 3 continues or less", points = 10, id = 419774,
+    trigger = GameClear("Rosa", true, 3)
 )
 
 achievement(title = "[DRAFT] Rosa All-Clear", description = "Clear the game with Rosa without using a continue", points = 25, id = 418231,
@@ -402,23 +474,23 @@ achievement(title = "[DRAFT] Death Mode Level 2", description = "Activate Death 
 // ======================================================================= //
 
 achievement(title = "[DRAFT] 1 Million", description = "Score 1000000 points or more", points = 5, id = 418233,
-    trigger = always_false()
+    trigger = AchievedScore(1000000)
 )
 
 achievement(title = "[DRAFT] 10 Million", description = "Score 10000000 points or more", points = 10, id = 418234,
-    trigger = always_false()
+    trigger = AchievedScore(10000000)
 )
 
 achievement(title = "[DRAFT] 100 Million", description = "Score 100000000 points or more", points = 25, id = 418235,
-    trigger = always_false()
+    trigger = AchievedScore(100000000)
 )
 
 achievement(title = "[DRAFT] 200 Million", description = "Score 200000000 points or more", points = 50, id = 418236,
-    trigger = always_false()
+    trigger = AchievedScore(200000000)
 )
 
 achievement(title = "[DRAFT] 300 Million", description = "Score 300000000 points or more", points = 100, id = 418237,
-    trigger = always_false()
+    trigger = AchievedScore(300000000)
 )
 
 // ======================================================================= //
@@ -427,7 +499,7 @@ achievement(title = "[DRAFT] 300 Million", description = "Score 300000000 points
 
 achievement(title = "[DRAFT] Twin Dragon Kings", 
     description = "Defeat Devaria and Givaria and clear Stage EXTRA [Canyon]", points = 5, id = 418238,
-    trigger = always_false()
+    trigger = StageClear("EX")
 )
 
 achievement(title = "[DRAFT] Deathscyth No Damage", 

@@ -40,6 +40,7 @@ EXCompleted = byte(0x388820)
 
 // Player Accessors //
 Bombs = byte(0x3887f6)
+BombActive = byte(0x3887ee)
 
 SelectedCharacter = {
     "P1": byte(0x53b546),
@@ -115,7 +116,8 @@ ResultScreenEX = {
 }
 
 // Stage Accessors //
-StageSelectState = byte(0x540316)
+InStage = byte(0x54030d)
+SelectingStage = byte(0x540316)
 StageClearState = byte(0x5402ce)
 GameClearState = byte(0x5487a2)
 
@@ -132,6 +134,12 @@ Stages = {
 
 SelectedStage = byte(0x5402ea)
 SelectedStageLevel = byte(0x5408a6)
+
+StageLevels = {
+    "LV1": 0,
+    "LV2": 1, 
+    "LV3": 2
+}
 
 StagesCompleted = byte(0x38871e)
 StagesCompletedLV3 = byte(0x38881e)
@@ -248,6 +256,27 @@ function Collect4LifeUp(){
     return repeated(4, LifeUpCollected("Any")) && never(GameState == 0 || Continues["P1"] + Continues["P2"] > 3)
 }
 
+function Level3NoDamage(){
+    return IsValidSession() &&
+        //Stage info is wiped out when beating the game - check the previous frame
+        prev(InStage) == 1 &&
+        (DeathMode + EXCompleted > 0 || SelectedStageLevel == StageLevels["LV3"]) &&
+        trigger_when((prev(StageClearState) < StageClearState) || (prev(SelectedStage) == 7 && SelectedStage == 0)) &&
+        disable_when(ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
+        disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
+}
+
+function MaxBombStock(){
+    return IsValidSession() &&
+        prev(Bombs) == 5 && Bombs == 6
+}
+
+function NoBombClear(continues){
+    return IsValidSession() &&
+        trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0) &&
+        disable_when(Continues["P1"] > 3 || Continues["P2"] > 3 || BombActive == 1, GameState == 0)
+}
+
 // ======================================================================= //
 // Progression Achievement Definitions
 // ======================================================================= //
@@ -317,15 +346,15 @@ achievement(title = "[DRAFT] Four Course Dessert", description = "Collect 4 life
 )
 
 achievement(title = "[DRAFT] Untouchable", description = "Complete any stage on Level 3 or higher without taking damage", points = 10, id = 418220,
-    trigger = always_false()
+    trigger = Level3NoDamage()
 )
 
 achievement(title = "[DRAFT] Max Destruction", description = "Increase your bomb stock to 6", points = 50, id = 418221,
-    trigger = always_false()
+    trigger = MaxBombStock()
 )
 
 achievement(title = "[DRAFT] Max Restraint", description = "Complete the game without using any bombs in 3 continues or less", points = 25, id = 418222,
-    trigger = always_false()
+    trigger = NoBombClear(3)
 )
 
 achievement(title = "[DRAFT] Extend 1", description = "Extend your life gauge to 4", points = 10, id = 418223,

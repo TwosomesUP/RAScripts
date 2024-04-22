@@ -303,12 +303,20 @@ function Collect4LifeUp(){
     return repeated(4, LifeUpCollected("Any")) && never(GameState == 0 || Continues["P1"] + Continues["P2"] > 3)
 }
 
-function Level3NoDamage(){
+function Level3NoDamage_WithTrigger(){
     return IsValidSession() &&
         //Stage info is wiped out when beating the game - check the previous frame
         prev(InStage) == 1 &&
         (DeathMode + EXCompleted > 0 || SelectedStageLevel == StageLevels["LV3"]) &&
         trigger_when((prev(StageClearState) < StageClearState) || (prev(SelectedStage) == 7 && SelectedStage == 0)) &&
+        disable_when(ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
+        disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
+}
+
+function Level3NoDamage(){
+    return IsValidSession() &&
+        ((SelectedStage < 7 && prev(StageClearState) < StageClearState && (DeathMode + EXCompleted > 0 || SelectedStageLevel == StageLevels["LV3"])) ||
+        (prev(SelectedStage) == 7 && SelectedStage == 0 && DeathMode + EXCompleted > 0)) &&
         disable_when(ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
         disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
 }

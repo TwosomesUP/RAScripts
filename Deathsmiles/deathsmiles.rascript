@@ -1,6 +1,12 @@
 // Deathsmiles
 // #ID = 21889
 
+// Fix triggers so it's only 1cc challenges
+// Add measured to life-up collection
+// Finish testing Windia (clear, 3cc, and 1cc)
+// Test Casper (clear, 3cc, 1cc)
+// Finish testing Max Bomb
+
 // ======================================================================= //
 // Accessors
 // ======================================================================= //
@@ -147,6 +153,18 @@ StagesCompletedLV3 = byte(0x38881e)
 BossIndex = byte(0x38872a)
 BossState = byte(0x38873e)
 
+BossIndexes = {
+    "Devaria": 1,
+    "Deathscyth": 1,
+    "Jordan": 1,
+    "Whroon": 1,
+    "Sakura": 1,
+    "Mary": 1,
+    "Bavaria": 1,
+    "Jitterbug": 1,
+    "Tyrannosatan": 2
+}
+
 LifeUpCollected = word(0x50d660)
 LifeUpSize = word(0x50d662)
 
@@ -201,7 +219,7 @@ function StageClear(stage){
 function GameClear(character, isChallenge = false, continues = 100){
     trigger = IsValidSession()
     
-    if(isChallenge)
+    if(isChallenge && continues == 0)
         trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
     else
         trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
@@ -245,14 +263,23 @@ function AllClear(character){
     return GameClear(character, true, 0)
 }
 
-function AllClearDeathModeEX(){
-    return IsValidSession() &&
-        trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0) &&
-        Continues["P1"] == 0 && 
-        Continues["P2"] == 0 &&
+function AllClearDeathModeEX(continues){
+    trigger = IsValidSession()
+    
+    if(continues == 0){
+        trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
+    } else {
+        trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
+    }
+        
+    trigger = trigger && 
+        ((ActivePlayers["P1"] == 1 && Continues["P1"] <= continues) ||
+        (ActivePlayers["P2"] == 1 && Continues["P2"] <= continues)) &&
         DeathMode == 1 &&
         EXCompleted == 1 &&
         StagesCompletedLV3 == 6
+    
+    return trigger
 }
 
 function LifeUpCollected(size){
@@ -292,9 +319,18 @@ function MaxBombStock(){
 }
 
 function NoBombClear(continues){
-    return IsValidSession() &&
-        trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0) &&
+    trigger = IsValidSession()
+    
+    if(continues == 0){
+        trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
+    } else {
+        trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
+    }
+    
+    trigger = trigger && 
         disable_when(Continues["P1"] > 3 || Continues["P2"] > 3 || BombActive == 1, GameState == 0)
+
+    return trigger
 }
 
 function GotExtend(number){
@@ -327,6 +363,15 @@ function AchievedScore(points){
     return IsValidSession() &&
     ((ActivePlayers["P1"] == 1 && prev(Score["P1"]) < points && Score["P1"] > points) ||
     (ActivePlayers["P2"] == 1 && prev(Score["P2"]) < points && Score["P2"] > points))
+}
+
+function NoDamageBoss(stage, boss){
+    return IsValidSession() &&
+        SelectedStage == Stages[stage] &&
+        BossIndex == BossIndexes[boss] &&
+        prev(BossState) == 1 && BossState == 0 &&
+        disable_when(ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
+        disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
 }
 
 // ======================================================================= //
@@ -465,8 +510,12 @@ achievement(title = "[DRAFT] Rosa All-Clear", description = "Clear the game with
     trigger = AllClear("Rosa")
 )
 
-achievement(title = "[DRAFT] Death Mode Level 2", description = "Activate Death Mode Level 2 and complete the game without using a continue", points = 100, id = 418232,
-    trigger = AllClearDeathModeEX()
+achievement(title = "[DRAFT] 3cc Death Mode Level 2", description = "Activate Death Mode Level 2 and clear the game using 3 continues or less", points = 50, id = 419821,
+    trigger = AllClearDeathModeEX(3)
+)
+
+achievement(title = "[DRAFT] 1cc Death Mode Level 2", description = "Activate Death Mode Level 2 and clear the game without using a continue", points = 100, id = 418232,
+    trigger = AllClearDeathModeEX(0)
 )
 
 // ======================================================================= //
@@ -504,45 +553,45 @@ achievement(title = "[DRAFT] Twin Dragon Kings",
 
 achievement(title = "[DRAFT] Deathscyth No Damage", 
     description = "While playing Stage A-1 [Port Town] at Level 3, defeat Deathscyth without taking damage", points = 25, id = 418239,
-    trigger = always_false()
+    trigger = NoDamageBoss("A1", "Deathscyth")
 )
 
 achievement(title = "[DRAFT] Jordan No Damage", 
     description = "While playing Stage A-2 [Boneyard] at Level 3, defeat Jordan without taking damage", points = 25, id = 418240,
-    trigger = always_false()
+    trigger = NoDamageBoss("A2", "Jordan")
 )
 
 achievement(title = "[DRAFT] Whroon No Damage", 
     description = "While playing Stage B-1 [Forest] at Level 3, defeat Whroon without taking damage", points = 25,  id = 418241,
-    trigger = always_false()
+    trigger = NoDamageBoss("B1", "Whroon")
 )
 
 achievement(title = "[DRAFT] Sakura No Damage", 
     description = "While playing Stage B-2 [Swamp] at Level 3, defeat Sakura without taking damage", points = 25, id = 418242,
-    trigger = always_false()
+    trigger = NoDamageBoss("B2", "Sakura")
 )
 
 achievement(title = "[DRAFT] Mary No Damage", 
     description = "While playing Stage C-1 [Lakeside] at Level 3, defeat Mary without taking damage", points = 25, id = 418243,
-    trigger = always_false()
+    trigger = NoDamageBoss("C1", "Mary")
 )
 
 achievement(title = "[DRAFT] Bavaria No Damage", 
     description = "While playing Stage C-2 [Volcano] at Level 3, defeat Bavaria without taking damage", points = 25, id = 418244,
-    trigger = always_false()
+    trigger = NoDamageBoss("C2", "Bavaria")
 )
 
 achievement(title = "[DRAFT] Jitterbug No Damage", 
     description = "While playing Stage FINAL [Castle] on Death Mode or higher, defeat Jitterbug without taking damage", points = 50, id = 418245,
-    trigger = always_false()
+    trigger = NoDamageBoss("FINAL", "Jitterbug")
 )
 
 achievement(title = "[DRAFT] Tyrannosatan No Damage", 
     description = "While playing Stage FINAL [Castle] on Death Mode or higher, defeat Tyrannosatan without taking damage", points = 50, id = 418246,
-    trigger = always_false()
+    trigger = NoDamageBoss("FINAL", "Tyrannosatan")
 )
 
 achievement(title = "[DRAFT] Devaria & Givaria No Damage", 
     description = "While playing Stage EXTRA [Canyon] on Deah Mode or higher, defeat Devaria and Givaria without taking damage", points = 25, id = 418247,
-    trigger = always_false()
+    trigger = NoDamageBoss("EX", "Devaria")
 )

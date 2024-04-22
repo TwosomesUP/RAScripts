@@ -217,12 +217,7 @@ function StageClear(stage){
 }
 
 function GameClear(character, isChallenge = false, continues = 100){
-    trigger = IsValidSession()
-    
-    if(isChallenge && continues == 0)
-        trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
-    else
-        trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
+    trigger = IsValidSession() && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
 
     if(character == "Windia"){
         if(isChallenge){
@@ -303,9 +298,9 @@ function Collect4LifeUp(){
     return repeated(4, LifeUpCollected("Any")) && never(GameState == 0 || Continues["P1"] + Continues["P2"] > 3)
 }
 
-function Level3NoDamage_WithTrigger(){
+//Removed
+function Level3NoDamage(){
     return IsValidSession() &&
-        //Stage info is wiped out when beating the game - check the previous frame
         prev(InStage) == 1 &&
         (DeathMode + EXCompleted > 0 || SelectedStageLevel == StageLevels["LV3"]) &&
         trigger_when((prev(StageClearState) < StageClearState) || (prev(SelectedStage) == 7 && SelectedStage == 0)) &&
@@ -313,7 +308,9 @@ function Level3NoDamage_WithTrigger(){
         disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
 }
 
-function Level3NoDamage(){
+//Removed
+//Backup with no trigger
+function Level3NoDamage_NoTrigger(){
     return IsValidSession() &&
         ((SelectedStage < 7 && prev(StageClearState) < StageClearState && (DeathMode + EXCompleted > 0 || SelectedStageLevel == StageLevels["LV3"])) ||
         (prev(SelectedStage) == 7 && SelectedStage == 0 && DeathMode + EXCompleted > 0)) &&
@@ -377,7 +374,7 @@ function NoDamageBoss(stage, boss){
     return IsValidSession() &&
         SelectedStage == Stages[stage] &&
         BossIndex == BossIndexes[boss] &&
-        prev(BossState) == 1 && BossState == 0 &&
+        trigger_when(prev(BossState) == 1 && BossState == 0) &&
         disable_when(ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
         disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
 }
@@ -386,71 +383,77 @@ function NoDamageBoss(stage, boss){
 // Progression Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] Wandering Grim Reaper", description = "Defeat Deathscyth and clear Stage A-1 [Port Town]", points = 3, type = "progression", id = 418205,
+achievement(title = "[DRAFT] Port Town", description = "Clear Stage A-1", points = 3, type = "progression", id = 418205,
     trigger = StageClear("A1")
 )
 
-achievement(title = "[DRAFT] Buried Baron", description = "Defeat Jordan and clear Stage A-2 [Boneyard]", points = 3, type = "progression", id = 418206,
+achievement(title = "[DRAFT] Boneyard", description = "Clear Stage A-2", points = 3, type = "progression", id = 418206,
     trigger = StageClear("A2")
 )
 
-achievement(title = "[DRAFT] Forest Illusionist", description = "Defeat Whroon and clear Stage B-1 [Forest]", points = 3, type = "progression", id = 418207,
+achievement(title = "[DRAFT] Forest", description = "Clear Stage B-1", points = 3, type = "progression", id = 418207,
     trigger = StageClear("B1")
 )
 
-achievement(title = "[DRAFT] Swamp Witch", description = "Defeat Sakura and clear Stage B-2 [Swamp]", points = 3, type = "progression", id = 418208,
+achievement(title = "[DRAFT] Swamp", description = "Clear Stage B-2", points = 3, type = "progression", id = 418208,
     trigger = StageClear("B2")
 )
 
-achievement(title = "[DRAFT] Colossal Bovine", description = "Defeat Mary and clear Stage C-1 [Lakeside]", points = 3, type = "progression", id = 418209,
+achievement(title = "[DRAFT] Lakeside", description = "Clear Stage C-1", points = 3, type = "progression", id = 418209,
     trigger = StageClear("C1")
 )
 
-achievement(title = "[DRAFT] God of Flame", description = "Defeat Bavaria and clear Stage C-2 [Volcano]", points = 3, type = "progression", id = 418210,
+achievement(title = "[DRAFT] Volcano", description = "Clear Stage C-2", points = 3, type = "progression", id = 418210,
     trigger = StageClear("C2")
 )
 
-achievement(title = "[DRAFT] Demon Hunter Windia", description = "Defeat Tyrannosatan and clear the game as Windia", points = 5, type = "win_condition", id = 418211,
+achievement(title = "[DRAFT] Windia Smiles", description = "Clear the game as Windia", points = 5, type = "win_condition", id = 418211,
     trigger = GameClear("Windia")
 )
 
-achievement(title = "[DRAFT] Demon Hunter Casper", description = "Defeat Tyrannosatan and clear the game as Casper", points = 5, type = "win_condition", id = 418212,
+achievement(title = "[DRAFT] Casper", description = "Clear the game as Casper", points = 5, type = "win_condition", id = 418212,
     trigger = GameClear("Casper")
 )
 
-achievement(title = "[DRAFT] Demon Hunter Follett", description = "Defeat Tyrannosatan and clear the game as Follett", points = 5, type = "win_condition", id = 418213,
+achievement(title = "[DRAFT] Demon Hunter Follett", description = "Clear the game as Follett", points = 5, type = "win_condition", id = 418213,
     trigger = GameClear("Follett")
 )
 
-achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Defeat Tyrannosatan and clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
+achievement(title = "[DRAFT] Demon Hunter Rosa", description = "Clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
     trigger = GameClear("Rosa")
+)
+
+achievement(title = "[DRAFT] Canyon", 
+    description = "Clear Stage EXTRA", points = 5, id = 418238,
+    trigger = StageClear("EX")
 )
 
 // ======================================================================= //
 // Play Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] Prine a la mode", description = "Collect a Small Life-Up and replenish half a life block", points = 3, id = 418215,
+achievement(title = "[DRAFT] Prine a la mode", description = "Collect a Small Life-Up", points = 3, id = 418215,
     trigger = LifeUpCollected("Small")
 )
 
-achievement(title = "[DRAFT] Strawberry Parfeit", description = "Collect a Medium Life-Up and replenish one life block", points = 3, id = 418216,
+achievement(title = "[DRAFT] Strawberry Parfeit", description = "Collect a Medium Life-Up", points = 3, id = 418216,
     trigger = LifeUpCollected("Medium")
 )
 
-achievement(title = "[DRAFT] Decoration Cake", description = "Collect a Large Life-Up and replenish two life blocks", points = 3, id = 418217,
+achievement(title = "[DRAFT] Decoration Cake", description = "Collect a Large Life-Up", points = 3, id = 418217,
     trigger = LifeUpCollected("Large")
 )
 
-achievement(title = "[DRAFT] Magical Destruction", description = "College a Magic Item and increase your bomb stock", points = 3, id = 418218,
+achievement(title = "[DRAFT] Magical Destruction", description = "College a Magic Item ", points = 3, id = 418218,
     trigger = BombCollected()
 )
 
-achievement(title = "[DRAFT] Four Course Dessert", description = "Collect 4 life recovery items in a single playthrough using 3 continues or less", points = 25, id = 418219,
+achievement(title = "[DRAFT] Four Course Dessert", description = "Collect 4 Life-Up items in a single playthrough using 3 continues or less", points = 25, id = 418219,
     trigger = Collect4LifeUp()
 )
 
-achievement(title = "[DRAFT] Untouchable", description = "Complete any stage on Level 3 or higher without taking damage", points = 10, id = 418220,
+//Don't promote - A bit redundant with the no-damage bosses
+achievement(title = "[VOID] Untouchable", description = "Complete any stage on Level 3 or higher without taking damage", points = 0, id = 418220,
     trigger = Level3NoDamage()
 )
 
@@ -518,11 +521,11 @@ achievement(title = "[DRAFT] Rosa All-Clear", description = "Clear the game with
     trigger = AllClear("Rosa")
 )
 
-achievement(title = "[DRAFT] 3cc Death Mode Level 2", description = "Activate Death Mode Level 2 and clear the game using 3 continues or less", points = 50, id = 419821,
+achievement(title = "[DRAFT] 3cc Death Mode Level 2", description = "Activate Death Mode EX and clear the game using 3 continues or less", points = 50, id = 419821,
     trigger = AllClearDeathModeEX(3)
 )
 
-achievement(title = "[DRAFT] 1cc Death Mode Level 2", description = "Activate Death Mode Level 2 and clear the game without using a continue", points = 100, id = 418232,
+achievement(title = "[DRAFT] 1cc Death Mode Level 2", description = "Activate Death Mode EX and clear the game without using a continue", points = 100, id = 418232,
     trigger = AllClearDeathModeEX(0)
 )
 
@@ -554,52 +557,47 @@ achievement(title = "[DRAFT] 300 Million", description = "Score 300000000 points
 // Boss Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] Twin Dragon Kings", 
-    description = "Defeat Devaria and Givaria and clear Stage EXTRA [Canyon]", points = 5, id = 418238,
-    trigger = StageClear("EX")
-)
-
-achievement(title = "[DRAFT] Deathscyth No Damage", 
-    description = "While playing Stage A-1 [Port Town] at Level 3, defeat Deathscyth without taking damage", points = 25, id = 418239,
+achievement(title = "[DRAFT] Wandering Grim Reaper", 
+    description = "While playing Stage A-1 at Level 3 or higher, defeat Deathscyth without taking damage", points = 25, id = 418239,
     trigger = NoDamageBoss("A1", "Deathscyth")
 )
 
-achievement(title = "[DRAFT] Jordan No Damage", 
-    description = "While playing Stage A-2 [Boneyard] at Level 3, defeat Jordan without taking damage", points = 25, id = 418240,
+achievement(title = "[DRAFT] Buried Baron", 
+    description = "While playing Stage A-2 at Level 3 or higher, defeat Jordan without taking damage", points = 25, id = 418240,
     trigger = NoDamageBoss("A2", "Jordan")
 )
 
-achievement(title = "[DRAFT] Whroon No Damage", 
-    description = "While playing Stage B-1 [Forest] at Level 3, defeat Whroon without taking damage", points = 25,  id = 418241,
+achievement(title = "[DRAFT] Forest Illusionist", 
+    description = "While playing Stage B-1 at Level 3 or higher, defeat Whroon without taking damage", points = 25,  id = 418241,
     trigger = NoDamageBoss("B1", "Whroon")
 )
 
-achievement(title = "[DRAFT] Sakura No Damage", 
-    description = "While playing Stage B-2 [Swamp] at Level 3, defeat Sakura without taking damage", points = 25, id = 418242,
+achievement(title = "[DRAFT] Swamp Witch", 
+    description = "While playing Stage B-2 at Level 3 or higher, defeat Sakura without taking damage", points = 25, id = 418242,
     trigger = NoDamageBoss("B2", "Sakura")
 )
 
-achievement(title = "[DRAFT] Mary No Damage", 
-    description = "While playing Stage C-1 [Lakeside] at Level 3, defeat Mary without taking damage", points = 25, id = 418243,
+achievement(title = "[DRAFT] Colossal Bovine", 
+    description = "While playing Stage C-1 at Level 3 or higher, defeat Mary without taking damage", points = 25, id = 418243,
     trigger = NoDamageBoss("C1", "Mary")
 )
 
-achievement(title = "[DRAFT] Bavaria No Damage", 
-    description = "While playing Stage C-2 [Volcano] at Level 3, defeat Bavaria without taking damage", points = 25, id = 418244,
+achievement(title = "[DRAFT] God of Flame", 
+    description = "While playing Stage C-2 at Level 3 or higher, defeat Bavaria without taking damage", points = 25, id = 418244,
     trigger = NoDamageBoss("C2", "Bavaria")
 )
 
 achievement(title = "[DRAFT] Jitterbug No Damage", 
-    description = "While playing Stage FINAL [Castle] on Death Mode or higher, defeat Jitterbug without taking damage", points = 50, id = 418245,
+    description = "While playing Stage FINAL on Death Mode or higher, defeat Jitterbug without taking damage", points = 50, id = 418245,
     trigger = NoDamageBoss("FINAL", "Jitterbug")
 )
 
 achievement(title = "[DRAFT] Tyrannosatan No Damage", 
-    description = "While playing Stage FINAL [Castle] on Death Mode or higher, defeat Tyrannosatan without taking damage", points = 50, id = 418246,
+    description = "While playing Stage FINAL on Death Mode or higher, defeat Tyrannosatan without taking damage", points = 50, id = 418246,
     trigger = NoDamageBoss("FINAL", "Tyrannosatan")
 )
 
-achievement(title = "[DRAFT] Devaria & Givaria No Damage", 
-    description = "While playing Stage EXTRA [Canyon] on Deah Mode or higher, defeat Devaria and Givaria without taking damage", points = 25, id = 418247,
+achievement(title = "[DRAFT] Twin Dragon Kings", 
+    description = "While playing Stage EXTRA on Death Mode or higher, defeat Devaria & Givaria without taking damage", points = 25, id = 418247,
     trigger = NoDamageBoss("EX", "Devaria")
 )

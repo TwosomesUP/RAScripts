@@ -56,12 +56,12 @@ EXCompleted = byte(0x388820)
 
 CharacterLookup = {
     0: "Windia",
-    1: "Casper",
     10: "Casper",
+    11: "Casper",
+    100: "Casper",
     110: "Windia",
     210: "Follett",
     310: "Rosa",
-    11: "Casper",
     111: "Windia",
     211: "Follett",
     311: "Rosa"

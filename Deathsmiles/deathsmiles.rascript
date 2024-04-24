@@ -295,7 +295,7 @@ function BombCollected(){
 }
 
 function Collect4LifeUp(){
-    return repeated(4, LifeUpCollected("Any")) && never(GameState == 0 || Continues["P1"] + Continues["P2"] > 3)
+    return measured(repeated(4, LifeUpCollected("Any"))) && never(GameState == 0 || Continues["P1"] + Continues["P2"] > 3)
 }
 
 //Removed from set
@@ -383,48 +383,47 @@ function NoDamageBoss(stage, boss){
 // Progression Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] Dire Port Town", description = "Clear Stage A-1", points = 3, type = "progression", id = 418205,
+achievement(title = "Dire Port Town", description = "Clear Stage A-1", points = 3, type = "progression", id = 418205,
     trigger = StageClear("A1")
 )
 
-achievement(title = "[DRAFT] Bitter Boneyard", description = "Clear Stage A-2", points = 3, type = "progression", id = 418206,
+achievement(title = "Bitter Boneyard", description = "Clear Stage A-2", points = 3, type = "progression", id = 418206,
     trigger = StageClear("A2")
 )
 
-achievement(title = "[DRAFT] Forgotten Forest", description = "Clear Stage B-1", points = 3, type = "progression", id = 418207,
+achievement(title = "Forgotten Forest", description = "Clear Stage B-1", points = 3, type = "progression", id = 418207,
     trigger = StageClear("B1")
 )
 
-achievement(title = "[DRAFT] Ensorcelled Swamp", description = "Clear Stage B-2", points = 3, type = "progression", id = 418208,
+achievement(title = "Ensorcelled Swamp", description = "Clear Stage B-2", points = 3, type = "progression", id = 418208,
     trigger = StageClear("B2")
 )
 
-achievement(title = "[DRAFT] Lawless Lakeside", description = "Clear Stage C-1", points = 3, type = "progression", id = 418209,
+achievement(title = "Lawless Lakeside", description = "Clear Stage C-1", points = 3, type = "progression", id = 418209,
     trigger = StageClear("C1")
 )
 
-achievement(title = "[DRAFT] Volcano Aerie", description = "Clear Stage C-2", points = 3, type = "progression", id = 418210,
+achievement(title = "Volcano Aerie", description = "Clear Stage C-2", points = 3, type = "progression", id = 418210,
     trigger = StageClear("C2")
 )
 
-achievement(title = "[DRAFT] Windia Smirks", description = "Clear the game as Windia", points = 5, type = "win_condition", id = 418211,
+achievement(title = "Windia Smirks", description = "Clear the game as Windia", points = 5, type = "win_condition", id = 418211,
     trigger = GameClear("Windia")
 )
 
-achievement(title = "[DRAFT] Casper Smirks", description = "Clear the game as Casper", points = 5, type = "win_condition", id = 418212,
+achievement(title = "Casper Smirks", description = "Clear the game as Casper", points = 5, type = "win_condition", id = 418212,
     trigger = GameClear("Casper")
 )
 
-achievement(title = "[DRAFT] Follett Smirks", description = "Clear the game as Follett", points = 5, type = "win_condition", id = 418213,
+achievement(title = "Follett Smirks", description = "Clear the game as Follett", points = 5, type = "win_condition", id = 418213,
     trigger = GameClear("Follett")
 )
 
-achievement(title = "[DRAFT] Rosa Smirks", description = "Clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
+achievement(title = "Rosa Smirks", description = "Clear the game as Rosa", points = 5, type = "win_condition", id = 418214,
     trigger = GameClear("Rosa")
 )
 
-achievement(title = "[DRAFT] Engorged Canyon", 
-    description = "Clear Stage EXTRA", points = 5, id = 418238,
+achievement(title = "Engorged Canyon", description = "Clear Stage EXTRA", points = 5, id = 418238,
     trigger = StageClear("EX")
 )
 
@@ -432,23 +431,23 @@ achievement(title = "[DRAFT] Engorged Canyon",
 // Play Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] Prine a la mode", description = "Collect a Small Life-Up", points = 3, id = 418215,
+achievement(title = "Prine a la mode", description = "Collect a Small Life-Up", points = 3, id = 418215,
     trigger = LifeUpCollected("Small")
 )
 
-achievement(title = "[DRAFT] Strawberry Parfeit", description = "Collect a Medium Life-Up", points = 3, id = 418216,
+achievement(title = "Strawberry Parfait", description = "Collect a Medium Life-Up", points = 3, id = 418216,
     trigger = LifeUpCollected("Medium")
 )
 
-achievement(title = "[DRAFT] Decoration Cake", description = "Collect a Large Life-Up", points = 3, id = 418217,
+achievement(title = "Decoration Cake", description = "Collect a Large Life-Up", points = 3, id = 418217,
     trigger = LifeUpCollected("Large")
 )
 
-achievement(title = "[DRAFT] Magical Destruction", description = "College a Magic Item", points = 3, id = 418218,
+achievement(title = "Magical Destruction", description = "College a Magic Item", points = 3, id = 418218,
     trigger = BombCollected()
 )
 
-achievement(title = "[DRAFT] Four Course Dessert", description = "Collect 4 Life-Up items in a single playthrough using 3 continues or less", points = 25, id = 418219,
+achievement(title = "Four Course Dessert", description = "Collect 4 Life-Up items in a single playthrough using 3 continues or less", points = 25, id = 418219,
     trigger = Collect4LifeUp()
 )
 
@@ -457,75 +456,75 @@ achievement(title = "[VOID] Untouchable", description = "Complete any stage on L
     trigger = Level3NoDamage()
 )
 
-achievement(title = "[DRAFT] Max Destruction", description = "Increase your bomb stock to 6", points = 50, id = 418221,
+achievement(title = "Max Destruction", description = "Increase your bomb stock to 6", points = 50, id = 418221,
     trigger = MaxBombStock()
 )
 
-achievement(title = "[DRAFT] Max Moderation", description = "Clear the game without using any bombs in 3 continues or less", points = 25, id = 418222,
+achievement(title = "Max Moderation", description = "Clear the game without using any bombs in 3 continues or less", points = 25, id = 418222,
     trigger = NoBombClear(3)
 )
 
-achievement(title = "[DRAFT] Max Restraint", description = "Clear the game without using any bombs and without using a continue", points = 50, id = 419773,
+achievement(title = "Max Restraint", description = "Clear the game without using any bombs and without using a continue", points = 50, id = 419773,
     trigger = NoBombClear(0)
 )
 
-achievement(title = "[DRAFT] Extend 1", description = "Extend your life gauge to 4", points = 10, id = 418223,
+achievement(title = "Ghostly Gains", description = "Extend your life gauge to 4", points = 5, id = 418223,
     trigger = GotExtend(1)
 )
 
-achievement(title = "[DRAFT] Extend 2", description = "Extend your life gauge to 5", points = 25, id = 418224,
+achievement(title = "Ghastly Gains", description = "Extend your life gauge to 5", points = 10, id = 418224,
     trigger = GotExtend(2)
 )
 
-achievement(title = "[DRAFT] Power-Up Mode", description = "Activate Power-Up mode for the first time", points = 5, id = 418225,
+achievement(title = "Power-Up Purgatory", description = "Activate Power-Up mode for the first time", points = 5, id = 418225,
     trigger = ActivatedPowerUp()
 )
 
-achievement(title = "[DRAFT] Fever Mode", description = "Activate Fever mode for the first time", points = 10, id = 418226,
+achievement(title = "Fever Phantasm", description = "Activate Fever mode for the first time", points = 5, id = 418226,
     trigger = ActivatedFeverMode()
 )
 
-achievement(title = "[DRAFT] Death Mode", description = "Activate Death Mode for the first time", points = 3, id = 418227,
+achievement(title = "Death Deadlock", description = "Activate Death Mode for the first time", points = 5, id = 418227,
     trigger = ActivatedDeathMode()
 )
 
-achievement(title = "[DRAFT] Windia Grins", description = "Clear the game with Windia using 3 continues or less", points = 10, id = 419772,
+achievement(title = "Windia Grins", description = "Clear the game with Windia using 3 continues or less", points = 10, id = 419772,
     trigger = GameClear("Windia", true, 3)
 )
 
-achievement(title = "[DRAFT] Windia Smiles", description = "Clear the game with Windia without using a continue", points = 25, id = 418228,
+achievement(title = "Windia Smiles", description = "Clear the game with Windia without using a continue", points = 25, id = 418228,
     trigger = AllClear("Windia")
 )
 
-achievement(title = "[DRAFT] Casper Grins", description = "Clear the game with Casper using 3 continues or less", points = 10, id = 419776,
+achievement(title = "Casper Grins", description = "Clear the game with Casper using 3 continues or less", points = 10, id = 419776,
     trigger = GameClear("Casper", true, 3)
 )
 
-achievement(title = "[DRAFT] Casper Smiles", description = "Clear the game with Casper without using a continue", points = 25, id = 418229,
+achievement(title = "Casper Smiles", description = "Clear the game with Casper without using a continue", points = 25, id = 418229,
     trigger = AllClear("Casper")
 )
 
-achievement(title = "[DRAFT] Follett Grins", description = "Clear the game with Follett using 3 continues or less", points = 10, id = 419775,
+achievement(title = "Follett Grins", description = "Clear the game with Follett using 3 continues or less", points = 10, id = 419775,
     trigger = GameClear("Follett", true, 3)
 )
 
-achievement(title = "[DRAFT] Follett Smiles", description = "Clear the game with Follett without using a continue", points = 25, id = 418230,
+achievement(title = "Follett Smiles", description = "Clear the game with Follett without using a continue", points = 25, id = 418230,
     trigger = AllClear("Follett")
 )
 
-achievement(title = "[DRAFT] Rosa Grins", description = "Clear the game with Rosa using 3 continues or less", points = 10, id = 419774,
+achievement(title = "Rosa Grins", description = "Clear the game with Rosa using 3 continues or less", points = 10, id = 419774,
     trigger = GameClear("Rosa", true, 3)
 )
 
-achievement(title = "[DRAFT] Rosa Smiles", description = "Clear the game with Rosa without using a continue", points = 25, id = 418231,
+achievement(title = "Rosa Smiles", description = "Clear the game with Rosa without using a continue", points = 25, id = 418231,
     trigger = AllClear("Rosa")
 )
 
-achievement(title = "[DRAFT] Death Grins", description = "Activate Death Mode EX and clear the game using 3 continues or less", points = 50, id = 419821,
+achievement(title = "Death Grins", description = "Activate Death Mode EX and clear the game using 3 continues or less", points = 50, id = 419821,
     trigger = AllClearDeathModeEX(3)
 )
 
-achievement(title = "[DRAFT] Death Smiles", description = "Activate Death Mode EX and clear the game without using a continue", points = 100, id = 418232,
+achievement(title = "Death Smiles", description = "Activate Death Mode EX and clear the game without using a continue", points = 100, id = 418232,
     trigger = AllClearDeathModeEX(0)
 )
 
@@ -533,23 +532,23 @@ achievement(title = "[DRAFT] Death Smiles", description = "Activate Death Mode E
 // Point Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] 1 Million", description = "Score 1000000 points or more", points = 5, id = 418233,
+achievement(title = "Hectic", description = "Score 1000000 points or more", points = 5, id = 418233,
     trigger = AchievedScore(1000000)
 )
 
-achievement(title = "[DRAFT] 10 Million", description = "Score 10000000 points or more", points = 10, id = 418234,
+achievement(title = "Frenzied", description = "Score 10000000 points or more", points = 10, id = 418234,
     trigger = AchievedScore(10000000)
 )
 
-achievement(title = "[DRAFT] 100 Million", description = "Score 100000000 points or more", points = 25, id = 418235,
+achievement(title = "Psychotic", description = "Score 100000000 points or more", points = 25, id = 418235,
     trigger = AchievedScore(100000000)
 )
 
-achievement(title = "[DRAFT] 200 Million", description = "Score 200000000 points or more", points = 50, id = 418236,
+achievement(title = "Manic", description = "Score 200000000 points or more", points = 50, id = 418236,
     trigger = AchievedScore(200000000)
 )
 
-achievement(title = "[DRAFT] 300 Million", description = "Score 300000000 points or more", points = 100, id = 418237,
+achievement(title = "Berserk", description = "Score 300000000 points or more", points = 100, id = 418237,
     trigger = AchievedScore(300000000)
 )
 
@@ -557,47 +556,47 @@ achievement(title = "[DRAFT] 300 Million", description = "Score 300000000 points
 // Boss Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[DRAFT] Wandering Grim Reaper", 
+achievement(title = "Wandering Grim Reaper", 
     description = "While playing Stage A-1 at Level 3 or higher, defeat Deathscyth without taking damage", points = 25, id = 418239,
     trigger = NoDamageBoss("A1", "Deathscyth")
 )
 
-achievement(title = "[DRAFT] Buried Baron", 
+achievement(title = "Buried Baron", 
     description = "While playing Stage A-2 at Level 3 or higher, defeat Jordan without taking damage", points = 25, id = 418240,
     trigger = NoDamageBoss("A2", "Jordan")
 )
 
-achievement(title = "[DRAFT] Forest Illusionist", 
+achievement(title = "Forest Illusionist", 
     description = "While playing Stage B-1 at Level 3 or higher, defeat Whroon without taking damage", points = 25,  id = 418241,
     trigger = NoDamageBoss("B1", "Whroon")
 )
 
-achievement(title = "[DRAFT] Swamp Witch", 
+achievement(title = "Swamp Witch", 
     description = "While playing Stage B-2 at Level 3 or higher, defeat Sakura without taking damage", points = 25, id = 418242,
     trigger = NoDamageBoss("B2", "Sakura")
 )
 
-achievement(title = "[DRAFT] Colossal Bovine", 
+achievement(title = "Colossal Bovine", 
     description = "While playing Stage C-1 at Level 3 or higher, defeat Mary without taking damage", points = 25, id = 418243,
     trigger = NoDamageBoss("C1", "Mary")
 )
 
-achievement(title = "[DRAFT] God of Flame", 
+achievement(title = "God of Flame", 
     description = "While playing Stage C-2 at Level 3 or higher, defeat Bavaria without taking damage", points = 25, id = 418244,
     trigger = NoDamageBoss("C2", "Bavaria")
 )
 
-achievement(title = "[DRAFT] Gatekeeper", 
+achievement(title = "Gatekeeper", 
     description = "While playing Stage FINAL on Death Mode or higher, defeat Jitterbug without taking damage", points = 50, id = 418245,
     trigger = NoDamageBoss("FINAL", "Jitterbug")
 )
 
-achievement(title = "[DRAFT] Emperor Demon", 
+achievement(title = "Emperor Demon", 
     description = "While playing Stage FINAL on Death Mode or higher, defeat Tyrannosatan without taking damage", points = 50, id = 418246,
     trigger = NoDamageBoss("FINAL", "Tyrannosatan")
 )
 
-achievement(title = "[DRAFT] Twin Dragon Kings", 
+achievement(title = "Twin Dragon Kings", 
     description = "While playing Stage EXTRA on Death Mode or higher, defeat Devaria & Givaria without taking damage", points = 25, id = 418247,
     trigger = NoDamageBoss("EX", "Devaria")
 )

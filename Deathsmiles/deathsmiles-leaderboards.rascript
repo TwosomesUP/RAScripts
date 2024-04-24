@@ -8,6 +8,8 @@
 GameState = byte(0x53b4bc)
 Tutorial = byte(0x53b4f0)
 Players = byte(0x38870e)
+Player1Active = byte(0x060b0a)
+Player2Active = byte(0x060b0e)
 
 ResultScreenState = {
     "P1": byte(0x540944),
@@ -71,6 +73,18 @@ function Cancel() => always_false()
 function Submit() => always_true()
 function Value() => GetScore()
 
+function InvalidStart(){
+    return any_of(GameOptions, option => GameOptions[option] != ValidOptions[option]) && 
+        ((prev(Player1Active) == 0 && Player1Active == 1) ||
+        (prev(Player2Active) == 0 && Player2Active == 1))
+}
+
+function InvalidValue(){
+    return GameOptions["Extends"] * 10000 + GameOptions["Difficulty"] * 1000 + 
+        GameOptions["EnemyDamage"] * 100 + GameOptions["LifeCapacity"] * 10 + 
+        GameOptions["BulletDamage"]
+}
+
 // ======================================================================= //
 // Leaderboard Definitions
 // ======================================================================= //
@@ -98,3 +112,10 @@ leaderboard("Highscore Challenge - Rosa", "Get the highest score possible while 
     cancel = Cancel(),
     submit = Submit(),
     value = GetScore())
+    
+leaderboard("Invalid Game Settings Found", "To re-enable achievements, reset the game settings to their default values",
+    start = InvalidStart(),
+    cancel = always_false(),
+    submit = always_true(),
+    value = InvalidValue()
+)

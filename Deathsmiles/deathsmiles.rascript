@@ -557,7 +557,7 @@ achievement(title = "Berserk", description = "Score 300000000 points or more", p
 // ======================================================================= //
 
 achievement(title = "Wandering Grim Reaper", 
-    description = "While playing Stage A-1 at Level 3 or higher, defeat Deathscyth without taking damage", points = 25, id = 418239,
+    description = "While playing Stage A-1 at Level 3 or higher, defeat Deathscythe without taking damage", points = 25, id = 418239,
     trigger = NoDamageBoss("A1", "Deathscyth")
 )
 

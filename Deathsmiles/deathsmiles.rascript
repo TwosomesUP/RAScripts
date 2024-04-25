@@ -338,7 +338,7 @@ function NoBombClear(continues){
     }
     
     trigger = trigger && 
-        disable_when(Continues["P1"] > 3 || Continues["P2"] > 3 || BombActive == 1, GameState == 0)
+        disable_when(Continues["P1"] > continues || Continues["P2"] > continues || BombActive == 1, GameState == 0)
 
     return trigger
 }

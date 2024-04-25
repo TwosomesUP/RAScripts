@@ -15,6 +15,7 @@
 GameState = byte(0x53b4bc)
 Tutorial = byte(0x53b4f0)
 Players = byte(0x38870e)
+EndingSequence = byte(0x54864e)
 
 FollettUnlocked = byte(0x38861d)
 RosaUnlocked = byte(0x38861c)
@@ -216,8 +217,12 @@ function StageClear(stage){
         prev(StageClearState) < StageClearState
 }
 
+function ClearFinalStage(){
+    return prev(EndingSequence) == 0 && EndingSequence == 1
+}
+
 function GameClear(character, isChallenge = false, continues = 100){
-    trigger = IsValidSession() && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
+    trigger = IsValidSession() && ClearFinalStage()
 
     if(character == "Windia"){
         if(isChallenge){
@@ -262,9 +267,9 @@ function AllClearDeathModeEX(continues){
     trigger = IsValidSession()
     
     if(continues == 0){
-        trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
+        trigger = trigger && trigger_when(ClearFinalStage())
     } else {
-        trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
+        trigger = trigger && ClearFinalStage()
     }
         
     trigger = trigger && 
@@ -327,9 +332,9 @@ function NoBombClear(continues){
     trigger = IsValidSession()
     
     if(continues == 0){
-        trigger = trigger && trigger_when(prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0)
+        trigger = trigger && trigger_when(ClearFinalStage())
     } else {
-        trigger = trigger && prev(SelectedStage) == Stages["FINAL"] && SelectedStage == 0
+        trigger = trigger && ClearFinalStage()
     }
     
     trigger = trigger && 
@@ -375,8 +380,8 @@ function NoDamageBoss(stage, boss){
         SelectedStage == Stages[stage] &&
         BossIndex == BossIndexes[boss] &&
         trigger_when(prev(BossState) == 1 && BossState == 0) &&
-        disable_when(ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
-        disable_when(ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
+        disable_when(BossIndex == BossIndexes[boss] && ActivePlayers["P1"] == 1 && Health["P1"] < prev(Health["P1"]), SelectingStage == 1 || GameState == 0) &&
+        disable_when(BossIndex == BossIndexes[boss] && ActivePlayers["P2"] == 1 && Health["P2"] < prev(Health["P2"]), SelectingStage == 1 || GameState == 0)
 }
 
 // ======================================================================= //

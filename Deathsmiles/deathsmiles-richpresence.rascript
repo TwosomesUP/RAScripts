@@ -118,9 +118,10 @@ function GetExtends(player){
     return Lives[player] - 3
 }
 
-function IsNormalMode() => EXCompleted == 0 && DeathMode == 0
-function IsDeathMode() => DeathMode == 1 || DeathMode == 0 && EXCompleted == 1
-function IsDeathModeEX() => DeathMode == 1 && EXCompleted == 1 && SelectedStage == 7
+function IsNormalMode() => EXCompleted == 0 && DeathMode == 0 && SelectedStage != 7
+function IsNormalFINAL() => EXCompleted == 0 && DeathMode == 0 && SelectedStage == 7
+function IsDeathMode() => DeathMode + EXCompleted == 1
+function IsDeathModeEX() => DeathMode + EXCompleted == 2 && SelectedStage == 7
 
 rich_presence_conditional_display(IsInGame() && IsPlayer1() && StageSelectState == 1, "{0} | {1} [P1] | Bombs: {2} | Life: {3} | Extends: {4} | Continues: {5}",
     rich_presence_value("Score", Score["P1"], "SCORE"),
@@ -135,6 +136,15 @@ rich_presence_conditional_display(IsInGame() && IsPlayer1() && StageSelectState 
     rich_presence_lookup("CharacterLookup", GetCharacter("P1"), CharacterLookup),
     rich_presence_lookup("StageLookup", SelectedStage, StageLookup),
     rich_presence_lookup("LevelLookup", SelectedStageLevel, LevelLookup),
+    rich_presence_value("Bombs", Bombs),
+    rich_presence_lookup("HealthLookup", Health["P1"], HealthLookup),
+    rich_presence_value("Extends", GetExtends("P1")), 
+    rich_presence_value("Continues", Continues["P1"]))
+    
+rich_presence_conditional_display(IsInGame() && IsPlayer1() && StageSelectState == 0 && IsNormalFINAL(), "{0} | {1} [P1] | {2} [LV3] | Bombs: {3} | Life: {4} | Extends: {5} | Continues: {6}",
+    rich_presence_value("Score", Score["P1"], "SCORE"),
+    rich_presence_lookup("CharacterLookup", GetCharacter("P1"), CharacterLookup),
+    rich_presence_lookup("StageLookup", SelectedStage, StageLookup),
     rich_presence_value("Bombs", Bombs),
     rich_presence_lookup("HealthLookup", Health["P1"], HealthLookup),
     rich_presence_value("Extends", GetExtends("P1")), 
@@ -163,6 +173,15 @@ rich_presence_conditional_display(IsInGame() && IsPlayer2() && StageSelectState 
     rich_presence_lookup("CharacterLookup", GetCharacter("P2"), CharacterLookup),
     rich_presence_lookup("StageLookup", SelectedStage, StageLookup),
     rich_presence_lookup("LevelLookup", SelectedStageLevel, LevelLookup),
+    rich_presence_value("Bombs", Bombs),
+    rich_presence_lookup("HealthLookup", Health["P2"], HealthLookup),
+    rich_presence_value("Extends", GetExtends("P2")), 
+    rich_presence_value("Continues", Continues["P2"]))
+    
+rich_presence_conditional_display(IsInGame() && IsPlayer2() && StageSelectState == 0 && IsNormalFINAL(), "{0} | {1} [P2] | {2} [LV3] | Bombs: {3} | Life: {4} | Extends: {5} | Continues: {6}",
+    rich_presence_value("Score", Score["P2"], "SCORE"),
+    rich_presence_lookup("CharacterLookup", GetCharacter("P2"), CharacterLookup),
+    rich_presence_lookup("StageLookup", SelectedStage, StageLookup),
     rich_presence_value("Bombs", Bombs),
     rich_presence_lookup("HealthLookup", Health["P2"], HealthLookup),
     rich_presence_value("Extends", GetExtends("P2")), 
@@ -199,6 +218,13 @@ rich_presence_conditional_display(IsInGame() && IsPlaying2Player() && StageSelec
     rich_presence_value("Score", Score["P2"], "SCORE"),
     rich_presence_lookup("StageLookup", SelectedStage, StageLookup),
     rich_presence_lookup("LevelLookup", SelectedStageLevel, LevelLookup))
+    
+rich_presence_conditional_display(IsInGame() && IsPlaying2Player() && StageSelectState == 0 && IsNormalFINAL(), "Playing 2 Player | {0} [P1]: {1} | {2} [P2]: {3} | {4} [LV3]",
+    rich_presence_lookup("CharacterLookup", GetCharacter("P1"), CharacterLookup),
+    rich_presence_value("Score", Score["P1"], "SCORE"),
+    rich_presence_lookup("CharacterLookup", GetCharacter("P2"), CharacterLookup),
+    rich_presence_value("Score", Score["P2"], "SCORE"),
+    rich_presence_lookup("StageLookup", SelectedStage, StageLookup))
     
 rich_presence_conditional_display(IsInGame() && IsPlaying2Player() && StageSelectState == 0 && IsDeathMode(), "Playing 2 Player | {0} [P1]: {1} | {2} [P2]: {3} | {4} [Death Mode]",
     rich_presence_lookup("CharacterLookup", GetCharacter("P1"), CharacterLookup),

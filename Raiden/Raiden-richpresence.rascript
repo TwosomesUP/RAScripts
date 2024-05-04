@@ -149,11 +149,11 @@ function IsValidSession(){
 }
 
 function CountContinues() {
-    return measured(tally(0, prev(GameOverState) == GameOverStates["Transition"] && GameOverState == GameOverStates["Active"]))
+    return measured(tally(0, prev(GameOverState) == GameOverStates["Transition"] && GameOverState == GameOverStates["Active"])) && never(InGame == 0)
 }
 
 function CountExtends(player){
-    return measured(tally(0, prev(Player[player]["Score"]) < 150000 && Player[player]["Score"] >= 150000, prev(Player[player]["Score"]) < 400000 && Player[player]["Score"] >= 400000))
+    return measured(tally(0, prev(Player[player]["Score"]) < 150000 && Player[player]["Score"] >= 150000, prev(Player[player]["Score"]) < 400000 && Player[player]["Score"] >= 400000)) && never(InGame == 0)
 }
 
 function GetPrimaryWeapon(player){

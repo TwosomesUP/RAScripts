@@ -9,7 +9,7 @@ InGame = byte(0x566)
 PlayerCount = byte(0xce3) 
 MultiplayerActive = byte(0x41a)
 Stage = byte(0x402)
-Loop = byte(0x41c)
+Loop = byte(0x41c) + 1
 GameOverState = byte(0xac2)
 StageState = byte(0x4c06)
 
@@ -32,7 +32,7 @@ Player = {
         "Lives": byte(0xb85),
         "Vulcan": byte(0xb8b),
         "Laser": byte(0xb8d),
-        "Missle": byte(0xb8f),
+        "Missile": byte(0xb8f),
         "Homing": byte(0xb91),
         "Bombs": byte(0xb93),
         "Medals": byte(0xb95),
@@ -44,7 +44,7 @@ Player = {
         "Lives": byte(0xbab),
         "Vulcan": byte(0xbb1),
         "Laser": byte(0xbb3),
-        "Missle": byte(0xbb5),
+        "Missile": byte(0xbb5),
         "Homing": byte(0xbb7),
         "Bombs": byte(0xbb9),
         "Medals": byte(0xbbb),
@@ -100,7 +100,7 @@ ItemIds = {
     "LaserUp": 0x2c8,
     "VulcanUp": 0x2c4,
     "Bomb": 0x2d4,
-    "Missles": 0x5dc,
+    "Missiles": 0x5dc,
     "Homing": 0x5e0,
     "Medal": 0x5ec,
     "Fairy": 0x92e,
@@ -140,7 +140,8 @@ StageStates = {
 function IsPlaying(player) => InGame == 1 && Player[player]["Active"] == 1 && MultiplayerActive == 0
 function IsGameOver(player) => InGame == 1 && Player[player]["Active"] == 0 && MultiplayerActive == 0
 function IsOnTitle() => InGame == 0
-function IsMultiplayer() => MultiplayerActive == 1
+function IsMultiplayer() => InGame == 1 && (Player["P2"]["Active"] == 1 || Player["P2"]["Active"] == 1) && MultiplayerActive == 1
+function IsMultiplayerGameOver() => InGame == 1 && Player["P2"]["Active"] == 0 && Player["P2"]["Active"] == 0 && MultiplayerActive == 1
 
 function IsValidSession(){
     return InGame == 1 &&
@@ -161,7 +162,7 @@ function GetPrimaryWeapon(player){
 }
 
 function GetSecondaryWeapon(player){
-    return Player[player]["Missle"] + Player[player]["Homing"] * 10
+    return Player[player]["Missile"] + Player[player]["Homing"] * 10
 }
 
 // ======================================================================= //
@@ -169,17 +170,17 @@ function GetSecondaryWeapon(player){
 // ======================================================================= //
 
 StageLookup = {
-    0x00: "Stage 1: Countryside",
-    0x01: "Stage 1: Countryside",
-    0x02: "Stage 2: City",
-    0x03: "Stage 3: Ocean",
-    0x04: "Stage 4: Ruins",
-    0x05: "Stage 5: Wasteland",
-    0x06: "Stage 6: Floating Continent",
-    0x07: "Stage 6: Floating Continent",
-    0x08: "Stage 7: Space Station",
-    0x09: "Stage 8: Enemy Final Base",
-    0x0a: "Prepping for the next loop"
+    0x00: "1 [Countryside]",
+    0x01: "1 [Countryside]",
+    0x02: "2 [City]",
+    0x03: "3 [Ocean]",
+    0x04: "4 [Ruins]",
+    0x05: "5 [Wasteland]",
+    0x06: "6 [Floating Continent]",
+    0x07: "6 [Floating Continent]",
+    0x08: "7 [Space Station]",
+    0x09: "8 [Enemy Final Base]",
+    0x0a: "8 [Enemy Final Base]"
 }
 
 PrimaryWeaponLookup = {
@@ -203,10 +204,10 @@ PrimaryWeaponLookup = {
 
 SecondaryWeaponLookup = {
     0: "",
-    1: "[Missles LV1]",
-    2: "[Missles LV2]",
-    3: "[Missles LV3]",
-    4: "[Missles LV4]",
+    1: "[Missiles LV1]",
+    2: "[Missiles LV2]",
+    3: "[Missiles LV3]",
+    4: "[Missiles LV4]",
     10: "[Homing LV1]",
     20: "[Homing LV2]",
     30: "[Homing LV3]",
@@ -217,16 +218,54 @@ SecondaryWeaponLookup = {
 // Rich Presence Functions
 // ======================================================================= //
 
-rich_presence_conditional_display(IsPlaying("P1"), "{0} | Red Raiden {1} {2} | {3} | Bombs: {4} | Lives: {5} | Extends: {6} | Continues: {7}",
+rich_presence_conditional_display(IsPlaying("P1"), "{0} | 🔴 Raiden {1} {2} | Stage {3}-{4} | 🧚{5} • 🎖️{6} • 💣{7} | 🛩️{8} • 🆙{9} • 🔄{10}",
     rich_presence_value("Score", Player["P1"]["Score"], "SCORE"),
     rich_presence_lookup("PrimaryWeaponLookup", GetPrimaryWeapon("P1"), PrimaryWeaponLookup),
     rich_presence_lookup("SecondaryWeaponLookup", GetSecondaryWeapon("P1"), SecondaryWeaponLookup),
+    rich_presence_value("Loop", Loop),
     rich_presence_lookup("StageLookup", Stage, StageLookup),
+    rich_presence_value("Fairies", Player["P1"]["Fairies"]),
+    rich_presence_value("Medals", Player["P1"]["Medals"]),
     rich_presence_value("Bombs", Player["P1"]["Bombs"]),
     rich_presence_value("Lives", Player["P1"]["Lives"]),
     rich_presence_value("Extends", CountExtends("P1")), 
     rich_presence_value("Continues", CountContinues()))
-    
-rich_presence_conditional_display(IsGameOver("P1"), "Game Over")
+
+rich_presence_conditional_display(IsGameOver("P1"), "Mission Failed | Stage {0}-{1} | {2}", 
+    rich_presence_value("Loop", Loop),
+    rich_presence_lookup("StageLookup", Stage, StageLookup),
+    rich_presence_value("Score", Player["P1"]["Score"], "SCORE")
+)
+
+rich_presence_conditional_display(IsPlaying("P2"), "{0} | 🔵 Raiden {1} {2} | Stage {3}-{4} | 🧚{5} • 🎖️{6} • 💣{7} | 🛩️{8} • 🆙{9} • 🔄{10}",
+    rich_presence_value("Score", Player["P2"]["Score"], "SCORE"),
+    rich_presence_lookup("PrimaryWeaponLookup", GetPrimaryWeapon("P1"), PrimaryWeaponLookup),
+    rich_presence_lookup("SecondaryWeaponLookup", GetSecondaryWeapon("P1"), SecondaryWeaponLookup),
+    rich_presence_value("Loop", Loop),
+    rich_presence_lookup("StageLookup", Stage, StageLookup),
+    rich_presence_value("Fairies", Player["P2"]["Fairies"]),
+    rich_presence_value("Medals", Player["P2"]["Medals"]),
+    rich_presence_value("Bombs", Player["P2"]["Bombs"]),
+    rich_presence_value("Lives", Player["P2"]["Lives"]),
+    rich_presence_value("Extends", CountExtends("P2")), 
+    rich_presence_value("Continues", CountContinues()))
+
+rich_presence_conditional_display(IsGameOver("P2"), "Mission Failed | Stage {0}-{1} | {2}", 
+    rich_presence_value("Loop", Loop),
+    rich_presence_lookup("StageLookup", Stage, StageLookup),
+    rich_presence_value("Score", Player["P2"]["Score"], "SCORE")
+)
+
+rich_presence_conditional_display(IsOnTitle(), "Preparing to fight the Extraterrestrial Menace")
+
+rich_presence_conditional_display(IsMultiplayer(), "The Raiden Duo are fighting the Extraterrestrial Menace | 🔴{0} | 🔵{1}",
+    rich_presence_value("ScoreP1", Player["P1"]["Score"], "SCORE"),
+    rich_presence_value("ScoreP2", Player["P2"]["Score"], "SCORE")
+)
+
+rich_presence_conditional_display(IsMultiplayerGameOver(), "The Raiden Duo failed to eradicate the Extraterrestrial Menace | 🔴{0} | 🔵{1}",
+    rich_presence_value("ScoreP1", Player["P1"]["Score"], "SCORE"),
+    rich_presence_value("ScoreP2", Player["P2"]["Score"], "SCORE")
+)
 
 rich_presence_display("Playing Raiden")

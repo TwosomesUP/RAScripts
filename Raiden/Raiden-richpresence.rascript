@@ -137,14 +137,30 @@ StageStates = {
 // Helper Functions
 // ======================================================================= //
 
-function IsPlaying(player) => InGame == 1 && Player[player]["Active"] == 1 && MultiplayerActive == 0
-function IsGameOver(player) => InGame == 1 && Player[player]["Active"] == 0 && MultiplayerActive == 0
+function IsPlaying(player){
+    otherPlayer = "P2"
+    if(player == "P2")
+        otherPlayer = "P1"
+
+    return InGame > 0 && 
+        Player[player]["Active"] > 0 && 
+        Player[otherPlayer]["Active"] == 0 &&
+        MultiplayerActive == 0
+} 
+
+function IsGameOver(){
+    return InGame > 0 && 
+    Player["P1"]["Active"] == 0 && 
+    Player["P2"]["Active"] == 0 &&
+    MultiplayerActive == 0
+} 
+
 function IsOnTitle() => InGame == 0
-function IsMultiplayer() => InGame == 1 && (Player["P2"]["Active"] == 1 || Player["P2"]["Active"] == 1) && MultiplayerActive == 1
-function IsMultiplayerGameOver() => InGame == 1 && Player["P2"]["Active"] == 0 && Player["P2"]["Active"] == 0 && MultiplayerActive == 1
+function IsMultiplayer() => InGame > 0 && (Player["P2"]["Active"] > 0 || Player["P2"]["Active"] > 0) && MultiplayerActive == 1
+function IsMultiplayerGameOver() => InGame > 0 && Player["P2"]["Active"] == 0 && Player["P2"]["Active"] == 0 && MultiplayerActive == 1
 
 function IsValidSession(){
-    return InGame == 1 &&
+    return InGame > 0 &&
         MultiplayerActive == 0 &&
         all_of(ValidDIPSettings, setting => DIPSettings[setting] == ValidDIPSettings[setting])
 }
@@ -229,12 +245,7 @@ rich_presence_conditional_display(IsPlaying("P1"), "{0} | 🔴 Raiden {1} {2} | 
     rich_presence_value("Bombs", Player["P1"]["Bombs"]),
     rich_presence_value("Lives", Player["P1"]["Lives"]),
     rich_presence_value("Extends", CountExtends("P1")), 
-    rich_presence_value("Continues", CountContinues()))
-
-rich_presence_conditional_display(IsGameOver("P1"), "Mission Failed | Stage {0}-{1} | {2}", 
-    rich_presence_value("Loop", Loop),
-    rich_presence_lookup("StageLookup", Stage, StageLookup),
-    rich_presence_value("Score", Player["P1"]["Score"], "SCORE")
+    rich_presence_value("Continues", CountContinues())
 )
 
 rich_presence_conditional_display(IsPlaying("P2"), "{0} | 🔵 Raiden {1} {2} | Stage {3}-{4} | 🧚{5} • 🎖️{6} • 💣{7} | 🛩️{8} • 🆙{9} • 🔄{10}",
@@ -248,12 +259,13 @@ rich_presence_conditional_display(IsPlaying("P2"), "{0} | 🔵 Raiden {1} {2} | 
     rich_presence_value("Bombs", Player["P2"]["Bombs"]),
     rich_presence_value("Lives", Player["P2"]["Lives"]),
     rich_presence_value("Extends", CountExtends("P2")), 
-    rich_presence_value("Continues", CountContinues()))
-
-rich_presence_conditional_display(IsGameOver("P2"), "Mission Failed | Stage {0}-{1} | {2}", 
+    rich_presence_value("Continues", CountContinues())
+)
+    
+rich_presence_conditional_display(IsGameOver(), "Mission Failed | Stage {0}-{1} | {2}", 
     rich_presence_value("Loop", Loop),
     rich_presence_lookup("StageLookup", Stage, StageLookup),
-    rich_presence_value("Score", Player["P2"]["Score"], "SCORE")
+    rich_presence_value("Score", Player["P1"]["Score"] + Player["P2"]["Score"], "SCORE")
 )
 
 rich_presence_conditional_display(IsOnTitle(), "Preparing to fight the Extraterrestrial Menace")

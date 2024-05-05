@@ -57,42 +57,42 @@ Item = [
     {
         "State": byte(0x471a),
         "Collected": byte(0x472a),
-        "Id": byte(0x4732)
+        "Id": word(0x4732)
     },
     {
         "State": byte(0x478a),
         "Collected": byte(0x479a),
-        "Id": byte(0x47a2)
+        "Id": word(0x47a2)
     },
     {
         "State": byte(0x47fa),
         "Collected": byte(0x480a),
-        "Id": byte(0x4812)
+        "Id": word(0x4812)
     },
     {
         "State": byte(0x486a),
         "Collected": byte(0x487a),
-        "Id": byte(0x4882)
+        "Id": word(0x4882)
     },
     {
         "State": byte(0x48da),
         "Collected": byte(0x48ea),
-        "Id": byte(0x48f2)
+        "Id": word(0x48f2)
     },
     {
         "State": byte(0x494a),
         "Collected": byte(0x495a),
-        "Id": byte(0x4962)
+        "Id": word(0x4962)
     },
     {
         "State": byte(0x49ba),
         "Collected": byte(0x49ca),
-        "Id": byte(0x49d2)
+        "Id": word(0x49d2)
     },
     {
 
         "Collected": byte(0x4a3a),
-        "Id": byte(0x4a42)
+        "Id": word(0x4a42)
     },
 ]
 
@@ -135,16 +135,16 @@ ItemIds = {
 
 Stages = {
     "Stage1Begin": 0x00,
-    "Stage1End": 0x01,
+    "Stage1": 0x01,
     "Stage2": 0x02,
     "Stage3": 0x03,
     "Stage4": 0x04,
     "Stage5": 0x05,
     "Stage6Begin": 0x06,
-    "Stage6End": 0x07,
+    "Stage6": 0x07,
     "Stage7": 0x08,
     "Stage8Begin": 0x09,
-    "Stage8End": 0x0a
+    "Stage8": 0x0a
 }
 
 // ======================================================================= //
@@ -155,13 +155,8 @@ function IsInGame() => InGame > 0
 function IsOnTitle() => InGame == 0
 
 function IsPlaying(player){
-    otherPlayer = "P2"
-    if(player == "P2")
-        otherPlayer = "P1"
-
     return IsInGame() && 
-        Player[player]["Active"] > 0 && 
-        Player[otherPlayer]["Active"] == 0 &&
+        Player[player]["Active"] > 0 &&
         MultiplayerActive == 0
 } 
 
@@ -188,42 +183,101 @@ function MaxContinues(max) {
 // Achievement Functions
 // ======================================================================= //
 
+function ClearStage(stage){
+    return IsValidSession() &&
+        (IsPlaying("P1") || IsPlaying("P2")) &&
+        Stage == Stages[stage] &&
+        prev(StageState) == StageStates["PreResults"] &&
+        StageState == StageStates["ResultsStart"]
+}
 
+function ClearStageWithMedals(stage, medals){
+    return ClearStage(stage) &&
+        ((Player["P1"]["Active"] == 1 && Player["P1"]["Medals"] >= medals) || 
+        (Player["P2"]["Active"] == 1 && Player["P2"]["Medals"] >= medals))
+}
+
+function ClearStageWithMaxBombs(){
+    return IsValidSession() &&
+        (IsPlaying("P1") || IsPlaying("P2")) &&
+        prev(StageState) == StageStates["PreResults"] &&
+        StageState == StageStates["ResultsStart"] &&
+        ((Player["P1"]["Active"] == 1 && Player["P1"]["Bombs"] == 7) || 
+        (Player["P2"]["Active"] == 1 && Player["P2"]["Bombs"] == 7))
+}
+
+function MaxPrimaryWeapon(){
+    return IsValidSession() &&
+        (IsPlaying("P1") || IsPlaying("P2")) &&
+        (((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Laser"]) != 0 && prev(Player["P1"]["Laser"]) < 8 && Player["P1"]["Laser"] == 8) ||
+        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Laser"]) != 0 && prev(Player["P2"]["Laser"]) < 8 && Player["P2"]["Laser"] == 8)) ||
+        ((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Vulcan"]) != 0 && prev(Player["P1"]["Vulcan"]) < 8 && Player["P1"]["Vulcan"] == 8) ||
+        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Vulcan"]) != 0 && prev(Player["P2"]["Vulcan"]) < 8 && Player["P2"]["Vulcan"] == 8)))
+}
+
+//Fix/simplify logic to match Fiary
+function MaxSecondaryWeapon(){
+    return IsValidSession() &&
+        (IsPlaying("P1") || IsPlaying("P2")) &&
+        (((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Missile"]) != 0 && prev(Player["P1"]["Missile"]) < 4 && Player["P1"]["Missile"] == 4) ||
+        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Missile"]) != 0 && prev(Player["P2"]["Missile"]) < 4 && Player["P2"]["Missile"] == 4)) ||
+        ((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Homing"]) != 0 && prev(Player["P1"]["Homing"]) < 4 && Player["P1"]["Homing"] == 4) ||
+        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Homing"]) != 0 && prev(Player["P2"]["Homing"]) < 4 && Player["P2"]["Homing"] == 4)))
+}
+
+function CollectedMiclus(){
+    return IsValidSession() &&
+        (IsPlaying("P1") || IsPlaying("P2")) &&
+        (any_of(Item, item => prev(item["Id"]) == ItemIds["MiclusRight"] && item["Id"] == ItemIds["3000pts"]) ||
+        any_of(Item, item => prev(item["Id"]) == ItemIds["MiclusLeft"] && item["Id"] == ItemIds["3000pts"]))
+}
+
+function CollectedFairy(){
+    return IsValidSession() && 
+        ((IsPlaying("P1") && prev(Player["P1"]["Fairies"]) < Player["P1"]["Fairies"]) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Fairies"]) < Player["P2"]["Fairies"]))
+}
+
+function Collected3Fairies(){
+    return IsValidSession() &&
+        ((IsPlaying("P1") && prev(Player["P1"]["Fairies"]) == 2 && Player["P1"]["Fairies"] == 3 && disable_when(prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], IsOnTitle())) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Fairies"]) == 2 && Player["P2"]["Fairies"] == 3 && disable_when(prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], IsOnTitle())))
+}
 
 // ======================================================================= //
 // Progression Achievement Definitions
 // ======================================================================= //
 
 achievement(title = "[Draft] Clear Stage 1", description = "Clear Stage 1", points = 1, type = "progression", id = 423481,
-    trigger = always_false()
+    trigger = ClearStage("Stage1")
 )
 
 achievement(title = "[Draft] Clear Stage 2", description = "Clear Stage 2", points = 2, type = "progression", id = 423482,
-    trigger = always_false()
+    trigger = ClearStage("Stage2")
 )
 
 achievement(title = "[Draft] Clear Stage 3", description = "Clear Stage 3", points = 2, type = "progression", id = 423483,
-    trigger = always_false()
+    trigger = ClearStage("Stage3")
 )
 
 achievement(title = "[Draft] Clear Stage 4", description = "Clear Stage 4", points = 3, type = "progression", id = 423484,
-    trigger = always_false()
+    trigger = ClearStage("Stage4")
 )
 
 achievement(title = "[Draft] Clear Stage 5", description = "Clear Stage 5", points = 3, type = "progression", id = 423485,
-    trigger = always_false()
+    trigger = ClearStage("Stage5")
 )
 
 achievement(title = "[Draft] Clear Stage 6", description = "Clear Stage 6", points = 4, type = "progression", id = 423486,
-    trigger = always_false()
+    trigger = ClearStage("Stage6")
 )
 
 achievement(title = "[Draft] Clear Stage 7", description = "Clear Stage 7", points = 4, type = "progression", id = 423487,
-    trigger = always_false()
+    trigger = ClearStage("Stage7")
 )
 
-achievement(title = "[Draft] Clear Stage 8", description = "Clear Stage 8", points = 5, type = "progression", id = 423488,
-    trigger = always_false()
+achievement(title = "[Draft] Clear Stage 8", description = "Clear the game", points = 5, type = "win_condition", id = 423488,
+    trigger = ClearStage("Stage8")
 )
 
 // ======================================================================= //
@@ -231,59 +285,59 @@ achievement(title = "[Draft] Clear Stage 8", description = "Clear Stage 8", poin
 // ======================================================================= //
 
 achievement(title = "[Draft] Medals 1", description = "Clear Stage 1 with 15 or more medals", points = 10, id = 423489,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 2", description = "Clear Stage 2 with 15 or more medals", points = 10, id = 423490,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 3", description = "Clear Stage 3 with 15 or more medals", points = 10, id = 423491,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 4", description = "Clear Stage 4 with 15 or more medals", points = 10, id = 423492,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 5", description = "Clear Stage 5 with 15 or more medals", points = 10, id = 423493,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 6", description = "Clear Stage 6 with 15 or more medals", points = 10, id = 423494,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 7", description = "Clear Stage 7 with 15 or more medals", points = 10, id = 423495,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Medals 8", description = "Clear Stage 8 with 15 or more medals", points = 10, id = 423496,
-    trigger = always_false()
+    trigger = ClearStageWithMedals("Stage1", 15)
 )
 
 achievement(title = "[Draft] Max Bombs", description = "Clear any stage with a max bomb bonus", points = 10, id = 423497,
-    trigger = always_false()
+    trigger = ClearStageWithMaxBombs()
 )
 
 achievement(title = "[Draft] Max Primary", description = "Upgrade the Vulcan or Laser to max firepower", points = 5, id = 423498,
-    trigger = always_false()
+    trigger = MaxPrimaryWeapon()
 )
 
 achievement(title = "[Draft] Max Secondary", description = "Upgrade the Missiles or Homing Missiles to max firepower", points = 5, id = 423499,
-    trigger = always_false()
+    trigger = MaxSecondaryWeapon()
 )
 
 achievement(title = "[Draft] Dragon", description = "Collect a Miclus for the first time", points = 3, id = 423500,
-    trigger = always_false()
+    trigger = CollectedMiclus()
 )
 
 achievement(title = "[Draft] Fairy", description = "Collect a Fairy for the first time", points = 10, id = 423501,
-    trigger = always_false()
+    trigger = CollectedFairy()
 )
 
 achievement(title = "[Draft] All Fairies", description = "Collect 3 Fairies in a single playthrough without losing a life", points = 50, id = 423502,
-    trigger = always_false()
+    trigger = Collected3Fairies()
 )
 
 achievement(title = "[Draft] 1-ALL", description = "Clear the first loop without using a continue", points = 25, id = 423503,

@@ -268,6 +268,11 @@ function ClearLoopWithRestrictedContinues(max_continues, loop){
 }
 
 function GotExtend(number){
+    if(number < 1)
+        number = 1
+    if(number > 2)
+        number = 2
+        
     begin = 3 + (number / 2)
     end = 3 + number
 
@@ -288,7 +293,8 @@ function DefeatBossNoDamage(stage){
         disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], Stage != Stages[stage] || IsOnTitle())) ||
         (IsPlaying("P2") && 
         disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], Stage != Stages[stage] || IsOnTitle()))) &&
-        trigger_when(prev(StageState) == StageStates["BossActive"] && StageState == StageStates["BossDefeated"])      
+        prev(StageState) == StageStates["BossActive"] && 
+        trigger_when(StageState == StageStates["BossDefeated"])      
 }
 
 // ======================================================================= //
@@ -331,36 +337,36 @@ achievement(title = "[Draft] Clear Stage 8", description = "Clear the game", poi
 // Play Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[Draft] Medals 1", description = "Clear Stage 1 with 15 or more medals", points = 10, id = 423489,
-    trigger = ClearStageWithMedals("Stage1", 15)
+achievement(title = "[Draft] Medals 1", description = "Clear Stage 1 with 10 or more medals", points = 10, id = 423489,
+    trigger = ClearStageWithMedals("Stage1", 10)
 )
 
 achievement(title = "[Draft] Medals 2", description = "Clear Stage 2 with 15 or more medals", points = 10, id = 423490,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage2", 15)
 )
 
 achievement(title = "[Draft] Medals 3", description = "Clear Stage 3 with 15 or more medals", points = 10, id = 423491,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage3", 15)
 )
 
 achievement(title = "[Draft] Medals 4", description = "Clear Stage 4 with 15 or more medals", points = 10, id = 423492,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage4", 15)
 )
 
 achievement(title = "[Draft] Medals 5", description = "Clear Stage 5 with 15 or more medals", points = 10, id = 423493,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage5", 15)
 )
 
 achievement(title = "[Draft] Medals 6", description = "Clear Stage 6 with 15 or more medals", points = 10, id = 423494,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage6", 15)
 )
 
 achievement(title = "[Draft] Medals 7", description = "Clear Stage 7 with 15 or more medals", points = 10, id = 423495,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage7", 15)
 )
 
 achievement(title = "[Draft] Medals 8", description = "Clear Stage 8 with 15 or more medals", points = 10, id = 423496,
-    trigger = ClearStageWithMedals("Stage1", 15)
+    trigger = ClearStageWithMedals("Stage8", 15)
 )
 
 achievement(title = "[Draft] Max Bombs", description = "Clear any stage with a max bomb bonus", points = 10, id = 423497,

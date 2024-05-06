@@ -9,7 +9,7 @@ InGame = byte(0x566)
 PlayerCount = byte(0xce3) 
 MultiplayerActive = byte(0x41a)
 Stage = byte(0x402)
-Loop = byte(0x41c) + 1
+Loop = byte(0x41c)
 GameOverState = byte(0xac2)
 StageState = byte(0x4c06)
 
@@ -158,7 +158,12 @@ function IsPlaying(player){
     return IsInGame() && 
         Player[player]["Active"] > 0 &&
         MultiplayerActive == 0
-} 
+}
+
+function IsPlayingChallenge(player){
+    return Player[player]["Active"] > 0 &&
+        MultiplayerActive == 0
+}
 
 function IsGameOver(){
     return IsInGame() && 
@@ -176,7 +181,7 @@ function MaxContinues(max) {
     if(max < 1)
         max = 1
         
-    return disable_when(tally(max, prev(GameOverState) == GameOverStates["Transition"] && GameOverState == GameOverStates["Active"], IsOnTitle()))
+    return disable_when(tally(max, prev(GameOverState) == GameOverStates["Transition"] && GameOverState == GameOverStates["Active"]), IsOnTitle())
 }
 
 // ======================================================================= //
@@ -191,38 +196,46 @@ function ClearStage(stage){
         StageState == StageStates["ResultsStart"]
 }
 
+function ClearGameChallenge(){
+    return IsValidSession() &&
+        (IsPlayingChallenge("P1") || IsPlayingChallenge("P2")) &&
+        Stage == Stages["Stage8"] &&
+        prev(StageState) == StageStates["PreResults"] &&
+        StageState == StageStates["ResultsStart"]
+}
+
 function ClearStageWithMedals(stage, medals){
-    return ClearStage(stage) &&
-        ((Player["P1"]["Active"] == 1 && Player["P1"]["Medals"] >= medals) || 
-        (Player["P2"]["Active"] == 1 && Player["P2"]["Medals"] >= medals))
+    return IsValidSession() &&
+        ((IsPlaying("P1") && Player["P1"]["Medals"] >= medals) || 
+        (IsPlaying("P2") && Player["P2"]["Medals"] >= medals)) &&
+        Stage == Stages[stage] &&
+        prev(StageState) == StageStates["PreResults"] &&
+        StageState == StageStates["ResultsStart"]
 }
 
 function ClearStageWithMaxBombs(){
     return IsValidSession() &&
-        (IsPlaying("P1") || IsPlaying("P2")) &&
+        ((IsPlaying("P1") && Player["P1"]["Bombs"] == 7) ||
+        (IsPlaying("P2") && Player["P2"]["Bombs"] == 7)) &&
         prev(StageState) == StageStates["PreResults"] &&
-        StageState == StageStates["ResultsStart"] &&
-        ((Player["P1"]["Active"] == 1 && Player["P1"]["Bombs"] == 7) || 
-        (Player["P2"]["Active"] == 1 && Player["P2"]["Bombs"] == 7))
+        StageState == StageStates["ResultsStart"]
 }
 
 function MaxPrimaryWeapon(){
     return IsValidSession() &&
-        (IsPlaying("P1") || IsPlaying("P2")) &&
-        (((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Laser"]) != 0 && prev(Player["P1"]["Laser"]) < 8 && Player["P1"]["Laser"] == 8) ||
-        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Laser"]) != 0 && prev(Player["P2"]["Laser"]) < 8 && Player["P2"]["Laser"] == 8)) ||
-        ((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Vulcan"]) != 0 && prev(Player["P1"]["Vulcan"]) < 8 && Player["P1"]["Vulcan"] == 8) ||
-        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Vulcan"]) != 0 && prev(Player["P2"]["Vulcan"]) < 8 && Player["P2"]["Vulcan"] == 8)))
+        ((IsPlaying("P1") && prev(Player["P1"]["Laser"]) != 0 && prev(Player["P1"]["Laser"]) < 8 && Player["P1"]["Laser"] == 8) || 
+        (IsPlaying("P1") && prev(Player["P1"]["Vulcan"]) != 0 && prev(Player["P1"]["Vulcan"]) < 8 && Player["P1"]["Vulcan"] == 8) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Laser"]) != 0 && prev(Player["P2"]["Laser"]) < 8 && Player["P2"]["Laser"] == 8) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Vulcan"]) != 0 && prev(Player["P2"]["Vulcan"]) < 8 && Player["P2"]["Vulcan"] == 8))
 }
 
 //Fix/simplify logic to match Fiary
 function MaxSecondaryWeapon(){
     return IsValidSession() &&
-        (IsPlaying("P1") || IsPlaying("P2")) &&
-        (((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Missile"]) != 0 && prev(Player["P1"]["Missile"]) < 4 && Player["P1"]["Missile"] == 4) ||
-        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Missile"]) != 0 && prev(Player["P2"]["Missile"]) < 4 && Player["P2"]["Missile"] == 4)) ||
-        ((Player["P1"]["Active"] == 1 && prev(Player["P1"]["Homing"]) != 0 && prev(Player["P1"]["Homing"]) < 4 && Player["P1"]["Homing"] == 4) ||
-        (Player["P2"]["Active"] == 1 && prev(Player["P2"]["Homing"]) != 0 && prev(Player["P2"]["Homing"]) < 4 && Player["P2"]["Homing"] == 4)))
+        ((IsPlaying("P1") && prev(Player["P1"]["Missile"]) != 0 && prev(Player["P1"]["Missile"]) < 4 && Player["P1"]["Missile"] == 4) || 
+        (IsPlaying("P1") && prev(Player["P1"]["Homing"]) != 0 && prev(Player["P1"]["Homing"]) < 4 && Player["P1"]["Homing"] == 4) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Missile"]) != 0 && prev(Player["P2"]["Missile"]) < 4 && Player["P2"]["Missile"] == 4) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Homing"]) != 0 && prev(Player["P2"]["Homing"]) < 4 && Player["P2"]["Homing"] == 4))
 }
 
 function CollectedMiclus(){
@@ -242,6 +255,40 @@ function Collected3Fairies(){
     return IsValidSession() &&
         ((IsPlaying("P1") && prev(Player["P1"]["Fairies"]) == 2 && Player["P1"]["Fairies"] == 3 && disable_when(prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], IsOnTitle())) ||
         (IsPlaying("P2") && prev(Player["P2"]["Fairies"]) == 2 && Player["P2"]["Fairies"] == 3 && disable_when(prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], IsOnTitle())))
+}
+
+function ClearLoopWithRestrictedContinues(max_continues, loop){
+    loop = loop - 1
+    if(loop < 0)
+        loop = 0
+
+    return ClearGameChallenge() &&
+        Loop == loop &&
+        MaxContinues(max_continues)
+}
+
+function GotExtend(number){
+    begin = 3 + (number / 2)
+    end = 3 + number
+
+    return IsValidSession() &&
+        ((IsPlaying("P1") && prev(Player["P1"]["Lives"]) == begin && Player["P1"]["Lives"] == end) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Lives"]) == begin && Player["P2"]["Lives"] == end))
+}
+
+function GotScore(score){
+    return IsValidSession() &&
+        ((IsPlaying("P1") && prev(Player["P1"]["Score"]) < score && Player["P1"]["Score"] >= score) ||
+        (IsPlaying("P2") && prev(Player["P2"]["Score"]) < score && Player["P2"]["Score"] >= score))
+}
+
+function DefeatBossNoDamage(stage){
+    return IsValidSession() &&
+        ((IsPlaying("P1") && 
+        disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], Stage != Stages[stage] || IsOnTitle())) ||
+        (IsPlaying("P2") && 
+        disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], Stage != Stages[stage] || IsOnTitle()))) &&
+        trigger_when(prev(StageState) == StageStates["BossActive"] && StageState == StageStates["BossDefeated"])      
 }
 
 // ======================================================================= //
@@ -341,19 +388,19 @@ achievement(title = "[Draft] All Fairies", description = "Collect 3 Fairies in a
 )
 
 achievement(title = "[Draft] 1-ALL", description = "Clear the first loop without using a continue", points = 25, id = 423503,
-    trigger = always_false()
+    trigger = ClearLoopWithRestrictedContinues(0, 1)
 )
 
 achievement(title = "[Draft] 2-Clear", description = "Clear the second loop using 3 continues or less", points = 50, id = 423504,
-    trigger = always_false()
+    trigger = ClearLoopWithRestrictedContinues(3, 2)
 )
 
 achievement(title = "[Draft] Extend 1", description = "Extend your lives to 4 before the end of the first loop", points = 10, id = 423505,
-    trigger = always_false()
+    trigger = GotExtend(1)
 )
 
 achievement(title = "[Draft] Extend 2", description = "Extend your lives to 5 before the end of the first loop", points = 25, id = 423506,
-    trigger = always_false()
+    trigger = GotExtend(2)
 )
 
 // ======================================================================= //
@@ -361,23 +408,23 @@ achievement(title = "[Draft] Extend 2", description = "Extend your lives to 5 be
 // ======================================================================= //
 
 achievement(title = "[Draft] 50K", description = "Score 50000 points or more before the end of the first loop", points = 3, id = 423507,
-    trigger = always_false()
+    trigger = GotScore(50000)
 )
 
 achievement(title = "[Draft] 100K", description = "Score 100000 points or more before the end of the first loop", points = 5, id = 423508,
-    trigger = always_false()
+    trigger = GotScore(100000)
 )
 
 achievement(title = "[Draft] 250K", description = "Score 250000 points or more before the end of the first loop", points = 10, id = 423509,
-    trigger = always_false()
+    trigger = GotScore(250000)
 )
 
 achievement(title = "[Draft] 500K", description = "Score 500000 points or more before the end of the first loop", points = 25, id = 423510,
-    trigger = always_false()
+    trigger = GotScore(500000)
 )
 
 achievement(title = "[Draft] 1M", description = "Score 1000000 points or more before the end of the first loop", points = 50, id = 423511,
-    trigger = always_false()
+    trigger = GotScore(1000000)
 )
 
 // ======================================================================= //
@@ -385,34 +432,34 @@ achievement(title = "[Draft] 1M", description = "Score 1000000 points or more be
 // ======================================================================= //
 
 achievement(title = "[Draft] No Damage Boss 1", description = "Defeat Desert Spider on Stage 1 without losing a life and without using bombs", points = 10, id = 423512,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage1")
 )
 
 achievement(title = "[Draft] No Damage Boss 2", description = "Defeat Flying Fox on Stage 2 without losing a life and without using bombs", points = 25, id = 423513,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage2")
 )
 
 achievement(title = "[Draft] No Damage Boss 3", description = "Defeat Phalanx MK-III on Stage 3 without losing a life and without using bombs", points = 25, id = 423514,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage3")
 )
 
 achievement(title = "[Draft] No Damage Boss 4", description = "Defeat Gijido on Stage 4 without losing a life and without using bombs", points = 25, id = 423515,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage4")
 )
 
 achievement(title = "[Draft] No Damage Boss 5", description = "Defeat Land Crown on Stage 5 without losing a life and without using bombs", points = 25, id = 423516,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage5")
 )
 
 achievement(title = "[Draft] No Damage Boss 6", description = "Defeat Guardian on Stage 6 without losing a life and without using bombs", points = 25, id = 423517,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage6")
 )
 
 achievement(title = "[Draft] No Damage Boss 7", description = "Defeat Antonov Ma-27 on Stage 7 without losing a life and without using bombs", points = 25, id = 423518,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage7")
 )
 
 achievement(title = "[Draft] No Damage Boss 8", description = "Defeat Doreineji on Stage 8 without losing a life and without using bombs", points = 50, id = 423519,
-    trigger = always_false()
+    trigger = DefeatBossNoDamage("Stage8Begin")
 )
 

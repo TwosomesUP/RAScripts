@@ -366,7 +366,7 @@ achievement(title = "[Draft] Medals 7", description = "Clear Stage 7 with 15 or 
 )
 
 achievement(title = "[Draft] Medals 8", description = "Clear Stage 8 with 15 or more medals", points = 10, id = 423496,
-    trigger = ClearStageWithMedals("Stage8", 15)
+    trigger = ClearStageWithMedals("Stage8Begin", 15)
 )
 
 achievement(title = "[Draft] Max Bombs", description = "Clear any stage with a max bomb bonus", points = 10, id = 423497,

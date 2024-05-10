@@ -250,8 +250,8 @@ rich_presence_conditional_display(IsPlaying("P1"), "{0} | 🔴 Raiden {1} {2} | 
 
 rich_presence_conditional_display(IsPlaying("P2"), "{0} | 🔵 Raiden {1} {2} | Stage {3}-{4} | 🧚{5} • 🎖️{6} • 💣{7} | 🛩️{8} • 🆙{9} • 🔄{10}",
     rich_presence_value("Score", Player["P2"]["Score"], "SCORE"),
-    rich_presence_lookup("PrimaryWeaponLookup", GetPrimaryWeapon("P1"), PrimaryWeaponLookup),
-    rich_presence_lookup("SecondaryWeaponLookup", GetSecondaryWeapon("P1"), SecondaryWeaponLookup),
+    rich_presence_lookup("PrimaryWeaponLookup", GetPrimaryWeapon("P2"), PrimaryWeaponLookup),
+    rich_presence_lookup("SecondaryWeaponLookup", GetSecondaryWeapon("P2"), SecondaryWeaponLookup),
     rich_presence_value("Loop", Loop),
     rich_presence_lookup("StageLookup", Stage, StageLookup),
     rich_presence_value("Fairies", Player["P2"]["Fairies"]),

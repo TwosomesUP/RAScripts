@@ -253,6 +253,8 @@ function CollectedFairy(){
 
 function Collected3Fairies(){
     return IsValidSession() &&
+        Loop == 0 &&
+        Stage < 0xa &&
         ((IsPlaying("P1") && prev(Player["P1"]["Fairies"]) == 2 && Player["P1"]["Fairies"] == 3 && disable_when(prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], IsOnTitle())) ||
         (IsPlaying("P2") && prev(Player["P2"]["Fairies"]) == 2 && Player["P2"]["Fairies"] == 3 && disable_when(prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], IsOnTitle())))
 }
@@ -277,12 +279,16 @@ function GotExtend(number){
     end = 3 + number
 
     return IsValidSession() &&
+        Loop == 0 &&
+        Stage < 0xa &&
         ((IsPlaying("P1") && prev(Player["P1"]["Lives"]) == begin && Player["P1"]["Lives"] == end) ||
         (IsPlaying("P2") && prev(Player["P2"]["Lives"]) == begin && Player["P2"]["Lives"] == end))
 }
 
 function GotScore(score){
     return IsValidSession() &&
+        Loop == 0 &&
+        Stage < 0xa &&
         ((IsPlaying("P1") && prev(Player["P1"]["Score"]) < score && Player["P1"]["Score"] >= score) ||
         (IsPlaying("P2") && prev(Player["P2"]["Score"]) < score && Player["P2"]["Score"] >= score))
 }
@@ -389,7 +395,7 @@ achievement(title = "[Draft] Fairy", description = "Collect a Fairy for the firs
     trigger = CollectedFairy()
 )
 
-achievement(title = "[Draft] All Fairies", description = "Collect 3 Fairies in a single playthrough without losing a life", points = 50, id = 423502,
+achievement(title = "[Draft] All Fairies", description = "Collect 3 Fairies in the first loop without losing a life", points = 50, id = 423502,
     trigger = Collected3Fairies()
 )
 

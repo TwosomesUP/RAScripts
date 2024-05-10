@@ -307,35 +307,35 @@ function DefeatBossNoDamage(stage){
 // Progression Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[Draft] Clear Stage 1", description = "Clear Stage 1", points = 1, type = "progression", id = 423481,
+achievement(title = "Backwater Boom", description = "Clear Stage 1", points = 1, type = "progression", id = 423481,
     trigger = ClearStage("Stage1")
 )
 
-achievement(title = "[Draft] Clear Stage 2", description = "Clear Stage 2", points = 2, type = "progression", id = 423482,
+achievement(title = "Metropolitan Mastery", description = "Clear Stage 2", points = 2, type = "progression", id = 423482,
     trigger = ClearStage("Stage2")
 )
 
-achievement(title = "[Draft] Clear Stage 3", description = "Clear Stage 3", points = 2, type = "progression", id = 423483,
+achievement(title = "Seaside Sweep", description = "Clear Stage 3", points = 2, type = "progression", id = 423483,
     trigger = ClearStage("Stage3")
 )
 
-achievement(title = "[Draft] Clear Stage 4", description = "Clear Stage 4", points = 3, type = "progression", id = 423484,
+achievement(title = "Detritus Defeat", description = "Clear Stage 4", points = 3, type = "progression", id = 423484,
     trigger = ClearStage("Stage4")
 )
 
-achievement(title = "[Draft] Clear Stage 5", description = "Clear Stage 5", points = 3, type = "progression", id = 423485,
+achievement(title = "Badlands Blitz", description = "Clear Stage 5", points = 3, type = "progression", id = 423485,
     trigger = ClearStage("Stage5")
 )
 
-achievement(title = "[Draft] Clear Stage 6", description = "Clear Stage 6", points = 4, type = "progression", id = 423486,
+achievement(title = "Empyrean Extermination", description = "Clear Stage 6", points = 4, type = "progression", id = 423486,
     trigger = ClearStage("Stage6")
 )
 
-achievement(title = "[Draft] Clear Stage 7", description = "Clear Stage 7", points = 4, type = "progression", id = 423487,
+achievement(title = "Cosmic Conquest", description = "Clear Stage 7", points = 4, type = "progression", id = 423487,
     trigger = ClearStage("Stage7")
 )
 
-achievement(title = "[Draft] Clear Stage 8", description = "Clear the game", points = 5, type = "win_condition", id = 423488,
+achievement(title = "Titan Takedown", description = "Clear the game", points = 5, type = "win_condition", id = 423488,
     trigger = ClearStage("Stage8")
 )
 
@@ -343,75 +343,75 @@ achievement(title = "[Draft] Clear Stage 8", description = "Clear the game", poi
 // Play Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[Draft] Medals 1", description = "Clear Stage 1 with 10 or more medals", points = 10, id = 423489,
+achievement(title = "Backwater Bonus", description = "Clear Stage 1 with 10 or more medals", points = 10, id = 423489,
     trigger = ClearStageWithMedals("Stage1", 10)
 )
 
-achievement(title = "[Draft] Medals 2", description = "Clear Stage 2 with 15 or more medals", points = 10, id = 423490,
+achievement(title = "Metropolitan Merits", description = "Clear Stage 2 with 15 or more medals", points = 10, id = 423490,
     trigger = ClearStageWithMedals("Stage2", 15)
 )
 
-achievement(title = "[Draft] Medals 3", description = "Clear Stage 3 with 15 or more medals", points = 10, id = 423491,
+achievement(title = "Seaside Spoils", description = "Clear Stage 3 with 15 or more medals", points = 10, id = 423491,
     trigger = ClearStageWithMedals("Stage3", 15)
 )
 
-achievement(title = "[Draft] Medals 4", description = "Clear Stage 4 with 15 or more medals", points = 10, id = 423492,
+achievement(title = "Detritus Dividend", description = "Clear Stage 4 with 15 or more medals", points = 10, id = 423492,
     trigger = ClearStageWithMedals("Stage4", 15)
 )
 
-achievement(title = "[Draft] Medals 5", description = "Clear Stage 5 with 15 or more medals", points = 10, id = 423493,
+achievement(title = "Badlands Bounty", description = "Clear Stage 5 with 15 or more medals", points = 10, id = 423493,
     trigger = ClearStageWithMedals("Stage5", 15)
 )
 
-achievement(title = "[Draft] Medals 6", description = "Clear Stage 6 with 15 or more medals", points = 10, id = 423494,
+achievement(title = "Empyrean Extra", description = "Clear Stage 6 with 15 or more medals", points = 10, id = 423494,
     trigger = ClearStageWithMedals("Stage6", 15)
 )
 
-achievement(title = "[Draft] Medals 7", description = "Clear Stage 7 with 15 or more medals", points = 10, id = 423495,
+achievement(title = "Cosmic Cache", description = "Clear Stage 7 with 15 or more medals", points = 10, id = 423495,
     trigger = ClearStageWithMedals("Stage7", 15)
 )
 
-achievement(title = "[Draft] Medals 8", description = "Clear Stage 8 with 15 or more medals", points = 10, id = 423496,
+achievement(title = "Titan Treasures", description = "Clear Stage 8 with 15 or more medals", points = 10, id = 423496,
     trigger = ClearStageWithMedals("Stage8Begin", 15)
 )
 
-achievement(title = "[Draft] Max Bombs", description = "Clear any stage with a max bomb bonus", points = 10, id = 423497,
+achievement(title = "Surplus Ordnance ", description = "Clear any stage with a max bomb bonus", points = 10, id = 423497,
     trigger = ClearStageWithMaxBombs()
 )
 
-achievement(title = "[Draft] Max Primary", description = "Upgrade the Vulcan or Laser to max firepower", points = 5, id = 423498,
+achievement(title = "Optimum Arms", description = "Upgrade the Vulcan or Laser to max firepower", points = 5, id = 423498,
     trigger = MaxPrimaryWeapon()
 )
 
-achievement(title = "[Draft] Max Secondary", description = "Upgrade the Missiles or Homing Missiles to max firepower", points = 5, id = 423499,
+achievement(title = "Maximum Munitions", description = "Upgrade the Missiles or Homing Missiles to max firepower", points = 5, id = 423499,
     trigger = MaxSecondaryWeapon()
 )
 
-achievement(title = "[Draft] Dragon", description = "Collect a Miclus for the first time", points = 3, id = 423500,
+achievement(title = "Tame the Dragon", description = "Collect a Miclus for the first time", points = 3, id = 423500,
     trigger = CollectedMiclus()
 )
 
-achievement(title = "[Draft] Fairy", description = "Collect a Fairy for the first time", points = 10, id = 423501,
+achievement(title = "Solitary Fairy", description = "Collect a Fairy for the first time", points = 10, id = 423501,
     trigger = CollectedFairy()
 )
 
-achievement(title = "[Draft] All Fairies", description = "Collect 3 Fairies in the first loop without losing a life", points = 50, id = 423502,
+achievement(title = "Airy Fairy", description = "Collect 3 Fairies in the first loop without losing a life", points = 50, id = 423502,
     trigger = Collected3Fairies()
 )
 
-achievement(title = "[Draft] 1-ALL", description = "Clear the first loop without using a continue", points = 25, id = 423503,
+achievement(title = "Legendary Fighter", description = "Clear the first loop without using a continue", points = 25, id = 423503,
     trigger = ClearLoopWithRestrictedContinues(0, 1)
 )
 
-achievement(title = "[Draft] 2-Clear", description = "Clear the second loop using 3 continues or less", points = 50, id = 423504,
+achievement(title = "Mythic Fighter", description = "Clear the second loop using 3 continues or less", points = 50, id = 423504,
     trigger = ClearLoopWithRestrictedContinues(3, 2)
 )
 
-achievement(title = "[Draft] Extend 1", description = "Extend your lives to 4 before the end of the first loop", points = 10, id = 423505,
+achievement(title = "Eternal", description = "Extend your lives to 4 before the end of the first loop", points = 10, id = 423505,
     trigger = GotExtend(1)
 )
 
-achievement(title = "[Draft] Extend 2", description = "Extend your lives to 5 before the end of the first loop", points = 25, id = 423506,
+achievement(title = "Immortal", description = "Extend your lives to 5 before the end of the first loop", points = 25, id = 423506,
     trigger = GotExtend(2)
 )
 
@@ -419,23 +419,23 @@ achievement(title = "[Draft] Extend 2", description = "Extend your lives to 5 be
 // Play Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[Draft] 50K", description = "Score 50000 points or more before the end of the first loop", points = 3, id = 423507,
+achievement(title = "Feverish", description = "Score 50000 points or more before the end of the first loop", points = 3, id = 423507,
     trigger = GotScore(50000)
 )
 
-achievement(title = "[Draft] 100K", description = "Score 100000 points or more before the end of the first loop", points = 5, id = 423508,
+achievement(title = "Sweltering", description = "Score 100000 points or more before the end of the first loop", points = 5, id = 423508,
     trigger = GotScore(100000)
 )
 
-achievement(title = "[Draft] 250K", description = "Score 250000 points or more before the end of the first loop", points = 10, id = 423509,
+achievement(title = "Sizzling", description = "Score 250000 points or more before the end of the first loop", points = 10, id = 423509,
     trigger = GotScore(250000)
 )
 
-achievement(title = "[Draft] 500K", description = "Score 500000 points or more before the end of the first loop", points = 25, id = 423510,
+achievement(title = "Scorching", description = "Score 500000 points or more before the end of the first loop", points = 25, id = 423510,
     trigger = GotScore(500000)
 )
 
-achievement(title = "[Draft] 1M", description = "Score 1000000 points or more before the end of the first loop", points = 50, id = 423511,
+achievement(title = "Incandescent", description = "Score 1000000 points or more before the end of the first loop", points = 50, id = 423511,
     trigger = GotScore(1000000)
 )
 
@@ -443,35 +443,35 @@ achievement(title = "[Draft] 1M", description = "Score 1000000 points or more be
 // Boss Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "[Draft] No Damage Boss 1", description = "Defeat Desert Spider on Stage 1 without losing a life and without using bombs", points = 10, id = 423512,
+achievement(title = "Crushed Spider", description = "Defeat Desert Spider on Stage 1 without losing a life and without using bombs", points = 10, id = 423512,
     trigger = DefeatBossNoDamage("Stage1")
 )
 
-achievement(title = "[Draft] No Damage Boss 2", description = "Defeat Flying Fox on Stage 2 without losing a life and without using bombs", points = 25, id = 423513,
+achievement(title = "Subdued Fox", description = "Defeat Flying Fox on Stage 2 without losing a life and without using bombs", points = 25, id = 423513,
     trigger = DefeatBossNoDamage("Stage2")
 )
 
-achievement(title = "[Draft] No Damage Boss 3", description = "Defeat Phalanx MK-III on Stage 3 without losing a life and without using bombs", points = 25, id = 423514,
+achievement(title = "Vanquished Phalanx", description = "Defeat Phalanx MK-III on Stage 3 without losing a life and without using bombs", points = 25, id = 423514,
     trigger = DefeatBossNoDamage("Stage3")
 )
 
-achievement(title = "[Draft] No Damage Boss 4", description = "Defeat Gijido on Stage 4 without losing a life and without using bombs", points = 25, id = 423515,
+achievement(title = "Demolished Gijido", description = "Defeat Gijido on Stage 4 without losing a life and without using bombs", points = 25, id = 423515,
     trigger = DefeatBossNoDamage("Stage4")
 )
 
-achievement(title = "[Draft] No Damage Boss 5", description = "Defeat Land Crown on Stage 5 without losing a life and without using bombs", points = 25, id = 423516,
+achievement(title = "Wrecked Land Crown", description = "Defeat Land Crown on Stage 5 without losing a life and without using bombs", points = 25, id = 423516,
     trigger = DefeatBossNoDamage("Stage5")
 )
 
-achievement(title = "[Draft] No Damage Boss 6", description = "Defeat Guardian on Stage 6 without losing a life and without using bombs", points = 25, id = 423517,
+achievement(title = "Abolished Guardian", description = "Defeat Guardian on Stage 6 without losing a life and without using bombs", points = 25, id = 423517,
     trigger = DefeatBossNoDamage("Stage6")
 )
 
-achievement(title = "[Draft] No Damage Boss 7", description = "Defeat Antonov Ma-27 on Stage 7 without losing a life and without using bombs", points = 25, id = 423518,
+achievement(title = "Eradicated Antonov", description = "Defeat Antonov Ma-27 on Stage 7 without losing a life and without using bombs", points = 25, id = 423518,
     trigger = DefeatBossNoDamage("Stage7")
 )
 
-achievement(title = "[Draft] No Damage Boss 8", description = "Defeat Doreineji on Stage 8 without losing a life and without using bombs", points = 50, id = 423519,
+achievement(title = "Decimated Doreineji", description = "Defeat Doreineji on Stage 8 without losing a life and without using bombs", points = 50, id = 423519,
     trigger = DefeatBossNoDamage("Stage8Begin")
 )
 

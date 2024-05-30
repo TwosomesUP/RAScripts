@@ -9,6 +9,7 @@
 
 ActivePlayer = byte(0x660b56)
 TutorialState = byte(0x89bb22)
+CharacterSelectState = byte(0x660a5a)
 EndingState = byte(0x660b92)
 NumberOfPlayers = byte(0x89baf6)
 
@@ -253,6 +254,7 @@ StageLevelLookup = {
 function IsOnTitle() => ActivePlayer == 0
 function IsPlayer1() => ActivePlayer == 1
 function IsPlayer2() => ActivePlayer == 2
+function IsOnCharacterSelect() => CharacterSelectState == 1
 function IsMultiplayer() => ActivePlayer == 3
 function IsInEnding() => EndingState == 1
 function IsInTutorial() => TutorialState == 1
@@ -286,7 +288,7 @@ function IsDeathModeEX() => DeathModeActive + Stage4ASelected + Stage4BSelected 
 // Rich Presence Definitions
 // ======================================================================= //
 
-rich_presence_conditional_display(IsPlayer1() && IsInEnding() && !IsInTutorial() && !IsInResults("P1") && !IsInStage(), "{0} saved Gilverado with a smile | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
+rich_presence_conditional_display(IsPlayer1() && IsInEnding() && !IsOnCharacterSelect() && !IsInTutorial() && !IsInResults("P1") && !IsInStage(), "{0} saved Gilverado with a smile | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
     rich_presence_lookup("P1Character",  Player["P1"]["Character"], CharacterLookup),
     rich_presence_value("P1Continues", Player["P1"]["Continues"]),
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
@@ -303,7 +305,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInEnding() && !IsInTutorial()
     rich_presence_value("P1Score12", Player["P1"]["ScoreParts"]["Ones"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInResults("P1") && !IsInEnding() && !IsInTutorial() && !IsInStage(), "{0} is submitting their high score | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
+rich_presence_conditional_display(IsPlayer1() && IsInResults("P1") && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInStage(), "{0} is submitting their high score | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
     rich_presence_lookup("P1Character",  Player["P1"]["Character"], CharacterLookup),
     rich_presence_value("P1Continues", Player["P1"]["Continues"]),
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
@@ -320,7 +322,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInResults("P1") && !IsInEndin
     rich_presence_value("P1Score12", Player["P1"]["ScoreParts"]["Ones"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInEnding() && !IsInTutorial() && !IsInEnding() && !IsInStage(), "{0} saved Gilverado with a smile | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
+rich_presence_conditional_display(IsPlayer2() && IsInEnding() && !IsOnCharacterSelect() && !IsInTutorial() && !IsInEnding() && !IsInStage(), "{0} saved Gilverado with a smile | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
     rich_presence_lookup("P1Character",  Player["P2"]["Character"], CharacterLookup),
     rich_presence_value("P1Continues", Player["P2"]["Continues"]),
     rich_presence_value("P1Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
@@ -337,7 +339,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInEnding() && !IsInTutorial()
     rich_presence_value("P1Score12", Player["P2"]["ScoreParts"]["Ones"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInResults("P2") && !IsInTutorial() && !IsInEnding() && !IsInStage(), "{0} is submitting their high score | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
+rich_presence_conditional_display(IsPlayer2() && IsInResults("P2") && !IsOnCharacterSelect() && !IsInTutorial() && !IsInEnding() && !IsInStage(), "{0} is submitting their high score | Continues: {1} | {2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}",
     rich_presence_lookup("P1Character",  Player["P2"]["Character"], CharacterLookup),
     rich_presence_value("P1Continues", Player["P2"]["Continues"]),
     rich_presence_value("P1Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
@@ -354,7 +356,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInResults("P2") && !IsInTutor
     rich_presence_value("P1Score12", Player["P2"]["ScoreParts"]["Ones"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && !IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1"), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | Bombs: {13} | Lives: {14} | Extends: {15} | Continues: {16}",
+rich_presence_conditional_display(IsPlayer1() && !IsOnCharacterSelect() && !IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1"), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | Bombs: {13} | Lives: {14} | Extends: {15} | Continues: {16}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -374,7 +376,7 @@ rich_presence_conditional_display(IsPlayer1() && !IsInStage() && !IsInEnding() &
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsNormalMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [{14}] | Bombs: {15} | Lives: {16} | Extends: {17} | Continues: {18}",
+rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsNormalMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [{14}] | Bombs: {15} | Lives: {16} | Extends: {17} | Continues: {18}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -396,7 +398,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsNormalFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [LV3] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsNormalFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [LV3] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -417,7 +419,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -438,7 +440,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathModeFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathModeFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -459,7 +461,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathModeEX(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode EX] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathModeEX(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode EX] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -480,7 +482,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathMode999(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode 999] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P1") && IsDeathMode999(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P1] | {13} [Death Mode 999] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P1Score1", Player["P1"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P1Score2", Player["P1"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P1Score3", Player["P1"]["ScoreParts"]["Billions"]),
@@ -501,7 +503,7 @@ rich_presence_conditional_display(IsPlayer1() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P1Continues", Player["P1"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && !IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2"), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | Bombs: {13} | Lives: {14} | Extends: {15} | Continues: {16}",
+rich_presence_conditional_display(IsPlayer2() && !IsOnCharacterSelect() && !IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2"), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | Bombs: {13} | Lives: {14} | Extends: {15} | Continues: {16}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -521,7 +523,7 @@ rich_presence_conditional_display(IsPlayer2() && !IsInStage() && !IsInEnding() &
     rich_presence_value("P2Continues", Player["P2"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsNormalMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [{14}] | Bombs: {15} | Lives: {16} | Extends: {17} | Continues: {18}",
+rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsNormalMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [{14}] | Bombs: {15} | Lives: {16} | Extends: {17} | Continues: {18}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -543,7 +545,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P2Continues", Player["P2"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsNormalFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [LV3] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsNormalFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [LV3] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -564,7 +566,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P2Continues", Player["P2"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathMode(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -585,7 +587,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P2Continues", Player["P2"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathModeFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathModeFINAL(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -607,7 +609,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() &&
 )
 
 
-rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathModeEX(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode EX] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathModeEX(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode EX] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -628,7 +630,7 @@ rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() &&
     rich_presence_value("P2Continues", Player["P2"]["Continues"])
 )
 
-rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathMode999(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode 999] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
+rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsOnCharacterSelect() && !IsInEnding() && !IsInTutorial() && !IsInResults("P2") && IsDeathMode999(), "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11} | {12} [P2] | {13} [Death Mode 999] | Bombs: {14} | Lives: {15} | Extends: {16} | Continues: {17}",
     rich_presence_value("P2Score1", Player["P2"]["ScoreParts"]["HundredBillions"]),
     rich_presence_value("P2Score2", Player["P2"]["ScoreParts"]["TenBillions"]),
     rich_presence_value("P2Score3", Player["P2"]["ScoreParts"]["Billions"]),
@@ -650,6 +652,8 @@ rich_presence_conditional_display(IsPlayer2() && IsInStage() && !IsInEnding() &&
 )
 
 rich_presence_conditional_display(IsOnTitle(), "Preparing to face death with a smile")
+
+rich_presence_conditional_display(IsOnCharacterSelect() && !IsInTutorial(), "Preparing to face death with a smile")
 
 rich_presence_conditional_display(IsInTutorial(), "Learning the ins and outs of demon slaying")
 

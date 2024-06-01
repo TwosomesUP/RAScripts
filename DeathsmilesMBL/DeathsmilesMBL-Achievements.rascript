@@ -263,7 +263,7 @@ function IsInResults(player) => Player[player]["Results"]["State"] == 1
 
 function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
 
-function IsValidSession() => IsInGame() && NumberOfPlayers == 1 && IsUsingValidSettings()
+function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings()
 
 function IsBossActive() => BossIndex > 0
 function IsTyrannosatanActive() => BossIndex == 2
@@ -285,6 +285,276 @@ function IsDeathMode999() => DeathMode999Active == 1
 function IsDeathModeEX() => DeathModeActive + Stage4ASelected + Stage4BSelected >= 2 && DeathMode999Active == 0 && SelectedStage == 7
 
 // ======================================================================= //
-// Achievements Definitions
+// Achievement Functions
 // ======================================================================= //
 
+function StageCleared(stage){
+    return IsValidSession() &&
+        SelectedStage == Stages[stage] &&
+        prev(StageClearedFlag) == 0 &&
+        StageClearedFlag == 1
+}
+
+// ======================================================================= //
+// Achievement Definitions - Progression
+// ======================================================================= //
+
+achievement(title = "[Draft] Clear Stage A-1", description = "Clear Stage A-1", points = 3, type = "progression", id = 433348,
+    trigger = StageCleared("A1")
+)
+
+achievement(title = "[Draft] Clear Stage A-2", description = "Clear Stage A-2", points = 3, type = "progression", id = 433349,
+    trigger = StageCleared("A2")
+)
+
+achievement(title = "[Draft] Clear Stage B-1", description = "Clear Stage B-1", points = 3, type = "progression", id = 433350,
+    trigger = StageCleared("B1")
+)
+
+achievement(title = "[Draft] Clear Stage B-2", description = "Clear Stage B-2", points = 3, type = "progression", id = 433351,
+    trigger = StageCleared("B2")
+)
+
+achievement(title = "[Draft] Clear Stage C-1", description = "Clear Stage C-1", points = 3, type = "progression", id = 433352,
+    trigger = StageCleared("C1")
+)
+
+achievement(title = "[Draft] Clear Stage C-2", description = "Clear Stage C-2", points = 4, type = "progression", id = 433353,
+    trigger = StageCleared("C2")
+)
+
+achievement(title = "[Draft] Clear the game as Sakura", description = "[Draft] Clear the game as Sakura", points = 5, type = "win_condition", id = 433354,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear the game as Windia", description = "[Draft] Clear the game as Windia", points = 5, type = "win_condition", id = 433355,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear the game as Casper", description = "[Draft] Clear the game as Casper", points = 5, type = "win_condition", id = 433356,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear the game as Follett", description = "[Draft] Clear the game as Follett", points = 5, type = "win_condition", id = 433357,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear the game as Rosa", description = "[Draft] Clear the game as Rosa", points = 5, type = "win_condition", id = 433358,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Achievement Definitions - Play Challenges
+// ======================================================================= //
+
+achievement(title = "[Draft] Clear Stage 4-A", description = "Clear Stage 4-A", points = 5, id = 433359,
+    trigger = StageCleared("4A")
+)
+
+achievement(title = "[Draft] Clear Stage 4-B", description = "Clear Stage 4-B", points = 5, id = 433360,
+    trigger = StageCleared("4B")
+)
+
+achievement(title = "[Draft] Real World - Sakura", description = "Decide to return to the real world as Sakura", points = 1, id = 433361,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Gilverado - Sakura", description = "Decide to stay in Gilverado as Sakura", points = 1, id = 433362,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Real World - Windia", description = "Decide to return to the real world as Windia", points = 1, id = 433363,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Gilverado - Windia", description = "Decide to stay in Gilverado as Windia", points = 1, id = 433364,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Real World - Casper", description = "Decide to return to the real world as Casper", points = 1, id = 433365,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Gilverado - Casper", description = "Decide to stay in Gilverado as Casper", points = 1, id = 433366,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Real World - Follett", description = "Decide to return to the real world as Follett", points = 1, id = 433367,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Gilverado - Follett", description = "Decide to stay in Gilverado as Follett", points = 1, id = 433368,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Real World - Rosa", description = "Decide to return to the real world as Rosa", points = 1, id = 433369,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Gilverado - Rosa", description = "Decide to stay in Gilverado as Rosa", points = 1, id = 433370,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage A-1 - No Damage", description = "Clear Stage A-1 without taking damage", points = 10, id = 433371,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage A-2 - No Damage", description = "Clear Stage A-2 without taking damage", points = 10, id = 433372,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage B-1 - No Damage", description = "Clear Stage B-1 without taking damage", points = 10, id = 433373,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage B-2 - No Damage", description = "Clear Stage B-2 without taking damage", points = 10, id = 433374,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage C-1 - No Damage", description = "Clear Stage C-1 without taking damage", points = 10, id = 433375,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage C-2 - No Damage", description = "Clear Stage C-2 without taking damage", points = 10, id = 433376,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage 4-A - No Damage", description = "Clear Stage 4-A without taking damage", points = 50, id = 433377,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage 4-B - No Damage", description = "Clear Stage 4-B without taking damage", points = 50, id = 433378,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Clear Stage FINAL - No Damage", description = "Clear Stage FINAL without taking damage", points = 50, id = 433379,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Achievement Definitions - Point Challenges
+// ======================================================================= //
+
+achievement(title = "[Draft] 100 Million", description = "Score 100,000,000 points or more", points = 5, id = 433380,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 250 Million", description = "Score 250,000,000 points or more", points = 10, id = 433381,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 500 Million", description = "Score 500,000,000 points or more", points = 25, id = 433382,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 1 Billion", description = "Score 1,000,000,000 points or more", points = 50, id = 433383,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 2 Billion", description = "Score 2,000,000,000 points or more", points = 100, id = 433384,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Achievement Definitions - Other Challenges
+// ======================================================================= //
+
+achievement(title = "[Draft] Fever Mode", description = "Activate Fever Mode with a +Value of 100,000", points = 10, id = 433385,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Power Up x 3", description = "Activate Power Up mode 3 or more times in a single stage", points = 10, id = 433386,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Death Mode 999", description = "Activate Death Mode 999 for the first time", points = 5, id = 433387,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Extend 1", description = "Extend your life gauge to 4", points = 5, id = 433388,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Extend 2", description = "Extend your life gauge to 5", points = 10, id = 433389,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Sakura x Sakura", description = "Defeat Sakura while playing as Sakura on Stage B-2 without firing a shot and without using a continue", points = 10, id = 433390,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Small Life Bonus", description = "Score bonus points by collecting a Small Life-Up while at max health", points = 5, id = 433391,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Medium Life Bonus", description = "Score bonus points by collecting a Medium Life-Up while at max health", points = 5, id = 433392,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Large Life Bonus", description = "Score bonus points by collecting a Large Life-Up while at max health", points = 5, id = 433393,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] Magix x 3", description = "Collect a 3 Magic Items in one playthrough without using a continue", points = 10, id = 433394,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 500 Counter Boss", description = "Increase your item counter by 500 or more during a boss fight", points = 10, id = 433395,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 2500 Hearts and Skulls", description = "Increase your item counter by 500 or more during a boss fight", points = 5, id = 433396,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] 1000 Crowns", description = "Collect 1000 Crowns in any stage", points = 10, id = 433397,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Achievement Definitions - Boss Challenges
+// ======================================================================= //
+
+achievement(title = "[Draft] No Continue Deathscythe", description = "While playing Stage A-1 on Level 999, defeat Deathscythe without using a continue and without using a bomb", points = 10, id = 433398,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Jordan", description = "While playing Stage A-2 on Level 999, defeat Jordan without using a continue and without using a bomb", points = 25, id = 433399,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Whroon", description = "While playing Stage B-1 on Level 999, defeat Whroon without using a continue and without using a bomb", points = 25, id = 433400,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Sakura", description = "While playing Stage B-2 on Level 999, defeat Sakura without using a continue and without using a bomb", points = 25, id = 433401,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Mary", description = "While playing Stage C-1 on Level 999, defeat Mary without using a continue and without using a bomb", points = 25, id = 433402,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Bavaria", description = "While playing Stage C-2 on Level 999, defeat Bavaria without using a continue and without using a bomb", points = 25, id = 433403,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Devaria & Givaria", description = "While playing Stage 4-A on Level 999, defeat Devaria & Givaria without using a continue and without using a bomb", points = 50, id = 433404,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Ozier", description = "While playing Stage 4-B on Level 999, defeat Ozier without using a continue and without using a bomb", points = 50, id = 433405,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Jitterbug without using a continue and without using a bomb", points = 50, id = 433406,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Tyrannosatan", description = "While playing Stage FINAL on Level 999, defeat Tyrannosatan without using a continue and without using a bomb", points = 50, id = 433407,
+    trigger = always_false()
+)
+
+achievement(title = "[Draft] No Continue Bloody Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
+    trigger = always_false()
+)

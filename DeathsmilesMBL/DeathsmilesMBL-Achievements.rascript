@@ -1,6 +1,6 @@
 // Deathsmiles: Mega Black Label
 // #ID = 28669
-// RetroAchievements - Leaderboard Script
+// RetroAchievements - Achievements Script
 // Author: TwosomesUP
 
 // ======================================================================= //
@@ -251,76 +251,40 @@ StageLevelLookup = {
 // Helper Functions
 // ======================================================================= //
 
+function IsOnTitle() => ActivePlayer == 0
 function IsPlayer1() => ActivePlayer == 1
 function IsPlayer2() => ActivePlayer == 2
+function IsOnCharacterSelect() => CharacterSelectState == 1
+function IsMultiplayer() => ActivePlayer == 3
+function IsInEnding() => EndingState == 1
+function IsInTutorial() => TutorialState == 1
+function IsInStage() => StageState == 1
+function IsInResults(player) => Player[player]["Results"]["State"] == 1
 
 function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
 
-function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings()
+function IsValidSession() => IsInGame() && NumberOfPlayers == 1 && IsUsingValidSettings()
 
-function GetScore(){
-    return Player["P1"]["Results"]["Score"]["Billions"] + Player["P2"]["Results"]["Score"]["Billions"]
+function IsBossActive() => BossIndex > 0
+function IsTyrannosatanActive() => BossIndex == 2
+function IsBloodyJitterbugActive() => BossIndex == 3
+
+function GetExtends(player){
+    return Player[player]["Life"] - 3
 }
 
-function ValidStart(character){
-    return IsValidSession() &&
-        ((prev(Player["P1"]["Results"]["State"]) == 2 && Player["P1"]["Results"]["State"] == 3 && Player["P1"]["Character"] == Characters[character]) ||
-        (prev(Player["P2"]["Results"]["State"]) == 2 && Player["P2"]["Results"]["State"] == 3 && Player["P2"]["Character"] == Characters[character]))
+function GetLives(player){
+    return Player[player]["Health"] / 0x40
 }
 
-function InvalidStart(){
-    return any_of(DefaultGameSettings, setting => GameSettings[setting] != DefaultGameSettings[setting]) &&
-        prev(NumberOfPlayers) == 0 && NumberOfPlayers > 0
-}
-
-function InvalidValue(){
-    return GameSettings["Extends"] * 10000 + GameSettings["Difficulty"] * 1000 + 
-        GameSettings["EnemyDamage"] * 100 + GameSettings["LifeCapacity"] * 10 + 
-        GameSettings["BulletDamage"]
-}
+function IsNormalMode() => DeathModeActive == 0 && DeathMode999Active == 0 && Stage4ASelected == 0 && Stage4BSelected == 0 && SelectedStage < 6
+function IsNormalFINAL() => DeathModeActive == 0 && DeathMode999Active == 0 && Stage4ASelected == 0 && Stage4BSelected == 0 && SelectedStage == 7
+function IsDeathMode() => DeathModeActive + Stage4ASelected + Stage4BSelected > 0 && DeathMode999Active == 0 && SelectedStage != 7
+function IsDeathModeFINAL() => DeathModeActive == 1 && DeathMode999Active == 0 && Stage4ASelected == 0 && Stage4BSelected == 0 && SelectedStage == 7
+function IsDeathMode999() => DeathMode999Active == 1
+function IsDeathModeEX() => DeathModeActive + Stage4ASelected + Stage4BSelected >= 2 && DeathMode999Active == 0 && SelectedStage == 7
 
 // ======================================================================= //
-// Leaderboard Definitions
+// Achievements Definitions
 // ======================================================================= //
 
-leaderboard("Highscore Challenge - Windia", "Get the highest score possible playing as Windia [Default Settings][Free Play Allowed]",
-    start = ValidStart("Windia"),
-    cancel = always_false(),
-    submit = always_true(),
-    value = GetScore()
-)
-
-leaderboard("Highscore Challenge - Casper", "Get the highest score possible playing as Casper [Default Settings][Free Play Allowed]",
-    start = ValidStart("Casper"),
-    cancel = always_false(),
-    submit = always_true(),
-    value = GetScore()
-)
-
-leaderboard("Highscore Challenge - Follett", "Get the highest score possible playing as Follett [Default Settings][Free Play Allowed]",
-    start = ValidStart("Follett"),
-    cancel = always_false(),
-    submit = always_true(),
-    value = GetScore()
-)
-
-leaderboard("Highscore Challenge - Rosa", "Get the highest score possible playing as Rosa [Default Settings][Free Play Allowed]",
-    start = ValidStart("Rosa"),
-    cancel = always_false(),
-    submit = always_true(),
-    value = GetScore()
-)
-
-leaderboard("Highscore Challenge - Sakura", "Get the highest score possible playing as Sakura [Default Settings][Free Play Allowed]",
-    start = ValidStart("Sakura"),
-    cancel = always_false(),
-    submit = always_true(),
-    value = GetScore()
-)
-
-leaderboard("Invalid Game Settings Found", "To re-enable achievements, reset the game settings to their default values",
-    start = InvalidStart(),
-    cancel = always_false(),
-    submit = always_true(),
-    value = InvalidValue()
-)

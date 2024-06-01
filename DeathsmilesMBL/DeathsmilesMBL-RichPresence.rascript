@@ -261,7 +261,7 @@ function IsInTutorial() => TutorialState == 1
 function IsInStage() => StageState == 1
 function IsInResults(player) => Player[player]["Results"]["State"] == 1
 
-function IsUsingValidSettings() => all_of(GameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
+function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
 
 function IsValidSession() => IsInGame() && NumberOfPlayers == 1 && IsUsingValidSettings()
 

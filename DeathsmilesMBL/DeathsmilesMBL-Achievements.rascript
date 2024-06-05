@@ -10,9 +10,7 @@
 ActivePlayer = byte(0x660b56)
 TutorialState = byte(0x660b5a)
 CharacterSelectState = byte(0x660aaa)
-EndingState = byte(0x660b92)
 NumberOfPlayers = byte(0x89baf6)
-
 Credits = byte(0x1e109e)
 
 StageClearedFlag = byte(0x660a9e)
@@ -24,12 +22,16 @@ Stage4BSelected = byte(0x660ba6)
 SelectedStage = byte(0x8a097a)
 StageState = byte(0x8a099d)
 SelectedStageLevel = byte(0x8a0f6a)
-
 DeathModeActive = byte(0x660baa)
 DeathMode999Active = byte(0x660bae)
-
 BossIndex = byte(0x660a82)
 BossDefeatedFlag = byte(0x660a96)
+BombCapacity = byte(0x660b66)
+
+CurrentStage = byte(0x6609ce)
+EndingState = byte(0x660b92)
+EndingChoice = byte(0x8a932a)
+EndingChoiceState = byte(0x8a934e)
 
 GameSettings = {
     "CoinMode": byte(0x660972),
@@ -44,8 +46,6 @@ GameSettings = {
     "BulletDamage": byte(0x66097d)
 }
 
-BombCapacity = byte(0x660b66)
-
 Player = {
     "P1": {
         "Active": byte(0x1e1086),
@@ -56,11 +56,7 @@ Player = {
         //A combination of the two will be used for achievement logic
         "Score": {
             "Billions": (byte(0x661498) + byte(0x66149b) * 10 + byte(0x66149a) * 100),
-            "Millions": (
-                byte(0x661491) + byte(0x661490) * 10 + byte(0x661493) * 100 + byte(0x661492) * 1000 +
-                byte(0x661495) * 10000 + byte(0x661494) * 100000 + byte(0x661497) * 1000000 + 
-                byte(0x661496) * 10000000 + byte(0x661499) * 100000000
-            )
+            "Millions": (byte(0x661497) + byte(0x661496) * 10 + byte(0x661499) * 100)
         },
         //Score broken into individual digits. 
         //Use for rich presence
@@ -105,11 +101,7 @@ Player = {
         "Character": byte(0x6615c7),
         "Score": {
             "Billions": (byte(0x6615f8) + byte(0x6615fb) * 10 + byte(0x6615fa) * 100),
-            "Millions": (
-                byte(0x6615f1) + byte(0x6615f0) * 10 + byte(0x6615f3) * 100 + byte(0x6615f2) * 1000 +
-                byte(0x6615f5) * 10000 + byte(0x6615f4) * 100000 + byte(0x6615f7) * 1000000 + 
-                byte(0x6615f6) * 10000000 + byte(0x6615f9) * 100000000
-            )
+            "Millions": (byte(0x6615f7) + byte(0x6615f6) * 10 + byte(0x6615f9) * 100)
         },
         "ScoreParts": {
             "Ones": byte(0x6615f1),
@@ -183,8 +175,7 @@ Stages = {
     "C1": 4, //Lakeside
     "C2": 5, //Volcano
     "4A": 6, //Canyon
-    "51": 7, //Castle Part 1
-    "52": 8, //Castle Part 2
+    "FINAL": 7, //Castle Part
     "4B": 9  //Ice Palace
 }
 
@@ -200,6 +191,11 @@ ActivePlayers = {
     "Player1": 1,
     "Player2": 2,
     "Multiplayer": 3
+}
+
+EndingChoices = {
+    "Return": 0,
+    "Stay": 1
 }
 
 // ======================================================================= //
@@ -288,11 +284,58 @@ function IsDeathModeEX() => DeathModeActive + Stage4ASelected + Stage4BSelected 
 // Achievement Functions
 // ======================================================================= //
 
-function StageCleared(stage){
+function StageCleared(stage, challenge){
+    trigger = IsValidSession() && CurrentStage == Stages[stage]
+    cleared = prev(StageClearedFlag) == 0 && StageClearedFlag == 1 
+    
+    if(challenge)
+        cleared = trigger_when(cleared)
+        
+    return trigger && cleared
+}
+
+function GameCleared(character){
     return IsValidSession() &&
-        SelectedStage == Stages[stage] &&
-        prev(StageClearedFlag) == 0 &&
-        StageClearedFlag == 1
+        ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
+        (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])) &&
+        prev(EndingState) == 0 &&
+        EndingState == 1
+}
+
+function SelectedEnding(character, ending){
+    return IsValidSession() &&
+        ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
+        (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])) &&
+        EndingState == 1 &&
+        EndingChoice == EndingChoices[ending] &&
+        prev(EndingChoiceState) == 1 &&
+        EndingChoiceState == 0
+}
+
+function ClearStageNoDamage(stage){
+    return StageCleared(stage, true) &&
+        (disable_when(ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
+        disable_when(ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
+}
+
+function ClearFINALNoDamage(){
+    return IsValidSession() &&
+        trigger_when(prev(EndingState) == 0 &&
+        EndingState == 1) && 
+        (disable_when(ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
+        disable_when(ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
+}
+
+function GotScoreMillions(score){
+    return IsValidSession() &&
+        ((ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Millions"]) < score && Player["P1"]["Score"]["Millions"] >= score) ||
+        (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Millions"]) < score && Player["P2"]["Score"]["Millions"] >= score))
+}
+
+function GotScoreBillions(score){
+    return IsValidSession() &&
+        ((ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Billions"]) < score && Player["P1"]["Score"]["Billions"] >= score) ||
+        (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Billions"]) < score && Player["P2"]["Score"]["Billions"] >= score))
 }
 
 // ======================================================================= //
@@ -300,47 +343,47 @@ function StageCleared(stage){
 // ======================================================================= //
 
 achievement(title = "[Draft] Clear Stage A-1", description = "Clear Stage A-1", points = 3, type = "progression", id = 433348,
-    trigger = StageCleared("A1")
+    trigger = StageCleared("A1", false)
 )
 
 achievement(title = "[Draft] Clear Stage A-2", description = "Clear Stage A-2", points = 3, type = "progression", id = 433349,
-    trigger = StageCleared("A2")
+    trigger = StageCleared("A2", false)
 )
 
 achievement(title = "[Draft] Clear Stage B-1", description = "Clear Stage B-1", points = 3, type = "progression", id = 433350,
-    trigger = StageCleared("B1")
+    trigger = StageCleared("B1", false)
 )
 
 achievement(title = "[Draft] Clear Stage B-2", description = "Clear Stage B-2", points = 3, type = "progression", id = 433351,
-    trigger = StageCleared("B2")
+    trigger = StageCleared("B2", false)
 )
 
 achievement(title = "[Draft] Clear Stage C-1", description = "Clear Stage C-1", points = 3, type = "progression", id = 433352,
-    trigger = StageCleared("C1")
+    trigger = StageCleared("C1", false)
 )
 
 achievement(title = "[Draft] Clear Stage C-2", description = "Clear Stage C-2", points = 4, type = "progression", id = 433353,
-    trigger = StageCleared("C2")
+    trigger = StageCleared("C2", false)
 )
 
 achievement(title = "[Draft] Clear the game as Sakura", description = "[Draft] Clear the game as Sakura", points = 5, type = "win_condition", id = 433354,
-    trigger = always_false()
+    trigger = GameCleared("Sakura")
 )
 
 achievement(title = "[Draft] Clear the game as Windia", description = "[Draft] Clear the game as Windia", points = 5, type = "win_condition", id = 433355,
-    trigger = always_false()
+    trigger = GameCleared("Windia")
 )
 
 achievement(title = "[Draft] Clear the game as Casper", description = "[Draft] Clear the game as Casper", points = 5, type = "win_condition", id = 433356,
-    trigger = always_false()
+    trigger = GameCleared("Casper")
 )
 
 achievement(title = "[Draft] Clear the game as Follett", description = "[Draft] Clear the game as Follett", points = 5, type = "win_condition", id = 433357,
-    trigger = always_false()
+    trigger = GameCleared("Follett")
 )
 
 achievement(title = "[Draft] Clear the game as Rosa", description = "[Draft] Clear the game as Rosa", points = 5, type = "win_condition", id = 433358,
-    trigger = always_false()
+    trigger = GameCleared("Rosa")
 )
 
 // ======================================================================= //
@@ -348,87 +391,87 @@ achievement(title = "[Draft] Clear the game as Rosa", description = "[Draft] Cle
 // ======================================================================= //
 
 achievement(title = "[Draft] Clear Stage 4-A", description = "Clear Stage 4-A", points = 5, id = 433359,
-    trigger = StageCleared("4A")
+    trigger = StageCleared("4A", false)
 )
 
 achievement(title = "[Draft] Clear Stage 4-B", description = "Clear Stage 4-B", points = 5, id = 433360,
-    trigger = StageCleared("4B")
+    trigger = StageCleared("4B", false)
 )
 
 achievement(title = "[Draft] Real World - Sakura", description = "Decide to return to the real world as Sakura", points = 1, id = 433361,
-    trigger = always_false()
+    trigger = SelectedEnding("Sakura", "Return")
 )
 
 achievement(title = "[Draft] Gilverado - Sakura", description = "Decide to stay in Gilverado as Sakura", points = 1, id = 433362,
-    trigger = always_false()
+    trigger = SelectedEnding("Sakura", "Stay")
 )
 
 achievement(title = "[Draft] Real World - Windia", description = "Decide to return to the real world as Windia", points = 1, id = 433363,
-    trigger = always_false()
+    trigger = SelectedEnding("Windia", "Return")
 )
 
 achievement(title = "[Draft] Gilverado - Windia", description = "Decide to stay in Gilverado as Windia", points = 1, id = 433364,
-    trigger = always_false()
+    trigger = SelectedEnding("Windia", "Stay")
 )
 
 achievement(title = "[Draft] Real World - Casper", description = "Decide to return to the real world as Casper", points = 1, id = 433365,
-    trigger = always_false()
+    trigger = SelectedEnding("Casper", "Return")
 )
 
 achievement(title = "[Draft] Gilverado - Casper", description = "Decide to stay in Gilverado as Casper", points = 1, id = 433366,
-    trigger = always_false()
+    trigger = SelectedEnding("Casper", "Stay")
 )
 
 achievement(title = "[Draft] Real World - Follett", description = "Decide to return to the real world as Follett", points = 1, id = 433367,
-    trigger = always_false()
+    trigger = SelectedEnding("Follett", "Return")
 )
 
 achievement(title = "[Draft] Gilverado - Follett", description = "Decide to stay in Gilverado as Follett", points = 1, id = 433368,
-    trigger = always_false()
+    trigger = SelectedEnding("Follett", "Stay")
 )
 
 achievement(title = "[Draft] Real World - Rosa", description = "Decide to return to the real world as Rosa", points = 1, id = 433369,
-    trigger = always_false()
+    trigger = SelectedEnding("Rosa", "Return")
 )
 
 achievement(title = "[Draft] Gilverado - Rosa", description = "Decide to stay in Gilverado as Rosa", points = 1, id = 433370,
-    trigger = always_false()
+    trigger = SelectedEnding("Rosa", "Stay")
 )
 
 achievement(title = "[Draft] Clear Stage A-1 - No Damage", description = "Clear Stage A-1 without taking damage", points = 10, id = 433371,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("A1")
 )
 
 achievement(title = "[Draft] Clear Stage A-2 - No Damage", description = "Clear Stage A-2 without taking damage", points = 10, id = 433372,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("A2")
 )
 
 achievement(title = "[Draft] Clear Stage B-1 - No Damage", description = "Clear Stage B-1 without taking damage", points = 10, id = 433373,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("B1")
 )
 
 achievement(title = "[Draft] Clear Stage B-2 - No Damage", description = "Clear Stage B-2 without taking damage", points = 10, id = 433374,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("B2")
 )
 
 achievement(title = "[Draft] Clear Stage C-1 - No Damage", description = "Clear Stage C-1 without taking damage", points = 10, id = 433375,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("C1")
 )
 
 achievement(title = "[Draft] Clear Stage C-2 - No Damage", description = "Clear Stage C-2 without taking damage", points = 10, id = 433376,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("C2")
 )
 
 achievement(title = "[Draft] Clear Stage 4-A - No Damage", description = "Clear Stage 4-A without taking damage", points = 50, id = 433377,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("4A")
 )
 
 achievement(title = "[Draft] Clear Stage 4-B - No Damage", description = "Clear Stage 4-B without taking damage", points = 50, id = 433378,
-    trigger = always_false()
+    trigger = ClearStageNoDamage("4B")
 )
 
 achievement(title = "[Draft] Clear Stage FINAL - No Damage", description = "Clear Stage FINAL without taking damage", points = 50, id = 433379,
-    trigger = always_false()
+    trigger = ClearFINALNoDamage()
 )
 
 // ======================================================================= //
@@ -436,23 +479,23 @@ achievement(title = "[Draft] Clear Stage FINAL - No Damage", description = "Clea
 // ======================================================================= //
 
 achievement(title = "[Draft] 100 Million", description = "Score 100,000,000 points or more", points = 5, id = 433380,
-    trigger = always_false()
+    trigger = GotScoreMillions(100)
 )
 
 achievement(title = "[Draft] 250 Million", description = "Score 250,000,000 points or more", points = 10, id = 433381,
-    trigger = always_false()
+    trigger = GotScoreMillions(250)
 )
 
 achievement(title = "[Draft] 500 Million", description = "Score 500,000,000 points or more", points = 25, id = 433382,
-    trigger = always_false()
+    trigger = GotScoreMillions(500)
 )
 
 achievement(title = "[Draft] 1 Billion", description = "Score 1,000,000,000 points or more", points = 50, id = 433383,
-    trigger = always_false()
+    trigger = GotScoreMillions(1)
 )
 
 achievement(title = "[Draft] 2 Billion", description = "Score 2,000,000,000 points or more", points = 100, id = 433384,
-    trigger = always_false()
+    trigger = GotScoreMillions(2)
 )
 
 // ======================================================================= //

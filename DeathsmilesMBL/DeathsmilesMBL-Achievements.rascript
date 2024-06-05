@@ -25,6 +25,8 @@ SelectedStageLevel = byte(0x8a0f6a)
 DeathModeActive = byte(0x660baa)
 BombCapacity = byte(0x660b66)
 
+//Used
+
 CurrentStage = byte(0x6609ce)
 EndingState = byte(0x660b92)
 EndingChoice = byte(0x8a932a)
@@ -34,6 +36,19 @@ DeathMode999Active = byte(0x660bae)
 BossIndex = byte(0x660a82)
 BossDefeatedFlag = byte(0x660a96)
 SelectedStageLevel = byte(0x8a0f6a)
+
+BombActivatedState = byte(0x660b5e)
+
+LifeUp = {
+    "Bonus": byte(0x86d50c),
+    "Collected": byte(0x86d50d),
+    "Size": byte(0x86d50f)
+}
+
+MagicItem = {
+    "Bonus": byte(0x86de8c),
+    "Collected": byte(0x86de8d)
+}
 
 GameSettings = {
     "CoinMode": byte(0x660972),
@@ -54,6 +69,11 @@ Player = {
         "Life": byte(0x66145c),
         "Health": word(0x66145e),
         "Character": byte(0x661467),
+        "Inputs": {
+          "ShootLeft": bit4(0x66148a),
+          "ShootRight": bit5(0x66148a),
+          "Bomb": bit6(0x66148a)
+        },
         //Score is broken into two parts due to size limitations
         //A combination of the two will be used for achievement logic
         "Score": {
@@ -101,6 +121,11 @@ Player = {
         "Life": byte(0x6615bc),
         "Health": word(0x6615be),
         "Character": byte(0x6615c7),
+        "Inputs": {
+          "ShootLeft": bit4(0x6615ea),
+          "ShootRight": bit5(0x6615ea),
+          "Bomb": bit6(0x6615ea)
+        },
         "Score": {
             "Billions": (byte(0x6615f8) + byte(0x6615fb) * 10 + byte(0x6615fa) * 100),
             "Millions": (byte(0x6615f7) + byte(0x6615f6) * 10 + byte(0x6615f9) * 100)
@@ -136,17 +161,6 @@ Player = {
             "Character": byte(0x8a1c52)
         }
     }
-}
-
-LifeUp = {
-    "Bonus": byte(0x86d50c),
-    "Collected": byte(0x86d50d),
-    "Size": byte(0x86d50f)
-}
-
-MagicItem = {
-    "Bonus": byte(0x86de8c),
-    "Collected": byte(0x86de8d)
 }
 
 // ======================================================================= //
@@ -200,50 +214,6 @@ EndingChoices = {
     "Stay": 1
 }
 
-// ======================================================================= //
-// Lookups
-// ======================================================================= //
-
-CharacterLookup = {
-    0: "Windia",
-    1: "Casper",
-    2: "Follett",
-    3: "Rosa",
-    4: "Sakura"
-}
-
-LivesLookup = {
-    0: "0",
-    1: "½",
-    2: "1",
-    3: "1½",
-    4: "2",
-    5: "2½",
-    6: "3",
-    7: "3½",
-    8: "4",
-    9: "4½",
-    10: "5"
-}
-
-StageLookup = {
-    0: "Port Town", //Port Town
-    1: "Boneyard", //Boneyard
-    2: "Forest", //Forest
-    3: "Swamp", //Swamp
-    4: "Lakeside", //Lakeside
-    5: "Volcano", //Volcano
-    6: "Canyon", //Canyon
-    7: "Castle", //Castle
-    9: "Ice Palace"  //Ice Palace
-}
-
-StageLevelLookup = {
-    0: "LV1",
-    1: "LV2",
-    2: "LV3",
-    3: "LV999"
-}
 
 BossStages = {
     "Deathscythe": 0,
@@ -271,6 +241,12 @@ BossIndices = {
     "Tyrannosatan": 2,
     "BloodyJitterbug": 3,
     "Ozier": 1
+}
+
+LifeUpSizes = {
+    "Small": 0,
+    "Medium": 1,
+    "Large": 2
 }
 
 // ======================================================================= //
@@ -380,8 +356,59 @@ function BossDefeatedNoContinue(boss, standard){
         CurrentStage == BossStages[boss] &&
         prev(BossDefeatedFlag) == 0 &&
         BossDefeatedFlag == 1 &&
-        (disable_when(BossIndex == BossIndices[boss] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsInStage()) ||
-        disable_when(BossIndex == BossIndices[boss] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsInStage()))
+        disable_when(BossIndex == BossIndices[boss] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsInStage()) &&
+        disable_when(BossIndex == BossIndices[boss] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsInStage()) &&
+        disable_when(BossIndex == BossIndices[boss] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
+}
+
+function ActivatedFeverMode(){
+    return IsValidSession() &&
+        ((ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PlusValue"]) < 100000 && Player["P1"]["PlusValue"] >= 100000) ||
+        (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PlusValue"]) < 100000 && Player["P2"]["PlusValue"] >= 100000))
+}
+
+function ActivatedPowerUpMode(times){
+    return IsValidSession() &&
+        (tally(times, ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PowerUp"]) == 0 && Player["P1"]["PowerUp"] == 1) ||
+        tally(times, ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PowerUp"]) == 0 && Player["P2"]["PowerUp"] == 1)) &&
+        never(!IsInStage())
+}
+
+function ActivatedDeathMode999(){
+    return IsValidSession() &&
+        prev(DeathMode999Active) == 0 &&
+        DeathMode999Active == 1
+}
+
+function GotExtend(number){
+    return IsValidSession() &&
+        ((prev(GetExtends("P1")) < number &&
+        GetExtends("P1") >= number) ||
+        (prev(GetExtends("P2")) < number &&
+        GetExtends("P2") >= number))
+}
+
+function SakuraBossChallenge(){
+    return IsValidSession() &&
+        BossIndex == BossIndices["Sakura"] &&
+        CurrentStage == BossStages["Sakura"] &&
+        prev(BossDefeatedFlag) == 0 &&
+        BossDefeatedFlag == 1 &&
+        ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters["Sakura"]) ||
+        (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters["Sakura"])) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootLeft"]) == 0 && Player["P1"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootRight"]) == 0 && Player["P1"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootLeft"]) == 0 && Player["P2"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootRight"]) == 0 && Player["P2"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
+}
+
+function GotLifeUpBonus(size){
+    return IsValidSession() &&
+        LifeUp["Size"] == LifeUpSizes[size] &&
+        LifeUp["Collected"] == 0xff &&
+        prev(LifeUp["Bonus"]) == 1 &&
+        LifeUp["Bonus"] == 2
 }
 
 // ======================================================================= //
@@ -548,43 +575,43 @@ achievement(title = "[Draft] 2 Billion", description = "Score 2,000,000,000 poin
 // Achievement Definitions - Other Challenges
 // ======================================================================= //
 
-achievement(title = "[Draft] Fever Mode", description = "Activate Fever Mode with a +Value of 100,000", points = 10, id = 433385,
-    trigger = always_false()
+achievement(title = "[Draft] Fever Mode", description = "Activate Fever Mode by reaching a +Value of 100,000", points = 10, id = 433385,
+    trigger = ActivatedFeverMode()
 )
 
 achievement(title = "[Draft] Power Up x 3", description = "Activate Power Up mode 3 or more times in a single stage", points = 10, id = 433386,
-    trigger = always_false()
+    trigger = ActivatedPowerUpMode(3)
 )
 
 achievement(title = "[Draft] Death Mode 999", description = "Activate Death Mode 999 for the first time", points = 5, id = 433387,
-    trigger = always_false()
+    trigger = ActivatedDeathMode999()
 )
 
 achievement(title = "[Draft] Extend 1", description = "Extend your life gauge to 4", points = 5, id = 433388,
-    trigger = always_false()
+    trigger = GotExtend(1)
 )
 
 achievement(title = "[Draft] Extend 2", description = "Extend your life gauge to 5", points = 10, id = 433389,
-    trigger = always_false()
+    trigger = GotExtend(2)
 )
 
 achievement(title = "[Draft] Sakura x Sakura", description = "Defeat Sakura while playing as Sakura on Stage B-2 without firing a shot and without using a continue", points = 10, id = 433390,
-    trigger = always_false()
+    trigger = SakuraBossChallenge()
 )
 
 achievement(title = "[Draft] Small Life Bonus", description = "Score bonus points by collecting a Small Life-Up while at max health", points = 5, id = 433391,
-    trigger = always_false()
+    trigger = GotLifeUpBonus("Small")
 )
 
 achievement(title = "[Draft] Medium Life Bonus", description = "Score bonus points by collecting a Medium Life-Up while at max health", points = 5, id = 433392,
-    trigger = always_false()
+    trigger = GotLifeUpBonus("Medium")
 )
 
 achievement(title = "[Draft] Large Life Bonus", description = "Score bonus points by collecting a Large Life-Up while at max health", points = 5, id = 433393,
-    trigger = always_false()
+    trigger = GotLifeUpBonus("Large")
 )
 
-achievement(title = "[Draft] Magix x 3", description = "Collect a 3 Magic Items in one playthrough without using a continue", points = 10, id = 433394,
+achievement(title = "[Draft] Magic x 3", description = "Collect a 3 Magic Items in one playthrough without using a continue", points = 10, id = 433394,
     trigger = always_false()
 )
 

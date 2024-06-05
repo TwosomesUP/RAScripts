@@ -320,16 +320,16 @@ function SelectedEnding(character, ending){
 
 function ClearStageNoDamage(stage){
     return StageCleared(stage, true) &&
-        (disable_when(ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
-        disable_when(ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
+        (disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
+        disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
 }
 
 function ClearFINALNoDamage(){
     return IsValidSession() &&
         trigger_when(prev(EndingState) == 0 &&
         EndingState == 1) && 
-        (disable_when(ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
-        disable_when(ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
+        (disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
+        disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
 }
 
 function GotScoreMillions(score){
@@ -356,9 +356,9 @@ function BossDefeatedNoContinue(boss, standard){
         CurrentStage == BossStages[boss] &&
         prev(BossDefeatedFlag) == 0 &&
         BossDefeatedFlag == 1 &&
-        disable_when(BossIndex == BossIndices[boss] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsInStage()) &&
-        disable_when(BossIndex == BossIndices[boss] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsInStage()) &&
-        disable_when(BossIndex == BossIndices[boss] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
+        disable_when(BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsInStage()) &&
+        disable_when(BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsInStage()) &&
+        disable_when(BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
 }
 
 function ActivatedFeverMode(){
@@ -396,11 +396,11 @@ function SakuraBossChallenge(){
         BossDefeatedFlag == 1 &&
         ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters["Sakura"]) ||
         (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters["Sakura"])) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootLeft"]) == 0 && Player["P1"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootRight"]) == 0 && Player["P1"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootLeft"]) == 0 && Player["P2"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootRight"]) == 0 && Player["P2"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
+        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootLeft"]) == 0 && Player["P1"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootRight"]) == 0 && Player["P1"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootLeft"]) == 0 && Player["P2"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootRight"]) == 0 && Player["P2"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
+        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
 }
 
 function GotLifeUpBonus(size){
@@ -409,6 +409,20 @@ function GotLifeUpBonus(size){
         LifeUp["Collected"] == 0xff &&
         prev(LifeUp["Bonus"]) == 1 &&
         LifeUp["Bonus"] == 2
+}
+
+function Got3Bombs(){
+    return IsValidSession() &&
+        measured(repeated(3, prev(MagicItem["Collected"]) != 0xff && MagicItem["Collected"] == 0xff && never(NumberOfPlayers == 0))) &&
+        disable_when(ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], NumberOfPlayers == 0) &&
+        disable_when(ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], NumberOfPlayers == 0)
+}
+
+function Got500CounterDuringBoss(){
+    return IsValidSession() &&
+        (measured(tally_of(range(0, 20), 500, count => BossIndex > 0 && ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["ItemCounter"] - prev(Player["P1"]["ItemCounter"]) > count)) ||
+        measured(tally_of(range(0, 20), 500, count => BossIndex > 0 && ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["ItemCounter"] - prev(Player["P2"]["ItemCounter"]) > count))) &&
+        never(BossIndex == 0)
 }
 
 // ======================================================================= //
@@ -595,7 +609,7 @@ achievement(title = "[Draft] Extend 2", description = "Extend your life gauge to
     trigger = GotExtend(2)
 )
 
-achievement(title = "[Draft] Sakura x Sakura", description = "Defeat Sakura while playing as Sakura on Stage B-2 without firing a shot and without using a continue", points = 10, id = 433390,
+achievement(title = "[Draft] Sakura x Sakura", description = "Defeat Sakura while playing as Sakura on Stage B-2 without firing a shot or using a bomb, and without using a continue", points = 10, id = 433390,
     trigger = SakuraBossChallenge()
 )
 
@@ -612,11 +626,11 @@ achievement(title = "[Draft] Large Life Bonus", description = "Score bonus point
 )
 
 achievement(title = "[Draft] Magic x 3", description = "Collect a 3 Magic Items in one playthrough without using a continue", points = 10, id = 433394,
-    trigger = always_false()
+    trigger = Got3Bombs()
 )
 
 achievement(title = "[Draft] 500 Counter Boss", description = "Increase your item counter by 500 or more during a boss fight", points = 10, id = 433395,
-    trigger = always_false()
+    trigger = Got500CounterDuringBoss()
 )
 
 achievement(title = "[Draft] 2500 Hearts and Skulls", description = "Increase your item counter by 500 or more during a boss fight", points = 5, id = 433396,

@@ -60,12 +60,11 @@ Player = {
             "Hearts": word(0x66157a),
             "Crowns": word(0x66157e)
         },
-        //Use for 
+        //Use for achievements
         "Score": {
             "Billions": (byte(0x661498) + byte(0x66149b) * 10 + byte(0x66149a) * 100),
             "Millions": (byte(0x661497) + byte(0x661496) * 10 + byte(0x661499) * 100)
         },
-        //Score broken into individual digits. 
         //Use for rich presence
         "ScoreParts": {
             "Ones": byte(0x661491),
@@ -87,9 +86,7 @@ Player = {
         "PowerUp": byte(0x6615a6),
         "Results": {
             "State": byte(0x8a1024),
-            //Score is broken into two parts due to size limitations
-            //Use for leaderboard logic.
-            //Hundreds will not be used. Leaderboard score * 1000 will give an approximation of the actual amount
+            //Use for leaderboards
             "Score": {
                 "Billions": (
                     byte(0x8a1016) + byte(0x8a1019) * 10 + byte(0x8a1018) * 100 +

@@ -8,35 +8,17 @@
 // ======================================================================= //
 
 ActivePlayer = byte(0x660b56)
-TutorialState = byte(0x660b5a)
-CharacterSelectState = byte(0x660aaa)
 NumberOfPlayers = byte(0x89baf6)
-Credits = byte(0x1e109e)
-
-StageClearedFlag = byte(0x660a9e)
-StagesCleared = byte(0x660a76)
-StagesClearedLV3 = byte(0x660b9a)
-StagesClearedLV999 = byte(0x660b9e)
-Stage4ASelected = byte(0x660ba2)
-Stage4BSelected = byte(0x660ba6)
-SelectedStage = byte(0x8a097a)
 StageState = byte(0x8a099d)
-SelectedStageLevel = byte(0x8a0f6a)
-DeathModeActive = byte(0x660baa)
-BombCapacity = byte(0x660b66)
-
-//Used
-
+StageClearedFlag = byte(0x660a9e)
 CurrentStage = byte(0x6609ce)
 EndingState = byte(0x660b92)
 EndingChoice = byte(0x8a932a)
 EndingChoiceState = byte(0x8a934e)
-
 DeathMode999Active = byte(0x660bae)
 BossIndex = byte(0x660a82)
 BossDefeatedFlag = byte(0x660a96)
 SelectedStageLevel = byte(0x8a0f6a)
-
 BombActivatedState = byte(0x660b5e)
 
 LifeUp = {
@@ -221,7 +203,6 @@ EndingChoices = {
     "Stay": 1
 }
 
-
 BossStages = {
     "Deathscythe": 0,
     "Jordan": 1,
@@ -260,46 +241,45 @@ LifeUpSizes = {
 // Helper Functions
 // ======================================================================= //
 
-function IsOnTitle() => ActivePlayer == 0
 function IsPlayer1() => ActivePlayer == 1
 function IsPlayer2() => ActivePlayer == 2
-function IsOnCharacterSelect() => CharacterSelectState == 1
-function IsMultiplayer() => ActivePlayer == 3
-function IsInEnding() => EndingState == 1
-function IsInTutorial() => TutorialState == 1
+function IsCharacter(player, character) => Player[player]["Character"] == Characters[character]
 function IsInStage() => StageState == 1
-function IsInResults(player) => Player[player]["Results"]["State"] == 1
-
+function IsInEnding() => EndingState == 1
 function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
-
 function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings()
-
 function IsBossActive() => BossIndex > 0
-function IsTyrannosatanActive() => BossIndex == 2
-function IsBloodyJitterbugActive() => BossIndex == 3
+function IsFightingBoss(boss) => BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss]
 
-function GetExtends(player){
-    return Player[player]["Life"] - 3
-}
+function CurrentStageIs(stage) => CurrentStage == Stages[stage]
+function EndingChoiceIs(ending) => EndingChoice == EndingChoices[ending]
 
-function GetLives(player){
-    return Player[player]["Health"] / 0x40
-}
+function GetExtends(player) => Player[player]["Life"] - 3
+function GetPlayerHealth(player) => Player[player]["Health"]
+function GetPlayerScore(player, type) => Player[player]["Score"][type]
+function GetPlayerPlusValue(player) => Player[player]["PlusValue"]
+function GetPlayerPowerUpStatus(player) => Player[player]["PowerUp"]
+function GetPlayerItemCounter(player) => Player[player]["ItemCounter"]
+function GetPlayerItemCount(player, type) => Player[player]["Items"][type]
 
-function IsNormalMode() => DeathModeActive == 0 && DeathMode999Active == 0 && Stage4ASelected == 0 && Stage4BSelected == 0 && SelectedStage < 6
-function IsNormalFINAL() => DeathModeActive == 0 && DeathMode999Active == 0 && Stage4ASelected == 0 && Stage4BSelected == 0 && SelectedStage == 7
-function IsDeathMode() => DeathModeActive + Stage4ASelected + Stage4BSelected > 0 && DeathMode999Active == 0 && SelectedStage != 7
-function IsDeathModeFINAL() => DeathModeActive == 1 && DeathMode999Active == 0 && Stage4ASelected == 0 && Stage4BSelected == 0 && SelectedStage == 7
-function IsDeathMode999() => DeathMode999Active == 1
-function IsDeathModeEX() => DeathModeActive + Stage4ASelected + Stage4BSelected >= 2 && DeathMode999Active == 0 && SelectedStage == 7
+function PlayerTookDamage(player) => prev(GetPlayerHealth(player)) > GetPlayerHealth(player)
+function PlayerUsedContinue(player) => prev(Player[player]["Continues"]) < Player[player]["Continues"]
+function PlayerUsedBomb() => prev(BombActivatedState) == 0 && BombActivatedState == 1
+function PlayerDefeatedBoss() => prev(BossDefeatedFlag) == 0 && BossDefeatedFlag == 1
+function PlayerClearedStage() => prev(StageClearedFlag) == 0 && StageClearedFlag == 1
+function PlayerClearedGame() => prev(EndingState) == 0 && EndingState == 1
+function PlayerChoseEnding() => prev(EndingChoiceState) == 1 && EndingChoiceState == 0
+function PlayerPoweredUp(player) => prev(GetPlayerPowerUpStatus(player)) == 0 && GetPlayerPowerUpStatus(player) == 1
+function PlayerActivatedDeathMode999() => prev(DeathMode999Active) == 0 && DeathMode999Active == 1
+function PlayerUsedInput(player, type) => prev(Player[player]["Inputs"][type]) == 0 && Player[player]["Inputs"][type] == 1
 
 // ======================================================================= //
 // Achievement Functions
 // ======================================================================= //
 
 function StageCleared(stage, challenge){
-    trigger = IsValidSession() && CurrentStage == Stages[stage]
-    cleared = prev(StageClearedFlag) == 0 && StageClearedFlag == 1 
+    trigger = IsValidSession() && CurrentStageIs(stage)
+    cleared = PlayerClearedStage()
     
     if(challenge)
         cleared = trigger_when(cleared)
@@ -310,56 +290,53 @@ function StageCleared(stage, challenge){
 function GameCleared(character){
     return IsValidSession() &&
         (
-            (ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
-            (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])
+            (IsPlayer1() && IsCharacter("P1", character)) ||
+            (IsPlayer2() && IsCharacter("P2", character))
         ) &&
-        prev(EndingState) == 0 &&
-        EndingState == 1
+        PlayerClearedGame()
 }
 
 function SelectedEnding(character, ending){
     return IsValidSession() &&
         (
-            (ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
-            (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])
+            (IsPlayer1() && IsCharacter("P1", character)) ||
+            (IsPlayer2() && IsCharacter("P2", character))
         ) &&
-        EndingState == 1 &&
-        EndingChoice == EndingChoices[ending] &&
-        prev(EndingChoiceState) == 1 &&
-        EndingChoiceState == 0
+        IsInEnding() &&
+        EndingChoiceIs(ending) &&
+        PlayerChoseEnding()
 }
 
 function ClearStageNoDamage(stage){
     return StageCleared(stage, true) &&
         (
-            disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
-            disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage())
+            disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1"), !IsInStage()) ||
+            disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2"), !IsInStage())
         )
 }
 
 function ClearFINALNoDamage(){
     return IsValidSession() &&
-        trigger_when(prev(EndingState) == 0 &&
-        EndingState == 1) && 
+        trigger_when(PlayerClearedGame()) && 
         (
-            disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
-            disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage())
+            disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1"), !IsInStage()) ||
+            disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2"), !IsInStage())
         )
 }
 
 function GotScoreMillions(score){
     return IsValidSession() &&
         (
-            (ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Millions"]) < score && Player["P1"]["Score"]["Millions"] >= score) ||
-            (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Millions"]) < score && Player["P2"]["Score"]["Millions"] >= score)
+            (IsPlayer1() && prev(GetPlayerScore("P1", "Millions")) < score && GetPlayerScore("P1", "Millions") >= score) ||
+            (IsPlayer2() && prev(GetPlayerScore("P2", "Millions")) < score && GetPlayerScore("P2", "Millions") >= score)
         )
 }
 
 function GotScoreBillions(score){
     return IsValidSession() &&
         (
-            (ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Billions"]) < score && Player["P1"]["Score"]["Billions"] >= score) ||
-            (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Billions"]) < score && Player["P2"]["Score"]["Billions"] >= score)
+            (IsPlayer1() && prev(GetPlayerScore("P1", "Billions")) < score && GetPlayerScore("P1", "Billions") >= score) ||
+            (IsPlayer2() && prev(GetPlayerScore("P1", "Billions")) < score && GetPlayerScore("P1", "Billions") >= score)
         )
 }
 
@@ -371,61 +348,56 @@ function BossDefeatedNoContinue(boss, standard){
 
     return IsValidSession() &&
         IsLevel999 &&
-        BossIndex == BossIndices[boss] &&
-        CurrentStage == BossStages[boss] &&
-        prev(BossDefeatedFlag) == 0 &&
-        BossDefeatedFlag == 1 &&
-        disable_when(BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsInStage()) &&
-        disable_when(BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsInStage()) &&
-        disable_when(BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
+        IsFightingBoss(boss) &&
+        trigger_when(PlayerDefeatedBoss()) &&
+        disable_when(IsFightingBoss(boss) && IsPlayer1() && PlayerUsedContinue("P1"), !IsInStage()) &&
+        disable_when(IsFightingBoss(boss) && IsPlayer2() && PlayerUsedContinue("P2"), !IsInStage()) &&
+        disable_when(IsFightingBoss(boss) && PlayerUsedBomb(), !IsInStage())
 }
 
 function ActivatedFeverMode(){
     return IsValidSession() &&
         (
-            (ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PlusValue"]) < 100000 && Player["P1"]["PlusValue"] >= 100000) ||
-            (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PlusValue"]) < 100000 && Player["P2"]["PlusValue"] >= 100000)
+            (IsPlayer1() && prev(GetPlayerPlusValue("P1")) < 100000 && GetPlayerPlusValue("P1") >= 100000) ||
+            (IsPlayer2() && prev(GetPlayerPlusValue("P2")) < 100000 && GetPlayerPlusValue("P2") >= 100000)
         )
 }
 
 function ActivatedPowerUpMode(times){
     return IsValidSession() &&
         (
-            tally(times, ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PowerUp"]) == 0 && Player["P1"]["PowerUp"] == 1) ||
-            tally(times, ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PowerUp"]) == 0 && Player["P2"]["PowerUp"] == 1)
+            tally(times, IsPlayer1() && PlayerPoweredUp("P1")) ||
+            tally(times, IsPlayer2() && PlayerPoweredUp("P2"))
         ) &&
         never(!IsInStage())
 }
 
 function ActivatedDeathMode999(){
     return IsValidSession() &&
-        prev(DeathMode999Active) == 0 &&
-        DeathMode999Active == 1
+        PlayerActivatedDeathMode999()
 }
 
 function GotExtend(number){
     return IsValidSession() &&
         (
-            (prev(GetExtends("P1")) < number && GetExtends("P1") >= number) ||
-            (prev(GetExtends("P2")) < number && GetExtends("P2") >= number)
+            (IsPlayer1() && prev(GetExtends("P1")) < number && GetExtends("P1") >= number) ||
+            (IsPlayer2() && prev(GetExtends("P2")) < number && GetExtends("P2") >= number)
         )
 }
 
 function SakuraBossChallenge(){
     return IsValidSession() &&
-        BossIndex == BossIndices["Sakura"] &&
-        CurrentStage == BossStages["Sakura"] &&
-        prev(BossDefeatedFlag) == 0 &&
-        BossDefeatedFlag == 1 &&
+        IsFightingBoss("Sakura") &&
+        trigger_when(PlayerDefeatedBoss()) &&
         (
-            (ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters["Sakura"]) ||
-            (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters["Sakura"])
+            (IsPlayer1() && IsCharacter("P1", "Sakura")) ||
+            (IsPlayer2() && IsCharacter("P2", "Sakura"))
         ) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootLeft"]) == 0 && Player["P1"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootRight"]) == 0 && Player["P1"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootLeft"]) == 0 && Player["P2"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootRight"]) == 0 && Player["P2"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
-        disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && prev(BombActivatedState) == 0 && BombActivatedState == 1, !IsInStage())
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootLeft"), !IsInStage()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootRight"), !IsInStage()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft"), !IsInStage()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight"), !IsInStage()) &&
+        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), !IsInStage())
 }
 
 function GotLifeUpBonus(size){
@@ -439,24 +411,26 @@ function GotLifeUpBonus(size){
 function Got3Bombs(){
     return IsValidSession() &&
         measured(repeated(3, prev(MagicItem["Collected"]) != 0xff && MagicItem["Collected"] == 0xff && never(NumberOfPlayers == 0))) &&
-        disable_when(ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], NumberOfPlayers == 0) &&
-        disable_when(ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], NumberOfPlayers == 0)
+        disable_when(IsPlayer1() && PlayerUsedContinue("P1"), NumberOfPlayers == 0) &&
+        disable_when(IsPlayer2() && PlayerUsedContinue("P2"), NumberOfPlayers == 0)
 }
 
 function Got500CounterDuringBoss(){
     return IsValidSession() &&
         (
-            measured(tally_of(range(0, 20), 500, count => ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["ItemCounter"] - prev(Player["P1"]["ItemCounter"]) > count && never(!IsBossActive()))) ||
-            measured(tally_of(range(0, 20), 500, count => ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["ItemCounter"] - prev(Player["P2"]["ItemCounter"]) > count && never(!IsBossActive())))
+            measured(tally_of(range(0, 20), 500, count => IsPlayer1() && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
+            measured(tally_of(range(0, 20), 500, count => IsPlayer2() && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
         ) &&
-        disable_when(IsBossActive() && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsBossActive()) &&
-        disable_when(IsBossActive() && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsBossActive())
+        disable_when(IsBossActive() && IsPlayer1() && PlayerUsedContinue("P1"), !IsBossActive()) &&
+        disable_when(IsBossActive() && IsPlayer2() && PlayerUsedContinue("P2"), !IsBossActive())
 }
 
 function GotItemChallenge(type, number){
     return IsValidSession() &&
-        prev(Player["P1"]["Items"][type]) < number && 
-        measured(Player["P1"]["Items"][type] >= number)
+        (
+            (prev(GetPlayerItemCount("P1", type)) < number && measured(GetPlayerItemCount("P1", type) >= number)) ||
+            (prev(GetPlayerItemCount("P2", type)) < number && measured(GetPlayerItemCount("P2", type) >= number))
+        )
 }
 
 // ======================================================================= //

@@ -74,8 +74,11 @@ Player = {
           "ShootRight": bit5(0x66148a),
           "Bomb": bit6(0x66148a)
         },
-        //Score is broken into two parts due to size limitations
-        //A combination of the two will be used for achievement logic
+        "Items": {
+            "Hearts": word(0x66157a),
+            "Crowns": word(0x66157e)
+        },
+        //Use for 
         "Score": {
             "Billions": (byte(0x661498) + byte(0x66149b) * 10 + byte(0x66149a) * 100),
             "Millions": (byte(0x661497) + byte(0x661496) * 10 + byte(0x661499) * 100)
@@ -125,6 +128,10 @@ Player = {
           "ShootLeft": bit4(0x6615ea),
           "ShootRight": bit5(0x6615ea),
           "Bomb": bit6(0x6615ea)
+        },
+        "Items": {
+            "Hearts": word(0x6616da),
+            "Crowns": word(0x6616de)
         },
         "Score": {
             "Billions": (byte(0x6615f8) + byte(0x6615fb) * 10 + byte(0x6615fa) * 100),
@@ -302,16 +309,20 @@ function StageCleared(stage, challenge){
 
 function GameCleared(character){
     return IsValidSession() &&
-        ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
-        (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])) &&
+        (
+            (ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
+            (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])
+        ) &&
         prev(EndingState) == 0 &&
         EndingState == 1
 }
 
 function SelectedEnding(character, ending){
     return IsValidSession() &&
-        ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
-        (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])) &&
+        (
+            (ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters[character]) ||
+            (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters[character])
+        ) &&
         EndingState == 1 &&
         EndingChoice == EndingChoices[ending] &&
         prev(EndingChoiceState) == 1 &&
@@ -320,28 +331,36 @@ function SelectedEnding(character, ending){
 
 function ClearStageNoDamage(stage){
     return StageCleared(stage, true) &&
-        (disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
-        disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
+        (
+            disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
+            disable_when(CurrentStage == Stages[stage] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage())
+        )
 }
 
 function ClearFINALNoDamage(){
     return IsValidSession() &&
         trigger_when(prev(EndingState) == 0 &&
         EndingState == 1) && 
-        (disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
-        disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage()))
+        (
+            disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Health"]) > Player["P1"]["Health"], !IsInStage()) ||
+            disable_when(CurrentStage == Stages["FINAL"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Health"]) > Player["P2"]["Health"], !IsInStage())
+        )
 }
 
 function GotScoreMillions(score){
     return IsValidSession() &&
-        ((ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Millions"]) < score && Player["P1"]["Score"]["Millions"] >= score) ||
-        (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Millions"]) < score && Player["P2"]["Score"]["Millions"] >= score))
+        (
+            (ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Millions"]) < score && Player["P1"]["Score"]["Millions"] >= score) ||
+            (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Millions"]) < score && Player["P2"]["Score"]["Millions"] >= score)
+        )
 }
 
 function GotScoreBillions(score){
     return IsValidSession() &&
-        ((ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Billions"]) < score && Player["P1"]["Score"]["Billions"] >= score) ||
-        (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Billions"]) < score && Player["P2"]["Score"]["Billions"] >= score))
+        (
+            (ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Score"]["Billions"]) < score && Player["P1"]["Score"]["Billions"] >= score) ||
+            (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Score"]["Billions"]) < score && Player["P2"]["Score"]["Billions"] >= score)
+        )
 }
 
 function BossDefeatedNoContinue(boss, standard){
@@ -363,14 +382,18 @@ function BossDefeatedNoContinue(boss, standard){
 
 function ActivatedFeverMode(){
     return IsValidSession() &&
-        ((ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PlusValue"]) < 100000 && Player["P1"]["PlusValue"] >= 100000) ||
-        (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PlusValue"]) < 100000 && Player["P2"]["PlusValue"] >= 100000))
+        (
+            (ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PlusValue"]) < 100000 && Player["P1"]["PlusValue"] >= 100000) ||
+            (ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PlusValue"]) < 100000 && Player["P2"]["PlusValue"] >= 100000)
+        )
 }
 
 function ActivatedPowerUpMode(times){
     return IsValidSession() &&
-        (tally(times, ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PowerUp"]) == 0 && Player["P1"]["PowerUp"] == 1) ||
-        tally(times, ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PowerUp"]) == 0 && Player["P2"]["PowerUp"] == 1)) &&
+        (
+            tally(times, ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["PowerUp"]) == 0 && Player["P1"]["PowerUp"] == 1) ||
+            tally(times, ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["PowerUp"]) == 0 && Player["P2"]["PowerUp"] == 1)
+        ) &&
         never(!IsInStage())
 }
 
@@ -382,10 +405,10 @@ function ActivatedDeathMode999(){
 
 function GotExtend(number){
     return IsValidSession() &&
-        ((prev(GetExtends("P1")) < number &&
-        GetExtends("P1") >= number) ||
-        (prev(GetExtends("P2")) < number &&
-        GetExtends("P2") >= number))
+        (
+            (prev(GetExtends("P1")) < number && GetExtends("P1") >= number) ||
+            (prev(GetExtends("P2")) < number && GetExtends("P2") >= number)
+        )
 }
 
 function SakuraBossChallenge(){
@@ -394,8 +417,10 @@ function SakuraBossChallenge(){
         CurrentStage == BossStages["Sakura"] &&
         prev(BossDefeatedFlag) == 0 &&
         BossDefeatedFlag == 1 &&
-        ((ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters["Sakura"]) ||
-        (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters["Sakura"])) &&
+        (
+            (ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["Character"] == Characters["Sakura"]) ||
+            (ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["Character"] == Characters["Sakura"])
+        ) &&
         disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootLeft"]) == 0 && Player["P1"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
         disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Inputs"]["ShootRight"]) == 0 && Player["P1"]["Inputs"]["ShootRight"] == 1, !IsInStage()) &&
         disable_when(BossIndex == BossIndices["Sakura"] && CurrentStage == BossStages["Sakura"] && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Inputs"]["ShootLeft"]) == 0 && Player["P2"]["Inputs"]["ShootLeft"] == 1, !IsInStage()) &&
@@ -420,9 +445,18 @@ function Got3Bombs(){
 
 function Got500CounterDuringBoss(){
     return IsValidSession() &&
-        (measured(tally_of(range(0, 20), 500, count => BossIndex > 0 && ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["ItemCounter"] - prev(Player["P1"]["ItemCounter"]) > count)) ||
-        measured(tally_of(range(0, 20), 500, count => BossIndex > 0 && ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["ItemCounter"] - prev(Player["P2"]["ItemCounter"]) > count))) &&
-        never(BossIndex == 0)
+        (
+            measured(tally_of(range(0, 20), 500, count => ActivePlayer == ActivePlayers["Player1"] && Player["P1"]["ItemCounter"] - prev(Player["P1"]["ItemCounter"]) > count && never(!IsBossActive()))) ||
+            measured(tally_of(range(0, 20), 500, count => ActivePlayer == ActivePlayers["Player2"] && Player["P2"]["ItemCounter"] - prev(Player["P2"]["ItemCounter"]) > count && never(!IsBossActive())))
+        ) &&
+        disable_when(IsBossActive() && ActivePlayer == ActivePlayers["Player1"] && prev(Player["P1"]["Continues"]) < Player["P1"]["Continues"], !IsBossActive()) &&
+        disable_when(IsBossActive() && ActivePlayer == ActivePlayers["Player2"] && prev(Player["P2"]["Continues"]) < Player["P2"]["Continues"], !IsBossActive())
+}
+
+function GotItemChallenge(type, number){
+    return IsValidSession() &&
+        prev(Player["P1"]["Items"][type]) < number && 
+        measured(Player["P1"]["Items"][type] >= number)
 }
 
 // ======================================================================= //
@@ -629,16 +663,16 @@ achievement(title = "[Draft] Magic x 3", description = "Collect a 3 Magic Items 
     trigger = Got3Bombs()
 )
 
-achievement(title = "[Draft] 500 Counter Boss", description = "Increase your item counter by 500 or more during a boss fight", points = 10, id = 433395,
+achievement(title = "[Draft] 500 Counter Boss", description = "Increase your item counter by 500 or more during a boss fight without using a continue", points = 10, id = 433395,
     trigger = Got500CounterDuringBoss()
 )
 
-achievement(title = "[Draft] 2500 Hearts and Skulls", description = "Increase your item counter by 500 or more during a boss fight", points = 5, id = 433396,
-    trigger = always_false()
+achievement(title = "[Draft] 2500 Hearts and Skulls", description = "Collect 2500 Hearts and/or Skulls in any stage without taking damage", points = 5, id = 433396,
+    trigger = GotItemChallenge("Hearts", 2500)
 )
 
-achievement(title = "[Draft] 1000 Crowns", description = "Collect 1000 Crowns in any stage", points = 10, id = 433397,
-    trigger = always_false()
+achievement(title = "[Draft] 1000 Crowns", description = "Collect 1000 Crowns in any stage without taking damage", points = 10, id = 433397,
+    trigger = GotItemChallenge("Crowns", 1000)
 )
 
 // ======================================================================= //
@@ -688,4 +722,5 @@ achievement(title = "[Draft] No Continue Tyrannosatan", description = "While pla
 achievement(title = "[Draft] No Continue Bloody Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
     trigger = BossDefeatedNoContinue("BloodyJitterbug", true)
 )
+
 

@@ -337,16 +337,25 @@ function GotScoreBillions(score){
         )
 }
 
+function BossDefeated(boss, challenge){
+    defeated = PlayerDefeatedBoss()
+    
+    if(challenge)
+        defeated = trigger_when(defeated)
+
+    return IsValidSession() &&
+        IsFightingBoss(boss) &&
+        defeated
+}
+
 function BossDefeatedNoContinue(boss, standard){
     IsLevel999 = SelectedStageLevel == Levels["LV999"]
     
     if(!standard)
-        level999 = DeathMode999Active == 1
+        IsLevel999 = DeathMode999Active == 1
 
-    return IsValidSession() &&
-        IsLevel999 &&
-        IsFightingBoss(boss) &&
-        trigger_when(PlayerDefeatedBoss()) &&
+    return IsLevel999 &&
+        BossDefeated(boss, true) &&
         disable_when(IsFightingBoss(boss) && IsPlayer1() && PlayerUsedContinue("P1"), !IsInStage()) &&
         disable_when(IsFightingBoss(boss) && IsPlayer2() && PlayerUsedContinue("P2"), !IsInStage()) &&
         disable_when(IsFightingBoss(boss) && PlayerUsedBomb(), !IsInStage())
@@ -675,23 +684,23 @@ achievement(title = "[Draft] No Continue Bavaria", description = "While playing 
 )
 
 achievement(title = "[Draft] No Continue Devaria & Givaria", description = "While playing Stage 4-A on Level 999, defeat Devaria & Givaria without using a continue and without using a bomb", points = 50, id = 433404,
-    trigger = BossDefeatedNoContinue("Devaria", true)
+    trigger = BossDefeatedNoContinue("Devaria", false)
 )
 
 achievement(title = "[Draft] No Continue Ozier", description = "While playing Stage 4-B on Level 999, defeat Ozier without using a continue and without using a bomb", points = 50, id = 433405,
-    trigger = BossDefeatedNoContinue("Ozier", true)
+    trigger = BossDefeatedNoContinue("Ozier", false)
 )
 
 achievement(title = "[Draft] No Continue Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Jitterbug without using a continue and without using a bomb", points = 50, id = 433406,
-    trigger = BossDefeatedNoContinue("Jitterbug", true)
+    trigger = BossDefeatedNoContinue("Jitterbug", false)
 )
 
 achievement(title = "[Draft] No Continue Tyrannosatan", description = "While playing Stage FINAL on Level 999, defeat Tyrannosatan without using a continue and without using a bomb", points = 50, id = 433407,
-    trigger = BossDefeatedNoContinue("Tyrannosatan", true)
+    trigger = BossDefeatedNoContinue("Tyrannosatan", false)
 )
 
-achievement(title = "[Draft] No Continue Bloody Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
-    trigger = BossDefeatedNoContinue("BloodyJitterbug", true)
+achievement(title = "[Draft] Bloody Jitterbug", description = "Defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
+    trigger = BossDefeated("BloodyJitterbug", false)
 )
 
 

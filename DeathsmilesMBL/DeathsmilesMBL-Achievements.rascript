@@ -10,11 +10,14 @@
 ActivePlayer = byte(0x660b56)
 NumberOfPlayers = byte(0x89baf6)
 StageState = byte(0x8a099d)
+StagesCleared = byte(0x660a76)
 StageClearedFlag = byte(0x660a9e)
 CurrentStage = byte(0x6609ce)
 EndingState = byte(0x660b92)
 EndingChoice = byte(0x8a932a)
 EndingChoiceState = byte(0x8a934e)
+TutorialState = byte(0x660b5a)
+CharacterSelectState = byte(0x660aaa)
 DeathMode999Active = byte(0x660bae)
 BossIndex = byte(0x660a82)
 BossDefeatedFlag = byte(0x660a96)
@@ -242,9 +245,11 @@ function IsPlayer1() => ActivePlayer == 1
 function IsPlayer2() => ActivePlayer == 2
 function IsCharacter(player, character) => Player[player]["Character"] == Characters[character]
 function IsInStage() => StageState == 1
+function IsOnCharacterSelect() => CharacterSelectState == 1
+function IsInTutorial() => TutorialState == 1
 function IsInEnding() => EndingState == 1
 function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
-function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings()
+function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings() && !IsOnCharacterSelect() && !IsInTutorial()
 function IsBossActive() => BossIndex > 0
 function IsFightingBoss(boss) => BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss]
 
@@ -276,7 +281,8 @@ function PlayerUsedInput(player, type) => prev(Player[player]["Inputs"][type]) =
 
 function StageCleared(stage, challenge){
     trigger = IsValidSession() && CurrentStageIs(stage)
-    cleared = PlayerClearedStage()
+         
+    cleared = prev(IsInStage()) && PlayerClearedStage()
     
     if(challenge)
         cleared = trigger_when(cleared)
@@ -424,8 +430,8 @@ function Got3Bombs(){
 function Got500CounterDuringBoss(){
     return IsValidSession() &&
         (
-            measured(tally_of(range(0, 20), 500, count => IsPlayer1() && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
-            measured(tally_of(range(0, 20), 500, count => IsPlayer2() && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
+            measured(tally_of(range(0, 20), 500, count => IsPlayer1() && GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
+            measured(tally_of(range(0, 20), 500, count => IsPlayer2() && GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
         ) &&
         disable_when(IsBossActive() && IsPlayer1() && PlayerUsedContinue("P1"), !IsBossActive()) &&
         disable_when(IsBossActive() && IsPlayer2() && PlayerUsedContinue("P2"), !IsBossActive())

@@ -296,6 +296,7 @@ function GameCleared(character){
             (IsPlayer1() && IsCharacter("P1", character)) ||
             (IsPlayer2() && IsCharacter("P2", character))
         ) &&
+        CurrentStageIs("FINAL") &&
         PlayerClearedGame()
 }
 
@@ -312,26 +313,23 @@ function SelectedEnding(character, ending){
 
 function ClearStageNoDamage(stage){
     return StageCleared(stage, true) &&
-        (
-            disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1"), !IsInStage()) ||
-            disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2"), !IsInStage())
-        )
+        disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1"), !IsInStage()) &&
+        disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2"), !IsInStage())
 }
 
 function ClearFINALNoDamage(){
     return IsValidSession() &&
+        CurrentStageIs("FINAL") &&
         trigger_when(PlayerClearedGame()) && 
-        (
-            disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1"), !IsInStage()) ||
-            disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2"), !IsInStage())
-        )
+        disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1"), !IsInEnding() && !IsInStage()) &&
+        disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2"), !IsInEnding() && !IsInStage())
 }
 
 function GotScoreMillions(score){
     return IsValidSession() &&
         (
-            (IsPlayer1() && prev(GetPlayerScore("P1", "Millions")) < score && GetPlayerScore("P1", "Millions") >= score) ||
-            (IsPlayer2() && prev(GetPlayerScore("P2", "Millions")) < score && GetPlayerScore("P2", "Millions") >= score)
+            (IsPlayer1() && GetPlayerScore("P1", "Billions") == 0 && prev(GetPlayerScore("P1", "Millions")) < score && GetPlayerScore("P1", "Millions") >= score) ||
+            (IsPlayer2() && GetPlayerScore("P2", "Billions") == 0 && prev(GetPlayerScore("P2", "Millions")) < score && GetPlayerScore("P2", "Millions") >= score)
         )
 }
 
@@ -339,7 +337,7 @@ function GotScoreBillions(score){
     return IsValidSession() &&
         (
             (IsPlayer1() && prev(GetPlayerScore("P1", "Billions")) < score && GetPlayerScore("P1", "Billions") >= score) ||
-            (IsPlayer2() && prev(GetPlayerScore("P1", "Billions")) < score && GetPlayerScore("P1", "Billions") >= score)
+            (IsPlayer2() && prev(GetPlayerScore("P2", "Billions")) < score && GetPlayerScore("P2", "Billions") >= score)
         )
 }
 
@@ -440,8 +438,24 @@ function Got500CounterDuringBoss(){
 function GotItemChallenge(type, number){
     return IsValidSession() &&
         (
-            (prev(GetPlayerItemCount("P1", type)) < number && measured(GetPlayerItemCount("P1", type) >= number)) ||
-            (prev(GetPlayerItemCount("P2", type)) < number && measured(GetPlayerItemCount("P2", type) >= number))
+            measured(
+                tally_of(
+                    range(0, 40), number, 
+                    count => IsPlayer1() && 
+                        GetPlayerItemCount("P1", type) > prev(GetPlayerItemCount("P1", type)) && 
+                        GetPlayerItemCount("P1", type) - prev(GetPlayerItemCount("P1", type)) > count && 
+                        never(!IsInStage())
+                 )
+            ) ||
+            measured(
+                tally_of(
+                    range(0, 40), number, 
+                    count => IsPlayer2() && 
+                        GetPlayerItemCount("P2", type) > prev(GetPlayerItemCount("P2", type)) && 
+                        GetPlayerItemCount("P2", type) - prev(GetPlayerItemCount("P2", type)) > count && 
+                        never(!IsInStage())
+                 )
+            )
         )
 }
 
@@ -598,11 +612,11 @@ achievement(title = "[Draft] 500 Million", description = "Score 500,000,000 poin
 )
 
 achievement(title = "[Draft] 1 Billion", description = "Score 1,000,000,000 points or more", points = 50, id = 433383,
-    trigger = GotScoreMillions(1)
+    trigger = GotScoreBillions(1)
 )
 
 achievement(title = "[Draft] 2 Billion", description = "Score 2,000,000,000 points or more", points = 100, id = 433384,
-    trigger = GotScoreMillions(2)
+    trigger = GotScoreBillions(2)
 )
 
 // ======================================================================= //
@@ -653,11 +667,11 @@ achievement(title = "[Draft] 500 Counter Boss", description = "Increase your ite
     trigger = Got500CounterDuringBoss()
 )
 
-achievement(title = "[Draft] 2500 Hearts and Skulls", description = "Collect 2500 Hearts and/or Skulls in any stage without taking damage", points = 5, id = 433396,
+achievement(title = "[Draft] 5000 Hearts and Skulls", description = "Collect 5000 Hearts and/or Skulls in any stage", points = 5, id = 433396,
     trigger = GotItemChallenge("Hearts", 2500)
 )
 
-achievement(title = "[Draft] 1000 Crowns", description = "Collect 1000 Crowns in any stage without taking damage", points = 10, id = 433397,
+achievement(title = "[Draft] 1000 Crowns", description = "Collect 1000 Crowns in any stage", points = 10, id = 433397,
     trigger = GotItemChallenge("Crowns", 1000)
 )
 
@@ -708,5 +722,6 @@ achievement(title = "[Draft] No Continue Tyrannosatan", description = "While pla
 achievement(title = "[Draft] Bloody Jitterbug", description = "Defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
     trigger = BossDefeated("BloodyJitterbug", false)
 )
+
 
 

@@ -360,9 +360,9 @@ function BossDefeatedNoContinue(boss, standard){
 
     return IsLevel999 &&
         BossDefeated(boss, true) &&
-        disable_when(IsFightingBoss(boss) && IsPlayer1() && PlayerUsedContinue("P1"), !IsInStage()) &&
-        disable_when(IsFightingBoss(boss) && IsPlayer2() && PlayerUsedContinue("P2"), !IsInStage()) &&
-        disable_when(IsFightingBoss(boss) && PlayerUsedBomb(), !IsInStage())
+        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer1() && PlayerUsedContinue("P1"), !IsInStage()) &&
+        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer2() && PlayerUsedContinue("P2"), !IsInStage()) &&
+        disable_when(IsFightingBoss(boss) && IsLevel999 && PlayerUsedBomb(), !IsInStage())
 }
 
 function ActivatedFeverMode(){

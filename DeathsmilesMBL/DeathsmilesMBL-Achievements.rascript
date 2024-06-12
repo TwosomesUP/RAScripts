@@ -277,7 +277,7 @@ function PlayerClearedGame() => prev(EndingState) == 0 && EndingState == 1
 function PlayerChoseEnding() => prev(EndingChoiceState) == 1 && EndingChoiceState == 0
 function PlayerPoweredUp(player) => prev(GetPlayerPowerUpStatus(player)) == 0 && GetPlayerPowerUpStatus(player) == 1
 function PlayerActivatedDeathMode999() => prev(DeathMode999Active) == 0 && DeathMode999Active == 1
-function PlayerUsedInput(player, type) => prev(Player[player]["Inputs"][type]) == 0 && Player[player]["Inputs"][type] == 1
+function PlayerUsedInput(player, type) => Player[player]["Inputs"][type] == 1
 
 // ======================================================================= //
 // Achievement Functions
@@ -286,7 +286,7 @@ function PlayerUsedInput(player, type) => prev(Player[player]["Inputs"][type]) =
 function StageCleared(stage, challenge){
     trigger = IsValidSession() && CurrentStageIs(stage)
          
-    cleared = IsInStage() && PlayerClearedStage()
+    cleared = prev(IsInStage()) && PlayerClearedStage()
     
     if(challenge)
         cleared = trigger_when(cleared)
@@ -383,7 +383,8 @@ function ActivatedPowerUpMode(times){
             tally(times, IsPlayer1() && PlayerPoweredUp("P1")) ||
             tally(times, IsPlayer2() && PlayerPoweredUp("P2"))
         ) &&
-        never(!IsInStage())
+        never(IsOnStageSelect()) &&
+        never(IsOnTitle())
 }
 
 function ActivatedDeathMode999(){

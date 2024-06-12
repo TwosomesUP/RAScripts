@@ -12,6 +12,7 @@ NumberOfPlayers = byte(0x89baf6)
 StageState = byte(0x8a099d)
 StagesCleared = byte(0x660a76)
 StageClearedFlag = byte(0x660a9e)
+StageSelectState = byte(0x8a09a6)
 CurrentStage = byte(0x6609ce)
 EndingState = byte(0x660b92)
 EndingChoice = byte(0x8a932a)
@@ -241,16 +242,19 @@ LifeUpSizes = {
 // Helper Functions
 // ======================================================================= //
 
+function IsOnTitle() => ActivePlayer == 0
 function IsPlayer1() => ActivePlayer == 1
 function IsPlayer2() => ActivePlayer == 2
 function IsCharacter(player, character) => Player[player]["Character"] == Characters[character]
 function IsInStage() => StageState == 1
+function IsOnStageSelect() => StageSelectState == 1
 function IsOnCharacterSelect() => CharacterSelectState == 1
 function IsInTutorial() => TutorialState == 1
 function IsInEnding() => EndingState == 1
 function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
 function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings() && !IsOnCharacterSelect() && !IsInTutorial()
 function IsBossActive() => BossIndex > 0
+function IsBossDefeated() => BossDefeatedFlag == 1
 function IsFightingBoss(boss) => BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss]
 
 function CurrentStageIs(stage) => CurrentStage == Stages[stage]
@@ -282,7 +286,7 @@ function PlayerUsedInput(player, type) => prev(Player[player]["Inputs"][type]) =
 function StageCleared(stage, challenge){
     trigger = IsValidSession() && CurrentStageIs(stage)
          
-    cleared = prev(IsInStage()) && PlayerClearedStage()
+    cleared = IsInStage() && PlayerClearedStage()
     
     if(challenge)
         cleared = trigger_when(cleared)
@@ -313,16 +317,16 @@ function SelectedEnding(character, ending){
 
 function ClearStageNoDamage(stage){
     return StageCleared(stage, true) &&
-        disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1"), !IsInStage()) &&
-        disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2"), !IsInStage())
+        disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2"), IsOnStageSelect() || IsOnTitle())
 }
 
 function ClearFINALNoDamage(){
     return IsValidSession() &&
         CurrentStageIs("FINAL") &&
         trigger_when(PlayerClearedGame()) && 
-        disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1"), !IsInEnding() && !IsInStage()) &&
-        disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2"), !IsInEnding() && !IsInStage())
+        disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2"), IsOnStageSelect() || IsOnTitle())
 }
 
 function GotScoreMillions(score){
@@ -360,9 +364,9 @@ function BossDefeatedNoContinue(boss, standard){
 
     return IsLevel999 &&
         BossDefeated(boss, true) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer1() && PlayerUsedContinue("P1"), !IsInStage()) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer2() && PlayerUsedContinue("P2"), !IsInStage()) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && PlayerUsedBomb(), !IsInStage())
+        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer1() && PlayerUsedContinue("P1"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer2() && PlayerUsedContinue("P2"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss(boss) && IsLevel999 && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle())
 }
 
 function ActivatedFeverMode(){
@@ -403,11 +407,11 @@ function SakuraBossChallenge(){
             (IsPlayer1() && IsCharacter("P1", "Sakura")) ||
             (IsPlayer2() && IsCharacter("P2", "Sakura"))
         ) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootLeft"), !IsInStage()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootRight"), !IsInStage()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft"), !IsInStage()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight"), !IsInStage()) &&
-        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), !IsInStage())
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootLeft"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle())
 }
 
 function GotLifeUpBonus(size){
@@ -420,16 +424,16 @@ function GotLifeUpBonus(size){
 
 function Got3Bombs(){
     return IsValidSession() &&
-        measured(repeated(3, prev(MagicItem["Collected"]) != 0xff && MagicItem["Collected"] == 0xff && never(NumberOfPlayers == 0))) &&
-        disable_when(IsPlayer1() && PlayerUsedContinue("P1"), NumberOfPlayers == 0) &&
-        disable_when(IsPlayer2() && PlayerUsedContinue("P2"), NumberOfPlayers == 0)
+        measured(repeated(3, prev(MagicItem["Collected"]) != 0xff && MagicItem["Collected"] == 0xff && never(IsOnTitle()))) &&
+        disable_when(IsPlayer1() && PlayerUsedContinue("P1"), IsOnTitle()) &&
+        disable_when(IsPlayer2() && PlayerUsedContinue("P2"), IsOnTitle())
 }
 
 function Got500CounterDuringBoss(){
     return IsValidSession() &&
         (
-            measured(tally_of(range(0, 20), 500, count => IsPlayer1() && GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
-            measured(tally_of(range(0, 20), 500, count => IsPlayer2() && GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
+            measured(tally_of(range(0, 20), 500, count => !IsBossDefeated() && IsPlayer1() && GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
+            measured(tally_of(range(0, 20), 500, count => !IsBossDefeated() && IsPlayer2() && GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
         ) &&
         disable_when(IsBossActive() && IsPlayer1() && PlayerUsedContinue("P1"), !IsBossActive()) &&
         disable_when(IsBossActive() && IsPlayer2() && PlayerUsedContinue("P2"), !IsBossActive())
@@ -443,8 +447,7 @@ function GotItemChallenge(type, number){
                     range(0, 40), number, 
                     count => IsPlayer1() && 
                         GetPlayerItemCount("P1", type) > prev(GetPlayerItemCount("P1", type)) && 
-                        GetPlayerItemCount("P1", type) - prev(GetPlayerItemCount("P1", type)) > count && 
-                        never(!IsInStage())
+                        GetPlayerItemCount("P1", type) - prev(GetPlayerItemCount("P1", type)) > count
                  )
             ) ||
             measured(
@@ -452,11 +455,13 @@ function GotItemChallenge(type, number){
                     range(0, 40), number, 
                     count => IsPlayer2() && 
                         GetPlayerItemCount("P2", type) > prev(GetPlayerItemCount("P2", type)) && 
-                        GetPlayerItemCount("P2", type) - prev(GetPlayerItemCount("P2", type)) > count && 
-                        never(!IsInStage())
+                        GetPlayerItemCount("P2", type) - prev(GetPlayerItemCount("P2", type)) > count
+                        
                  )
             )
-        )
+        ) &&
+        never(IsOnStageSelect()) &&
+        never(IsOnTitle())
 }
 
 // ======================================================================= //
@@ -667,7 +672,7 @@ achievement(title = "[Draft] 500 Counter Boss", description = "Increase your ite
     trigger = Got500CounterDuringBoss()
 )
 
-achievement(title = "[Draft] 5000 Hearts and Skulls", description = "Collect 5000 Hearts and/or Skulls in any stage", points = 5, id = 433396,
+achievement(title = "[Draft] 2500 Hearts and Skulls", description = "Collect 2500 Hearts and/or Skulls in any stage", points = 5, id = 433396,
     trigger = GotItemChallenge("Hearts", 2500)
 )
 

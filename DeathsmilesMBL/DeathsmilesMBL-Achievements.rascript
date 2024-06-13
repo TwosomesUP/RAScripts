@@ -412,7 +412,9 @@ function SakuraBossChallenge(){
         disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
         disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft"), IsOnStageSelect() || IsOnTitle()) &&
         disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle())
+        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedContinue("P1"), IsOnStageSelect() || IsOnTitle()) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedContinue("P2"), IsOnStageSelect() || IsOnTitle())
 }
 
 function GotLifeUpBonus(size){

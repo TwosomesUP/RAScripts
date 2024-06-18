@@ -219,6 +219,20 @@ BossStages = {
     "Ozier": 9
 }
 
+BossStageNames = {
+    "Deathscythe": "A1",
+    "Jordan": "A2",
+    "Whroon": "B1",
+    "Sakura": "B2",
+    "Mary": "C1",
+    "Bavaria": "C2",
+    "Devaria": "4A" ,
+    "Jitterbug": "FINAL",
+    "Tyrannosatan": "FINAL",
+    "BloodyJitterbug": "FINAL",
+    "Ozier": "4B"
+}
+
 BossIndices = {
     "Deathscythe": 1,
     "Jordan": 1,
@@ -359,16 +373,19 @@ function BossDefeated(boss, challenge){
 
 function BossDefeatedNoContinue(boss, standard){
     IsLevel999 = SelectedStageLevel == Levels["LV999"]
+    FightingBoss = IsFightingBoss(boss) && IsLevel999
     
-    //Level 999 reset if you lose a full life in 4A, 4B, or 5
-    //Track that the player made it to the boss at Level 999
-    //to make it a bit more fair.
-    if(!standard)
-        IsLevel999 = once(IsBossActive() && DeathMode999Active == 1) 
+    //Level 999 resets if you lose a full life in 4A, 4B, or 5
+    //Achievement is valid if player starts stage at 999 and remains valid
+    //even if they take damage. This should make it a bit more fair.
+    if(!standard) {
+        IsLevel999 = once(CurrentStageIs(BossStageNames[boss]) && DeathMode999Active == 1)
+        FightingBoss = IsBossActive() && IsLevel999
+    }
 
     return IsLevel999 &&
         BossDefeated(boss, true) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && PlayerUsedContinue()) &&
+        disable_when(FightingBoss && PlayerUsedContinue()) &&
         (never(IsOnStageSelect()) || never(IsOnTitle()))
 }
 
@@ -406,17 +423,24 @@ function GotExtend(number){
 function SakuraBossChallenge(){
     return IsValidSession() &&
         IsFightingBoss("Sakura") &&
-        trigger_when(PlayerDefeatedBoss()) &&
         (
-            (IsPlayer1() && IsCharacter("P1", "Sakura")) ||
-            (IsPlayer2() && IsCharacter("P2", "Sakura"))
+            (
+                trigger_when(IsPlayer1() && IsCharacter("P1", "Sakura") && PlayerDefeatedBoss()) &&
+                never(IsOnStageSelect()) && 
+                never(IsOnTitle()) 
+            ) ||
+            (
+                trigger_when(IsPlayer2() && IsCharacter("P2", "Sakura") && PlayerDefeatedBoss()) &&
+                never(IsOnStageSelect()) && 
+                never(IsOnTitle()) 
+            )
         ) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootLeft"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && PlayerUsedContinue(), IsOnStageSelect() || IsOnTitle())
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootLeft")) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedInput("P1", "ShootRight")) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft")) &&
+        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight")) &&
+        disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb()) &&
+        disable_when(IsFightingBoss("Sakura") && PlayerUsedContinue())
 }
 
 function GotLifeUpBonus(size){

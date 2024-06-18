@@ -24,6 +24,7 @@ BossIndex = byte(0x660a82)
 BossDefeatedFlag = byte(0x660a96)
 SelectedStageLevel = byte(0x8a0f6a)
 BombActivatedState = byte(0x660b5e)
+ContinueScreenState = byte(0x660986)
 
 LifeUp = {
     "Bonus": byte(0x86d50c),
@@ -269,7 +270,7 @@ function GetPlayerItemCounter(player) => Player[player]["ItemCounter"]
 function GetPlayerItemCount(player, type) => Player[player]["Items"][type]
 
 function PlayerTookDamage(player) => prev(GetPlayerHealth(player)) > GetPlayerHealth(player)
-function PlayerUsedContinue(player) => prev(Player[player]["Continues"]) < Player[player]["Continues"]
+function PlayerUsedContinue() => prev(ContinueScreenState) < ContinueScreenState
 function PlayerUsedBomb() => prev(BombActivatedState) == 0 && BombActivatedState == 1
 function PlayerDefeatedBoss() => prev(BossDefeatedFlag) == 0 && BossDefeatedFlag == 1
 function PlayerClearedStage() => prev(StageClearedFlag) == 0 && StageClearedFlag == 1
@@ -359,14 +360,16 @@ function BossDefeated(boss, challenge){
 function BossDefeatedNoContinue(boss, standard){
     IsLevel999 = SelectedStageLevel == Levels["LV999"]
     
+    //Level 999 reset if you lose a full life in 4A, 4B, or 5
+    //Track that the player made it to the boss at Level 999
+    //to make it a bit more fair.
     if(!standard)
-        IsLevel999 = DeathMode999Active == 1
+        IsLevel999 = once(IsBossActive() && DeathMode999Active == 1) 
 
     return IsLevel999 &&
         BossDefeated(boss, true) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer1() && PlayerUsedContinue("P1"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && IsPlayer2() && PlayerUsedContinue("P2"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss(boss) && IsLevel999 && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle())
+        disable_when(IsFightingBoss(boss) && IsLevel999 && PlayerUsedContinue()) &&
+        (never(IsOnStageSelect()) || never(IsOnTitle()))
 }
 
 function ActivatedFeverMode(){
@@ -413,8 +416,7 @@ function SakuraBossChallenge(){
         disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootLeft"), IsOnStageSelect() || IsOnTitle()) &&
         disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedInput("P2", "ShootRight"), IsOnStageSelect() || IsOnTitle()) &&
         disable_when(IsFightingBoss("Sakura") && PlayerUsedBomb(), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer1() && PlayerUsedContinue("P1"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsFightingBoss("Sakura") && IsPlayer2() && PlayerUsedContinue("P2"), IsOnStageSelect() || IsOnTitle())
+        disable_when(IsFightingBoss("Sakura") && PlayerUsedContinue(), IsOnStageSelect() || IsOnTitle())
 }
 
 function GotLifeUpBonus(size){
@@ -428,8 +430,7 @@ function GotLifeUpBonus(size){
 function Got3Bombs(){
     return IsValidSession() &&
         measured(repeated(3, prev(MagicItem["Collected"]) != 0xff && MagicItem["Collected"] == 0xff && never(IsOnTitle()))) &&
-        disable_when(IsPlayer1() && PlayerUsedContinue("P1"), IsOnTitle()) &&
-        disable_when(IsPlayer2() && PlayerUsedContinue("P2"), IsOnTitle())
+        disable_when(PlayerUsedContinue(), IsOnTitle())
 }
 
 function Got500CounterDuringBoss(){
@@ -438,8 +439,7 @@ function Got500CounterDuringBoss(){
             measured(tally_of(range(0, 20), 500, count => !IsBossDefeated() && IsPlayer1() && GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
             measured(tally_of(range(0, 20), 500, count => !IsBossDefeated() && IsPlayer2() && GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
         ) &&
-        disable_when(IsBossActive() && IsPlayer1() && PlayerUsedContinue("P1"), !IsBossActive()) &&
-        disable_when(IsBossActive() && IsPlayer2() && PlayerUsedContinue("P2"), !IsBossActive())
+        disable_when(IsBossActive() && PlayerUsedContinue(), !IsBossActive())
 }
 
 function GotItemChallenge(type, number){
@@ -687,47 +687,47 @@ achievement(title = "[Draft] 1000 Crowns", description = "Collect 1000 Crowns in
 // Achievement Definitions - Boss Challenges
 // ======================================================================= //
 
-achievement(title = "[Draft] No Continue Deathscythe", description = "While playing Stage A-1 on Level 999, defeat Deathscythe without using a continue and without using a bomb", points = 10, id = 433398,
+achievement(title = "[Draft] No Continue Deathscythe", description = "While playing Stage A-1 on Level 999, defeat Deathscythe without using a continue", points = 10, id = 433398,
     trigger = BossDefeatedNoContinue("Deathscythe", true)
 )
 
-achievement(title = "[Draft] No Continue Jordan", description = "While playing Stage A-2 on Level 999, defeat Jordan without using a continue and without using a bomb", points = 25, id = 433399,
+achievement(title = "[Draft] No Continue Jordan", description = "While playing Stage A-2 on Level 999, defeat Jordan without using a continue", points = 25, id = 433399,
     trigger = BossDefeatedNoContinue("Jordan", true)
 )
 
-achievement(title = "[Draft] No Continue Whroon", description = "While playing Stage B-1 on Level 999, defeat Whroon without using a continue and without using a bomb", points = 25, id = 433400,
+achievement(title = "[Draft] No Continue Whroon", description = "While playing Stage B-1 on Level 999, defeat Whroon without using a continue", points = 25, id = 433400,
     trigger = BossDefeatedNoContinue("Whroon", true)
 )
 
-achievement(title = "[Draft] No Continue Sakura", description = "While playing Stage B-2 on Level 999, defeat Sakura without using a continue and without using a bomb", points = 25, id = 433401,
+achievement(title = "[Draft] No Continue Sakura", description = "While playing Stage B-2 on Level 999, defeat Sakura without using a continue", points = 25, id = 433401,
     trigger = BossDefeatedNoContinue("Sakura", true)
 )
 
-achievement(title = "[Draft] No Continue Mary", description = "While playing Stage C-1 on Level 999, defeat Mary without using a continue and without using a bomb", points = 25, id = 433402,
+achievement(title = "[Draft] No Continue Mary", description = "While playing Stage C-1 on Level 999, defeat Mary without using a continue", points = 25, id = 433402,
     trigger = BossDefeatedNoContinue("Mary", true)
 )
 
-achievement(title = "[Draft] No Continue Bavaria", description = "While playing Stage C-2 on Level 999, defeat Bavaria without using a continue and without using a bomb", points = 25, id = 433403,
+achievement(title = "[Draft] No Continue Bavaria", description = "While playing Stage C-2 on Level 999, defeat Bavaria without using a continue", points = 25, id = 433403,
     trigger = BossDefeatedNoContinue("Bavaria", true)
 )
 
-achievement(title = "[Draft] No Continue Devaria & Givaria", description = "While playing Stage 4-A on Level 999, defeat Devaria & Givaria without using a continue and without using a bomb", points = 50, id = 433404,
+achievement(title = "[Draft] No Continue Devaria & Givaria", description = "While playing Stage 4-A on Level 999, defeat Devaria & Givaria without using a continue", points = 50, id = 433404,
     trigger = BossDefeatedNoContinue("Devaria", false)
 )
 
-achievement(title = "[Draft] No Continue Ozier", description = "While playing Stage 4-B on Level 999, defeat Ozier without using a continue and without using a bomb", points = 50, id = 433405,
+achievement(title = "[Draft] No Continue Ozier", description = "While playing Stage 4-B on Level 999, defeat Ozier without using a continue", points = 50, id = 433405,
     trigger = BossDefeatedNoContinue("Ozier", false)
 )
 
-achievement(title = "[Draft] No Continue Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Jitterbug without using a continue and without using a bomb", points = 50, id = 433406,
+achievement(title = "[Draft] No Continue Jitterbug", description = "While playing Stage FINAL on Level 999, defeat Jitterbug without using a continue", points = 50, id = 433406,
     trigger = BossDefeatedNoContinue("Jitterbug", false)
 )
 
-achievement(title = "[Draft] No Continue Tyrannosatan", description = "While playing Stage FINAL on Level 999, defeat Tyrannosatan without using a continue and without using a bomb", points = 50, id = 433407,
+achievement(title = "[Draft] No Continue Tyrannosatan", description = "While playing Stage FINAL on Level 999, defeat Tyrannosatan without using a continue", points = 50, id = 433407,
     trigger = BossDefeatedNoContinue("Tyrannosatan", false)
 )
 
-achievement(title = "[Draft] Bloody Jitterbug", description = "Defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
+achievement(title = "[Draft] Bloody Jitterbug", description = "While playing Stage FINAL on Level 999, Defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
     trigger = BossDefeated("BloodyJitterbug", false)
 )
 

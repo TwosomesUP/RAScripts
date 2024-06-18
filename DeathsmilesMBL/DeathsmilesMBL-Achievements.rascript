@@ -380,7 +380,7 @@ function BossDefeatedNoContinue(boss, standard){
     //even if they take damage. This should make it a bit more fair.
     if(!standard) {
         IsLevel999 = once(CurrentStageIs(BossStageNames[boss]) && DeathMode999Active == 1)
-        FightingBoss = IsBossActive() && IsLevel999
+        FightingBoss = IsFightingBoss(boss)
     }
 
     return IsLevel999 &&

@@ -453,15 +453,42 @@ function GotLifeUpBonus(size){
 
 function Got3Bombs(){
     return IsValidSession() &&
-        measured(repeated(3, prev(MagicItem["Collected"]) != 0xff && MagicItem["Collected"] == 0xff && never(IsOnTitle()))) &&
+        measured(
+            repeated(3, 
+                prev(MagicItem["Collected"]) != 0xff && 
+                MagicItem["Collected"] == 0xff && 
+                never(IsOnTitle())
+            ),
+            IsValidSession()
+        ) &&
         disable_when(PlayerUsedContinue(), IsOnTitle())
 }
 
 function Got500CounterDuringBoss(){
     return IsValidSession() &&
         (
-            measured(tally_of(range(0, 20), 500, count => !IsBossDefeated() && IsPlayer1() && GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && never(!IsBossActive()))) ||
-            measured(tally_of(range(0, 20), 500, count => !IsBossDefeated() && IsPlayer2() && GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && never(!IsBossActive())))
+            measured(
+                tally_of(
+                    range(0, 20), 500, 
+                    count => !IsBossDefeated() && 
+                        IsPlayer1() && 
+                        GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && 
+                        GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && 
+                        never(!IsBossActive())
+                ),
+                IsValidSession()
+            ) ||
+            measured(
+                tally_of(
+                    range(0, 20), 500, 
+                    count => !IsBossDefeated() && 
+                        IsPlayer2() && 
+                        GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && 
+                        GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && 
+                        never(!IsBossActive())
+                ),
+                IsValidSession()
+            )
         ) &&
         disable_when(IsBossActive() && PlayerUsedContinue(), !IsBossActive())
 }
@@ -475,7 +502,8 @@ function GotItemChallenge(type, number){
                     count => IsPlayer1() && 
                         GetPlayerItemCount("P1", type) > prev(GetPlayerItemCount("P1", type)) && 
                         GetPlayerItemCount("P1", type) - prev(GetPlayerItemCount("P1", type)) > count
-                 )
+                 ),
+                 IsValidSession()
             ) ||
             measured(
                 tally_of(
@@ -484,7 +512,8 @@ function GotItemChallenge(type, number){
                         GetPlayerItemCount("P2", type) > prev(GetPlayerItemCount("P2", type)) && 
                         GetPlayerItemCount("P2", type) - prev(GetPlayerItemCount("P2", type)) > count
                         
-                 )
+                 ),
+                 IsValidSession()
             )
         ) &&
         never(IsOnStageSelect()) &&
@@ -751,7 +780,7 @@ achievement(title = "[Draft] No Continue Tyrannosatan", description = "While pla
     trigger = BossDefeatedNoContinue("Tyrannosatan", false)
 )
 
-achievement(title = "[Draft] Bloody Jitterbug", description = "While playing Stage FINAL on Level 999, Defeat Bloody Jitterbug and clear the game", points = 100, id = 433408,
+achievement(title = "[Draft] Bloody Jitterbug", description = "While playing Stage FINAL on Level 999 as Sakura, Defeat Bloody Jitterbug", points = 100, id = 433408,
     trigger = BossDefeated("BloodyJitterbug", false)
 )
 

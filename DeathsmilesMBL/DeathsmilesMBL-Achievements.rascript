@@ -780,7 +780,7 @@ achievement(title = "Malignant Overlord", description = "While playing Stage FIN
     trigger = BossDefeatedNoContinue("Tyrannosatan", false)
 )
 
-achievement(title = "Crazed Warden", description = "While playing Stage FINAL on Level 999 as Sakura, Defeat Bloody Jitterbug", points = 100, id = 433408,
+achievement(title = "Crazed Warden", description = "While playing Stage FINAL on Level 999, Defeat Bloody Jitterbug", points = 100, id = 433408,
     trigger = BossDefeated("BloodyJitterbug", false)
 )
 

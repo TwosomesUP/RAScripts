@@ -32,7 +32,7 @@ Settings = {
 
 Player = {
     "State": byte(0xdb1),
-    "Lives": byte(0x9eed),
+    "Lives": byte(0x9eee),
     "Weapon": {
         "Vulcan": {
             "IsActive": (byte(0x9ed6) > 0),
@@ -94,7 +94,7 @@ BombTypes = {
 // Lookups
 //================================================================
 
-Stages = {
+StageNames = {
     0: "Countryside",
     1: "City",
     2: "Ocean",
@@ -107,6 +107,59 @@ Stages = {
     10: "Mission Complete"
 }
 
+StageNumbers = {
+    0: "1",
+    1: "2",
+    2: "3",
+    3: "4",
+    4: "5",
+    5: "6",
+    7: "7",
+    8: "8",
+    9: "8",
+    10: "8"
+}
+
+ActiveWeapon = {
+    1: "Vulcan LV1",
+    2: "Vulcan LV2",
+    3: "Vulcan LV3",
+    4: "Vulcan LV4",
+    5: "Vulcan LV5",
+    6: "Vulcan LV6",
+    7: "Vulcan LV7",
+    8: "Vulcan LV8",
+    10: "Laser LV1",
+    20: "Laser LV2",
+    30: "Laser LV3",
+    40: "Laser LV4",
+    50: "Laser LV5",
+    60: "Laser LV6",
+    70: "Laser LV7",
+    80: "Laser LV8",
+    100: "Plasma LV1",
+    200: "Plasma LV2",
+    300: "Plasma LV3",
+    400: "Plasma LV4",
+    500: "Plasma LV5",
+    600: "Plasma LV6",
+    700: "Plasma LV7",
+    800: "Plasma LV8"
+}
+
+
+ActiveMissile = {
+    0: "",
+    1: " • Missile LV1",
+    2: " • Missile LV2",
+    3: " • Missile LV3",
+    4: " • Missile LV4",
+    10: " • Homing LV1",
+    20: " • Homing LV2",
+    30: " • Homing LV3",
+    40: " • Homing LV4"
+}
+
 //================================================================
 // Helper Functions
 //================================================================
@@ -115,8 +168,11 @@ function IsInGame() => GameState == 1
 function IsOnTitle() => GameState == 0
 function IsSinglePlayer() => NumberOfPlayers == 1
 function IsMultiplayer() => NumberOfPlayers == 2
-
 function IsValidSession() => IsInGame() && IsSinglePlayer() && all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting])
+
+function PlayerUsedContinue() {
+    return IsInGame() && prev(NumberOfPlayers) == 0 && NumberOfPlayers > 0
+}
 
 function CountBombs(type){
     return measured(tally_of(Player["Bombs"], 0, bomb => once(bomb == BombTypes[type] && never(bomb != BombTypes[type]))))
@@ -126,14 +182,36 @@ function GetTotalBombs(){
     return measured(tally_of(Player["Bombs"], 0, bomb => once(bomb > 0 && never(bomb < 1))))
 }
 
+function CountContinues(){
+    return measured(tally(0, IsInGame() && PlayerUsedContinue() && never(IsOnTitle())))
+}
+
+function GetActiveWeapon(){
+    return Player["Weapon"]["Vulcan"]["Power"] + (Player["Weapon"]["Laser"]["Power"] * 10) + (Player["Weapon"]["Plasma"]["Power"] * 100)
+}
+
+function GetActiveMissile(){
+    return Player["Missile"]["Standard"]["Power"] + (Player["Missile"]["Homing"]["Power"] * 10)
+}
+
 //================================================================
 // Rich Presence Definitions
 //================================================================
 
-rich_presence_conditional_display(IsInGame(), "Total Bombs: {0} | Standard Bombs: {1} | Cluster Bombs: {2}",
-    rich_presence_value("TotalBombs", GetTotalBombs()),
+rich_presence_conditional_display(IsInGame(), "Fighting the extraterrestrial menace on Stage {0}-{1} [{2}] | {4}{5} | Bombs: 🔴 {6} 🟡 {7} | Medals: 🥇 {8} 🥈 {9} | 🧚 {10} | 🛩️ {3} • 🔄 {11} | {12}",
+    rich_presence_value("Loop", Loop + 1),
+    rich_presence_lookup("StageNumber", Stage, StageNumbers),
+    rich_presence_lookup("StageName", Stage, StageNames),
+    rich_presence_value("Lives", Player["Lives"]),
+    rich_presence_lookup("Weapon", GetActiveWeapon(), ActiveWeapon),
+    rich_presence_lookup("Missile", GetActiveMissile(), ActiveMissile),
     rich_presence_value("StandardBombs", CountBombs("Standard")),
-    rich_presence_value("ClusterBombs", CountBombs("Cluster"))
+    rich_presence_value("ClusterBombs", CountBombs("Cluster")),
+    rich_presence_value("GoldMedals", Player["Medals"]["Gold"]),
+    rich_presence_value("PlatinumMedals", Player["Medals"]["Platinum"]),
+    rich_presence_value("Fairies", Player["Fairies"]),
+    rich_presence_value("Continues", CountContinues()),
+    rich_presence_value("Score", Player["Score"], "Score")
 )
 
-rich_presence_display("Taking Raiden II for a spin")
+rich_presence_display("Taking the Raiden II for a spin")

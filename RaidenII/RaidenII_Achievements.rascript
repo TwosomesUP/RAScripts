@@ -91,6 +91,45 @@ BombTypes = {
     "Cluster": 2
 }
 
+Stages = {
+    "1": {
+        "Start": 0,
+        "End": 1
+    },
+    "2": {
+        "Start": 1,
+        "End": 2
+    },
+    "3": {
+        "Start": 2,
+        "End": 3
+    },
+    "4": {
+        "Start": 3,
+        "End": 4
+    },
+    "5": {
+        "Start": 4,
+        "End": 5
+    },
+    "6": {
+        "Start": 5,
+        "End": 7
+    },
+    "7": {
+        "Start": 7,
+        "End": 8
+    },
+    "8": {
+        "Start": 9,
+        "End": 10
+    },
+    "NextMission": {
+        "Start": 10,
+        "End": 1
+    },
+}
+
 //================================================================
 // Helper Functions
 //================================================================
@@ -99,7 +138,10 @@ function IsInGame() => GameState == 1 && TitleState == 0
 function IsOnTitle() => TitleState > 0
 function IsSinglePlayer() => NumberOfPlayers == 1
 function IsMultiplayer() => NumberOfPlayers == 2
-function IsValidSession() => all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting])
+function IsValidSession() {
+    return all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting]) &&
+    disable_when(NumberOfPlayers > 1, !IsInGame())
+}
 
 function PlayerUsedContinue() {
     return IsInGame() && prev(NumberOfPlayers) == 0 && NumberOfPlayers > 0
@@ -131,39 +173,96 @@ function GetActiveMissile(){
 
 
 //================================================================
+// Achievement Trigger Functions
+//================================================================
+
+function ClearedStage(stage, challenge){
+    ToNextStage = prev(Stage) == Stages[stage]["Start"] && Stage == Stages[stage]["End"]
+    
+    if(stage == "1"){
+        ToNextStage = ((ToNextStage) || (Loop > 0 && prev(Stage) == Stages["NextMission"]["Start"] && Stage == Stages["NextMission"]["End"]))
+    }
+    
+    if(challenge){
+        ToNextStage = trigger_when(ToNextStage)
+    }
+    
+    return IsValidSession() && ToNextStage
+}
+
+function ClearedStageNoContinue(stage){
+    trigger = ClearedStage(stage, true) &&
+        disable_when(Stage == Stages[stage]["Start"] && PlayerUsedContinue(), !IsInGame())
+        
+    if(stage == "1"){
+        trigger = trigger &&
+        disable_when(Loop > 0 && Stage == Stages["NextMission"]["Start"] && PlayerUsedContinue(), !IsInGame()) 
+    }
+
+    return trigger 
+}
+
+function MaxedPrimary(){
+    return IsValidSession() &&
+        ((prev(Player["Weapon"]["Vulcan"]["Power"]) > 0 &&
+        prev(Player["Weapon"]["Vulcan"]["Power"]) < 8 &&
+        Player["Weapon"]["Vulcan"]["Power"] >= 8) ||
+        (prev(Player["Weapon"]["Laser"]["Power"]) > 0 &&
+        prev(Player["Weapon"]["Laser"]["Power"]) < 8 &&
+        Player["Weapon"]["Laser"]["Power"] >= 8) ||
+        (prev(Player["Weapon"]["Plasma"]["Power"]) > 0 &&
+        prev(Player["Weapon"]["Plasma"]["Power"]) < 8 &&
+        Player["Weapon"]["Plasma"]["Power"] >= 8))
+}
+
+function MaxedMissiles(){
+    return IsValidSession() &&
+        ((prev(Player["Missile"]["Standard"]["Power"]) > 0 &&
+        prev(Player["Missile"]["Standard"]["Power"]) < 4 &&
+        Player["Missile"]["Standard"]["Power"] >= 4) ||
+        (prev(Player["Missile"]["Homing"]["Power"]) > 0 &&
+        prev(Player["Missile"]["Homing"]["Power"]) < 4 &&
+        Player["Missile"]["Homing"]["Power"] >= 4))
+}
+
+function Got1UP(stage){
+    
+}
+
+//================================================================
 // Progression Achievement Definitions
 //================================================================
 
 achievement(title = "[Draft] Clear Stage 1", description = "Clear Stage 8", points = 1, type = "progression", id = 443796,
-    trigger = always_false()
+    trigger = ClearedStage("1", false)
 )
 
 achievement(title = "[Draft] Clear Stage 2", description = "Clear Stage 8", points = 2, type = "progression", id = 443797,
-    trigger = always_false()
+    trigger = ClearedStage("2", false)
 )
 
 achievement(title = "[Draft] Clear Stage 3", description = "Clear Stage 8", points = 2, type = "progression", id = 443798,
-    trigger = always_false()
+    trigger = ClearedStage("3", false)
 )
 
 achievement(title = "[Draft] Clear Stage 4", description = "Clear Stage 8", points = 3, type = "progression", id = 443799,
-    trigger = always_false()
+    trigger = ClearedStage("4", false)
 )
 
 achievement(title = "[Draft] Clear Stage 5", description = "Clear Stage 8", points = 3, type = "progression", id = 443800,
-    trigger = always_false()
+    trigger = ClearedStage("5", false)
 )
 
 achievement(title = "[Draft] Clear Stage 6", description = "Clear Stage 8", points = 4, type = "progression", id = 443801,
-    trigger = always_false()
+    trigger = ClearedStage("6", false)
 )
 
 achievement(title = "[Draft] Clear Stage 7", description = "Clear Stage 8", points = 4, type = "progression", id = 443802,
-    trigger = always_false()
+    trigger = ClearedStage("7", false)
 )
 
 achievement(title = "[Draft] Clear Stage 8", description = "Clear Stage 8", points = 5, type = "win_condition", id = 443803,
-    trigger = always_false()
+    trigger = ClearedStage("8", false)
 )
 
 //================================================================
@@ -171,43 +270,43 @@ achievement(title = "[Draft] Clear Stage 8", description = "Clear Stage 8", poin
 //================================================================
 
 achievement(title = "[Draft] No Continue Stage 1", description = "Clear Stage 1 without using a continue", points = 10, id = 443804,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("1")
 )
 
 achievement(title = "[Draft] No Continue Stage 2", description = "Clear Stage 2 without using a continue", points = 10, id = 443805,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("2")
 )
 
 achievement(title = "[Draft] No Continue Stage 3", description = "Clear Stage 3 without using a continue", points = 10, id = 443806,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("3")
 )
 
 achievement(title = "[Draft] No Continue Stage 4", description = "Clear Stage 4 without using a continue", points = 25, id = 443807,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("4")
 )
 
 achievement(title = "[Draft] No Continue Stage 5", description = "Clear Stage 5 without using a continue", points = 25, id = 443808,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("5")
 )
 
 achievement(title = "[Draft] No Continue Stage 6", description = "Clear Stage 6 without using a continue", points = 25, id = 443809,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("6")
 )
 
 achievement(title = "[Draft] No Continue Stage 7", description = "Clear Stage 7 without using a continue", points = 25, id = 443810,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("7")
 )
 
 achievement(title = "[Draft] No Continue Stage 8", description = "Clear Stage 8 without using a continue", points = 50, id = 443811,
-    trigger = always_false()
+    trigger = ClearedStageNoContinue("8")
 )
 
 achievement(title = "[Draft] MAX Primary", description = "Upgrade the Vulcan, Laser, or Plasma weapon to max firepower", points = 3, id = 443812,
-    trigger = always_false()
+    trigger = MaxedPrimary()
 )
 
 achievement(title = "[Draft] MAX Missiles", description = "Upgrade the Missiles or Homing Missiles to max firepower", points = 3, id = 443813,
-    trigger = always_false()
+    trigger = MaxedMissiles()
 )
 
 achievement(title = "[Draft] Stage 3 1UP", description = "Collect a 1UP on Stage 3", points = 5, id = 443814,

@@ -233,7 +233,11 @@ function GetActiveMissile(){
 }
 
 function PlayerDefeatedBoss(){
-    return prev(StageState) == 1 && StageState == 2
+    return prev(StageState) == 1 && trigger_when(StageState == 2)
+}
+
+function PlayerClearedStage(){
+    return prev(StageState) == 2 && StageState == 3
 }
 
 //================================================================
@@ -241,13 +245,7 @@ function PlayerDefeatedBoss(){
 //================================================================
 
 function ClearedStage(stage, challenge){
-    StageComplete = Stage == Stages[stage]["End"] && prev(StageState) == 4 && StageState == 5
-    
-    if(challenge){
-        StageComplete = trigger_when(StageComplete)
-    }
-    
-    return IsValidSession() && StageComplete
+    return IsValidSession() && Stage == Stages[stage]["End"] && PlayerClearedStage()
 }
 
 function ClearedStageNoContinue(stage){
@@ -264,13 +262,13 @@ function ClearedStageNoContinue(stage){
 
 function ClearedStageWithPlatinum(){
     return IsValidSession() &&
-        prev(StageState) == 4 && StageState == 5 &&
+        PlayerClearedStage() &&
         Player["Medals"]["Platinum"] > 0
 }
 
 function ClearedStageWith5Bombs(){
     return IsValidSession() &&
-        prev(StageState) == 4 && StageState == 5 &&
+        PlayerClearedStage() &&
         (
             Player["Bombs"][4] > 0 ||
             Player["Bombs"][5] > 0 ||
@@ -280,8 +278,8 @@ function ClearedStageWith5Bombs(){
 
 function ClearedStageWithBonus(){
     return IsValidSession() &&
-    prev(StageState) == 4 && StageState == 5 &&
-    Player["Bonus"] >= 150000
+    PlayerClearedStage() &&
+    Player["Bonus"] >= 125000
 }
 
 function ClearedGameWithFairy(){
@@ -339,7 +337,7 @@ function GotFairy(stage){
 function GotMedals(count){
     return IsValidSession() &&
         measured(repeated(count, Loop == 0 && prev(Player["Medals"]["Gold"]) < Player["Medals"]["Gold"] && never(!IsInGame()))) &&
-        disable_when(PlayerUsedContinue(), !IsInGame())
+        disable_when(repeated(3, PlayerUsedContinue()), !IsInGame())
 }
 
 function GotScore(score){
@@ -361,7 +359,7 @@ function DefeatedBossWithWeapon(stage, weapon){
         StageCheck &&
         Player["Weapon"][weapon]["IsActive"] &&
         PlayerDefeatedBoss() &&
-        disable_when(prev(Player["Lives"]) > Player["Lives"], !IsInGame())
+        disable_when(StageState == 1 && Stage == Stages[stage]["Start"] && prev(Player["Lives"]) > Player["Lives"], !IsInGame())
 }
 
 //================================================================
@@ -480,11 +478,11 @@ achievement(title = "[Draft] 5 Bomb Clear", description = "Clear any stage with 
     trigger = ClearedStageWith5Bombs()
 )
 
-achievement(title = "[Draft] Clear Bonus", description = "Clear any stage with an end of level bonus of 150,000 points or more", points = 25, id = 443823,
+achievement(title = "[Draft] Clear Bonus", description = "Clear any stage with an end of level bonus of 125,000 points or more", points = 25, id = 443823,
     trigger = ClearedStageWithBonus()
 )
 
-achievement(title = "[Draft] Fairy Clear", description = "Clear the game on the first loop with a stock of 1 or more Fairies", points = 50, id = 443824,
+achievement(title = "[Draft] Fairy Clear", description = "Clear the game on the first loop with a stock of 1 or more Fairies", points = 100, id = 443824,
     trigger = ClearedGameWithFairy()
 )
 

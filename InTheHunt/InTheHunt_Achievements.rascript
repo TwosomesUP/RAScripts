@@ -26,8 +26,8 @@ achievement(
 achievement(
     title = "Call to Arms!", points = 0,
     description = "While fighting Manriki on Stage 3, pacify the boss by destroying both laser reattachment arms",
-    trigger = Stage == 0x02 && ActivePlayer == 0x01 && ScreenScrollState == 0xFF &&
-              repeated(2, (GetScore() - prev(GetScore())) == 10000) && 
+    trigger = repeated(2, (GetScore() - prev(GetScore())) == 10000) && 
               never(Stage != 2) && 
-              never(ActivePlayer != 1)
+              never(ActivePlayer != 1) &&
+              never(ScreenScrollState != 0xff)
 )

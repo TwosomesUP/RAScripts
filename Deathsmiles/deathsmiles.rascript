@@ -449,7 +449,7 @@ achievement(title = "Decoration Cake", description = "Collect a Large Life-Up", 
     trigger = LifeUpCollected("Large")
 )
 
-achievement(title = "Magical Destruction", description = "College a Magic Item", points = 3, id = 418218,
+achievement(title = "Magical Destruction", description = "Collect a Magic Item", points = 3, id = 418218,
     trigger = BombCollected()
 )
 
@@ -526,36 +526,40 @@ achievement(title = "Rosa Smiles", description = "Clear the game with Rosa witho
     trigger = AllClear("Rosa")
 )
 
-achievement(title = "Death Grins", description = "Activate Death Mode EX and clear the game using 3 continues or less", points = 50, id = 419821,
-    trigger = AllClearDeathModeEX(3)
+//Revision 1 - Rebalance: Update from 3 continues to 6
+achievement(title = "Death Grins", description = "Activate Death Mode EX and clear the game using 6 continues or less", points = 50, id = 419821,
+    trigger = AllClearDeathModeEX(6)
 )
 
-achievement(title = "Death Smiles", description = "Activate Death Mode EX and clear the game without using a continue", points = 100, id = 418232,
-    trigger = AllClearDeathModeEX(0)
+//Revision 1 - Rebalance: Update from 0 continues to 3
+achievement(title = "Death Smiles", description = "Activate Death Mode EX and clear the game using 3 continues or less", points = 100, id = 418232,
+    trigger = AllClearDeathModeEX(3)
 )
 
 // ======================================================================= //
 // Point Challenge Achievement Definitions
 // ======================================================================= //
 
-achievement(title = "Hectic", description = "Score 1000000 points or more", points = 5, id = 418233,
+achievement(title = "Hectic", description = "Score 1,000,000 points or more", points = 5, id = 418233,
     trigger = AchievedScore(1000000)
 )
 
-achievement(title = "Frenzied", description = "Score 10000000 points or more", points = 10, id = 418234,
+achievement(title = "Frenzied", description = "Score 10,000,000 points or more", points = 10, id = 418234,
     trigger = AchievedScore(10000000)
 )
 
-achievement(title = "Psychotic", description = "Score 100000000 points or more", points = 25, id = 418235,
+achievement(title = "Psychotic", description = "Score 100,000,000 points or more", points = 25, id = 418235,
     trigger = AchievedScore(100000000)
 )
 
-achievement(title = "Manic", description = "Score 200000000 points or more", points = 50, id = 418236,
-    trigger = AchievedScore(200000000)
+//Revision 1 - Rebalance: Update from 200 mil to 150 mil
+achievement(title = "Manic", description = "Score 150,000,000 points or more", points = 50, id = 418236,
+    trigger = AchievedScore(150000000)
 )
 
-achievement(title = "Berserk", description = "Score 300000000 points or more", points = 100, id = 418237,
-    trigger = AchievedScore(300000000)
+//Revision 1 - Rebalance: Update from 300 mil to 200 mil
+achievement(title = "Berserk", description = "Score 200,000,000 points or more", points = 100, id = 418237,
+    trigger = AchievedScore(200000000)
 )
 
 // ======================================================================= //

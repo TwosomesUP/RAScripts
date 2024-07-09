@@ -1,5 +1,5 @@
 // Killer7
-// #ID = 7032
+// #ID = 7777
 
 Disc = byte(0x00000006)
 Difficulty = bit0(0x002b7a6e)
@@ -439,10 +439,7 @@ function CollectedCassettes(){
 }
 
 function CollectedPigeons() {
-    return
-        IsInGame() &&
-        prev(Pigeons) == 7 &&
-        measured(Pigeons == 8)
+    return measured(Pigeons == 8, IsInGame() && prev(Pigeons) <= 7)
 }
 
 function AllSkillsUpgraded(){
@@ -510,7 +507,7 @@ function AchievedComboCount(count){
 }
 
 function AchievedKillCount(count){
-    return IsInGame() && prev(TargetKills) == count - 1 && measured(TargetKills == count)
+    return measured(TargetKills == count, IsInGame() && prev(TargetKills) <= count - 1)
 }
 
 function CountShotsFired(count){

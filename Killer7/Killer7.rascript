@@ -439,7 +439,7 @@ function CollectedCassettes(){
 }
 
 function CollectedPigeons() {
-    return measured(Pigeons == 8, IsInGame() && prev(Pigeons) <= 7)
+    return measured(Pigeons == 8, IsInGame() && prev(Pigeons) <= 7 && Pigeons - prev(Pigeons) == 1)
 }
 
 function AllSkillsUpgraded(){

@@ -314,7 +314,7 @@ leaderboard("Score Attack - 1CC", "Get the highest score possible without using 
     value = Player["EntryScore"]
 )
 
-leaderboard("Invalid Settins Found", "To re-enable achievements, reset the game settings to their default values",
+leaderboard("Invalid Settings Found", "To re-enable achievements, reset the game settings to their default values",
     start = InvalidStart(),
     cancel = always_false(),
     submit = always_true(),

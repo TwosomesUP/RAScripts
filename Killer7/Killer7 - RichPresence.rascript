@@ -1,5 +1,5 @@
 // Killer7
-// #ID = 7032
+// #ID = 7777
 Disc = byte(0x00000006)
 
 Difficulty = bit0(0x002b7a6e)
@@ -231,7 +231,7 @@ rich_presence_conditional_display(IsInGame() && CharacterHasStats() && IsKevin, 
     rich_presence_value("KevinCriticals", Kevin["Critical"])
 )
 
-rich_presence_conditional_display(IsInGame() && CharacterHasStats() && IsMask, "{0} | ASSIGNMENT: No. {1} | {2} | Power LV{3} • Speed LV{4} • Waver LV{5} • Criticals LV{6}",
+rich_presence_conditional_display(IsInGame() && CharacterHasStats() && IsMask, "{0} | ASSIGNMENT: No. {1} | {2} | Power LV{3} • Speed LV{4} • Waver LV{5} • Range LV{6}",
     rich_presence_lookup("CharacterLookup", SelectedCharacter, StandardCharacterLookup),
     rich_presence_lookup("TargetLookup", Mission, TargetLookup),
     rich_presence_lookup("ModeLookup", CalculateModeAndDifficulty(), ModeLookup, "Unknown Mode"),

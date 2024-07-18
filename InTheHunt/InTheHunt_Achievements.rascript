@@ -264,6 +264,10 @@ function IsValidSession() {
     return IsInGame() && IsSinglePlayer() && IsValidSettings()
 }
 
+function IsValidSession_Ending(){
+    return IsSinglePlayer() && IsValidSettings()
+}
+
 function GetActivePrimaryWeapon(){
     return Player["Weapon"]["Primary"]["Type"] + Player["Weapon"]["Primary"]["Power"] * 10
 }
@@ -276,9 +280,216 @@ function PlayerSubmittedScore(){
     return IsOnNameEntry() && prev(Screen["SubState"]) == ScreenSubStates["NameEntry"] && Screen["SubState"] == ScreenSubStates["NameSubmitted"]
 }
 
+function PlayerClearedStage(stage){
+    if (stage < 1)
+        stage = 1
+        
+    if (stage > 6)
+        stage = 6
+        
+    return prev(Stage["Id"]) == stage - 1 && Stage["Id"] == stage
+}
+
+function PlayerClearedGame(ending){
+    StageCheck = Stage["Id"] == 10
+    
+    if(ending == "2")
+        StageCheck = Stage["Id"] == 9
+        
+    if(ending == "Any")
+        StageCheck = (StageCheck || Stage["Id"] == 9)
+    
+    return (prev(Game["State"]) == 0 && Game["State"] == 4 && StageCheck)
+}
+
+function PlayerDefeatedBoss(){
+    return prev(Stage["Boss"]["Defeated"]) == 0 && Stage["Boss"]["Defeated"] == 1
+}
+
 //================================================================
-// Achievement Definitions
+// Achievement Functions
 //================================================================
+
+function ClearedStage(stage){
+    return IsValidSession() && PlayerClearedStage(stage)
+}
+
+function ClearedGame(ending, continues){
+    ContinueCheck = Player["Continues"] <= continues
+    
+    if(ending == "1")
+        ContinueCheck = Player["Continues"] >= continues
+        
+    return IsValidSession_Ending() && ContinueCheck && PlayerClearedGame(ending)
+}
+
+function GotExtend(){
+    return IsValidSession() && prev(Player["TreasureBalls"]) < 100 && Player["TreasureBalls"] >= 100
+}
+
+function GotMaxTorpedoes(){
+    return IsValidSession() && prev(Player["Weapon"]["Primary"]["Power"]) < 3 && Player["Weapon"]["Primary"]["Power"] >= 3
+}
+
+function GotMaxMissiles(){
+    return IsValidSession() && prev(Player["Weapon"]["Secondary"]["Power"]) < 3 && Player["Weapon"]["Secondary"]["Power"] >= 3
+}
+
+function GotScore(score){
+    return IsValidSession() && prev(Player["Score"]) < score && Player["Score"] >= score
+}
+
+function DefeatedBossNoDamage(stage){
+    if (stage < 1)
+        stage = 1
+        
+    if (stage > 6)
+        stage = 6
+
+    return IsValidSession() && 
+        PlayerDefeatedBoss() && 
+        disable_when(prev(Player["Lives"]) > Player["Lives"], Stage["Id"] != stage - 1)
+}
+
+//================================================================
+// Progression Achievement Definitions
+//================================================================
+
+achievement("[DRAFT] Clear Stage 1", "Clear Stage 1", points = 2, type = "progression", id = 449278,
+    trigger = ClearedStage(1)
+)
+
+achievement("[DRAFT] Clear Stage 2", "Clear Stage 2", points = 2, type = "progression", id = 449279,
+    trigger = ClearedStage(2)
+)
+
+achievement("[DRAFT] Clear Stage 3", "Clear Stage 3", points = 2, type = "progression", id = 449280,
+    trigger = ClearedStage(3)
+)
+
+achievement("[DRAFT] Clear Stage 4", "Clear Stage 4", points = 3, type = "progression", id = 449281,
+    trigger = ClearedStage(4)
+)
+
+achievement("[DRAFT] Clear Stage 5", "Clear Stage 5", points = 3, type = "progression", id = 449282,
+    trigger = ClearedStage(5)
+)
+
+achievement("[DRAFT] Clear Stage 6", "Clear Stage 6", points = 3, type = "win_condition", id = 449283,
+    trigger = ClearedStage(6)
+)
+
+//================================================================
+// Play Challenge Achievement Definitions
+//================================================================
+
+achievement("[DRAFT] Clear Game - 3CC", "Clear the game using 3 continues or less", points = 10, id = 449284,
+    trigger = ClearedGame("Any", 3)
+)
+
+achievement("[DRAFT] Clear Game - Ending 1", "Clear the game using at least 1 continue and unlock Ending 1", points = 5, id = 449285,
+    trigger = ClearedGame("1", 1)
+)
+
+achievement("[DRAFT] Clear Game - 1CC - Ending 2", "Clear the game without using a continue and unlock Ending 2", points = 25, id = 449286,
+    trigger = ClearedGame("2", 0)
+)
+
+achievement("[DRAFT] 100 Treasure Balls", "Extend your life by collection 100 Treasure Ball points", points = 5, id = 449287,
+    trigger = GotExtend()
+)
+
+achievement("[DRAFT] Stage 1 - Challenge", "While playing Stage 1, destroy 75 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449288,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 2 - Challenge", "While playing Stage 2 destroy 8 or more large subs and reach the boss in less than 2 minutes", points = 10, id = 449289,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 3 - Challenge", "While playing Stage 3, cause a significant amount of collateral damage before reaching the boss", points = 10, id = 449290,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the giant fish without losing a life", points = 10, id = 449291,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 5 - Challenge", "While playing Stage 5, collect 15 or more Treasure Balls and reach the boss without using a continue", points = 10, id = 449292,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 6 - Challenge", "While playing Stage 6, destroy 90 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449293,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Max Torpedo", "Upgrade the Torpedoes to max firepower", points = 5, id = 449294,
+    trigger = GotMaxTorpedoes()
+)
+
+achievement("[DRAFT] Max Missiles", "Upgrade the Missiles to max firepower", points = 5, id = 449295,
+    trigger = GotMaxMissiles()
+)
+
+//================================================================
+// Point Challenge Achievement Definitions
+//================================================================
+
+achievement("[DRAFT] 300,000 PTS", "Score 300,000 points or more", points = 10, id = 449296,
+    trigger = GotScore(300000)
+)
+
+achievement("[DRAFT] 600,000 PTS", "Score 600,000 points or more", points = 25, id = 449297,
+    trigger = GotScore(600000)
+)
+
+achievement("[DRAFT] 900,000 PTS", "Score 900,000 points or more", points = 50, id = 449298,
+    trigger = GotScore(900000)
+)
+
+//================================================================
+// Boss Challenge Achievement Definitions
+//================================================================
+
+achievement("[DRAFT] Stage 1 Boss", "Defeat Argok on Stage 1 without losing a life", points = 10, id = 449299,
+    trigger = DefeatedBossNoDamage(1)
+)
+
+achievement("[DRAFT] Stage 2 Boss", "Defeat Trumpet Release on Stage 2 without losing a life", points = 10, id = 449300,
+    trigger = DefeatedBossNoDamage(2)
+)
+
+achievement("[DRAFT] Stage 3 Boss", "Defeat Manriki on Stage 3 without losing a life", points = 25, id = 449301,
+    trigger = DefeatedBossNoDamage(3)
+)
+
+achievement("[DRAFT] Stage 4 Boss", "Defeat J3 on Stage 4 without losing a life", points = 25, id = 449302,
+    trigger = DefeatedBossNoDamage(4)
+)
+
+achievement("[DRAFT] Stage 5 Boss", "Defeat Sogon on Stage 5 without losing a life", points = 25, id = 449303,
+    trigger = DefeatedBossNoDamage(5)
+)
+
+achievement("[DRAFT] Stage 6 Boss", "Defeat Yugskure on Stage 6 without losing a life", points = 50, id = 449304,
+    trigger = DefeatedBossNoDamage(6)
+)
+
+achievement("[DRAFT] Stage 1 Boss Challenge", "While fighting Argok on Stage 1, expose its innards and gain bonus points by destroying its anchors", points = 10, id = 449305,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 2 Boss Challenge", "While fighting Trumpet Release on Stage 2, destroy both subs within 5 seconds of each other", points = 10, id = 449306,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 3 Boss Challenge", "While fighting Manriki on Stage 3, pacify the boss and gain bonus points by destroying both laser reattachment arms", points = 10, id = 449307,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Stage 6 Boss Challenge", "While fighting Yugskure on Stage 6, unleash a barrage of missles and gain bonus points by destroying its nose cap", points = 10, id = 449308,
+    trigger = always_false()
+)
 
 /*
 achievement("Test Treasure Balls", "Test Treasure Balls", points = 0,

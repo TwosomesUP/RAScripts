@@ -92,6 +92,15 @@ Player = {
         low4(Pointers["Score"] + Offsets["Score"][6]) * 1000000 +
         high4(Pointers["Score"] + Offsets["Score"][7]) * 10000000
     ),
+    "PrevScore": (
+        prev(low4(Pointers["Score"] + Offsets["Score"][2])) * 100 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][3])) * 1000 +
+        prev(low4(Pointers["Score"] + Offsets["Score"][4])) * 10000 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][5])) * 100000 +
+        prev(low4(Pointers["Score"] + Offsets["Score"][6])) * 1000000 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][7])) * 10000000
+    )
+    ,
     "RPScore": [
         low4(Pointers["Score"] + Offsets["Score"][2]),
         high4(Pointers["Score"] + Offsets["Score"][3]),
@@ -260,12 +269,13 @@ function IsValidSettings(){
     return all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting])
 }
 
-function IsValidSession() {
-    return IsInGame() && IsSinglePlayer() && IsValidSettings()
-}
+function IsValidSession(checkGameState) {
+    result = IsSinglePlayer() && IsValidSettings()
+    
+    if(checkGameState)
+        result = IsInGame() && result
 
-function IsValidSession_Ending(){
-    return IsSinglePlayer() && IsValidSettings()
+    return result
 }
 
 function GetActivePrimaryWeapon(){
@@ -274,6 +284,18 @@ function GetActivePrimaryWeapon(){
 
 function GetActiveSecondaryWeapon(){
     return Player["Weapon"]["Secondary"]["Type"] + Player["Weapon"]["Secondary"]["Power"] * 10
+}
+
+function GetDefeatedEnemies(){
+    return Stage["Enemies"]["Small"] + Stage["Enemies"]["Large"]
+}
+
+function SetStageTimerLimit(time, stage){
+    return disable_when(repeated(time, Stage["Timer"] < prev(Stage["Timer"])), Stage["Id"] != stage || !IsInGame())
+}
+
+function PlayerReachedEnemyGoal(count){
+    return GetDefeatedEnemies() >= count
 }
 
 function PlayerSubmittedScore(){
@@ -302,8 +324,21 @@ function PlayerClearedGame(ending){
     return (prev(Game["State"]) == 0 && Game["State"] == 4 && StageCheck)
 }
 
+function PlayerReachedBoss(challenge){
+    BossRoomCheck = Screen["ScrollState"] == ScreenScrollTypes["Boss"]
+    
+    if(challenge)
+        BossRoomCheck = trigger_when(BossRoomCheck)
+    
+    return prev(Screen["ScrollState"]) != ScreenScrollTypes["Boss"] && BossRoomCheck
+}
+
 function PlayerDefeatedBoss(){
     return prev(Stage["Boss"]["Defeated"]) == 0 && Stage["Boss"]["Defeated"] == 1
+}
+
+function PlayerDestroyedObjects(count, value){
+    return repeated(count, (Player["Score"] - prev(Player["Score"])) == value)
 }
 
 //================================================================
@@ -311,7 +346,7 @@ function PlayerDefeatedBoss(){
 //================================================================
 
 function ClearedStage(stage){
-    return IsValidSession() && PlayerClearedStage(stage)
+    return IsValidSession(true) && PlayerClearedStage(stage)
 }
 
 function ClearedGame(ending, continues){
@@ -320,23 +355,23 @@ function ClearedGame(ending, continues){
     if(ending == "1")
         ContinueCheck = Player["Continues"] >= continues
         
-    return IsValidSession_Ending() && ContinueCheck && PlayerClearedGame(ending)
+    return IsValidSession(false) && ContinueCheck && PlayerClearedGame(ending)
 }
 
 function GotExtend(){
-    return IsValidSession() && prev(Player["TreasureBalls"]) < 100 && Player["TreasureBalls"] >= 100
+    return IsValidSession(true) && prev(Player["TreasureBalls"]) < 100 && Player["TreasureBalls"] >= 100
 }
 
 function GotMaxTorpedoes(){
-    return IsValidSession() && prev(Player["Weapon"]["Primary"]["Power"]) < 3 && Player["Weapon"]["Primary"]["Power"] >= 3
+    return IsValidSession(true) && prev(Player["Weapon"]["Primary"]["Power"]) < 3 && Player["Weapon"]["Primary"]["Power"] >= 3
 }
 
 function GotMaxMissiles(){
-    return IsValidSession() && prev(Player["Weapon"]["Secondary"]["Power"]) < 3 && Player["Weapon"]["Secondary"]["Power"] >= 3
+    return IsValidSession(true) && prev(Player["Weapon"]["Secondary"]["Power"]) < 3 && Player["Weapon"]["Secondary"]["Power"] >= 3
 }
 
 function GotScore(score){
-    return IsValidSession() && prev(Player["Score"]) < score && Player["Score"] >= score
+    return IsValidSession(true) && prev(Player["Score"]) < score && Player["Score"] >= score
 }
 
 function DefeatedBossNoDamage(stage){
@@ -346,9 +381,33 @@ function DefeatedBossNoDamage(stage){
     if (stage > 6)
         stage = 6
 
-    return IsValidSession() && 
+    return IsValidSession(false) && 
         PlayerDefeatedBoss() && 
-        disable_when(prev(Player["Lives"]) > Player["Lives"], Stage["Id"] != stage - 1)
+        disable_when(prev(Player["Lives"]) > Player["Lives"], Stage["Id"] != stage - 1 || !IsInGame())
+}
+
+function CompletedStage1Challenge(){
+    return IsValidSession(false) &&
+        PlayerReachedEnemyGoal(75) &&
+        PlayerReachedBoss(true) &&
+        SetStageTimerLimit(120, Stages["Stage1"])
+}
+
+function CompletedStage2Challenge(){
+    return IsValidSession(false) &&
+        Stage["Enemies"]["Large"] >= 8 &&
+        PlayerReachedBoss(true) &&
+        SetStageTimerLimit(120, Stages["Stage2"])
+}
+
+function CompletedStage3Challenge(){
+    return IsValidSession(false) &&
+        repeated(50, Stage["Id"] == Stages["Stage3"] && Player["Score"] - (Player["PrevScore"]) == 200) && 
+        repeated(12, Stage["Id"] == Stages["Stage3"] && ((Player["Score"] - prev(Player["Score"]) == 500))) &&  
+        repeated(3, Stage["Id"] == Stages["Stage3"] && ((Player["Score"] - prev(Player["Score"]) == 3000))) &&
+        PlayerReachedBoss(true) &&
+        never(Stage["Id"] != Stages["Stage3"]) &&
+        never(!IsInGame())
 }
 
 //================================================================
@@ -400,15 +459,15 @@ achievement("[DRAFT] 100 Treasure Balls", "Extend your life by collection 100 Tr
 )
 
 achievement("[DRAFT] Stage 1 - Challenge", "While playing Stage 1, destroy 75 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449288,
-    trigger = always_false()
+    trigger = CompletedStage1Challenge()
 )
 
 achievement("[DRAFT] Stage 2 - Challenge", "While playing Stage 2 destroy 8 or more large subs and reach the boss in less than 2 minutes", points = 10, id = 449289,
-    trigger = always_false()
+    trigger = CompletedStage2Challenge()
 )
 
 achievement("[DRAFT] Stage 3 - Challenge", "While playing Stage 3, cause a significant amount of collateral damage before reaching the boss", points = 10, id = 449290,
-    trigger = always_false()
+    trigger = CompletedStage3Challenge()
 )
 
 achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the giant fish without losing a life", points = 10, id = 449291,
@@ -545,3 +604,4 @@ achievement(
               never(StageState != 0x0b)
 )
 */
+

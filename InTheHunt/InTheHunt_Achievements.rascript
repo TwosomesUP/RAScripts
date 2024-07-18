@@ -341,6 +341,10 @@ function PlayerDestroyedObjects(count, value){
     return repeated(count, (Player["Score"] - prev(Player["Score"])) == value)
 }
 
+function PlayerFightingBoss(){
+    return Screen["ScrollState"] == ScreenScrollTypes["Boss"]
+}
+
 //================================================================
 // Achievement Functions
 //================================================================
@@ -400,12 +404,57 @@ function CompletedStage2Challenge(){
         SetStageTimerLimit(120, Stages["Stage2"])
 }
 
+//If changed, double check sub source rows.
+//May need to update logic manually
 function CompletedStage3Challenge(){
     return IsValidSession(false) &&
-        repeated(50, Stage["Id"] == Stages["Stage3"] && Player["Score"] - (Player["PrevScore"]) == 200) && 
-        repeated(12, Stage["Id"] == Stages["Stage3"] && ((Player["Score"] - prev(Player["Score"]) == 500))) &&  
-        repeated(3, Stage["Id"] == Stages["Stage3"] && ((Player["Score"] - prev(Player["Score"]) == 3000))) &&
+        PlayerDestroyedObjects(50, 200) &&
+        PlayerDestroyedObjects(12, 500) &&
+        PlayerDestroyedObjects(3, 3000) &&
         PlayerReachedBoss(true) &&
+        never(Stage["Id"] != Stages["Stage3"]) &&
+        never(!IsInGame())
+}
+
+function CompletedStage4Challenge(){
+    return IsValidSession(false) &&
+        prev(Stage["Enemies"]["Large"]) < 2 && Stage["Enemies"]["Large"] >= 2 &&
+        disable_when(Stage["Id"] == Stages["Stage4"] && IsInGame() && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != Stages["Stage4"] || !IsInGame())
+}
+
+function CompletedStage5Challenge(){
+    return IsValidSession(false) &&
+        measured(tally_of(range(0, 10), 25, 
+            count => Stage["Id"] == Stages["Stage5"] &&
+                IsInGame() &&
+                Player["TreasureBalls"] > prev(Player["TreasureBalls"]) &&
+                Player["TreasureBalls"] - prev(Player["TreasureBalls"]) > count
+        )) &&
+        PlayerReachedBoss(true) &&
+        disable_when(Stage["Id"] == Stages["Stage5"] && IsInGame() && Player["Lives"] < prev(Player["Lives"])) &&
+        (never(Stage["Id"] != Stages["Stage5"]) || never(!IsInGame()))
+}
+
+function CompletedStage6Challenge(){
+    return IsValidSession(false) &&
+        PlayerReachedEnemyGoal(90) &&
+        PlayerReachedBoss(true) &&
+        SetStageTimerLimit(120, Stages["Stage6"])
+}
+
+function CompletedStage1BossChallenge(){
+    return IsValidSession(false) &&
+        PlayerFightingBoss() &&
+        PlayerDestroyedObjects(2, 10000) &&
+        never(Stage["Id"] != Stages["Stage1"]) &&
+        never(!IsInGame())
+}
+
+function CompletedStage3BossChallenge(){
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage3"] &&
+        PlayerFightingBoss() &&
+        PlayerDestroyedObjects(2, 10000) &&
         never(Stage["Id"] != Stages["Stage3"]) &&
         never(!IsInGame())
 }
@@ -454,7 +503,7 @@ achievement("[DRAFT] Clear Game - 1CC - Ending 2", "Clear the game without using
     trigger = ClearedGame("2", 0)
 )
 
-achievement("[DRAFT] 100 Treasure Balls", "Extend your life by collection 100 Treasure Ball points", points = 5, id = 449287,
+achievement("[DRAFT] 100 Treasure Balls", "Extend your life by collection 100 Treasure Balls", points = 5, id = 449287,
     trigger = GotExtend()
 )
 
@@ -471,15 +520,15 @@ achievement("[DRAFT] Stage 3 - Challenge", "While playing Stage 3, cause a signi
 )
 
 achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the giant fish without losing a life", points = 10, id = 449291,
-    trigger = always_false()
+    trigger = CompletedStage4Challenge()
 )
 
-achievement("[DRAFT] Stage 5 - Challenge", "While playing Stage 5, collect 15 or more Treasure Balls and reach the boss without using a continue", points = 10, id = 449292,
-    trigger = always_false()
+achievement("[DRAFT] Stage 5 - Challenge", "While playing Stage 5, collect 25 or more Treasure Balls and reach the boss without using a continue", points = 10, id = 449292,
+    trigger = CompletedStage5Challenge()
 )
 
 achievement("[DRAFT] Stage 6 - Challenge", "While playing Stage 6, destroy 90 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449293,
-    trigger = always_false()
+    trigger = CompletedStage6Challenge()
 )
 
 achievement("[DRAFT] Max Torpedo", "Upgrade the Torpedoes to max firepower", points = 5, id = 449294,
@@ -535,7 +584,7 @@ achievement("[DRAFT] Stage 6 Boss", "Defeat Yugskure on Stage 6 without losing a
 )
 
 achievement("[DRAFT] Stage 1 Boss Challenge", "While fighting Argok on Stage 1, expose its innards and gain bonus points by destroying its anchors", points = 10, id = 449305,
-    trigger = always_false()
+    trigger = CompletedStage1BossChallenge()
 )
 
 achievement("[DRAFT] Stage 2 Boss Challenge", "While fighting Trumpet Release on Stage 2, destroy both subs within 5 seconds of each other", points = 10, id = 449306,
@@ -543,7 +592,7 @@ achievement("[DRAFT] Stage 2 Boss Challenge", "While fighting Trumpet Release on
 )
 
 achievement("[DRAFT] Stage 3 Boss Challenge", "While fighting Manriki on Stage 3, pacify the boss and gain bonus points by destroying both laser reattachment arms", points = 10, id = 449307,
-    trigger = always_false()
+    trigger = CompletedStage3BossChallenge()
 )
 
 achievement("[DRAFT] Stage 6 Boss Challenge", "While fighting Yugskure on Stage 6, unleash a barrage of missles and gain bonus points by destroying its nose cap", points = 10, id = 449308,

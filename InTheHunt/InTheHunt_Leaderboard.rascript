@@ -289,7 +289,7 @@ function ValidStart(){
 }
 
 function InvalidStart(){
-    return any_of(ValidSettings, setting => Settings[setting] != ValidSettings[setting]) && once(prev(Game["TitleState"]) == 4 && Game["TitleState"] == 0)
+    return any_of(ValidSettings, setting => Settings[setting] != ValidSettings[setting]) && once(ActivePlayer > 0 && prev(Game["TitleState"]) == 4 && Game["TitleState"] == 0)
 }
 
 function InvalidValue(){

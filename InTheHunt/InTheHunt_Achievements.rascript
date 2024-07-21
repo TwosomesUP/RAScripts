@@ -43,7 +43,10 @@ Stage = {
     "Timer": byte(0x1c8a0)
 }
 
-ActivePlayer = byte(0x11266)
+ActivePlayers = {
+    "P1": bit2(0x11264),
+    "P2": bit3(0x11264)
+}
 
 Pointers = {
     "Score": word(0x11254),
@@ -253,12 +256,12 @@ SecondaryWeaponLookup = {
 
 function IsGameLoaded() => Game["State"] >= 0 && Game["State"] < 5
 function IsInGame() => Game["State"] == 2
-function IsOnTitle() => Game["State"] == 4
+function IsOnTitle() => Game["State"] == 4 && Game["TitleState"] == 4
 function IsInEnding() => Stage["Id"] > 5
 function IsInDemo() => Game["TitleState"] == 1
-function IsSinglePlayer() => ActivePlayer == 1
-function IsSecondPlayer() => ActivePlayer == 2
-function IsMultiplayer() => ActivePlayer == 3
+function IsSinglePlayer() => ActivePlayers["P1"] == 1
+function IsSecondPlayer() => ActivePlayers["P2"] == 1
+function IsMultiplayer() => IsSinglePlayer() && IsSecondPlayer()
 function IsFightingBoss() => Screen["ScrollState"] == ScreenScrollTypes["Boss"]
 function IsOnResultScreen() => (Screen["State"] == ScreenStates["StageResultsIn"] || Screen["State"] == ScreenStates["StageResults"])
 function IsOnNameEntry() => (Screen["State"] == ScreenStates["ScoreEntry"])
@@ -275,8 +278,9 @@ function IsValidSession(checkGameState) {
     if(checkGameState)
         result = IsInGame() && result
         
-    //disable if player 2 or multiplayer
-    result = result && disable_when(IsSecondPlayer(), !IsInGame() && ActivePlayer == 0) && disable_when(IsMultiplayer(), !IsInGame() && ActivePlayer == 0)
+    //disable if player 2 is active at any time
+    result = result && 
+        disable_when(IsInGame() && !IsInDemo() && IsSecondPlayer(), IsOnTitle())
 
     return result
 }
@@ -392,20 +396,23 @@ function DefeatedBossNoDamage(stage){
     if (stage > 6)
         stage = 6
 
-    return IsValidSession(false) && 
+    return IsValidSession(true) && 
+        Stage["Id"] == stage - 1 &&
         PlayerDefeatedBoss() && 
         disable_when(Screen["ScrollState"] == ScreenScrollTypes["Boss"] && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != stage - 1 || !IsInGame())
 }
 
 function CompletedStage1Challenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage1"] &&
         PlayerReachedEnemyGoal(75) &&
         PlayerReachedBoss(true) &&
         SetStageTimerLimit(120, Stages["Stage1"])
 }
 
 function CompletedStage2Challenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage2"] &&
         Stage["Enemies"]["Large"] >= 8 &&
         PlayerReachedBoss(true) &&
         SetStageTimerLimit(120, Stages["Stage2"])
@@ -414,7 +421,8 @@ function CompletedStage2Challenge(){
 //If changed, double check sub source rows.
 //May need to update logic manually
 function CompletedStage3Challenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage3"] &&
         PlayerDestroyedObjects(50, 200) &&
         PlayerDestroyedObjects(12, 500) &&
         PlayerDestroyedObjects(3, 3000) &&
@@ -424,13 +432,15 @@ function CompletedStage3Challenge(){
 }
 
 function CompletedStage4Challenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage4"] &&
         prev(Stage["Enemies"]["Large"]) < 2 && Stage["Enemies"]["Large"] >= 2 &&
         disable_when(Stage["Id"] == Stages["Stage4"] && IsInGame() && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != Stages["Stage4"] || !IsInGame())
 }
 
 function CompletedStage5Challenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage5"] &&
         measured(tally_of(range(0, 10), 25, 
             count => Stage["Id"] == Stages["Stage5"] &&
                 IsInGame() &&
@@ -438,19 +448,20 @@ function CompletedStage5Challenge(){
                 Player["TreasureBalls"] - prev(Player["TreasureBalls"]) > count
         )) &&
         PlayerReachedBoss(true) &&
-        disable_when(Stage["Id"] == Stages["Stage5"] && IsInGame() && Player["Lives"] < prev(Player["Lives"])) &&
-        (never(Stage["Id"] != Stages["Stage5"]) || never(!IsInGame()))
+        disable_when(Stage["Id"] == Stages["Stage5"] && IsInGame() && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != Stages["Stage5"] || !IsInGame())
 }
 
 function CompletedStage6Challenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage6"] &&
         PlayerReachedEnemyGoal(90) &&
         PlayerReachedBoss(true) &&
         SetStageTimerLimit(120, Stages["Stage6"])
 }
 
 function CompletedStage1BossChallenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage1"] &&
         PlayerFightingBoss() &&
         PlayerDestroyedBossParts(2, 10000) &&
         never(Stage["Id"] != Stages["Stage1"]) &&
@@ -458,7 +469,8 @@ function CompletedStage1BossChallenge(){
 }
 
 function CompletedStage2BossChallenge(){
-    return IsValidSession(false) &&
+    return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage2"] &&
         PlayerFightingBoss() &&
         PlayerDefeatedBoss() &&
         disable_when
@@ -489,6 +501,7 @@ function CompletedStage3BossChallenge(){
 
 function CompletedStage6BossChallenge(){
     return IsValidSession(true) &&
+        Stage["Id"] == Stages["Stage6"] &&
         PlayerFightingBoss() &&
         Stage["Boss"]["Defeated"] == 0 && 
         Screen["ScrollState"] == ScreenScrollTypes["Boss"] && 

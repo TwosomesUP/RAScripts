@@ -261,7 +261,7 @@ function IsValidSettings(){
 }
 
 function IsValidSession() {
-    return IsInGame() && IsSinglePlayer() && IsValidSettings()
+    return IsInGame() && IsSinglePlayer() && IsValidSettings() && disable_when(IsSecondPlayer(), !IsInGame() && ActivePlayer == 0) && disable_when(IsMultiplayer(), !IsInGame() && ActivePlayer == 0)
 }
 
 function GetActivePrimaryWeapon(){

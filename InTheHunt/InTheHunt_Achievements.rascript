@@ -274,6 +274,9 @@ function IsValidSession(checkGameState) {
     
     if(checkGameState)
         result = IsInGame() && result
+        
+    //disable if player 2 or multiplayer
+    result = result && disable_when(IsSecondPlayer(), !IsInGame() && ActivePlayer == 0) && disable_when(IsMultiplayer(), !IsInGame() && ActivePlayer == 0)
 
     return result
 }

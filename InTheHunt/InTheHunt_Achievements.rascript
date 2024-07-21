@@ -556,7 +556,7 @@ achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the
     trigger = CompletedStage4Challenge()
 )
 
-achievement("[DRAFT] Stage 5 - Challenge", "While playing Stage 5, collect 25 or more Treasure Balls and reach the boss without using a continue", points = 10, id = 449292,
+achievement("[DRAFT] Stage 5 - Challenge", "While playing Stage 5, collect 25 or more Treasure Balls and reach the boss without losing a life", points = 10, id = 449292,
     trigger = CompletedStage5Challenge()
 )
 

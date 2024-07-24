@@ -280,7 +280,7 @@ function IsValidSession(checkGameState) {
         
     //disable if player 2 is active at any time
     result = result && 
-        disable_when(IsInGame() && !IsInDemo() && IsSecondPlayer(), IsOnTitle())
+        disable_when(IsSecondPlayer(), IsOnTitle())
 
     return result
 }
@@ -398,14 +398,14 @@ function DefeatedBossNoDamage(stage){
 
     return IsValidSession(true) && 
         Stage["Id"] == stage - 1 &&
-        PlayerDefeatedBoss() && 
+        trigger_when(PlayerDefeatedBoss()) && 
         disable_when(Screen["ScrollState"] == ScreenScrollTypes["Boss"] && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != stage - 1 || !IsInGame())
 }
 
 function CompletedStage1Challenge(){
     return IsValidSession(true) &&
         Stage["Id"] == Stages["Stage1"] &&
-        PlayerReachedEnemyGoal(75) &&
+        trigger_when(PlayerReachedEnemyGoal(75)) &&
         PlayerReachedBoss(true) &&
         SetStageTimerLimit(120, Stages["Stage1"])
 }
@@ -413,7 +413,7 @@ function CompletedStage1Challenge(){
 function CompletedStage2Challenge(){
     return IsValidSession(true) &&
         Stage["Id"] == Stages["Stage2"] &&
-        Stage["Enemies"]["Large"] >= 8 &&
+        trigger_when(Stage["Enemies"]["Large"] >= 8) &&
         PlayerReachedBoss(true) &&
         SetStageTimerLimit(120, Stages["Stage2"])
 }
@@ -434,14 +434,13 @@ function CompletedStage3Challenge(){
 function CompletedStage4Challenge(){
     return IsValidSession(true) &&
         Stage["Id"] == Stages["Stage4"] &&
-        prev(Stage["Enemies"]["Large"]) < 2 && Stage["Enemies"]["Large"] >= 2 &&
-        disable_when(Stage["Id"] == Stages["Stage4"] && IsInGame() && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != Stages["Stage4"] || !IsInGame())
+        prev(Stage["Enemies"]["Large"]) < 2 && Stage["Enemies"]["Large"] >= 2
 }
 
 function CompletedStage5Challenge(){
     return IsValidSession(true) &&
         Stage["Id"] == Stages["Stage5"] &&
-        measured(tally_of(range(0, 10), 25, 
+        trigger_when(tally_of(range(0, 10), 25, 
             count => Stage["Id"] == Stages["Stage5"] &&
                 IsInGame() &&
                 Player["TreasureBalls"] > prev(Player["TreasureBalls"]) &&
@@ -454,7 +453,7 @@ function CompletedStage5Challenge(){
 function CompletedStage6Challenge(){
     return IsValidSession(true) &&
         Stage["Id"] == Stages["Stage6"] &&
-        PlayerReachedEnemyGoal(90) &&
+        trigger_when(PlayerReachedEnemyGoal(90)) &&
         PlayerReachedBoss(true) &&
         SetStageTimerLimit(120, Stages["Stage6"])
 }
@@ -568,7 +567,7 @@ achievement("[DRAFT] Stage 3 - Challenge", "While playing Stage 3, cause a signi
     trigger = CompletedStage3Challenge()
 )
 
-achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the giant fish without losing a life", points = 10, id = 449291,
+achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the giant fish", points = 10, id = 449291,
     trigger = CompletedStage4Challenge()
 )
 

@@ -7,6 +7,7 @@
 // Accessors
 //================================================================
 
+
 Settings = {
     "Lives": (bit0(0x11278) + bit1(0x11278) * 10),
     "Difficulty": (bit2(0x11278) + bit3(0x11278) * 10),
@@ -43,7 +44,10 @@ Stage = {
     "Timer": byte(0x1c8a0)
 }
 
-ActivePlayer = byte(0x11266)
+ActivePlayers = {
+    "P1": bit2(0x11264),
+    "P2": bit3(0x11264)
+}
 
 Pointers = {
     "Score": word(0x11254),
@@ -74,12 +78,12 @@ Player = {
     "Alive": bit0(0x11264),
     "Weapon": {
         "Primary": {
-            "Type": byte(0x11112),
-            "Power": byte(0x11110)
+            "Type": byte(0x11110),
+            "Power": byte(0x11112)
         },
         "Secondary": {
-            "Type": byte(0x11116),
-            "Power": byte(0x11114)
+            "Type": byte(0x11114),
+            "Power": byte(0x11116)
         }
     },
     "Lives": byte(0x11118),
@@ -92,6 +96,15 @@ Player = {
         low4(Pointers["Score"] + Offsets["Score"][6]) * 1000000 +
         high4(Pointers["Score"] + Offsets["Score"][7]) * 10000000
     ),
+    "PrevScore": (
+        prev(low4(Pointers["Score"] + Offsets["Score"][2])) * 100 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][3])) * 1000 +
+        prev(low4(Pointers["Score"] + Offsets["Score"][4])) * 10000 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][5])) * 100000 +
+        prev(low4(Pointers["Score"] + Offsets["Score"][6])) * 1000000 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][7])) * 10000000
+    )
+    ,
     "RPScore": [
         low4(Pointers["Score"] + Offsets["Score"][2]),
         high4(Pointers["Score"] + Offsets["Score"][3]),
@@ -244,12 +257,12 @@ SecondaryWeaponLookup = {
 
 function IsGameLoaded() => Game["State"] >= 0 && Game["State"] < 5
 function IsInGame() => Game["State"] == 2
-function IsOnTitle() => Game["State"] == 4
+function IsOnTitle() => Game["State"] == 4 && Game["TitleState"] == 4
 function IsInEnding() => Stage["Id"] > 5
 function IsInDemo() => Game["TitleState"] == 1
-function IsSinglePlayer() => ActivePlayer == 1
-function IsSecondPlayer() => ActivePlayer == 2
-function IsMultiplayer() => ActivePlayer == 3
+function IsSinglePlayer() => ActivePlayers["P1"] == 1
+function IsSecondPlayer() => ActivePlayers["P2"] == 1
+function IsMultiplayer() => IsSinglePlayer() && IsSecondPlayer()
 function IsFightingBoss() => Screen["ScrollState"] == ScreenScrollTypes["Boss"]
 function IsOnResultScreen() => (Screen["State"] == ScreenStates["StageResultsIn"] || Screen["State"] == ScreenStates["StageResults"])
 function IsOnNameEntry() => (Screen["State"] == ScreenStates["ScoreEntry"])
@@ -260,8 +273,17 @@ function IsValidSettings(){
     return all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting])
 }
 
-function IsValidSession() {
-    return IsInGame() && IsSinglePlayer() && IsValidSettings() && disable_when(IsSecondPlayer(), !IsInGame() && ActivePlayer == 0) && disable_when(IsMultiplayer(), !IsInGame() && ActivePlayer == 0)
+function IsValidSession(checkGameState) {
+    result = IsSinglePlayer() && IsValidSettings()
+    
+    if(checkGameState)
+        result = IsInGame() && result
+        
+    //disable if player 2 is active at any time
+    result = result && 
+        disable_when(IsSecondPlayer(), IsOnTitle())
+
+    return result
 }
 
 function GetActivePrimaryWeapon(){
@@ -281,15 +303,15 @@ function PlayerSubmittedScore(){
 //================================================================
 
 function ValidStart1CC(){
-    return IsValidSession() && Player["EntryContinues"] == 0 && PlayerSubmittedScore()
+    return IsValidSession(true) && Player["EntryContinues"] == 0 && PlayerSubmittedScore()
 }
 
 function ValidStart(){
-    return IsValidSession() && Player["EntryContinues"] > 0 && PlayerSubmittedScore()
+    return IsValidSession(true) && Player["EntryContinues"] > 0 && PlayerSubmittedScore()
 }
 
 function InvalidStart(){
-    return any_of(ValidSettings, setting => Settings[setting] != ValidSettings[setting]) && once(ActivePlayer > 0 && prev(Game["TitleState"]) == 4 && Game["TitleState"] == 0)
+    return any_of(ValidSettings, setting => Settings[setting] != ValidSettings[setting]) && once(IsSinglePlayer() && prev(Game["TitleState"]) == 4 && Game["TitleState"] == 0)
 }
 
 function InvalidValue(){

@@ -22,7 +22,7 @@ Settings = {
 Game = {
     "State": byte(0x11608),
     "Credits": byte(0x112b8),
-    "Demo": byte(0x1128c)
+    "TitleState": byte(0x1128c)
 }
 
 Screen = {
@@ -43,7 +43,10 @@ Stage = {
     "Timer": byte(0x1c8a0)
 }
 
-ActivePlayer = byte(0x11266)
+ActivePlayers = {
+    "P1": bit2(0x11264),
+    "P2": bit3(0x11264)
+}
 
 Pointers = {
     "Score": word(0x11254),
@@ -74,12 +77,12 @@ Player = {
     "Alive": bit0(0x11264),
     "Weapon": {
         "Primary": {
-            "Type": byte(0x11112),
-            "Power": byte(0x11110)
+            "Type": byte(0x11110),
+            "Power": byte(0x11112)
         },
         "Secondary": {
-            "Type": byte(0x11116),
-            "Power": byte(0x11114)
+            "Type": byte(0x11114),
+            "Power": byte(0x11116)
         }
     },
     "Lives": byte(0x11118),
@@ -92,6 +95,15 @@ Player = {
         low4(Pointers["Score"] + Offsets["Score"][6]) * 1000000 +
         high4(Pointers["Score"] + Offsets["Score"][7]) * 10000000
     ),
+    "PrevScore": (
+        prev(low4(Pointers["Score"] + Offsets["Score"][2])) * 100 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][3])) * 1000 +
+        prev(low4(Pointers["Score"] + Offsets["Score"][4])) * 10000 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][5])) * 100000 +
+        prev(low4(Pointers["Score"] + Offsets["Score"][6])) * 1000000 +
+        prev(high4(Pointers["Score"] + Offsets["Score"][7])) * 10000000
+    )
+    ,
     "RPScore": [
         low4(Pointers["Score"] + Offsets["Score"][2]),
         high4(Pointers["Score"] + Offsets["Score"][3]),
@@ -100,14 +112,14 @@ Player = {
         low4(Pointers["Score"] + Offsets["Score"][6]),
         high4(Pointers["Score"] + Offsets["Score"][7])
     ],
-    "EntryScore": [
+    "EntryScore": (
         low4(Pointers["EntryScore"] + Offsets["Score"][2]) * 100 +
         high4(Pointers["EntryScore"] + Offsets["Score"][3]) * 1000 +
         low4(Pointers["EntryScore"] + Offsets["Score"][4]) * 10000 +
         high4(Pointers["EntryScore"] + Offsets["Score"][5]) * 100000 +
         low4(Pointers["EntryScore"] + Offsets["Score"][6]) * 1000000 +
         high4(Pointers["EntryScore"] + Offsets["Score"][7]) * 10000000
-    ],
+    ),
     "RPEntryScore": [
         low4(Pointers["EntryScore"] + Offsets["Score"][2]),
         high4(Pointers["EntryScore"] + Offsets["Score"][3]),
@@ -216,25 +228,25 @@ BossLookup = {
 
 PrimaryWeaponLookup = {
     0: "Default",
-    21: "Torpedoes LV1",
+    12: "Torpedoes LV1",
     22: "Torpedoes LV2",
-    23: "Torpedoes LV3",
-    41: "Supersonic LV1",
-    42: "Supersonic LV2",
-    43: "Supersonic LV3",
-    61: "Cracker LV1",
-    62: "Cracker LV2",
-    63: "Cracker LV3",
+    32: "Torpedoes LV3",
+    14: "Supersonic LV1",
+    24: "Supersonic LV2",
+    34: "Supersonic LV3",
+    16: "Cracker LV1",
+    26: "Cracker LV2",
+    36: "Cracker LV3",
 }
 
 SecondaryWeaponLookup = {
     0: "Default",
-    21: "Missiles LV1",
+    12: "Missiles LV1",
     22: "Missiles LV2",
-    23: "Missiles LV3",
-    41: "Mines LV1",
-    42: "Mines LV2",
-    43: "Mines LV3",
+    32: "Missiles LV3",
+    14: "Mines LV1",
+    24: "Mines LV2",
+    34: "Mines LV3",
 }
 
 //================================================================
@@ -243,12 +255,12 @@ SecondaryWeaponLookup = {
 
 function IsGameLoaded() => Game["State"] >= 0 && Game["State"] < 5
 function IsInGame() => Game["State"] == 2
-function IsOnTitle() => Game["State"] == 4
+function IsOnTitle() => Game["State"] == 4 && Game["TitleState"] == 4
 function IsInEnding() => Stage["Id"] > 5
-function IsInDemo() => Game["Demo"] == 1
-function IsSinglePlayer() => ActivePlayer == 1
-function IsSecondPlayer() => ActivePlayer == 2
-function IsMultiplayer() => ActivePlayer == 3
+function IsInDemo() => Game["TitleState"] == 1
+function IsSinglePlayer() => ActivePlayers["P1"] == 1
+function IsSecondPlayer() => ActivePlayers["P2"] == 1
+function IsMultiplayer() => IsSinglePlayer() && IsSecondPlayer()
 function IsFightingBoss() => Screen["ScrollState"] == ScreenScrollTypes["Boss"]
 function IsOnResultScreen() => (Screen["State"] == ScreenStates["StageResultsIn"] || Screen["State"] == ScreenStates["StageResults"])
 function IsOnNameEntry() => (Screen["State"] == ScreenStates["ScoreEntry"])
@@ -271,7 +283,7 @@ function GetActiveSecondaryWeapon(){
     return Player["Weapon"]["Secondary"]["Type"] + Player["Weapon"]["Secondary"]["Power"] * 10
 }
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsInGame() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsInGame() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
     "The Granvia is infiltrating the D.A.S. on {0} | {1} • {2} | Lives: {3} • Continues: {4} | Score: {5}{6}{7}{8}{9}{10}00 * {11}",
     rich_presence_lookup("StageLookup", Stage["Id"], StageLookup),
     rich_presence_lookup("PrimaryLookup", GetActivePrimaryWeapon(), PrimaryWeaponLookup),
@@ -287,7 +299,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("TreasureBalls", Player["TreasureBalls"])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsInGame() && !IsOnStageIntro() && IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsInGame() && !IsOnStageIntro() && IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
     "Battling the {0} on {1} | {2} • {3} | Lives: {4} • Continues: {5} | Score: {6}{7}{8}{9}{10}{11}00 * {12}",
     rich_presence_lookup("BossLookup", Stage["Id"], BossLookup),
     rich_presence_lookup("StageLookup", Stage["Id"], StageLookup),
@@ -304,7 +316,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("TreasureBalls", Player["TreasureBalls"])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && IsOnResultScreen() && !IsInEnding(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && IsOnResultScreen() && !IsInEnding(), 
     "The Granvia is getting debreifed on its exploits in {0} | {1} • {2} | Lives: {3} • Continues: {4} | Score: {5}{6}{7}{8}{9}{10}00 * {11}",
     rich_presence_lookup("ResultsStageLookup", Stage["Id"], ResultsStageLookup),
     rich_presence_lookup("PrimaryLookup", GetActivePrimaryWeapon(), PrimaryWeaponLookup),
@@ -320,7 +332,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("TreasureBalls", Player["TreasureBalls"])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && IsInEnding() && !IsOnNameEntry() && !IsOnRankings(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && IsInEnding() && !IsOnNameEntry() && !IsOnRankings(), 
     "The Granvia successfully foiled the D.A.S.'s plot to rule the world! | Continues: {0} | Score: {1}{2}{3}{4}{5}{6}00",
     rich_presence_value("Continues", Player["Continues"]),
     rich_presence_value("Score8", Player["RPScore"][5]),
@@ -331,7 +343,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("Score3", Player["RPScore"][0])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && IsInEnding() && IsOnNameEntry() && !IsOnRankings(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && IsInEnding() && IsOnNameEntry() && !IsOnRankings(), 
     "The Granvia successfully foiled the D.A.S.'s plot to rule the world! | Continues: {0} | Score: {1}{2}{3}{4}{5}{6}00",
     rich_presence_value("Continues", Player["EntryContinues"]),
     rich_presence_value("Score8", Player["RPEntryScore"][5]),
@@ -342,7 +354,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("Score3", Player["RPEntryScore"][0])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && IsInEnding() && !IsOnNameEntry() && IsOnRankings(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsGameLoaded() && !IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && IsInEnding() && !IsOnNameEntry() && IsOnRankings(), 
     "The Granvia successfully foiled the D.A.S.'s plot to rule the world! | Continues: {0} | Score: {1}{2}{3}{4}{5}{6}00",
     rich_presence_value("Continues", Player["EntryContinues"]),
     rich_presence_value("Score8", Player["RPEntryScore"][5]),
@@ -353,7 +365,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("Score3", Player["RPEntryScore"][0])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsInGame() && Stage["Id"] == Stages["Stage1"] && IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsInGame() && Stage["Id"] == Stages["Stage1"] && IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
     "The Granvia is traveling to {0} | {1} • {2} | Lives: {3} • Continues: 0 | Score: 00000000 * 0",
     rich_presence_lookup("StageLookup", Stage["Id"], StageLookup),
     rich_presence_lookup("PrimaryLookup", GetActivePrimaryWeapon(), PrimaryWeaponLookup),
@@ -361,7 +373,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("Lives", Player["Lives"])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsMultiplayer() && IsInGame() && Stage["Id"] != Stages["Stage1"] && IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
+rich_presence_conditional_display(IsValidSettings() && IsSinglePlayer() && !IsMultiplayer() && IsInGame() && Stage["Id"] != Stages["Stage1"] && IsOnStageIntro() && !IsFightingBoss() && !IsOnResultScreen() && !IsInEnding(), 
     "The Granvia is traveling to {0} | {1} • {2} | Lives: {3} • Continues: {4} | Score: {5}{6}{7}{8}{9}{10}00 * {11}",
     rich_presence_lookup("StageLookup", Stage["Id"], StageLookup),
     rich_presence_lookup("PrimaryLookup", GetActivePrimaryWeapon(), PrimaryWeaponLookup),
@@ -377,7 +389,7 @@ rich_presence_conditional_display(IsValidSettings() && !IsSecondPlayer() && !IsM
     rich_presence_value("TreasureBalls", Player["TreasureBalls"])
 )
 
-rich_presence_conditional_display(IsValidSettings() && !IsInDemo() && IsSecondPlayer(), "The Granvia is infiltrating the D.A.S. on the wrong side of the road!")
+rich_presence_conditional_display(IsValidSettings() && !IsInDemo() && IsSecondPlayer() && !IsMultiplayer(), "The Granvia is infiltrating the D.A.S. on the wrong side of the road!")
 
 rich_presence_conditional_display(IsValidSettings() && !IsInDemo() && IsMultiplayer(), "The Granvia is infiltrating the D.A.S. with a friend!")
 

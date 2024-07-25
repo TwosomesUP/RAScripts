@@ -398,6 +398,7 @@ function DefeatedBossNoDamage(stage){
 
     return IsValidSession(true) && 
         Stage["Id"] == stage - 1 &&
+        Screen["ScrollState"] == ScreenScrollTypes["Boss"] &&
         trigger_when(PlayerDefeatedBoss()) && 
         disable_when(Screen["ScrollState"] == ScreenScrollTypes["Boss"] && Player["Lives"] < prev(Player["Lives"]), Stage["Id"] != stage - 1 || !IsInGame())
 }
@@ -511,27 +512,27 @@ function CompletedStage6BossChallenge(){
 // Progression Achievement Definitions
 //================================================================
 
-achievement("[DRAFT] Clear Stage 1", "Clear Stage 1", points = 2, type = "progression", id = 449278,
+achievement("Polar Dip", "Clear Stage 1", points = 2, type = "progression", id = 449278,
     trigger = ClearedStage(1)
 )
 
-achievement("[DRAFT] Clear Stage 2", "Clear Stage 2", points = 2, type = "progression", id = 449279,
+achievement("Undersea Sweep", "Clear Stage 2", points = 2, type = "progression", id = 449279,
     trigger = ClearedStage(2)
 )
 
-achievement("[DRAFT] Clear Stage 3", "Clear Stage 3", points = 2, type = "progression", id = 449280,
+achievement("Current Conquest", "Clear Stage 3", points = 2, type = "progression", id = 449280,
     trigger = ClearedStage(3)
 )
 
-achievement("[DRAFT] Clear Stage 4", "Clear Stage 4", points = 3, type = "progression", id = 449281,
+achievement("Depths Ascendancy", "Clear Stage 4", points = 3, type = "progression", id = 449281,
     trigger = ClearedStage(4)
 )
 
-achievement("[DRAFT] Clear Stage 5", "Clear Stage 5", points = 3, type = "progression", id = 449282,
+achievement("Abyssal Reign", "Clear Stage 5", points = 3, type = "progression", id = 449282,
     trigger = ClearedStage(5)
 )
 
-achievement("[DRAFT] Clear Stage 6", "Clear Stage 6", points = 3, type = "win_condition", id = 449283,
+achievement("Bedrock Bull's-Eye", "Clear Stage 6", points = 3, type = "win_condition", id = 449283,
     trigger = ClearedStage(6)
 )
 
@@ -539,51 +540,51 @@ achievement("[DRAFT] Clear Stage 6", "Clear Stage 6", points = 3, type = "win_co
 // Play Challenge Achievement Definitions
 //================================================================
 
-achievement("[DRAFT] Clear Game - 3CC", "Clear the game using 3 continues or less", points = 10, id = 449284,
+achievement("Ternary Triumph", "Clear the game using 3 continues or less", points = 10, id = 449284,
     trigger = ClearedGame("Any", 3)
 )
 
-achievement("[DRAFT] Clear Game - Ending 1", "Clear the game using at least 1 continue and unlock Ending 1", points = 5, id = 449285,
+achievement("Justice For All", "Clear the game using at least 1 continue and unlock Ending 1", points = 5, id = 449285,
     trigger = ClearedGame("1", 1)
 )
 
-achievement("[DRAFT] Clear Game - 1CC - Ending 2", "Clear the game without using a continue and unlock Ending 2", points = 25, id = 449286,
+achievement("Justice For One", "Clear the game without using a continue and unlock Ending 2", points = 25, id = 449286,
     trigger = ClearedGame("2", 0)
 )
 
-achievement("[DRAFT] 100 Treasure Balls", "Extend your life by collection 100 Treasure Balls", points = 5, id = 449287,
+achievement("Golden Centuplicate", "Extend your life by collecting 100 Treasure Balls", points = 5, id = 449287,
     trigger = GotExtend()
 )
 
-achievement("[DRAFT] Stage 1 - Challenge", "While playing Stage 1, destroy 75 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449288,
+achievement("Frigid Fleetness", "While playing Stage 1, destroy 75 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449288,
     trigger = CompletedStage1Challenge()
 )
 
-achievement("[DRAFT] Stage 2 - Challenge", "While playing Stage 2 destroy 8 or more large subs and reach the boss in less than 2 minutes", points = 10, id = 449289,
+achievement("Sunken Swiftness", "While playing Stage 2 destroy 8 or more large subs and reach the boss in less than 2 minutes", points = 10, id = 449289,
     trigger = CompletedStage2Challenge()
 )
 
-achievement("[DRAFT] Stage 3 - Challenge", "While playing Stage 3, cause a significant amount of collateral damage before reaching the boss", points = 10, id = 449290,
+achievement("Riverbed Rampage", "While playing Stage 3, cause a significant amount of collateral damage before reaching the boss", points = 10, id = 449290,
     trigger = CompletedStage3Challenge()
 )
 
-achievement("[DRAFT] Stage 4 - Challenge", "While playing Stage 4, kill 2 of the giant fish", points = 10, id = 449291,
+achievement("Scatheless Scales", "While playing Stage 4, kill 2 of the giant fish", points = 10, id = 449291,
     trigger = CompletedStage4Challenge()
 )
 
-achievement("[DRAFT] Stage 5 - Challenge", "While playing Stage 5, collect 25 or more Treasure Balls and reach the boss without losing a life", points = 10, id = 449292,
+achievement("Indestructible Dark", "While playing Stage 5, collect 25 or more Treasure Balls and reach the boss without losing a life", points = 10, id = 449292,
     trigger = CompletedStage5Challenge()
 )
 
-achievement("[DRAFT] Stage 6 - Challenge", "While playing Stage 6, destroy 90 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449293,
+achievement("Deep Down Dash", "While playing Stage 6, destroy 90 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449293,
     trigger = CompletedStage6Challenge()
 )
 
-achievement("[DRAFT] Max Torpedo", "Upgrade the Torpedoes to max firepower", points = 5, id = 449294,
+achievement("Topped Up Torpedoes", "Upgrade the Torpedoes to max firepower", points = 5, id = 449294,
     trigger = GotMaxTorpedoes()
 )
 
-achievement("[DRAFT] Max Missiles", "Upgrade the Missiles to max firepower", points = 5, id = 449295,
+achievement("Maxed Out Missiles", "Upgrade the Missiles to max firepower", points = 5, id = 449295,
     trigger = GotMaxMissiles()
 )
 
@@ -591,15 +592,15 @@ achievement("[DRAFT] Max Missiles", "Upgrade the Missiles to max firepower", poi
 // Point Challenge Achievement Definitions
 //================================================================
 
-achievement("[DRAFT] 300,000 PTS", "Score 300,000 points or more", points = 10, id = 449296,
+achievement("Down Periscope", "Score 300,000 points or more", points = 10, id = 449296,
     trigger = GotScore(300000)
 )
 
-achievement("[DRAFT] 600,000 PTS", "Score 600,000 points or more", points = 25, id = 449297,
+achievement("Hard Dive", "Score 600,000 points or more", points = 25, id = 449297,
     trigger = GotScore(600000)
 )
 
-achievement("[DRAFT] 900,000 PTS", "Score 900,000 points or more", points = 50, id = 449298,
+achievement("Going Hot", "Score 900,000 points or more", points = 50, id = 449298,
     trigger = GotScore(900000)
 )
 
@@ -607,43 +608,44 @@ achievement("[DRAFT] 900,000 PTS", "Score 900,000 points or more", points = 50, 
 // Boss Challenge Achievement Definitions
 //================================================================
 
-achievement("[DRAFT] Stage 1 Boss", "Defeat Argok on Stage 1 without losing a life", points = 10, id = 449299,
+achievement("Arctic Extermination", "Defeat Argok on Stage 1 without losing a life", points = 10, id = 449299,
     trigger = DefeatedBossNoDamage(1)
 )
 
-achievement("[DRAFT] Stage 2 Boss", "Defeat Trumpet Release on Stage 2 without losing a life", points = 10, id = 449300,
+achievement("Soggy Score", "Defeat Trumpet Release on Stage 2 without losing a life", points = 10, id = 449300,
     trigger = DefeatedBossNoDamage(2)
 )
 
-achievement("[DRAFT] Stage 3 Boss", "Defeat Manriki on Stage 3 without losing a life", points = 25, id = 449301,
+achievement("Aqueduct Overthrow", "Defeat Manriki on Stage 3 without losing a life", points = 25, id = 449301,
     trigger = DefeatedBossNoDamage(3)
 )
 
-achievement("[DRAFT] Stage 4 Boss", "Defeat J3 on Stage 4 without losing a life", points = 25, id = 449302,
+achievement("Perfect Dark", "Defeat J3 on Stage 4 without losing a life", points = 25, id = 449302,
     trigger = DefeatedBossNoDamage(4)
 )
 
-achievement("[DRAFT] Stage 5 Boss", "Defeat Sogon on Stage 5 without losing a life", points = 25, id = 449303,
+achievement("Midnight Paragon", "Defeat Sogon on Stage 5 without losing a life", points = 25, id = 449303,
     trigger = DefeatedBossNoDamage(5)
 )
 
-achievement("[DRAFT] Stage 6 Boss", "Defeat Yugskure on Stage 6 without losing a life", points = 50, id = 449304,
+achievement("Indefectible Depths", "Defeat Yugskure on Stage 6 without losing a life", points = 50, id = 449304,
     trigger = DefeatedBossNoDamage(6)
 )
 
-achievement("[DRAFT] Stage 1 Boss Challenge", "While fighting Argok on Stage 1, expose its innards and gain bonus points by destroying its anchors", points = 10, id = 449305,
+achievement("Anchors Away", "While fighting Argok on Stage 1, expose its innards and gain bonus points by destroying its anchors", points = 10, id = 449305,
     trigger = CompletedStage1BossChallenge()
 )
 
-achievement("[DRAFT] Stage 2 Boss Challenge", "While fighting Trumpet Release on Stage 2, destroy both subs within 5 seconds of each other", points = 10, id = 449306,
+achievement("Two for One", "While fighting Trumpet Release on Stage 2, destroy both subs within 5 seconds of each other", points = 10, id = 449306,
     trigger = CompletedStage2BossChallenge()
 )
 
-achievement("[DRAFT] Stage 3 Boss Challenge", "While fighting Manriki on Stage 3, pacify the boss and gain bonus points by destroying both laser reattachment arms", points = 10, id = 449307,
+achievement("Double Fist", "While fighting Manriki on Stage 3, pacify the boss and gain bonus points by destroying both laser reattachment arms", points = 10, id = 449307,
     trigger = CompletedStage3BossChallenge()
 )
 
-achievement("[DRAFT] Stage 6 Boss Challenge", "While fighting Yugskure on Stage 6, While fighting Yugskure on Stage 6, gain bonus points by destroying its nose cap before it destroys it itself", points = 10, id = 449308,
+achievement("On The Nose", "While fighting Yugskure on Stage 6, While fighting Yugskure on Stage 6, gain bonus points by destroying its nose cap before it destroys it itself", points = 10, id = 449308,
     trigger = CompletedStage6BossChallenge()
 )
+
 

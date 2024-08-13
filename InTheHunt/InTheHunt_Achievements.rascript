@@ -644,7 +644,7 @@ achievement("Double Fist", "While fighting Manriki on Stage 3, pacify the boss a
     trigger = CompletedStage3BossChallenge()
 )
 
-achievement("On The Nose", "While fighting Yugskure on Stage 6, While fighting Yugskure on Stage 6, gain bonus points by destroying its nose cap before it destroys it itself", points = 10, id = 449308,
+achievement("On The Nose", "While fighting Yugskure on Stage 6, gain bonus points by destroying its nose cap before it destroys it itself", points = 10, id = 449308,
     trigger = CompletedStage6BossChallenge()
 )
 

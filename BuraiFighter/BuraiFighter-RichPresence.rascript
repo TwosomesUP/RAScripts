@@ -91,6 +91,21 @@ ScreenIds = {
     "Difficulty4": 0xa3c5
 }
 
+ScreenEndingIds = [
+    0x300,
+    0x302,
+    0x600,
+    0x5f4,
+    0x6a4,
+    0x6d4,
+    0x6f1,
+    0x6f1,
+    0x617,
+    0x64c,
+    0x670,
+    0x698
+]
+
 SpriteIndices = {
     "Ending": 0,
     "Title": 2,
@@ -118,6 +133,20 @@ Weapons = {
 // Lookups
 // ======================================================================= //
 
+DifficultyLookup = {
+    0: "EAGLE",
+    1: "ALBATROSS",
+    2: "ACE",
+    3: "ULTIMATE"
+}
+
+EndingDifficultyLookup = {
+    1: "EAGLE",
+    2: "ALBATROSS",
+    3: "ACE",
+    4: "ULTIMATE"
+}
+
 Weapon = {
     0: "Default",
     1: "Laser",
@@ -126,17 +155,17 @@ Weapon = {
 }
 
 WeaponPower = {
-    0: "",
-    1: " 1",
-    2: " 2",
-    3: " 3",
-    4: " 4",
-    5: " 5",
-    6: " 6",
-    7: " 7",
-    8: " 8",
-    9: " 9",
-    32: " A"
+    0: "0",
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    32: "MAX"
 }
 
 // ======================================================================= //
@@ -149,6 +178,7 @@ function IsInGame() => Player["Lives"] > 0 && Player["ScoreDemo"] != 0x23
 function IsOnContinue() => Player["Lives"] == 0 && Game["ScreenId"] == ScreenIds["Continue"]
 function IsOnDifficultySelect() => Game["ScreenIdLower"] == ScreenIds["Difficulty"]
 function IsOnPassword() => Game["ScreenId"] == ScreenIds["Password"]
+function IsOnEnding() => any_of(ScreenEndingIds, id => Game["ScreenId"] == id)
 
 // ======================================================================= //
 // Rich Presence Definitions
@@ -160,13 +190,20 @@ rich_presence_conditional_display(IsOnDifficultySelect() && !IsInGame(), "The Bu
 rich_presence_conditional_display(IsOnDifficultySelect() && IsInGame(), "The Burai Figher is deciding on another path to conquer")
 rich_presence_conditional_display(IsOnContinue(), "The Burai Figher is deciding if they want to continue their fight")
 rich_presence_conditional_display(IsOnPassword(), "The Burai Figher is decrypting classified passwords")
-rich_presence_conditional_display(IsInGame() && !IsOnDemo(), "The Burai Figher is battling the super-brain menace on Stage {0} | LIVES: {1} | BOMBS: {2} | LASER: {3} RING: {4} MISSILE: {5} | POD: {6} SPEED: {7} | {8}",  
+
+rich_presence_conditional_display(IsOnEnding(), "The Burai Figher defeated the super-brain menace! | {0} | {1}",
+    rich_presence_lookup("EndingDifficulty", Game["Difficulty"], EndingDifficultyLookup),
+    rich_presence_value("Score", Player["Score"])
+)
+
+rich_presence_conditional_display(IsInGame() && !IsOnDemo(), "The Burai Figher is battling the super-brain menace on Stage {0} | {1} | LIVES: {2} • BOMBS: {3} | LASER: {4} • RING: {5} • MISSILE: {6} | POD: {7} • SPEED: {8} | {9}",  
     rich_presence_value("Stage", Stage["Index"] + 1),
+    rich_presence_lookup("Difficulty", Game["Difficulty"], DifficultyLookup),
     rich_presence_value("Lives", Player["Lives"] - 1),
     rich_presence_value("Extra", Player["Cobalt"] / 8),
-    rich_presence_value("Laser", Player["Weapon"]["Power"][0]),
-    rich_presence_value("Ring", Player["Weapon"]["Power"][1]),
-    rich_presence_value("Missile", Player["Weapon"]["Power"][2]),
+    rich_presence_lookup("Laser", Player["Weapon"]["Power"][0], WeaponPower),
+    rich_presence_lookup("Ring", Player["Weapon"]["Power"][1], WeaponPower),
+    rich_presence_lookup("Missile", Player["Weapon"]["Power"][2], WeaponPower),
     rich_presence_value("Pod", Player["Pod"]),
     rich_presence_value("Speed", Player["Speed"]),
     rich_presence_value("Score", Player["Score"])

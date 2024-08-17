@@ -573,7 +573,7 @@ achievement(title = "Abounding", description = "Score 250,000 points or more", p
     trigger = GotScore(250000)
 )
 
-achievement(title = "Innumerable", description = "Score 100,000 points or more", points = 25, id = 456054,
+achievement(title = "Innumerable", description = "Score 500,000 points or more", points = 25, id = 456054,
     trigger = GotScore(500000)
 )
 

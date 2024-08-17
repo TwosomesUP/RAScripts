@@ -393,115 +393,115 @@ function ClearStageNoDeath(stage){
 // Achievement Definitions - Progression
 // ======================================================================= //
 
-achievement(title = "Clear Stage 1 - Eagle", description = "Clear Stage 1 on Eagle difficulty", points = 1, id = 456011,
+achievement(title = "Amature Crab Crusher", description = "Clear Stage 1 on Eagle difficulty", points = 1, id = 456011,
     trigger = ClearedStage(0, 0)
 )
 
-achievement(title = "Clear Stage 2 - Eagle", description = "Clear Stage 2 on Eagle difficulty", points = 1, id = 456012,
+achievement(title = "Amature Insect Inhibitor", description = "Clear Stage 2 on Eagle difficulty", points = 1, id = 456012,
     trigger = ClearedStage(1, 0)
 )
 
-achievement(title = "Clear Stage 3 - Eagle", description = "Clear Stage 3 on Eagle difficulty", points = 1, id = 456013,
+achievement(title = "Amature Infiltrator", description = "Clear Stage 3 on Eagle difficulty", points = 1, id = 456013,
     trigger = ClearedStage(2, 0)
 )
 
-achievement(title = "Clear Stage 4 - Eagle", description = "Clear Stage 4 on Eagle difficulty", points = 1, id = 456014,
+achievement(title = "Amature Monster Masher", description = "Clear Stage 4 on Eagle difficulty", points = 1, id = 456014,
     trigger = ClearedStage(3, 0)
 )
 
-achievement(title = "Clear Stage 5 - Eagle", description = "Clear Stage 5 on Eagle difficulty", points = 1, id = 456015,
+achievement(title = "Amature Bird Basher", description = "Clear Stage 5 on Eagle difficulty", points = 1, id = 456015,
     trigger = ClearedStage(4, 0)
 )
 
-achievement(title = "Clear Stage 6 - Eagle", description = "Clear Stage 6 on Eagle difficulty", points = 1, id = 456016,
+achievement(title = "Amature Sabotuer", description = "Clear Stage 6 on Eagle difficulty", points = 1, id = 456016,
     trigger = ClearedStage(5, 0)
 )
 
-achievement(title = "Clear Stage 7 - Eagle", description = "Clear Stage 7 on Eagle difficulty", points = 2, id = 456017,
+achievement(title = "Amature Dragon Decimator", description = "Clear Stage 7 on Eagle difficulty", points = 2, id = 456017,
     trigger = ClearedGame(0)
 )
 
-achievement(title = "Clear Stage 1 - Albatross", description = "Clear Stage 1 on Albatross difficulty", points = 2, id = 456018,
+achievement(title = "Proficient Crab Crusher", description = "Clear Stage 1 on Albatross difficulty", points = 2, id = 456018,
     trigger = ClearedStage(0, 1)
 )
 
-achievement(title = "Clear Stage 2 - Albatross", description = "Clear Stage 2 on Albatross difficulty", points = 2, id = 456019,
+achievement(title = "Proficient Insect Inhibitor", description = "Clear Stage 2 on Albatross difficulty", points = 2, id = 456019,
     trigger = ClearedStage(1, 1)
 )
 
-achievement(title = "Clear Stage 3 - Albatross", description = "Clear Stage 3 on Albatross difficulty", points = 2, id = 456020,
+achievement(title = "Proficient Infiltrator", description = "Clear Stage 3 on Albatross difficulty", points = 2, id = 456020,
     trigger = ClearedStage(2, 1)
 )
 
-achievement(title = "Clear Stage 4 - Albatross", description = "Clear Stage 4 on Albatross difficulty", points = 2, id = 456021,
+achievement(title = "Proficient Monster Masher", description = "Clear Stage 4 on Albatross difficulty", points = 2, id = 456021,
     trigger = ClearedStage(3, 1)
 )
 
-achievement(title = "Clear Stage 5 - Albatross", description = "Clear Stage 5 on Albatross difficulty", points = 2, id = 456022,
+achievement(title = "Proficient Bird Basher", description = "Clear Stage 5 on Albatross difficulty", points = 2, id = 456022,
     trigger = ClearedStage(4, 1)
 )
 
-achievement(title = "Clear Stage 6 - Albatross", description = "Clear Stage 6 on Albatross difficulty", points = 2, id = 456023,
+achievement(title = "Proficient Sabotuer", description = "Clear Stage 6 on Albatross difficulty", points = 2, id = 456023,
     trigger = ClearedStage(5, 1)
 )
 
-achievement(title = "Clear Stage 7 - Albatross", description = "Clear Stage 7 on Albatross difficulty", points = 3, id = 456024,
+achievement(title = "Proficient Dragon Decimator", description = "Clear Stage 7 on Albatross difficulty", points = 3, id = 456024,
     trigger = ClearedGame(1)
 )
 
-achievement(title = "Clear Stage 1 - Ace", description = "Clear Stage 1 on Ace difficulty", points = 4, type = "progression", id = 456025,
+achievement(title = "Master Crab Crusher", description = "Clear Stage 1 on Ace difficulty", points = 4, type = "progression", id = 456025,
     trigger = ClearedStage(0, 2)
 )
 
-achievement(title = "Clear Stage 2 - Ace", description = "Clear Stage 2 on Ace difficulty", points = 4, type = "progression", id = 456026,
+achievement(title = "Master Insect Inhibitor", description = "Clear Stage 2 on Ace difficulty", points = 4, type = "progression", id = 456026,
     trigger = ClearedStage(1, 2)
 )
 
-achievement(title = "Clear Stage 3 - Ace", description = "Clear Stage 3 on Ace difficulty", points = 4, type = "progression", id = 456027,
+achievement(title = "Master Infiltrator", description = "Clear Stage 3 on Ace difficulty", points = 4, type = "progression", id = 456027,
     trigger = ClearedStage(2, 2)
 )
 
-achievement(title = "Clear Stage 4 - Ace", description = "Clear Stage 4 on Ace difficulty", points = 4, type = "progression", id = 456028,
+achievement(title = "Master Monster Masher", description = "Clear Stage 4 on Ace difficulty", points = 4, type = "progression", id = 456028,
     trigger = ClearedStage(3, 2)
 )
 
-achievement(title = "Clear Stage 5 - Ace", description = "Clear Stage 5 on Ace difficulty", points = 4, type = "progression", id = 456029,
+achievement(title = "Master Bird Basher", description = "Clear Stage 5 on Ace difficulty", points = 4, type = "progression", id = 456029,
     trigger = ClearedStage(4, 2)
 )
 
-achievement(title = "Clear Stage 6 - Ace", description = "Clear Stage 6 on Ace difficulty", points = 4, type = "progression", id = 456030,
+achievement(title = "Master Sabotuer", description = "Clear Stage 6 on Ace difficulty", points = 4, type = "progression", id = 456030,
     trigger = ClearedStage(5, 2)
 )
 
-achievement(title = "Clear Stage 7 - Ace", description = "Clear Stage 7 on Ace difficulty", points = 5, type = "win_condition", id = 456031,
+achievement(title = "Master Dragon Decimator", description = "Clear Stage 7 on Ace difficulty", points = 5, type = "win_condition", id = 456031,
     trigger = ClearedGame(2)
 )
 
-achievement(title = "Clear Stage 1 - Ultimate", description = "Clear Stage 1 on Ultimate difficulty", points = 5, id = 456032,
+achievement(title = "Ultimate Crab Crusher", description = "Clear Stage 1 on Ultimate difficulty", points = 5, id = 456032,
     trigger = ClearedStage(0, 3)
 )
 
-achievement(title = "Clear Stage 2 - Ultimate", description = "Clear Stage 2 on Ultimate difficulty", points = 5, id = 456033,
+achievement(title = "Ultimate Insect Inhibitor", description = "Clear Stage 2 on Ultimate difficulty", points = 5, id = 456033,
     trigger = ClearedStage(1, 3)
 )
 
-achievement(title = "Clear Stage 3 - Ultimate", description = "Clear Stage 3 on Ultimate difficulty", points = 5, id = 456034,
+achievement(title = "Ultimate Infiltrator", description = "Clear Stage 3 on Ultimate difficulty", points = 5, id = 456034,
     trigger = ClearedStage(2, 3)
 )
 
-achievement(title = "Clear Stage 4 - Ultimate", description = "Clear Stage 4 on Ultimate difficulty", points = 5, id = 456035,
+achievement(title = "Ultimate Monster Masher", description = "Clear Stage 4 on Ultimate difficulty", points = 5, id = 456035,
     trigger = ClearedStage(3, 3)
 )
 
-achievement(title = "Clear Stage 5 - Ultimate", description = "Clear Stage 5 on Ultimate difficulty", points = 5, id = 456036,
+achievement(title = "Ultimate Bird Basher", description = "Clear Stage 5 on Ultimate difficulty", points = 5, id = 456036,
     trigger = ClearedStage(4, 3)
 )
 
-achievement(title = "Clear Stage 6 - Ultimate", description = "Clear Stage 6 on Ultimate difficulty", points = 5, id = 456037,
+achievement(title = "Ultimate Sabotuer", description = "Clear Stage 6 on Ultimate difficulty", points = 5, id = 456037,
     trigger = ClearedStage(5, 3)
 )
 
-achievement(title = "Clear Stage 7 - Ultimate", description = "Clear Stage 7 on Ultimate difficulty", points = 10, id = 456038,
+achievement(title = "Ultimate Dragon Decimator", description = "Clear Stage 7 on Ultimate difficulty", points = 10, id = 456038,
     trigger = ClearedGame(3)
 )
 
@@ -509,55 +509,55 @@ achievement(title = "Clear Stage 7 - Ultimate", description = "Clear Stage 7 on 
 // Achievement Definitions - Play Challenges
 // ======================================================================= //
 
-achievement(title = "MAX Laser", description = "Upgrade the Laser weapon to MAX power", points = 3, id = 456039,
+achievement(title = "Optimum Arms", description = "Upgrade the Laser weapon to MAX power", points = 3, id = 456039,
     trigger = GotMaxWeapon(0)
 )
 
-achievement(title = "MAX Ring", description = "Upgrade the Ring weapon to MAX power", points = 3, id = 456040,
+achievement(title = "Peerless Munitions", description = "Upgrade the Ring weapon to MAX power", points = 3, id = 456040,
     trigger = GotMaxWeapon(1)
 )
 
-achievement(title = "MAX Missile", description = "Upgrade the Missile weapon to MAX power", points = 3, id = 456041,
+achievement(title = "Paramount Artillery", description = "Upgrade the Missile weapon to MAX power", points = 3, id = 456041,
     trigger = GotMaxWeapon(2)
 )
 
-achievement(title = "MAX Stage Clear - Any", description = "Clear any stage with any weapon at max firepower", points = 5, id = 456042,
+achievement(title = "Well Stocked", description = "Clear any stage with any weapon at max firepower", points = 5, id = 456042,
     trigger = ClearedStageWithAnyMaxWeapon()
 )
 
-achievement(title = "MAX Stage Clear - All", description = "Clear any stage with all weapons at max firepower", points = 10, id = 456043,
+achievement(title = "Surplus Supply", description = "Clear any stage with all weapons at max firepower", points = 10, id = 456043,
     trigger = ClearedStageWithAllMaxWeapons()
 )
 
-achievement(title = "MAX Bomb Extend", description = "Fill the Extra gauge by collecting Bomb Fragments and increase your lives", points = 4, id = 456044,
+achievement(title = "Ordnance Overload", description = "Fill the Extra gauge by collecting Bomb Fragments and increase your lives", points = 4, id = 456044,
     trigger = GotMaxExtraGauge()
 )
 
-achievement(title = "20 Lives", description = "Have a stock of 20 or more lives", points = 10, id = 456045,
+achievement(title = "Stockpiled", description = "Have a stock of 20 or more lives", points = 10, id = 456045,
     trigger = Got20Lives()
 )
 
-achievement(title = "MAX Defense Pod", description = "Upgrade the Defense Pod to its max speed", points = 3, id = 456046,
+achievement(title = "Defense Diviner", description = "Upgrade the Defense Pod to its max speed", points = 3, id = 456046,
     trigger = GotMaxDefensePod()
 )
 
-achievement(title = "MAX Speed", description = "Upgrade your speed to the max level", points = 4, id = 456047,
+achievement(title = "Speed Demon", description = "Upgrade your speed to the max level", points = 4, id = 456047,
     trigger = GotMaxSpeed()
 )
 
-achievement(title = "Hidden Room Clear - Eagle", description = "Find all 3 hidden rooms available on the Eagle difficulty and clear the game", points = 3, id = 456048,
+achievement(title = "Treasure Collector", description = "Find all 3 hidden rooms available on the Eagle difficulty and clear the game", points = 3, id = 456048,
     trigger = GotEagleHiddenRooms()
 )
 
-achievement(title = "Hidden Room Clear - Albatross", description = "Find all 2 hidden rooms available on the Albatross difficulty and clear the game", points = 5, id = 456049,
+achievement(title = "Treasure Accumulator", description = "Find all 2 hidden rooms available on the Albatross difficulty and clear the game", points = 5, id = 456049,
     trigger = GotAlbatrossHiddenRooms()
 )
 
-achievement(title = "Hidden Room Clear - Ace", description = "Find all 5 hidden rooms available on the Ace difficulty and clear the game", points = 10, id = 456050,
+achievement(title = "Treasure Hoarder", description = "Find all 5 hidden rooms available on the Ace difficulty and clear the game", points = 10, id = 456050,
     trigger = GotAceHiddenRooms()
 )
 
-achievement(title = "All Difficulty Clear", description = "Clear the game all 4 difficulties consecutively without using a continue", points = 50, id = 456051,
+achievement(title = "Transcendent Burai Fighter", description = "Clear the game all 4 difficulties consecutively without using a continue", points = 50, id = 456051,
     trigger = ClearedAllDifficulties()
 )
 
@@ -565,15 +565,15 @@ achievement(title = "All Difficulty Clear", description = "Clear the game all 4 
 // Achievement Definitions - Score Challenges
 // ======================================================================= //
 
-achievement(title = "100,000 Points", description = "Score 100,000 points or more", points = 5, id = 456052,
+achievement(title = "Multitudinous", description = "Score 100,000 points or more", points = 5, id = 456052,
     trigger = GotScore(100000)
 )
 
-achievement(title = "250,000 Points", description = "Score 250,000 points or more", points = 10, id = 456053,
+achievement(title = "Abounding", description = "Score 250,000 points or more", points = 10, id = 456053,
     trigger = GotScore(250000)
 )
 
-achievement(title = "500,000 Points", description = "Score 100,000 points or more", points = 25, id = 456054,
+achievement(title = "Innumerable", description = "Score 100,000 points or more", points = 25, id = 456054,
     trigger = GotScore(500000)
 )
 
@@ -581,30 +581,30 @@ achievement(title = "500,000 Points", description = "Score 100,000 points or mor
 // Achievement Definitions - Other Challenges
 // ======================================================================= //
 
-achievement(title = "No Death Clear - Stage 1", description = "Clear Stage 1 without losing a life on Ace difficulty or higher", points = 10, id = 456055,
+achievement(title = "Transcendent Crab Crusher", description = "Clear Stage 1 without losing a life on Ace difficulty or higher", points = 10, id = 456055,
     trigger = ClearStageNoDeath(0)
 )
 
-achievement(title = "No Death Clear - Stage 2", description = "Clear Stage 2 without losing a life on Ace difficulty or higher", points = 10, id = 456056,
+achievement(title = "Transcendent Insect Inhibitor", description = "Clear Stage 2 without losing a life on Ace difficulty or higher", points = 10, id = 456056,
     trigger = ClearStageNoDeath(1)
 )
 
-achievement(title = "No Death Clear - Stage 3", description = "Clear Stage 3 without losing a life on Ace difficulty or higher", points = 10, id = 456057,
+achievement(title = "Transcendent Infiltrator", description = "Clear Stage 3 without losing a life on Ace difficulty or higher", points = 10, id = 456057,
     trigger = ClearStageNoDeath(2)
 )
 
-achievement(title = "No Death Clear - Stage 4", description = "Clear Stage 4 without losing a life on Ace difficulty or higher", points = 10, id = 456058,
+achievement(title = "Transcendent Monster Masher", description = "Clear Stage 4 without losing a life on Ace difficulty or higher", points = 10, id = 456058,
     trigger = ClearStageNoDeath(3)
 )
 
-achievement(title = "No Death Clear - Stage 5", description = "Clear Stage 5 without losing a life on Ace difficulty or higher", points = 25, id = 456059,
+achievement(title = "Transcendent Bird Basher", description = "Clear Stage 5 without losing a life on Ace difficulty or higher", points = 25, id = 456059,
     trigger = ClearStageNoDeath(4)
 )
 
-achievement(title = "No Death Clear - Stage 6", description = "Clear Stage 6 without losing a life on Ace difficulty or higher", points = 25, id = 456060,
+achievement(title = "Transcendent Sabotuer", description = "Clear Stage 6 without losing a life on Ace difficulty or higher", points = 25, id = 456060,
     trigger = ClearStageNoDeath(5)
 )
 
-achievement(title = "No Death Clear - Stage 7", description = "Clear Stage 7 without losing a life on Ace difficulty or higher", points = 25, id = 456061,
+achievement(title = "Transcendent Dragon Decimator", description = "Clear Stage 7 without losing a life on Ace difficulty or higher", points = 25, id = 456061,
     trigger = ClearStageNoDeath(6)
 )

@@ -389,6 +389,23 @@ function ClearStageNoDeath(stage){
         )
 }
 
+function ClearGameNoDeath(){
+    return IsValidSession() &&
+        Game["Difficulty"] >= 2 &&
+        Stage["Index"] == 6 &&
+        prev(Game["Difficulty"]) >= 2 &&
+        trigger_when(Game["Difficulty"] == prev(Game["Difficulty"]) + 1) &&
+        disable_when(Game["Difficulty"] >= 2 && Stage["Index"] == 6 && prev(Player["Lives"]) > Player["Lives"]) &&
+        (
+            never(IsOnTitle()) || 
+            never(Game["ScreenId"] == ScreenIds["Continue"]) ||
+            never(Game["ScreenId"] == ScreenIds["Difficulty1"]) ||
+            never(Game["ScreenId"] == ScreenIds["Difficulty2"]) ||
+            never(Game["ScreenId"] == ScreenIds["Difficulty3"]) ||
+            never(Game["ScreenId"] == ScreenIds["Difficulty4"])
+        )
+}
+
 // ======================================================================= //
 // Achievement Definitions - Progression
 // ======================================================================= //
@@ -606,5 +623,5 @@ achievement(title = "Transcendent Sabotuer", description = "Clear Stage 6 withou
 )
 
 achievement(title = "Transcendent Dragon Decimator", description = "Clear Stage 7 without losing a life on Ace difficulty or higher", points = 25, id = 456061,
-    trigger = ClearStageNoDeath(6)
+    trigger = ClearGameNoDeath()
 )

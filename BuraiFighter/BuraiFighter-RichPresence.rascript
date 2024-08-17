@@ -176,7 +176,7 @@ function IsOnTitle() => Game["ScreenId"] == ScreenIds["Title"] && Stage["Index"]
 function IsOnDemo() => Game["Flags"]["Demo"] == 1
 function IsInGame() => Player["Lives"] > 0 && Player["ScoreDemo"] != 0x23
 function IsOnContinue() => Player["Lives"] == 0 && Game["ScreenId"] == ScreenIds["Continue"]
-function IsOnDifficultySelect() => Game["ScreenIdLower"] == ScreenIds["Difficulty"]
+function IsOnDifficultySelect() => Game["ScreenId"] == ScreenIds["Difficulty1"] || Game["ScreenId"] == ScreenIds["Difficulty2"] || Game["ScreenId"] == ScreenIds["Difficulty3"] || Game["ScreenId"] == ScreenIds["Difficulty4"] 
 function IsOnPassword() => Game["ScreenId"] == ScreenIds["Password"]
 function IsOnEnding() => any_of(ScreenEndingIds, id => Game["ScreenId"] == id)
 

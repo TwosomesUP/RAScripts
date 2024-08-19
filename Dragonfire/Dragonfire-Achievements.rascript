@@ -54,7 +54,7 @@ function IsInGame() => Game["State"] == 0x81
 function IsOnModeSelect() => Game["State"] == 0xc0
 
 function ClearedStage(stage, isChallenge, isMeasured){
-    trigger = tally(stage, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) == ScreenStates["TreasureRoom"] && never(!IsInGame()) && never(Player["Lives"] == 0xff))
+    trigger = tally(stage, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) == ScreenStates["TreasureRoom"])
     
     if(isChallenge)
         trigger = trigger_when(trigger)
@@ -62,7 +62,9 @@ function ClearedStage(stage, isChallenge, isMeasured){
     if(isMeasured)
         trigger = measured(trigger)
 
-    return trigger
+    return trigger && 
+        never(!IsInGame()) && 
+        never(Player["Lives"] == 0xff)
 }
 
 // ======================================================================= //
@@ -76,9 +78,8 @@ function ClearedStageOnMode(mode, stage, isChallenge, isMeasured){
 
 function ClearedStageNoDeath(mode, stage){
     return IsInGame() && 
-    Player["Lives"] == 6 &&
-    ClearedStageOnMode(mode, stage, true, false) &&
-        disable_when(Game["Mode"] == Modes[mode] && Player["Lives"] == prev(Player["Lives"]) - 1, !IsInGame() || Player["Lives"] == 0xff)
+        Player["Lives"] == 6 &&
+        ClearedStageOnMode(mode, stage, true, false)
 }
 
 function PlayerGotScore(score){
@@ -131,8 +132,8 @@ achievement("Penny Pincher", "Score 5,000 points or more on any single player mo
     trigger = (Game["Mode"] == Modes["1-1"] || Game["Mode"] == Modes["2-1"] || Game["Mode"] == Modes["3-1"] || Game["Mode"] == Modes["4-1"]) && PlayerGotScore(5000)
 )
 
-achievement("Break the Bank", "Score 10,000 points or more on any single player mode", points = 10, id = 457172,
-    trigger = (Game["Mode"] == Modes["1-1"] || Game["Mode"] == Modes["2-1"] || Game["Mode"] == Modes["3-1"] || Game["Mode"] == Modes["4-1"]) && PlayerGotScore(10000)
+achievement("Break the Bank", "Score 15,000 points or more on any single player mode", points = 10, id = 457172,
+    trigger = (Game["Mode"] == Modes["1-1"] || Game["Mode"] == Modes["2-1"] || Game["Mode"] == Modes["3-1"] || Game["Mode"] == Modes["4-1"]) && PlayerGotScore(15000)
 )
 
 achievement("Money To Burn", "Score 30,000 points or more on any single player mode", points = 25, id = 457173,

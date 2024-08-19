@@ -11,7 +11,8 @@ Game = {
     "State": byte(0x2),
     "Screen": byte(0x7),
     "Mode": byte(0xc),
-    "Stage": byte(0x21)
+    "Stage": byte(0x21),
+    "Active": bit7(0x11)
 }
 
 Player = {
@@ -59,20 +60,23 @@ function IsInGame() => Game["State"] == 0x81
 function IsOnModeSelect() => Game["State"] == 0xc0
 
 function CalcStage(){
-    return measured(tally(0, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) != ScreenStates["Bridge"])) &&
-        never(!IsInGame())
+    return measured(tally(0, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) != ScreenStates["Bridge"]))  &&
+        never(!IsInGame()) &&
+        never(prev(Player["Lives"]) == 0xff && Player["Lives"] == 0)
 }
 
 // ======================================================================= //
 // Rich Presence Definitions
 // ======================================================================= //
 
-rich_presence_conditional_display(IsInGame(), "The Prince is slaying dragons on STAGE {0} | MODE: {1} | LIVES: {2} | {3}",
+rich_presence_conditional_display(IsInGame() && Game["Screen"] != ScreenStates["ModeSelect"], "The Prince is slaying dragons on STAGE {0} | MODE: {1} | LIVES: {2} | {3}",
     rich_presence_value("Stage", CalcStage()),
     rich_presence_lookup("Mode", Game["Mode"], Modes),
     rich_presence_value("Lives", Player["Lives"]),
     rich_presence_value("Score", Player["Score"])
 )
+
+rich_presence_conditional_display(IsInGame() && Game["Screen"] == ScreenStates["ModeSelect"], "The Prince mustering the courage to try again")
 
 rich_presence_conditional_display(IsOnModeSelect(), "The Prince is deciding which mode to play")
 

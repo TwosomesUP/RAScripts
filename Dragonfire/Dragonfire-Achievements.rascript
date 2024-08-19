@@ -54,7 +54,7 @@ function IsInGame() => Game["State"] == 0x81
 function IsOnModeSelect() => Game["State"] == 0xc0
 
 function ClearedStage(stage, isChallenge, isMeasured){
-    trigger = tally(stage, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) == ScreenStates["TreasureRoom"] && never(!IsInGame()))
+    trigger = tally(stage, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) == ScreenStates["TreasureRoom"] && never(!IsInGame()) && never(Player["Lives"] == 0xff))
     
     if(isChallenge)
         trigger = trigger_when(trigger)
@@ -76,8 +76,9 @@ function ClearedStageOnMode(mode, stage, isChallenge, isMeasured){
 
 function ClearedStageNoDeath(mode, stage){
     return IsInGame() && 
+    Player["Lives"] == 6 &&
     ClearedStageOnMode(mode, stage, true, false) &&
-        disable_when(Game["Mode"] == Modes[mode] && prev(Player["Lives"]) > Player["Lives"], !IsInGame())
+        disable_when(Game["Mode"] == Modes[mode] && Player["Lives"] == prev(Player["Lives"]) - 1, !IsInGame() || Player["Lives"] == 0xff)
 }
 
 function PlayerGotScore(score){

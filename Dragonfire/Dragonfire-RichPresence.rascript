@@ -62,7 +62,9 @@ function IsOnModeSelect() => Game["State"] == 0xc0
 function CalcStage(){
     return measured(tally(0, Game["Screen"] == ScreenStates["Bridge"] && prev(Game["Screen"]) != ScreenStates["Bridge"]))  &&
         never(!IsInGame()) &&
-        never(prev(Player["Lives"]) == 0xff && Player["Lives"] == 0)
+        never(prev(Player["Lives"]) == 0xff && Player["Lives"] == 0) &&
+        never(prev(Game["Screen"]) == ScreenStates["TreasureRoom"] && Game["Screen"] == ScreenStates["Bridge"] && Player["Score"] == 0) &&
+        never(prev(Player["Score"]) > 0 && Player["Score"] == 0)
 }
 
 // ======================================================================= //

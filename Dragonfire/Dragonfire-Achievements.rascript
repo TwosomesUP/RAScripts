@@ -11,7 +11,8 @@ Game = {
     "State": byte(0x2),
     "Screen": byte(0x7),
     "Mode": byte(0xc),
-    "Stage": byte(0x21)
+    "Stage": byte(0x21),
+    "Reset": byte(0x5)
 }
 
 Player = {
@@ -64,7 +65,9 @@ function ClearedStage(stage, isChallenge, isMeasured){
 
     return trigger && 
         never(!IsInGame()) && 
-        never(Player["Lives"] == 0xff)
+        never(Player["Lives"] == 0xff) &&
+        never(prev(Game["Screen"]) == ScreenStates["TreasureRoom"] && Game["Screen"] == ScreenStates["Bridge"] && Player["Score"] == 0) &&
+        never(prev(Player["Score"]) > 0 && Player["Score"] == 0)
 }
 
 // ======================================================================= //

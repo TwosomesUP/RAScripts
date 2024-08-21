@@ -64,12 +64,47 @@ GameModes = {
     "CPUMinePolarisBomber": 27
 }
 
+// ======================================================================= //
+// Lookup Dictionaries
+// ======================================================================= //
+
+GameModeLookup = {
+    1: "Anti-Aircraft [STANDARD]",
+    2: "Anti-Aircraft [GUIDED]",
+    3: "Anti-Aircraft [VS. CPU]",
+    4: "Blimp Anti-Aircraft [STANDARD]",
+    5: "Blimp Anti-Aircraft [GUIDED]",
+    6: "Blimp Anti-Aircraft [VS. CPU]",
+    7: "Torpedo [STANDARD]",
+    8: "Torpedo [GUIDED]",
+    9: "Torpedo [VS. CPU]",
+    10: "Mine Torpedo [STANDARD]",
+    11: "Mine Torpedo [GUIDED]",
+    12: "Mine Torpedo [VS. CPU]",
+    13: "Shooting Gallery [STANDARD]",
+    14: "Shooting Gallery [GUIDED]",
+    15: "Shooting Gallery [VS. CPU]",
+    16: "Polaris [STANDARD]",
+    17: "Polaris [GUIDED]",
+    18: "Polaris [VS. CPU]",
+    19: "Bomber [STANDARD]",
+    20: "Bomber [GUIDED]",
+    21: "Bomber [VS. CPU]",
+    22: "Polaris vs. Bomber [STANDARD]",
+    23: "Polaris vs. Bomber [GUIDED]",
+    24: "Polaris vs. Bomber [VS. CPU]",
+    25: "Mine Polaris vs. Bomber [STANDARD]",
+    26: "Mine Polaris vs. Bomber [GUIDED]",
+    27: "Mine Polaris vs. Bomber [VS. CPU]"
+}
 
 // ======================================================================= //
 // Helper Functions
 // ======================================================================= //
 
 function IsInGame() => Game["State"] == 0xff
+function IsSelectingMode() => Game["State"] == 0x00 && Game["Timer"] > 0x80
+function IsOnGameOver() => Game["State"] == 0x00 && Game["Timer"] < 0x80
 
 function BallonShot(mode){
     return disable_when(Game["Mode"] == Modes["BlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0) &&
@@ -97,4 +132,12 @@ function MineShot(mode){
 
 function GameEnded(){
     return prev(Game["Timer"]) > 0x80 && Game["Timer"] == 0x00
-}      
+}
+
+// ======================================================================= //
+// Rich Presence Definitions
+// ======================================================================= //      
+
+
+
+

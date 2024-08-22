@@ -1,6 +1,6 @@
 // Air-Sea Battle | Target Fun
 // #ID = 13100
-// Retro Achievements - Rich Presence Script
+// Retro Achievements - Achievement Script
 // Author: TwosomesUP
 
 // ======================================================================= //
@@ -18,7 +18,7 @@ Game = {
 }
 
 Screen = {
-    "State": byte(0x1b)
+    "State": low4(0x1b)
 }
 
 Enemy = {
@@ -165,25 +165,140 @@ function MineShot(mode){
 }
 
 function GameEnded(){
-    return prev(Game["Timer"]) > 0x80 && Game["Timer"] == 0x00
+    return Screen["State"] == 0xf && prev(Game["State"]) == 0xff && Game["State"] == 0x00 
 }
 
 // ======================================================================= //
-// Rich Presence Definitions
+// Achievement Functions
+// ======================================================================= //  
+
+
+
+// ======================================================================= //
+// Achievement Definitions - Progression
 // ======================================================================= //      
 
-rich_presence_conditional_display(IsInGame(), "Playing {0} | {1}{2} | RIGHT: {3} | {4}",
-    rich_presence_lookup("Mode", Game["Mode"], GameModeLookup),
-    rich_presence_lookup("LeftPlayer", Game["Mode"], LeftPlayerLookup),
-    rich_presence_value("LeftScore", LeftPlayer["Points"]),
-    rich_presence_value("RightScore", RightPlayer["Points"]),
-    rich_presence_value("Time", 0xff - Game["Timer"])
+achievement("[DRAFT] Mode 1 Clear", "Score 30 points or more on mode 1", points = 2, id = 458043,
+    trigger = always_false()
 )
 
-rich_presence_conditional_display(IsSelectingMode(), "Deciding which mode to play")
-
-rich_presence_conditional_display(IsOnGameOver(), "Deciding if they want to play {0} again", 
-    rich_presence_lookup("Mode", Game["Mode"], GameModeLookup)
+achievement("[DRAFT] Mode 2 Clear", "Score 50 points or more on mode 2", points = 2, id = 458044,
+    trigger = always_false()
 )
 
-rich_presence_display("Readying their artillery in Air-Sea Battle")
+achievement("[DRAFT] Mode 3 Clear", "Beat the CPU on mode 3", points = 3, type = "progression", id = 458045,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 4 Clear", "Score 30 points or more on mode 4", points = 2, id = 458046,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 5 Clear", "Score 50 points or more on mode 5", points = 2, id = 458047,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 6 Clear", "Beat the CPU on mode 6", points = 3, type = "progression", id = 458048,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 7 Clear", "Score 30 points or more on mode 7", points = 2, id = 458049,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 8 Clear", "Score 50 points or more on mode 8", points = 2, id = 458050,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 9 Clear", "Beat the CPU on mode 9", points = 3, type = "progression", id = 458051,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 10 Clear", "Score 30 points or more on mode 10", points = 2, id = 458052,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 11 Clear", "Score 50 points or more on mode 11", points = 2, id = 458053,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 12 Clear", "Beat the CPU on mode 12", points = 3, type = "progression", id = 458054,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 13 Clear", "Score 50 points or more on mode 13", points = 2, id = 458055,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 14 Clear", "Score 70 points or more on mode 14", points = 2, id = 458056,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 15 Clear", "Beat the CPU on mode 15", points = 3, type = "progression", id = 458057,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 16 Clear", "Score 30 points or more on mode 16", points = 2, id = 458058,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 17 Clear", "Score 50 points or more on mode 17", points = 2, id = 458059,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 18 Clear", "Beat the CPU on mode 18", points = 3, type = "progression", id = 458060,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 19 Clear", "Score 50 points or more on mode 19", points = 2, id = 458061,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 20 Clear", "Score 70 points or more on mode 20", points = 2, id = 458062,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 21 Clear", "Beat the CPU on mode 21", points = 3, type = "progression", id = 458063,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 24 Clear", "Beat the CPU on mode 24", points = 3, type = "progression", id = 458064,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 27 Clear", "Beat the CPU on mode 27", points = 3, type = "progression", id = 458065,
+    trigger = always_false()
+)
+
+// ======================================================================= //
+// Achievement Definitions - Challenges
+// ======================================================================= //  
+
+achievement("[DRAFT] Mode 4 Challenge", "Score 20 points or more without hitting a blimp on mode 4", points = 5, id = 458066,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 5 Challenge", "Score 30 points or more without hitting a blimp on mode 5", points = 5, id = 458067,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 10 Challenge", "Score 20 points or more without hitting a mine on mode 10", points = 5, id = 458068,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] Mode 11 Challenge", "Score 30 points or more without hitting a mine on mode 11", points = 5, id = 458069,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] 99 Point Challenge", "Score 99 points on any mode", points = 10, id = 458070,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] CPU Challenge 1", "Beat the CPU with a 10 or more point lead on any versus CPU mode", points = 5, id = 458071,
+    trigger = always_false()
+)
+
+achievement("[DRAFT] CPU Challenge 2", "Beat the CPU with a 20 or more point lead on any versus CPU mode", points = 10, id = 458072,
+    trigger = always_false()
+)
+

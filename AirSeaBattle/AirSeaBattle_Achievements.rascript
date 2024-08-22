@@ -139,166 +139,231 @@ LeftPlayerLookup = {
 function IsInGame() => Game["State"] == 0xff
 function IsSelectingMode() => Game["State"] == 0x00 && Screen["State"] == 0x00
 function IsOnGameOver() => Game["State"] == 0x00 && Screen["State"] == 0x0f
+function GameReset() => Game["HardwareState"] == 0x00
 
-function BallonShot(mode){
-    return disable_when(Game["Mode"] == Modes["BlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0) &&
-        disable_when(Game["Mode"] == Modes["BlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa0) &&
-        disable_when(Game["Mode"] == Modes["GuidedBlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0) &&
-        disable_when(Game["Mode"] == Modes["GuidedBlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa0) &&
-        (
-            never(Game["HardwareState"] == 0x00) || 
-            never(Game["HardwareState"] == 0xff) ||
-            never(Game["Timer"] == 0x00)
-        )
+function BlimpShot(mode){
+    return disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset())
 }
 
 function MineShot(mode){
-    return disable_when(Game["Mode"] == Modes["MineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0) &&
-        disable_when(Game["Mode"] == Modes["MineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa0) &&
-        disable_when(Game["Mode"] == Modes["GuidedMineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0) &&
-        disable_when(Game["Mode"] == Modes["GuidedMineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa0) &&
-        (
-            never(Game["HardwareState"] == 0x00) || 
-            never(Game["HardwareState"] == 0xff) ||
-            never(Game["Timer"] == 0x00)
-        )
+    return disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset())
 }
 
 function GameEnded(){
     return Screen["State"] == 0xf && prev(Game["State"]) == 0xff && Game["State"] == 0x00 
 }
 
+function AnyPlayerScoredPoints(score){
+    return ((prev(LeftPlayer["Points"]) < score && LeftPlayer["Points"] >= score) || 
+        (prev(RightPlayer["Points"]) < score && RightPlayer["Points"] >= score))
+}
+
+function PlayerScoredPoints(score){
+    return RightPlayer["Points"] < score && RightPlayer["Points"] >= score
+}
+
 // ======================================================================= //
 // Achievement Functions
 // ======================================================================= //  
 
+function ClearedStandardMode(mode, score){
+    return Screen["State"] == 0x0f &&
+        Game["Mode"] == mode &&
+        AnyPlayerScoredPoints(score)
+}
 
+function ClearedCPUMode(mode){
+    return GameEnded() &&
+        Game["Mode"] == mode &&
+        RightPlayer["Points"] > LeftPlayer["Points"]
+}
+
+function ClearedBlimpChallenge(mode, score){
+    return Screen["State"] == 0x0f &&
+        Game["Mode"] == mode &&
+        ((prev(LeftPlayer["Points"]) < score && trigger_when(LeftPlayer["Points"] >= score)) || 
+        (prev(RightPlayer["Points"]) < score && trigger_when(RightPlayer["Points"] >= score))) &&
+        BlimpShot(mode)
+}
+
+function ClearedMineChallenge(mode, score){
+    return Screen["State"] == 0x0f &&
+        Game["Mode"] == mode &&
+        ((prev(LeftPlayer["Points"]) < score && trigger_when(LeftPlayer["Points"] >= score)) || 
+        (prev(RightPlayer["Points"]) < score && trigger_when(RightPlayer["Points"] >= score))) &&
+        MineShot(mode)
+}
+
+function Got99Points(){
+    return Screen["State"] == 0x0f &&
+        ((prev(RightPlayer["Points"]) < 99 && RightPlayer["Points"] >= 99) ||
+        (
+            prev(LeftPlayer["Points"]) < 99 && LeftPlayer["Points"] >= 99 && 
+            Game["Mode"] != 3 &&
+            Game["Mode"] != 6 &&
+            Game["Mode"] != 9 &&
+            Game["Mode"] != 12 &&
+            Game["Mode"] != 15 &&
+            Game["Mode"] != 18 &&
+            Game["Mode"] != 21 &&
+            Game["Mode"] != 24 &&
+            Game["Mode"] != 27
+        ))
+}
+
+function ClearedCPUChallenge(difference){
+    return GameEnded() &&
+        RightPlayer["Points"] - LeftPlayer["Points"] >= difference &&
+        (
+            Game["Mode"] == 3 ||
+            Game["Mode"] == 6 ||
+            Game["Mode"] == 9 ||
+            Game["Mode"] == 12 ||
+            Game["Mode"] == 15 ||
+            Game["Mode"] == 18 ||
+            Game["Mode"] == 21 ||
+            Game["Mode"] == 24 ||
+            Game["Mode"] == 27
+        )
+}
 
 // ======================================================================= //
 // Achievement Definitions - Progression
 // ======================================================================= //      
 
-achievement("[DRAFT] Mode 1 Clear", "Score 30 points or more on mode 1", points = 2, id = 458043,
-    trigger = always_false()
+achievement("[DRAFT] Mode 1 Clear", "Score 30 points or more while playing game 1", points = 2, id = 458043,
+    trigger = ClearedStandardMode(1, 30)
 )
 
-achievement("[DRAFT] Mode 2 Clear", "Score 50 points or more on mode 2", points = 2, id = 458044,
-    trigger = always_false()
+achievement("[DRAFT] Mode 2 Clear", "Score 40 points or more while playing game 2", points = 2, id = 458044,
+    trigger = ClearedStandardMode(2, 40)
 )
 
-achievement("[DRAFT] Mode 3 Clear", "Beat the CPU on mode 3", points = 3, type = "progression", id = 458045,
-    trigger = always_false()
+achievement("[DRAFT] Mode 3 Clear", "Beat the CPU while playing game 3", points = 3, type = "progression", id = 458045,
+    trigger = ClearedCPUMode(3)
 )
 
-achievement("[DRAFT] Mode 4 Clear", "Score 30 points or more on mode 4", points = 2, id = 458046,
-    trigger = always_false()
+achievement("[DRAFT] Mode 4 Clear", "Score 50 points or more while playing game 4", points = 2, id = 458046,
+    trigger = ClearedStandardMode(4, 50)
 )
 
-achievement("[DRAFT] Mode 5 Clear", "Score 50 points or more on mode 5", points = 2, id = 458047,
-    trigger = always_false()
+achievement("[DRAFT] Mode 5 Clear", "Score 70 points or more while playing game 5", points = 2, id = 458047,
+    trigger = ClearedStandardMode(5, 70)
 )
 
-achievement("[DRAFT] Mode 6 Clear", "Beat the CPU on mode 6", points = 3, type = "progression", id = 458048,
-    trigger = always_false()
+achievement("[DRAFT] Mode 6 Clear", "Beat the CPU while playing game 6", points = 3, type = "progression", id = 458048,
+    trigger = ClearedCPUMode(6)
 )
 
-achievement("[DRAFT] Mode 7 Clear", "Score 30 points or more on mode 7", points = 2, id = 458049,
-    trigger = always_false()
+achievement("[DRAFT] Mode 7 Clear", "Score 30 points or more while playing game 7", points = 2, id = 458049,
+    trigger = ClearedStandardMode(7, 30)
 )
 
-achievement("[DRAFT] Mode 8 Clear", "Score 50 points or more on mode 8", points = 2, id = 458050,
-    trigger = always_false()
+achievement("[DRAFT] Mode 8 Clear", "Score 40 points or more while playing game 8", points = 2, id = 458050,
+    trigger = ClearedStandardMode(8, 40)
 )
 
-achievement("[DRAFT] Mode 9 Clear", "Beat the CPU on mode 9", points = 3, type = "progression", id = 458051,
-    trigger = always_false()
+achievement("[DRAFT] Mode 9 Clear", "Beat the CPU while playing game 9", points = 3, type = "progression", id = 458051,
+    trigger = ClearedCPUMode(9)
 )
 
-achievement("[DRAFT] Mode 10 Clear", "Score 30 points or more on mode 10", points = 2, id = 458052,
-    trigger = always_false()
+achievement("[DRAFT] Mode 10 Clear", "Score 50 points or more while playing game 10", points = 2, id = 458052,
+    trigger = ClearedStandardMode(10, 50)
 )
 
-achievement("[DRAFT] Mode 11 Clear", "Score 50 points or more on mode 11", points = 2, id = 458053,
-    trigger = always_false()
+achievement("[DRAFT] Mode 11 Clear", "Score 70 points or more while playing game 11", points = 2, id = 458053,
+    trigger = ClearedStandardMode(11, 70)
 )
 
-achievement("[DRAFT] Mode 12 Clear", "Beat the CPU on mode 12", points = 3, type = "progression", id = 458054,
-    trigger = always_false()
+achievement("[DRAFT] Mode 12 Clear", "Beat the CPU while playing game 12", points = 3, type = "progression", id = 458054,
+    trigger = ClearedCPUMode(12)
 )
 
-achievement("[DRAFT] Mode 13 Clear", "Score 50 points or more on mode 13", points = 2, id = 458055,
-    trigger = always_false()
+achievement("[DRAFT] Mode 13 Clear", "Score 50 points or more while playing game 13", points = 2, id = 458055,
+    trigger = ClearedStandardMode(13, 50)
 )
 
-achievement("[DRAFT] Mode 14 Clear", "Score 70 points or more on mode 14", points = 2, id = 458056,
-    trigger = always_false()
+achievement("[DRAFT] Mode 14 Clear", "Score 70 points or more while playing game 14", points = 2, id = 458056,
+    trigger = ClearedStandardMode(14, 70)
 )
 
-achievement("[DRAFT] Mode 15 Clear", "Beat the CPU on mode 15", points = 3, type = "progression", id = 458057,
-    trigger = always_false()
+achievement("[DRAFT] Mode 15 Clear", "Beat the CPU while playing game 15", points = 3, type = "progression", id = 458057,
+    trigger = ClearedCPUMode(15)
 )
 
-achievement("[DRAFT] Mode 16 Clear", "Score 30 points or more on mode 16", points = 2, id = 458058,
-    trigger = always_false()
+achievement("[DRAFT] Mode 16 Clear", "Score 30 points or more while playing game 16", points = 2, id = 458058,
+    trigger = ClearedStandardMode(16, 30)
 )
 
-achievement("[DRAFT] Mode 17 Clear", "Score 50 points or more on mode 17", points = 2, id = 458059,
-    trigger = always_false()
+achievement("[DRAFT] Mode 17 Clear", "Score 50 points or more while playing game 17", points = 2, id = 458059,
+    trigger = ClearedStandardMode(17, 50)
 )
 
-achievement("[DRAFT] Mode 18 Clear", "Beat the CPU on mode 18", points = 3, type = "progression", id = 458060,
-    trigger = always_false()
+achievement("[DRAFT] Mode 18 Clear", "Beat the CPU while playing game 18", points = 3, type = "progression", id = 458060,
+    trigger = ClearedCPUMode(18)
 )
 
-achievement("[DRAFT] Mode 19 Clear", "Score 50 points or more on mode 19", points = 2, id = 458061,
-    trigger = always_false()
+achievement("[DRAFT] Mode 19 Clear", "Score 50 points or more while playing game 19", points = 2, id = 458061,
+    trigger = ClearedStandardMode(19, 50)
 )
 
-achievement("[DRAFT] Mode 20 Clear", "Score 70 points or more on mode 20", points = 2, id = 458062,
-    trigger = always_false()
+achievement("[DRAFT] Mode 20 Clear", "Score 70 points or more while playing game 20", points = 2, id = 458062,
+    trigger = ClearedStandardMode(20, 70)
 )
 
-achievement("[DRAFT] Mode 21 Clear", "Beat the CPU on mode 21", points = 3, type = "progression", id = 458063,
-    trigger = always_false()
+achievement("[DRAFT] Mode 21 Clear", "Beat the CPU while playing game 21", points = 3, type = "progression", id = 458063,
+    trigger = ClearedCPUMode(21)
 )
 
-achievement("[DRAFT] Mode 24 Clear", "Beat the CPU on mode 24", points = 3, type = "progression", id = 458064,
-    trigger = always_false()
+// Removed due to no challenge
+/*
+achievement("[DRAFT] Mode 24 Clear", "Beat the CPU while playing game 24", points = 3, type = "progression", id = 458064,
+    trigger = ClearedCPUMode(24)
 )
+*/
 
-achievement("[DRAFT] Mode 27 Clear", "Beat the CPU on mode 27", points = 3, type = "progression", id = 458065,
-    trigger = always_false()
+//Removed due to no challenge
+/*
+achievement("[DRAFT] Mode 27 Clear", "Beat the CPU while playing game 27", points = 3, type = "progression", id = 458065,
+    trigger = ClearedCPUMode(27)
 )
+*/
 
 // ======================================================================= //
 // Achievement Definitions - Challenges
 // ======================================================================= //  
 
-achievement("[DRAFT] Mode 4 Challenge", "Score 20 points or more without hitting a blimp on mode 4", points = 5, id = 458066,
-    trigger = always_false()
+achievement("[DRAFT] Mode 4 Challenge", "Score 30 points or more without hitting a blimp while playing game 4", points = 5, id = 458066,
+    trigger = ClearedBlimpChallenge(4, 30)
 )
 
-achievement("[DRAFT] Mode 5 Challenge", "Score 30 points or more without hitting a blimp on mode 5", points = 5, id = 458067,
-    trigger = always_false()
+achievement("[DRAFT] Mode 5 Challenge", "Score 40 points or more without hitting a blimp while playing game 5", points = 5, id = 458067,
+    trigger = ClearedBlimpChallenge(5, 40)
 )
 
-achievement("[DRAFT] Mode 10 Challenge", "Score 20 points or more without hitting a mine on mode 10", points = 5, id = 458068,
-    trigger = always_false()
+achievement("[DRAFT] Mode 10 Challenge", "Score 30 points or more without hitting a mine while playing game 10", points = 5, id = 458068,
+    trigger = ClearedMineChallenge(10, 30)
 )
 
-achievement("[DRAFT] Mode 11 Challenge", "Score 30 points or more without hitting a mine on mode 11", points = 5, id = 458069,
-    trigger = always_false()
+achievement("[DRAFT] Mode 11 Challenge", "Score 40 points or more without hitting a mine while playing game 11", points = 5, id = 458069,
+    trigger = ClearedMineChallenge(11, 40)
 )
 
-achievement("[DRAFT] 99 Point Challenge", "Score 99 points on any mode", points = 10, id = 458070,
-    trigger = always_false()
+achievement("[DRAFT] 99 Point Challenge", "Score 99 points while playing any game", points = 10, id = 458070,
+    trigger = Got99Points()
 )
 
-achievement("[DRAFT] CPU Challenge 1", "Beat the CPU with a 10 or more point lead on any versus CPU mode", points = 5, id = 458071,
-    trigger = always_false()
+achievement("[DRAFT] CPU Challenge 1", "Beat the CPU with a 10 or more point lead on any versus CPU game", points = 5, id = 458071,
+    trigger = ClearedCPUChallenge(10)
 )
 
-achievement("[DRAFT] CPU Challenge 2", "Beat the CPU with a 20 or more point lead on any versus CPU mode", points = 10, id = 458072,
-    trigger = always_false()
+achievement("[DRAFT] CPU Challenge 2", "Beat the CPU with a 20 or more point lead on any versus CPU game", points = 10, id = 458072,
+    trigger = ClearedCPUChallenge(20)
 )
 

@@ -237,87 +237,87 @@ function ClearedCPUChallenge(difference){
 // Achievement Definitions - Progression
 // ======================================================================= //      
 
-achievement("[DRAFT] Mode 1 Clear", "Score 30 points or more while playing game 1", points = 2, id = 458043,
+achievement("Not Cleared for Takeoff", "Score 30 points or more while playing game 1", points = 2, id = 458043,
     trigger = ClearedStandardMode(1, 30)
 )
 
-achievement("[DRAFT] Mode 2 Clear", "Score 40 points or more while playing game 2", points = 2, id = 458044,
+achievement("On Autopilot", "Score 40 points or more while playing game 2", points = 2, id = 458044,
     trigger = ClearedStandardMode(2, 40)
 )
 
-achievement("[DRAFT] Mode 3 Clear", "Beat the CPU while playing game 3", points = 3, type = "progression", id = 458045,
+achievement("Computer Glitch", "Beat the CPU while playing game 3", points = 3, type = "progression", id = 458045,
     trigger = ClearedCPUMode(3)
 )
 
-achievement("[DRAFT] Mode 4 Clear", "Score 50 points or more while playing game 4", points = 2, id = 458046,
+achievement("Holding Pattern", "Score 50 points or more while playing game 4", points = 2, id = 458046,
     trigger = ClearedStandardMode(4, 50)
 )
 
-achievement("[DRAFT] Mode 5 Clear", "Score 70 points or more while playing game 5", points = 2, id = 458047,
+achievement("Turbulence Ahead", "Score 70 points or more while playing game 5", points = 2, id = 458047,
     trigger = ClearedStandardMode(5, 70)
 )
 
-achievement("[DRAFT] Mode 6 Clear", "Beat the CPU while playing game 6", points = 3, type = "progression", id = 458048,
+achievement("Computer Shutdown", "Beat the CPU while playing game 6", points = 3, type = "progression", id = 458048,
     trigger = ClearedCPUMode(6)
 )
 
-achievement("[DRAFT] Mode 7 Clear", "Score 30 points or more while playing game 7", points = 2, id = 458049,
+achievement("Fire at Will", "Score 30 points or more while playing game 7", points = 2, id = 458049,
     trigger = ClearedStandardMode(7, 30)
 )
 
-achievement("[DRAFT] Mode 8 Clear", "Score 40 points or more while playing game 8", points = 2, id = 458050,
+achievement("Target Locked", "Score 40 points or more while playing game 8", points = 2, id = 458050,
     trigger = ClearedStandardMode(8, 40)
 )
 
-achievement("[DRAFT] Mode 9 Clear", "Beat the CPU while playing game 9", points = 3, type = "progression", id = 458051,
+achievement("Computer Crash", "Beat the CPU while playing game 9", points = 3, type = "progression", id = 458051,
     trigger = ClearedCPUMode(9)
 )
 
-achievement("[DRAFT] Mode 10 Clear", "Score 50 points or more while playing game 10", points = 2, id = 458052,
+achievement("Mine for the Taking", "Score 50 points or more while playing game 10", points = 2, id = 458052,
     trigger = ClearedStandardMode(10, 50)
 )
 
-achievement("[DRAFT] Mode 11 Clear", "Score 70 points or more while playing game 11", points = 2, id = 458053,
+achievement("What's Yours is Mine", "Score 70 points or more while playing game 11", points = 2, id = 458053,
     trigger = ClearedStandardMode(11, 70)
 )
 
-achievement("[DRAFT] Mode 12 Clear", "Beat the CPU while playing game 12", points = 3, type = "progression", id = 458054,
+achievement("Computer Reboot", "Beat the CPU while playing game 12", points = 3, type = "progression", id = 458054,
     trigger = ClearedCPUMode(12)
 )
 
-achievement("[DRAFT] Mode 13 Clear", "Score 50 points or more while playing game 13", points = 2, id = 458055,
+achievement("Big Shot", "Score 50 points or more while playing game 13", points = 2, id = 458055,
     trigger = ClearedStandardMode(13, 50)
 )
 
-achievement("[DRAFT] Mode 14 Clear", "Score 70 points or more while playing game 14", points = 2, id = 458056,
+achievement("Top Gun", "Score 70 points or more while playing game 14", points = 2, id = 458056,
     trigger = ClearedStandardMode(14, 70)
 )
 
-achievement("[DRAFT] Mode 15 Clear", "Beat the CPU while playing game 15", points = 3, type = "progression", id = 458057,
+achievement("Computer Bug", "Beat the CPU while playing game 15", points = 3, type = "progression", id = 458057,
     trigger = ClearedCPUMode(15)
 )
 
-achievement("[DRAFT] Mode 16 Clear", "Score 30 points or more while playing game 16", points = 2, id = 458058,
+achievement("Flight Risk", "Score 30 points or more while playing game 16", points = 2, id = 458058,
     trigger = ClearedStandardMode(16, 30)
 )
 
-achievement("[DRAFT] Mode 17 Clear", "Score 50 points or more while playing game 17", points = 2, id = 458059,
+achievement("With Flying Colors", "Score 50 points or more while playing game 17", points = 2, id = 458059,
     trigger = ClearedStandardMode(17, 50)
 )
 
-achievement("[DRAFT] Mode 18 Clear", "Beat the CPU while playing game 18", points = 3, type = "progression", id = 458060,
+achievement("Computer Hacker", "Beat the CPU while playing game 18", points = 3, type = "progression", id = 458060,
     trigger = ClearedCPUMode(18)
 )
 
-achievement("[DRAFT] Mode 19 Clear", "Score 50 points or more while playing game 19", points = 2, id = 458061,
+achievement("Bombs Away", "Score 50 points or more while playing game 19", points = 2, id = 458061,
     trigger = ClearedStandardMode(19, 50)
 )
 
-achievement("[DRAFT] Mode 20 Clear", "Score 70 points or more while playing game 20", points = 2, id = 458062,
+achievement("Full Blast", "Score 70 points or more while playing game 20", points = 2, id = 458062,
     trigger = ClearedStandardMode(20, 70)
 )
 
-achievement("[DRAFT] Mode 21 Clear", "Beat the CPU while playing game 21", points = 3, type = "progression", id = 458063,
+achievement("Computer Overload", "Beat the CPU while playing game 21", points = 3, type = "progression", id = 458063,
     trigger = ClearedCPUMode(21)
 )
 
@@ -339,31 +339,31 @@ achievement("[DRAFT] Mode 27 Clear", "Beat the CPU while playing game 27", point
 // Achievement Definitions - Challenges
 // ======================================================================= //  
 
-achievement("[DRAFT] Mode 4 Challenge", "Score 30 points or more without hitting a blimp while playing game 4", points = 5, id = 458066,
+achievement("Near Miss", "Score 30 points or more without hitting a blimp while playing game 4", points = 5, id = 458066,
     trigger = ClearedBlimpChallenge(4, 30)
 )
 
-achievement("[DRAFT] Mode 5 Challenge", "Score 40 points or more without hitting a blimp while playing game 5", points = 5, id = 458067,
+achievement("Evasion Tactics", "Score 40 points or more without hitting a blimp while playing game 5", points = 5, id = 458067,
     trigger = ClearedBlimpChallenge(5, 40)
 )
 
-achievement("[DRAFT] Mode 10 Challenge", "Score 30 points or more without hitting a mine while playing game 10", points = 5, id = 458068,
+achievement("Mine Sweeper", "Score 30 points or more without hitting a mine while playing game 10", points = 5, id = 458068,
     trigger = ClearedMineChallenge(10, 30)
 )
 
-achievement("[DRAFT] Mode 11 Challenge", "Score 40 points or more without hitting a mine while playing game 11", points = 5, id = 458069,
+achievement("Demolitions Expert", "Score 40 points or more without hitting a mine while playing game 11", points = 5, id = 458069,
     trigger = ClearedMineChallenge(11, 40)
 )
 
-achievement("[DRAFT] 99 Point Challenge", "Score 99 points while playing any game", points = 10, id = 458070,
+achievement("Skilled Marksman", "Score 99 points while playing any game", points = 10, id = 458070,
     trigger = Got99Points()
 )
 
-achievement("[DRAFT] CPU Challenge 1", "Beat the CPU with a 10 or more point lead on any versus CPU game", points = 5, id = 458071,
+achievement("Bypassed", "Beat the CPU with a 10 or more point lead on any versus CPU game", points = 5, id = 458071,
     trigger = ClearedCPUChallenge(10)
 )
 
-achievement("[DRAFT] CPU Challenge 2", "Beat the CPU with a 20 or more point lead on any versus CPU game", points = 10, id = 458072,
+achievement("Circumvented", "Beat the CPU with a 20 or more point lead on any versus CPU game", points = 10, id = 458072,
     trigger = ClearedCPUChallenge(20)
 )
 

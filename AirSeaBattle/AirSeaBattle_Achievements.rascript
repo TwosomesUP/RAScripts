@@ -143,16 +143,16 @@ function GameReset() => Game["HardwareState"] == 0x00
 
 function BlimpShot(mode){
     return disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset()) &&
         disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset())
+        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset())
 }
 
 function MineShot(mode){
     return disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset()) &&
         disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa0, !IsInGame() || GameReset())
+        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset())
 }
 
 function GameEnded(){

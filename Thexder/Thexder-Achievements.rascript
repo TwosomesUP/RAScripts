@@ -70,7 +70,7 @@ function DestroyedSpecialEnemy(level, count){
 }
 
 function NoShieldClear(){
-    return Game["Level"] > 0 &&
+    return prev(Game["Level"]) > 0 &&
         Game["Level"] == prev(Game["Level"]) + 1 &&
         all_of(range(1, 15), level => 
             disable_when(IsInGame() && Game["Level"] == level && prev(Player["ShieldActive"]) == 0 && Player["ShieldActive"] > 0, prev(Game["Level"]) != level)
@@ -79,7 +79,7 @@ function NoShieldClear(){
 }
 
 function MinEnergyClear(){
-    return Game["Level"] > 7 &&
+    return prev(Game["Level"]) > 7 &&
         Game["Level"] == prev(Game["Level"]) + 1 &&
         all_of(range(8, 15), level => 
             disable_when(IsInGame() && Game["Level"] == level && prev(Player["Energy"]) >= 100 && Player["Energy"] < 100, prev(Game["Level"]) != level)
@@ -209,16 +209,16 @@ achievement("[DRAFT] High Value 9", "Find and destroy 3 high valued enemies on L
     trigger = DestroyedSpecialEnemy(8, 3)
 )
 
-achievement("[DRAFT] High Value 11", "Find and destroy 3 high valued enemies on Levels 11", points = 5, id = 459656,
-    trigger = DestroyedSpecialEnemy(10, 3)
+achievement("[DRAFT] High Value 11", "Find and destroy 4 high valued enemies on Levels 11", points = 5, id = 459656,
+    trigger = DestroyedSpecialEnemy(10, 4)
 )
 
 achievement("[DRAFT] High Value 13", "Find and destroy 10 high valued enemies on Levels 13", points = 5, id = 459874,
     trigger = DestroyedSpecialEnemy(12, 10)
 )
 
-achievement("[DRAFT] High Value 14", "Find and destroy 4 high valued enemies on Level 14", points = 5, id = 459875,
-    trigger = DestroyedSpecialEnemy(13, 4)
+achievement("[DRAFT] High Value 14", "Find and destroy 6 high valued enemies on Level 14", points = 5, id = 459875,
+    trigger = DestroyedSpecialEnemy(13, 6)
 )
 
 achievement("[DRAFT] High Value 15", "Find and destroy 7 high valued enemies on Level 15", points = 5, id = 459876,

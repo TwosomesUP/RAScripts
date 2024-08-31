@@ -11,7 +11,7 @@ Game = {
     "GameOver": byte(0x9c50),
     "Loaded": byte(0x9c51),
     "State": byte(0xf7f0),
-    "Level": byte(0xfb03)
+    "Level": low4(0xfb04) + low4(0xfb05) * 10
 }
 
 Player = {
@@ -61,7 +61,7 @@ function ReachEnergyLevel(energy){
 function DestroyedSpecialEnemy(level, count){
     score = 2000
     
-    if (level == 0)
+    if (level == 1)
         score = 1500
 
     return measured(repeated(count, IsInGame() && Game["Level"] == level && Player["Score"] == prev(Player["Score"]) + score)) &&
@@ -70,18 +70,18 @@ function DestroyedSpecialEnemy(level, count){
 }
 
 function NoShieldClear(){
-    return prev(Game["Level"]) > 0 &&
+    return prev(Game["Level"]) > 1 &&
         Game["Level"] == prev(Game["Level"]) + 1 &&
-        all_of(range(1, 15), level => 
+        all_of(range(2, 16), level => 
             disable_when(IsInGame() && Game["Level"] == level && prev(Player["ShieldActive"]) == 0 && Player["ShieldActive"] > 0, prev(Game["Level"]) != level)
         ) &&
         (never(!GameIsLoaded()) || never(!GameStarted()))
 }
 
 function MinEnergyClear(){
-    return prev(Game["Level"]) > 7 &&
+    return prev(Game["Level"]) > 8 &&
         Game["Level"] == prev(Game["Level"]) + 1 &&
-        all_of(range(8, 15), level => 
+        all_of(range(9, 16), level => 
             disable_when(IsInGame() && Game["Level"] == level && prev(Player["Energy"]) >= 100 && Player["Energy"] < 100, prev(Game["Level"]) != level)
         ) &&
         (never(!GameIsLoaded()) || never(!GameStarted()))
@@ -98,67 +98,67 @@ function ShieldKills(){
 //================================================================
 
 achievement("[DRAFT] Clear Level 1", "Clear Level 1", points = 5, type = "progression", id = 459544,
-    trigger = ClearedLevel(0)
-)
-
-achievement("[DRAFT] Clear Level 2", "Clear Level 2", points = 10, type = "progression", id = 459545,
     trigger = ClearedLevel(1)
 )
 
-achievement("[DRAFT] Clear Level 3", "Clear Level 3", points = 10, type = "progression", id = 459546,
+achievement("[DRAFT] Clear Level 2", "Clear Level 2", points = 10, type = "progression", id = 459545,
     trigger = ClearedLevel(2)
 )
 
-achievement("[DRAFT] Clear Level 4", "Clear Level 4", points = 10, type = "progression", id = 459547,
+achievement("[DRAFT] Clear Level 3", "Clear Level 3", points = 10, type = "progression", id = 459546,
     trigger = ClearedLevel(3)
 )
 
-achievement("[DRAFT] Clear Level 5", "Clear Level 5", points = 10, type = "progression", id = 459548,
+achievement("[DRAFT] Clear Level 4", "Clear Level 4", points = 10, type = "progression", id = 459547,
     trigger = ClearedLevel(4)
 )
 
-achievement("[DRAFT] Clear Level 6", "Clear Level 6", points = 10, type = "progression", id = 459549,
+achievement("[DRAFT] Clear Level 5", "Clear Level 5", points = 10, type = "progression", id = 459548,
     trigger = ClearedLevel(5)
 )
 
-achievement("[DRAFT] Clear Level 7", "Clear Level 7", points = 10, type = "progression", id = 459550,
+achievement("[DRAFT] Clear Level 6", "Clear Level 6", points = 10, type = "progression", id = 459549,
     trigger = ClearedLevel(6)
 )
 
-achievement("[DRAFT] Clear Level 8", "Clear Level 8", points = 10, type = "progression", id = 459551,
+achievement("[DRAFT] Clear Level 7", "Clear Level 7", points = 10, type = "progression", id = 459550,
     trigger = ClearedLevel(7)
 )
 
-achievement("[DRAFT] Clear Level 9", "Clear Level 9", points = 10, type = "progression", id = 459552,
+achievement("[DRAFT] Clear Level 8", "Clear Level 8", points = 10, type = "progression", id = 459551,
     trigger = ClearedLevel(8)
 )
 
-achievement("[DRAFT] Clear Level 10", "Clear Level 10", points = 10, type = "progression", id = 459553,
+achievement("[DRAFT] Clear Level 9", "Clear Level 9", points = 10, type = "progression", id = 459552,
     trigger = ClearedLevel(9)
 )
 
-achievement("[DRAFT] Clear Level 11", "Clear Level 11", points = 10, type = "progression", id = 459554,
+achievement("[DRAFT] Clear Level 10", "Clear Level 10", points = 10, type = "progression", id = 459553,
     trigger = ClearedLevel(10)
 )
 
-achievement("[DRAFT] Clear Level 12", "Clear Level 12", points = 10, type = "progression", id = 459555,
+achievement("[DRAFT] Clear Level 11", "Clear Level 11", points = 10, type = "progression", id = 459554,
     trigger = ClearedLevel(11)
 )
 
-achievement("[DRAFT] Clear Level 13", "Clear Level 13", points = 10, type = "progression", id = 459556,
+achievement("[DRAFT] Clear Level 12", "Clear Level 12", points = 10, type = "progression", id = 459555,
     trigger = ClearedLevel(12)
 )
 
-achievement("[DRAFT] Clear Level 14", "Clear Level 14", points = 10, type = "progression", id = 459557,
+achievement("[DRAFT] Clear Level 13", "Clear Level 13", points = 10, type = "progression", id = 459556,
     trigger = ClearedLevel(13)
 )
 
-achievement("[DRAFT] Clear Level 15", "Clear Level 15", points = 10, type = "progression", id = 459558,
+achievement("[DRAFT] Clear Level 14", "Clear Level 14", points = 10, type = "progression", id = 459557,
     trigger = ClearedLevel(14)
 )
 
-achievement("[DRAFT] Clear Level 16", "Clear Level 16", points = 25, type = "win_condition", id = 459559,
+achievement("[DRAFT] Clear Level 15", "Clear Level 15", points = 10, type = "progression", id = 459558,
     trigger = ClearedLevel(15)
+)
+
+achievement("[DRAFT] Clear Level 16", "Clear Level 16", points = 25, type = "win_condition", id = 459559,
+    trigger = ClearedLevel(16)
 )
 
 //================================================================
@@ -174,55 +174,55 @@ achievement("[DRAFT] MAX Energy 500", "Increase Max Energy to 500", points = 25,
 )
 
 achievement("[DRAFT] High Value 1", "Find and destroy 1 high valued enemy on Level 1", points = 5, id = 459562,
-    trigger = DestroyedSpecialEnemy(0, 1)
+    trigger = DestroyedSpecialEnemy(1, 1)
 )
 
 achievement("[DRAFT] High Value 2", "Find and destroy 2 high valued enemies on Level 2", points = 5, id = 459563,
-    trigger = DestroyedSpecialEnemy(1, 2)
+    trigger = DestroyedSpecialEnemy(2, 2)
 )
 
 achievement("[DRAFT] High Value 3", "Find and destroy 1 high valued enemy on Levels 3", points = 5, id = 459564,
-    trigger = DestroyedSpecialEnemy(2, 1)
-)
-
-achievement("[DRAFT] High Value 4", "Find and destroy 1 high valued enemy on Levels 4", points = 5, id = 459565,
     trigger = DestroyedSpecialEnemy(3, 1)
 )
 
+achievement("[DRAFT] High Value 4", "Find and destroy 1 high valued enemy on Levels 4", points = 5, id = 459565,
+    trigger = DestroyedSpecialEnemy(4, 1)
+)
+
 achievement("[DRAFT] High Value 5", "Find and destroy 12 high valued enemies on Levels 5", points = 5, id = 459566,
-    trigger = DestroyedSpecialEnemy(4, 12)
+    trigger = DestroyedSpecialEnemy(5, 12)
 )
 
 achievement("[DRAFT] High Value 6", "Find and destroy 6 high valued enemies on Level 6", points = 5, id = 459567,
-    trigger = DestroyedSpecialEnemy(5, 6)
+    trigger = DestroyedSpecialEnemy(6, 6)
 )
 
 achievement("[DRAFT] High Value 7", "Find and destroy 5 high valued enemies on Level 7", points = 5, id = 459568,
-    trigger = DestroyedSpecialEnemy(6, 5)
+    trigger = DestroyedSpecialEnemy(7, 5)
 )
 
 achievement("[DRAFT] High Value 8", "Find and destroy 4 high valued enemies on Level 8", points = 5, id = 459569,
-    trigger = DestroyedSpecialEnemy(7, 4)
+    trigger = DestroyedSpecialEnemy(8, 4)
 )
 
 achievement("[DRAFT] High Value 9", "Find and destroy 3 high valued enemies on Levels 9", points = 5, id = 459570,
-    trigger = DestroyedSpecialEnemy(8, 3)
+    trigger = DestroyedSpecialEnemy(9, 3)
 )
 
 achievement("[DRAFT] High Value 11", "Find and destroy 4 high valued enemies on Levels 11", points = 5, id = 459656,
-    trigger = DestroyedSpecialEnemy(10, 4)
+    trigger = DestroyedSpecialEnemy(11, 4)
 )
 
 achievement("[DRAFT] High Value 13", "Find and destroy 10 high valued enemies on Levels 13", points = 5, id = 459874,
-    trigger = DestroyedSpecialEnemy(12, 10)
+    trigger = DestroyedSpecialEnemy(13, 10)
 )
 
 achievement("[DRAFT] High Value 14", "Find and destroy 6 high valued enemies on Level 14", points = 5, id = 459875,
-    trigger = DestroyedSpecialEnemy(13, 6)
+    trigger = DestroyedSpecialEnemy(14, 6)
 )
 
 achievement("[DRAFT] High Value 15", "Find and destroy 7 high valued enemies on Level 15", points = 5, id = 459876,
-    trigger = DestroyedSpecialEnemy(14, 7)
+    trigger = DestroyedSpecialEnemy(15, 7)
 )
 
 achievement("[DRAFT] No Shield", "Clear any level after Level 1 without using the Shield", points = 25, id = 459877,

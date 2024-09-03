@@ -5,7 +5,7 @@
 // Accessors
 // ======================================================================= //
 
-InGame = byte(0x566)
+InGame = byte(0x6ff4)
 PlayerCount = byte(0xce3) 
 MultiplayerActive = byte(0x41a)
 Stage = byte(0x402)
@@ -142,25 +142,25 @@ function IsPlaying(player){
     if(player == "P2")
         otherPlayer = "P1"
 
-    return InGame > 0 && 
+    return InGame == 0x0b && 
         Player[player]["Active"] > 0 && 
         Player[otherPlayer]["Active"] == 0 &&
         MultiplayerActive == 0
 } 
 
 function IsGameOver(){
-    return InGame > 0 && 
+    return InGame == 0x0b && 
     Player["P1"]["Active"] == 0 && 
     Player["P2"]["Active"] == 0 &&
     MultiplayerActive == 0
 } 
 
-function IsOnTitle() => InGame == 0
-function IsMultiplayer() => InGame > 0 && (Player["P2"]["Active"] > 0 || Player["P2"]["Active"] > 0) && MultiplayerActive == 1
-function IsMultiplayerGameOver() => InGame > 0 && Player["P2"]["Active"] == 0 && Player["P2"]["Active"] == 0 && MultiplayerActive == 1
+function IsOnTitle() => InGame == 0xfa
+function IsMultiplayer() => InGame == 0x0b && (Player["P2"]["Active"] > 0 || Player["P2"]["Active"] > 0) && MultiplayerActive == 1
+function IsMultiplayerGameOver() => InGame == 0x0b && Player["P2"]["Active"] == 0 && Player["P2"]["Active"] == 0 && MultiplayerActive == 1
 
 function IsValidSession(){
-    return InGame > 0 &&
+    return InGame == 0x0b &&
         MultiplayerActive == 0 &&
         all_of(ValidDIPSettings, setting => DIPSettings[setting] == ValidDIPSettings[setting])
 }

@@ -264,6 +264,7 @@ function IsSecondPlayer() => ActivePlayers["P2"] == 1
 function IsMultiplayer() => IsSinglePlayer() && IsSecondPlayer()
 function IsFightingBoss() => Screen["ScrollState"] == ScreenScrollTypes["Boss"]
 function IsOnResultScreen() => (Screen["State"] == ScreenStates["StageResultsIn"] || Screen["State"] == ScreenStates["StageResults"])
+function StageClearScreen() => Screen["State"] == ScreenStates["StageResults"]
 function IsOnNameEntry() => (Screen["State"] == ScreenStates["ScoreEntry"])
 function IsOnStageIntro() => Screen["State"] == ScreenStates["StageIntro"]
 function IsOnRankings() => Screen["State"] == ScreenStates["Rankings"]
@@ -386,7 +387,11 @@ function GotMaxMissiles(){
 }
 
 function GotScore(score){
-    return IsValidSession(true) && prev(Player["Score"]) < score && Player["Score"] >= score
+    return IsSinglePlayer() && 
+        IsValidSettings() &&
+        (IsInGame() || StageClearScreen()) && 
+        disable_when(IsSecondPlayer(), IsOnTitle()) &&
+        prev(Player["Score"]) < score && Player["Score"] >= score
 }
 
 function DefeatedBossNoDamage(stage){

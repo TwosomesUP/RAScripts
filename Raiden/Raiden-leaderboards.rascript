@@ -5,7 +5,7 @@
 // Accessors
 // ======================================================================= //
 
-InGame = byte(0x566)
+InGame = byte(0x6ff4)
 MultiplayerActive = byte(0x41a)
 GameOverState = byte(0xac2)
 
@@ -69,7 +69,7 @@ ValidDIPSettings = {
 // ======================================================================= //
 
 function IsValidSession(){
-    return InGame > 0 &&
+    return InGame == 0x0b &&
         MultiplayerActive == 0 &&
         all_of(ValidDIPSettings, setting => DIPSettings[setting] == ValidDIPSettings[setting])
 }
@@ -84,7 +84,7 @@ function Start(){
 
 function InvalidStart(){
     return any_of(ValidDIPSettings, setting => DIPSettings[setting] != ValidDIPSettings[setting]) &&
-        prev(InGame) == 0 && InGame > 0
+        prev(InGame) == 0xfa && InGame == 0x0b
 }
 
 function Value(){

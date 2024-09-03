@@ -5,7 +5,7 @@
 // Accessors
 // ======================================================================= //
 
-InGame = byte(0x566)
+InGame = byte(0x6ff4)
 PlayerCount = byte(0xce3) 
 MultiplayerActive = byte(0x41a)
 Stage = byte(0x402)
@@ -151,8 +151,8 @@ Stages = {
 // Helper Functions
 // ======================================================================= //
 
-function IsInGame() => InGame > 0
-function IsOnTitle() => InGame == 0
+function IsInGame() => InGame == 0x0b
+function IsOnTitle() => InGame == 0xfa
 
 function IsPlaying(player){
     return IsInGame() && 

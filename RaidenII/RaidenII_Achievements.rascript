@@ -13,6 +13,7 @@ ScoreSubmitState = byte(0x00b158)
 
 Credits = byte(0x9f4c)
 NumberOfPlayers = byte(0x9f50)
+ActivePlayers = byte(0x9f52)
 
 Stage = byte(0x9ff8)
 StageState = byte(0x9d64)
@@ -209,7 +210,8 @@ function IsSinglePlayer() => NumberOfPlayers == 1
 function IsMultiplayer() => NumberOfPlayers == 2
 function IsValidSession() {
     return all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting]) &&
-    disable_when(NumberOfPlayers > 1, !IsInGame())
+    disable_when(NumberOfPlayers > 1, !IsInGame()) &&
+    disable_when(ActivePlayers > 1, !IsInGame())
 }
 
 function PlayerUsedContinue() {
@@ -366,35 +368,35 @@ function DefeatedBossWithWeapon(stage, weapon){
 // Progression Achievement Definitions
 //================================================================
 
-achievement(title = "Arcadian Overthrow", description = "Clear Stage 1", points = 1, type = "progression", id = 443796,
+achievement(title = "Arcadian Overthrow", description = "Clear Stage 1 [P1 Only]", points = 1, type = "progression", id = 443796,
     trigger = ClearedStage("1", false)
 )
 
-achievement(title = "Urban Reign", description = "Clear Stage 2", points = 2, type = "progression", id = 443797,
+achievement(title = "Urban Reign", description = "Clear Stage 2 [P1 Only]", points = 2, type = "progression", id = 443797,
     trigger = ClearedStage("2", false)
 )
 
-achievement(title = "Tidal Crush", description = "Clear Stage 3", points = 2, type = "progression", id = 443798,
+achievement(title = "Tidal Crush", description = "Clear Stage 3 [P1 Only]", points = 2, type = "progression", id = 443798,
     trigger = ClearedStage("3", false)
 )
 
-achievement(title = "Wreckage Raze", description = "Clear Stage 4", points = 3, type = "progression", id = 443799,
+achievement(title = "Wreckage Raze", description = "Clear Stage 4 [P1 Only]", points = 3, type = "progression", id = 443799,
     trigger = ClearedStage("4", false)
 )
 
-achievement(title = "Garrison Purge", description = "Clear Stage 5", points = 3, type = "progression", id = 443800,
+achievement(title = "Garrison Purge", description = "Clear Stage 5 [P1 Only]", points = 3, type = "progression", id = 443800,
     trigger = ClearedStage("5", false)
 )
 
-achievement(title = "Tussocks Takedown", description = "Clear Stage 6", points = 4, type = "progression", id = 443801,
+achievement(title = "Tussocks Takedown", description = "Clear Stage 6 [P1 Only]", points = 4, type = "progression", id = 443801,
     trigger = ClearedStage("6", false)
 )
 
-achievement(title = "Flotilla Override", description = "Clear Stage 7", points = 4, type = "progression", id = 443802,
+achievement(title = "Flotilla Override", description = "Clear Stage 7 [P1 Only]", points = 4, type = "progression", id = 443802,
     trigger = ClearedStage("7", false)
 )
 
-achievement(title = "Mothership Massacre", description = "Clear Stage 8", points = 5, type = "win_condition", id = 443803,
+achievement(title = "Mothership Massacre", description = "Clear Stage 8 [P1 Only]", points = 5, type = "win_condition", id = 443803,
     trigger = ClearedStage("8", false)
 )
 
@@ -402,87 +404,87 @@ achievement(title = "Mothership Massacre", description = "Clear Stage 8", points
 // Play Challenge Achievement Definitions
 //================================================================
 
-achievement(title = "Perpetual Countryside", description = "Clear Stage 1 without using a continue", points = 10, id = 443804,
+achievement(title = "Perpetual Countryside", description = "Clear Stage 1 without using a continue [P1 Only]", points = 10, id = 443804,
     trigger = ClearedStageNoContinue("1")
 )
 
-achievement(title = "Abiding Borough", description = "Clear Stage 2 without using a continue", points = 10, id = 443805,
+achievement(title = "Abiding Borough", description = "Clear Stage 2 without using a continue [P1 Only]", points = 10, id = 443805,
     trigger = ClearedStageNoContinue("2")
 )
 
-achievement(title = "Everlasting Surf", description = "Clear Stage 3 without using a continue", points = 10, id = 443806,
+achievement(title = "Everlasting Surf", description = "Clear Stage 3 without using a continue [P1 Only]", points = 10, id = 443806,
     trigger = ClearedStageNoContinue("3")
 )
 
-achievement(title = "Steadfast Rubble", description = "Clear Stage 4 without using a continue", points = 25, id = 443807,
+achievement(title = "Steadfast Rubble", description = "Clear Stage 4 without using a continue [P1 Only]", points = 25, id = 443807,
     trigger = ClearedStageNoContinue("4")
 )
 
-achievement(title = "Timeless Citadel", description = "Clear Stage 5 without using a continue", points = 25, id = 443808,
+achievement(title = "Timeless Citadel", description = "Clear Stage 5 without using a continue [P1 Only]", points = 25, id = 443808,
     trigger = ClearedStageNoContinue("5")
 )
 
-achievement(title = "Enduring Archipelago", description = "Clear Stage 6 without using a continue", points = 25, id = 443809,
+achievement(title = "Enduring Archipelago", description = "Clear Stage 6 without using a continue [P1 Only]", points = 25, id = 443809,
     trigger = ClearedStageNoContinue("6")
 )
 
-achievement(title = "Eternal Squadron", description = "Clear Stage 7 without using a continue", points = 25, id = 443810,
+achievement(title = "Eternal Squadron", description = "Clear Stage 7 without using a continue [P1 Only]", points = 25, id = 443810,
     trigger = ClearedStageNoContinue("7")
 )
 
-achievement(title = "Unbroken Overseer", description = "Clear Stage 8 without using a continue", points = 50, id = 443811,
+achievement(title = "Unbroken Overseer", description = "Clear Stage 8 without using a continue [P1 Only]", points = 50, id = 443811,
     trigger = ClearedStageNoContinue("8")
 )
 
-achievement(title = "Optimal Offense", description = "Upgrade the Vulcan, Laser, or Plasma weapon to max firepower", points = 3, id = 443812,
+achievement(title = "Optimal Offense", description = "Upgrade the Vulcan, Laser, or Plasma weapon to max firepower [P1 Only]", points = 3, id = 443812,
     trigger = MaxedPrimary()
 )
 
-achievement(title = "Ordnance Overdrive", description = "Upgrade the Missiles or Homing Missiles to max firepower", points = 3, id = 443813,
+achievement(title = "Ordnance Overdrive", description = "Upgrade the Missiles or Homing Missiles to max firepower [P1 Only]", points = 3, id = 443813,
     trigger = MaxedMissiles()
 )
 
-achievement(title = "High Seas Hardiness", description = "Collect a 1UP on Stage 3", points = 5, id = 443814,
+achievement(title = "High Seas Hardiness", description = "Collect a 1UP on Stage 3 [P1 Only]", points = 5, id = 443814,
     trigger = Got1UP("3")
 )
 
-achievement(title = "Isle Viability", description = "Collect a 1UP on Stage 6", points = 5, id = 443815,
+achievement(title = "Isle Viability", description = "Collect a 1UP on Stage 6 [P1 Only]", points = 5, id = 443815,
     trigger = Got1UP("6")
 )
 
-achievement(title = "Outland Aid", description = "Collect a Fairy on Stage 1", points = 5, id = 443816,
+achievement(title = "Outland Aid", description = "Collect a Fairy on Stage 1 [P1 Only]", points = 5, id = 443816,
     trigger = GotFairy("1")
 )
 
-achievement(title = "Relic Reinforcements", description = "Collect a Fairy on Stage 4", points = 5, id = 443817,
+achievement(title = "Relic Reinforcements", description = "Collect a Fairy on Stage 4 [P1 Only]", points = 5, id = 443817,
     trigger = GotFairy("4")
 )
 
-achievement(title = "Top Tier Triumph", description = "Clear any stage with a Platinum Medal", points = 5, id = 443818,
+achievement(title = "Top Tier Triumph", description = "Clear any stage with a Platinum Medal [P1 Only]", points = 5, id = 443818,
     trigger = ClearedStageWithPlatinum()
 )
 
-achievement(title = "Climb the Ladder", description = "Collect 25 medals in the first loop using 3 continues or less", points = 5, id = 443819,
+achievement(title = "Climb the Ladder", description = "Collect 25 medals in the first loop using 3 continues or less [P1 Only]", points = 5, id = 443819,
     trigger = GotMedals(25)
 )
 
-achievement(title = "Crest the Summit", description = "Collect 50 medals in the first loop using 3 continues or less", points = 10, id = 443820,
+achievement(title = "Crest the Summit", description = "Collect 50 medals in the first loop using 3 continues or less [P1 Only]", points = 10, id = 443820,
     trigger = GotMedals(50)
 )
 
-achievement(title = "Breach Outerspace", description = "Collect 100 medals in the first loop using 3 continues or less", points = 25, id = 443821,
+achievement(title = "Breach Outerspace", description = "Collect 100 medals in the first loop using 3 continues or less [P1 Only]", points = 25, id = 443821,
     trigger = GotMedals(100)
 )
 
-achievement(title = "Spare Shells", description = "Clear any stage with 5 or more bombs", points = 10, id = 443822,
+achievement(title = "Spare Shells", description = "Clear any stage with 5 or more bombs [P1 Only]", points = 10, id = 443822,
     trigger = ClearedStageWith5Bombs()
 )
 
-achievement(title = "Addition Fruition", description = "Clear any stage with an end of level bonus of 125,000 points or more", points = 25, id = 443823,
+achievement(title = "Addition Fruition", description = "Clear any stage with an end of level bonus of 125,000 points or more [P1 Only]", points = 25, id = 443823,
     trigger = ClearedStageWithBonus()
 )
 
-achievement(title = "Stockpiled", description = "Clear the game on the first loop with a stock of 1 or more Fairies", points = 100, id = 443824,
+achievement(title = "Stockpiled", description = "Clear the game on the first loop with a stock of 1 or more Fairies [P1 Only]", points = 100, id = 443824,
     trigger = ClearedGameWithFairy()
 )
 
@@ -490,19 +492,19 @@ achievement(title = "Stockpiled", description = "Clear the game on the first loo
 // Point Challenge Achievement Definitions
 //================================================================
 
-achievement(title = "Wild!", description = "Score 100,000 points or more before the end of the first loop", points = 5, id = 443825,
+achievement(title = "Wild!", description = "Score 100,000 points or more before the end of the first loop [P1 Only]", points = 5, id = 443825,
     trigger = GotScore(100000)
 )
 
-achievement(title = "Stormy!", description = "Score 250,000 points or more before the end of the first loop", points = 10, id = 443826,
+achievement(title = "Stormy!", description = "Score 250,000 points or more before the end of the first loop [P1 Only]", points = 10, id = 443826,
     trigger = GotScore(250000)
 )
 
-achievement(title = "Frenzied!", description = "Score 500,000 points or more before the end of the first loop", points = 25, id = 443827,
+achievement(title = "Frenzied!", description = "Score 500,000 points or more before the end of the first loop [P1 Only]", points = 25, id = 443827,
     trigger = GotScore(500000)
 )
 
-achievement(title = "Tempestuous!", description = "Score 1,000,000 points or more before the end of the first loop", points = 50, id = 443828,
+achievement(title = "Tempestuous!", description = "Score 1,000,000 points or more before the end of the first loop [P1 Only]", points = 50, id = 443828,
     trigger = GotScore(1000000)
 )
 
@@ -510,34 +512,34 @@ achievement(title = "Tempestuous!", description = "Score 1,000,000 points or mor
 // Boss Challenge Achievement Definitions
 //================================================================
 
-achievement(title = "Run the Extra Mile", description = "Defeat the Walkers on Stage 1 using the Plasma weapon without losing a life", points = 10, id = 443829,
+achievement(title = "Run the Extra Mile", description = "Defeat the Walkers on Stage 1 using the Plasma weapon without losing a life [P1 Only]", points = 10, id = 443829,
     trigger = DefeatedBossWithWeapon("1", "Plasma")
 )
 
-achievement(title = "With Flying Colors", description = "Defeat the Albatross on Stage 2 using the Vulcan weapon without losing a life", points = 10, id = 443830,
+achievement(title = "With Flying Colors", description = "Defeat the Albatross on Stage 2 using the Vulcan weapon without losing a life [P1 Only]", points = 10, id = 443830,
     trigger = DefeatedBossWithWeapon("2", "Vulcan")
 )
 
-achievement(title = "Make the Cut", description = "Defeat the Battle Axe on Stage 3 using the Laser weapon without losing a life", points = 10, id = 443831,
+achievement(title = "Make the Cut", description = "Defeat the Battle Axe on Stage 3 using the Laser weapon without losing a life [P1 Only]", points = 10, id = 443831,
     trigger = DefeatedBossWithWeapon("3", "Laser")
 )
 
-achievement(title = "Strike Gold", description = "Defeat the Thunder Fortress on Stage 4 using the Plasma weapon without losing a life", points = 25, id = 443832,
+achievement(title = "Strike Gold", description = "Defeat the Thunder Fortress on Stage 4 using the Plasma weapon without losing a life [P1 Only]", points = 25, id = 443832,
     trigger = DefeatedBossWithWeapon("4", "Plasma")
 )
 
-achievement(title = "Feather in Your Cap", description = "Defeat the Black Bird on Stage 5 using the Vulcan weapon without losing a life", points = 25, id = 443833,
+achievement(title = "Feather in Your Cap", description = "Defeat the Black Bird on Stage 5 using the Vulcan weapon without losing a life [P1 Only]", points = 25, id = 443833,
     trigger = DefeatedBossWithWeapon("5", "Vulcan")
 )
 
-achievement(title = "Raise the Bar", description = "Defeat the Graphite on Stage 6 using the Laser weapon without losing a life", points = 25, id = 443834,
+achievement(title = "Raise the Bar", description = "Defeat the Graphite on Stage 6 using the Laser weapon without losing a life [P1 Only]", points = 25, id = 443834,
     trigger = DefeatedBossWithWeapon("6", "Laser")
 )
 
-achievement(title = "On Fire", description = "Defeat the Huge Satellite on Stage 7 using the Plasma weapon without losing a life", points = 25, id = 443835,
+achievement(title = "On Fire", description = "Defeat the Huge Satellite on Stage 7 using the Plasma weapon without losing a life [P1 Only]", points = 25, id = 443835,
     trigger = DefeatedBossWithWeapon("7", "Plasma")
 )
 
-achievement(title = "Top of the World", description = "Defeat the Mother Haven on Stage 8 using the Laser weapon without losing a life", points = 50, id = 443836,
+achievement(title = "Top of the World", description = "Defeat the Mother Haven on Stage 8 using the Laser weapon without losing a life [P1 Only]", points = 50, id = 443836,
     trigger = DefeatedBossWithWeapon("8", "Laser")
 )

@@ -12,6 +12,7 @@ TitleState = byte(0x9f54)
 
 Credits = byte(0x9f4c)
 NumberOfPlayers = byte(0x9f50)
+ActivePlayers = byte(0x9f52)
 
 Stage = byte(0x9ff8)
 StageState = byte(0x9d64)
@@ -169,7 +170,11 @@ function IsInGame() => GameState == 1 && TitleState == 0
 function IsOnTitle() => TitleState > 0
 function IsSinglePlayer() => NumberOfPlayers == 1
 function IsMultiplayer() => NumberOfPlayers == 2
+function IsPlayingP2() => ActivePlayers > 1
 function IsValidSession() => IsInGame() && IsSinglePlayer() && all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting])
+
+function UsingValidSettings() => all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting])
+function NotUsingValidSettings() => any_of(ValidSettings, setting => Settings[setting] != ValidSettings[setting])
 
 function PlayerUsedContinue() {
     return IsInGame() && prev(NumberOfPlayers) == 0 && NumberOfPlayers > 0
@@ -199,7 +204,7 @@ function GetActiveMissile(){
 // Rich Presence Definitions
 //================================================================
 
-rich_presence_conditional_display(IsInGame(), "Fighting the extraterrestrial menace on Stage {0}{1} [{2}] | {4}{5} | Bombs: 🔴 {6} 🟡 {7} | Medals: 🥇 {8} 🥈 {9} | 🧚 {10} | 🛩️ {3} • 🔄 {11} | {12}",
+rich_presence_conditional_display(UsingValidSettings() && IsInGame() && !IsMultiplayer() && !IsPlayingP2(), "Fighting the extraterrestrial menace on Stage {0}{1} [{2}] | {4}{5} | Bombs: 🔴 {6} 🟡 {7} | Medals: 🥇 {8} 🥈 {9} | 🧚 {10} | 🛩️ {3} • 🔄 {11} | {12}",
     rich_presence_value("Loop", Loop + 1),
     rich_presence_lookup("StageNumber", Stage, StageNumbers),
     rich_presence_lookup("StageName", Stage, StageNames),
@@ -214,5 +219,11 @@ rich_presence_conditional_display(IsInGame(), "Fighting the extraterrestrial men
     rich_presence_value("Continues", CountContinues()),
     rich_presence_value("Score", Player["Score"], "Score")
 )
+
+rich_presence_conditional_display(UsingValidSettings() && IsInGame() && !IsMultiplayer() && IsPlayingP2(), "Fighting the extraterrestrial menace on the wrong side of the road!!")
+
+rich_presence_conditional_display(UsingValidSettings() && IsInGame() && IsMultiplayer(), "Fighting the extraterrestrial menace with a friend")
+
+rich_presence_conditional_display(NotUsingValidSettings(), "INVALID SETTINGS FOUND - Achievements Disabled. Apply default settings to re-enabled.")
 
 rich_presence_display("Taking Raiden II for a spin")

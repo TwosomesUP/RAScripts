@@ -9,7 +9,7 @@
 
 ActivePlayer = byte(0x660b56)
 NumberOfPlayers = byte(0x89baf6)
-StageState = byte(0x8a099d)
+StageState = byte(0x72df62)
 StagesCleared = byte(0x660a76)
 StageClearedFlag = byte(0x660a9e)
 StageSelectState = byte(0x8a09a6)
@@ -25,6 +25,7 @@ BossDefeatedFlag = byte(0x660a96)
 SelectedStageLevel = byte(0x8a0f6a)
 BombActivatedState = byte(0x660b5e)
 ContinueScreenState = byte(0x660986)
+
 
 LifeUp = {
     "Bonus": byte(0x86d50c),
@@ -301,7 +302,7 @@ function PlayerUsedInput(player, type) => Player[player]["Inputs"][type] == 1
 function StageCleared(stage, challenge){
     trigger = IsValidSession() && CurrentStageIs(stage)
          
-    cleared = prev(IsInStage()) && PlayerClearedStage()
+    cleared = IsInStage() && PlayerClearedStage()
     
     if(challenge)
         cleared = trigger_when(cleared)
@@ -461,7 +462,7 @@ function Got3Bombs(){
             ),
             IsValidSession()
         ) &&
-        disable_when(PlayerUsedContinue(), IsOnTitle())
+        disable_when(IsInStage() && PlayerUsedContinue(), IsOnTitle())
 }
 
 function Got500CounterDuringBoss(){

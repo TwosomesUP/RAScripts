@@ -561,11 +561,11 @@ achievement("Golden Centuplicate", "Extend your life by collecting 100 Treasure 
     trigger = GotExtend()
 )
 
-achievement("Frigid Fleetness", "While playing Stage 1, destroy 75 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449288,
+achievement("Frigid Fleetness", "While playing Stage 1, destroy 75 or more enemies and reach the boss in less than 120 in-game seconds", points = 10, id = 449288,
     trigger = CompletedStage1Challenge()
 )
 
-achievement("Sunken Swiftness", "While playing Stage 2 destroy 8 or more large subs and reach the boss in less than 2 minutes", points = 10, id = 449289,
+achievement("Sunken Swiftness", "While playing Stage 2 destroy 8 or more large subs and reach the boss in less than 120 in-game seconds", points = 10, id = 449289,
     trigger = CompletedStage2Challenge()
 )
 
@@ -581,7 +581,7 @@ achievement("Indestructible Dark", "While playing Stage 5, collect 25 or more Tr
     trigger = CompletedStage5Challenge()
 )
 
-achievement("Deep Down Dash", "While playing Stage 6, destroy 90 or more enemies and reach the boss in less than 2 minutes", points = 10, id = 449293,
+achievement("Deep Down Dash", "While playing Stage 6, destroy 90 or more enemies and reach the boss in less than 120 in-game seconds", points = 10, id = 449293,
     trigger = CompletedStage6Challenge()
 )
 

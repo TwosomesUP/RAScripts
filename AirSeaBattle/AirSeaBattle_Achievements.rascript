@@ -22,8 +22,8 @@ Screen = {
 }
 
 Enemy = {
-    "Sprite0": byte(0x57),
-    "Sprite1": byte(0x56)
+    "Sprite0": high4(0x57),
+    "Sprite1": high4(0x56)
 }
 
 RightPlayer = {
@@ -142,17 +142,17 @@ function IsOnGameOver() => Game["State"] == 0x00 && Screen["State"] == 0x0f
 function GameReset() => Game["HardwareState"] == 0x00
 
 function BlimpShot(mode){
-    return disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x20 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x20 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset())
+    return disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x2 && Enemy["Sprite0"] == 0xa, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["BlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x2 && Enemy["Sprite1"] == 0xa, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite0"]) == 0x2 && Enemy["Sprite0"] == 0xa, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedBlimpAircraft"] && prev(Enemy["Sprite1"]) == 0x2 && Enemy["Sprite1"] == 0xa, !IsInGame() || GameReset())
 }
 
 function MineShot(mode){
-    return disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite0"]) == 0x60 && Enemy["Sprite0"] == 0xa0, !IsInGame() || GameReset()) &&
-        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite1"]) == 0x60 && Enemy["Sprite1"] == 0xa2, !IsInGame() || GameReset())
+    return disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite0"]) == 0x6 && Enemy["Sprite0"] == 0xa, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["MineTorpedo"] && prev(Enemy["Sprite1"]) == 0x6 && Enemy["Sprite1"] == 0xa, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite0"]) == 0x6 && Enemy["Sprite0"] == 0xa, !IsInGame() || GameReset()) &&
+        disable_when(Game["Mode"] == GameModes["GuidedMineTorpedo"] && prev(Enemy["Sprite1"]) == 0x6 && Enemy["Sprite1"] == 0xa, !IsInGame() || GameReset())
 }
 
 function GameEnded(){

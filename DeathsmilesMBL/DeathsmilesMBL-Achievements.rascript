@@ -307,7 +307,8 @@ function StageCleared(stage, challenge){
     if(challenge)
         cleared = trigger_when(cleared)
         
-    return trigger && cleared
+    return trigger && cleared &&
+        disable_when(IsInTutorial(), prev(StageSelectState) == 1 && StageSelectState == 0)
 }
 
 function GameCleared(character){

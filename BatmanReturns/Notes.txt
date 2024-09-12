@@ -1,0 +1,4 @@
+Items:
+Yellow Bat - Increase Speed
+Orange Bat - Increase Lives
+Grey Bat - Increase Batarang Strength/Distance

@@ -75,7 +75,7 @@ EntityIds = {
 function IsOnTitle() => Game["State"] == GameStates["Title"]
 function IsInDemo() => Game["State"] == GameStates["Demo"]
 function IsInGame() => !IsOnTitle() && !IsInDemo() && Game["SubState"] != GameSubStates["Loading"] && Game["Stage"] < 6
-function IsOnGameOver() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["GameOver"]
+function IsOnGameOver() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["GameOverTransition"]
 function IsOnStageClear() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["StageClear"]
 function IsOnRouteSelect() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["RouteSelect"]
 function IsOnEnding() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["Ending"]
@@ -149,7 +149,7 @@ function ClearStageOnRoute(stage, route){
 
 function ClearGameNoContinues(){
     return ClearStage("Stage5") &&
-        disable_when(IsOnGameOver(), IsOnTitle()) &&
+        disable_when(IsOnGameOver() && Player["Lives"] == 0, IsOnTitle()) &&
         disable_when(IsOnStageSelect(), IsOnTitle())
 }
 
@@ -189,7 +189,8 @@ function CollectedAllUpgrades(stage, route, count){
 function AcquiredLives(lives){
     return IsInGame() &&
         prev(Player["Lives"]) < lives &&
-        Player["Lives"] >= lives
+        Player["Lives"] >= lives &&
+        disable_when(AreCheatsEnabled())
 }
 
 // ======================================================================= //

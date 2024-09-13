@@ -12,7 +12,7 @@ Game = {
     "SubState": byte(0x1297),
     "Stage": byte(0x1298),
     "StagePart": byte(0x129a),
-    "Cheats": byte(0x12b0)
+    "Cheats": byte(0x12b9)
 }
 
 Player = {
@@ -75,6 +75,8 @@ function IsOnStageClear() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == 
 function IsOnRouteSelect() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["RouteSelect"]
 function IsOnEnding() => !IsOnTitle() && !IsInDemo() && Game["SubState"] == GameSubStates["Ending"]
 
+function AreCheatsEnabled() => Game["Cheats"] > 0
+
 function GetEntityId(index){
     return byte(EntityArrayStart + (index * 64))
 }
@@ -122,15 +124,15 @@ SpeedLevel = {
 // Rich Presence Definitions
 // ======================================================================= //
 
-rich_presence_conditional_display(IsInDemo(), "Batman is watching reruns of his favorite Gotham excursions")
-rich_presence_conditional_display(IsOnGameOver(), "Batman may have lost the battle, but he will rise again")
-rich_presence_conditional_display(IsOnStageClear(), "Batman is traveling to his next objective")
-rich_presence_conditional_display(IsOnEnding(), "Batman has defeated the Penguin and the streets are safe... for now")
-rich_presence_conditional_display(IsOnRouteSelect(), "Batman is plotting his route through Stage {0}",
+rich_presence_conditional_display(IsInDemo() && !AreCheatsEnabled(), "Batman is watching reruns of his favorite Gotham excursions")
+rich_presence_conditional_display(IsOnGameOver() && !AreCheatsEnabled(), "Batman may have lost the battle, but he will rise again")
+rich_presence_conditional_display(IsOnStageClear() && !AreCheatsEnabled(), "Batman is traveling to his next objective")
+rich_presence_conditional_display(IsOnEnding() && !AreCheatsEnabled(), "Batman has brought the Penguin to justice. Gotham can rest peacefully.")
+rich_presence_conditional_display(IsOnRouteSelect() && !AreCheatsEnabled(), "Batman is plotting his route through Stage {0}",
     rich_presence_value("Stage", Game["Stage"] + 1)
 )
 
-rich_presence_conditional_display(IsInGame() && Game["StagePart"] != 4, "Batman is fighting the Penguin's thugs on Stage {0}-{1} Route {2} | Lives: {3} | Batarang: {4} • Speed: {5}",
+rich_presence_conditional_display(IsInGame() && Game["StagePart"] != 4 && !AreCheatsEnabled(), "Batman is fighting the Penguin's thugs on Stage {0}-{1} Route {2} | Lives: {3} | Batarang: {4} • Speed: {5}",
     rich_presence_value("Stage", Game["Stage"] + 1),
     rich_presence_lookup("Part", Game["StagePart"], StagePart),
     rich_presence_lookup("Route", Game["StagePart"], StageRoute),
@@ -139,7 +141,7 @@ rich_presence_conditional_display(IsInGame() && Game["StagePart"] != 4, "Batman 
     rich_presence_lookup("Speed", Player["Speed"], SpeedLevel)
 )
 
-rich_presence_conditional_display(IsInGame() && Game["StagePart"] == 4, "Batman is fighting his arch-nemesis {0} on Stage {1} Route {2} | Lives: {3} | Batarang: {4} • Speed: {5}",
+rich_presence_conditional_display(IsInGame() && Game["StagePart"] == 4 && !AreCheatsEnabled(), "Batman is fighting his arch-nemesis {0} on Stage {1} Route {2} | Lives: {3} | Batarang: {4} • Speed: {5}",
     rich_presence_lookup("Boss", Game["Stage"], StageBoss),
     rich_presence_value("Stage", Game["Stage"] + 1),
     rich_presence_lookup("Route", prior(Game["StagePart"]), StageRoute),
@@ -147,5 +149,7 @@ rich_presence_conditional_display(IsInGame() && Game["StagePart"] == 4, "Batman 
     rich_presence_lookup("Batarang", Player["Batarang"], BatarangLevel),
     rich_presence_lookup("Speed", Player["Speed"], SpeedLevel)
 )
+
+rich_presence_conditional_display(AreCheatsEnabled(), "The unscrupulous Batman is preparing to face the dark corners of Gotham")
 
 rich_presence_display("Batman is preparing to face the dark corners of Gotham")

@@ -298,7 +298,7 @@ achievement("[Draft] Max Power - Stage 4", "Clear Stage 4 using any route with m
     trigger = ClearStageMaxPower("Stage4")
 )
 
-achievement("[Draft] Max Power - Stage 5", "Clear Stage 5 using any route with max speed and max batarang power", points = 10, id = 463093,
+achievement("[Draft] Max Power - Stage 5", "Clear Stage 5 using any route with max speed and max batarang power", points = 25, id = 463093,
     trigger = ClearStageMaxPower("Stage5")
 )
 
@@ -311,7 +311,7 @@ achievement("[Draft] All Upgrades - Stage 2 Route 1", "Collect all upgrades on S
 )
 
 achievement("[Draft] All Upgrades - Stage 3 Route 1", "Collect all upgrades on Stage 3 Route 1", points = 5, id = 463096,
-    trigger = CollectedAllUpgrades("Stage3", 1, 20)
+    trigger = CollectedAllUpgrades("Stage3", 1, 21)
 )
 
 achievement("[Draft] All Upgrades - Stage 4 Route 1", "Collect all upgrades on Stage 4 Route 1", points = 5, id = 463097,

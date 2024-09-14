@@ -12,7 +12,8 @@ Game = {
     "SubState": byte(0x1297),
     "Stage": byte(0x1298),
     "StagePart": byte(0x129a),
-    "Cheats": byte(0x12b9)
+    "Cheats": byte(0x12b9),
+    "SoundId": word(0x1e04)
 }
 
 Player = {
@@ -66,6 +67,12 @@ StageParts = {
 EntityIds = {
     "Item": 0x0f,
     "Collected": 0xff
+}
+
+SoundIds = {
+    "Orange": 0x23,
+    "Blue": 0x24,
+    "Yellow": 0x25
 }
 
 // ======================================================================= //
@@ -159,7 +166,7 @@ function ClearStageMaxPower(stage){
         ClearStage(stage)
 }
 
-function CollectedAllUpgrades(stage, route, count){
+function CollectedAllUpgrades_old(stage, route, count){
     routeCheck = Game["StagePart"] <= 1
     if(route == 2)
         routeCheck = Game["StagePart"] > 1 && Game["StagePart"] <= 3
@@ -182,6 +189,40 @@ function CollectedAllUpgrades(stage, route, count){
                 )
             ),
             IsInGame()
+        ) &&
+        disable_when(AreCheatsEnabled())
+}
+
+function CollectedAllUpgrades(stage, route, count){
+    routeCheck = Game["StagePart"] <= 1
+    if(route == 2)
+        routeCheck = Game["StagePart"] > 1 && Game["StagePart"] <= 3
+    if(stage == "Stage5")
+        routeCheck = Game["StagePart"] <= 3
+    return IsInGame() &&
+        Game["Stage"] == Stages[stage] &&
+        routeCheck &&
+        measured
+        (
+            tally
+            (   
+                count, 
+                Game["Stage"] == Stages[stage] && 
+                routeCheck &&
+                prev(Game["SoundId"]) != SoundIds["Orange"] &&
+                Game["SoundId"] == SoundIds["Orange"] && never(IsOnTitle()),
+                Game["Stage"] == Stages[stage] && 
+                routeCheck &&
+                prev(Game["SoundId"]) != SoundIds["Yellow"] &&
+                Game["SoundId"] == SoundIds["Yellow"] && never(IsOnTitle()),
+                Game["Stage"] == Stages[stage] && 
+            routeCheck &&
+                prev(Game["SoundId"]) != SoundIds["Blue"] &&
+                Game["SoundId"] == SoundIds["Blue"] && never(IsOnTitle())
+            ),
+            Game["Stage"] == Stages[stage] && 
+            routeCheck &&
+            IsInGame() 
         ) &&
         disable_when(AreCheatsEnabled())
 }
@@ -262,7 +303,7 @@ achievement("[Draft] Max Power - Stage 5", "Clear Stage 5 using any route with m
 )
 
 achievement("[Draft] All Upgrades - Stage 1 Route 1", "Collect all upgrades on Stage 1 Route 1", points = 5, id = 463094,
-    trigger = CollectedAllUpgrades("Stage1", 1, 12)
+    trigger = CollectedAllUpgrades("Stage1", 1, 13)
 )
 
 achievement("[Draft] All Upgrades - Stage 2 Route 1", "Collect all upgrades on Stage 2 Route 1", points = 5, id = 463095,

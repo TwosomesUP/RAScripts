@@ -116,6 +116,20 @@ IdentifiableItems = {
 // Value Dictionaries
 // ======================================================================= //
 
+ScreenValues = {
+    "NotLoaded": 0x00,
+    "Title": 0x03,
+    "StartGame": 0x06,
+    "InGame": 0x0a,
+    "GameOver": 0x0c,
+    "Ending": 0x0e,
+    "Menu": 0x10,
+    "CreditsStart": 0x11,
+    "CreditsEnd": 0x13,
+    "Fin": 0x15,
+    "Congrats": 0x17
+}
+
 EquipmentValues = {
     "Dagger": 0x01,
     "ShortSword": 0x02,
@@ -269,9 +283,113 @@ Enemies = {
     ]
 }
 
+
+// ======================================================================= //
+// Lookup Dictionaries
+// ======================================================================= //
+
+RankLookup = {
+    1: "Apprentice",
+    2: "Ranger",
+    3: "Soldier",
+    4: "Warrior",
+    5: "Fighter",
+    6: "Swordsman",
+    7: "Veteran",
+    8: "Knight",
+    9: "Champion",
+    10: "Hero",
+    11: "Master",
+    12: "Paradin",
+    13: "Warlord",
+    14: "Dragonlord",
+    15: "Avatar",
+    16: "Masterlord"
+}
+
+SwordLookup = {
+    0x1: "Dagger",
+    0x2: "Short Sword",
+    0x3: "Long Sword",
+    0x4: "Broadsword",
+    0x5: "Gladius",
+    0x6: "Flamberge",
+    0x7: "Rune Blade",
+    0x8: "Laser Blade",
+    0x9: "Magi Masher",
+    0xa: "Bushido Blade",
+    0xb: "Ghost Killer",
+    0xc: "Dragonslayer",
+    0xd: "Blood Blade",
+    0xe: "Great Sword",
+    0xf: "Death Blade",
+    0x81: "Cursed Dagger",
+    0x82: "Cursed Short Sword",
+    0x83: "Cursed Long Sword",
+    0x84: "Cursed Broadsword",
+    0x85: "Cursed Gladius",
+    0x86: "Cursed Flamberge",
+    0x87: "Cursed Rune Blade",
+    0x88: "Cursed Laser Blade",
+    0x89: "Cursed Magi Masher",
+    0x8a: "Cursed Bushido Blade",
+    0x8b: "Cursed Ghost Killer",
+    0x8c: "Cursed Dragonslayer",
+    0x8d: "Cursed Blood Blade",
+    0x8e: "Cursed Great Sword",
+    0x8f: "Cursed Death Blade"
+}
+
+ArmorLookup = {
+    0x10: "Robe",
+    0x11: "Leathersuit",
+    0x12: "Lamellar",
+    0x13: "Cuirass",
+    0x14: "Chain Mail",
+    0x15: "Scale Armor",
+    0x16: "Plate Armor",
+    0x17: "Battle Suit",
+    0x18: "Dragon Suit",
+    0x19: "Mystic Suit",
+    0x1a: "Power Suit",
+    0x90: "Cursed Robe",
+    0x91: "Cursed Leathersuit",
+    0x92: "Cursed Lamellar",
+    0x93: "Cursed Cuirass",
+    0x94: "Cursed Chain Mail",
+    0x95: "Cursed Scale Armor",
+    0x96: "Cursed Plate Armor",
+    0x97: "Cursed Battle Suit",
+    0x98: "Cursed Dragon Suit",
+    0x99: "Cursed Mystic Suit",
+    0x9a: "Cursed Power Suit"
+}
+
+RingLookup = {
+    180: " • Heal Ring",
+    181: " • Magic Ring",
+    182: " • Food Ring",
+    183: " • Sight Ring",
+    184: " • Shield Ring",
+    185: " • Ogre Ring",
+    186: " • Cursed Ring",
+    187: " • Hunger Ring",
+    188: " • Toy Ring",
+    189: " • Shift Ring"
+}
+
 // ======================================================================= //
 // Helper Functions
 // ======================================================================= //
+
+function IsInGame() => !IsOnTitle() && !IsOnGameOver() && !IsInDemo() && Game["Screen"] != ScreenValues["Ending"] && Game["Screen"] < ScreenValues["CreditsStart"]
+
+function IsOnGameOver() => Game["Screen"] == ScreenValues["GameOver"]
+function IsOnTitle() => Game["Screen"] == ScreenValues["Title"]
+function IsInDemo() => Game["Demo"] == 1
+function IsInEnding() => Game["Screen"] == ScreenValues["Ending"] || (Game["Screen"] >= ScreenValues["CreditsStart"] && Game["Screen"] <= ScreenValues["Congrats"])
+function StartingGame() => Game["Screen"] == ScreenValues["StartGame"]
+
 
 function IsEquipmentCursed(type){
     return bit7(Inventory["Start"][type]) == 1
@@ -296,4 +414,35 @@ function IdentifyUsedItems(){
 function AllIdentified(){
     return measured(tally(49, array_map(IdentifiableItems, item => prev(IdentifiableItems[item]) != 0 && IdentifiableItems[item] == 0)))
 }
+
+function CountIdentified(){
+    return measured(tally(49, array_map(IdentifiableItems, item => once(IsInGame() && IdentifiableItems[item] == 0 && never(IsOnTitle()) && never(StartingGame())))))
+}
+
+// ======================================================================= //
+// Rich Presence Definitions
+// ======================================================================= //
+
+rich_presence_conditional_display(IsOnTitle(), "Preparing to face the dangers of the Dragon's Labyrinth")
+
+rich_presence_conditional_display(IsInDemo(), "Watching the events of past Heroes conquering the Dragon's Labyrinth")
+
+rich_presence_conditional_display(IsOnGameOver(), "Building the courage to face the Dragon's Labyrinth again")
+
+rich_presence_conditional_display(IsInEnding(), "The Hero bested the Dragon's Labyrinth and found the coveted Dragon's Crystal!")
+
+rich_presence_conditional_display(IsInGame(), "The {0} is navigating the Dragon's Labyrinth on Floor {1} | {2} • {3}{4} | PW: {5} • AC: {6} • Gold: {7} • Continues: {8} • Identified: {9}/49",
+    rich_presence_lookup("Rank", Player["Level"], RankLookup),
+    rich_presence_value("Floor", Game["Floor"]),
+    rich_presence_lookup("Sword", Player["Equipped"]["Weapon"], SwordLookup),
+    rich_presence_lookup("Armor", Player["Equipped"]["Armor"], ArmorLookup),
+    rich_presence_lookup("Ring", Player["Equipped"]["Ring"] + Player["Equipped"]["IsRingEquipped"] * 100, RingLookup),
+    rich_presence_value("PW", Player["PW"] + Player["BasePW"]),
+    rich_presence_value("AC", Player["AC"] + Player["BaseAC"]),
+    rich_presence_value("Gold", Player["Gold"]),
+    rich_presence_value("Continues", Player["Continues"]),
+    rich_presence_value("Identified", CountIdentified())
+)
+
+rich_presence_display("Searching for the Dragon Crystal")
 

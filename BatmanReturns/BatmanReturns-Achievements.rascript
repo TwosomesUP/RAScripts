@@ -210,20 +210,22 @@ function CollectedAllUpgrades(stage, route, count){
                 Game["Stage"] == Stages[stage] && 
                 routeCheck &&
                 prev(Game["SoundId"]) != SoundIds["Orange"] &&
-                Game["SoundId"] == SoundIds["Orange"] && never(IsOnTitle()),
+                Game["SoundId"] == SoundIds["Orange"],
                 Game["Stage"] == Stages[stage] && 
                 routeCheck &&
                 prev(Game["SoundId"]) != SoundIds["Yellow"] &&
-                Game["SoundId"] == SoundIds["Yellow"] && never(IsOnTitle()),
+                Game["SoundId"] == SoundIds["Yellow"],
                 Game["Stage"] == Stages[stage] && 
-            routeCheck &&
+                routeCheck &&
                 prev(Game["SoundId"]) != SoundIds["Blue"] &&
-                Game["SoundId"] == SoundIds["Blue"] && never(IsOnTitle())
+                Game["SoundId"] == SoundIds["Blue"]
             ),
             Game["Stage"] == Stages[stage] && 
             routeCheck &&
             IsInGame() 
-        ) &&
+        ) && 
+        never(IsOnTitle()) && 
+        never(Player["Lives"] == 0) &&
         disable_when(AreCheatsEnabled())
 }
 

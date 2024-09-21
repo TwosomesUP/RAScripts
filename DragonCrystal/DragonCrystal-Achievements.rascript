@@ -122,6 +122,7 @@ ScreenValues = {
     "NotLoaded": 0x00,
     "ToTitle": 0x02,
     "Title": 0x03,
+    "ToDemo": 0x04,
     "StartGame": 0x06,
     "NextFloor": 0x08,
     "InGame": 0x0a,
@@ -295,7 +296,7 @@ Enemies = {
 function IsInGame() => Game["Screen"] == ScreenValues["InGame"]
 
 function IsOnGameOver() => Game["Screen"] == ScreenValues["GameOver"]
-function IsOnTitle() => (Game["Screen"] >= ScreenValues["ToTitle"] && Game["Screen"] <= ScreenValues["Title"])
+function IsOnTitle() => Game["Screen"] <= ScreenValues["ToDemo"]
 function IsInDemo() => Game["Demo"] == 1
 function IsInEnding() => Game["Screen"] == ScreenValues["Ending"] || (Game["Screen"] >= ScreenValues["CreditsStart"] && Game["Screen"] <= ScreenValues["Congrats"])
 function StartingGame() => Game["Screen"] == ScreenValues["StartGame"]
@@ -359,10 +360,12 @@ function ClearFloorWithActionLimit(limit){
     return prev(Game["Floor"]) > 0 && trigger_when(prev(Game["Floor"]) == Game["Floor"] - 1) &&
         disable_when(repeated(limit, !IsInDemo() && PlayerPerformedAction())) && 
         (
-            never(!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) || 
-            never(IsOnTitle()) ||
-            never(IsInDemo()) ||
-            never(IsOnGameOver())
+            never(!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) ||
+            (
+                never(IsOnTitle()) &&
+                never(IsInDemo()) &&
+                never(IsOnGameOver())
+            )
         )
 }
 
@@ -380,7 +383,7 @@ function ClearFloorsWithHungerRing(){
             )
         ) &&
         (
-            never(!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) &&
+            never(!IsInDemo() && Player["UsedItem"] == ItemValues["TravelRod"]) &&
             never(!IsInDemo() && Player["Equipped"]["Ring"] != ItemValues["HungerRing"]) &&
             never(!IsInDemo() && Player["Equipped"]["IsRingEquipped"] == 0) &&
             never(IsOnGameOver()) &&
@@ -405,6 +408,21 @@ function ClearFirst5FloorsWithDefaultEquipment(){
     disable_when(!IsInDemo() && Player["UsedItem"] == ItemValues["TravelRod"], IsOnTitle()) &&
     disable_when(!IsInDemo() && Player["Equipped"]["Weapon"] != EquipmentValues["Dagger"], IsOnTitle()) &&
     disable_when(!IsInDemo() && Player["Equipped"]["Armor"] != EquipmentValues["Robe"], IsOnTitle())
+}
+
+function ClearFirst10FloorsWithoutItems(){
+    return all_of
+    (
+        range(1,10), 
+        floor => once
+        (
+            !IsInDemo() && 
+            prev(Game["Floor"] == floor) && Game["Floor"] == floor + 1 && 
+            never(IsOnTitle())
+        )
+    ) &&
+    disable_when(!IsInDemo() && Player["Equipped"]["IsRingEquipped"] == 1, IsOnTitle()) &&
+    disable_when(!IsInDemo() && Player["UsedItem"] != 0, IsOnTitle())
 }
 
 // ======================================================================= //
@@ -456,7 +474,7 @@ achievement("[DRAFT] Base Equipment", "Clear the first 5 floors equipped with th
 )
 
 achievement("[DRAFT] No Items", "Clear the first 10 floors without using a potion, scroll, or equipping a ring", points = 10, id = 464804,
-    trigger = always_false()
+    trigger = ClearFirst10FloorsWithoutItems()
 )
 
 achievement("[DRAFT] No Continues", "Clear the game without using a continue", points = 25, id = 464805,

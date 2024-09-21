@@ -120,6 +120,7 @@ IdentifiableItems = {
 
 ScreenValues = {
     "NotLoaded": 0x00,
+    "ToTitle": 0x02,
     "Title": 0x03,
     "StartGame": 0x06,
     "NextFloor": 0x08,
@@ -294,11 +295,10 @@ Enemies = {
 function IsInGame() => Game["Screen"] == ScreenValues["InGame"]
 
 function IsOnGameOver() => Game["Screen"] == ScreenValues["GameOver"]
-function IsOnTitle() => Game["Screen"] == ScreenValues["Title"]
+function IsOnTitle() => (Game["Screen"] >= ScreenValues["ToTitle"] && Game["Screen"] <= ScreenValues["Title"])
 function IsInDemo() => Game["Demo"] == 1
 function IsInEnding() => Game["Screen"] == ScreenValues["Ending"] || (Game["Screen"] >= ScreenValues["CreditsStart"] && Game["Screen"] <= ScreenValues["Congrats"])
 function StartingGame() => Game["Screen"] == ScreenValues["StartGame"]
-
 
 function IsEquipmentCursed(type){
     return bit7(Inventory["Start"][type]) == 1
@@ -356,39 +356,37 @@ function ClearGame(){
 }
 
 function ClearFloorWithActionLimit(limit){
-    return any_of(range(2,30), floor => trigger_when(!IsInDemo() && prev(Game["Floor"]) == floor - 1 && Game["Floor"] == floor)) &&
-        disable_when
+    return prev(Game["Floor"]) > 0 && trigger_when(prev(Game["Floor"]) == Game["Floor"] - 1) &&
+        disable_when(repeated(limit, !IsInDemo() && PlayerPerformedAction())) && 
         (
-            repeated(limit, !IsInDemo() && PlayerPerformedAction()), 
-            (!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) ||
-            IsOnTitle() ||
-            IsInDemo() ||
-            IsOnGameOver()
+            never(!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) || 
+            never(IsOnTitle()) ||
+            never(IsInDemo()) ||
+            never(IsOnGameOver())
         )
 }
 
-function ClearFloorsWithHungerRing(floors){
+function ClearFloorsWithHungerRing(){
     return measured
         (
-            tally_of
+            repeated
             (
-                range(2,30), 5, 
-                floor => !IsInDemo() && Player["Equipped"]["Ring"] == ItemValues["HungerRing"] && Player["Equipped"]["IsRingEquipped"] == 1 && prev(Game["Floor"]) == floor - 1 && Game["Floor"] == floor
+                5, 
+                !IsInDemo() && 
+                Player["Equipped"]["Ring"] == ItemValues["HungerRing"] && 
+                Player["Equipped"]["IsRingEquipped"] == 1 && 
+                prev(Game["Floor"]) > 0 && 
+                prev(Game["Floor"]) == Game["Floor"] - 1
             )
         ) &&
-        disable_when
         (
-            !IsInDemo() && Player["UsedItem"] == ItemValues["TravelRod"], 
-            (prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) || 
-            IsOnGameOver() ||
-            IsOnTitle() ||
-            IsInDemo()
-        ) &&
-        never(!IsInDemo() && Player["Equipped"]["Ring"] != ItemValues["HungerRing"]) &&
-        never(!IsInDemo() && Player["Equipped"]["IsRingEquipped"] == 0) &&
-        never(IsOnGameOver()) &&
-        never(IsOnTitle()) &&
-        never(IsInDemo())
+            never(!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) &&
+            never(!IsInDemo() && Player["Equipped"]["Ring"] != ItemValues["HungerRing"]) &&
+            never(!IsInDemo() && Player["Equipped"]["IsRingEquipped"] == 0) &&
+            never(IsOnGameOver()) &&
+            never(IsOnTitle()) &&
+            never(IsInDemo())
+        )
 }
 
 function ClearFirst5FloorsWithDefaultEquipment(){
@@ -449,8 +447,8 @@ achievement("[DRAFT] 100 Actions", "Clear any floor in 100 actions or less", poi
     trigger = ClearFloorWithActionLimit(100)
 )
 
-achievement("[DRAFT] Hunger Ring", "Without removing it or using a continue, clear 5 floors sequentially while equipped with the Hunger Ring", points = 5, id = 464802,
-    trigger = ClearFloorsWithHungerRing(5)
+achievement("[DRAFT] Hunger Ring", "Without removing it or using a continue, clear 5 floors sequentially while equipped with the Hunger Ring [No Travel Rod]", points = 5, id = 464802,
+    trigger = ClearFloorsWithHungerRing()
 )
 
 achievement("[DRAFT] Base Equipment", "Clear the first 5 floors equipped with the Dagger and Robe", points = 5, id = 464803,

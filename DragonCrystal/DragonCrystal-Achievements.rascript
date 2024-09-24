@@ -148,7 +148,7 @@ EquipmentValues = {
     "MagiMasher": 0x09,
     "BushidoBlade": 0x0a,
     "GhostKiller": 0x0b,
-    "DragonSlayer": 0x0c,
+    "Dragonslayer": 0x0c,
     "BloodBlade": 0x0d,
     "GreatSword": 0x0e,
     "DeathBlade": 0x0f,
@@ -356,6 +356,17 @@ function ClearGame(){
         Game["Screen"] == ScreenValues["Ending"]
 }
 
+function ClearGameNoContinue(){
+    return ClearGame() &&
+        disable_when(Player["Continues"] > 0, IsOnTitle())
+}
+
+function ClearGameNoDropping(){
+    return ClearGame() &&
+        disable_when(!IsInDemo() && Player["DroppedItem"] >= 0x20 && Player["DroppedItem"] < 0x50, IsOnTitle()) &&
+        disable_when(!IsInDemo() && Player["ThrownItem"] >= 0x20 && Player["ThrownItem"] < 0x50, IsOnTitle())
+}
+
 function ClearFloorWithActionLimit(limit){
     return prev(Game["Floor"]) > 0 && trigger_when(prev(Game["Floor"]) == Game["Floor"] - 1) &&
         disable_when(repeated(limit, !IsInDemo() && PlayerPerformedAction())) && 
@@ -425,6 +436,65 @@ function ClearFirst10FloorsWithoutItems(){
     disable_when(!IsInDemo() && Player["UsedItem"] != 0, IsOnTitle())
 }
 
+function AchievedLevel(level){
+    return !IsInDemo() &&
+        prev(Player["Level"]) < level &&
+        Player["Level"] >= level
+}
+
+function AchievedPW(pw){
+    return !IsInDemo() &&
+        prev(Player["PW"]) < pw &&
+        Player["PW"] >= pw
+}
+
+function AchievedAC(ac){
+    return !IsInDemo() &&
+        prev(Player["AC"]) < ac &&
+        Player["AC"] >= ac
+}
+
+function AchievedGold(gold){
+    return !IsInDemo() &&
+        prev(Player["Gold"]) < gold &&
+        Player["Gold"] >= gold
+}
+
+function EquippedAllGreenSwords(){
+    return measured(tally(3, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["ShortSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["ShortSword"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["LongSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["LongSword"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Broadsword"] && Player["Equipped"]["Weapon"] == EquipmentValues["Broadsword"]))) &&
+        never(IsOnTitle())
+}
+
+function EquippedAllRedSwords(){
+    return measured(tally(4, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Gladius"] && Player["Equipped"]["Weapon"] == EquipmentValues["Gladius"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Flameberge"] && Player["Equipped"]["Weapon"] == EquipmentValues["Flameberge"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["RuneBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["RuneBlade"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["LaserBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["LaserBlade"]))) &&
+        never(IsOnTitle())
+}
+
+function EquippedAllBlueSwords(){
+    return measured(tally(4, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["MagiMasher"] && Player["Equipped"]["Weapon"] == EquipmentValues["MagiMasher"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["BushidoBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["BushidoBlade"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["GhostKiller"] && Player["Equipped"]["Weapon"] == EquipmentValues["GhostKiller"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Dragonslayer"] && Player["Equipped"]["Weapon"] == EquipmentValues["Dragonslayer"]))) &&
+        never(IsOnTitle())
+}
+
+function EquippedAllPurpleSwords(){
+    return measured(tally(3, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["BloodBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["BloodBlade"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["GreatSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["GreatSword"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["DeathBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["DeathBlade"]))) &&
+        never(IsOnTitle())
+}
+
+function KilledMonsters(count){
+    return measured(repeated(100, !IsInDemo() && prev(Player["Experience"]) < Player["Experience"])) &&
+        never(IsOnTitle())
+}
+
 // ======================================================================= //
 // Achievement Definitions - Progression
 // ======================================================================= //
@@ -478,39 +548,39 @@ achievement("[DRAFT] No Items", "Clear the first 10 floors without using a potio
 )
 
 achievement("[DRAFT] No Continues", "Clear the game without using a continue", points = 25, id = 464805,
-    trigger = always_false()
+    trigger = ClearGameNoContinue()
 )
 
 achievement("[DRAFT] No Dropping", "Clear the game without dropping or thowing any Scrolls, Rods, or Potions", points = 25, id = 464806,
-    trigger = always_false()
+    trigger = ClearGameNoDropping()
 )
 
 achievement("[DRAFT] Warrior", "Become a Warrior by reaching Level 4", points = 1, id = 464807,
-    trigger = always_false()
+    trigger = AchievedLevel(4)
 )
 
 achievement("[DRAFT] Knight", "Become a Knight by reaching Level 8", points = 3, id = 464808,
-    trigger = always_false()
+    trigger = AchievedLevel(8)
 )
 
 achievement("[DRAFT] Paradin", "Become a Paradin by reaching Level 12", points = 5, id = 464809,
-    trigger = always_false()
+    trigger = AchievedLevel(12)
 )
 
 achievement("[DRAFT] Masterlord", "Become a Masterlord by reaching Level 16", points = 10, id = 464810,
-    trigger = always_false()
+    trigger = AchievedLevel(16)
 )
 
 achievement("[DRAFT] Defense", "Reach an AC of 55 or more in a single run", points = 10, id = 464811,
-    trigger = always_false()
+    trigger = AchievedAC(55)
 )
 
 achievement("[DRAFT] Power", "Reach a PW of 75 or more in a single run", points = 10, id = 464812,
-    trigger = always_false()
+    trigger = AchievedPW(75)
 )
 
 achievement("[DRAFT] Gold", "Collect 10,000 Gold in a single run", points = 10, id = 464813,
-    trigger = always_false()
+    trigger = AchievedGold(10000)
 )
 
 // ======================================================================= //
@@ -518,23 +588,23 @@ achievement("[DRAFT] Gold", "Collect 10,000 Gold in a single run", points = 10, 
 // ======================================================================= //
 
 achievement("[DRAFT] Green Swords", "Find and equip the Short Sword, Long Sword, and Broadsword in a single run", points = 5, id = 464814,
-    trigger = always_false()
+    trigger = EquippedAllGreenSwords()
 )
 
 achievement("[DRAFT] Red Swords", "Find and equip the Gladius, Flamberge, Rune Blade, and Laser Blade in a single run", points = 5, id = 464815,
-    trigger = always_false()
+    trigger = EquippedAllRedSwords()
 )
 
 achievement("[DRAFT] Blue Swords", "Find and equip the Magi Masher, Bushido Blade, Ghost Killer, and Dragonslayer in a single run", points = 5, id = 464816,
-    trigger = always_false()
+    trigger = EquippedAllBlueSwords()
 )
 
 achievement("[DRAFT] Purple Swords", "Find and equip the Blood Blade, Great Sword, and Death Blade in a single run", points = 5, id = 464817,
-    trigger = always_false()
+    trigger = EquippedAllPurpleSwords()
 )
 
 achievement("[DRAFT] 100 Monsters", "Kill 100 monsters in a single run", points = 5, id = 464818,
-    trigger = always_false()
+    trigger = KilledMonsters(100)
 )
 
 achievement("[DRAFT] Witches", "Kill 10 Witches while having the Magi Masher equipped in a single run", points = 5, id = 464819,
@@ -704,3 +774,4 @@ achievement("[DRAFT] Travel Rod", "Use a Travel Rod to advance 1 floor", points 
 achievement("[DRAFT] Potion Scroll", "Transform 8 potions into Midheals with a single Potion Scroll", points = 5, id = 464857,
     trigger = always_false()
 )
+

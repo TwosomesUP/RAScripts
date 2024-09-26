@@ -114,6 +114,66 @@ IdentifiableItems = {
      "ShiftRing": byte(0x96e)
 }
 
+IdentifiableItemsByType = {
+    "Scroll": {
+        "Blade": byte(0x935),
+        "Shield": byte(0x936),
+        "Norust": byte(0x937),
+        "Bless": byte(0x938),
+        "Map": byte(0x939),
+        "Shift": byte(0x93a),
+        "Mad": byte(0x93b),
+        "Magi": byte(0x93c),
+        "Gas": byte(0x93d),
+        "Ghost": byte(0x93e),
+        "Dragon": byte(0x93f),
+        "Summon": byte(0x940),
+        "Blank": byte(0x941),
+        "Potion": byte(0x942),
+    },
+    "Rod": {
+        "Flame": byte(0x945),
+        "Flash": byte(0x946),
+        "Thunder": byte(0x947),
+        "Travel": byte(0x948),
+        "Wind": byte(0x949),
+        "Berserk": byte(0x94a),
+        "Reshape": byte(0x94b),
+        "Silent": byte(0x94c),
+        "Drain": byte(0x94d),
+        "Spirit": byte(0x94e),
+        "Wood": byte(0x94f),
+        "Wither": byte(0x950),  
+    },
+    "Potion": {
+        "Minheal": byte(0x955),
+        "Midheal": byte(0x956),
+        "Slow": byte(0x957),
+        "Slowfix": byte(0x958),
+        "Fog": byte(0x959),
+        "Daze": byte(0x95a),
+        "Cure": byte(0x95b),
+        "Freeze": byte(0x95c),
+        "Power": byte(0x95d),
+        "Reflex": byte(0x95e),
+        "Maxheal": byte(0x95f),
+        "Water": byte(0x960),
+        "Wither": byte(0x961),
+    },
+    "Ring": {
+        "Heal": byte(0x965),
+        "Magic": byte(0x966),
+        "Food": byte(0x967),
+        "Sight": byte(0x968),
+        "Shield": byte(0x969),
+        "Ogre": byte(0x96a),
+        "Cursed": byte(0x96b),
+        "Hunger": byte(0x96c),
+        "Toy": byte(0x96d),
+        "Shift": byte(0x96e) 
+    }
+}
+
 // ======================================================================= //
 // Value Dictionaries
 // ======================================================================= //
@@ -322,15 +382,13 @@ function GetItemIndex(type, name){
 }
 
 function IdentifyThrownItems(){
-    return measured(tally(10, array_map(IdentifiableItems, item => Player["ThrownItem"] == ItemValues[item] && prev(IdentifiableItems[item]) != 0 && IdentifiableItems[item] == 0)))
+    return measured(tally(10, array_map(IdentifiableItems, item => !IsInDemo() && Player["ThrownItem"] == ItemValues[item] && prev(IdentifiableItems[item]) != 0 && IdentifiableItems[item] == 0))) &&
+        never(IsOnTitle())
 }
 
 function IdentifyUsedItems(){
-    return measured(tally(10, array_map(IdentifiableItems, item => Player["UsedItem"] == ItemValues[item] && prev(IdentifiableItems[item]) != 0 && IdentifiableItems[item] == 0)))
-}
-
-function AllIdentified(){
-    return measured(tally(49, array_map(IdentifiableItems, item => prev(IdentifiableItems[item]) != 0 && IdentifiableItems[item] == 0)))
+    return measured(tally(10, array_map(IdentifiableItems, item => !IsInDemo() && Player["UsedItem"] == ItemValues[item] && prev(IdentifiableItems[item]) != 0 && IdentifiableItems[item] == 0))) &&
+        never(IsOnTitle())
 }
 
 function CountIdentified(){
@@ -566,6 +624,107 @@ function EquippedRing(ring){
         Player["Equipped"]["IsRingEquipped"] == 1
 }
 
+function IdentifiedAllItems(type){
+    items = IdentifiableItemsByType[type]
+    return measured(tally(length(items), array_map(items, item => !IsInDemo() && prev(items[item]) != 0 && items[item] == 0))) &&
+        never(IsOnTitle())
+}
+
+function RodKills(){
+    return measured
+    (
+        tally
+        (
+            10, 
+            array_map
+            (
+                range(0,0xf), 
+                index => 
+                !IsInDemo() && 
+                Player["Equipped"]["Ring"] == ItemValues["MagicRing"] &&
+                Player["Equipped"]["IsRingEquipped"] == 1 &&
+                prev(Player["UsedItem"]) == 0x30 + index &&
+                Player["UsedItem"] == 0 &&
+                prev(Player["Experience"]) < Player["Experience"]
+            )
+        )
+    ) && 
+    never(IsOnTitle())
+}
+
+function ToyRingKill(){
+    items = ["BlankScroll", "WoodRod", "WaterPotion"]
+    return any_of
+    (
+        items, 
+        item => 
+        !IsInDemo() &&
+        Player["Equipped"]["Ring"] == ItemValues["ToyRing"] &&
+        Player["Equipped"]["IsRingEquipped"] == 1 &&
+        prev(Player["ThrownItem"]) == ItemValues[item] && 
+        Player["ThrownItem"] == 0 &&
+        prev(Player["Experience"]) < Player["Experience"]
+    )
+}
+
+function UseWindRod(){
+    return !IsInDemo() &&
+        prev(Game["Message"]) != Message["MonstersBlownAway"] &&
+        Game["Message"] == Message["MonstersBlownAway"]
+}
+
+function UseSilentRod(){
+    return measured
+    (
+        repeated
+        (
+            5, 
+            !IsInDemo() &&
+            prev(Game["Message"]) != Message["Deflected"] &&
+            Game["Message"] == Message["Deflected"]
+        )
+    ) &&
+    never(IsOnTitle())
+}
+
+function UseDrainRod(){
+    return !IsInDemo() &&
+       Player["UsedItem"] == ItemValues["DrainRod"] && 
+       prev(Player["Health"]) < Player["Health"]
+}
+
+function InflictStatusEffect(){
+    items = ["SlowPotion", "FogPotion", "DazePotion", "FreezePotion"]
+    
+    itemMessages = {
+        "SlowPotion": 0x18,
+        "FogPotion": 0x16,
+        "DazePotion": 0x16,
+        "FreezePotion": 0x17
+    }
+    
+    return any_of
+    (
+        items,
+        item =>
+        !IsInDemo() &&
+        prev(Player["ThrownItem"]) == ItemValues[item] &&
+        Player["ThrownItem"] == 0 &&
+        prev(Game["Message"]) != itemMessages[item] &&
+        Game["Message"] == itemMessages[item]
+    )
+}
+
+function UseBlessScroll() {
+    return tally
+    (
+        2, 
+        once(!IsInDemo() && Player["UsedItem"] == ItemValues["BlessScroll"] && prev(Player["Equipped"]["Weapon"]) != Player["Equipped"]["Weapon"]),
+        once(!IsInDemo() && Player["UsedItem"] == ItemValues["BlessScroll"] && prev(Player["Equipped"]["Armor"]) != Player["Equipped"]["Armor"]),
+        once(!IsInDemo() && Player["UsedItem"] == ItemValues["BlessScroll"] && prev(Player["Equipped"]["Ring"]) != Player["Equipped"]["Ring"])
+    ) && never(prev(Player["UsedItem"]) == ItemValues["BlessScroll"] && Player["UsedItem"] != ItemValues["BlessScroll"])
+}
+
 // ======================================================================= //
 // Achievement Definitions - Progression
 // ======================================================================= //
@@ -739,55 +898,55 @@ achievement("[DRAFT] Ogre", "Find and equip an Ogre Ring to increase your attack
 // ======================================================================= //
 
 achievement("[DRAFT] Throw Items", "Identify any 10 items by throwing them in a single run", points = 5, id = 464831,
-    trigger = always_false()
+    trigger = IdentifyThrownItems()
 )
 
 achievement("[DRAFT] Use Items", "Identify any 10 items by using them in a single run", points = 5, id = 464832,
-    trigger = always_false()
+    trigger = IdentifyUsedItems()
 )
 
 achievement("[DRAFT] Scrolls", "Identify all 14 Scrolls in a single run", points = 10, id = 464833,
-    trigger = always_false()
+    trigger = IdentifiedAllItems("Scroll")
 )
 
 achievement("[DRAFT] Rods", "Identify all 12 Rods in a single run", points = 10, id = 464834,
-    trigger = always_false()
+    trigger = IdentifiedAllItems("Rod")
 )
 
 achievement("[DRAFT] Potions", "Identify all 13 Potions in a single run", points = 10, id = 464835,
-    trigger = always_false()
+    trigger = IdentifiedAllItems("Potion")
 )
 
 achievement("[DRAFT] Rings", "Identify all 10 Rings in a single run", points = 10, id = 464836,
-    trigger = always_false()
+    trigger = IdentifiedAllItems("Ring")
 )
 
-achievement("[DRAFT] Rod Kills", "Kill 10 enemies with Rods while equipped with the Magic Ring in a single run", points = 5, id = 464837,
-    trigger = always_false()
+achievement("[DRAFT] Rod Kills", "Kill 10 enemies by using Rods while equipped with the Magic Ring in a single run", points = 5, id = 464837,
+    trigger = RodKills()
 )
 
 achievement("[DRAFT] Toy Ring", "Kill an enemy while wearing a Toy Ring by throwing a Blank Scroll, Wood Rod, or Water Potion at it", points = 5, id = 464838,
-    trigger = always_false()
+    trigger = ToyRingKill()
 )
 
 achievement("[DRAFT] Wind Rod", "Spirit a monster away by using a Wind Rod", points = 2, id = 464839,
-    trigger = always_false()
+    trigger = UseWindRod()
 )
 
 achievement("[DRAFT] Silent Rod", "Prevent 5 enemies from applying status effects with Silent Rods in a single run", points = 5, id = 464840,
-    trigger = always_false()
+    trigger = UseSilentRod()
 )
 
 achievement("[DRAFT] Drain Rod", "Come out on top with more HP after using a Drain Rod on an enemy", points = 5, id = 464841,
-    trigger = always_false()
+    trigger = UseDrainRod()
 )
 
-achievement("[DRAFT] Status Effect", "Inflict a status effect on an enemy by throwing a Slow, Fog, Daze or Freeze potion at them", points = 2, id = 464842,
-    trigger = always_false()
+achievement("[DRAFT] Status Effect", "Inflict a status effect on an enemy by throwing a Slow, Fog, Daze, or Freeze potion at them", points = 2, id = 464842,
+    trigger = InflictStatusEffect()
 )
 
 achievement("[DRAFT] Uncurse", "Uncurse 2 or more pieces of equipment using a single Bless Scroll", points = 5, id = 464843,
-    trigger = always_false()
+    trigger = UseBlessScroll()
 )
 
 achievement("[DRAFT] Cure", "Cure 2 or more status effects using a single Cure Potion", points = 5, id = 464844,

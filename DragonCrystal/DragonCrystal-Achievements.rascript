@@ -21,7 +21,7 @@ Player = {
     "Food": low4(0x620) + high4(0x620) * 10,
     "Health": byte(0x621) + byte(0x622) * 256,
     "MaxHealth": byte(0x623) + byte(0x624) * 256,
-    "Experience": word(0x625) + byte(0x626) * 256,
+    "Experience": byte(0x625) + byte(0x626) * 256,
     "Gold": low4(0x62b) + high4(0x62b) * 10 + low4(0x62c) * 100 + high4(0x62c) * 1000,
     "BasePW": byte(0x62f),
     "BaseAC": byte(0x630),
@@ -243,48 +243,56 @@ Enemies = {
         {
             "MinFloor": 5,
             "MaxFloor": 8,
-            "Experience": 1
+            "Experience": 1,
+            "Weapon": 0x0b
         },
         {
             "MinFloor": 17,
             "MaxFloor": 20,
-            "Experience": 72
+            "Experience": 72,
+            "Weapon": 0x0b
         },
         {
             "MinFloor": 25,
             "MaxFloor": 28,
-            "Experience": 110
+            "Experience": 110,
+            "Weapon": 0x0b
         }
     ],
     "Witch": [
         {
             "MinFloor": 9,
             "MaxFloor": 12,
-            "Experience": 25
+            "Experience": 25,
+            "Weapon": 0x09
         },
         {
             "MinFloor": 21,
             "MaxFloor": 24,
-            "Experience": 60
+            "Experience": 60,
+            "Weapon": 0x09
         }
     ],
     "Myst": [
         {
             "MinFloor": 10,
             "MaxFloor": 12,
-            "Experience": 48
+            "Experience": 48,
+            "Weapon": 0x0a
         },
         {
             "MinFloor": 21,
             "MaxFloor": 24,
-            "Experience": 150
+            "Experience": 150,
+            "Weapon": 0x0a
         }
     ],
     "Dragon": [
         {
             "MinFloor": 29,
             "MaxFloor": 30,
-            "Experience": 250
+            "Experience": 250,
+            "Weapon": 0x0c
         }
     ]
 }
@@ -490,9 +498,72 @@ function EquippedAllPurpleSwords(){
         never(IsOnTitle())
 }
 
+function EquippedAllLightArmor(){
+    return measured(tally(2, once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Leathersuit"] && Player["Equipped"]["Armor"] == EquipmentValues["Leathersuit"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Lamellar"] && Player["Equipped"]["Armor"] == EquipmentValues["Lamellar"]))) &&
+        never(IsOnTitle())
+}
+
+function EquippedAllMediumArmor(){
+    return measured(tally(3, once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Cuirass"] && Player["Equipped"]["Armor"] == EquipmentValues["Cuirass"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["ChainMail"] && Player["Equipped"]["Armor"] == EquipmentValues["ChainMail"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["ScaleArmor"] && Player["Equipped"]["Armor"] == EquipmentValues["ScaleArmor"]))) &&
+        never(IsOnTitle())
+}
+
+function EquippedAllHeavyArmor(){
+    return measured(tally(5, once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["PlateArmor"] && Player["Equipped"]["Armor"] == EquipmentValues["PlateArmor"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["BattleSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["BattleSuit"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["DragonSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["DragonSuit"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["MysticSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["MysticSuit"]),
+        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["PowerSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["PowerSuit"]))) &&
+        never(IsOnTitle())
+}
+
 function KilledMonsters(count){
     return measured(repeated(100, !IsInDemo() && prev(Player["Experience"]) < Player["Experience"])) &&
         never(IsOnTitle())
+}
+
+function KilledMonsterType(type, count){
+    monsters = Enemies[type]
+    return measured
+        (
+            tally
+            (
+                count, 
+                array_map
+                (
+                    monsters, 
+                    monster => 
+                        !IsInDemo() &&
+                        Player["Equipped"]["Weapon"] == monster["Weapon"] &&
+                        Game["Floor"] >= monster["MinFloor"] && 
+                        Game["Floor"] <= monster["MaxFloor"] && 
+                        Player["Experience"] == prev(Player["Experience"]) + monster["Experience"]
+                )
+             )
+        ) &&
+        never(IsOnTitle())
+}
+
+function GreatSwordOoze(){
+    return !IsInDemo() &&
+        prev(Game["Message"]) != Message["SwordDoesntCut"] &&
+        Game["Message"] == Message["SwordDoesntCut"]
+}
+
+function FoundSecretPassage(){
+    return !IsInDemo() &&
+        prev(Game["Message"]) != Message["Path"] &&
+        Game["Message"] == Message["Path"]
+}
+
+function EquippedRing(ring){
+    return !IsInDemo() &&
+        prev(Player["Equipped"]["Ring"]) != ItemValues[ring] &&
+        Player["Equipped"]["Ring"] == ItemValues[ring] &&
+        Player["Equipped"]["IsRingEquipped"] == 1
 }
 
 // ======================================================================= //
@@ -608,23 +679,23 @@ achievement("[DRAFT] 100 Monsters", "Kill 100 monsters in a single run", points 
 )
 
 achievement("[DRAFT] Witches", "Kill 10 Witches while having the Magi Masher equipped in a single run", points = 5, id = 464819,
-    trigger = always_false()
+    trigger = KilledMonsterType("Witch", 10)
 )
 
 achievement("[DRAFT] Mysts", "Kill 10 Mysts while having the Bushido Blade equipped in a single run", points = 5, id = 464820,
-    trigger = always_false()
+    trigger = KilledMonsterType("Myst", 10)
 )
 
 achievement("[DRAFT] Phantoms", "Kill 10 Phantoms while having the Ghost Killer equipped in a single run", points = 5, id = 464821, 
-    trigger = always_false()
+    trigger = KilledMonsterType("Phantom", 10)
 )
 
 achievement("[DRAFT] Dragons", "Kill 5 Dragons using the Dragonslayer in a single run", points = 10, id = 464822,
-    trigger = always_false()
+    trigger = KilledMonsterType("Dragon", 5)
 )
 
 achievement("[DRAFT] Ooze Attack", "Attempt to kill an Ooze with a Great Sword", points = 2, id = 464823,
-    trigger = always_false()
+    trigger = GreatSwordOoze()
 )
 
 // ======================================================================= //
@@ -632,15 +703,15 @@ achievement("[DRAFT] Ooze Attack", "Attempt to kill an Ooze with a Great Sword",
 // ======================================================================= //
 
 achievement("[DRAFT] Light Armor", "Find and equip the Leathersuit and Lamellar in a single run", points = 5, id = 464824,
-    trigger = always_false()
+    trigger = EquippedAllLightArmor()
 )
 
 achievement("[DRAFT] Medium Armor", "Find and equip the Cuirass, Chain Mail, and Scale Armor in a single run", points = 5, id = 464825,
-    trigger = always_false()
+    trigger = EquippedAllMediumArmor()
 )
 
 achievement("[DRAFT] Heavy Armor", "Find and equip the Plate Armor, Battle Suit, Dragon Suit, Mystic Suit, and Power Suit in a single run", points = 5, id = 464826,
-    trigger = always_false()
+    trigger = EquippedAllHeavyArmor()
 )
 
 // ======================================================================= //
@@ -648,19 +719,19 @@ achievement("[DRAFT] Heavy Armor", "Find and equip the Plate Armor, Battle Suit,
 // ======================================================================= //
 
 achievement("[DRAFT] Hidden Passage", "Reveal a hidden passage with the Sight Ring equipped", points = 2, id = 464827,
-    trigger = always_false()
+    trigger = FoundSecretPassage()
 )
 
 achievement("[DRAFT] Food", "Find and equip a Food Ring and stave off starvation", points = 2, id = 464828,
-    trigger = always_false()
+    trigger = EquippedRing("FoodRing")
 )
 
 achievement("[DRAFT] Shield", "Find and equip a Shield Ring to increase your defense", points = 2, id = 464829,
-    trigger = always_false()
+    trigger = EquippedRing("ShieldRing")
 )
 
 achievement("[DRAFT] Ogre", "Find and equip an Ogre Ring to increase your attack power", points = 2, id = 464830,
-    trigger = always_false()
+    trigger = EquippedRing("OgreRing")
 )
 
 // ======================================================================= //

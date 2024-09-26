@@ -293,7 +293,9 @@ Message = {
     "Enemy": 0x24,
     "Deflected": 0x2a,
     "Mutates": 0x2b,
+    "SlipThroughTime": 0x2c,
     "SwappedHitpoints": 0x2d,
+    "SpeedImproved": 0x31,
     "SwordDoesntCut": 0x3c,
     "MonsterSummoned": 0x4f
 }
@@ -356,6 +358,17 @@ Enemies = {
         }
     ]
 }
+
+PotionSlots = [
+    byte(0x0920),
+    byte(0x0921),
+    byte(0x0922),
+    byte(0x0923),
+    byte(0x0924),
+    byte(0x0925),
+    byte(0x0926),
+    byte(0x0927)
+]
 
 // ======================================================================= //
 // Helper Functions
@@ -436,6 +449,7 @@ function ClearGameNoDropping(){
 function ClearFloorWithActionLimit(limit){
     return prev(Game["Floor"]) > 0 && trigger_when(prev(Game["Floor"]) == Game["Floor"] - 1) &&
         disable_when(repeated(limit, !IsInDemo() && PlayerPerformedAction())) && 
+        disable_when(Player["UsedItem"] == ItemValues["TravelRod"]) &&
         (
             never(!IsInDemo() && prev(Game["Screen"]) == ScreenValues["NextFloor"] && Game["Screen"] == ScreenValues["InGame"]) ||
             (
@@ -482,9 +496,9 @@ function ClearFirst5FloorsWithDefaultEquipment(){
             never(IsOnTitle())
         )
     ) &&
-    disable_when(!IsInDemo() && Player["UsedItem"] == ItemValues["TravelRod"], IsOnTitle()) &&
-    disable_when(!IsInDemo() && Player["Equipped"]["Weapon"] != EquipmentValues["Dagger"], IsOnTitle()) &&
-    disable_when(!IsInDemo() && Player["Equipped"]["Armor"] != EquipmentValues["Robe"], IsOnTitle())
+    disable_when(!IsInDemo() && !IsOnTitle() && Player["UsedItem"] == ItemValues["TravelRod"], IsOnTitle()) &&
+    disable_when(!IsInDemo() && !IsOnTitle() && Player["Equipped"]["Weapon"] > 0 && Player["Equipped"]["Weapon"] != EquipmentValues["Dagger"], IsOnTitle()) &&
+    disable_when(!IsInDemo() && !IsOnTitle() && Player["Equipped"]["Weapon"] > 0 && Player["Equipped"]["Armor"] != EquipmentValues["Robe"], IsOnTitle())
 }
 
 function ClearFirst10FloorsWithoutItems(){
@@ -644,7 +658,7 @@ function RodKills(){
                 Player["Equipped"]["Ring"] == ItemValues["MagicRing"] &&
                 Player["Equipped"]["IsRingEquipped"] == 1 &&
                 prev(Player["UsedItem"]) == 0x30 + index &&
-                Player["UsedItem"] == 0 &&
+                Player["UsedItem"] != 0x30 + index &&
                 prev(Player["Experience"]) < Player["Experience"]
             )
         )
@@ -662,7 +676,7 @@ function ToyRingKill(){
         Player["Equipped"]["Ring"] == ItemValues["ToyRing"] &&
         Player["Equipped"]["IsRingEquipped"] == 1 &&
         prev(Player["ThrownItem"]) == ItemValues[item] && 
-        Player["ThrownItem"] == 0 &&
+        Player["ThrownItem"] != ItemValues[item] &&
         prev(Player["Experience"]) < Player["Experience"]
     )
 }
@@ -671,6 +685,12 @@ function UseWindRod(){
     return !IsInDemo() &&
         prev(Game["Message"]) != Message["MonstersBlownAway"] &&
         Game["Message"] == Message["MonstersBlownAway"]
+}
+
+function UsedSlowfixPotion(){
+    return !IsInDemo() &&
+        prev(Game["Message"]) != Message["SpeedImproved"] &&
+        Game["Message"] == Message["SpeedImproved"]
 }
 
 function UseSilentRod(){
@@ -709,7 +729,7 @@ function InflictStatusEffect(){
         item =>
         !IsInDemo() &&
         prev(Player["ThrownItem"]) == ItemValues[item] &&
-        Player["ThrownItem"] == 0 &&
+        Player["ThrownItem"] != ItemValues[item] &&
         prev(Game["Message"]) != itemMessages[item] &&
         Game["Message"] == itemMessages[item]
     )
@@ -725,35 +745,163 @@ function UseBlessScroll() {
     ) && never(prev(Player["UsedItem"]) == ItemValues["BlessScroll"] && Player["UsedItem"] != ItemValues["BlessScroll"])
 }
 
+function UseCurePotion() {
+    return tally
+    (
+        2,
+        once(!IsInDemo() && Player["UsedItem"] == ItemValues["CurePotion"] && prev(Player["Status"]["Poisoned"]) > 0 && Player["Status"]["Poisoned"] == 0),
+        once(!IsInDemo() && Player["UsedItem"] == ItemValues["CurePotion"] && prev(Player["Status"]["Fogged"]) > 0 && Player["Status"]["Fogged"] == 0),
+        once(!IsInDemo() && Player["UsedItem"] == ItemValues["CurePotion"] && prev(Player["Status"]["Dizzy"]) > 0 && Player["Status"]["Dizzy"] == 0)
+    ) && never(prev(Player["UsedItem"]) == ItemValues["CurePotion"] && Player["UsedItem"] != ItemValues["CurePotion"])
+}
+
+function UseHealPotions(){
+    potions = ["MinhealPotion", "MidhealPotion", "MaxhealPotion"]
+    
+    return any_of
+    (
+        potions,
+        potion =>
+        !IsInDemo() &&
+        Player["UsedItem"] == ItemValues[potion] &&
+        prev(Player["Health"]) < Player["Health"]
+    )
+}
+
+function UsePowerPotions(){
+    return measured
+    (
+        repeated
+        (
+            5, 
+            !IsInDemo() &&
+            prev(Player["UsedItem"]) != ItemValues["PowerPotion"] &&
+            Player["UsedItem"] == ItemValues["PowerPotion"]
+        )
+    ) &&
+    never(IsOnTitle())
+}
+
+function UseReflexPotions(){
+    return measured
+    (
+        repeated
+        (
+            5, 
+            !IsInDemo() &&
+            prev(Player["UsedItem"]) != ItemValues["ReflexPotion"] &&
+            Player["UsedItem"] == ItemValues["ReflexPotion"]
+        )
+    ) &&
+    never(IsOnTitle())
+}
+
+function UseBladeScrollWithLaserBlade(){
+    return !IsInDemo() &&
+        Player["Equipped"]["Weapon"] == EquipmentValues["LaserBlade"] &&
+        prev(Player["UsedItem"]) != ItemValues["BladeScroll"] &&
+        Player["UsedItem"] == ItemValues["BladeScroll"]
+}
+
+function UseShieldScrollWithPowerSuit(){
+    return !IsInDemo() &&
+        Player["Equipped"]["Armor"] == EquipmentValues["PowerSuit"] &&
+        prev(Player["UsedItem"]) != ItemValues["ShieldScroll"] &&
+        Player["UsedItem"] == ItemValues["ShieldScroll"]
+}
+
+function UseNorustScrollWithMysticSuit(){
+    return !IsInDemo() &&
+        Player["Equipped"]["Armor"] == EquipmentValues["MysticSuit"] &&
+        prev(Player["UsedItem"]) != ItemValues["NorustScroll"] &&
+        Player["UsedItem"] == ItemValues["NorustScroll"]
+}
+
+function UseMapScroll(){
+    return !IsInDemo() &&
+        prev(Player["UsedItem"]) != ItemValues["MapScroll"] &&
+        Player["UsedItem"] == ItemValues["MapScroll"]
+}
+
+function UseMadScroll(){
+    return !IsInDemo() &&
+        prev(Player["UsedItem"]) != ItemValues["MadScroll"] &&
+        Player["UsedItem"] == ItemValues["MadScroll"]
+}
+
+function SummonAMonster(){
+    items = ["SummonScroll", "SpiritRod"]
+    
+    return any_of
+    (
+        items,
+        item =>
+        !IsInDemo() &&
+        prev(Player["UsedItem"]) != ItemValues[item] &&
+        Player["UsedItem"] == ItemValues[item]
+    )
+}
+
+function UseReshapeRod(){
+    return !IsInDemo() &&
+        prev(Player["UsedItem"]) == ItemValues["ReshapeRod"] &&
+        Player["UsedItem"] != ItemValues["ReshapeRod"] &&
+        prev(Game["Message"]) != Message["Mutates"] &&
+        Game["Message"] == Message["Mutates"]
+}
+
+function UseTravelRod(){
+    return !IsInDemo() &&
+       prev(Game["Message"]) != Message["SlipThroughTime"] &&
+       Game["Message"] == Message["SlipThroughTime"]
+}
+
+function UserPotionScroll(){
+    return tally
+    (
+        8,
+        array_map
+        (
+            range(0,7),
+            index => 
+            !IsInDemo() &&
+            Player["UsedItem"] == ItemValues["PotionScroll"] &&
+            prev(PotionSlots[index]) != ItemValues["MidhealPotion"] &&
+            PotionSlots[index] == ItemValues["MidhealPotion"]
+        )
+    ) &&
+    never(prev(Player["UsedItem"]) == ItemValues["PotionScroll"] && Player["UsedItem"] != ItemValues["PotionScroll"])
+}
+
 // ======================================================================= //
 // Achievement Definitions - Progression
 // ======================================================================= //
 
-achievement("[DRAFT] Floor 5", "Reach Floor 5", points = 1, type = "progression", id = 464794,
+achievement("From the Ground Up", "Reach Floor 5", points = 1, type = "progression", id = 464794,
     trigger = ReachFloor(5)
 )
 
-achievement("[DRAFT] Floor 10", "Reach Floor 10", points = 1, type = "progression", id = 464795,
+achievement("Rise to the Occasion", "Reach Floor 10", points = 1, type = "progression", id = 464795,
     trigger = ReachFloor(10)
 )
 
-achievement("[DRAFT] Floor 15", "Reach Floor 15", points = 3, type = "progression", id = 464796,
+achievement("Over the Hump", "Reach Floor 15", points = 3, type = "progression", id = 464796,
     trigger = ReachFloor(15)
 )
 
-achievement("[DRAFT] Floor 20", "Reach Floor 20", points = 3, type = "progression", id = 464797,
+achievement("Climb the Ladder", "Reach Floor 20", points = 3, type = "progression", id = 464797,
     trigger = ReachFloor(20)
 )
 
-achievement("[DRAFT] Floor 25", "Reach Floor 25", points = 5, type = "progression", id = 464798,
+achievement("Come a Long Way", "Reach Floor 25", points = 5, type = "progression", id = 464798,
     trigger = ReachFloor(25)
 )
 
-achievement("[DRAFT] Floor 30", "Reach Floor 30", points = 5, type = "progression", id = 464799,
+achievement("To the Top", "Reach Floor 30", points = 5, type = "progression", id = 464799,
     trigger = ReachFloor(30)
 )
 
-achievement("[DRAFT] Clear Game", "Collect the Dragon Orb on Floor 30 and return to the real world", points = 10, type = "win_condition", id = 464800,
+achievement("The World at Your Feet", "Collect the Dragon Orb on Floor 30 and return to the real world", points = 10, type = "win_condition", id = 464800,
     trigger = ClearGame()
 )
 
@@ -761,55 +909,55 @@ achievement("[DRAFT] Clear Game", "Collect the Dragon Orb on Floor 30 and return
 // Achievement Definitions - Play Challenges
 // ======================================================================= //
 
-achievement("[DRAFT] 100 Actions", "Clear any floor in 100 actions or less", points = 10, id = 464801,
+achievement("Under the Wire", "Clear any floor in 100 actions or less", points = 10, id = 464801,
     trigger = ClearFloorWithActionLimit(100)
 )
 
-achievement("[DRAFT] Hunger Ring", "Without removing it or using a continue, clear 5 floors sequentially while equipped with the Hunger Ring [No Travel Rod]", points = 5, id = 464802,
+achievement("Hunger Like No Other", "Without removing it or using a continue, clear 5 floors sequentially while equipped with the Hunger Ring [No Travel Rod]", points = 5, id = 464802,
     trigger = ClearFloorsWithHungerRing()
 )
 
-achievement("[DRAFT] Base Equipment", "Clear the first 5 floors equipped with the Dagger and Robe", points = 5, id = 464803,
+achievement("From Square One", "Clear the first 5 floors equipped with the Dagger and Robe", points = 5, id = 464803,
     trigger = ClearFirst5FloorsWithDefaultEquipment()
 )
 
-achievement("[DRAFT] No Items", "Clear the first 10 floors without using a potion, scroll, or equipping a ring", points = 10, id = 464804,
+achievement("Meager Start", "Clear the first 10 floors without using a potion, scroll, or equipping a ring", points = 10, id = 464804,
     trigger = ClearFirst10FloorsWithoutItems()
 )
 
-achievement("[DRAFT] No Continues", "Clear the game without using a continue", points = 25, id = 464805,
+achievement("With Flying Colors", "Clear the game without using a continue", points = 25, id = 464805,
     trigger = ClearGameNoContinue()
 )
 
-achievement("[DRAFT] No Dropping", "Clear the game without dropping or thowing any Scrolls, Rods, or Potions", points = 25, id = 464806,
+achievement("Tight Fisted", "Clear the game without dropping or thowing any Scrolls, Rods, or Potions", points = 25, id = 464806,
     trigger = ClearGameNoDropping()
 )
 
-achievement("[DRAFT] Warrior", "Become a Warrior by reaching Level 4", points = 1, id = 464807,
+achievement("Sprout", "Become a Warrior by reaching Level 4", points = 1, id = 464807,
     trigger = AchievedLevel(4)
 )
 
-achievement("[DRAFT] Knight", "Become a Knight by reaching Level 8", points = 3, id = 464808,
+achievement("Seedling", "Become a Knight by reaching Level 8", points = 3, id = 464808,
     trigger = AchievedLevel(8)
 )
 
-achievement("[DRAFT] Paradin", "Become a Paradin by reaching Level 12", points = 5, id = 464809,
+achievement("Sapling", "Become a Paradin by reaching Level 12", points = 5, id = 464809,
     trigger = AchievedLevel(12)
 )
 
-achievement("[DRAFT] Masterlord", "Become a Masterlord by reaching Level 16", points = 10, id = 464810,
+achievement("Mighty Oak", "Become a Masterlord by reaching Level 16", points = 10, id = 464810,
     trigger = AchievedLevel(16)
 )
 
-achievement("[DRAFT] Defense", "Reach an AC of 55 or more in a single run", points = 10, id = 464811,
+achievement("Dressed for Success", "Reach an AC of 55 or more in a single run", points = 10, id = 464811,
     trigger = AchievedAC(55)
 )
 
-achievement("[DRAFT] Power", "Reach a PW of 75 or more in a single run", points = 10, id = 464812,
+achievement("Power Trip", "Reach a PW of 75 or more in a single run", points = 10, id = 464812,
     trigger = AchievedPW(75)
 )
 
-achievement("[DRAFT] Gold", "Collect 10,000 Gold in a single run", points = 10, id = 464813,
+achievement("Rags to Riches", "Collect 10,000 Gold in a single run", points = 10, id = 464813,
     trigger = AchievedGold(10000)
 )
 
@@ -817,43 +965,43 @@ achievement("[DRAFT] Gold", "Collect 10,000 Gold in a single run", points = 10, 
 // Achievement Definitions - Weapon Challenges
 // ======================================================================= //
 
-achievement("[DRAFT] Green Swords", "Find and equip the Short Sword, Long Sword, and Broadsword in a single run", points = 5, id = 464814,
+achievement("Green Thumb", "Find and equip the Short Sword, Long Sword, and Broadsword in a single run", points = 5, id = 464814,
     trigger = EquippedAllGreenSwords()
 )
 
-achievement("[DRAFT] Red Swords", "Find and equip the Gladius, Flamberge, Rune Blade, and Laser Blade in a single run", points = 5, id = 464815,
+achievement("Caught Red Handed", "Find and equip the Gladius, Flamberge, Rune Blade, and Laser Blade in a single run", points = 5, id = 464815,
     trigger = EquippedAllRedSwords()
 )
 
-achievement("[DRAFT] Blue Swords", "Find and equip the Magi Masher, Bushido Blade, Ghost Killer, and Dragonslayer in a single run", points = 5, id = 464816,
+achievement("Out of the Blue", "Find and equip the Magi Masher, Bushido Blade, Ghost Killer, and Dragonslayer in a single run", points = 5, id = 464816,
     trigger = EquippedAllBlueSwords()
 )
 
-achievement("[DRAFT] Purple Swords", "Find and equip the Blood Blade, Great Sword, and Death Blade in a single run", points = 5, id = 464817,
+achievement("Born in the Purple", "Find and equip the Blood Blade, Great Sword, and Death Blade in a single run", points = 5, id = 464817,
     trigger = EquippedAllPurpleSwords()
 )
 
-achievement("[DRAFT] 100 Monsters", "Kill 100 monsters in a single run", points = 5, id = 464818,
+achievement("Killer Instinct", "Kill 100 monsters in a single run", points = 5, id = 464818,
     trigger = KilledMonsters(100)
 )
 
-achievement("[DRAFT] Witches", "Kill 10 Witches while having the Magi Masher equipped in a single run", points = 5, id = 464819,
+achievement("Witch Hunt", "Kill 10 Witches while having the Magi Masher equipped in a single run", points = 5, id = 464819,
     trigger = KilledMonsterType("Witch", 10)
 )
 
-achievement("[DRAFT] Mysts", "Kill 10 Mysts while having the Bushido Blade equipped in a single run", points = 5, id = 464820,
+achievement("Brave the Elements", "Kill 10 Mysts while having the Bushido Blade equipped in a single run", points = 5, id = 464820,
     trigger = KilledMonsterType("Myst", 10)
 )
 
-achievement("[DRAFT] Phantoms", "Kill 10 Phantoms while having the Ghost Killer equipped in a single run", points = 5, id = 464821, 
+achievement("Give up the Ghost", "Kill 10 Phantoms while having the Ghost Killer equipped in a single run", points = 5, id = 464821, 
     trigger = KilledMonsterType("Phantom", 10)
 )
 
-achievement("[DRAFT] Dragons", "Kill 5 Dragons using the Dragonslayer in a single run", points = 10, id = 464822,
+achievement("Tipping the Scales", "Kill 5 Dragons using the Dragonslayer in a single run", points = 10, id = 464822,
     trigger = KilledMonsterType("Dragon", 5)
 )
 
-achievement("[DRAFT] Ooze Attack", "Attempt to kill an Ooze with a Great Sword", points = 2, id = 464823,
+achievement("Doesn't Make the Cut", "Attempt to kill an Ooze with a Great Sword", points = 2, id = 464823,
     trigger = GreatSwordOoze()
 )
 
@@ -861,15 +1009,15 @@ achievement("[DRAFT] Ooze Attack", "Attempt to kill an Ooze with a Great Sword",
 // Achievement Definitions - Armor Challenges
 // ======================================================================= //
 
-achievement("[DRAFT] Light Armor", "Find and equip the Leathersuit and Lamellar in a single run", points = 5, id = 464824,
+achievement("Light Speed", "Find and equip the Leathersuit and Lamellar in a single run", points = 5, id = 464824,
     trigger = EquippedAllLightArmor()
 )
 
-achievement("[DRAFT] Medium Armor", "Find and equip the Cuirass, Chain Mail, and Scale Armor in a single run", points = 5, id = 464825,
+achievement("Happy Medium", "Find and equip the Cuirass, Chain Mail, and Scale Armor in a single run", points = 5, id = 464825,
     trigger = EquippedAllMediumArmor()
 )
 
-achievement("[DRAFT] Heavy Armor", "Find and equip the Plate Armor, Battle Suit, Dragon Suit, Mystic Suit, and Power Suit in a single run", points = 5, id = 464826,
+achievement("Heavy Hitter", "Find and equip the Plate Armor, Battle Suit, Dragon Suit, Mystic Suit, and Power Suit in a single run", points = 5, id = 464826,
     trigger = EquippedAllHeavyArmor()
 )
 
@@ -877,19 +1025,19 @@ achievement("[DRAFT] Heavy Armor", "Find and equip the Plate Armor, Battle Suit,
 // Achievement Definitions - Ring Challenges
 // ======================================================================= //
 
-achievement("[DRAFT] Hidden Passage", "Reveal a hidden passage with the Sight Ring equipped", points = 2, id = 464827,
+achievement("Secret Weapon", "Reveal a hidden passage with the Sight Ring equipped", points = 2, id = 464827,
     trigger = FoundSecretPassage()
 )
 
-achievement("[DRAFT] Food", "Find and equip a Food Ring and stave off starvation", points = 2, id = 464828,
+achievement("Satiated", "Find and equip a Food Ring and stave off starvation", points = 2, id = 464828,
     trigger = EquippedRing("FoodRing")
 )
 
-achievement("[DRAFT] Shield", "Find and equip a Shield Ring to increase your defense", points = 2, id = 464829,
+achievement("Play it Safe", "Find and equip a Shield Ring to increase your defense", points = 2, id = 464829,
     trigger = EquippedRing("ShieldRing")
 )
 
-achievement("[DRAFT] Ogre", "Find and equip an Ogre Ring to increase your attack power", points = 2, id = 464830,
+achievement("Ironclad", "Find and equip an Ogre Ring to increase your attack power", points = 2, id = 464830,
     trigger = EquippedRing("OgreRing")
 )
 
@@ -897,111 +1045,111 @@ achievement("[DRAFT] Ogre", "Find and equip an Ogre Ring to increase your attack
 // Achievement Definitions - Item Challenges
 // ======================================================================= //
 
-achievement("[DRAFT] Throw Items", "Identify any 10 items by throwing them in a single run", points = 5, id = 464831,
+achievement("Calculated Risk", "Identify any 10 items by throwing them in a single run", points = 5, id = 464831,
     trigger = IdentifyThrownItems()
 )
 
-achievement("[DRAFT] Use Items", "Identify any 10 items by using them in a single run", points = 5, id = 464832,
+achievement("Roll the Dice", "Identify any 10 items by using them in a single run", points = 5, id = 464832,
     trigger = IdentifyUsedItems()
 )
 
-achievement("[DRAFT] Scrolls", "Identify all 14 Scrolls in a single run", points = 10, id = 464833,
+achievement("Just Scroll with It", "Identify all 14 Scrolls in a single run", points = 10, id = 464833,
     trigger = IdentifiedAllItems("Scroll")
 )
 
-achievement("[DRAFT] Rods", "Identify all 12 Rods in a single run", points = 10, id = 464834,
+achievement("Carrot or Stick", "Identify all 12 Rods in a single run", points = 10, id = 464834,
     trigger = IdentifiedAllItems("Rod")
 )
 
-achievement("[DRAFT] Potions", "Identify all 13 Potions in a single run", points = 10, id = 464835,
+achievement("Take a Sip", "Identify all 13 Potions in a single run", points = 10, id = 464835,
     trigger = IdentifiedAllItems("Potion")
 )
 
-achievement("[DRAFT] Rings", "Identify all 10 Rings in a single run", points = 10, id = 464836,
+achievement("Covered in Bling", "Identify all 10 Rings in a single run", points = 10, id = 464836,
     trigger = IdentifiedAllItems("Ring")
 )
 
-achievement("[DRAFT] Rod Kills", "Kill 10 enemies by using Rods while equipped with the Magic Ring in a single run", points = 5, id = 464837,
+achievement("Magic Bullet", "Kill 10 enemies by using Rods while equipped with the Magic Ring in a single run", points = 5, id = 464837,
     trigger = RodKills()
 )
 
-achievement("[DRAFT] Toy Ring", "Kill an enemy while wearing a Toy Ring by throwing a Blank Scroll, Wood Rod, or Water Potion at it", points = 5, id = 464838,
+achievement("False Confidence", "Kill an enemy while wearing a Toy Ring by throwing a Blank Scroll, Wood Rod, or Water Potion at it", points = 5, id = 464838,
     trigger = ToyRingKill()
 )
 
-achievement("[DRAFT] Wind Rod", "Spirit a monster away by using a Wind Rod", points = 2, id = 464839,
+achievement("Death Blow", "Spirit a monster away by using a Wind Rod", points = 2, id = 464839,
     trigger = UseWindRod()
 )
 
-achievement("[DRAFT] Silent Rod", "Prevent 5 enemies from applying status effects with Silent Rods in a single run", points = 5, id = 464840,
+achievement("Preventable Illness", "Prevent 5 enemies from applying status effects with Silent Rods in a single run", points = 5, id = 464840,
     trigger = UseSilentRod()
 )
 
-achievement("[DRAFT] Drain Rod", "Come out on top with more HP after using a Drain Rod on an enemy", points = 5, id = 464841,
+achievement("Circle the Drain", "Come out on top with more HP after using a Drain Rod on an enemy", points = 5, id = 464841,
     trigger = UseDrainRod()
 )
 
-achievement("[DRAFT] Status Effect", "Inflict a status effect on an enemy by throwing a Slow, Fog, Daze, or Freeze potion at them", points = 2, id = 464842,
+achievement("Splash Zone", "Inflict a status effect on an enemy by throwing a Slow, Fog, Daze, or Freeze potion at them", points = 2, id = 464842,
     trigger = InflictStatusEffect()
 )
 
-achievement("[DRAFT] Uncurse", "Uncurse 2 or more pieces of equipment using a single Bless Scroll", points = 5, id = 464843,
+achievement("Fresh Fit", "Uncurse 2 or more pieces of equipment using a single Bless Scroll", points = 5, id = 464843,
     trigger = UseBlessScroll()
 )
 
-achievement("[DRAFT] Cure", "Cure 2 or more status effects using a single Cure Potion", points = 5, id = 464844,
-    trigger = always_false()
+achievement("Clean Slate", "Cure 2 or more status effects using a single Cure Potion", points = 5, id = 464844,
+    trigger = UseCurePotion()
 )
 
-achievement("[DRAFT] Sluggish", "Cure yourself of sluggishness by using a Slowfix Potion", points = 2, id = 464845,
-    trigger = always_false()
+achievement("Rapid Recovery", "Cure yourself of sluggishness by using a Slowfix Potion", points = 2, id = 464845,
+    trigger = UsedSlowfixPotion()
 )
 
-achievement("[DRAFT] Heal", "Restore health by using a Minheal, Midheal, or Maxheal Potion", points = 2, id = 464846,
-    trigger = always_false()
+achievement("Top Form", "Restore health by using a Minheal, Midheal, or Maxheal Potion", points = 2, id = 464846,
+    trigger = UseHealPotions()
 )
 
-achievement("[DRAFT] Power Potion", "Increase your Base PW 5 times using Power Potions in a single playthrough", points = 10, id = 464847,
-    trigger = always_false()
+achievement("Protein Shake", "Increase your Base PW 5 times using Power Potions in a single playthrough", points = 10, id = 464847,
+    trigger = UsePowerPotions()
 )
 
-achievement("[DRAFT] Reflex Potion", "Increase your Base AC 5 times using Reflex Potions in a single playthrough", points = 10, id = 464848,
-    trigger = always_false()
+achievement("Energy Drink", "Increase your Base AC 5 times using Reflex Potions in a single playthrough", points = 10, id = 464848,
+    trigger = UseReflexPotions()
 )
 
-achievement("[DRAFT] Laser Blade", "Use a Blade Scroll while equipped with the Laser Blade", points = 5, id = 464849,
-    trigger = always_false()
+achievement("Strong Arm", "Use a Blade Scroll while equipped with the Laser Blade", points = 5, id = 464849,
+    trigger = UseBladeScrollWithLaserBlade()
 )
 
-achievement("[DRAFT] Power Shield", "Use a Shield Scroll while equipped with the Power Suit", points = 5, id = 464850,
-    trigger = always_false()
+achievement("Strong Suit", "Use a Shield Scroll while equipped with the Power Suit", points = 5, id = 464850,
+    trigger = UseShieldScrollWithPowerSuit()
 )
 
-achievement("[DRAFT] Mystic Norust", "Use a Norust Scroll while equipped with the Mystic Armor", points = 5, id = 464851,
-    trigger = always_false()
+achievement("Double Down", "Use a Norust Scroll while equipped with the Mystic Suit", points = 5, id = 464851,
+    trigger = UseNorustScrollWithMysticSuit()
 )
 
-achievement("[DRAFT] Map Scroll", "Use a Map Scroll to reveal the current floor", points = 2, id = 464852,
-    trigger = always_false()
+achievement("Street Smart", "Use a Map Scroll to reveal the current floor", points = 2, id = 464852,
+    trigger = UseMapScroll()
 )
 
-achievement("[DRAFT] Mad Scroll", "Use a Mad Scroll to dizzy all monsters on the current floor", points = 2, id = 464853,
-    trigger = always_false()
+achievement("Punch Drunk", "Use a Mad Scroll to dizzy all monsters on the current floor", points = 2, id = 464853,
+    trigger = UseMadScroll()
 )
 
-achievement("[DRAFT] Summon Scroll", "Use a Summon Scroll or Spirit Rod to summon a monster", points = 2, id = 464854,
-    trigger = always_false()
+achievement("Faux Pas", "Use a Summon Scroll or Spirit Rod to summon a monster", points = 2, id = 464854,
+    trigger = SummonAMonster()
 )
 
-achievement("[DRAFT] Reshape Rod", "Use Reshape Rods to transform a monsters into a different monster", points = 2, id = 464855,
-    trigger = always_false()
+achievement("Play with Fire", "Use Reshape Rods to transform a monsters into a different monster", points = 2, id = 464855,
+    trigger = UseReshapeRod()
 )
 
-achievement("[DRAFT] Travel Rod", "Use a Travel Rod to advance 1 floor", points = 2, id = 464856,
-    trigger = always_false()
+achievement("Go the Extra Mile", "Use a Travel Rod to advance 1 floor", points = 2, id = 464856,
+    trigger = UseTravelRod()
 )
 
-achievement("[DRAFT] Potion Scroll", "Transform 8 potions into Midheals with a single Potion Scroll", points = 5, id = 464857,
-    trigger = always_false()
+achievement("Recursive Remedy", "Transform 8 potions into Midheals with a single Potion Scroll", points = 5, id = 464857,
+    trigger = UserPotionScroll()
 )
 

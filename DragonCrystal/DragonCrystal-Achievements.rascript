@@ -379,8 +379,9 @@ function IsInGame() => Game["Screen"] == ScreenValues["InGame"]
 function IsOnGameOver() => Game["Screen"] == ScreenValues["GameOver"]
 function IsOnTitle() => Game["Screen"] <= ScreenValues["ToDemo"]
 function IsInDemo() => Game["Demo"] == 1
-function IsInEnding() => Game["Screen"] == ScreenValues["Ending"] || (Game["Screen"] >= ScreenValues["CreditsStart"] && Game["Screen"] <= ScreenValues["Congrats"])
+function IsInEnding() => Game["Screen"] >= 0x0d && Game["Screen"] != 0x0f && Game["Screen"] != 0x10
 function StartingGame() => Game["Screen"] == ScreenValues["StartGame"]
+function NotInEnding() => Game["Screen"] != 0x0d && Game["Screen"] != 0x0e && Game["Screen"] < 0x11
 
 function IsEquipmentCursed(type){
     return bit7(Inventory["Start"][type]) == 1
@@ -425,7 +426,7 @@ function PlayerPerformedAction() {
 // ======================================================================= //
 
 function ReachFloor(floor){
-    return !IsInDemo() && prev(Game["Floor"]) == floor - 1 && Game["Floor"] == floor
+    return !IsInDemo() && NotInEnding() && prev(Game["Floor"]) == floor - 1 && Game["Floor"] == floor
 }
 
 function ClearGame(){
@@ -455,7 +456,9 @@ function ClearFloorWithActionLimit(limit){
             (
                 never(IsOnTitle()) &&
                 never(IsInDemo()) &&
-                never(IsOnGameOver())
+                never(IsOnGameOver()) &&
+                never(Game["Screen"] >= 0x0d && Game["Screen"] <= 0x0e) &&
+                never(Game["Screen"] >= 0x11)
             )
         )
 }
@@ -518,82 +521,86 @@ function ClearFirst10FloorsWithoutItems(){
 
 function AchievedLevel(level){
     return !IsInDemo() &&
+        NotInEnding() &&
         prev(Player["Level"]) < level &&
         Player["Level"] >= level
 }
 
 function AchievedPW(pw){
     return !IsInDemo() &&
+        NotInEnding() &&
         prev(Player["PW"]) < pw &&
         Player["PW"] >= pw
 }
 
 function AchievedAC(ac){
     return !IsInDemo() &&
+        NotInEnding() &&
         prev(Player["AC"]) < ac &&
         Player["AC"] >= ac
 }
 
 function AchievedGold(gold){
     return !IsInDemo() &&
+        NotInEnding() &&
         prev(Player["Gold"]) < gold &&
         Player["Gold"] >= gold
 }
 
 function EquippedAllGreenSwords(){
-    return measured(tally(3, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["ShortSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["ShortSword"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["LongSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["LongSword"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Broadsword"] && Player["Equipped"]["Weapon"] == EquipmentValues["Broadsword"]))) &&
+    return measured(tally(3, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["ShortSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["ShortSword"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["LongSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["LongSword"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Broadsword"] && Player["Equipped"]["Weapon"] == EquipmentValues["Broadsword"]))) &&
         never(IsOnTitle())
 }
 
 function EquippedAllRedSwords(){
-    return measured(tally(4, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Gladius"] && Player["Equipped"]["Weapon"] == EquipmentValues["Gladius"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Flameberge"] && Player["Equipped"]["Weapon"] == EquipmentValues["Flameberge"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["RuneBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["RuneBlade"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["LaserBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["LaserBlade"]))) &&
+    return measured(tally(4, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Gladius"] && Player["Equipped"]["Weapon"] == EquipmentValues["Gladius"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Flameberge"] && Player["Equipped"]["Weapon"] == EquipmentValues["Flameberge"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["RuneBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["RuneBlade"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["LaserBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["LaserBlade"]))) &&
         never(IsOnTitle())
 }
 
 function EquippedAllBlueSwords(){
-    return measured(tally(4, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["MagiMasher"] && Player["Equipped"]["Weapon"] == EquipmentValues["MagiMasher"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["BushidoBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["BushidoBlade"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["GhostKiller"] && Player["Equipped"]["Weapon"] == EquipmentValues["GhostKiller"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Dragonslayer"] && Player["Equipped"]["Weapon"] == EquipmentValues["Dragonslayer"]))) &&
+    return measured(tally(4, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["MagiMasher"] && Player["Equipped"]["Weapon"] == EquipmentValues["MagiMasher"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["BushidoBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["BushidoBlade"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["GhostKiller"] && Player["Equipped"]["Weapon"] == EquipmentValues["GhostKiller"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["Dragonslayer"] && Player["Equipped"]["Weapon"] == EquipmentValues["Dragonslayer"]))) &&
         never(IsOnTitle())
 }
 
 function EquippedAllPurpleSwords(){
-    return measured(tally(3, once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["BloodBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["BloodBlade"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["GreatSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["GreatSword"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["DeathBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["DeathBlade"]))) &&
+    return measured(tally(3, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["BloodBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["BloodBlade"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["GreatSword"] && Player["Equipped"]["Weapon"] == EquipmentValues["GreatSword"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Weapon"]) != EquipmentValues["DeathBlade"] && Player["Equipped"]["Weapon"] == EquipmentValues["DeathBlade"]))) &&
         never(IsOnTitle())
 }
 
 function EquippedAllLightArmor(){
-    return measured(tally(2, once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Leathersuit"] && Player["Equipped"]["Armor"] == EquipmentValues["Leathersuit"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Lamellar"] && Player["Equipped"]["Armor"] == EquipmentValues["Lamellar"]))) &&
+    return measured(tally(2, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Leathersuit"] && Player["Equipped"]["Armor"] == EquipmentValues["Leathersuit"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Lamellar"] && Player["Equipped"]["Armor"] == EquipmentValues["Lamellar"]))) &&
         never(IsOnTitle())
 }
 
 function EquippedAllMediumArmor(){
-    return measured(tally(3, once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Cuirass"] && Player["Equipped"]["Armor"] == EquipmentValues["Cuirass"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["ChainMail"] && Player["Equipped"]["Armor"] == EquipmentValues["ChainMail"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["ScaleArmor"] && Player["Equipped"]["Armor"] == EquipmentValues["ScaleArmor"]))) &&
+    return measured(tally(3, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["Cuirass"] && Player["Equipped"]["Armor"] == EquipmentValues["Cuirass"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["ChainMail"] && Player["Equipped"]["Armor"] == EquipmentValues["ChainMail"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["ScaleArmor"] && Player["Equipped"]["Armor"] == EquipmentValues["ScaleArmor"]))) &&
         never(IsOnTitle())
 }
 
 function EquippedAllHeavyArmor(){
-    return measured(tally(5, once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["PlateArmor"] && Player["Equipped"]["Armor"] == EquipmentValues["PlateArmor"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["BattleSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["BattleSuit"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["DragonSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["DragonSuit"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["MysticSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["MysticSuit"]),
-        once(!IsInDemo() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["PowerSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["PowerSuit"]))) &&
+    return measured(tally(5, once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["PlateArmor"] && Player["Equipped"]["Armor"] == EquipmentValues["PlateArmor"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["BattleSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["BattleSuit"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["DragonSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["DragonSuit"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["MysticSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["MysticSuit"]),
+        once(!IsInDemo() && NotInEnding() && prev(Player["Equipped"]["Armor"]) != EquipmentValues["PowerSuit"] && Player["Equipped"]["Armor"] == EquipmentValues["PowerSuit"]))) &&
         never(IsOnTitle())
 }
 
 function KilledMonsters(count){
-    return measured(repeated(100, !IsInDemo() && prev(Player["Experience"]) < Player["Experience"])) &&
+    return measured(repeated(100, !IsInDemo() && NotInEnding() && prev(Player["Experience"]) < Player["Experience"])) &&
         never(IsOnTitle())
 }
 
@@ -609,6 +616,7 @@ function KilledMonsterType(type, count){
                     monsters, 
                     monster => 
                         !IsInDemo() &&
+                        NotInEnding() &&
                         Player["Equipped"]["Weapon"] == monster["Weapon"] &&
                         Game["Floor"] >= monster["MinFloor"] && 
                         Game["Floor"] <= monster["MaxFloor"] && 
@@ -627,6 +635,8 @@ function GreatSwordOoze(){
 
 function FoundSecretPassage(){
     return !IsInDemo() &&
+        Player["Equipped"]["Ring"] == ItemValues["SightRing"] &&
+        Player["Equipped"]["IsRingEquipped"] == 1 &&
         prev(Game["Message"]) != Message["Path"] &&
         Game["Message"] == Message["Path"]
 }
@@ -640,7 +650,7 @@ function EquippedRing(ring){
 
 function IdentifiedAllItems(type){
     items = IdentifiableItemsByType[type]
-    return measured(tally(length(items), array_map(items, item => !IsInDemo() && prev(items[item]) != 0 && items[item] == 0))) &&
+    return measured(tally(length(items), array_map(items, item => !IsInDemo() && NotInEnding() && prev(items[item]) != 0 && items[item] == 0))) &&
         never(IsOnTitle())
 }
 
@@ -957,8 +967,8 @@ achievement("Power Trip", "Reach a PW of 75 or more in a single run", points = 1
     trigger = AchievedPW(75)
 )
 
-achievement("Rags to Riches", "Collect 10,000 Gold in a single run", points = 10, id = 464813,
-    trigger = AchievedGold(10000)
+achievement("Rags to Riches", "Collect 5000 Gold in a single run", points = 10, id = 464813,
+    trigger = AchievedGold(5000)
 )
 
 // ======================================================================= //

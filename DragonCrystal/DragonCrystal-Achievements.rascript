@@ -500,8 +500,8 @@ function ClearFirst5FloorsWithDefaultEquipment(){
         )
     ) &&
     disable_when(!IsInDemo() && !IsOnTitle() && Player["UsedItem"] == ItemValues["TravelRod"], IsOnTitle()) &&
-    disable_when(!IsInDemo() && !IsOnTitle() && Player["Equipped"]["Weapon"] > 0 && Player["Equipped"]["Weapon"] != EquipmentValues["Dagger"], IsOnTitle()) &&
-    disable_when(!IsInDemo() && !IsOnTitle() && Player["Equipped"]["Weapon"] > 0 && Player["Equipped"]["Armor"] != EquipmentValues["Robe"], IsOnTitle())
+    disable_when(!IsInDemo() && !IsOnTitle() && prev(Player["Equipped"]["Weapon"]) == EquipmentValues["Dagger"] && Player["Equipped"]["Weapon"] != EquipmentValues["Dagger"], IsOnTitle()) &&
+    disable_when(!IsInDemo() && !IsOnTitle() && prev(Player["Equipped"]["Weapon"]) == EquipmentValues["Robe"] && Player["Equipped"]["Armor"] != EquipmentValues["Robe"], IsOnTitle())
 }
 
 function ClearFirst10FloorsWithoutItems(){
@@ -515,8 +515,8 @@ function ClearFirst10FloorsWithoutItems(){
             never(IsOnTitle())
         )
     ) &&
-    disable_when(!IsInDemo() && Player["Equipped"]["IsRingEquipped"] == 1, IsOnTitle()) &&
-    disable_when(!IsInDemo() && Player["UsedItem"] != 0, IsOnTitle())
+    disable_when(!IsInDemo() && !IsOnTitle() && prev(Player["Equipped"]["IsRingEquipped"]) == 0 && Player["Equipped"]["IsRingEquipped"] == 1, IsOnTitle()) &&
+    disable_when(!IsInDemo() && !IsOnTitle() && Player["UsedItem"] != 0, IsOnTitle())
 }
 
 function AchievedLevel(level){
@@ -529,15 +529,15 @@ function AchievedLevel(level){
 function AchievedPW(pw){
     return !IsInDemo() &&
         NotInEnding() &&
-        prev(Player["PW"]) < pw &&
-        Player["PW"] >= pw
+        prev(Player["PW"] + Player["BasePW"]) < pw &&
+        Player["PW"] + Player["BasePW"] >= pw
 }
 
 function AchievedAC(ac){
     return !IsInDemo() &&
         NotInEnding() &&
-        prev(Player["AC"]) < ac &&
-        Player["AC"] >= ac
+        prev(Player["AC"] + Player["BaseAC"]) < ac &&
+        Player["AC"] + Player["BaseAC"] >= ac
 }
 
 function AchievedGold(gold){
@@ -708,7 +708,7 @@ function UseSilentRod(){
     (
         repeated
         (
-            5, 
+            3, 
             !IsInDemo() &&
             prev(Game["Message"]) != Message["Deflected"] &&
             Game["Message"] == Message["Deflected"]
@@ -783,7 +783,7 @@ function UsePowerPotions(){
     (
         repeated
         (
-            5, 
+            3, 
             !IsInDemo() &&
             prev(Player["UsedItem"]) != ItemValues["PowerPotion"] &&
             Player["UsedItem"] == ItemValues["PowerPotion"]
@@ -797,7 +797,7 @@ function UseReflexPotions(){
     (
         repeated
         (
-            5, 
+            3, 
             !IsInDemo() &&
             prev(Player["UsedItem"]) != ItemValues["ReflexPotion"] &&
             Player["UsedItem"] == ItemValues["ReflexPotion"]
@@ -1091,7 +1091,7 @@ achievement("Death Blow", "Spirit a monster away by using a Wind Rod", points = 
     trigger = UseWindRod()
 )
 
-achievement("Preventable Illness", "Prevent 5 enemies from applying status effects with Silent Rods in a single run", points = 5, id = 464840,
+achievement("Preventable Illness", "Attempt to prevent 3 enemies from applying status effects with Silent Rods in a single run", points = 5, id = 464840,
     trigger = UseSilentRod()
 )
 
@@ -1119,11 +1119,11 @@ achievement("Top Form", "Restore health by using a Minheal, Midheal, or Maxheal 
     trigger = UseHealPotions()
 )
 
-achievement("Protein Shake", "Increase your Base PW 5 times using Power Potions in a single playthrough", points = 10, id = 464847,
+achievement("Protein Shake", "Increase your Base PW 3 times using Power Potions in a single playthrough", points = 10, id = 464847,
     trigger = UsePowerPotions()
 )
 
-achievement("Energy Drink", "Increase your Base AC 5 times using Reflex Potions in a single playthrough", points = 10, id = 464848,
+achievement("Energy Drink", "Increase your Base AC 3 times using Reflex Potions in a single playthrough", points = 10, id = 464848,
     trigger = UseReflexPotions()
 )
 

@@ -516,7 +516,8 @@ function ClearFirst10FloorsWithoutItems(){
         )
     ) &&
     disable_when(!IsInDemo() && !IsOnTitle() && prev(Player["Equipped"]["IsRingEquipped"]) == 0 && Player["Equipped"]["IsRingEquipped"] == 1, IsOnTitle()) &&
-    disable_when(!IsInDemo() && !IsOnTitle() && Player["UsedItem"] != 0, IsOnTitle())
+    disable_when(!IsInDemo() && !IsOnTitle() && Player["UsedItem"] >= 0x20 && Player["UsedItem"] <= 0x2d, IsOnTitle()) &&
+    disable_when(!IsInDemo() && !IsOnTitle() && Player["UsedItem"] >= 0x40 && Player["UsedItem"] <= 0x4c, IsOnTitle())
 }
 
 function AchievedLevel(level){
@@ -927,11 +928,11 @@ achievement("Hunger Like No Other", "Without removing it or using a continue, cl
     trigger = ClearFloorsWithHungerRing()
 )
 
-achievement("From Square One", "Clear the first 5 floors equipped with the Dagger and Robe", points = 5, id = 464803,
+achievement("From Square One", "Clear the first 5 floors equipped with the Dagger and Robe [No Travel Rod]", points = 5, id = 464803,
     trigger = ClearFirst5FloorsWithDefaultEquipment()
 )
 
-achievement("Meager Start", "Clear the first 10 floors without using a potion, scroll, or equipping a ring", points = 10, id = 464804,
+achievement("Meager Start", "Clear the first 10 floors without using a potion, scroll, or equipping a ring [No Travel Rod]", points = 10, id = 464804,
     trigger = ClearFirst10FloorsWithoutItems()
 )
 
@@ -1151,7 +1152,7 @@ achievement("Faux Pas", "Use a Summon Scroll or Spirit Rod to summon a monster",
     trigger = SummonAMonster()
 )
 
-achievement("Play with Fire", "Use Reshape Rods to transform a monsters into a different monster", points = 2, id = 464855,
+achievement("Play with Fire", "Use a Reshape Rod to transform a monster into a different monster", points = 2, id = 464855,
     trigger = UseReshapeRod()
 )
 

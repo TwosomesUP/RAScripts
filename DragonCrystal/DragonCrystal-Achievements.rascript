@@ -651,7 +651,10 @@ function EquippedRing(ring){
 
 function IdentifiedAllItems(type){
     items = IdentifiableItemsByType[type]
-    return measured(tally(length(items), array_map(items, item => !IsInDemo() && NotInEnding() && prev(items[item]) != 0 && items[item] == 0))) &&
+    count = length(items)
+    if (type == "Ring")
+        count = 6
+    return measured(tally(count, array_map(items, item => !IsInDemo() && NotInEnding() && prev(items[item]) != 0 && items[item] == 0))) &&
         never(IsOnTitle())
 }
 
@@ -1076,7 +1079,7 @@ achievement("Take a Sip", "Identify all 13 Potions in a single run", points = 10
     trigger = IdentifiedAllItems("Potion")
 )
 
-achievement("Covered in Bling", "Identify all 10 Rings in a single run", points = 10, id = 464836,
+achievement("Covered in Bling", "Identify 6 Rings in a single run", points = 10, id = 464836,
     trigger = IdentifiedAllItems("Ring")
 )
 

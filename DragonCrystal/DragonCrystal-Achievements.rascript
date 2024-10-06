@@ -654,6 +654,8 @@ function IdentifiedAllItems(type){
     count = length(items)
     if (type == "Ring")
         count = 6
+    if (type == "Scroll")
+        count = 12
     return measured(tally(count, array_map(items, item => !IsInDemo() && NotInEnding() && prev(items[item]) != 0 && items[item] == 0))) &&
         never(IsOnTitle())
 }
@@ -1067,7 +1069,7 @@ achievement("Roll the Dice", "Identify any 10 items by using them in a single ru
     trigger = IdentifyUsedItems()
 )
 
-achievement("Just Scroll with It", "Identify all 14 Scrolls in a single run", points = 10, id = 464833,
+achievement("Just Scroll with It", "Identify 12 Scrolls in a single run", points = 10, id = 464833,
     trigger = IdentifiedAllItems("Scroll")
 )
 

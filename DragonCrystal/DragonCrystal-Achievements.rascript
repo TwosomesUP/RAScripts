@@ -15,6 +15,7 @@ Game = {
 }
 
 Player = {
+    "State": word(0x0100),
     "PW": byte(0x618),
     "AC": byte(0x61a),
     "Level": byte(0x61f),
@@ -177,6 +178,13 @@ IdentifiableItemsByType = {
 // ======================================================================= //
 // Value Dictionaries
 // ======================================================================= //
+
+
+PlayerStates = {
+    "ToEndingBegin": 0x35b2,
+    "ToEndingEnd": 0x35c2
+}
+
 
 ScreenValues = {
     "NotLoaded": 0x00,
@@ -429,11 +437,18 @@ function ReachFloor(floor){
     return !IsInDemo() && NotInEnding() && prev(Game["Floor"]) == floor - 1 && Game["Floor"] == floor
 }
 
-function ClearGame(){
+function ClearGame_OLD(){
     return !IsInDemo() &&
         Game["Floor"] == 30 &&
         prev(Game["Screen"]) == ScreenValues["ToEnding"] &&
         Game["Screen"] == ScreenValues["Ending"]
+}
+
+function ClearGame(){
+    return !IsInDemo() &&
+        Game["Floor"] == 30 &&
+        prev(Player["State"]) == PlayerStates["ToEndingBegin"] &&
+        Player["State"] == PlayerStates["ToEndingEnd"]
 }
 
 function ClearGameNoContinue(){

@@ -11,10 +11,13 @@ Game = {
     "GameOver": byte(0x9c50),
     "Loaded": byte(0x9c51),
     "State": byte(0xf7f0),
-    "Level": low4(0xfb04) + low4(0xfb05) * 10
+    "Level": low4(0xfb04) + low4(0xfb05) * 10,
+    "Paused": byte(0x87f1)
 }
 
 Player = {
+    "EnergyCounter": byte(0xb58e),
+    "MaxEnergyCounter": byte(0xb58f),
     "ShieldActive": byte(0xb484),
     "LaserActive": byte(0xfafd),
     "Transformed": byte(0xfaeb),
@@ -36,6 +39,10 @@ function GameStarted() => Game["State"] != 0x80
 function IsInGame() => GameIsLoaded() && GameStarted()
 function IsGameOver() => Game["GameOver"] == 0xc9
 function GotGameOver() => prev(Game["GameOver"]) == 0 && Game["GameOver"] == 0xc9
+function IsPaused() => Game["Paused"] == 0x9d
+
+function CheatUsed() => IsInGame() && IsPaused() && prev(Player["EnergyCounter"]) < Player["EnergyCounter"]
+function NoCheats() => disable_when(CheatUsed(), !GameIsLoaded())
 
 function PlayerGotGameOver(){
     return IsInGame() &&
@@ -47,15 +54,25 @@ function PlayerGotGameOver(){
 //================================================================
 
 function ClearedLevel(level){
-    return IsInGame() &&
+    return NoCheats() &&
+        IsInGame() &&
         prev(Game["Level"]) == level &&
         Game["Level"] == level + 1
 }
 
+/*
 function ReachEnergyLevel(energy){
     return IsInGame() &&
         prev(Player["MaxEnergy"]) < energy &&
         Player["MaxEnergy"] >= energy
+}
+*/
+
+function ReachEnergyLevel(energy){
+    return NoCheats() &&
+        IsInGame() &&
+        prev(Player["MaxEnergyCounter"]) < energy &&
+        Player["MaxEnergyCounter"] >= energy
 }
 
 function DestroyedSpecialEnemy(level, count){
@@ -64,33 +81,36 @@ function DestroyedSpecialEnemy(level, count){
     if (level == 1)
         score = 1500
 
-    return measured(repeated(count, IsInGame() && Game["Level"] == level && Player["Score"] == prev(Player["Score"]) + score)) &&
-        never(Game["Level"] != level) &&
-        never(!IsInGame())
+    return disable_when(CheatUsed()) &&
+        measured(repeated(count, IsInGame() && Game["Level"] == level && Player["Score"] == prev(Player["Score"]) + score && never(Game["Level"] != level))) &&
+        (never(!IsInGame()) || always_false())
 }
 
 function NoShieldClear(){
-    return prev(Game["Level"]) > 1 &&
+    return disable_when(CheatUsed()) && 
+        prev(Game["Level"]) > 1 &&
         Game["Level"] == prev(Game["Level"]) + 1 &&
         all_of(range(2, 16), level => 
             disable_when(IsInGame() && Game["Level"] == level && prev(Player["ShieldActive"]) == 0 && Player["ShieldActive"] > 0, prev(Game["Level"]) != level)
         ) &&
-        (never(!GameIsLoaded()) || never(!GameStarted()))
+        ((never(!GameIsLoaded()) && never(!GameStarted())) || always_false())
 }
 
 function MinEnergyClear(){
-    return prev(Game["Level"]) > 8 &&
+    return disable_when(CheatUsed()) && 
+        prev(Game["Level"]) > 8 &&
         Game["Level"] == prev(Game["Level"]) + 1 &&
         all_of(range(9, 16), level => 
-            disable_when(IsInGame() && Game["Level"] == level && prev(Player["Energy"]) >= 100 && Player["Energy"] < 100, prev(Game["Level"]) != level)
+            disable_when(IsInGame() && Game["Level"] == level && prev(Player["EnergyCounter"]) >= 0x32 && Player["EnergyCounter"] < 0x32, prev(Game["Level"]) != level)
         ) &&
-        (never(!GameIsLoaded()) || never(!GameStarted()))
+        ((never(!GameIsLoaded()) && never(!GameStarted())) || always_false())
 }
 
 function ShieldKills(){
-    return repeated(20, Player["ShieldActive"] > 0 && Player["Score"] > prev(Player["Score"])) &&
-        disable_when(IsInGame() && Player["ShieldActive"] > 0 && Player["LaserActive"] == 0xff) &&
-        (never(Player["ShieldActive"] == 0) || never(!GameIsLoaded()))
+    return disable_when(CheatUsed()) && 
+        repeated(20, Player["ShieldActive"] > 0 && Player["Score"] > prev(Player["Score"])) &&
+        disable_when(IsInGame() && Player["ShieldActive"] > 0 && Player["LaserActive"] == 0xff, Player["ShieldActive"] == 0) &&
+        (never(!GameIsLoaded()) || always_false())
 }
 
 //================================================================
@@ -165,12 +185,16 @@ achievement("Forbidden Prosperity", "Clear Level 16", points = 25, type = "win_c
 // Achievement Definitions - Challenges
 //================================================================
 
+// This would be 0x7D in hex when using the energy counter
 achievement("Teeming with Energy", "Increase Max Energy to 250", points = 10, id = 459560,
-    trigger = ReachEnergyLevel(250)
+    // trigger = ReachEnergyLevel(250)
+    trigger = ReachEnergyLevel(0x7d)
 )
 
+// This would be 0xfa in hex when using the energy counter
 achievement("Awash with Energy", "Increase Max Energy to 500", points = 25, id = 459561,
-    trigger = ReachEnergyLevel(500)
+    // trigger = ReachEnergyLevel(500)
+    trigger = ReachEnergyLevel(0xfa)
 )
 
 achievement("Eradicated", "Find and destroy 1 high valued enemy on Level 1", points = 5, id = 459562,
@@ -181,15 +205,15 @@ achievement("Demolished", "Find and destroy 2 high valued enemies on Level 2", p
     trigger = DestroyedSpecialEnemy(2, 2)
 )
 
-achievement("Ravaged", "Find and destroy 1 high valued enemy on Levels 3", points = 5, id = 459564,
+achievement("Ravaged", "Find and destroy 1 high valued enemy on Level 3", points = 5, id = 459564,
     trigger = DestroyedSpecialEnemy(3, 1)
 )
 
-achievement("Annihilated", "Find and destroy 1 high valued enemy on Levels 4", points = 5, id = 459565,
+achievement("Annihilated", "Find and destroy 1 high valued enemy on Level 4", points = 5, id = 459565,
     trigger = DestroyedSpecialEnemy(4, 1)
 )
 
-achievement("Shattered", "Find and destroy 12 high valued enemies on Levels 5", points = 5, id = 459566,
+achievement("Shattered", "Find and destroy 12 high valued enemies on Level 5", points = 5, id = 459566,
     trigger = DestroyedSpecialEnemy(5, 12)
 )
 
@@ -205,15 +229,15 @@ achievement("Abolished", "Find and destroy 4 high valued enemies on Level 8", po
     trigger = DestroyedSpecialEnemy(8, 4)
 )
 
-achievement("Pulverized", "Find and destroy 3 high valued enemies on Levels 9", points = 5, id = 459570,
+achievement("Pulverized", "Find and destroy 3 high valued enemies on Level 9", points = 5, id = 459570,
     trigger = DestroyedSpecialEnemy(9, 3)
 )
 
-achievement("Disintegrated", "Find and destroy 4 high valued enemies on Levels 11", points = 5, id = 459656,
+achievement("Disintegrated", "Find and destroy 4 high valued enemies on Level 11", points = 5, id = 459656,
     trigger = DestroyedSpecialEnemy(11, 4)
 )
 
-achievement("Sacked", "Find and destroy 10 high valued enemies on Levels 13", points = 5, id = 459874,
+achievement("Sacked", "Find and destroy 10 high valued enemies on Level 13", points = 5, id = 459874,
     trigger = DestroyedSpecialEnemy(13, 10)
 )
 
@@ -229,6 +253,7 @@ achievement("Profuse Protection", "Clear any level after Level 1 without using t
     trigger = NoShieldClear()
 )
 
+// This would be 0x32 in hex if using the energy counter byte
 achievement("Energy Efficient", "Clear any level after Level 8 without dropping below 100 Energy", points = 25, id = 459878,
     trigger = MinEnergyClear()
 )

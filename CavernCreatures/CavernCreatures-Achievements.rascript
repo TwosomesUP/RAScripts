@@ -123,7 +123,7 @@ function Zone1Challenge(){
 
 function Zone2Challenge(){
     return CompletedZone("Zone2", true) &&
-        disable_when(repeated(5, IsInGame() && Game["ScreenID"] == ScreenIDs["Zone2"] && prev(Player["Lives"]) > Player["Lives"]), Game["ScreenID"] != ScreenIDs["Zone2"] && Game["ScreenID"] != ScreenIDs["ZoneTransition"])
+        disable_when(repeated(3, IsInGame() && Game["ScreenID"] == ScreenIDs["Zone2"] && prev(Player["Lives"]) > Player["Lives"]), Game["ScreenID"] != ScreenIDs["Zone2"] && Game["ScreenID"] != ScreenIDs["ZoneTransition"])
 }
 
 function Zone3Challenge(){
@@ -135,38 +135,38 @@ function Zone3Challenge(){
 //  Achievement Definitions                                  //
 //===========================================================//
 
-achievement("[Draft] Clear Zone 1", "Survive Zone 1 and clear the Caverns", points = 5, type = "progression", id = 485616,
+achievement("Cave Crawler", "Survive Zone 1 and clear the Caverns", points = 5, type = "progression", id = 485616,
     trigger = CompletedZone("Zone1", false)
 )
 
-achievement("[Draft] Clear Zone 2", "Survive Zone 2 after discovering the Underground City", points = 10, type = "progression", id = 485617,
+achievement("Capital Crusader", "Survive Zone 2 after discovering the Underground City", points = 10, type = "progression", id = 485617,
     trigger = CompletedZone("Zone2", false)
 )
 
-achievement("[Draft] Clear Zone 3", "Survive Zone 3 after facing the Ultimate Opponent", points = 25, type = "win_condition", id = 485618,
+achievement("Contraption Conquerer", "Survive Zone 3 after facing the Ultimate Opponent", points = 25, type = "win_condition", id = 485618,
     trigger = CompletedZone("Zone3", false)
 )
 
-achievement("[Draft] Score 250k", "Score 250,000 points or more", points = 5, id = 485619,
+achievement("Adventurer", "Score 250,000 points or more", points = 5, id = 485619,
     trigger = AchievedScore(250000)
 )
 
-achievement("[Draft] Score 500k", "Score 500,000 points or more", points = 10, id = 485620,
+achievement("Explorer", "Score 500,000 points or more", points = 10, id = 485620,
     trigger = AchievedScore(500000)
 )
 
-achievement("[Draft] Score 1m", "Gain an extra life by scoring 1,000,000 points", points = 25, id = 485621,
+achievement("Pathfinder", "Gain an extra life by scoring 1,000,000 points", points = 25, id = 485621,
     trigger = AchievedScore(1000000)
 )
 
-achievement("[Draft] Challenge 1", "Clear Zone 1 without losing a life and without dropping below 50% fuel", points = 10, id = 485622,
+achievement("Conservation", "Clear Zone 1 without losing a life and without dropping below 50% fuel", points = 10, id = 485622,
     trigger = Zone1Challenge()
 )
 
-achievement("[Draft] Challenge 2", "Clear Zone 2 without losing more than 5 lives", points = 10, id = 485623,
+achievement("Survival", "Clear Zone 2 without losing more than 3 lives", points = 10, id = 485623,
     trigger = Zone2Challenge()
 )
 
-achievement("[Draft] Challenge 3", "Clear Zone 3 without losing more than 3 lives", points = 10, id = 485624,
+achievement("Perseverance", "Clear Zone 3 without losing more than 3 lives", points = 10, id = 485624,
     trigger = Zone3Challenge()
 )

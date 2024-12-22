@@ -73,10 +73,11 @@ function RoadTripChallenge(){
         (never(prev(Game["State"]) != GameStates["Title"] && Game["State"] == GameStates["Title"]) || always_false())
 }
 
+// Backup Logic: 0xH085f>=250.600._R:0xH085f<250_P:0xH01fa=2
 achievement(
     title = "Boy Racer", points = 10,
-    description = "Maintain a speed above 250mph for over 10 seconds",
-    id = 107510, badge = "117693", published = "4/20/2020 12:00:18 AM", modified = "4/20/2020 11:01:08 PM",
+    description = "Maintain a speed of 250mph or faster for 10 seconds or more",
+    id = 107510, badge = "117693",
     /* trigger = repeated(600, byte(0x00085F) >= 0xFA) && never(byte(0x00085F) < 0xFA) && unless(byte(0x0001FA) == 0x02) */
     trigger = MaintainSpeed(250, 10, "")
 )
@@ -89,87 +90,105 @@ achievement(
     trigger = repeated(1200, byte(0x00085F) >= 0xFA) && never(byte(0x00085F) < 0xFA) && unless(byte(0x0001FA) == 0x02)
 ) */
 
+// Reduce to 25 points
+// Backup Logic: 0xH085f>=250.1200._R:0xH085f<250_0xH080a>0_P:0xH01fa=2
 achievement(
     title = "Hard Drivin", points = 50,
-    description = "Maintain a speed above 250mph for over 20 seconds [Excluding Key West]",
-    id = 107512, badge = "117693", published = "4/20/2020 12:00:41 AM", modified = "4/20/2020 11:01:14 PM",
+    description = "Maintain a speed of 250mph or faster for 20 seconds or more [Excluding Key West]",
+    id = 107512, badge = "117693",
     /* trigger = repeated(1200, byte(0x00085F) >= 0xFA) && never(byte(0x00085F) < 0xFA) && byte(0x00080A) > 0x00 &&
               unless(byte(0x0001FA) == 0x02) */
     trigger = MaintainSpeed(250, 20, "KeyWest")
 )
 
+// Reduce to 1 point
+// Backup Logic: 0xH0714=255_d0xH0714=185
 achievement(
     title = "Power Start", points = 2,
     description = "Use the Rad Racer II turbo boost ignition",
-    id = 107513, badge = "117794", published = "4/20/2020 12:00:48 AM", modified = "4/20/2020 11:01:19 PM",
+    id = 107513, badge = "117794",
     /* trigger = byte(0x000714) == 0xFF && prev(byte(0x000714)) == 0xB9 */
     trigger = TurboBoostUsed()
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=0_0xH084d=1_p0xH084d=0
 achievement(
     title = "Key West I", points = 5, type="progression",
     description = "Reach the first checkpoint in Key West",
-    id = 107514, badge = "117699", published = "4/20/2020 12:00:56 AM", modified = "4/20/2020 11:01:23 PM",
+    id = 107514, badge = "117699",
     /* trigger = byte(0x00080A) == 0x00 && byte(0x00084D) == 0x01 && prior(byte(0x00084D)) == 0x00 */
     trigger = HitCheckpoint("KeyWest", 1)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=0_0xH084d=2_p0xH084d=1
 achievement(
     title = "Key West II", points = 5, type="progression",
     description = "Reach the second checkpoint in Key West",
-    id = 107515, badge = "117699", published = "4/20/2020 12:01:01 AM", modified = "4/20/2020 11:01:25 PM",
+    id = 107515, badge = "117699",
     /* trigger = byte(0x00080A) == 0x00 && byte(0x00084D) == 0x02 && prior(byte(0x00084D)) == 0x01 */
     trigger= HitCheckpoint("KeyWest", 2)
 )
 
+// Backup Logic: 0xH080a=0_d0xH084d!=3_0xH084d=3
 achievement(
     title = "Key West Conch", points = 5, type="progression",
     description = "Reach the final checkpoint in Key West",
-    id = 107516, badge = "117699", published = "4/20/2020 12:01:07 AM", modified = "4/21/2020 6:54:59 PM",
+    id = 107516, badge = "117699",
     /* trigger = byte(0x00080A) == 0x00 && prev(byte(0x00084D)) != 0x03 && byte(0x00084D) == 0x03 */
     trigger = HitCheckpoint("KeyWest", 3)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=1_p0xH080a=0_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Big Apple I", points = 5, type="progression",
     description = "Reach the first checkpoint in the Big Apple",
-    id = 107517, badge = "117701", published = "4/20/2020 12:01:11 AM", modified = "4/21/2020 11:01:52 AM",
+    id = 107517, badge = "117701",
     /* trigger = byte(0x00080A) == 0x01 && prior(byte(0x00080A)) == 0x00 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("BigApple", 1)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=1_p0xH080a=0_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
     title = "Big Apple II", points = 5, type="progression",
     description = "Reach the second checkpoint in the Big Apple",
-    id = 107518, badge = "117701", published = "4/20/2020 12:01:14 AM", modified = "4/21/2020 11:01:54 AM",
+    id = 107518, badge = "117701",
     /* trigger = byte(0x00080A) == 0x01 && prior(byte(0x00080A)) == 0x00 && byte(0x00084D) == 0x02 &&
               prior(byte(0x00084D)) == 0x01 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("BigApple", 2)
 )
 
+// Backup Logic: 0xH080a=1_p0xH080a=0_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
     title = "Gotham Racer", points = 5, type="progression",
     description = "Reach the final checkpoint in the Big Apple",
-    id = 107519, badge = "117701", published = "4/20/2020 12:01:16 AM", modified = "4/21/2020 6:53:04 PM",
+    id = 107519, badge = "117701",
     /* trigger = byte(0x00080A) == 0x01 && prior(byte(0x00080A)) == 0x00 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("BigApple", 3)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=2_p0xH080a=1_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Gettysburg I", points = 5, type="progression",
     description = "Reach the first checkpoint in Gettysburg",
-    id = 107520, badge = "117703", published = "4/20/2020 12:01:21 AM", modified = "4/21/2020 11:01:56 AM",
+    id = 107520, badge = "117703",
     /* trigger = byte(0x00080A) == 0x02 && prior(byte(0x00080A)) == 0x01 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("Gettysburg", 1)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH0c=1_0xH0a=2_d0xH4d=1_0xH4d=2_N:d0xH0c!=2_Z:0xH0c=2_N:0xH0c=2_P:0xL12>0.1.
 achievement(
     title = "Gettysburg II", points = 5, type="progression",
     description = "Reach the second checkpoint in Gettysburg",
-    id = 107521, badge = "117703", published = "4/20/2020 12:01:25 AM", modified = "12/15/2024 7:24:34 PM",
+    id = 107521, badge = "117703",
     /* trigger = byte(0x00000C) == 0x01 && byte(0x00000A) == 0x02 && prev(byte(0x00004D)) == 0x01 && byte(0x00004D) == 0x02 &&
               disable_when(byte(0x00000C) == 0x02 && low4(0x000012) > 0x00,
                   until=prev(byte(0x00000C)) != 0x02 && byte(0x00000C) == 0x02
@@ -177,151 +196,179 @@ achievement(
     trigger = HitCheckpoint("Gettysburg", 2)
 )
 
+// Backup Logic: 0xH080a=2_p0xH080a=1_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
     title = "Confederate Pride", points = 5, type="progression",
     description = "Reach the final checkpoint in Gettysburg",
-    id = 107522, badge = "117703", published = "4/20/2020 12:01:28 AM", modified = "4/21/2020 6:52:10 PM",
+    id = 107522, badge = "117703",
     /* trigger = byte(0x00080A) == 0x02 && prior(byte(0x00080A)) == 0x01 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("Gettysburg", 3)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=3_p0xH080a=2_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Monument Valley I", points = 5, type="progression",
     description = "Reach the first checkpoint in Monument Valley",
-    id = 107523, badge = "117704", published = "4/20/2020 12:01:31 AM", modified = "4/21/2020 11:02:01 AM",
+    id = 107523, badge = "117704",
     /* trigger = byte(0x00080A) == 0x03 && prior(byte(0x00080A)) == 0x02 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("MonumentValley", 1)
 )
 
+// Reduce to 3 points
+// Backup Logic: 0xH080a=3_p0xH080a=2_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
     title = "Monument Valley II", points = 5, type="progression",
     description = "Reach the second checkpoint in Monument Valley",
-    id = 107524, badge = "117704", published = "4/20/2020 12:01:34 AM", modified = "4/21/2020 11:02:03 AM",
+    id = 107524, badge = "117704",
     /* trigger = byte(0x00080A) == 0x03 && prior(byte(0x00080A)) == 0x02 && byte(0x00084D) == 0x02 &&
               prior(byte(0x00084D)) == 0x01 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("MonumentValley", 2)
 )
 
+// Backup Logic: 0xH080a=3_p0xH080a=2_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
     title = "Hard Ridin' Cowboy", points = 5, type="progression",
     description = "Reach the final checkpoint in Monument Valley",
-    id = 107525, badge = "117704", published = "4/20/2020 12:01:37 AM", modified = "4/21/2020 6:53:31 PM",
+    id = 107525, badge = "117704",
     /* trigger = byte(0x00080A) == 0x03 && prior(byte(0x00080A)) == 0x02 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("MonumentValley", 3)
 )
 
+// Reduce to 5 points
+// Backup Logic: 0xH080a=4_p0xH080a=3_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Las Vegas I", points = 10, type="progression",
     description = "Reach the first checkpoint in Las Vegas Blvd",
-    id = 107526, badge = "117706", published = "4/20/2020 12:01:40 AM", modified = "4/21/2020 11:02:05 AM",
+    id = 107526, badge = "117706",
     /* trigger = byte(0x00080A) == 0x04 && prior(byte(0x00080A)) == 0x03 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("LasVegas", 1)
 )
 
+// Reduce to 5 points
+// Backup Logic: 0xH080a=4_p0xH080a=3_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
     title = "Las Vegas II", points = 10, type="progression",
     description = "Reach the second checkpoint in Las Vegas Blvd.",
-    id = 107527, badge = "117706", published = "4/20/2020 12:01:43 AM", modified = "4/21/2020 11:02:07 AM",
+    id = 107527, badge = "117706",
     /* trigger = byte(0x00080A) == 0x04 && prior(byte(0x00080A)) == 0x03 && byte(0x00084D) == 0x02 &&
               prior(byte(0x00084D)) == 0x01 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("LasVegas", 2)
 )
 
+// Backup Logic: 0xH080a=4_p0xH080a=3_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
     title = "Welcome to Las Vegas", points = 10, type="progression",
     description = "Reach the final checkpoint in Las Vegas Blvd.",
-    id = 107528, badge = "117706", published = "4/20/2020 12:01:46 AM", modified = "4/21/2020 6:55:14 PM",
+    id = 107528, badge = "117706",
     /* trigger = byte(0x00080A) == 0x04 && prior(byte(0x00080A)) == 0x03 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("LasVegas", 3)
 )
 
+// Reduce to 5 points
+// Backup Logic: 0xH080a=5_p0xH080a=4_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Rocky Mountains I", points = 10, type="progression",
     description = "Reach the first checkpoint in the Rocky Mountains",
-    id = 107529, badge = "117707", published = "4/20/2020 12:01:50 AM", modified = "4/21/2020 11:02:10 AM",
+    id = 107529, badge = "117707",
     /* trigger = byte(0x00080A) == 0x05 && prior(byte(0x00080A)) == 0x04 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("RockyMountains", 1)
 )
 
+// Reduce to 5 points
+// Backup Logic: 0xH080a=5_p0xH080a=4_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
     title = "Rocky Mountains II", points = 25, type="progression",
     description = "Reach the second checkpoint in the Rocky Mountains",
-    id = 107530, badge = "117707", published = "4/20/2020 12:01:54 AM", modified = "4/21/2020 11:02:12 AM",
+    id = 107530, badge = "117707",
     /* trigger = byte(0x00080A) == 0x05 && prior(byte(0x00080A)) == 0x04 && byte(0x00084D) == 0x02 &&
               prior(byte(0x00084D)) == 0x01 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("RockyMountains", 2)
 )
 
+// Reduced to 10 points
+// Backup Logic: 0xH080a=5_p0xH080a=4_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
     title = "That John Denver's full of...", points = 25, type="progression",
     description = "Reach the final checkpoint in the Rocky Mountains",
-    id = 107531, badge = "117707", published = "4/20/2020 12:01:58 AM", modified = "4/21/2020 6:56:02 PM",
+    id = 107531, badge = "117707",
     /* trigger = byte(0x00080A) == 0x05 && prior(byte(0x00080A)) == 0x04 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("RockyMountains", 3)
 )
 
+// Reduce to 10 points
+// Backup Logic: 0xH080a=6_p0xH080a=5_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Twilight California I", points = 25, type="progression",
     description = "Reach the first checkpoint in Twilight California",
-    id = 107532, badge = "117709", published = "4/20/2020 12:02:01 AM", modified = "4/21/2020 11:02:14 AM",
+    id = 107532, badge = "117709",
     /* trigger = byte(0x00080A) == 0x06 && prior(byte(0x00080A)) == 0x05 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("California", 1)
 )
 
+// Reduce to 10 points
+// Backup Logic: 0xH080a=6_p0xH080a=5_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
     title = "Twilight California II", points = 25, type="progression",
     description = "Reach the second checkpoint in Twilight California",
-    id = 107533, badge = "117709", published = "4/20/2020 12:02:07 AM", modified = "4/21/2020 11:02:16 AM",
+    id = 107533, badge = "117709",
     /* trigger = byte(0x00080A) == 0x06 && prior(byte(0x00080A)) == 0x05 && byte(0x00084D) == 0x02 &&
               prior(byte(0x00084D)) == 0x01 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("California", 2)
 )
 
+// Backup Logic: 0xH080a=6_p0xH080a=5_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
     title = "Purple Haze", points = 25, type="progression",
     description = "Reach the final checkpoint in Twilight California",
-    id = 107534, badge = "117709", published = "4/20/2020 12:02:13 AM", modified = "4/21/2020 6:56:00 PM",
+    id = 107534, badge = "117709",
     /* trigger = byte(0x00080A) == 0x06 && prior(byte(0x00080A)) == 0x05 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("California", 3)
 )
 
+// Reduce to 10 points
+// Backup Logic: 0xH080a=7_p0xH080a=6_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
     title = "Bay Bridge I", points = 25, type="progression",
     description = "Reach the first checkpoint on Bay Bridge",
-    id = 107535, badge = "117711", published = "4/20/2020 12:02:20 AM", modified = "4/21/2020 11:02:19 AM",
+    id = 107535, badge = "117711",
     /* trigger = byte(0x00080A) == 0x07 && prior(byte(0x00080A)) == 0x06 && byte(0x00084D) == 0x01 &&
               prior(byte(0x00084D)) == 0x00 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("BayBridge", 1)
 )
 
+// Reduce to 10 points
+// Backup Logic: 0xH080a=7_p0xH080a=6_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
     title = "Bay Bridge II", points = 25, type="progression",
     description = "Reach the second checkpoint on Bay Bridge",
-    id = 107536, badge = "117711", published = "4/20/2020 12:02:24 AM", modified = "4/21/2020 11:02:21 AM",
+    id = 107536, badge = "117711",
     /* trigger = byte(0x00080A) == 0x07 && prior(byte(0x00080A)) == 0x06 && byte(0x00084D) == 0x02 &&
               prior(byte(0x00084D)) == 0x01 && byte(0x000812) == 0x00 */
     trigger = HitCheckpoint("BayBridge", 2)
 )
 
+// Reduce to 25 points
+// Backup Logic: 0xH080a=7_p0xH080a=6_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
-    title = "The City by the Bay", points = 50,
+    title = "The City by the Bay", points = 50, type = "win_condition",
     description = "Complete the game and by reaching the final checkpoint on Bay Bridge",
-    id = 107537, badge = "117711", published = "4/20/2020 12:02:27 AM", modified = "4/21/2020 6:55:58 PM",
+    id = 107537, badge = "117711",
     /* trigger = byte(0x00080A) == 0x07 && prior(byte(0x00080A)) == 0x06 && prev(byte(0x00084D)) != 0x03 &&
               byte(0x00084D) == 0x03 && byte(0x000812) == 0x00 && byte(0x00000D) <= 0x01 */
     trigger = HitCheckpoint("BayBridge", 3)
 )
 
-achievement("Rad Road Trip", "Without using Stage Select, complete all 8 courses", points = 50, 
+achievement("Rad Road Trip", "Without using Stage Select, complete all 8 courses", points = 50,
     trigger = RoadTripChallenge()
 )
 

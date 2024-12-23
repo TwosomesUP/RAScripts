@@ -34,3 +34,11 @@ achievement(
               once(byte(0x000087) == 0x0A) && never(byte(0x000032) != 0x03) */
     trigger = NoDamageStage(3)
 )
+
+achievement(
+    title = "Stage 3 Perfect", points = 10,
+    description = "Complete stage 3 without dying.",
+    id = 131345, badge = "144795",
+    trigger = NoDamageStage(2)
+)
+

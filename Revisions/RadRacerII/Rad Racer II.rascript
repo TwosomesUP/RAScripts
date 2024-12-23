@@ -93,7 +93,7 @@ achievement(
 // Reduce to 25 points
 // Backup Logic: 0xH085f>=250.1200._R:0xH085f<250_0xH080a>0_P:0xH01fa=2
 achievement(
-    title = "Hard Drivin", points = 50,
+    title = "Hard Drivin", points = 25,
     description = "Maintain a speed of 250mph or faster for 20 seconds or more [Excluding Key West]",
     id = 107512, badge = "117693",
     /* trigger = repeated(1200, byte(0x00085F) >= 0xFA) && never(byte(0x00085F) < 0xFA) && byte(0x00080A) > 0x00 &&
@@ -104,7 +104,7 @@ achievement(
 // Reduce to 1 point
 // Backup Logic: 0xH0714=255_d0xH0714=185
 achievement(
-    title = "Power Start", points = 2,
+    title = "Power Start", points = 1,
     description = "Use the Rad Racer II turbo boost ignition",
     id = 107513, badge = "117794",
     /* trigger = byte(0x000714) == 0xFF && prev(byte(0x000714)) == 0xB9 */
@@ -114,7 +114,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=0_0xH084d=1_p0xH084d=0
 achievement(
-    title = "Key West I", points = 5, type="progression",
+    title = "Key West I", points = 3, type="progression",
     description = "Reach the first checkpoint in Key West",
     id = 107514, badge = "117699",
     /* trigger = byte(0x00080A) == 0x00 && byte(0x00084D) == 0x01 && prior(byte(0x00084D)) == 0x00 */
@@ -124,7 +124,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=0_0xH084d=2_p0xH084d=1
 achievement(
-    title = "Key West II", points = 5, type="progression",
+    title = "Key West II", points = 3, type="progression",
     description = "Reach the second checkpoint in Key West",
     id = 107515, badge = "117699",
     /* trigger = byte(0x00080A) == 0x00 && byte(0x00084D) == 0x02 && prior(byte(0x00084D)) == 0x01 */
@@ -143,7 +143,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=1_p0xH080a=0_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Big Apple I", points = 5, type="progression",
+    title = "Big Apple I", points = 3, type="progression",
     description = "Reach the first checkpoint in the Big Apple",
     id = 107517, badge = "117701",
     /* trigger = byte(0x00080A) == 0x01 && prior(byte(0x00080A)) == 0x00 && byte(0x00084D) == 0x01 &&
@@ -154,7 +154,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=1_p0xH080a=0_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
-    title = "Big Apple II", points = 5, type="progression",
+    title = "Big Apple II", points = 3, type="progression",
     description = "Reach the second checkpoint in the Big Apple",
     id = 107518, badge = "117701",
     /* trigger = byte(0x00080A) == 0x01 && prior(byte(0x00080A)) == 0x00 && byte(0x00084D) == 0x02 &&
@@ -175,7 +175,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=2_p0xH080a=1_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Gettysburg I", points = 5, type="progression",
+    title = "Gettysburg I", points = 3, type="progression",
     description = "Reach the first checkpoint in Gettysburg",
     id = 107520, badge = "117703",
     /* trigger = byte(0x00080A) == 0x02 && prior(byte(0x00080A)) == 0x01 && byte(0x00084D) == 0x01 &&
@@ -186,7 +186,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH0c=1_0xH0a=2_d0xH4d=1_0xH4d=2_N:d0xH0c!=2_Z:0xH0c=2_N:0xH0c=2_P:0xL12>0.1.
 achievement(
-    title = "Gettysburg II", points = 5, type="progression",
+    title = "Gettysburg II", points = 3, type="progression",
     description = "Reach the second checkpoint in Gettysburg",
     id = 107521, badge = "117703",
     /* trigger = byte(0x00000C) == 0x01 && byte(0x00000A) == 0x02 && prev(byte(0x00004D)) == 0x01 && byte(0x00004D) == 0x02 &&
@@ -209,7 +209,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=3_p0xH080a=2_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Monument Valley I", points = 5, type="progression",
+    title = "Monument Valley I", points = 3, type="progression",
     description = "Reach the first checkpoint in Monument Valley",
     id = 107523, badge = "117704",
     /* trigger = byte(0x00080A) == 0x03 && prior(byte(0x00080A)) == 0x02 && byte(0x00084D) == 0x01 &&
@@ -220,7 +220,7 @@ achievement(
 // Reduce to 3 points
 // Backup Logic: 0xH080a=3_p0xH080a=2_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
-    title = "Monument Valley II", points = 5, type="progression",
+    title = "Monument Valley II", points = 3, type="progression",
     description = "Reach the second checkpoint in Monument Valley",
     id = 107524, badge = "117704",
     /* trigger = byte(0x00080A) == 0x03 && prior(byte(0x00080A)) == 0x02 && byte(0x00084D) == 0x02 &&
@@ -241,7 +241,7 @@ achievement(
 // Reduce to 5 points
 // Backup Logic: 0xH080a=4_p0xH080a=3_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Las Vegas I", points = 10, type="progression",
+    title = "Las Vegas I", points = 5, type="progression",
     description = "Reach the first checkpoint in Las Vegas Blvd",
     id = 107526, badge = "117706",
     /* trigger = byte(0x00080A) == 0x04 && prior(byte(0x00080A)) == 0x03 && byte(0x00084D) == 0x01 &&
@@ -252,7 +252,7 @@ achievement(
 // Reduce to 5 points
 // Backup Logic: 0xH080a=4_p0xH080a=3_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
-    title = "Las Vegas II", points = 10, type="progression",
+    title = "Las Vegas II", points = 5, type="progression",
     description = "Reach the second checkpoint in Las Vegas Blvd.",
     id = 107527, badge = "117706",
     /* trigger = byte(0x00080A) == 0x04 && prior(byte(0x00080A)) == 0x03 && byte(0x00084D) == 0x02 &&
@@ -273,7 +273,7 @@ achievement(
 // Reduce to 5 points
 // Backup Logic: 0xH080a=5_p0xH080a=4_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Rocky Mountains I", points = 10, type="progression",
+    title = "Rocky Mountains I", points = 5, type="progression",
     description = "Reach the first checkpoint in the Rocky Mountains",
     id = 107529, badge = "117707",
     /* trigger = byte(0x00080A) == 0x05 && prior(byte(0x00080A)) == 0x04 && byte(0x00084D) == 0x01 &&
@@ -284,7 +284,7 @@ achievement(
 // Reduce to 5 points
 // Backup Logic: 0xH080a=5_p0xH080a=4_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
-    title = "Rocky Mountains II", points = 25, type="progression",
+    title = "Rocky Mountains II", points = 5, type="progression",
     description = "Reach the second checkpoint in the Rocky Mountains",
     id = 107530, badge = "117707",
     /* trigger = byte(0x00080A) == 0x05 && prior(byte(0x00080A)) == 0x04 && byte(0x00084D) == 0x02 &&
@@ -295,7 +295,7 @@ achievement(
 // Reduced to 10 points
 // Backup Logic: 0xH080a=5_p0xH080a=4_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
-    title = "That John Denver's full of...", points = 25, type="progression",
+    title = "That John Denver's full of...", points = 10, type="progression",
     description = "Reach the final checkpoint in the Rocky Mountains",
     id = 107531, badge = "117707",
     /* trigger = byte(0x00080A) == 0x05 && prior(byte(0x00080A)) == 0x04 && prev(byte(0x00084D)) != 0x03 &&
@@ -306,7 +306,7 @@ achievement(
 // Reduce to 10 points
 // Backup Logic: 0xH080a=6_p0xH080a=5_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Twilight California I", points = 25, type="progression",
+    title = "Twilight California I", points = 10, type="progression",
     description = "Reach the first checkpoint in Twilight California",
     id = 107532, badge = "117709",
     /* trigger = byte(0x00080A) == 0x06 && prior(byte(0x00080A)) == 0x05 && byte(0x00084D) == 0x01 &&
@@ -317,7 +317,7 @@ achievement(
 // Reduce to 10 points
 // Backup Logic: 0xH080a=6_p0xH080a=5_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
-    title = "Twilight California II", points = 25, type="progression",
+    title = "Twilight California II", points = 10, type="progression",
     description = "Reach the second checkpoint in Twilight California",
     id = 107533, badge = "117709",
     /* trigger = byte(0x00080A) == 0x06 && prior(byte(0x00080A)) == 0x05 && byte(0x00084D) == 0x02 &&
@@ -338,7 +338,7 @@ achievement(
 // Reduce to 10 points
 // Backup Logic: 0xH080a=7_p0xH080a=6_0xH084d=1_p0xH084d=0_0xH0812=0
 achievement(
-    title = "Bay Bridge I", points = 25, type="progression",
+    title = "Bay Bridge I", points = 10, type="progression",
     description = "Reach the first checkpoint on Bay Bridge",
     id = 107535, badge = "117711",
     /* trigger = byte(0x00080A) == 0x07 && prior(byte(0x00080A)) == 0x06 && byte(0x00084D) == 0x01 &&
@@ -349,7 +349,7 @@ achievement(
 // Reduce to 10 points
 // Backup Logic: 0xH080a=7_p0xH080a=6_0xH084d=2_p0xH084d=1_0xH0812=0
 achievement(
-    title = "Bay Bridge II", points = 25, type="progression",
+    title = "Bay Bridge II", points = 10, type="progression",
     description = "Reach the second checkpoint on Bay Bridge",
     id = 107536, badge = "117711",
     /* trigger = byte(0x00080A) == 0x07 && prior(byte(0x00080A)) == 0x06 && byte(0x00084D) == 0x02 &&
@@ -360,7 +360,7 @@ achievement(
 // Reduce to 25 points
 // Backup Logic: 0xH080a=7_p0xH080a=6_d0xH084d!=3_0xH084d=3_0xH0812=0_0xH000d<=1
 achievement(
-    title = "The City by the Bay", points = 50, type = "win_condition",
+    title = "The City by the Bay", points = 25, type = "win_condition",
     description = "Complete the game and by reaching the final checkpoint on Bay Bridge",
     id = 107537, badge = "117711",
     /* trigger = byte(0x00080A) == 0x07 && prior(byte(0x00080A)) == 0x06 && prev(byte(0x00084D)) != 0x03 &&

@@ -70,7 +70,7 @@ function HitCheckpoint(stage, checkpoint){
 function RoadTripChallenge(){
     return all_of(Stages, stage => once(HitCheckpoint(stage, 3))) &&
         disable_when(Game["State"] == GameStates["Title"] && Game["Cheats"] > 0) &&
-        (never(prev(Game["State"]) != GameStates["Title"] && Game["State"] == GameStates["Title"]) || always_false())
+        (never(prev(Game["State"]) == GameStates["Title"] && Game["State"] != GameStates["Title"] && Game["Stage"] == 0) || always_false())
 }
 
 // Backup Logic: 0xH085f>=250.600._R:0xH085f<250_P:0xH01fa=2
@@ -368,7 +368,7 @@ achievement(
     trigger = HitCheckpoint("BayBridge", 3)
 )
 
-achievement("Rad Road Trip", "Without using Stage Select, complete all 8 courses", points = 50,
+achievement("Rad Road Trip", "Without using Stage Select, complete all 8 courses", points = 50, id = 553600,
     trigger = RoadTripChallenge()
 )
 

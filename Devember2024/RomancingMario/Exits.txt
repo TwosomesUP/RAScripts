@@ -20,7 +20,7 @@ bit0: normal exit
 Stage 0x05 (0x001ea7)
 bit3: normal exit
 
-Stage 0x4 (0x001ea6)
+Stage 0x04 (0x001ea6)
 bit3: normal exit
 
 Stage 0x1d (0x001ebf)
@@ -66,7 +66,6 @@ bit1: normal exit
 
 Stage 0x39 (0x001edb)
 bit1: normal exit
-bit3: secret exit? (doesn't increase stage count)
 
 Stage 0x3a (0x001edc)
 bit7: cleared stage
@@ -80,3 +79,109 @@ bit2: normal exit
 Stage 0x13 (0x001eb5)
 bit0: normal exit
 
+Stage 0x2f (0x001ed1)
+bit0: normal exit
+
+Stage 0x42 (0x001ee4)
+bit2: normal exit
+
+Stage 0x34 (0x001ed6)
+bit7: stage cleared
+
+Stage 0x11 (0x001eb3)
+bit3: normal exit
+
+Stage 0x07 (0x001ea9)
+bit0: normal exit
+
+Stage 0x06 (0x001ea8)
+bit0: normal exit
+
+Stage 0x0a (0x001eac)
+bit3: normal exit
+
+Stage 0x17 (0x001eb9)
+bit3: normal exit
+bit0: secret exit
+
+Stage 0x40 (0x001ee2)
+bit1: normal exit
+
+Stage 0x19 (0x001ebb)
+bit1: normal exit
+
+Stage 0x47 (0x001ee9)
+bit1: normal exit
+bit2: secret exit
+
+Stage 0x08 (0x001eaa)
+bit7: stage cleared
+
+Stage 0x1b (0x001ebd)
+bit7: stage cleared
+
+Stage 0x46 (0x001ee8)
+bit3: normal exit
+
+Stage 0x0d (0x001eaf)
+bit2: normal exit
+
+Stage 0x0e (0x001eb0)
+bit1: normal exit
+
+Stage 0x0f (0x001eb1)
+bit3: normal exit
+bit2: secret exit
+
+Stage 0x14 - Yellow Switch (0x001eb6)
+bit7: stage cleared
+
+Stage 0x16 (0x001eb8)
+bit3: normal exit
+
+Stage 0x1a (0x001ebc)
+bit7: stage cleared
+
+Stage 0x2c (0x001ece)
+bit3: normal exit
+
+Stage 0x2d (0x001ecf)
+bit3: normal exit
+
+Stage 0x3b (0x001edd)
+bit1: normal exit
+
+Stage 0x18 (0x001eba)
+bit1: normal exit
+bit3: secret exit
+
+Stage 0x32 (0x001ed4) -- This is the final level (bit 7 won't flip)
+bit3: normal exit
+
+Stage 0x3d (0x001edf)
+bit7: stage cleared
+
+Stage 0x45 - Blue Switch (0x001ee7)
+bit7: stage cleared
+
+Stage 0x2b (0x001ecd)
+bit0: secret exit
+bit3: normal exit
+
+Stage 0x0c (0x001eae)
+bit0: normal exit
+
+Stage 0x09 (0x001eab)
+bit0: normal exit
+
+Stage 0x10 (0x001eb2)
+bit0: normal exit
+
+Stage 0x30 (0x001ed2)
+bit0: normal exit
+bit1: secret exit
+
+Stage 0x3e (0x001ee0)
+bit0: normal exit
+
+68 exits

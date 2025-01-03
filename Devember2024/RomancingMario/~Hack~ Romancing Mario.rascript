@@ -1,0 +1,85 @@
+// ~Hack~ Romancing Mario
+// #ID = 6212
+
+Exits = [
+    bit7(0x1efc),
+    bit7(0x1ecb),
+    bit0(0x1ea5),
+    bit2(0x1ea5),
+    bit7(0x1ead),
+    bit7(0x1ee3),
+    bit7(0x1ea4),
+    bit7(0x1ea7),
+    bit7(0x1ea6),
+    bit7(0x1ebf),
+    bit1(0x1ec0),
+    bit3(0x1ec0),
+    bit7(0x1ee1),
+    bit7(0x1ec1),
+    bit7(0x1ec2),
+    bit0(0x1ec3),
+    bit3(0x1ec3),
+    bit7(0x1ec4),
+    bit7(0x1ec5),
+    bit7(0x1eb4),
+    bit7(0x1ed7),
+    bit7(0x1ed8),
+    bit7(0x1ed9),
+    bit7(0x1eda),
+    bit7(0x1edb),
+    bit7(0x1edc),
+    bit7(0x1ede),
+    bit7(0x1ebe),
+    bit7(0x1eb5),
+    bit7(0x1ed1),
+    bit7(0x1ee4),
+    bit7(0x1ed6),
+    bit7(0x1eb3),
+    bit7(0x1ea9),
+    bit7(0x1ea8),
+    bit7(0x1eac),
+    bit3(0x1eb9),
+    bit0(0x1eb9),
+    bit7(0x1ee2),
+    bit7(0x1ebb),
+    bit1(0x1ee9),
+    bit2(0x1ee9),
+    bit7(0x1eaa),
+    bit7(0x1ebd),
+    bit7(0x1ee8),
+    bit7(0x1eaf),
+    bit7(0x1eb0),
+    bit3(0x1eb1),
+    bit2(0x1eb1),
+    bit7(0x1eb6),
+    bit7(0x1eb8),
+    bit7(0x1ebc),
+    bit7(0x1ece),
+    bit7(0x1ecf),
+    bit7(0x1edd),
+    bit1(0x1eba),
+    bit3(0x1eba),
+    bit7(0x1edf),
+    bit7(0x1ee7),
+    bit0(0x1ecd),
+    bit3(0x1ecd),
+    bit7(0x1eae),
+    bit7(0x1eab),
+    bit7(0x1eb2),
+    bit0(0x1ed2),
+    bit1(0x1ed2),
+    bit7(0x1ee0)
+]
+
+function FoundAllExits(){
+    return sum_of(Exits, exit => prev(exit)) == 66 &&
+        sum_of(Exits, exit => exit) == 67
+}
+
+achievement(
+    title = "All Exits", points = 50,
+    description = "Get the 65 Exits (The Back Door is to do after \"Vista\" but before the secret en",
+    id = 26146, badge = "26909", published = "7/23/2015 1:06:20 PM", modified = "1/9/2022 4:50:44 AM",
+    // trigger = measured(byte(0x001F2E) == 65) && prev(byte(0x001F2E)) == 64
+    trigger = FoundAllExits()
+)

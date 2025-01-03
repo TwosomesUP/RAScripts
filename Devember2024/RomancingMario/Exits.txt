@@ -184,4 +184,4 @@ bit1: secret exit
 Stage 0x3e (0x001ee0)
 bit0: normal exit
 
-68 exits
+67 exits

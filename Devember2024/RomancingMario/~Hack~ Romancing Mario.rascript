@@ -73,7 +73,7 @@ Exits = [
 
 function FoundAllExits(){
     return sum_of(Exits, exit => prev(exit)) == 66 &&
-        sum_of(Exits, exit => exit) == 67
+        measured(sum_of(Exits, exit => exit) == 67, format="percent")
 }
 
 achievement(

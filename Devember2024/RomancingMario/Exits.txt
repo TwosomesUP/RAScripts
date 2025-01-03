@@ -1,0 +1,82 @@
+Stage 0x5a (0x001efc)
+bit2: normal exit
+
+Stage 0x29 (0x001ecb)
+bit2: normal exit
+
+Stage 0x03 (0x001ea5)
+bit0: normal exit
+bit2: secret exit
+
+Stage 0x0b (0x001ead)
+bit1: normal exit
+
+Stage 0x41 (0x001ee3)
+bit7: cleared stage
+
+Stage 0x02 (0x001ea4)
+bit0: normal exit
+
+Stage 0x05 (0x001ea7)
+bit3: normal exit
+
+Stage 0x4 (0x001ea6)
+bit3: normal exit
+
+Stage 0x1d (0x001ebf)
+bit2: normal exit
+
+Stage 0x1e (0x001ec0)
+bit1: normal exit
+bit3: secret exit
+
+Stage 0x3f (0x001ee1)
+bit7: cleared stage
+
+Stage 0x1f (0x001ec1)
+bit1: normal exit
+
+Stage 0x20 (0x001ec2)
+bit3: normal exit
+
+Stage 0x21 (0x001ec3)
+bit0: normal exit
+bit3: secret exit
+
+Stage 0x22 (0x001ec4)
+bit7: cleared stage
+
+Stage 0x23 (0x001ec5)
+bit7: cleared stage
+
+Stage 0x12 (0x001eb4)
+bit7: cleared stage
+
+Stage 0x35 (0x001ed7)
+bit0: normal exit
+
+Stage 0x36 (0x001ed8)
+bit3: normal exit
+
+Stage 0x37 (0x001ed9)
+bit1: normal exit
+
+Stage 0x38 (0x001eda)
+bit1: normal exit
+
+Stage 0x39 (0x001edb)
+bit1: normal exit
+bit3: secret exit? (doesn't increase stage count)
+
+Stage 0x3a (0x001edc)
+bit7: cleared stage
+
+Stage 0x3c (0x001ede)
+bit3: normal exit
+
+Stage 0x1c (0x001ebe)
+bit2: normal exit
+
+Stage 0x13 (0x001eb5)
+bit0: normal exit
+

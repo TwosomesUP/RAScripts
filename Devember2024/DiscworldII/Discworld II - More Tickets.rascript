@@ -11,7 +11,7 @@ LastItem = word(0x6c4d4)
 HeldItem = word(0x6bf60)
 HoverID = byte(0x6c078)
 
-SaddleFlag = byte(0xfa224)
+SaddleFlag = word(0xfa224)
 BinkyRiddenEvent = byte(0xf9cc8)
 BinkyFailedEvent = byte(0x72e30)
 MrsCakeConvo = word(0x74f3c)
@@ -76,7 +76,7 @@ function GotGerbil(){
 }
 
 function RodeBinkySuccessfully(){
-    return Screen == Screens["DeathsRealm"] &&
+    return Screen == 0x48 &&
         SaddleFlag == 1 &&
         (ActiveCharacter == Characters["Binky"] ||
         ActiveCharacter_Mouse == Characters["Binky"]) &&

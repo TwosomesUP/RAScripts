@@ -1,0 +1,83 @@
+Chapter 2: Noisy Monsters Cage
+==============================
+                  _________________          ___/\_________
+- Hospital 1F    |        |        |        |        |     |        
+                 |   1    |   2    |    L   |   3    |  4  |
+01 - Room 103    |______/_|______/_|____/___|___/\___|__/__|
+02 - Room 104    |                  5                /     |
+03 - Back Exit   |___________________________________|     |
+04 - Exam Room                                 |     |     |
+05 - Hallway #1                                |LIFT /     |
+06 - Nurses Office                   __________|_____|     |
+07 - Staff Office                   |        /       |     |
+08 - Main Hallway                   |   6    |   7   /  8  |
+09 - Hallway #2                     |________|_______|     |
+10 - Room 102    ____________________________________|     |
+11 - Room 101   |                   9                |     |
+12 - Male WC.   |______/________/___/___/___/________/     |
+13 - Female WC. |        |        |   |   |     / 15 |     |
+14 - Main Office|   10   |   11   | 12| 13|  14 |____|     |
+15 - Reception  |________|________|___|___|__________|_  __|
+16 - Main Hallway 2F                                   \/
+17 - Storeroom      ______________                     L
+18 - Directors     |              |
+     Office        |    17        |
+                   |___________/__| - Hospital 2F
+                             |    |
+                        _____|    |
+                       |     |    |
+                       |LIFT \ 16 |
+                       |_____|    |
+                             |    |
+                    _________|__/_|
+                   |              |
+                   |    18        |
+                   |______________| 
+
+
+Items
+-----
+Medical Kit - Locker in Room 103, Locker in Room 104, Nightstand 
+              in Room 102 (if low on health), Shelf in Exam Room
+              (if low on health), Shelf in Storeroom (if low on
+              health)
+Desk Key - Nightstand in Room 103
+Pistol - Draw in Main Office, Locker in Room 101, Shelf in Exam 
+         Room
+Shotgun - Draw in Nurses Office
+Screwdrive - Boxes in Storeroom
+Back Door Key - Desk in Directors Office
+
+
+Hints
+-----
+No 5 - Nightstand in Room 102 (need full health)
+No 6 - Bookshelf in Directors Office
+
+
+Useable Items for Weapons
+-------------------------
+A. Kettle in Main Office
+B. Broom in 2nd Stall of Women's Toilet (unlimited use)
+C. Chair in Room 101
+D. Vase in Room 102
+E. Chair in Staff Ofice
+F. Chair in Exam Room
+
+
+Places to hide Amulet
+---------------------
+A. Locker in Room 103
+B. Locker in Room 104
+C. Draw in Main Office
+D. Vase in Room 101
+E. Locker in Room 102
+F. Lockers in Staff Office
+G. Book Shelf in Nurses Office
+H. Shelf in Storeroom
+I. Key Holder on wall in Directors Office
+
+
+Traps
+-----
+A. Bed in Room 104

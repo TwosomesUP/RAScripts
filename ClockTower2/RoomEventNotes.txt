@@ -1,0 +1,101 @@
+[24-bit] Room Event Pointer
++0x14: Activated Object - Scene ID [16-bit]
+---- Chapter 1 - 1F Kitchen
+----- 0x0027: Examine China Cabinet Trap
+----- 0x0019: Survived China Cabinet Trap
+----- 0x0018: Examined Cupboard Trap
+----- 0x0012: Examined Fridge
+---- Chapter 1 - 2F Michael's Room
+----- 0x000c: Examine Computer Game
+---- Chapter 1 - 1F Dinette
+----- 0x001d: Painting Trap - Activated
+----- 0x0017: Painting Trap - Escaped
+----- 0x0007: Painting Trap - Stephanie Enters
+----- 0x0003: Hide Behind Bar
+----- 0x0005: Hiding Behind Bar
+----- 0x0010: Hiding Behind Bar - Stephanie Enters
+----- 0x002c: Hiding Behind Bar - Stephanie Searching
+----- 0x0005: Hiding Behind Bar - Stephanie Leaving
+----- 0x000c: Hiding Behind Bar - Stephanie Gone
+----- Chapter 1 - 1F Master Bedroom
+----- 0x0007: Check Mirror as Alyssa
+---- Chapter 1 - 1F Corridor
+----- 0x000b: Examined Cursed Statue as Bates
+---- Chapter 1 - 2F Shrine Room
+----- 0x0046: Examine Bloody Table
+----- 0x000f: Examine Bloody Table - Stephanie Enters
+----- 0x004e: Examine Doll Trap
+----- 0x002e: Doll Trap - Grab Sword
+----- 0x000e: Doll Trap - Stephanie Enters
+---- Chapter 1 - 2F Northern Porch
+----- 0x004a: Railing Trap - Examine Railing
+----- 0x0025: Railing Trap - Escape
+---- Chapter 1 - 1F Dining Hall
+----- 0x003a: Clock Trap - Examine Clock
+----- 0x002b: Clock Trap - Escaped
+---- Chapter 1 - 1F Master Bedroom
+----- 0x000f: Flip Switch Off - Hiding
+----- 0x0004: Stephanie Enters - Hiding
+----- 0x0028: Stephanie Searching - Hiding
+----- 0x000e: Stephanie Leaving - Hiding
+----- 0x000b: Flip Switch On - Hiding
+---- Chapter 2 - Staff Office
+----- 0x003f: Examine Panic Lights
+----- 0x0039: Corpse Trap - Examined
+----- 0x001f: Corspe Trap - Survived
+----- 0x0017: Examine Paper
+---- Chapter 2 - Women's Bathroom
+----- 0x000c: Middle Stall - Interact
+----- 0x0002: Middle Stall - Open
+----- 0x0011: Middle Stall - Grab Broom
+----- 0x0001: Middle Stall - Attack Zombie
+----- 0x0011: Middle Stall - Kill Zombie
+---- Chapter 2 - Computer Room
+----- 0x0017: Pick Up Phone - Dead
+---- Chapter 2 - Room 102
+----- 0x000a: Examine Bloody Sink
++0x16: Activated Object - Timer [16-bit] 
++0x18: Activated Object - ID [16-bit]
+----- 0xffff: None
+---- Chapter 1 - 2F Michael's Room
+----- 0x0005: Computer Game
+---- Chapter 1 - 2F Ashley's Room
+----- 0x0005: Clock Tower 2 Poster
+----- 0x0007: Ashley's Head
+---- Chapter 1 - 2F Michael's Room
+----- 0x0004: Checked Computer (I wonder where Michael went?)
+----- 0x0005: Knocked Over Game Cartridge
+----- 0x0007: Checked Desk Chair
+---- Chapter 1 - 1F Dinette
+----- 0x0004: Bar Hiding Spot
+----- 0x0005: Painting Trap
+---- Chapter 1 - 1F Master Bedroom
+----- 0x0002: Mirror
+---- Chapter 1 - 1F Corridor
+----- 0x0005: Cursed Statue
+---- Chapter 1 - 2F Shrine Room
+----- 0x0003: Bloody Table
+----- 0x0004: Doll
+---- Chapter 1 - 1F Kitchen
+----- 0x0002: Cupboard
+----- 0x0005: China Cabinet
+----- 0x0003: Fridge
+---- Chapter 1 - 2F Northern Porch
+----- 0x0004: Railing Trap
+---- Chapter 1 - 1F Dining Hall
+----- 0x0006: Clock Trap
+---- Chapter 1 - 1F Master Bedroom
+----- 0x0001: Light Switch - Hide
+---- Chapter 2 - Staff Office
+----- 0x0004: Panic Lights
+----- 0x0007: Corpse
+----- 0x0003: Examine Paper
+---- Chapter 2 - Women's Bathroom
+----- 0x005: Enter Middle Stall
+---- Chapter 2 - Computer Room
+----- 0x0005: Pick Up Phone
+---- Chapter 2 - Room 102
+----- 0x0003: Examine Bloody Sink
++0x1a: Activated Object - Scene Sequence [16-bit]
+----- Increases by 1 after each scene change
+----- 0xffff: Nothing Playing

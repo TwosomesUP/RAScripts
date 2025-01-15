@@ -1,0 +1,148 @@
+Chapter 3: The Fathers
+======================
+                   ____________
+    - Lab B1      |            |                    01 - Entry Hall
+                  |    44      |                    02 - Stairwell
+   _______________|_____/______|____                03 - Lab 1
+  |||47 /         |   |   |         |               04 - Hallway 1
+  |_____|  46     |   | 43|  41     |               05 - Storeroom 1
+        |         |   |   |         |               06 - Stairwell 2
+   _____|__/______|___|_/_|_/_______|_____          07 - Hallway 2
+  | 2 --|         |       |   |     | |   |         08 - Exam Room
+  |   --|   45    | 42    |39 /  40 | |   |         09 - Office 1
+  |_/___|______/__|_____/_|_/_|_____|_|   |         10 - Hallway 3
+  |   1           /              38       |         11 - Hallway 4
+  \_______________\_______________________|         12 - Courtyard
+                                                    13 - Office 2
+                                                    14 - Reception
+     _____________    - Lab 1F     _____________    15 - Male WC
+    |             |      ___      |             |   16 - Female WC
+    |     9       |     |   |     |     18      |   17 - Hallway 5
+    |_/_________/_|_____|_/_|_____|_/_________/_|   18 - Office 3
+   _|          |  /      11       \  |          |_  19 - Lab 2
+  | |    8     |10|_______________|  |    19    | | 20 - Hallway 6
+  | \__________|  |           |   |  |__________/ | 21 - Showers
+  | |     |    |  \           |   |17|          | | 22 - Hallway 7
+  |7|  6  | 5  |  /   12      |___|  |    21    |2| 23 - Lab 3
+  | |_/___|__/_|  |___________| 16/  |___/______|0| 24 - Hallway 8
+  | \  4       |  /           |___|  |    22    / | 25 - Office 4
+  |_|_____/____|  |   13      | 15/  |_____/____|_| 26 - Lab 4
+  |            |  |___________|___|  |            | 27 - Hallway 9
+  |    3       |  \               /  |      23    | 28 - Male WC 2
+  |____________|__|    14         |__|____________| 29 - Storeroom 2
+                  |__           __|                 30 - Storeroom 3
+                     |___/|\___|                    31 - Library
+                                                    32 - Hallway 10
+                                                    33 - Female WC 2
+     _____________    - Lab 2F     _____________    34 - Comp Room
+    |             |      ___      |             |   35 - Office 5
+    |      25     |     |   |     |     35      |   36 - Office 6
+    |_/_________/_|_____|_/_|_____|_/_________/_|   37 - Hallway 11
+    |          |  /      24       \  |          |_  38 - Hallway 12
+    |   26     |  |_______________|  |  36      | | 39 - Hallway 13
+    |__________|27|               |32|__________/3| 40 - Lab 5
+    |      |   |  |               |  |       |  |7| 41 - Lab 6
+    |  29  |28 |  |               |  |  33   |  / | 42 - Boiler
+    |_/____|_/_|/_|               |_\|___/___|__|_| 43 - Hallway 14
+    |_____ _______|               |_ ___________|   44 - Graveyard
+    |  30 \       |               | \           |   45 - Lab 7
+    |___________/_|               |             |   46 - Lab 8
+    |  31         |               |     34      |   47 - Stairwell 3
+    |_____________|               |_____________|   48 - Hallway 15
+                                                    49 - Morgue
+                          _______                   50 - Morgue 2
+                         |       |                  51 - Hallway 16
+                         |       |                  52 - Entryway
+         - Lab B2        |  53   |                  53 - Chapel.
+                         |       |
+     ____________________|___/___|
+    |||| /       48        |   |
+    |____|_______________/_|52 |
+         |      /          |   |
+         |      |   49     |   |
+         | 50   |__________|_\_|
+         |      /   51         |
+         |______|______________|
+
+
+Items
+-----
+Exam Room Key - Bookcase in Storeroom 1
+Machine Gun - Search table in Storeroom 1 4 times, Shelf in Lab 7
+Medical Kit - Shelf in Exam Room, Bed in Lab 2
+Shotgun - Cart in Exam Room, Shelf in Lab 7
+Pistol - Cart in Exam Room, Locker in Hallway 3, Desk in Office 2,
+         Stall in Mens Toilets, Shelf in Lab 2, Desk in Office 6,
+         Desk in Lab 8
+Desk Key - Ground of Courtyard
+Blue Card Key - Sink in Womens Toilets
+Security Key - Locker in Showers
+Knife - Shelf in Lab 3
+Storage Key - Shelf in Lab 3
+Lighter - Desk in Office 5
+Red Card Key - Shelf in Library
+Green Card Key - Desk in Office 6
+Lab Key - On computer in Comp Room
+Handcuff Key - On chair in Lab 4
+Graveyard Key - Dead Body in Lab 5
+Hatchet - Holder in Lab 6
+Large Door Key - Off Philip Tate in Graveyard
+
+
+Hints
+-----
+No 7 - Computer in Office 2
+No 8 - Computer in Office 1
+
+
+Hiding Spots
+------------
+A. Stall in Womens Toilets
+B. Stall in Womens Toilets 2
+C. Shower stall in Showers
+D. Locker in Showers
+E. Behind table in Lab 5
+
+
+Useable Items for Weapons
+-------------------------
+A. Pan in Exam Room
+B. Chair in Office 1
+C. Fire Extingusher in Hallway 3 (unlimited use)
+D. Fire Extingusher in Hallway 5 (unlimited use)
+E. Plant in Reception
+F. Chair in Office 3
+G. Chair in Lab 4
+
+
+Places to hide Amulet
+---------------------
+A. Shelf in Lab 1
+B. Locker in Hallway 2
+C. Shelf in Exam Room
+D. Shelf in Office 1
+E. Locker in Hallway 3
+F. Desk in Office 2
+G. Locker in Hallway 5
+H. Shelf in Office 3
+I. Shelf in Lab 2
+J. Locker in Hallway 6
+K. Shelf in Lab 3
+L. Locker in Hallway 9
+M. Desk in Office 4
+N. Shelf in Office 5
+O. Shelf in Office 6
+P. Shelf in Storeroom 2
+Q. Shelf in Storeroom 3
+R. Shelf in Lab 5
+S. Shelf in Lab 7
+
+
+Traps
+-----
+A. Zombie in Locker in Hallway 2
+B. Bookshelf in Office 2
+C. Zombie in Locker in Hallway 5
+D. Zombie in Locker in Hallway 9
+E. Shelf in Office 4
+F. Painting in Office 5

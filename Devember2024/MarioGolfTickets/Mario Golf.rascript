@@ -7,6 +7,8 @@ BallStates = {
     "InHole": 0xff
 }
 
+PlayStyle = byte(0xc834)
+
 function GotAnEagle(){
     return Player() == 0 &&
         Shots() > 0 &&
@@ -22,6 +24,7 @@ function PitchAndPuttChallenge(){
         all_of(range(1, 18), hole =>
             once(
                 Shots() > 0 &&
+                PlayStyle == 3 &&
                 Course() == 6 &&
                 Hole() == hole &&
                 Par() - Shots() >= 1 &&
@@ -29,7 +32,7 @@ function PitchAndPuttChallenge(){
                 BallState == BallStates["InHole"]
             )
         ) &&
-        never(Course() != 6)
+        never(PlayStyle > 0 && PlayStyle != 3 && PlayStyle != 9)
 }
 
 //////////////////////////////////////////////////////////////

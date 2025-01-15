@@ -1,0 +1,99 @@
+Chapter 1: Yellow Cursed Doll
+=============================
+                     _______
+- House 1F/B1       |   |||||        _______
+                    |   11  |       ||||    |
+         ___________|_/_____|       |  12   |
+        |           |   |           |_______|
+        |     9     |10 |
+   _____|           |   |             01 - Entryway
+  |     |__/________|_/_|______       02 - Toilet 1F
+  |     |               |      |      03 - Bathroom
+  |  7  |       6       |  8   |      04 - Guest Bedroom
+  |_____\______/________|___/__|      05 - Dining Hall
+  |                            |      06 - Small Dining Room
+ _|             5              |      07 - Kitchen
+| |_______ _______________/____|      08 - Storeroom
+|         / |           |   |--|      09 - Master Bedroom
+|      4    |   3    ___\   |--|_     10 - Hallway
+|           |       | 2 \   1    \    11 - Den
+|___________|_______|___|________/L   12 - Basement
+                                      13 - Stairwell
+                  ___                 14 - Toilet 2F
+- House 2F       |14 |____________    15 - Living Room
+                _|_/_|     /___17 |   16 - Shrine Room
+               |_|   / 15  /   |  |   17 - Porch A
+               |_|   |     |16 |  |   18 - Stephanie's Bedroom
+               |_|   |_____|___|__|   19 - Hallway 2F
+               | 13  /  /      |      20 - Ashley's Bedroom
+               |_____|  | 18   |      21 - Michael's Bedroom
+                     |19|______|__    22 - Porch B
+                     |  |      |  |
+                     |  /  20  /  |
+                     |/_|______|  |
+                     |    21   |  |
+                     |__/______|22|
+                     |____________| 
+
+Items
+-----
+Hallway Key - Off Philip Tate in Entryway or in Small Dining Room
+Medical Kit - Desk in Guest Bedroom, Closet in Master Bedroom, 
+              Table in Den, Closet in Living Room
+Pistol - Desk in Guest Bedroom, Shelf in Storeroom, Cabnet in 
+         Toilet 2F
+Amulet in Dining Hall and Small Dining Room
+Oil Can in Storeroom
+Lighter in Basement
+Desk Key in Cabnet in Stephanie's Bedroom
+Master Bedroom Key in Closet in Michael's Bedroom
+
+
+Hints
+-----
+No 1 - Bathroom - Washing Machine
+No 2 - Kitchen - Sink
+No 3 - Living Room - Coffee Table
+No 4 - Hallway - Boxes
+
+
+Hiding Spots
+------------
+A. Bar in Small Dining Room
+
+
+Useable Items for Weapons
+-------------------------
+A. Pan in Bathroom
+B. Candle Holder in Dining Hall
+C. Chair in Small Dining Room
+D. Pot in Kitchen
+E. Ashtray in Basement
+F. Chair in Ashley's Bedroom
+G. Backpack in Stephanie's Bedroom
+H. Wooden Sword in Michael's Room
+I. Side of Porch A (Weak Point)
+J. Plant in Porch A
+
+
+Places to hide Amulet
+---------------------
+A. Cabnet in Bathroom
+B. Desk in Guest Bedroom
+C. Vase in Dining Hall
+D. Sink in Kitchen
+E. Books in Hallway
+F. Cabinet in Stephanie's Bedroom
+G. Closet in Michael's Bedroom
+
+
+Traps
+-----
+A. Clock in Dining Hall  (Stephanie)
+B. Painting in Small Dining Room (Stephanie)
+C. Pantry in Kitchen (Stephanie)
+D. China Cabnet in Kitchen
+E. Saumrai in Stairwell (requied to be moved for all endings but G)
+F. Radio in Stephanie's Bedroom (Stephanie)
+G. Table in Shrine Room (Stephanie)
+H. Statue in Shrine Room

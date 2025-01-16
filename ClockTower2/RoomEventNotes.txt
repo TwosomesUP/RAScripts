@@ -54,6 +54,10 @@
 ----- 0x0017: Pick Up Phone - Dead
 ---- Chapter 2 - Room 102
 ----- 0x000a: Examine Bloody Sink
+---- Chapter 2 - Director's Office
+----- 0x000f: Spoke to Director
+----- 0x003a: Director Approaches
+----- 0x002a: Escaped Director as Alyssa
 +0x16: Activated Object - Timer [16-bit] 
 +0x18: Activated Object - ID [16-bit]
 ----- 0xffff: None
@@ -96,6 +100,8 @@
 ----- 0x0005: Pick Up Phone
 ---- Chapter 2 - Room 102
 ----- 0x0003: Examine Bloody Sink
+---- Chapter 2 - Director's Office
+----- 0x0006: Director
 +0x1a: Activated Object - Scene Sequence [16-bit]
 ----- Increases by 1 after each scene change
 ----- 0xffff: Nothing Playing

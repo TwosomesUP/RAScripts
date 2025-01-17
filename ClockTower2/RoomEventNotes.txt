@@ -58,6 +58,24 @@
 ----- 0x000f: Spoke to Director
 ----- 0x003a: Director Approaches
 ----- 0x002a: Escaped Director as Alyssa
+---- Chapter 3 - 1F Lab 1
+----- 0x0006: Examine Entrails
+----- 0x000d: Examine Meat Trap
+----- 0x002c: Meat Trap - Attack
+----- 0x0011: Meat Trap - Survive
+---- Chapter 3 - 1F Exam Room
+----- 0x000b: Examine Creature Cage
+---- Chapter 3 - 1F Office 1
+----- 0x0011: Picked up dead phone
+----- 0x000f: Examined Printer
+----- 0x000b: Computer won't Turn On
+----- 0x000f: Computer Turns On
+---- Chapter 3 - 1F Hallway 3
+----- 0x0005: Fire Extinguisher - Examine
+----- 0x0002: Fire Extinguisher - Pick Up
+----- 0x0016: Fire Extinguisher - Pick Up
+----- 0x0001: Fire Extinguisher - Prepare to Attack
+----- 0x001b: Fire Extinguisher - Attack
 +0x16: Activated Object - Timer [16-bit] 
 +0x18: Activated Object - ID [16-bit]
 ----- 0xffff: None
@@ -102,6 +120,17 @@
 ----- 0x0003: Examine Bloody Sink
 ---- Chapter 2 - Director's Office
 ----- 0x0006: Director
+---- Chapter 3 - 1F Lab 1
+----- 0x0001: Entrails
+----- 0x0002: Meat Trap
+---- Chapter 3 - 1F Exam Room
+----- 0x0003: Creature Cage
+---- Chapter 3 - 1F Office 1
+----- 0x0006: Phone
+----- 0x0005: Printer
+----- 0x0003: Computer
+---- Chapter 3 - 1F Hallway 3
+----- 0x0007: Fire Extinguisher
 +0x1a: Activated Object - Scene Sequence [16-bit]
 ----- Increases by 1 after each scene change
 ----- 0xffff: Nothing Playing

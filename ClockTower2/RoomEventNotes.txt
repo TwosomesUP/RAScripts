@@ -76,6 +76,11 @@
 ----- 0x0016: Fire Extinguisher - Pick Up
 ----- 0x0001: Fire Extinguisher - Prepare to Attack
 ----- 0x001b: Fire Extinguisher - Attack
+---- Chapter 3 - 1F Hallway 5
+----- 0x0004: Fire Extinguisher - Examine
+----- 0x0014: Fire Extinguisher - Pick Up
+----- 0x0001: Fire Extinguisher - Prepare to Attack
+----- 0x001b: Fire Extinguisher - Attack
 +0x16: Activated Object - Timer [16-bit] 
 +0x18: Activated Object - ID [16-bit]
 ----- 0xffff: None
@@ -130,6 +135,8 @@
 ----- 0x0005: Printer
 ----- 0x0003: Computer
 ---- Chapter 3 - 1F Hallway 3
+----- 0x0007: Fire Extinguisher
+---- Chapter 3 - 1F Hallway 5
 ----- 0x0007: Fire Extinguisher
 +0x1a: Activated Object - Scene Sequence [16-bit]
 ----- Increases by 1 after each scene change

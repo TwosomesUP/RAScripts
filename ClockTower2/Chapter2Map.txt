@@ -33,7 +33,7 @@ Chapter 2: Noisy Monsters Cage
                    |              |
                    |    18        |
                    |______________| 
-
+q
 
 Items
 -----

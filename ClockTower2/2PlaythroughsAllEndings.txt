@@ -7,58 +7,91 @@ exceptions to get all the endings.
 
 ==========================
 
-- Play from the start to until when you have to put the amulet in
-  the vase. Save. Don't put the amulet down. Get the M ending and
-  reload your save.
-- Continue until you come out of the bedroom while Stephanie is in
-  it. Save. Leaving the door unlocked will allow you to get the L
-  ending. Reload your save.
-- Continue on again until before you get the key from Philip. Save
-  and go to him as Bates. Get the K ending. Reload your save and
-  continue.
-- When you get to the point of meeting Philip in the basement den
-  save beforehand then go there as Bates. This will get you the J
-  ending. Load your save.
-- When it comes time to burn the statue, save before the scene. To
-  get the I ending don't reach for the amulet when you have the 
-  chance. Reload after getting the ending and finish this chapter.
+** Ending G requires you to NOT interact with the Samurai armor. Second playthrough.
+
+= Save before unlocking the Master Bedroom Door
+- Ending M = Don't store Amulet in Vase in Dining Room
+
+= Reload and Store Amulet in Vase in Dining Room and continue
+
+= Save after rescuing Kathryn in the Master Bedroom
+-- Ending L = Don't lock the Master Bedroom door
+-- Shoot Stephanie when she appears
+-- Travel to the 2F Northern Porch off of Ashley's room
+-- Examine Kathryn's dead body
+
+= Reload and lock Stephanie in the Master Bedroom and continue
+
+= Save after discovering the Cursed statue is no longer in Stephanie's room
+-- Ending K = Store the amulet in the dresser
+-- Activate the radio and have Stephanie trigger Bates
+-- Shoot Stephanie then talk to Philip in the Entryway
+-- Key the Corridor Key from the Dinette
+-- Find and talk to Philip in the Den
+
+= Reload and don't store the amulet and continue
+
+= Save after getting the Corridor key from Philip
+-- Ending J = Store the Amulet in the Vase in the Dining Room
+-- Trigger the clock trap and have stephanie trigger Bates
+-- Shoot Stephanie to stop her
+-- Find and speak to Philip in the Basement
+
+= Reload and don't store the Amulet and continue
+
+= Save before burning the Cursed Statue
+-- Ending I = Don't pick up the Amulet after Bates stabs Stephanie
+
+= Reload and pick up the Amulet after Bates stabs Stephanie
   
 ==========================
  
-- Finish the 2nd chapter (there are no endings during it).
+- Finish 2nd chapter
 
 ==========================
 
-- Play through the 3rd chapter until just before you meet Shannon.
-  Save. Change into Bates and talk to her. Ending H. Reload.
-- In the A guide where it tells you to pick the amulet back up
-  from the room where Shannon was. Save and don't pick it up.
-  When you get the Lab Key, use it. Enter the lab as Bates and
-  Maxwell will kill you. Ending F. 
-- Reload that last save and again don't pick up the amulet.  
-  Continue on as normal. You will pick up the knife instead of 
-  the storage key. Use the knife to cut the rope on the door and
-  talk to Allen. Ending E. Reload same save again.
-- This time pick up the amulet and continue to follow the game
-  guide. When you get to the basement labs, save the game. Enter
-  the room where Shannon is with the Amulet still on you to get
-  the D ending. Reload the save and continue.
-- Before you get to the scene with Doug Bowman asking you if you
-  want to leave, save. When he asks say YES. Ending C. Reload the
-  save and continue by saying NO.
-- Again before you get to the scene where Alex Corey asks you if
-  you want to leave, save. When he asks say YES. Ending B. Reload
-  the save and continue by saying NO.
-- Finish the game to get ending A.
+= Save after getting Blue Card Key and before speaking to Shannon in Office 3
+-- Ending H = Store the Amulet
+-- Find a zombie and let it turn you into Bates
+-- After dispatching the zombie, speak to Shannon in Office 3 as Bates
+
+= Reload
+
+= Save after finding the Desk Key
+-- Ending F = Pick up the Amulet then continue (you should get the Storage Key)
+-- After finding the Lab Key store the Amulet
+-- Find a zombie and let it turn you into Bates
+-- Continue until you find Maxwell in Office 4 and speak to him as Bates
+
+= Reload
+-- Ending E = Don't pick up the Amulet then continue (you should get the Knife)
+-- After finding the Lab Key, continue to Office 3 and speak to Maxwell (must be Alyssa)
+-- After speaking to Maxwell, store the amulet, find a zombie, and turn into Bates
+-- Use the knife to cut the rope on Storage Room 3
+
+= Reload and continue
+
+= Save after reach the basement and clear out the zombies
+-- Ending D = Speak to Shannon in Lab 6 as Alyssa (with Amulet equipped)
+
+= Reload and continue
+
+= Save before speaking to Bowman in the Incinerator Room
+-- Ending C = Speak to Bowman and say YES
+
+= Reload and continue saying NO to Bowman
+
+= Save before speaking to Alex in Morgue 2
+-- Ending B = Speak to Alex and say YES
+
+= Reload and continue saying NO to Alex
+-- Ending A = Face Maxwell in the Chapel
+
 
 ===========================
-DON'T MOVE SAMURAI
+Ending G - Second Playthrough
 ===========================
 
-- To get the last ending you need, the G ending, start a new game.
-  When you get to the point of moving the samurai, DON'T. Instead
-  leave it. When you get to the 3rd Chapter, you will find you can
-  only get into the courtyard on the 1st floor. By getting the key
-  on the ground ther you will get the G ending.
-
-There you have it, all 13 endings on 2 play throughs. 
+During Chapter 1 DON'T interact with the Samurai. Continue your playthrough as normal until you reach
+chapter 3. When you reach Hallway 3, the only door that'll work is the Courtyard door. This will lead
+to ending G.

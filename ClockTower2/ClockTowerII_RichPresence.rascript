@@ -327,24 +327,6 @@ function GetRoomID(){
 
 function GetTotalSeconds() => Game["PlayTime"] / 30
 
-function GetHours() => GetTotalSeconds() / 3600
-
-function GetMinutes() {
-    total_seconds = GetTotalSeconds()
-    hours = total_seconds / 3600
-    remaining_seconds = total_seconds - (hours * 3600)
-    return remaining_seconds
-}
-
-function GetSeconds() {
-    total_seconds = GetTotalSeconds()
-    hours = total_seconds / 3600
-    remaining_seconds = total_seconds - (hours * 3600)
-    minutes = remaining_seconds / 60
-    remaining_seconds = remaining_seconds - (minutes * 60)
-    return remaining_seconds
-}
-
 rich_presence_conditional_display(IsOnTitle(), "{0}{1}Alyssa is exploring their options{2} | 📜 {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15} | 🔎 {16} {17} {18} {19} {20} {21} {22} {23}",
     rich_presence_lookup("MonkeySuit", Game["Cheats"]["Monkey"], CheatLookups["Monkey"]),
     rich_presence_lookup("SailorSuit", Game["Cheats"]["Sailor"], CheatLookups["Sailor"]),
@@ -429,7 +411,7 @@ rich_presence_conditional_display(IsPlayingStandard(), "{0}{1}{2} is {3}{4}{5} |
     rich_presence_lookup("Hint6", Game["Hints"]["6"], HintLookups["6"]),
     rich_presence_lookup("Hint7", Game["Hints"]["7"], HintLookups["7"]),
     rich_presence_lookup("Hint8", Game["Hints"]["8"], HintLookups["8"]),
-    rich_presence_value("Time", Game["PlayTime"] / 30, "SECS")
+    rich_presence_value("Time", GetTotalSeconds(), "SECS")
 )
 
 rich_presence_conditional_display(IsPlayingTimeAttack(), "{0}{1}{2} is dispatching zombies quickly{3} | 💀 {4}/19 | 🕓 {5}",
@@ -438,7 +420,7 @@ rich_presence_conditional_display(IsPlayingTimeAttack(), "{0}{1}{2} is dispatchi
     rich_presence_lookup("Alyssa", Alyssa["IsBates"], AlyssaLookups),
     rich_presence_lookup("Milicana", Game["Cheats"]["Milicana"], CheatLookups["Milicana"]),
     rich_presence_value("Zombies", Game["TimeAttack"]["Enemies"]),
-    rich_presence_value("Time", Game["PlayTime"] / 30, "SECS")
+    rich_presence_value("Time", GetTotalSeconds(), "SECS")
 )
 
 rich_presence_conditional_display(IsPlayingScoreAttack(), "{0}{1}{2} is dispatching zombies for sport{3} | 💀 {4}/16 | 🏆 {5}",

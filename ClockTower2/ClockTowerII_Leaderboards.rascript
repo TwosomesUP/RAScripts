@@ -60,6 +60,12 @@ Game = {
     }
 }
 
+Events = {
+    "Chapter1": {
+        "Begin": bit6(0x708c8)
+    }
+}
+
 Alyssa = {
     "Health": byte(0x70a18),
     "IsBates": bit5(0x70a20)
@@ -128,13 +134,16 @@ function NoMilicana() => Game["Cheats"]["Milicana"] == 0
 // Leaderboard Functions
 // ======================================================================= //
 
+function StartedNewGame(){
+    return once(IsPlayingStandard() && prev(Events["Chapter1"]["Begin"]) < Events["Chapter1"]["Begin"] && never(IsOnTitle()))
+}
+
 function EndingAStart(){
     return IsInEnding() &&
         Game["Mode"] == GameModes["Standard"] &&
         Game["Ending"]["Rank"] == EndingRanks["A"] &&
         prev(Game["Ending"]["Sequence"]) == EndingSequences["RankASplash"] &&
-        Game["Ending"]["Sequence"] == EndingSequences["RankScreen"] &&
-        disable_when(Game["Cheats"]["Milicana"] != 0)
+        Game["Ending"]["Sequence"] == EndingSequences["RankScreen"]
 }
 
 function EndingMStart(){
@@ -146,25 +155,66 @@ function EndingMStart(){
         disable_when(Game["Cheats"]["Milicana"] != 0)
 }
 
+function TimeAttackEnded(){
+    return IsPlayingTimeAttack() &&
+        GetTotalSeconds() > 1 &&
+        prev(Game["TimeAttack"]["Enemies"]) != 0 &&
+        Game["TimeAttack"]["Enemies"] == 0
+}
+
+function ScoreAttackEnded(){
+    return IsPlayingScoreAttack() &&
+        Game["ScoreAttack"]["Score"] > 1 &&
+        prev(Game["ScoreAttack"]["Enemies"]) != 0 &&
+        Game["ScoreAttack"]["Enemies"] == 0
+}
 
 function SubmitTime(){
     return GetTotalSeconds()
 }
 
-leaderboard("Speed Run Challenge - RANK A", "Beat the game with an Ending Rank of A with the fastest in-game time [No Milicana]",
+leaderboard("ANY% Speed Run Challenge - RANK A", "Beat the game with an Ending Rank of A with the fastest in-game time possible",
     start = EndingAStart(),
     cancel = always_false(),
     submit = always_true(),
     value = SubmitTime(),
-    format = "SECS"
+    format = "SECS",
+    lower_is_better = true
 )
 
-leaderboard("Speed Run Challenge - RANK M", "Beat the game with an Ending Rank of M with the fastest in-game time [No Milicana]",
-    start = EndingMStart(),
+leaderboard("Speed Run Challenge - RANK A", "Starting with a new game, beat the game with an Ending Rank of A with the fastest in-game time possible [Single Session][No Milicana]",
+    start = StartedNewGame() && EndingAStart() && disable_when(Game["Cheats"]["Milicana"] != 0),
     cancel = always_false(),
     submit = always_true(),
     value = SubmitTime(),
-    format = "SECS"
+    format = "SECS",
+    lower_is_better = true
+)
+
+leaderboard("Speed Run Challenge - RANK M", "Starting with a new game, beat the game with an Ending Rank of M with the fastest in-game time possible [Single Session][No Milicana]",
+    start = StartedNewGame() && EndingMStart() && disable_when(Game["Cheats"]["Milicana"] != 0),
+    cancel = always_false(),
+    submit = always_true(),
+    value = SubmitTime(),
+    format = "SECS",
+    lower_is_better = true
+)
+
+leaderboard("Time Attack Challenge", "Clear the Time Attack mode as quickly as possible [No Milicana]",
+    start = TimeAttackEnded() && disable_when(Game["Cheats"]["Milicana"] != 0),
+    cancel = always_false(),
+    submit = always_true(),
+    value = SubmitTime(),
+    format = "SECS",
+    lower_is_better = true
+)
+
+leaderboard("Score Attack Challenge", "Clear the Score Attack mode with the highest score possible [No Milicana]",
+    start = ScoreAttackEnded() && disable_when(Game["Cheats"]["Milicana"] != 0),
+    cancel = always_false(),
+    submit = always_true(),
+    value = Game["ScoreAttack"]["Score"],
+    format = "SCORE"
 )
 
 

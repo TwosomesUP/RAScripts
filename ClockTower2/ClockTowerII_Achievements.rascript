@@ -573,43 +573,43 @@ function Chapter3FoundMachineGun(){
 // Achievement Functions - Progression
 // ======================================================================= //
 
-achievement("Chapter 1 - Dining Key", "Find the Dining Key", points = 2, type="progression", id = 494711,
+achievement("Chapter 1 - Dining Key", "Find the Dining Key in Chapter 1", points = 2, type="progression", id = 494711,
     trigger = CompletedChapterEvent("Chapter1", "DiningKey")
 )
 
-achievement("Chapter 1 - Body Parts", "Find all 4 of Ashley's bodyparts", points = 2, type="progression", id = 494712,
+achievement("Chapter 1 - Body Parts", "Find all 4 of Ashley's bodyparts in Chapter 1", points = 2, type="progression", id = 494712,
     trigger = Chapter1FoundBodyParts()
 )
 
-achievement("Chapter 1 - Amulet", "Find Alyssa's Amulet", points = 2, type="progression", id = 494713,
+achievement("Chapter 1 - Amulet", "Find Alyssa's Amulet in Chapter 1", points = 2, type="progression", id = 494713,
     trigger = CompletedChapterEvent("Chapter1", "Amulet")
 )
 
-achievement("Chapter 1 - Samurai", "Inspect the Samurai", points = 2, type="progression", id = 494714,
+achievement("Chapter 1 - Samurai", "Inspect the Samurai in Chapter 1", points = 2, type="progression", id = 494714,
     trigger = CompletedChapterEvent("Chapter1", "Samurai")
 )
 
-achievement("Chapter 1 - Master Bedroom Key", "Find the Master Bedroom Key", points = 2, type="progression", id = 494715,
+achievement("Chapter 1 - Master Bedroom Key", "Find the Master Bedroom Key in Chapter 1", points = 2, type="progression", id = 494715,
     trigger = CompletedChapterEvent("Chapter1", "MasterBedroomKey")
 )
 
-achievement("Chapter 1 - Oil Can", "Find the Oil Can", points = 2, type="progression", id = 494716,
+achievement("Chapter 1 - Oil Can", "Find the Oil Can in Chapter 1", points = 2, type="progression", id = 494716,
     trigger = CompletedChapterEvent("Chapter1", "OilCan")
 )
 
-achievement("Chapter 1 - Letter", "Find and read the note explaining the curse", points = 2, type="progression", id = 494717,
+achievement("Chapter 1 - Letter", "Find and read the note explaining the curse in Chapter 1", points = 2, type="progression", id = 494717,
     trigger = CompletedChapterEvent("Chapter1", "Letter")
 )
 
-achievement("Chapter 1 - Corridor Key", "Find the Corridor Key", points = 2, type="progression", id = 494718,
+achievement("Chapter 1 - Corridor Key", "Find the Corridor Key in Chapter 1", points = 2, type="progression", id = 494718,
     trigger = CompletedChapterEvent("Chapter1", "CorridorKey")
 )
 
-achievement("Chapter 1 - Lighter", "Find the Lighter", points = 2, type="progression", id = 494719,
+achievement("Chapter 1 - Lighter", "Find the Lighter in Chapter 1", points = 2, type="progression", id = 494719,
     trigger = CompletedChapterEvent("Chapter1", "Lighter")
 )
 
-achievement("Chapter 1 - Cursed Statue", "Find the Cursed Statue", points = 2, type="progression", id = 494720,
+achievement("Chapter 1 - Cursed Statue", "Find the Cursed Statue in Chapter 1", points = 2, type="progression", id = 494720,
     trigger = CompletedChapterEvent("Chapter1", "CursedStatue")
 )
 
@@ -617,39 +617,39 @@ achievement("Chapter 1 - Complete", "Ward off the curse haunting the Tates and c
     trigger = CompletedChapter1()
 )
 
-achievement("Chapter 2 - Newspaper", "Speak to Bowman and read the newspaper", points = 3, type="progression", id = 494722,
+achievement("Chapter 2 - Newspaper", "Speak to Bowman and read the newspaper in Chapter 2", points = 3, type="progression", id = 494722,
     trigger = CompletedChapterEvent("Chapter2", "Newspaper")
 )
 
-achievement("Chapter 2 - Storage Key", "Find the Storage Key", points = 3, type="progression", id = 494723,
+achievement("Chapter 2 - Storage Key", "Find the Storage Key in Chapter 2", points = 3, type="progression", id = 494723,
     trigger = CompletedChapterEvent("Chapter2", "StorageRoomKey")
 )
 
-achievement("Chapter 2 - Research Lab", "Speak to Alex and learn about the research lab", points = 3, type="progression", id = 494724,
+achievement("Chapter 2 - Research Lab", "Speak to Alex and learn about the research lab in Chapter 2", points = 3, type="progression", id = 494724,
     trigger = CompletedChapterEvent("Chapter2", "Alex")
 )
 
-achievement("Chapter 2 - Screwdriver", "Find the Screwdriver", points = 3, type="progression", id = 494725,
+achievement("Chapter 2 - Screwdriver", "Find the Screwdriver in Chapter 2", points = 3, type="progression", id = 494725,
     trigger = CompletedChapterEvent("Chapter2", "Screwdriver")
 )
 
-achievement("Chapter 2 - Backdoor Key", "Find the Back Door Key", points = 3, type="progression", id = 494726,
+achievement("Chapter 2 - Backdoor Key", "Find the Back Door Key in Chapter 2", points = 3, type="progression", id = 494726,
     trigger = CompletedChapterEvent("Chapter2", "BackDoorKey")
 )
 
-achievement("Chapter 2 - Zombie Weakness", "Learn about the Zombie weakness", points = 3, type="progression", id = 494727,
+achievement("Chapter 2 - Zombie Weakness", "Learn about the Zombie weakness in Chapter 2", points = 3, type="progression", id = 494727,
     trigger = CompletedChapterEvent("Chapter2", "ZombieNote")
 )
 
-achievement("Chapter 2 - Voices", "Find all 4 disembodied voices", points = 3, type="progression", id = 494728,
+achievement("Chapter 2 - Voices", "Find all 4 disembodied voices in Chapter 2", points = 3, type="progression", id = 494728,
     trigger = Chapter2FoundVoices()
 )
 
-achievement("Chapter 2 - Director", "Confront the Director", points = 3, type="progression", id = 494729,
+achievement("Chapter 2 - Director", "Confront the Director in Chapter 2", points = 3, type="progression", id = 494729,
     trigger = CompletedChapterEvent("Chapter2", "Director")
 )
 
-achievement("Chapter 2 - Bowman", "Hatch an escape plan with Bowman", points = 3, type="progression", id = 494730,
+achievement("Chapter 2 - Bowman", "Hatch an escape plan with Bowman in Chapter 2", points = 3, type="progression", id = 494730,
     trigger = CompletedChapterEvent("Chapter2", "Bowman")
 )
 
@@ -657,59 +657,59 @@ achievement("Chapter 2 - Complete", "Escape the infested Hospital and complete C
     trigger = CompletedChapter2()
 )
 
-achievement("Chapter 3 - Exam Room Key", "Find the Exam Room Key", points = 4, type="progression", id = 494732,
+achievement("Chapter 3 - Exam Room Key", "Find the Exam Room Key in Chapter 3", points = 4, type="progression", id = 494732,
     trigger = CompletedChapterEvent("Chapter3", "ExamRoomKey")
 )
 
-achievement("Chapter 3 - Blue Key Card", "Find the Blue Key Card", points = 4, type="progression", id = 494733,
+achievement("Chapter 3 - Blue Key Card", "Find the Blue Key Card in Chapter 3", points = 4, type="progression", id = 494733,
     trigger = CompletedChapterEvent("Chapter3", "BlueKeyCard")
 )
 
-achievement("Chapter 3 - Wire", "Find the Wire", points = 4, type="progression", id = 494734,
+achievement("Chapter 3 - Wire", "Find the Wire in Chapter 3", points = 4, type="progression", id = 494734,
     trigger = CompletedChapterEvent("Chapter3", "Wire")
 )
 
-achievement("Chapter 3 - Security Key", "Find the Security Key", points = 4, type="progression", id = 494735,
+achievement("Chapter 3 - Security Key", "Find the Security Key in Chapter 3", points = 4, type="progression", id = 494735,
     trigger = CompletedChapterEvent("Chapter3", "SecurityKey")
 )
 
-achievement("Chapter 3 - Desk Key", "Find the Desk Key", points = 4, type="progression", id = 494736,
+achievement("Chapter 3 - Desk Key", "Find the Desk Key in Chapter 3", points = 4, type="progression", id = 494736,
     trigger = CompletedChapterEvent("Chapter3", "DeskKey")
 )
 
-achievement("Chapter 3 - Storage Key", "Find the Storage Key", points = 4, type="progression", id = 494737,
+achievement("Chapter 3 - Storage Key", "Find the Storage Key in Chapter 3", points = 4, type="progression", id = 494737,
     trigger = CompletedChapterEvent("Chapter3", "StorageKey")
 )
 
-achievement("Chapter 3 - Lighter", "Find the Lighter", points = 4, type="progression", id = 494738,
+achievement("Chapter 3 - Lighter", "Find the Lighter in Chapter 3", points = 4, type="progression", id = 494738,
     trigger = CompletedChapterEvent("Chapter3", "Lighter")
 )
 
-achievement("Chapter 3 - Lab Key", "Find the Lab Key", points = 4, type="progression", id = 494739,
+achievement("Chapter 3 - Lab Key", "Find the Lab Key in Chapter 3", points = 4, type="progression", id = 494739,
     trigger = CompletedChapterEvent("Chapter3", "LabKey")
 )
 
-achievement("Chapter 3 - Handcuff Key", "Find the Handcuff Key", points = 4, type="progression", id = 494740,
+achievement("Chapter 3 - Handcuff Key", "Find the Handcuff Key in Chapter 3", points = 4, type="progression", id = 494740,
     trigger = CompletedChapterEvent("Chapter3", "HandcuffKey")
 )
 
-achievement("Chapter 3 - Red Key Card", "Find the Red Key Card", points = 4, type="progression", id = 494741,
+achievement("Chapter 3 - Red Key Card", "Find the Red Key Card in Chapter 3", points = 4, type="progression", id = 494741,
     trigger = CompletedChapterEvent("Chapter3", "RedKeyCard")
 )
 
-achievement("Chapter 3 - Green Key Card", "Find the Green Key Card", points = 4, type="progression", id = 494742,
+achievement("Chapter 3 - Green Key Card", "Find the Green Key Card in Chapter 3", points = 4, type="progression", id = 494742,
     trigger = CompletedChapterEvent("Chapter3", "GreenKeyCard")
 )
 
-achievement("Chapter 3 - Hatchet", "Find the Hatchet", points = 4, type="progression", id = 494743,
+achievement("Chapter 3 - Hatchet", "Find the Hatchet in Chapter 3", points = 4, type="progression", id = 494743,
     trigger = CompletedChapterEvent("Chapter3", "Hatchet")
 )
 
-achievement("Chapter 3 - Graveyard Key", "Find the Graveyard Key", points = 4, type="progression", id = 494744,
+achievement("Chapter 3 - Graveyard Key", "Find the Graveyard Key in Chapter 3", points = 4, type="progression", id = 494744,
     trigger = CompletedChapterEvent("Chapter3", "GraveyardKey")
 )
 
-achievement("Chapter 3 - Large Door Key", "Find the Large Door Key", points = 4, type="progression", id = 494745,
+achievement("Chapter 3 - Large Door Key", "Find the Large Door Key in Chapter 3", points = 4, type="progression", id = 494745,
     trigger = CompletedChapterEvent("Chapter3", "LargeDoorKey")
 )
 
@@ -805,31 +805,31 @@ achievement("Chapter 1 - Pistol", "Find the Pistol in Chapter 1", points = 5, id
     trigger = Chapter1FoundPistol()
 )
 
-achievement("Chapter 1 - Piano", "Play the Piano", points = 2, id = 494767,
+achievement("Chapter 1 - Piano", "Play the Piano in Chapter 1", points = 2, id = 494767,
     trigger = CompletedChapterEvent("Chapter1", "Piano")
 )
 
-achievement("Chapter 1 - Paintings", "Knock all of the Tate's paintings down", points = 3, id = 494768,
+achievement("Chapter 1 - Paintings", "Knock all of the Tate's paintings down in Chapter 1", points = 3, id = 494768,
     trigger = Chapter1Paintings()
 )
 
-achievement("Chapter 1 - Clock Tower 2 Poster", "Examine the Clock Tower 2 poster", points = 2, id = 494769,
+achievement("Chapter 1 - Clock Tower 2 Poster", "Examine the Clock Tower 2 poster in Chapter 1", points = 2, id = 494769,
     trigger = TriggerRoomEvent_Timer("Chapter1", "AshleysRoom", "Poster")
 )
 
-achievement("Chapter 1 - Phone", "Answer the phone when it rings", points = 3, id = 494770,
+achievement("Chapter 1 - Phone", "Answer the phone when it rings in Chapter 1", points = 3, id = 494770,
     trigger = CompletedChapterEvent("Chapter1", "Phone")
 )
 
-achievement("Chapter 1 - Pots and Pans", "Defend yourself with pots and pans", points = 5, id = 494771,
+achievement("Chapter 1 - Pots and Pans", "Defend yourself with pots and pans in Chapter 1", points = 5, id = 494771,
     trigger = Chapter1PotsAndPans()
 )
 
-achievement("Chapter 1 - Poltergeist", "Trigger each poltergeist encounter", points = 5, id = 494772,
+achievement("Chapter 1 - Poltergeist", "Trigger each poltergeist encounter in Chapter 1", points = 5, id = 494772,
     trigger = Chapter1Poltergeist()
 )
 
-achievement("Chapter 1 - Dead Michael", "Find Michael's dead body then fall into its trap", points = 5, id = 494773,
+achievement("Chapter 1 - Dead Michael", "Find Michael's dead body then fall into its trap in Chapter 1", points = 5, id = 494773,
     trigger = Chapter1MichaelTrap()
 )
 
@@ -837,15 +837,15 @@ achievement("Chapter 2 - Shotgun", "Find the Shotgun in Chapter 2", points = 5, 
     trigger = Chapter2FoundShotgun()
 )
 
-achievement("Chapter 2 - Broom Zombies", "Defend against 3 Zombies with a broom", points = 5, id = 494775,
+achievement("Chapter 2 - Broom Zombies", "Defend against 3 Zombies with a broom in Chapter 2", points = 5, id = 494775,
     trigger = ThreeBroomKills()
 )
 
-achievement("Chapter 2 - Panic Lights", "Examine the Panic Lights", points = 2, id = 494776,
+achievement("Chapter 2 - Panic Lights", "Examine the Panic Lights in Chapter 2", points = 2, id = 494776,
     trigger = TriggerRoomEvent("Chapter2", "StaffOffice", "PanicLights")
 )
 
-achievement("Chapter 2 - Chair Zombies", "Defend against 3 Zombies with chairs", points = 5, id = 494777,
+achievement("Chapter 2 - Chair Zombies", "Defend against 3 Zombies with chairs in Chapter 2", points = 5, id = 494777,
     trigger = Chapter2Chairs()
 )
 
@@ -857,15 +857,15 @@ achievement("Chapter 3 - Machine Gun", "Find the Machine Gun in Chapter 3", poin
     trigger = Chapter3FoundMachineGun()
 )
 
-achievement("Chapter 3 - Doug's Parts", "Find all of Bowman's body parts", points = 3, id = 494780,
+achievement("Chapter 3 - Bowman's Parts", "Find all of Bowman's body parts in Chapter 3", points = 3, id = 494780,
     trigger = Chapter3BowmanParts()
 )
 
-achievement("Chapter 3 - Fire Extinguishers", "Defend yourself with Fire Extinguishers 5 times", points = 5, id = 494781,
+achievement("Chapter 3 - Fire Extinguishers", "Defend yourself with Fire Extinguishers 5 times in Chapter 3", points = 5, id = 494781,
     trigger = FiveExtinguisherKills()
 )
 
-achievement("Chapter 3 - Urinal", "Try to use a urinal as Bates", points = 3, id = 494782,
+achievement("Chapter 3 - Urinal", "Try to use a urinal as Bates in Chapter 3", points = 3, id = 494782,
     trigger = TriggerRoomEvent("Chapter3", "MensBathroom", "Urinal")
 )
 
@@ -873,7 +873,7 @@ achievement("Chapter 3 - Title Card", "Find the Chapter 3 title card", points = 
     trigger = CompletedChapterEvent("Chapter3", "TitleCard")
 )
 
-achievement("Chapter 3 - Locker Zombies", "Discover 3 Locker Zombies", points = 5, id = 494784,
+achievement("Chapter 3 - Locker Zombies", "Discover 3 Locker Zombies in Chapter 3", points = 5, id = 494784,
     trigger = Chapter3LockerZombies()
 )
 

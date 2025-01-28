@@ -86,11 +86,19 @@ Offsets = {
 Room = {
     "Chapter1": {
         "DiningHallFinale": 0x17,
-        "Chapter2Begin": 0x12
+        "Chapter2Begin": 0x12,
+        "AshleysRoom": 0x13
     },
     "Chapter2":{
         "BackDoor": 0x0c,
-        "Chapter3Begin": 0x2b
+        "Chapter3Begin": 0x2b,
+        "WomensBathroom": 0x3,
+        "StaffOffice": 0x7
+    },
+    "Chapter3": {
+        "Hallway3": 0x1,
+        "Hallway5": 0xd,
+        "MensBathroom": 0xc
     }
 }
 
@@ -135,7 +143,10 @@ Events = {
         "Voice3": bit7(0x708eb),
         "Voice4": bit7(0x708ec),
         "Director": bit6(0x708ee),
-        "Bowman": bit7(0x708ed)
+        "Bowman": bit7(0x708ed),
+        "Chair1": bit2(0x708e9),
+        "Chair2": bit5(0x708ea),
+        "Chair3": bit4(0x708ed)
     },
     "Chapter3": {
         "Begin": bit5(0x70914),
@@ -152,7 +163,15 @@ Events = {
         "GreenKeyCard": bit7(0x70912),
         "Hatchet": bit3(0x70914),
         "GraveyardKey": bit0(0x70914),
-        "LargeDoorKey": bit1(0x70917)
+        "LargeDoorKey": bit1(0x70917),
+        "BowmanTorso": bit3(0x7090a),
+        "BowmanLegs": bit2(0x7090b),
+        "TitleCard": bit2(0x70917),
+        "Locker1": bit1(0x70918),
+        "Locker2": bit6(0x7090b),
+        "Locker3": bit3(0x70909),
+        "ToyGun": bit6(0x70910),
+        "Knife": bit6(0x70917)
     }
 }
 
@@ -161,6 +180,30 @@ RoomEvents = {
         "Poster": {
             "Object": 0x5,
             "StartScene": 0x6,
+            "EndScene": 0x6
+        }
+    },
+    "Chapter2":{
+        "BroomZombie": {
+            "Object": 0x5,
+            "StartScene": 0x1,
+            "EndScene": 0x11
+        },
+        "PanicLights": {
+            "Object": 0x4,
+            "StartScene": 0x3f,
+            "EndScene": 0x3f
+        }
+    },
+    "Chapter3": {
+        "Extinguisher": {
+            "Object": 0x7,
+            "StartScene": 0x1,
+            "EndScene": 0x1b
+        },
+        "Urinal": {
+            "Object": 0x2,
+            "StartScene": 0xc,
             "EndScene": 0x6
         }
     }
@@ -272,7 +315,7 @@ function CompletedChapterEvent(chapter, event){
         Events[chapter][event]
 }
 
-function TriggerRoomEvent(chapter, event){
+function TriggerRoomEvent(chapter, room, event){
     chapterCheck = always_false() 
 
     if(chapter == "Chapter3")
@@ -287,12 +330,13 @@ function TriggerRoomEvent(chapter, event){
     return NoMilicana() &&
         IsInGame() &&
         chapterCheck &&
+        Game["Room"] == Room[chapter][room] &&
         objectID == RoomEvents[chapter][event]["Object"] &&
         prev(sceneID) == RoomEvents[chapter][event]["StartScene"] &&
         sceneID == RoomEvents[chapter][event]["EndScene"]
 }
 
-function TriggerRoomEvent_Timer(chapter, event){
+function TriggerRoomEvent_Timer(chapter, room, event){
     chapterCheck = always_false() 
 
     if(chapter == "Chapter3")
@@ -308,10 +352,21 @@ function TriggerRoomEvent_Timer(chapter, event){
     return NoMilicana() &&
         IsInGame() &&
         chapterCheck &&
+        Game["Room"] == Room[chapter][room] &&
         objectID == RoomEvents[chapter][event]["Object"] &&
         sceneID == RoomEvents[chapter][event]["StartScene"] &&
         prev(timer) == 1 &&
         timer == 2
+}
+
+function ThreeBroomKills(){
+    return measured(repeated(3, TriggerRoomEvent("Chapter2", "WomensBathroom", "BroomZombie")), IsInGame()) &&
+        never(Game["Chapter"] != Chapters["Chapter2"])
+}
+
+function FiveExtinguisherKills(){
+    return measured(tally(5, TriggerRoomEvent("Chapter3", "Hallway3", "Extinguisher"), TriggerRoomEvent("Chapter3", "Hallway5", "Extinguisher")), IsInGame()) &&
+        never(Game["Chapter"] < Chapters["Chapter3_1"])
 }
 
 function Chapter1FoundBodyParts(){
@@ -319,7 +374,7 @@ function Chapter1FoundBodyParts(){
         IsInGame() &&
         Game["Chapter"] == Chapters["Chapter1"] &&
         prev(Events["Chapter1"]["Leg"] + Events["Chapter1"]["Torso"] + Events["Chapter1"]["Arm"] + Events["Chapter1"]["Head"]) == 3 &&
-        (Events["Chapter1"]["Leg"] + Events["Chapter1"]["Torso"] + Events["Chapter1"]["Arm"] + Events["Chapter1"]["Head"]) == 4
+        measured((Events["Chapter1"]["Leg"] + Events["Chapter1"]["Torso"] + Events["Chapter1"]["Arm"] + Events["Chapter1"]["Head"]) == 4, IsInGame())
 }
 
 function Chapter1Paintings(){
@@ -343,7 +398,7 @@ function Chapter1Poltergeist(){
         IsInGame() &&
         Game["Chapter"] == Chapters["Chapter1"] &&
         prev(Events["Chapter1"]["Doll"] + Events["Chapter1"]["ChinaCabinet"] + Events["Chapter1"]["Clock"]) == 2 &&
-        (Events["Chapter1"]["Doll"] + Events["Chapter1"]["ChinaCabinet"] + Events["Chapter1"]["Clock"]) == 3
+        measured((Events["Chapter1"]["Doll"] + Events["Chapter1"]["ChinaCabinet"] + Events["Chapter1"]["Clock"]) == 3, IsInGame())
 }
 
 function Chapter1MichaelTrap(){
@@ -367,7 +422,15 @@ function Chapter2FoundVoices(){
         IsInGame() &&
         Game["Chapter"] == Chapters["Chapter2"] &&
         prev(Events["Chapter2"]["Voice1"] + Events["Chapter2"]["Voice2"] + Events["Chapter2"]["Voice3"] + Events["Chapter2"]["Voice4"]) == 3 &&
-        (Events["Chapter2"]["Voice1"] + Events["Chapter2"]["Voice2"] + Events["Chapter2"]["Voice3"] + Events["Chapter2"]["Voice4"]) == 4
+        measured((Events["Chapter2"]["Voice1"] + Events["Chapter2"]["Voice2"] + Events["Chapter2"]["Voice3"] + Events["Chapter2"]["Voice4"]) == 4, IsInGame())
+}
+
+function Chapter2Chairs(){
+    return NoMilicana() &&
+        IsInGame() &&
+        Game["Chapter"] == Chapters["Chapter2"] &&
+        prev(Events["Chapter2"]["Chair1"] + Events["Chapter2"]["Chair2"] + Events["Chapter2"]["Chair3"]) == 2 &&
+        measured((Events["Chapter2"]["Chair1"] + Events["Chapter2"]["Chair2"] + Events["Chapter2"]["Chair3"]) == 3, IsInGame())
 }
 
 function CompletedChapter2() {
@@ -376,6 +439,24 @@ function CompletedChapter2() {
         Game["Chapter"] == Chapters["Chapter2"] &&
         prev(Game["Room"]) == Room["Chapter2"]["BackDoor"] &&
         Game["Room"] == Room["Chapter2"]["Chapter3Begin"]
+}
+
+function Chapter3BowmanParts(){
+    return NoMilicana() &&
+        IsInGame() &&
+        Game["Chapter"] >= Chapters["Chapter3_1"] &&
+        Game["Chapter"] <= Chapters["Chapter3_2"] &&
+        prev(Events["Chapter3"]["BowmanTorso"] + Events["Chapter3"]["BowmanLegs"]) == 1 &&
+        measured((Events["Chapter3"]["BowmanTorso"] + Events["Chapter3"]["BowmanLegs"]) == 2, IsInGame())
+}
+
+function Chapter3LockerZombies(){
+    return NoMilicana() &&
+        IsInGame() &&
+        Game["Chapter"] >= Chapters["Chapter3_1"] &&
+        Game["Chapter"] <= Chapters["Chapter3_2"] &&
+        prev(Events["Chapter3"]["Locker1"] + Events["Chapter3"]["Locker2"] + Events["Chapter3"]["Locker3"]) == 2 &&
+        measured((Events["Chapter3"]["Locker1"] + Events["Chapter3"]["Locker2"] + Events["Chapter3"]["Locker3"]) == 3, IsInGame())
 }
 
 function ClearedGameWithRank(rank){
@@ -733,7 +814,7 @@ achievement("Chapter 1 - Paintings", "Knock all of the Tate's paintings down", p
 )
 
 achievement("Chapter 1 - Clock Tower 2 Poster", "Examine the Clock Tower 2 poster", points = 2, id = 494769,
-    trigger = TriggerRoomEvent_Timer("Chapter1", "Poster")
+    trigger = TriggerRoomEvent_Timer("Chapter1", "AshleysRoom", "Poster")
 )
 
 achievement("Chapter 1 - Phone", "Answer the phone when it rings", points = 3, id = 494770,
@@ -757,15 +838,15 @@ achievement("Chapter 2 - Shotgun", "Find the Shotgun in Chapter 2", points = 5, 
 )
 
 achievement("Chapter 2 - Broom Zombies", "Defend against 3 Zombies with a broom", points = 5, id = 494775,
-    trigger = always_false()
+    trigger = ThreeBroomKills()
 )
 
 achievement("Chapter 2 - Panic Lights", "Examine the Panic Lights", points = 2, id = 494776,
-    trigger = always_false()
+    trigger = TriggerRoomEvent("Chapter2", "StaffOffice", "PanicLights")
 )
 
 achievement("Chapter 2 - Chair Zombies", "Defend against 3 Zombies with chairs", points = 5, id = 494777,
-    trigger = always_false()
+    trigger = Chapter2Chairs()
 )
 
 achievement("Chapter 3 - Pistol", "Find the Pistol in Chapter 3", points = 5, id = 494778,
@@ -776,32 +857,32 @@ achievement("Chapter 3 - Machine Gun", "Find the Machine Gun in Chapter 3", poin
     trigger = Chapter3FoundMachineGun()
 )
 
-achievement("Chapter 3 - Doug's Parts", "Find all of Doug's body parts", points = 3, id = 494780,
-    trigger = always_false()
+achievement("Chapter 3 - Doug's Parts", "Find all of Bowman's body parts", points = 3, id = 494780,
+    trigger = Chapter3BowmanParts()
 )
 
 achievement("Chapter 3 - Fire Extinguishers", "Defend yourself with Fire Extinguishers 5 times", points = 5, id = 494781,
-    trigger = always_false()
+    trigger = FiveExtinguisherKills()
 )
 
 achievement("Chapter 3 - Urinal", "Try to use a urinal as Bates", points = 3, id = 494782,
-    trigger = always_false()
+    trigger = TriggerRoomEvent("Chapter3", "MensBathroom", "Urinal")
 )
 
 achievement("Chapter 3 - Title Card", "Find the Chapter 3 title card", points = 3, id = 494783,
-    trigger = always_false()
+    trigger = CompletedChapterEvent("Chapter3", "TitleCard")
 )
 
 achievement("Chapter 3 - Locker Zombies", "Discover 3 Locker Zombies", points = 5, id = 494784,
-    trigger = always_false()
+    trigger = Chapter3LockerZombies()
 )
 
 achievement("Chapter 3 - Toy Gun", "Find the Toy Gun in Chapter 3", points = 5, id = 494785,
-    trigger = always_false()
+    trigger = CompletedChapterEvent("Chapter3", "ToyGun")
 )
 
 achievement("Chapter 3 - Knife", "Find the Knife in Chapter 3", points = 3, id = 494786,
-    trigger = always_false()
+    trigger = CompletedChapterEvent("Chapter3", "Knife")
 )
 
 achievement("Rank A Speedrun", "Complete the game with an Ending Rank of A in 2.5 hours or less", points = 25, id = 494787,

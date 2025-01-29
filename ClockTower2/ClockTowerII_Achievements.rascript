@@ -115,7 +115,7 @@ Events = {
         "MasterBedroomKey": bit2(0x708cb),
         "OilCan": bit6(0x708c9),
         "Letter": bit0(0x708ca),
-        "CorridorKey": bit2(0x708ca),
+        "CorridorKey": bit0(0x70968),
         "Lighter": bit4(0x708ca),
         "CursedStatue": bit6(0x708d0),
         "Piano": bit3(0x708cc),
@@ -143,8 +143,9 @@ Events = {
         "Voice3": bit7(0x708eb),
         "Voice4": bit7(0x708ec),
         "Director": bit6(0x708ee),
+        "Shannon": bit6(0x708ef),
         "Bowman": bit7(0x708ed),
-        "Chair1": bit2(0x708e9),
+        "Chair1": bit3(0x708e9),
         "Chair2": bit5(0x708ea),
         "Chair3": bit4(0x708ed)
     },
@@ -187,7 +188,7 @@ RoomEvents = {
         "BroomZombie": {
             "Object": 0x5,
             "StartScene": 0x1,
-            "EndScene": 0x11
+            "EndScene": 0x1e
         },
         "PanicLights": {
             "Object": 0x4,
@@ -645,8 +646,8 @@ achievement("Chapter 2 - Voices", "Find all 4 disembodied voices in Chapter 2", 
     trigger = Chapter2FoundVoices()
 )
 
-achievement("Chapter 2 - Director", "Confront the Director in Chapter 2", points = 3, type="progression", id = 494729,
-    trigger = CompletedChapterEvent("Chapter2", "Director")
+achievement("Chapter 2 - Shannon", "Speak with the Mysterious Woman after confronting the Director in Chapter 2", points = 3, type="progression", id = 494729,
+    trigger = CompletedChapterEvent("Chapter2", "Shannon")
 )
 
 achievement("Chapter 2 - Bowman", "Hatch an escape plan with Bowman in Chapter 2", points = 3, type="progression", id = 494730,
@@ -865,7 +866,7 @@ achievement("Chapter 3 - Fire Extinguishers", "Defend yourself with Fire Extingu
     trigger = FiveExtinguisherKills()
 )
 
-achievement("Chapter 3 - Urinal", "Try to use a urinal as Bates in Chapter 3", points = 3, id = 494782,
+achievement("Chapter 3 - Urinal", "Insist on trying to use a urinal as Bates in Chapter 3", points = 3, id = 494782,
     trigger = TriggerRoomEvent("Chapter3", "MensBathroom", "Urinal")
 )
 

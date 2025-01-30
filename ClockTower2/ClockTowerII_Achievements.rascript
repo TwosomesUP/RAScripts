@@ -98,7 +98,8 @@ Room = {
     "Chapter3": {
         "Hallway3": 0x1,
         "Hallway5": 0xd,
-        "MensBathroom": 0xc
+        "MensBathroom": 0xc,
+        "WomensBathroom": 0x21
     }
 }
 
@@ -160,7 +161,7 @@ Events = {
         "Lighter": bit5(0x70913),
         "LabKey": bit4(0x70913),
         "HandcuffKey": bit1(0x70910),
-        "RedKeyCard": bit4(0x70912),
+        "RedKeyCard": bit1(0x70916),
         "GreenKeyCard": bit7(0x70912),
         "Hatchet": bit3(0x70914),
         "GraveyardKey": bit0(0x70914),
@@ -171,7 +172,8 @@ Events = {
         "Locker1": bit1(0x70918),
         "Locker2": bit6(0x7090b),
         "Locker3": bit3(0x70909),
-        "ToyGun": bit6(0x70910),
+        "ToyGun": bit0(0x7091a),
+        "ShotgunDispenser": bit0(0x70912),
         "Knife": bit6(0x70917)
     }
 }
@@ -206,7 +208,12 @@ RoomEvents = {
             "Object": 0x2,
             "StartScene": 0xc,
             "EndScene": 0x6
-        }
+        },
+        "Mirror": {
+            "Object": 0x2,
+            "StartScene": 0x7,
+            "EndScene": 0xe
+        }   
     }
 }
 
@@ -878,12 +885,16 @@ achievement("Chapter 3 - Locker Zombies", "Discover 3 Locker Zombies in Chapter 
     trigger = Chapter3LockerZombies()
 )
 
-achievement("Chapter 3 - Toy Gun", "Find the Toy Gun in Chapter 3", points = 5, id = 494785,
-    trigger = CompletedChapterEvent("Chapter3", "ToyGun")
+achievement("Chapter 3 - Toy Gun", "Find a user for a Toy Gun in Chapter 3", points = 5, id = 494785,
+    trigger = CompletedChapterEvent("Chapter3", "ShotgunDispenser")
 )
 
 achievement("Chapter 3 - Knife", "Find the Knife in Chapter 3", points = 3, id = 494786,
     trigger = CompletedChapterEvent("Chapter3", "Knife")
+)
+
+achievement("Chapter 3 - Mirror", "Break a mirror with a look", points = 3, id = 495373,
+    trigger = TriggerRoomEvent("Chapter3", "WomensBathroom", "Mirror")
 )
 
 achievement("Rank A Speedrun", "Complete the game with an Ending Rank of A in 2.5 hours or less", points = 25, id = 494787,

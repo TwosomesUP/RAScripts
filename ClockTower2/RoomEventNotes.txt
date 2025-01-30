@@ -93,6 +93,9 @@
 ----- 0x000c: Examine Computer 1 (Types by itself)
 ---- Chapter 3 - 2F Server Room
 ----- 0x0007: Examine Computer (Broken)
+---- Chapter 3 - 2F Women's Bathroom
+----- 0x0007: Look at Mirror
+----- 0x000e: Mirror Breaks
 +0x16: Activated Object - Timer [16-bit] 
 +0x18: Activated Object - ID [16-bit]
 ----- 0xffff: None
@@ -159,6 +162,8 @@
 ----- 0x0003: Computer 2
 ---- Chapter 3 - 2F Server Room
 ----- 0x0004: Computer
+---- Chapter 3 - 2F Women's Bathroom
+----- 0x0002: Mirror
 +0x1a: Activated Object - Scene Sequence [16-bit]
 ----- Increases by 1 after each scene change
 ----- 0xffff: Nothing Playing

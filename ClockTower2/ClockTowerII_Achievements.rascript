@@ -484,7 +484,7 @@ function ClearedGameWithRank(rank){
 
 function ClearedARankInTwoHours(){
     return ClearedGameWithRank("A") &&
-        Game["PlayTime"] <= 9000
+        GetTotalSeconds() <= 9000
 }
 
 function UnlockedAllEndings(){

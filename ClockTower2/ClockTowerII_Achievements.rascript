@@ -174,7 +174,7 @@ Events = {
         "Locker3": bit3(0x70909),
         "ToyGun": bit0(0x7091a),
         "ShotgunDispenser": bit0(0x70912),
-        "Knife": bit6(0x70917)
+        "Knife": bit0(0x709e4)
     }
 }
 

@@ -1,0 +1,70 @@
+01-00-00: East Edge City - Crimson Lake Docks - Day (Cutscene)
+01-00-01: East Edge City - Crimson Lake Docks - Night (Cutscene)
+01-00-02: East Edge City - Pagoda Tower - President's Office (Cutscene)
+01-01-00: Billboard Island - Roof
+01-01-01: Billboard Island - Perimeter
+01-02-00: Billboard Island - 4F Control Room
+01-02-01: Billboard Island - 4F Canister Room
+01-03-00: Billboard Island - 3F Hallway
+01-03-01: Billboard Island - 3F Storage Room
+01-03-02: Billboard Island - 3F Bathrooms
+01-03-03: Billboard Island - 3F Red Room
+01-03-04: Billboard Island - 3F Gold Room
+01-03-05: Billboard Island - 3F Silver Room (Right)
+01-03-06: Billboard Island - 3F Silver Room (Middle)
+01-03-07: Billboard Island - 3F Silver Room (Left)
+01-03-08: Billboard Island - 3F Bar
+01-03-09: Billboard Island - 3F Door Sequence
+01-04-00: Billboard Island - 2F Engine Room
+01-04-01: Billboard Island - 2F Power Room 
+01-05-00: Billboard Island - Submarine Bay
+01-05-01: Billboard Island - Submarine
+01-06-00: Billboard Island - Command Room (Cutscene)
+01-06-01: Billboard Island - Ship (Cutscene)
+01-06-02: Billboard Island - Turrent
+02-00-00: East Edge City - Highway - Police Truck (Cutscene)
+02-00-03: East Edge City - Pagoda Tower - President's Office (Cutscene)
+08-00-00: East Edge City - D-NA Bar (Cutscene)
+08-01-00: East Edge City - D-NA Bar
+08-01-01: East Edge City - Church
+08-01-07: East Edge City - Muromachi Shop
+08-01-08: East Edge City - Figaro's
+08-01-09: East Edge City - Pumpkin Hall
+08-02-00: East Edge City - Museum
+08-02-07: East Edge City - Array Bridge Shop
+08-03-01: East Edge City - Harbour Steps
+08-03-02: East Edge City - Missile Monument
+08-03-03: East Edge City - Outside Museum
+08-03-04: East Edge City - Dockside
+08-03-05: East Edge City - North East Wharf
+08-03-06: East Edge City - Outside D-NA Bar
+08-03-07: East Edge City - Outside Pumpkin Hall
+08-03-08: East Edge City - Subway Station Intersection
+08-03-09: East Edge City - Dead End Bridge
+08-03-0a: East Edge City - Subway Station Alley
+08-04-00: East Edge City - Subway Station Square
+08-04-01: East Edge City - Outside Figaro's
+08-04-02: East Edge City - Main Street
+08-04-03: East Edge City - Urine Alley End
+08-04-04: East Edge City - Harbour Street
+08-04-05: East Edge City - Bus Station
+08-04-06: East Edge City - Bus Station Cargo Area
+08-04-07: East Edge City - Array Bridge Intersection
+08-04-08: East Edge City - Array Bridge
+08-04-09: East Edge City - Ghost Wharf
+08-04-0a: East Edge City - Ghost Bus Station
+08-05-00: East Edge City - Urine Alley
+08-05-01: East Edge City - Alley
+08-05-02: East Edge City - Basilica Intersection
+08-05-03: East Edge City - Shot Street
+08-05-04: East Edge City - Outside Church
+08-05-05: East Edge City - Temjin Burger
+08-05-06: East Edge City - Ouside Muromachi Shop
+08-05-07: East Edge City - Under Clock Tower
+08-06-01: East Edge City - Outside D-NA Bar (Cutscene)
+08-06-05: East Edge City - Museum - Theatre (History)
+08-07-05: East Edge City - Episode 2 Cutscene
+08-08-01: East Edge City - Museum - Theatre (Technology)
+08-08-06: East Edge City - Gotti Tools
+08-08-07: East Edge City - Agibat Junk
+08-08-09: East Edge City - Subway

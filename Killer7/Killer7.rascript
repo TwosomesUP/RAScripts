@@ -28,7 +28,7 @@ ShotAnimationTimer = dword_be(0x0071b5e8)
 AdditionalShots = word_be(0x0071b610)
 PlayerState = byte(0x002b7628)
 
-function IsInGame() => GamePointer != 0
+function IsInGame() => prev(GamePointer) != 0
 
 function IsKiller7() => Killer8 == 0 && Hopper7 == 0
 function IsKiller8() => Killer8 == 1
@@ -557,9 +557,8 @@ function AngelChallenge(){
         Disc == BossDiscs["Angel"] &&
         disable_when(CountShotsFired(5), IsOldHarman() || RoomIndex != BossLocations["Angel"]) &&
         ((angelIDLv1 == EnemyIDs["Angel"] && trigger_when(prev(angelHitsLv1) == 3 && angelHitsLv1 == 4)) || 
-        (angelIDLv2 == EnemyIDs["Angel"] && altAngelPointer != 0 && trigger_when(prev(angelHitsLv2) == 3 && angelHitsLv2 == 4)))
-        
-}   
+        (angelIDLv2 == EnemyIDs["Angel"] && altAngelPointer != 0 && trigger_when(prev(angelHitsLv2) == 3 && angelHitsLv2 == 4)))       
+}  
 
 function JuliaKisugiChallenge(){
     juliaHits = dword_be(MaskedEnemyListPointer + 0x400)
@@ -595,7 +594,13 @@ function KurashiAkibaChallenge(){
         Mission == BossMissions["KurashiAkiba"] &&
         Disc == BossDiscs["KurashiAkiba"] &&
         trigger_when(prev(akibaState) == 6 && akibaState == 3) &&
-        disable_when(CountShotsFired(15), RoomIndex != BossLocations["KurashiAkiba"])
+        disable_when(CountShotsFired(15)) &&
+        (
+            always_false() || 
+            (
+                never(RoomIndex != BossLocations["KurashiAkiba"])
+            )
+        )
 } 
 
 function AndreiUlmeydaChallenge(){
@@ -606,8 +611,14 @@ function AndreiUlmeydaChallenge(){
         Mission == BossMissions["AndreiUlmeyda"] &&
         Disc == BossDiscs["AndreiUlmeyda"] &&
         andreiState != 0 &&
-        disable_when(tally(60*49, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1 && andreiState != 0), RoomIndex != BossLocations["AndreiUlmeyda"]) &&
-        trigger_when(prev(andreiState) == 1 && andreiState == 6)
+        disable_when(tally(60*49, RoomIndex == BossLocations["AndreiUlmeyda"] && PlayerState == 1 && andreiState != 0)) &&
+        trigger_when(prev(andreiState) == 1 && andreiState == 6) &&
+        (
+            always_false() ||
+            (
+                never(RoomIndex != BossLocations["AndreiUlmeyda"])
+            )
+        )
 }
 
 function AyamiBlackburn1Challenge(){
@@ -619,8 +630,14 @@ function AyamiBlackburn1Challenge(){
         Mission == BossMissions["AyamiBlackburn1"] &&
         Disc == BossDiscs["AyamiBlackburn1"] &&
         ayamiState == 1 &&
-        disable_when(tally(60*49, RoomIndex == BossLocations["AyamiBlackburn1"] && PlayerState == 1 && ayamiState != 0), RoomIndex != BossLocations["AyamiBlackburn1"]) &&
-        trigger_when(prev(ayamiAnimation) != 6 && ayamiAnimation == 6)
+        disable_when(tally(60*49, RoomIndex == BossLocations["AyamiBlackburn1"] && PlayerState == 1 && ayamiState != 0)) &&
+        trigger_when(prev(ayamiAnimation) != 6 && ayamiAnimation == 6) &&
+        (
+            always_false() || 
+            (
+                never(RoomIndex != BossLocations["AyamiBlackburn1"])
+            )
+        )
 }
 
 function AyamiBlackburn2Challenge(){
@@ -632,8 +649,15 @@ function AyamiBlackburn2Challenge(){
         Mission == BossMissions["AyamiBlackburn2"] &&
         Disc == BossDiscs["AyamiBlackburn2"] &&
         ayamiState == 1 &&
-        disable_when(tally(60*140, RoomIndex == BossLocations["AyamiBlackburn2"] && PlayerState == 1) , RoomIndex != BossLocations["AyamiBlackburn2"] || ayamiEvent == 1) &&
-        trigger_when(prev(ayamiAnimation) != 0xc && ayamiAnimation == 0xc)
+        disable_when(tally(60*140, RoomIndex == BossLocations["AyamiBlackburn2"] && PlayerState == 1)) &&
+        trigger_when(prev(ayamiAnimation) != 0xc && ayamiAnimation == 0xc) &&
+        (
+            always_false() || 
+            (
+                 never(RoomIndex != BossLocations["AyamiBlackburn2"]) &&
+                 never(ayamiEvent == 1)
+            )
+        )
 }
 
 function CurtisBlackburnChallenge(){
@@ -660,7 +684,14 @@ function GregNightmareChallenge(){
         gregActivated == 1 &&
         gregDefeated == 0 &&
         trigger_when(prev(gregState) != 0x2a && gregState == 0x2a) &&
-        disable_when(CountShotsFired(36), RoomIndex != BossLocations["GregNightmare"] || gregDefeated == 1)
+        disable_when(CountShotsFired(36)) &&
+        (
+            always_false() || 
+            (
+                never(RoomIndex != BossLocations["GregNightmare"]) && 
+                never(gregDefeated == 1)
+            )
+        )
 }
 
 // ======================================================================= //

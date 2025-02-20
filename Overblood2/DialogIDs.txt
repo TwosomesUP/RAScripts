@@ -1,0 +1,11 @@
+[32-bit] Current Object Interaction - Dialog ID
+== Episode 1 ==
+-- East Edge City --
+0x0102 = Basilica Intersection - Siver Otakki Quiz
+0x0120 = Basilica Intersection - Siver Otakki Quiz - Correct Answer
+0x0a4b = Pumpkin Hall - Inspect Bar Maid Bottom
+0x1014 = D-NA Bar - Floating Statue - Gravity Controller Prompt
+0x10bc = D-NA Bar - Floating Statue - Took Gravity Controller
+-- Billboard Island --
+0x0060 = 2F Engine Room - Large Door Used Silver Key
+0x0064 = 2F Engine Room - Large Door Opened

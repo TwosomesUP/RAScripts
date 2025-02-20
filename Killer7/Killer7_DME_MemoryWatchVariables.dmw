@@ -11,6 +11,13 @@
                     "unsigned": false
                 },
                 {
+                    "address": "800030C8",
+                    "baseIndex": 1,
+                    "label": "Game Pointer",
+                    "typeIndex": 2,
+                    "unsigned": false
+                },
+                {
                     "address": "80000006",
                     "baseIndex": 1,
                     "label": "Disc Number",
@@ -22,6 +29,20 @@
                     "baseIndex": 1,
                     "label": "Disc Version",
                     "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7554",
+                    "baseIndex": 0,
+                    "label": "Target",
+                    "typeIndex": 2,
+                    "unsigned": false
+                },
+                {
+                    "address": "802B7558",
+                    "baseIndex": 0,
+                    "label": "Mission",
+                    "typeIndex": 2,
                     "unsigned": false
                 },
                 {

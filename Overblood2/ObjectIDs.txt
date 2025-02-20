@@ -1,0 +1,8 @@
+[32-bit] Current Object Interaction - ID
+== Episode 1 ==
+-- East Edge City --
+0x0067 = Basilica Intersection - Siver Otakki
+0x00f6 = Pumpkin Hall - Bar Maid
+0x00da = D-NA Bar - Floating Statue
+-- Billboard Island --
+0x00cb = 2F Engine Room - Large Door

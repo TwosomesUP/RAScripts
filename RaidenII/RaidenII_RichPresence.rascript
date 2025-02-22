@@ -14,7 +14,8 @@ Credits = byte(0x9f4c)
 NumberOfPlayers = byte(0x9f50)
 ActivePlayers = byte(0x9f52)
 
-Stage = byte(0x9ff8)
+//Stage = byte(0x9ff8)
+Stage = low4(0x900)
 StageState = byte(0x9d64)
 StageBonus = word(0x9fea)
 
@@ -97,29 +98,27 @@ BombTypes = {
 //================================================================
 
 StageNames = {
-    0: "Countryside",
-    1: "City",
-    2: "Ocean",
-    3: "Ruins",
-    4: "Enemy Base",
-    5: "Floating Continent",
+    1: "Countryside",
+    2: "City",
+    3: "Ocean",
+    4: "Ruins",
+    5: "Enemy Base",
+    6: "Floating Continent",
     7: "Enemy Battleship",
     8: "Final Target",
-    9: "Mission Complete",
-    10: "Countryside"
+    10: "Mission Complete"
 }
 
 StageNumbers = {
-    0: "-1",
-    1: "-2",
-    2: "-3",
-    3: "-4",
-    4: "-5",
-    5: "-6",
+    1: "-1",
+    2: "-2",
+    3: "-3",
+    4: "-4",
+    5: "-5",
+    6: "-6",
     7: "-7",
     8: "-8",
-    9: "-8",
-    10: "-1"
+    10: "-END"
 }
 
 ActiveWeapon = {

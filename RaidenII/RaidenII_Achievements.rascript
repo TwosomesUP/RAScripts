@@ -15,7 +15,10 @@ Credits = byte(0x9f4c)
 NumberOfPlayers = byte(0x9f50)
 ActivePlayers = byte(0x9f52)
 
-Stage = byte(0x9ff8)
+//Add a more stable stage address
+//This actually resets when on the title screen
+//Stage = byte(0x9ff8)
+Stage = low4(0x900)
 StageState = byte(0x9d64)
 StageBonus = word(0x9fea)
 
@@ -151,36 +154,36 @@ BombTypes = {
 
 Stages = {
     "1": {
-        "Start": 0,
+        "Start": 1,
         "End": 1
     },
     "2": {
-        "Start": 1,
+        "Start": 2,
         "End": 2
     },
     "3": {
-        "Start": 2,
+        "Start": 3,
         "End": 3
     },
     "4": {
-        "Start": 3,
+        "Start": 4,
         "End": 4
     },
     "5": {
-        "Start": 4,
+        "Start": 5,
         "End": 5
     },
     "6": {
-        "Start": 5,
-        "End": 7
+        "Start": 6,
+        "End": 6
     },
     "7": {
         "Start": 7,
-        "End": 8
+        "End": 7
     },
     "8": {
         "Start": 8,
-        "End": 9
+        "End": 8
     }
 }
 
@@ -208,8 +211,19 @@ function IsInGame() => GameState == 1 && TitleState == 0
 function IsOnTitle() => TitleState > 0
 function IsSinglePlayer() => NumberOfPlayers == 1
 function IsMultiplayer() => NumberOfPlayers == 2
+
 function IsValidSession() {
     return all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting]) &&
+    disable_when(NumberOfPlayers > 1) &&
+    disable_when(ActivePlayers > 1) &&
+    (
+        always_false() ||
+        never(!IsInGame())
+    )
+}
+
+function IsValidSession_Alt(){
+    return IsInGame() && all_of(ValidSettings, setting => Settings[setting] == ValidSettings[setting]) &&
     disable_when(NumberOfPlayers > 1, !IsInGame()) &&
     disable_when(ActivePlayers > 1, !IsInGame())
 }
@@ -252,14 +266,19 @@ function ClearedStage(stage, challenge){
 
 function ClearedStageNoContinue(stage){
     trigger = ClearedStage(stage, true) &&
-        disable_when(Stage == Stages[stage]["Start"] && PlayerUsedContinue(), !IsInGame())
+        disable_when(Stage == Stages[stage]["Start"] && PlayerUsedContinue())
         
-    if(stage == "1"){
+    //Not necessary anymore
+    /*if(stage == "1"){
         trigger = trigger &&
-        disable_when(Loop > 0 && Stage == 0xa && PlayerUsedContinue(), !IsInGame()) 
-    }
+        disable_when(Loop > 0 && Stage == 0xa && PlayerUsedContinue()) 
+    }*/
         
-    return trigger 
+    return trigger &&
+        (
+            always_false() ||
+            never(!IsInGame())
+        )
 }
 
 function ClearedStageWithPlatinum(){
@@ -269,7 +288,7 @@ function ClearedStageWithPlatinum(){
 }
 
 function ClearedStageWith5Bombs(){
-    return IsValidSession() &&
+    return IsValidSession_Alt() &&
         PlayerClearedStage() &&
         (
             Player["Bombs"][4] > 0 ||
@@ -291,7 +310,7 @@ function ClearedGameWithFairy(){
 }
 
 function MaxedPrimary(){
-    return IsValidSession() &&
+    return IsValidSession_Alt() &&
         ((prev(Player["Weapon"]["Vulcan"]["Power"]) > 0 &&
         prev(Player["Weapon"]["Vulcan"]["Power"]) < 8 &&
         Player["Weapon"]["Vulcan"]["Power"] >= 8) ||
@@ -304,7 +323,7 @@ function MaxedPrimary(){
 }
 
 function MaxedMissiles(){
-    return IsValidSession() &&
+    return IsValidSession_Alt() &&
         ((prev(Player["Missile"]["Standard"]["Power"]) > 0 &&
         prev(Player["Missile"]["Standard"]["Power"]) < 4 &&
         Player["Missile"]["Standard"]["Power"] >= 4) ||
@@ -314,7 +333,7 @@ function MaxedMissiles(){
 }
 
 function Got1UP(stage){
-    return IsValidSession() &&
+    return IsValidSession_Alt() &&
         Stage == Stages[stage]["Start"] &&
         prev(Player["Lives"]) < Player["Lives"] && 
         any_of(Items, item => 
@@ -327,9 +346,10 @@ function Got1UP(stage){
 function GotFairy(stage){
     StageCheck = Stage == Stages[stage]["Start"]
     
-    if(stage == "1"){
+    //No longer needed
+    /*if(stage == "1"){
         StageCheck = StageCheck || (Loop > 0 && Stage == 0xa)
-    }
+    }*/
 
     return IsValidSession() &&
         StageCheck &&
@@ -338,8 +358,12 @@ function GotFairy(stage){
 
 function GotMedals(count){
     return IsValidSession() &&
-        measured(repeated(count, Loop == 0 && prev(Player["Medals"]["Gold"]) < Player["Medals"]["Gold"] && never(!IsInGame()))) &&
-        disable_when(repeated(3, PlayerUsedContinue()), !IsInGame())
+        measured(repeated(count, Loop == 0 && prev(Player["Medals"]["Gold"]) < Player["Medals"]["Gold"])) &&
+        disable_when(repeated(3, PlayerUsedContinue())) &&
+        (
+            always_false() ||
+            never(!IsInGame())
+        )
 }
 
 function GotScore(score){
@@ -353,15 +377,20 @@ function GotScore(score){
 function DefeatedBossWithWeapon(stage, weapon){
     StageCheck = Stage == Stages[stage]["Start"]
     
-    if(stage == "1"){
+    //No longer needed
+    /*if(stage == "1"){
         StageCheck = (StageCheck || (Loop > 0 && Stage == 0xa))
-    }
+    }*/
 
     return IsValidSession() &&
         StageCheck &&
         Player["Weapon"][weapon]["IsActive"] &&
         PlayerDefeatedBoss() &&
-        disable_when(StageState == 1 && Stage == Stages[stage]["Start"] && prev(Player["Lives"]) > Player["Lives"], !IsInGame())
+        disable_when(StageState == 1 && Stage == Stages[stage]["Start"] && prev(Player["Lives"]) > Player["Lives"]) &&
+        (
+            always_false() ||
+            never(!IsInGame())
+        )
 }
 
 //================================================================

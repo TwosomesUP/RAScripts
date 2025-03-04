@@ -110,7 +110,7 @@ function ShieldKills(){
     return disable_when(CheatUsed()) && 
         repeated(20, Player["ShieldActive"] > 0 && Player["Score"] > prev(Player["Score"])) &&
         disable_when(IsInGame() && Player["ShieldActive"] > 0 && Player["LaserActive"] == 0xff, Player["ShieldActive"] == 0) &&
-        (never(!GameIsLoaded()) || always_false())
+        (never(!GameIsLoaded()) && never(IsGameOver()) || always_false())
 }
 
 //================================================================

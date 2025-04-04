@@ -99,6 +99,10 @@ Events = {
         "DefeatedFirstGuardingSystem": bit5(0x1bf4c4),
         "DefeatedSecondGuardingSystem": bit6(0x1bf4c4),
         "DefeatedThirdGuardingSystem": bit7(0x1bf4c4)
+    },
+    "Episode3":{
+        "PlacedPlasmaBomb": bit2(0x1bf4d4),
+        "DefeatedSperio": bit3(0x1bf4d8)
     }
 }
 
@@ -245,6 +249,15 @@ Rooms = {
     "Episode2": {
         "KondoFight": [2, 4, 3]
     },
+    "Episode3": {
+        "SubwayStation": [3, 1, 0],
+        "SubwayTracks": [3, 1, 1],
+        "SubwayTrain": [3, 1, 2],
+        "UndergroundTerminousStation_Cutscene": [3, 0, 0],
+        "UndergroundTerminousStation": [3, 2, 0],
+        "JunkBladeScene": [3, 2, 9],
+        "JunkBladeScene_End": [3, 2, 0xb]
+    },
     "Episode8": {
         "End": [9, 0, 4]
     }
@@ -268,10 +281,18 @@ function IsOnTitle(){
     return Game["OnTitle"] == 0x01
 }
 
-function IsInRoom(map){
-    return Game["Map"]["Location"] == map[0] &&
+function IsInRoom(map, previous = false){
+    trigger = Game["Map"]["Location"] == map[0] &&
         Game["Map"]["Area"] == map[1] &&
         Game["Map"]["Room"] == map[2]
+    
+    if(previous){
+        trigger = prev(Game["Map"]["Location"]) == map[0] &&
+        prev(Game["Map"]["Area"] == map[1]) &&
+        prev(Game["Map"]["Room"] == map[2])
+    }
+        
+    return trigger
 }
 
 function AcquiredItem(id){
@@ -318,6 +339,26 @@ function Episode2_DefeatedKondo(){
         DefeatedBoss(2, Rooms["Episode2"]["KondoFight"])
 }
 
+// Episode 3 - Achievement Functions //
+
+function Episode3_ReachUndergroundTerminous(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode3"]["UndergroundTerminousStation_Cutscene"], true) &&
+        IsInRoom(Rooms["Episode3"]["UndergroundTerminousStation"])
+}
+
+function Episode3_CompleteJunkbladeScene(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode3"]["JunkBladeScene"], true) &&
+        IsInRoom(Rooms["Episode3"]["JunkBladeScene_End"])
+}
+
+function Episode3_CompleteJunkbladeScene_NoDamage(){
+    return Episode3_CompleteJunkbladeScene() &&
+        Game["ClearStats"]["Episode3"]["CP"] ==
+        prior(Game["ClearStats"]["Episode3"]["CP"]) + 80
+}
+
 // Episode 7 - Achievement Functions //
 
 function Episode7_UnlockedEpisode8(){
@@ -336,4 +377,4 @@ function Episode8_Completed(){
         Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode8"]["SceneIndex"]["Ending"]
 }
 
-achievement("Episode8", "Clear", points = 10, trigger = CompletedEpisodeWithSRank(7))
+achievement("Episode8", "Clear", points = 10, trigger = Episode3_CompleteJunkbladeScene_NoDamage())

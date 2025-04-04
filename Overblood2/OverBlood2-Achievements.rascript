@@ -294,13 +294,14 @@ function DefeatedBoss(episode, map){
 
 function CompletedEpisode(episode){
     return !IsOnTitle() &&
+        Game["Episode"] == episode &&
         prev(Game["ClearStats"]["Episode" + episode]["Time"]) == 0 &&
         Game["ClearStats"]["Episode" + episode]["Time"] > 0
 }
 
 function CompletedEpisodeWithSRank(episode){
     return CompletedEpisode(episode) &&
-        Game["ClearStats"]["Episode" + episode]["CP"] >= EpisodeGoals["Episode" + episode]
+        Game["ClearStats"]["Episode" + episode]["CP"] >= EpisodeGoals["SRank"]["Episode" + episode]
 }
 
 // Episode 1 - Achievement Functions //
@@ -329,10 +330,10 @@ function Episode7_UnlockedEpisode8(){
 
 function Episode8_Completed(){
     return !IsOnTitle() &&
-    IsEpisode8Unlocked() &&
+        IsEpisode8Unlocked() &&
         IsInRoom(Rooms["Episode8"]["End"]) &&
         prev(Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode8"]["SceneIndex"]["UseRepairKit"]) &&
         Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode8"]["SceneIndex"]["Ending"]
 }
 
-achievement("Episode8", "Clear", points = 10, trigger = Episode8_Completed())
+achievement("Episode8", "Clear", points = 10, trigger = CompletedEpisodeWithSRank(7))

@@ -3,11 +3,13 @@
 // Author: TwosomesUP
 // RetroAchievements - Achievement Script
 
-// Accessors //
+// #region Accessors
+
 Game = {
     "Episode": dword(0x1be9e8),
     "Paused": dword(0xd2f58),
     "OnTitle": dword(0xd2f64),
+    "Episode4Cheat": byte(0x1f79d0),
     "Episode8Unlocked": byte(0xd2fa4),
     "Time":{
         "Overall": {
@@ -106,7 +108,9 @@ Events = {
     }
 }
 
-// Accessor Lookups //
+// #endregion
+
+// #region Accessor Lookups
 
 EpisodeGoals = {
     "SRank": {
@@ -234,6 +238,15 @@ ItemIDs = {
 }
 
 ObjectInteractions = {
+    "Episode4":{
+      "DanceComplete":{
+          "ID": 0x98,
+          "Scene":{
+              "DanceEndTransition": 0x6d,
+              "DanceEnd": 0xc1
+          }
+      }  
+    },
     "Episode8":{
         "SceneIndex": {
             "UseRepairKit": 0x24,
@@ -258,12 +271,17 @@ Rooms = {
         "JunkBladeScene": [3, 2, 9],
         "JunkBladeScene_End": [3, 2, 0xb]
     },
+    "Episode4": {
+      "DanceSequence": [4, 1, 5]
+    },
     "Episode8": {
         "End": [9, 0, 4]
     }
 }
 
-// Helper Functions //
+// #endregion
+
+// #region Helper Functions
 
 function GetTotalCP(episode){
     CP = 0
@@ -311,7 +329,9 @@ function DefeatedBoss(episode, map){
         Enemies["Boss"]["Active"] == 0x00
 }
 
-// Achievement Functions //
+// #endregion
+
+// #region Achievement Functions
 
 function CompletedEpisode(episode){
     return !IsOnTitle() &&
@@ -359,6 +379,22 @@ function Episode3_CompleteJunkbladeScene_NoDamage(){
         prior(Game["ClearStats"]["Episode3"]["CP"]) + 80
 }
 
+// Episode 4 - Achievement Functions //
+
+function Episode4_CompleteDanceScene(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode4"]["DanceSequence"]) &&
+        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode4"]["DanceComplete"]["ID"] &&
+        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode4"]["DanceComplete"]["Scene"]["DanceEndTransition"] &&
+        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode4"]["DanceComplete"]["Scene"]["DanceEnd"]
+}
+
+function Episode4_CompleteDanceScene_MaxCP(){
+    return Episode4_CompleteDanceScene() &&
+        Game["Episode4Cheat"] != 1 &&
+        Game["ClearStats"]["Episode4"]["CP"] == prior(Game["ClearStats"]["Episode4"]["CP"]) + 100
+}
+
 // Episode 7 - Achievement Functions //
 
 function Episode7_UnlockedEpisode8(){
@@ -377,4 +413,286 @@ function Episode8_Completed(){
         Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode8"]["SceneIndex"]["Ending"]
 }
 
-achievement("Episode8", "Clear", points = 10, trigger = Episode3_CompleteJunkbladeScene_NoDamage())
+// #endregion
+
+// #region Achievement Definitions - Progression
+
+// -- Episode 1 -- //
+
+achievement("East Edge", "Reach East Edge City", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Billboard Island", "Reach Billboard Island", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Gumbo", "Defeat Gumbo the Robot", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Encounters", "Clear Episode 1", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+// -- Episode 2 -- //
+
+achievement("Pagoda Tower", "Reach the Pagoda Tower", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("First Guarding", "Destroy the First Guarding Sytem", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Second Guarding", "Destroy the Second Guarding System", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Third Guarding", "Destroy the Third Guarding System", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Kondo", "Defeat Kondo", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Awakening", "Clear Episode 2", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+// -- Episode 3 -- //
+
+achievement("Underground Terminous", "Reach the Underground Terminous", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Anti Proton", "Destroy the Anti Proton Core with the Plasma Bomb", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Sperio", "Defeat Sperio", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Sperio Junkblade", "Escape on Sperio's Junk Blade", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Underground Space", "Clear Episode 3", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+// -- Episode 4 -- //
+
+achievement("Dance Sequence", "Complete the Dance Sequence", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Gartlude", "Defeat Gartlude", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Bloody Rose", "Clear Episode 4", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+// -- Episode 5 -- //
+
+achievement("Jungle", "Reach the Jungle", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("River Ride 1", "Clear River Ride 1", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Plant", "Defeat the Monsterous Plant", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("River Ride 2", "Clear River Ride 2", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Anti Gravity", "Destroy Anti Gravity Defense Station", points = 2, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Tiger", "Defeat Tiger", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Lady", "Defeat Lady", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Adidi", "Defeat Adidi", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Deceptive Jungle", "Clear Episode 5", points = 10, type = "progression",
+    trigger = always_false()
+)
+
+// -- Episode 6 -- //
+
+achievement("Gloom Alley", "Reach Gloom Alley", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+/* Removing since this can be completely skipped
+achievement("Ghost Hose", "Reach the Ghost House", points = 3, type = "progression",
+    trigger = always_false()
+)
+*/
+
+achievement("Junkyard", "Reach the Junkyard", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Junkyard Race", "Win the Junkyard Race", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Edgy Kids", "Clear Episode 6", points = 10, type = "progression",
+    trigger = always_false()
+)
+
+// -- Episode 7 -- //
+
+achievement("Shangri-la", "Reach Shangri-la", points = 3, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Elevator", "Activate the Shangri-la Elevator", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Diva Pieces", "Find all Diva Pieces", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Kondo 2", "Defeat Kondo in Shangri-la", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Zeno", "Defeat Zeno in Shangri-la", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Tempest", "Defeat Tempest in Shangri-la", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Power Source", "Destroy the Shangri-la Power Source", points = 5, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Zeno 2", "Defeat Zeno again in Shangri-la", points = 10, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Shangri-la Junkblade", "Escape Shangri-la on your Junkblade", points = 10, type = "progression",
+    trigger = always_false()
+)
+
+achievement("Another Future", "Clear Episode 7", points = 25, type = "win_condition",
+    trigger = always_false()
+)
+
+// #endregion
+
+// #region Achievement Definitions - Challenges
+
+// -- Episode 8 -- //
+
+achievement("Unlock Episode 8", "Clear Episode 7 after acquiring a total of 2000 CP or more", points = 25,
+    trigger = always_false()
+)
+
+achievement("Emergency Spray", "Clear Episode 8 with 5 or more Emergency Sprays remaining", points = 10,
+    trigger = always_false()
+)
+
+achievement("Snacks", "Find all snacks in Episode 8", points = 10, 
+    trigger = always_false()
+)
+
+achievement("Final Break Down", "Clear Episode 8", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 1 -- //
+
+achievement("S Rank - Episode 1", "Clear Episode 1 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 2 -- //
+
+achievement("S Rank - Episode 2", "Clear Episode 2 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 3 -- //
+
+achievement("S Rank - Episode 3", "Clear Episode 3 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 4 -- //
+
+achievement("S Rank - Episode 4", "Clear Episode 4 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 5 -- //
+
+achievement("S Rank - Episode 5", "Clear Episode 5 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 6 -- //
+
+achievement("S Rank - Episode 6", "Clear Episode 6 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Episode 7 -- //
+
+achievement("S Rank - Episode 7", "Clear Episode 7 with an S Rank", points = 10,
+    trigger = always_false()
+)
+
+// -- Any -- //
+
+achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
+    trigger = always_false()
+)
+
+achievement("Pumpkin Cake", "Admire the Bar Maids butt in Pumpkin Hall", points = 1,
+    trigger = always_false()
+)
+
+achievement("Weapons", "Collect all Weapons", points = 10,
+    trigger = always_false()
+)
+
+achievement("Boots", "Collect all Boots", points = 10,
+    trigger = always_false()
+)
+
+achievement("Clothes - Acarno", "Collect all of Acarno's Clothing", points = 10,
+    trigger = always_false()
+)
+
+achievement("Clothes - Chris", "Collect all of Chris' Clothing", points = 10,
+    trigger = always_false()
+)
+
+achievement("Clothes - Navarro", "Collect all of Navarro's Clothing", points = 10,
+    trigger = always_false()
+)
+
+// #endregion

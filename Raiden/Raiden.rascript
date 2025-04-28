@@ -293,14 +293,34 @@ function GotScore(score){
         (IsPlaying("P2") && prev(Player["P2"]["Score"]) < score && Player["P2"]["Score"] >= score))
 }
 
-function DefeatBossNoDamage(stage){
+/*function DefeatBossNoDamage(stage){
     return IsValidSession() &&
-        ((IsPlaying("P1") && 
-        disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], Stage != Stages[stage] || IsOnTitle())) ||
-        (IsPlaying("P2") && 
-        disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], Stage != Stages[stage] || IsOnTitle()))) &&
+        (
+            (
+            IsPlaying("P1") && 
+            disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"], Stage != Stages[stage] || IsOnTitle()) &&
+            disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Bombs"]) > Player["P1"]["Bombs"], Stage != Stages[stage] || IsOnTitle())
+            ) ||
+            (
+            IsPlaying("P2") && 
+            disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"], Stage != Stages[stage] || IsOnTitle()) &&
+            disable_when(Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Bombs"]) > Player["P2"]["Bombs"], Stage != Stages[stage] || IsOnTitle())
+            )
+        ) &&
         prev(StageState) == StageStates["BossActive"] && 
         trigger_when(StageState == StageStates["BossDefeated"])      
+}*/
+
+function DefeatBossNoDamage(stage){
+    return IsValidSession() &&
+        prev(StageState) == StageStates["BossActive"] && 
+        trigger_when(StageState == StageStates["BossDefeated"]) &&
+        disable_when(IsPlaying("P1") && Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Lives"]) > Player["P1"]["Lives"]) &&
+        disable_when(IsPlaying("P1") && Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P1"]["Bombs"]) > Player["P1"]["Bombs"]) &&
+        disable_when(IsPlaying("P2") && Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Lives"]) > Player["P2"]["Lives"]) &&
+        disable_when(IsPlaying("P2") &&Stage == Stages[stage] && StageState == StageStates["BossActive"] && prev(Player["P2"]["Bombs"]) > Player["P2"]["Bombs"]) &&
+        ((never(Stage != Stages[stage]) && never(IsOnTitle())) || always_false())
+            
 }
 
 // ======================================================================= //

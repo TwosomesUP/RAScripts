@@ -275,7 +275,8 @@ Rooms = {
         "TurretSequence_End": [1, 6, 1]
     },
     "Episode2": {
-        "KondoFight": [2, 4, 3]
+        "KondoFight": [2, 4, 3],
+        "KondoFightEnd": [2, 4, 2]
     },
     "Episode3": {
         "SubwayStation": [3, 1, 0],
@@ -283,6 +284,8 @@ Rooms = {
         "SubwayTrain": [3, 1, 2],
         "UndergroundTerminousStation_Cutscene": [3, 0, 0],
         "UndergroundTerminousStation": [3, 2, 0],
+        "SperioFight": [3, 2, 8],
+        "AntiProton": [3, 2, 8],
         "JunkBladeScene": [3, 2, 9],
         "JunkBladeScene_End": [3, 2, 0xb]
     },
@@ -423,9 +426,33 @@ function Episode2_SiverOtakkiQuestion(){
     return AnswerSiverOtakki(2)
 }
 
+function Episode2_ReachPagodaTower(){
+    return !IsOnTitle() &&
+        TriggeredEvent(2, "ArrivedInPagoda")
+}
+
+function Episode2_DestroyFirstGuard(){
+    return !IsOnTitle() &&
+        TriggeredEvent(2, "DefeatedFirstGuardingSystem")
+}
+
+function Episode2_DestroySecondGuard(){
+    return !IsOnTitle() &&
+        TriggeredEvent(2, "DefeatedSecondGuardingSystem")
+}
+
+function Episode2_DestroyThirdGuard(){
+    return !IsOnTitle() &&
+        TriggeredEvent(2, "DefeatedThirdGuardingSystem")
+}
+
 function Episode2_DefeatedKondo(){
     return !IsOnTitle() &&
         DefeatedBoss(2, Rooms["Episode2"]["KondoFight"])
+}
+
+function Episode2_ClearEpisode(){
+    return CompletedEpisode(2)
 }
 
 // Episode 3 - Achievement Functions //
@@ -438,6 +465,16 @@ function Episode3_ReachUndergroundTerminous(){
     return !IsOnTitle() &&
         IsInRoom(Rooms["Episode3"]["UndergroundTerminousStation_Cutscene"], true) &&
         IsInRoom(Rooms["Episode3"]["UndergroundTerminousStation"])
+}
+
+function Episode3_DestroyAntiProtonCore(){
+    return !IsOnTitle() &&
+        TriggeredEvent(3, "PlacedPlasmaBomb")
+}
+
+function Episode3_DefeatSperio(){
+    return !IsOnTitle() &&
+        DefeatedBoss(3, Rooms["Episode3"]["SperioFight"])
 }
 
 function Episode3_CompleteJunkbladeScene(){
@@ -517,45 +554,45 @@ achievement("Encounters", "Escape Billboard Island and Clear Episode 1", points 
 // -- Episode 2 -- //
 
 achievement("Pagoda Tower", "Reach the Pagoda Tower", points = 2, type = "progression",
-    trigger = always_false()
+    trigger = Episode2_ReachPagodaTower()
 )
 
 achievement("First Guarding", "Destroy the First Guarding System in the Pagoda Tower", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode2_DestroyFirstGuard()
 )
 
 achievement("Second Guarding", "Destroy the Second Guarding System in the Pagoda Tower", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode2_DestroySecondGuard()
 )
 
 achievement("Third Guarding", "Destroy the Third Guarding System in the Pagoda Tower", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode2_DestroyThirdGuard()
 )
 
 achievement("Kondo", "Defeat Kondo in the Pagoda Tower", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode2_DefeatedKondo()
 )
 
 achievement("Awakening", "Escape the Pagoda Tower and Clear Episode 2", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode2_ClearEpisode()
 )
 
 // -- Episode 3 -- //
 
 achievement("Underground Terminous", "Reach the Underground Terminous", points = 2, type = "progression",
-    trigger = always_false()
+    trigger = Episode3_ReachUndergroundTerminous()
 )
 
 achievement("Anti Proton", "Destroy the Anti Proton Core with the Plasma Bomb in the Underground Terminous", points = 2, type = "progression",
-    trigger = always_false()
+    trigger = Episode3_DestroyAntiProtonCore()
 )
 
 achievement("Sperio", "Defeat Sperio in the Underground Terminous", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode3_DefeatSperio()
 )
 
 achievement("Underground Space", "Escape the Underground Terminous on Sperio's Junkblade and Clear Episode 3", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode3_CompleteJunkbladeScene()
 )
 
 // -- Episode 4 -- //

@@ -117,6 +117,12 @@ Events = {
     "Episode5":{
         "MoonlightBoots": bit1(0x1bf4e1),
         "AntiGravityStation": bit1(0x1bf4cb)
+    },
+    "Episode6":{
+        "MuseumTreasure": bit0(0x1bf4d4),
+        "GaveBanana": bit5(0x1bf4cc),
+        "GotGhostHouseKey": bit0(0x1bf4e0),
+        "UnlockedGhostHouseDoor": bit1(0x1bf4e0)
     }
 }
 
@@ -282,6 +288,15 @@ ObjectInteractions = {
           }
       }
     },
+    "Episode6":{
+      "JunkyardRace":{
+         "ID": 0x98,
+          "Scene": {
+              "Begin": 0x2d,
+              "End": 0x606
+          } 
+      }
+    },
     "Episode8":{
         "SceneIndex": {
             "UseRepairKit": 0x24,
@@ -332,6 +347,18 @@ Rooms = {
         "TigerFight": [5, 1, 0xd],
         "LadyFight": [5, 3, 2],
         "AdidiFight": [5, 3, 0]
+    },
+    "Episode6": {
+      "MuseumStreet": [8, 3, 3],
+      "EastEdgeBridge": [8, 4, 7],
+      "GloomAlleyEntrance": [8, 4, 8],
+      "GloomAlleyStart": [6, 1, 0],
+      "GloomAlleyBar": [6, 1, 2],
+      "GhostHouseYard": [6, 1, 3],
+      "GhostHouseEntryway": [6, 1, 4],
+      "GhostHouseWaterTower": [6, 1, 5],
+      "JunkyardHighway": [6, 2, 0],
+      "JunkyardRace": [6, 2, 3]
     },
     "Episode8": {
         "End": [9, 0, 4]
@@ -634,6 +661,61 @@ function Episode5_ClearEpisode(){
     return CompletedEpisode(5)
 }
 
+// Episode 6 - Achievement Functions //
+
+function Episode6_EastEdgeSecret(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode6"]["MuseumStreet"]) &&
+        TriggeredEvent(6, "MuseumTreasure")
+}
+
+function Episode6_GiveOrphanBanana(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode6"]["EastEdgeBridge"]) &&
+        TriggeredEvent(6, "EastEdgeBridge")
+}
+
+function Episode6_ReachGloomAlley(){
+    return !IsOnTitle() &&
+        Game["Episode"] == 6 &&
+        RoomTransition(Rooms["Episode6"]["GloomAlleyEntrance"], Rooms["Episode6"]["GloomAlleyStart"])
+}
+
+function Episode6_FindGhostHouseKey(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode6"]["GloomAlleyBar"]) &&
+        TriggeredEvent(6, "GotGhostHouseKey")
+}
+
+function Episode6_AlternateGhostHouse(){
+    return !IsOnTitle() &&
+        Game["Episode"] == 6 &&
+        Events["Episode6"]["UnlockedGhostHouseDoor"] == 0 &&
+        (
+            (RoomTransition(Rooms["Episode6"]["GhostHouseYard"], Rooms["Episode6"]["GhostHouseEntryway"])) ||
+            (RoomTransition(Rooms["Episode6"]["GhostHouseYard"], Rooms["Episode6"]["GhostHouseWaterTower"])) 
+        )
+}
+
+function Episode6_ReachJunkyard(){
+    return !IsOnTitle() &&
+        Game["Episode"] == 6 &&
+        RoomTransition(Rooms["Episode6"]["GhostHouseYard"], Rooms["Episode6"]["JunkyardHighway"])
+}
+
+function Episode6_WinJunkyardRace(){
+    return !IsOnTitle() &&
+        WasInMinigame() &&
+        IsInRoom(Rooms["Episode6"]["JunkyardRace"]) &&
+        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode6"]["JunkyardRace"]["ID"] &&
+        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode6"]["JunkyardRace"]["Scene"]["Begin"] &&
+        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode6"]["JunkyardRace"]["Scene"]["End"]
+}
+
+function Episode6_ClearEpisode(){
+    return CompletedEpisode(6)
+}
+
 // Episode 7 - Achievement Functions //
 
 function Episode7_UnlockedEpisode8(){
@@ -763,24 +845,27 @@ achievement("Deceptive Jungle", "Defeat Adidi, escape the Jamelgalda Prison, and
 // -- Episode 6 -- //
 
 achievement("Gloom Alley", "Reach Gloom Alley", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode6_ReachGloomAlley()
 )
 
-// Removed progression since this can be skipped
-achievement("Ghost House", "Reach the Ghost House", points = 3,
-    trigger = always_false()
+achievement("Ghost House", "Find the Ghost House Key", points = 3, type = "missable",
+    trigger = Episode6_FindGhostHouseKey()
+)
+
+achievement("Breaking and Entering", "Enter the Ghost House without unlocking the front door", points = 3, type = "missable",
+    trigger = Episode6_AlternateGhostHouse()
 )
 
 achievement("Junkyard", "Reach the Junkyard", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode6_ReachJunkyard()
 )
 
 achievement("Junkyard Race", "Win the Junkyard Race", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode6_WinJunkyardRace()
 )
 
 achievement("Edgy Kids", "Discover your hidden powers and clear Episode 6", points = 10, type = "progression",
-    trigger = always_false()
+    trigger = Episode6_ClearEpisode()
 )
 
 // -- Episode 7 -- //
@@ -1067,7 +1152,7 @@ achievement("S Rank - Episode 5", "Clear Episode 5 with an S Rank", points = 10,
 
 
 achievement("East Edge Treasure", "Find the hidden East Edge Treasure in Episode 6", points = 3, type = "missable",
-    trigger = always_false()
+    trigger = Episode6_EastEdgeSecret()
 )
 
 achievement("Geo Stones", "Find all gems in the Gloom Alley Streets", points = 3, type = "missable",

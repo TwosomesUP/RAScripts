@@ -88,6 +88,18 @@ Items = {
     "Flags": {
         "Episode5":{
             "DefeatedPlant": bit4(0x1beaf8)
+        },
+        "Episode7":{
+            "DivaPieces": [
+                bit2(0x1beb99),
+                bit3(0x1beb79),
+                bit0(0x1beb38),
+                bit3(0x1beb08),
+                bit4(0x1beb08),
+                bit0(0x1beb00),
+                bit3(0x1beaf9),
+                bit7(0x1beba1)
+            ]
         }
     }
 }
@@ -123,6 +135,10 @@ Events = {
         "GaveBanana": bit5(0x1bf4cc),
         "GotGhostHouseKey": bit0(0x1bf4e0),
         "UnlockedGhostHouseDoor": bit1(0x1bf4e0)
+    },
+    "Episode7":{
+        "UnlockElevator": bit7(0x1bf4d3), // Use this
+        "DeactivateCore": bit3(0x1bf4d3)
     }
 }
 
@@ -297,6 +313,43 @@ ObjectInteractions = {
           } 
       }
     },
+    "Episode7":{
+        "Creature1":{
+            "ID": 0xda,
+            "Scene":{
+                "Begin": 0x00,
+                "End": 0x31
+            }
+        },
+        "Creature2":{
+            "ID": 0xdb,
+            "Scene":{
+                "Begin": 0x37,
+                "End": 0x3a
+            }
+        },
+        "Creature3":{
+            "ID": 0xdc,
+            "Scene":{
+                "Begin": 0x54,
+                "End": 0x57
+            }
+        },
+        "Creature4":{
+            "ID": 0xde,
+            "Scene":{
+                "Begin": 0x00,
+                "End": 0x88
+            }
+        },
+        "Creature5":{
+            "ID": 0xdd,
+            "Scene":{
+                "Begin": 0x71,
+                "End": 0x74
+            }
+        },
+    },
     "Episode8":{
         "SceneIndex": {
             "UseRepairKit": 0x24,
@@ -349,16 +402,28 @@ Rooms = {
         "AdidiFight": [5, 3, 0]
     },
     "Episode6": {
-      "MuseumStreet": [8, 3, 3],
-      "EastEdgeBridge": [8, 4, 7],
-      "GloomAlleyEntrance": [8, 4, 8],
-      "GloomAlleyStart": [6, 1, 0],
-      "GloomAlleyBar": [6, 1, 2],
-      "GhostHouseYard": [6, 1, 3],
-      "GhostHouseEntryway": [6, 1, 4],
-      "GhostHouseWaterTower": [6, 1, 5],
-      "JunkyardHighway": [6, 2, 0],
-      "JunkyardRace": [6, 2, 3]
+        "MuseumStreet": [8, 3, 3],
+        "EastEdgeBridge": [8, 4, 7],
+        "GloomAlleyEntrance": [8, 4, 8],
+        "GloomAlleyStart": [6, 1, 0],
+        "GloomAlleyBar": [6, 1, 2],
+        "GhostHouseYard": [6, 1, 3],
+        "GhostHouseEntryway": [6, 1, 4],
+        "GhostHouseWaterTower": [6, 1, 5],
+        "JunkyardHighway": [6, 2, 0],
+        "JunkyardRace": [6, 2, 3]
+    },
+    "Episode7": {
+        "AirShip": [7, 0, 4],
+        "AirDock": [7, 1, 0],
+        "CreatureRoom": [7, 1, 3],
+        "MechMaze": [7, 1, 2],
+        "CryoRoom": [7, 1, 4],
+        "CrysalRoom": [7, 1, 6],
+        "KondoFight": [7, 1, 0xb],
+        "Zeno1Fight": [7, 2, 4],
+        "TempestFight": [7, 2, 5],
+        "EngineCore": [7, 2, 7]
     },
     "Episode8": {
         "End": [9, 0, 4]
@@ -445,6 +510,16 @@ function AnswerSiverOtakki(episode){
 
 function WasInMinigame(){
     return prior(Game["Map"]["Location"]) == 0xffffffff
+}
+
+function SpokeToCreature(number){
+    return once(
+        Game["Episode"] == 7 &&
+        IsInRoom(Rooms["Episode7"]["CreatureRoom"]) &&
+        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode7"]["Creature" + number]["ID"] &&
+        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode7"]["Creature" + number]["Scene"]["Begin"] &&
+        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode7"]["Creature" + number]["Scene"]["End"]
+    )
 }
 
 // ------------------------- Achievement Functions ------------------------- //
@@ -724,6 +799,61 @@ function Episode7_UnlockedEpisode8(){
         IsEpisode8Unlocked()
 }
 
+function Episode7_ReachShangrila(){
+    return !IsOnTitle() &&
+        Game["Episode"] == 7 &&
+        RoomTransition(Rooms["Episode7"]["AirShip"], Room["Episode7"]["AirDock"])
+}
+
+function Episode7_CreatureClues(){
+    return measured(tally(5, 
+            once(SpokeToCreature(1)),
+            once(SpokeToCreature(2)),
+            once(SpokeToCreature(3)),
+            once(SpokeToCreature(4)),
+            once(SpokeToCreature(5))
+        )) &&
+        never(IsOnTitle()) &&
+        never(Game["Episode"] != 7)
+}
+
+function Episode7_CryoRoom(){
+    return !IsOnTitle() &&
+        Game["Episode"] == 7 &&
+        RoomTransition(Rooms["Episode7"]["MechMaze"], Rooms["Episode7"]["CryoRoom"])
+}
+
+function Episode7_ActivateElevator(){
+    return !IsOnTitle() &&
+    TriggerEvent(7, "UnlockElevator")
+}
+
+function Episode7_GotDivaPieces(){
+    return !IsOnTitle() &&
+        prev(sum_of(Items["Flags"]["Episode7"]["DivaPieces"], item => item)) == 7 &&
+        measured(sum_of(Items["Flags"]["Episode7"]["DivaPieces"], item => item) == 8, Game["Episode"] == 7)
+}
+
+function Episode7_DefeatedKondo(){
+    return !IsOnTitle() &&
+        DefeatedBoss(7, Rooms["Episode7"]["KondoFight"])
+}
+
+function Episode7_DefeatedZeno1(){
+    return !IsOnTitle() &&
+        DefeatedBoss(7, Rooms["Episode7"]["Zeno1Fight"])
+}
+
+function Episode7_DefeatedTempest(){
+    return !IsOnTitle() &&
+        DefeatedBoss(7, Rooms["Episode7"]["TempestFight"])
+}
+
+function Episode7_DeactivatedCore(){
+    return !IsOnTitle() &&
+        TriggerEvent(7, "DeactivatedCore")
+}
+
 // Episode 8 - Achievement Functions //
 
 function Episode8_Completed(){
@@ -874,16 +1004,20 @@ achievement("Shangri-la", "Reach Shangri-la", points = 3, type = "progression",
     trigger = always_false()
 )
 
-achievement("Elevator", "Activate the Shangri-la Elevator", points = 5, type = "progression",
+achievement("Cryo Room", "Find a familiar location from Raz's past", points = 2, type = "missable",
     trigger = always_false()
 )
 
-achievement("Diva Pieces", "Find all Diva Pieces in Shangri-la", points = 5, type = "progression",
+achievement("Elevator", "Activate the Shangri-la Elevator", points = 5, type = "progression",
     trigger = always_false()
 )
 
 achievement("Kondo 2", "Defeat Kondo in Shangri-la", points = 5, type = "progression",
     trigger = always_false()
+)
+
+achievement("Diva Pieces", "Find all Diva Pieces in Shangri-la", points = 5, type = "progression",
+    trigger = Episode7_GotDivaPieces()
 )
 
 achievement("Zeno", "Defeat Zeno in Shangri-la", points = 5, type = "progression",
@@ -1174,7 +1308,7 @@ achievement("S Rank - Episode 6", "Clear Episode 6 with an S Rank", points = 10,
 // -- Episode 7 -- //
 
 achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatures in Shangri-la", points = 2, type = "missable",
-    trigger = always_false()
+    trigger = Episode7_CreatureClues()
 )
 
 achievement("Katana", "Find the Katana in Shangri-la", points = 3, type = "missable",

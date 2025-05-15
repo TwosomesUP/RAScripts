@@ -349,6 +349,13 @@ ObjectInteractions = {
                 "End": 0x74
             }
         },
+        "JunkbladeRace":{
+          "ID": 0xcf,
+          "Scene":{
+              "Begin": 0x00,
+              "End": 0x00
+          }
+      }  
     },
     "Episode8":{
         "SceneIndex": {
@@ -423,7 +430,9 @@ Rooms = {
         "KondoFight": [7, 1, 0xb],
         "Zeno1Fight": [7, 2, 4],
         "TempestFight": [7, 2, 5],
-        "EngineCore": [7, 2, 7]
+        "EngineCore": [7, 2, 7],
+        "Zeno2Fight": [7, 2, 0xd],
+        "JunkbladeRace": [7, 2, 0xa]
     },
     "Episode8": {
         "End": [9, 0, 4]
@@ -852,6 +861,11 @@ function Episode7_DefeatedTempest(){
 function Episode7_DeactivatedCore(){
     return !IsOnTitle() &&
         TriggerEvent(7, "DeactivatedCore")
+}
+
+function Episode7_DefeatedZeno2(){
+    return !IsOnTitle() &&
+        DefeatedBoss(7, Rooms["Episode7"]["Zeno2Fight"])
 }
 
 // Episode 8 - Achievement Functions //

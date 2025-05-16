@@ -275,17 +275,24 @@ ObjectInteractions = {
       "EastEdgeSiver": {
           "ID": 0x67,
           "Scene": {
-              "SiverQuestion": 0x102,
-              "SiverQuestion_CorrectAnswer": 0x120
+              "Begin": 0x102,
+              "End": 0x120
           }
-      }  
+      },
+      "WindowPayment":{
+          "ID": 0x67,
+          "Scene": {
+              "Begin": 0x56,
+              "End": 0x5d
+          }
+      }
     },
     "Episode4":{
       "DanceComplete":{
           "ID": 0x98,
           "Scene":{
-              "DanceEndTransition": 0x6d,
-              "DanceEnd": 0xc1
+              "Begin": 0x6d,
+              "End": 0xc1
           }
       }  
     },
@@ -360,15 +367,16 @@ ObjectInteractions = {
     },
     "Episode8":{
         "SceneIndex": {
-            "UseRepairKit": 0x24,
-            "Ending": 0x27
+            "Begin": 0x24,
+            "End": 0x27
         }
     }
 }
 
 Rooms = {
     "Any":{
-      "SiverOtakkiQuestion": [8, 5, 2]  
+      "SiverOtakkiQuestion": [8, 5, 2],
+      "WindowShop": [8, 2, 7]
     },
     "Episode1": {
         "GumboFight": [1, 3, 0],
@@ -511,7 +519,7 @@ function AcquiredItem(id){
 
 function DefeatedBoss(episode, map){
     return Game["Episode"] == episode &&
-        IsInRoom(map) &&
+        IsInRoom(Rooms["Episode" + episode][map]) &&
         prev(Enemies["Boss"]["HP"]) != 0x00 &&
         Enemies["Boss"]["HP"] == 0x00
 }
@@ -519,10 +527,23 @@ function DefeatedBoss(episode, map){
 function AnswerSiverOtakki(episode){
     return !IsOnTitle() &&
         Game["Episode"] == episode &&
-        IsInRoom(Rooms["Any"]["SiverOtakkiQuestion"]) &&
-        Objects["LastInteraction"]["ID"] == ObjectInteractions["Any"]["EastEdgeSiver"]["ID"] &&
-        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Any"]["EastEdgeSiver"]["Scene"]["SiverQuestion"] &&
-        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Any"]["EastEdgeSiver"]["Scene"]["SiverQuestion_CorrectAnswer"]
+        TriggeredScene(0, "SiverOtakkiQuestion", "EastEdgeSiver", true)
+}
+
+function TriggeredScene(episode, room, scene, any = false){
+    episodeCheck = always_true()
+    sceneEpisode = "Episode" + episode
+    
+    if (any)
+        sceneEpisode = "Any"
+    else
+        episodeCheck = Game["Episode"] == episode
+        
+    return episodeCheck &&
+        IsInRoom(Rooms[sceneEpisode][room]) &&
+        Objects["LastInteraction"]["ID"] == ObjectInteractions[sceneEpisode][scene]["ID"] &&
+        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions[sceneEpisode][scene]["Scene"]["Begin"] &&
+        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions[sceneEpisode][scene]["Scene"]["End"]
 }
 
 function WasInMinigame(){
@@ -553,6 +574,13 @@ function CompletedEpisodeWithSRank(episode){
         Game["ClearStats"]["Episode" + episode]["CP"] >= EpisodeGoals["SRank"]["Episode" + episode]
 }
 
+// Any Episode - Achievement Functions //
+
+function Any_PayedForWindow(){
+    return !IsOnTitle() &&
+        TriggeredScene(0, "WindowShop", "WindowPayment", true)
+}
+
 // Episode 1 - Achievement Functions //
 
 function Episode1_ReachEastEdge(){
@@ -571,7 +599,7 @@ function Episode1_ReachBillboardIsland(){
 
 function Episode1_DefeatedGumbo(){
     return !IsOnTitle() &&
-        DefeatedBoss(1, Rooms["Episode1"]["GumboFight"])
+        DefeatedBoss(1, "GumboFight")
 }
 
 function Episode1_ClearTurret(){
@@ -620,7 +648,7 @@ function Episode2_DestroyThirdGuard(){
 
 function Episode2_DefeatedKondo(){
     return !IsOnTitle() &&
-        DefeatedBoss(2, Rooms["Episode2"]["KondoFight"])
+        DefeatedBoss(2, "KondoFight")
 }
 
 function Episode2_ClearEpisode(){
@@ -646,7 +674,7 @@ function Episode3_DestroyAntiProtonCore(){
 
 function Episode3_DefeatSperio(){
     return !IsOnTitle() &&
-        DefeatedBoss(3, Rooms["Episode3"]["SperioFight"])
+        DefeatedBoss(3, "SperioFight")
 }
 
 function Episode3_CompleteJunkbladeScene(){
@@ -677,7 +705,7 @@ function Episode4_CompleteDanceScene(){
 
 function Episode4_DefeatedGartlude(){
     return !IsOnTitle() &&
-        DefeatedBoss(4, Rooms["Episode4"]["GartludeFight"])
+        DefeatedBoss(4, "GartludeFight")
 }
 
 function Episode4_CompleteDanceScene_MaxCP(){
@@ -727,17 +755,17 @@ function Episode5_DestroyAntiGravityStation(){
 
 function Episode5_DefeatedTiger(){
     return !IsOnTitle() &&
-        DefeatedBoss(5, Rooms["Episode5"]["TigerFight"])
+        DefeatedBoss(5, "TigerFight")
 }
 
 function Episode5_DefeatedLady(){
     return !IsOnTitle() &&
-        DefeatedBoss(5, Rooms["Episode5"]["LadyFight"])
+        DefeatedBoss(5, "LadyFight")
 }
 
 function Episode5_DefeatedAdidi(){
     return !IsOnTitle() &&
-        DefeatedBoss(5, Rooms["Episode5"]["AdidiFight"])
+        DefeatedBoss(5, "AdidiFight")
 }
 
 function Episode5_ClearEpisode(){
@@ -840,16 +868,16 @@ function Episode7_GotDivaPieces(){
 
 function Episode7_DefeatedKondo(){
     return !IsOnTitle() &&
-        DefeatedBoss(7, Rooms["Episode7"]["KondoFight"])
+        DefeatedBoss(7, "KondoFight")
 }
 
 function Episode7_DefeatedZeno1(){
-    return DefeatedBoss(7, Rooms["Episode7"]["Zeno1Fight"])
+    return DefeatedBoss(7, "Zeno1Fight")
 }
 
 function Episode7_DefeatedTempest(){
     return !IsOnTitle() &&
-        DefeatedBoss(7, Rooms["Episode7"]["TempestFight"])
+        DefeatedBoss(7, "TempestFight")
 }
 
 function Episode7_DeactivatedCore(){
@@ -858,7 +886,7 @@ function Episode7_DeactivatedCore(){
 }
 
 function Episode7_DefeatedZeno2(){
-    return DefeatedBoss(7, Rooms["Episode7"]["Zeno2Fight"])
+    return DefeatedBoss(7, "Zeno2Fight")
 }
 
 function Episode7_CompletedJunkbladeEscape(){
@@ -1065,7 +1093,7 @@ achievement("Another Future", "Prevent an uncertain future and clear Episode 7",
 // -- Any -- //
 
 achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
-    trigger = always_false()
+    trigger = Any_PayedForWindow()
 )
 
 achievement("Pumpkin Cake", "Admire the Bar Maids butt in Pumpkin Hall", points = 1,

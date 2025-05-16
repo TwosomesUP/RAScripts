@@ -4,10 +4,11 @@
 // RetroAchievements - Achievement Script
 
 // ------------------------- Accessors ------------------------- //
-
+//d104c
 Game = {
     "Episode": dword(0x1be9e8),
     "Paused": dword(0xd2f58),
+    "MiniGame": dword(0xd2f60),
     "OnTitle": dword(0xd2f64),
     "Episode4Cheat": byte(0x1f79d0),
     "Episode8Unlocked": byte(0xd2fa4),
@@ -473,6 +474,13 @@ function TriggeredItemFlag(episode, flag){
         prev(Items["Flags"]["Episode" + episode][flag]) < Items["Flags"]["Episode" + episode][flag]
 }
 
+function CompletedMinigame(episode, room){
+    return Game["Episode"] == episode &&
+        IsInRoom(Rooms["Episode" + episode][room], true) &&
+        prev(Game["MiniGame"]) == 1 &&
+        Game["MiniGame"] == 0
+}
+
 function IsInRoom(map, previous = false){
     trigger = Game["Map"]["Location"] == map[0] &&
         Game["Map"]["Area"] == map[1] &&
@@ -568,8 +576,7 @@ function Episode1_DefeatedGumbo(){
 
 function Episode1_ClearTurret(){
     return !IsOnTitle() &&
-        Game["Episode"] == 1 &&
-        RoomTransition(Rooms["Episode1"]["TurretSequence"], Rooms["Episode1"]["TurretSequence_End"])
+        CompletedMinigame(1, "TurretSequence")
 }
 
 function Episode1_ClearTurretChallenge(){
@@ -644,14 +651,17 @@ function Episode3_DefeatSperio(){
 
 function Episode3_CompleteJunkbladeScene(){
     return !IsOnTitle() &&
-        Game["Episode"] == 3 &&
-        RoomTransition(Rooms["Episode3"]["JunkBladeScene"], Rooms["Episode3"]["JunkBladeScene_End"])
+        CompletedMinigame(3, "JunkBladeScene")
 }
 
 function Episode3_CompleteJunkbladeScene_NoDamage(){
     return Episode3_CompleteJunkbladeScene() &&
         Game["ClearStats"]["Episode3"]["CP"] ==
         prior(Game["ClearStats"]["Episode3"]["CP"]) + 80
+}
+
+function Episode3_CompleteEpisode(){
+    return CompletedEpisode(3)
 }
 
 // Episode 4 - Achievement Functions //
@@ -662,10 +672,7 @@ function Episode4_SiverOtakkiQuestion(){
 
 function Episode4_CompleteDanceScene(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode4"]["DanceSequence"]) &&
-        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode4"]["DanceComplete"]["ID"] &&
-        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode4"]["DanceComplete"]["Scene"]["DanceEndTransition"] &&
-        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode4"]["DanceComplete"]["Scene"]["DanceEnd"]
+        CompletedMinigame(4, "DanceSequence")
 }
 
 function Episode4_DefeatedGartlude(){
@@ -698,11 +705,7 @@ function Episode5_ReachJungle(){
 
 function Episode5_ClearRiver1(){
     return !IsOnTitle() &&
-        WasInMinigame() &&
-        IsInRoom(Rooms["Episode5"]["RiverPart1_End"]) &&
-        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode5"]["River1Complete"]["ID"] &&
-        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode5"]["River1Complete"]["Scene"]["Begin"] &&
-        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode5"]["River1Complete"]["Scene"]["End"]
+        CompletedMinigame(5, "RiverPart1")
 }
 
 function Episode5_DefeatedPlant(){
@@ -713,11 +716,7 @@ function Episode5_DefeatedPlant(){
 
 function Episode5_ClearRiver2(){
     return !IsOnTitle() &&
-        WasInMinigame() &&
-        IsInRoom(Rooms["Episode5"]["RiverPart2_End"]) &&
-        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode5"]["River2Complete"]["ID"] &&
-        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode5"]["River2Complete"]["Scene"]["Begin"] &&
-        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode5"]["River2Complete"]["Scene"]["End"]
+        CompletedMinigame(5, "RiverPart2")
 }
 
 function Episode5_DestroyAntiGravityStation(){
@@ -789,11 +788,7 @@ function Episode6_ReachJunkyard(){
 
 function Episode6_WinJunkyardRace(){
     return !IsOnTitle() &&
-        WasInMinigame() &&
-        IsInRoom(Rooms["Episode6"]["JunkyardRace"]) &&
-        Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode6"]["JunkyardRace"]["ID"] &&
-        prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode6"]["JunkyardRace"]["Scene"]["Begin"] &&
-        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode6"]["JunkyardRace"]["Scene"]["End"]
+        CompletedMinigame(6, "JunkyardRace")
 }
 
 function Episode6_ClearEpisode(){
@@ -811,7 +806,7 @@ function Episode7_UnlockedEpisode8(){
 function Episode7_ReachShangrila(){
     return !IsOnTitle() &&
         Game["Episode"] == 7 &&
-        RoomTransition(Rooms["Episode7"]["AirShip"], Room["Episode7"]["AirDock"])
+        RoomTransition(Rooms["Episode7"]["AirShip"], Rooms["Episode7"]["AirDock"])
 }
 
 function Episode7_CreatureClues(){
@@ -834,7 +829,7 @@ function Episode7_CryoRoom(){
 
 function Episode7_ActivateElevator(){
     return !IsOnTitle() &&
-    TriggerEvent(7, "UnlockElevator")
+    TriggeredEvent(7, "UnlockElevator")
 }
 
 function Episode7_GotDivaPieces(){
@@ -849,8 +844,7 @@ function Episode7_DefeatedKondo(){
 }
 
 function Episode7_DefeatedZeno1(){
-    return !IsOnTitle() &&
-        DefeatedBoss(7, Rooms["Episode7"]["Zeno1Fight"])
+    return DefeatedBoss(7, Rooms["Episode7"]["Zeno1Fight"])
 }
 
 function Episode7_DefeatedTempest(){
@@ -860,12 +854,20 @@ function Episode7_DefeatedTempest(){
 
 function Episode7_DeactivatedCore(){
     return !IsOnTitle() &&
-        TriggerEvent(7, "DeactivatedCore")
+        TriggeredEvent(7, "DeactivateCore")
 }
 
 function Episode7_DefeatedZeno2(){
+    return DefeatedBoss(7, Rooms["Episode7"]["Zeno2Fight"])
+}
+
+function Episode7_CompletedJunkbladeEscape(){
     return !IsOnTitle() &&
-        DefeatedBoss(7, Rooms["Episode7"]["Zeno2Fight"])
+        CompletedMinigame(7, "JunkbladeRace")
+}
+
+function Episode7_CompletedEpisode(){
+    return CompletedEpisode(7)
 }
 
 // Episode 8 - Achievement Functions //
@@ -943,7 +945,7 @@ achievement("Sperio", "Defeat Sperio in the Underground Terminous", points = 3, 
 )
 
 achievement("Underground Space", "Escape the Underground Terminous on Sperio's Junkblade and Clear Episode 3", points = 5, type = "progression",
-    trigger = Episode3_CompleteJunkbladeScene()
+    trigger = Episode3_CompleteEpisode()
 )
 
 // -- Episode 4 -- //
@@ -1015,19 +1017,19 @@ achievement("Edgy Kids", "Discover your hidden powers and clear Episode 6", poin
 // -- Episode 7 -- //
 
 achievement("Shangri-la", "Reach Shangri-la", points = 3, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_ReachShangrila()
 )
 
-achievement("Cryo Room", "Find a familiar location from Raz's past", points = 2, type = "missable",
-    trigger = always_false()
+achievement("Cryo Room", "Find a familiar location from Raz's past", points = 1, type = "missable",
+    trigger = Episode7_CryoRoom()
 )
 
 achievement("Elevator", "Activate the Shangri-la Elevator", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_ActivateElevator()
 )
 
 achievement("Kondo 2", "Defeat Kondo in Shangri-la", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_DefeatedKondo()
 )
 
 achievement("Diva Pieces", "Find all Diva Pieces in Shangri-la", points = 5, type = "progression",
@@ -1035,27 +1037,27 @@ achievement("Diva Pieces", "Find all Diva Pieces in Shangri-la", points = 5, typ
 )
 
 achievement("Zeno", "Defeat Zeno in Shangri-la", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_DefeatedZeno1()
 )
 
 achievement("Tempest", "Defeat Tempest in Shangri-la", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_DefeatedTempest()
 )
 
 achievement("Power Source", "Destroy the Shangri-la Power Source", points = 5, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_DeactivatedCore()
 )
 
 achievement("Zeno 2", "Defeat Traveler Zeno in Shangri-la", points = 10, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_DefeatedZeno2()
 )
 
 achievement("Shangri-la Junkblade", "Escape Shangri-la on your Junkblade", points = 10, type = "progression",
-    trigger = always_false()
+    trigger = Episode7_CompletedJunkbladeEscape()
 )
 
 achievement("Another Future", "Prevent an uncertain future and clear Episode 7", points = 25, type = "win_condition",
-    trigger = always_false()
+    trigger = Episode7_CompletedEpisode()
 )
 
 // ------------------------- Achievement Definitions - Challenges ------------------------- //
@@ -1217,7 +1219,7 @@ achievement("No Heal - Sperio", "Defeat Sperio in the Underground Terminous with
 )
 
 achievement("No Damage - Terminous Junkblade", "Clear the Junkblade sequence in the Underground Terminous without taking damage", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode3_CompleteJunkbladeScene_NoDamage()
 )
 
 achievement("S Rank - Episode 3", "Clear Episode 3 with an S Rank", points = 10, type = "missable",
@@ -1231,7 +1233,7 @@ achievement("Siver Otakki - Episode 4", "Correctly answer Siver Otakki's questio
 )
 
 achievement("Hard Dancing", "Clear the Dance sequence in the Aqua Liberty Ballroom with passion", points = 5, type = "missable",
-    trigger = always_false()
+    trigger = Episode4_CompleteDanceScene_MaxCP()
 )
 
 achievement("Bat Maniac", "Find the Bat Maniac Outfit in the Aqua Liberty Ballroom", points = 3, type = "missable",

@@ -365,10 +365,13 @@ ObjectInteractions = {
           }
       }  
     },
-    "Episode8":{
-        "SceneIndex": {
-            "Begin": 0x24,
-            "End": 0x27
+    "Episode8": {
+        "Complete": {
+            "ID": 0x00,
+            "Scene": {
+                "Begin": 0x24,
+                "End": 0x27
+            }
         }
     }
 }
@@ -489,6 +492,12 @@ function CompletedMinigame(episode, room){
         Game["MiniGame"] == 0
 }
 
+function CompletedMinigameChallenge(episode, room, points){
+    return Game["Episode"] == episode &&
+        IsInRoom(Rooms["Episode" + episode][room], true) &&
+        Game["ClearStats"]["Episode" + episode]["CP"] >= prev(Game["ClearStats"]["Episode" + episode]["CP"]) + points
+}
+
 function IsInRoom(map, previous = false){
     trigger = Game["Map"]["Location"] == map[0] &&
         Game["Map"]["Area"] == map[1] &&
@@ -532,16 +541,22 @@ function AnswerSiverOtakki(episode){
 
 function TriggeredScene(episode, room, scene, any = false){
     episodeCheck = always_true()
+    sceneIdCheck = always_true()
     sceneEpisode = "Episode" + episode
     
     if (any)
         sceneEpisode = "Any"
-    else
-        episodeCheck = Game["Episode"] == episode
-        
+    else {
+        if (episode != 8)
+            episodeCheck = Game["Episode"] == episode
+    }
+    
+    if (episode != 8)
+        sceneIdCheck =  Objects["LastInteraction"]["ID"] == ObjectInteractions[sceneEpisode][scene]["ID"]
+ 
     return episodeCheck &&
         IsInRoom(Rooms[sceneEpisode][room]) &&
-        Objects["LastInteraction"]["ID"] == ObjectInteractions[sceneEpisode][scene]["ID"] &&
+        sceneIdCheck &&
         prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions[sceneEpisode][scene]["Scene"]["Begin"] &&
         Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions[sceneEpisode][scene]["Scene"]["End"]
 }
@@ -608,8 +623,8 @@ function Episode1_ClearTurret(){
 }
 
 function Episode1_ClearTurretChallenge(){
-    return Episode1_ClearTurret() &&
-        Game["ClearStats"]["Episode1"]["CP"] >= prior(Game["ClearStats"]["Episode1"]["CP"]) + 30
+    return !IsOnTitle() &&
+        CompletedMinigameChallenge(1, "TurretSequence", 30)
 }
 
 function Episode1_ClearEpisode(){
@@ -655,6 +670,10 @@ function Episode2_ClearEpisode(){
     return CompletedEpisode(2)
 }
 
+function Episode2_ClearEpisode_SRank(){
+    return CompletedEpisodeWithSRank(2)
+}
+
 // Episode 3 - Achievement Functions //
 
 function Episode3_SiverOtakkiQuestion(){
@@ -683,13 +702,16 @@ function Episode3_CompleteJunkbladeScene(){
 }
 
 function Episode3_CompleteJunkbladeScene_NoDamage(){
-    return Episode3_CompleteJunkbladeScene() &&
-        Game["ClearStats"]["Episode3"]["CP"] ==
-        prior(Game["ClearStats"]["Episode3"]["CP"]) + 80
+    return !IsOnTitle() &&
+        CompletedMinigameChallenge(3, "JunkBladeScene", 80)
 }
 
 function Episode3_CompleteEpisode(){
     return CompletedEpisode(3)
+}
+
+function Episode3_ClearEpisode_SRank(){
+    return CompletedEpisodeWithSRank(3)
 }
 
 // Episode 4 - Achievement Functions //
@@ -709,13 +731,16 @@ function Episode4_DefeatedGartlude(){
 }
 
 function Episode4_CompleteDanceScene_MaxCP(){
-    return Episode4_CompleteDanceScene() &&
-        Game["Episode4Cheat"] != 1 &&
-        Game["ClearStats"]["Episode4"]["CP"] == prior(Game["ClearStats"]["Episode4"]["CP"]) + 100
+    return !IsOnTitle() &&
+        CompletedMinigameChallenge(4, "DanceSequence", 100)
 }
 
 function Episode4_ClearEpisode(){
     return CompletedEpisode(4)
+}
+
+function Episode4_ClearEpisode_SRank(){
+    return CompletedEpisodeWithSRank(4)
 }
 
 // Episode 5 - Achievement Functions //
@@ -772,6 +797,10 @@ function Episode5_ClearEpisode(){
     return CompletedEpisode(5)
 }
 
+function Episode5_ClearEpisode_SRank(){
+    return CompletedEpisodeWithSRank(5)
+}
+
 // Episode 6 - Achievement Functions //
 
 function Episode6_EastEdgeSecret(){
@@ -821,6 +850,10 @@ function Episode6_WinJunkyardRace(){
 
 function Episode6_ClearEpisode(){
     return CompletedEpisode(6)
+}
+
+function Episode6_ClearEpisode_SRank(){
+    return CompletedEpisodeWithSRank(6)
 }
 
 // Episode 7 - Achievement Functions //
@@ -898,14 +931,16 @@ function Episode7_CompletedEpisode(){
     return CompletedEpisode(7)
 }
 
+function Episode7_ClearEpisode_SRank(){
+    return CompletedEpisodeWithSRank(7)
+}
+
 // Episode 8 - Achievement Functions //
 
 function Episode8_Completed(){
     return !IsOnTitle() &&
         IsEpisode8Unlocked() &&
-        IsInRoom(Rooms["Episode8"]["End"]) &&
-        prev(Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode8"]["SceneIndex"]["UseRepairKit"]) &&
-        Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode8"]["SceneIndex"]["Ending"]
+        TriggeredScene(8, "End", "Complete")
 }
 
 // ------------------------- Achievement Definitions - Progression ------------------------- //
@@ -1217,7 +1252,7 @@ achievement("No Heal - Kondo", "Defeat the Kondo in the Pagoda Tower without hea
 )
 
 achievement("S Rank - Episode 2", "Clear Episode 2 with an S Rank", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode2_ClearEpisode_SRank()
 )
 
 // -- Episode 3 -- //
@@ -1251,7 +1286,7 @@ achievement("No Damage - Terminous Junkblade", "Clear the Junkblade sequence in 
 )
 
 achievement("S Rank - Episode 3", "Clear Episode 3 with an S Rank", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode3_ClearEpisode_SRank()
 )
 
 // -- Episode 4 -- //
@@ -1273,7 +1308,7 @@ achievement("Quick Kill - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballro
 )
 
 achievement("S Rank - Episode 4", "Clear Episode 4 with an S Rank", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode4_ClearEpisode_SRank()
 )
 
 // -- Episode 5 -- //
@@ -1323,7 +1358,7 @@ achievement("No Heal - Adidi", "Defeat Adidi in the Jamelgalda Prison without he
 )
 
 achievement("S Rank - Episode 5", "Clear Episode 5 with an S Rank", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode5_ClearEpisode_SRank()
 )
 
 // -- Episode 6 -- //
@@ -1346,7 +1381,7 @@ achievement("Machine Gun", "Find the Machine Gun in the Gloom Alley Ghost House"
 )
 
 achievement("S Rank - Episode 6", "Clear Episode 6 with an S Rank", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode6_ClearEpisode_SRank()
 )
 
 // -- Episode 7 -- //
@@ -1380,7 +1415,7 @@ achievement("No Damage - Shangri-la Junkblade", "Clear the Shangri-la Junkblade 
 )
 
 achievement("S Rank - Episode 7", "Clear Episode 7 with an S Rank", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode7_ClearEpisode_SRank()
 )
 
 // -- Episode 8 -- //
@@ -1394,7 +1429,7 @@ achievement("Snacks", "Find all snacks in Episode 8", points = 10,
 )
 
 achievement("Final Break Down", "Clear Episode 8", points = 10,
-    trigger = always_false()
+    trigger = Episode8_Completed()
 )
 
 achievement("Emergency Spray", "Clear Episode 8 with 5 or more Emergency Sprays remaining", points = 25,

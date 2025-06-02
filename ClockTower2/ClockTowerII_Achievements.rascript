@@ -468,10 +468,11 @@ function Chapter3LockerZombies(){
 }
 
 function ClearedGameWithRank(rank){
-    endSequence = prev(Game["Ending"]["Sequence"]) == EndingSequences["Credits"]
+    endSequence = (prev(Game["Ending"]["Sequence"]) == EndingSequences["Credits"] ||
+        prev(Game["Ending"]["Sequence"]) == EndingSequences["RankASplash"])
     
-    if(rank == "A")
-        endSequence = prev(Game["Ending"]["Sequence"]) == EndingSequences["RankASplash"]
+    /*if(rank == "A")
+        endSequence = prev(Game["Ending"]["Sequence"]) == EndingSequences["RankASplash"]*/
         
     endSequence = endSequence && Game["Ending"]["Sequence"] == EndingSequences["RankScreen"]
 

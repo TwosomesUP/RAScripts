@@ -164,110 +164,120 @@ CharacterIDs = {
 }
 
 ItemIDs = {
-    //Equipment
-    "HookShot": 0x01,
-    "Transceiver": 0x02,
-    "SmallAqualung": 0x03,
-    "GravityController": 0x04,
-    "FreezePack": 0x05,
-    "HeatPack": 0x06,
-    "Snooper": 0x07,
-    "InstantPlate": 0x08,
-    //Cure
-    "EmergencySpray": 0x0b,
-    "ExtinguisherSpray": 0x0c,
-    "PortableAir": 0x0d,
-    //Weapon
-    "AntiqueGun": 0x0f,
-    "BigMagnum": 0x10,
-    "LaserGun": 0x11,
-    "LaserKnife": 0x12,
-    "LightSabre": 0x13,
-    "SuperLightSabre": 0x14,
-    "Katana": 0x15,
-    "PowerOfHarbinger": 0x16,
-    "MachineGun": 0x17,
-    "FlameThrower": 0x18,
-    "FireExtinguisher": 0x19,
-    "HandBazooka": 0x1a,
-    "GrenadeLauncher": 0x1b,
-    "HandKnife": 0x1c,
-    //Ammo
-    "MagazineCartridge": 0x20,
-    "EnergyPack": 0x21,
-    "AirPack": 0x22,
-    "BazookaRound": 0x23,
-    "MachineGunCartridge": 0x25,
-    "OilCartridge": 0x26,
-    "FireExtinguisherCartridge": 0x27,
-    "MagnumShell": 0x28,
-    //Bombs
-    "Grenade": 0x2a,
-    "TimeBomb": 0x2b,
-    "SwitchBomb": 0x2c,
-    "BurstBomb": 0x2d,
-    "Decoy": 0x2e,
-    //Boots
-    "BladeBoots": 0x31,
-    "CoolSole": 0x32,
-    "ShockAbsorber": 0x33,
-    "Insulator": 0x34,
-    "RubberBoots": 0x35,
-    "SpikedBoots": 0x36,
-    "MoonlightBoots": 0x37,
-    "LeatherBoots": 0x38,
-    "HeavyBoots": 0x39,
-    //Acarno Jackets
-    "WesternJacket": 0x3a,
-    "RedLeather": 0x3b,
-    "WolfJacket": 0x3c,
-    "ArmyJacket": 0x3d,
-    "ShieldJacket": 0x3e,
-    "ParaJacket": 0x3f,
-    "WetSuit": 0x40,
-    "DanceOutfit": 0x41,
-    "BlackLeather": 0x42,
-    //Navarro Suits
-    "NavarroCustom": 0x43,
-    "HeatProofSuit": 0x44,
-    "USCivialSuit": 0x45,
-    "ChineseMafiaSuit": 0x46,
-    "TigerSuit": 0x47,
-    "BatManiacSuit": 0x48,
-    "20YrOldSuit": 0x49,
-    "LabelPlus": 0x4a,
-    "LabelSuit": 0x4b,
-    //Chris Suits
-    "ExoticPanther": 0x4c,
-    "YOMiyabiSuit": 0x4d,
-    "FlightWear": 0x4e,
-    "YOAngelSuit": 0x4f,
-    "PumpkinSuit": 0x50,
-    //Key Items
-    "CreditCardChip": 0x51,
-    "AirCoolerRepairKit": 0x52,
-    "PagodaMap": 0x53,
-    "50KCredit": 0x54,
-    "BottleEmpty": 0x55,
-    "BottleWithOil": 0x56,
-    "KeyForGhostHouse": 0x57,
-    "KeyForBackdoor": 0x58,
-    "BatteryPack": 0x59,
-    "DivaPiece": 0x5a,
-    "UnknownCapsule": 0x5b,
-    "JuiceCan": 0x5c,
-    "PlasmaBomb": 0x5d,
-    "RedKeyCard": 0x5e,
-    "SilverKeyCard": 0x5f,
-    "GoldKeyCard": 0x60,
-    "Banana": 0x61,
-    "KeyForOperatingTrailer": 0x62,
-    "SubwayKeyCard": 0x63,
-    "HorsemeatBurger": 0x64,
-    "GeoStone": 0x65,
-    "Emerald": 0x66,
-    "Diamond": 0x67,
-    "EngineRoomKey": 0x68
+    "Equipment":{
+       "HookShot": 0x01,
+        "Transceiver": 0x02,
+        "SmallAqualung": 0x03,
+        "GravityController": 0x04,
+        "FreezePack": 0x05,
+        "HeatPack": 0x06,
+        "Snooper": 0x07,
+        "InstantPlate": 0x08, 
+    },
+    "Cure":{
+       "EmergencySpray": 0x0b,
+        "ExtinguisherSpray": 0x0c,
+        "PortableAir": 0x0d, 
+    },
+    "Weapons": {
+        "AntiqueGun": 0x0f,
+        "BigMagnum": 0x10,
+        "LaserGun": 0x11,
+        "LaserKnife": 0x12,
+        "LightSabre": 0x13,
+        "SuperLightSabre": 0x14,
+        "Katana": 0x15,
+        "PowerOfHarbinger": 0x16,
+        "MachineGun": 0x17,
+        "FlameThrower": 0x18,
+        "FireExtinguisher": 0x19,
+        "HandBazooka": 0x1a,
+        "GrenadeLauncher": 0x1b,
+        "HandKnife": 0x1c,
+    },
+    "Ammo": {
+       "MagazineCartridge": 0x20,
+        "EnergyPack": 0x21,
+        "AirPack": 0x22,
+        "BazookaRound": 0x23,
+        "MachineGunCartridge": 0x25,
+        "OilCartridge": 0x26,
+        "FireExtinguisherCartridge": 0x27,
+        "MagnumShell": 0x28, 
+    },
+    "Bombs": {
+       "Grenade": 0x2a,
+        "TimeBomb": 0x2b,
+        "SwitchBomb": 0x2c,
+        "BurstBomb": 0x2d,
+        "Decoy": 0x2e, 
+    },
+    "Boots": {
+       "BladeBoots": 0x31,
+        "CoolSole": 0x32,
+        "ShockAbsorber": 0x33,
+        "Insulator": 0x34,
+        "RubberBoots": 0x35,
+        "SpikedBoots": 0x36,
+        "MoonlightBoots": 0x37,
+        "LeatherBoots": 0x38,
+        "HeavyBoots": 0x39, 
+    },
+    "AcarnoJackets": {
+       "WesternJacket": 0x3a,
+        "RedLeather": 0x3b,
+        "WolfJacket": 0x3c,
+        "ArmyJacket": 0x3d,
+        "ShieldJacket": 0x3e,
+        "ParaJacket": 0x3f,
+        "WetSuit": 0x40,
+        "DanceOutfit": 0x41,
+        "BlackLeather": 0x42, 
+    },
+    "NavarroSuits": {
+        "NavarroCustom": 0x43,
+        "HeatProofSuit": 0x44,
+        "USCivialSuit": 0x45,
+        "ChineseMafiaSuit": 0x46,
+        "TigerSuit": 0x47,
+        "BatManiacSuit": 0x48,
+        "20YrOldSuit": 0x49,
+        "LabelPlus": 0x4a,
+        "LabelSuit": 0x4b,
+    },
+    "ChrisSuits": {
+        "ExoticPanther": 0x4c,
+        "YOMiyabiSuit": 0x4d,
+        "FlightWear": 0x4e,
+        "YOAngelSuit": 0x4f,
+        "PumpkinSuit": 0x50,  
+    },
+    "KeyItems": {
+        "CreditCardChip": 0x51,
+        "AirCoolerRepairKit": 0x52,
+        "PagodaMap": 0x53,
+        "50KCredit": 0x54,
+        "BottleEmpty": 0x55,
+        "BottleWithOil": 0x56,
+        "KeyForGhostHouse": 0x57,
+        "KeyForBackdoor": 0x58,
+        "BatteryPack": 0x59,
+        "DivaPiece": 0x5a,
+        "UnknownCapsule": 0x5b,
+        "JuiceCan": 0x5c,
+        "PlasmaBomb": 0x5d,
+        "RedKeyCard": 0x5e,
+        "SilverKeyCard": 0x5f,
+        "GoldKeyCard": 0x60,
+        "Banana": 0x61,
+        "KeyForOperatingTrailer": 0x62,
+        "SubwayKeyCard": 0x63,
+        "HorsemeatBurger": 0x64,
+        "GeoStone": 0x65,
+        "Emerald": 0x66,
+        "Diamond": 0x67,
+        "EngineRoomKey": 0x68 
+    }
 }
 
 ObjectInteractions = {
@@ -518,12 +528,54 @@ function RoomTransition(start, end){
 }
 
 function AcquiredItem(id){
-    return any_of(range(0, 99), index => 
-        Items["Count"] <= index + 1 &&
-        dword(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["ID"]) == id &&
-        prev(dword(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
-        dword(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])
-    )   
+    return ItemChanged(id) 
+}
+
+function ItemChanged(id){
+    return always_true()
+}
+
+function ItemChanged2(id){
+    itemCountCheck = (prev(Items["Count"]) < Items["Count"])
+    
+    slotCountCheck = any_of(array_map(range(0, 99), index =>
+        any_of(array_map(range(0, index), slot =>
+            Items["Count"] <= index &&
+            prev(word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
+            word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"]))
+       )
+    ), item => item)
+
+    return Items["LastAcquired"]["ID"] == id && 
+        (itemCountCheck || (slotCountCheck))
+}
+
+function ItemChanged3(id){
+    itemCountCheck = (prev(Items["Count"]) < Items["Count"])
+    
+    arrayMap = array_map(range(0, 99), index =>
+        any_of
+        (
+            __ornext(any_of(array_map(range(0, index), slot =>
+                Items["Count"] <= index &&
+                prev(word(Items["Inventory"]["Start"] + (slot * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
+                word(Items["Inventory"]["Start"] + (slot * 0x0c) + Items["Inventory"]["Offsets"]["Count"])
+            )))    
+        )
+    ) 
+}
+
+function ItemCountUpdated(index){
+    
+}
+
+function ItemAmountChanged(id, index){
+    return 
+    (
+        word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["ID"]) == id &&
+        prev(word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
+        word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])
+    )
 }
 
 function DefeatedBoss(episode, map){
@@ -1391,7 +1443,7 @@ achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatu
 )
 
 achievement("Katana", "Find the Katana in Shangri-la", points = 3, type = "missable",
-    trigger = always_false()
+    trigger = AcquiredItem(ItemIDs["KeyItems"]["GeoStone"])
 )
 
 achievement("No Heal - Kondo 2", "Defeat Kondo in Shangri-la without healing", points = 10, type = "missable",

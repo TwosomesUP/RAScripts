@@ -91,6 +91,7 @@ Items = {
             "DefeatedPlant": bit4(0x1beaf8)
         },
         "Episode7":{
+            "Katana": bit4(0x1beba2),
             "DivaPieces": [
                 bit2(0x1beb99),
                 bit3(0x1beb79),
@@ -115,7 +116,8 @@ Enemies = {
 Events = {
     "Episode1":{
         "ArriveInEastEdge": bit4(0x1bf4c5),
-        "ArriveOnBillboardIsland": bit3(0x1bf4dc)
+        "ArriveOnBillboardIsland": bit3(0x1bf4dc),
+        "OpenedPowerRoomDoor": bit4(0x1bf4db)
     },
     "Episode2":{
         "ArrivedInPagoda": bit7(0x1bf4c8),
@@ -444,6 +446,7 @@ Rooms = {
     },
     "Episode7": {
         "AirShip": [7, 0, 4],
+        "BurningBridge": [7, 0, 7],
         "AirDock": [7, 1, 0],
         "CreatureRoom": [7, 1, 3],
         "MechMaze": [7, 1, 2],
@@ -527,6 +530,7 @@ function RoomTransition(start, end){
         IsInRoom(end)
 }
 
+/* Come back to this at some point
 function AcquiredItem(id){
     return ItemChanged(id) 
 }
@@ -576,7 +580,7 @@ function ItemAmountChanged(id, index){
         prev(word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
         word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])
     )
-}
+}*/
 
 function DefeatedBoss(episode, map){
     return Game["Episode"] == episode &&
@@ -685,6 +689,11 @@ function Episode1_ClearEpisode(){
 
 function Episode1_ClearEpisode_SRank(){
     return CompletedEpisodeWithSRank(1)
+}
+
+function Episode1_EnterPowerRoomWithKey(){
+    return !IsOnTitle() &&
+        TriggeredEvent(1, "OpenedPowerRoomDoor")
 }
 
 // Episode 2 - Achievement Functions //
@@ -987,6 +996,12 @@ function Episode7_ClearEpisode_SRank(){
     return CompletedEpisodeWithSRank(7)
 }
 
+function Episode7_AcquiredKatana(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode7"]["BurningBridge"]) &&
+        TriggeredItemFlag(7, "Katana")
+}
+
 // Episode 8 - Achievement Functions //
 
 function Episode8_Completed(){
@@ -1214,7 +1229,7 @@ achievement("Siver Otakki - Episode 1", "Correctly answer Siver Otakki's questio
 )
 
 achievement("Power Room Door", "Enter the Power Room Door on Billboard Island using the Silver Key", points = 3, type = "missable",
-    trigger = always_false()
+    trigger = Episode1_EnterPowerRoomWithKey()
 )
 
 achievement("20 Year Old", "Find the 20 Yr Old Suit on Billboard Island", points = 3, type = "missable",
@@ -1443,7 +1458,7 @@ achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatu
 )
 
 achievement("Katana", "Find the Katana in Shangri-la", points = 3, type = "missable",
-    trigger = AcquiredItem(ItemIDs["KeyItems"]["GeoStone"])
+    trigger = Episode7_AcquiredKatana()
 )
 
 achievement("No Heal - Kondo 2", "Defeat Kondo in Shangri-la without healing", points = 10, type = "missable",

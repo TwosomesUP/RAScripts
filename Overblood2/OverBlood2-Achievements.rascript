@@ -87,6 +87,14 @@ Items = {
         }
     },
     "Flags": {
+        "Episode1":{
+            "20YrOldSuit": bit2(0x1beb18),
+            "ArmyJacket": bit1(0x1beb20),
+            "SpikedBoots": bit2(0x1beb20),
+            "LaserKnife": bit4(0x1beb28),
+            "InsulatorBoots": bit1(0x1beb38),
+            "WetSuit": bit0(0x1beb60)
+        },
         "Episode5":{
             "DefeatedPlant": bit4(0x1beaf8)
         },
@@ -394,6 +402,8 @@ Rooms = {
       "WindowShop": [8, 2, 7]
     },
     "Episode1": {
+        "Submarine": [1, 5, 1],
+        "GoldDoorRoom": [1, 3, 4],
         "GumboFight": [1, 3, 0],
         "TurretSequence": [1, 6, 2],
         "TurretSequence_End": [1, 6, 1]
@@ -496,6 +506,21 @@ function TriggeredEvent(episode, event, inverse = false){
 function TriggeredItemFlag(episode, flag){
     return Game["Episode"] == episode &&
         prev(Items["Flags"]["Episode" + episode][flag]) < Items["Flags"]["Episode" + episode][flag]
+}
+
+function TriggeredItemFlagCount(episode, flags){
+    count = length(flags)
+    prevTotal = 0
+    total = 0
+    
+    for flag in range(0, count - 1) {
+        prevTotal = prevTotal + prev(Items["Flags"]["Episode" + episode][flags[flag]])
+        total = total + Items["Flags"]["Episode" + episode][flags[flag]]
+    }
+    
+    return Game["Episode"] == episode &&
+        prevTotal < count &&
+        total >= count
 }
 
 function CompletedMinigame(episode, room){
@@ -689,6 +714,18 @@ function Episode1_ClearEpisode(){
 
 function Episode1_ClearEpisode_SRank(){
     return CompletedEpisodeWithSRank(1)
+}
+
+function Episode1_GotWetSuit(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode1"]["Submarine"]) &&
+        TriggeredItemFlag(1, "WetSuit")
+}
+
+function Episode1_GotArmyJacketAndSpikedBoots(){
+    return !IsOnTitle() &&
+        IsInRoom(Rooms["Episode1"]["GoldDoorRoom"]) &&
+        TriggeredItemFlagCount(1, ["ArmyJacket", "SpikedBoots"])
 }
 
 function Episode1_EnterPowerRoomWithKey(){
@@ -1228,6 +1265,14 @@ achievement("Siver Otakki - Episode 1", "Correctly answer Siver Otakki's questio
     trigger = Episode1_SiverOtakkiQuestion()
 )
 
+achievement("Wet Suit", "Find the Wet Suit on Billboard Island", points = 3, type = "missable",
+    trigger = Episode1_GotWetSuit()
+)
+
+achievement("Army Jacket", "Find the Army Jacket and Spiked Boots on Billboard Island", points = 3, type = "missable",
+    trigger = Episode1_GotArmyJacketAndSpikedBoots()
+)
+
 achievement("Power Room Door", "Enter the Power Room Door on Billboard Island using the Silver Key", points = 3, type = "missable",
     trigger = Episode1_EnterPowerRoomWithKey()
 )
@@ -1236,19 +1281,11 @@ achievement("20 Year Old", "Find the 20 Yr Old Suit on Billboard Island", points
     trigger = always_false()
 )
 
-achievement("Army Jacket", "Find the Army Jacket and Spiked Boots on Billboard Island", points = 3, type = "missable",
-    trigger = always_false()
-)
-
 achievement("Laser Knife", "Find the Laser Knife on Billboard Island", points = 3, type = "missable",
     trigger = always_false()
 )
 
 achievement("Insulator", "Find the Insulator Boots on Billboard Island", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Wet Suit", "Find the Wet Suit on Billboard Island", points = 3, type = "missable",
     trigger = always_false()
 )
 

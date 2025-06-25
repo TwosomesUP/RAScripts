@@ -402,8 +402,13 @@ Rooms = {
       "WindowShop": [8, 2, 7]
     },
     "Episode1": {
+        "SubmarineBay": [1, 5, 0],
         "Submarine": [1, 5, 1],
         "GoldDoorRoom": [1, 3, 4],
+        "RedDoorRoom": [1, 3, 3],
+        "SilverDoorRoom1": [1, 3, 7],
+        "SilverDoorRoom2": [1, 3, 6],
+        "SilverDoorRoom3": [1, 3, 5],
         "GumboFight": [1, 3, 0],
         "TurretSequence": [1, 6, 2],
         "TurretSequence_End": [1, 6, 1]
@@ -508,7 +513,7 @@ function TriggeredItemFlag(episode, flag){
         prev(Items["Flags"]["Episode" + episode][flag]) < Items["Flags"]["Episode" + episode][flag]
 }
 
-function TriggeredItemFlagCount(episode, flags){
+function TriggeredItemFlagCount(episode, flags, measured = false){
     count = length(flags)
     prevTotal = 0
     total = 0
@@ -518,9 +523,14 @@ function TriggeredItemFlagCount(episode, flags){
         total = total + Items["Flags"]["Episode" + episode][flags[flag]]
     }
     
+    countCheck = total >= count
+    
+    if(measured)
+        countCheck = measured(countCheck)
+    
     return Game["Episode"] == episode &&
         prevTotal < count &&
-        total >= count
+        countCheck
 }
 
 function CompletedMinigame(episode, room){
@@ -550,62 +560,14 @@ function IsInRoom(map, previous = false){
     return trigger
 }
 
+function IsInAnyRoom(episode, rooms){
+    return any_of(rooms, room => IsInRoom(Rooms["Episode" + episode][room]))
+}
+
 function RoomTransition(start, end){
     return IsInRoom(start, true) &&
         IsInRoom(end)
 }
-
-/* Come back to this at some point
-function AcquiredItem(id){
-    return ItemChanged(id) 
-}
-
-function ItemChanged(id){
-    return always_true()
-}
-
-function ItemChanged2(id){
-    itemCountCheck = (prev(Items["Count"]) < Items["Count"])
-    
-    slotCountCheck = any_of(array_map(range(0, 99), index =>
-        any_of(array_map(range(0, index), slot =>
-            Items["Count"] <= index &&
-            prev(word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
-            word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"]))
-       )
-    ), item => item)
-
-    return Items["LastAcquired"]["ID"] == id && 
-        (itemCountCheck || (slotCountCheck))
-}
-
-function ItemChanged3(id){
-    itemCountCheck = (prev(Items["Count"]) < Items["Count"])
-    
-    arrayMap = array_map(range(0, 99), index =>
-        any_of
-        (
-            __ornext(any_of(array_map(range(0, index), slot =>
-                Items["Count"] <= index &&
-                prev(word(Items["Inventory"]["Start"] + (slot * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
-                word(Items["Inventory"]["Start"] + (slot * 0x0c) + Items["Inventory"]["Offsets"]["Count"])
-            )))    
-        )
-    ) 
-}
-
-function ItemCountUpdated(index){
-    
-}
-
-function ItemAmountChanged(id, index){
-    return 
-    (
-        word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["ID"]) == id &&
-        prev(word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])) <
-        word(Items["Inventory"]["Start"] + (index * 0x0c) + Items["Inventory"]["Offsets"]["Count"])
-    )
-}*/
 
 function DefeatedBoss(episode, map){
     return Game["Episode"] == episode &&
@@ -716,21 +678,20 @@ function Episode1_ClearEpisode_SRank(){
     return CompletedEpisodeWithSRank(1)
 }
 
-function Episode1_GotWetSuit(){
+function Episode1_Treasures(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode1"]["Submarine"]) &&
-        TriggeredItemFlag(1, "WetSuit")
-}
-
-function Episode1_GotArmyJacketAndSpikedBoots(){
-    return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode1"]["GoldDoorRoom"]) &&
-        TriggeredItemFlagCount(1, ["ArmyJacket", "SpikedBoots"])
+        IsInAnyRoom(1, ["Submarine", "GoldDoorRoom", "RedDoorRoom", "SilverDoorRoom1", "SilverDoorRoom3"]) &&
+        TriggeredItemFlagCount(1, ["WetSuit", "ArmyJacket", "SpikedBoots", "20YrOldSuit", "InsulatorBoots", "LaserKnife"], true)
 }
 
 function Episode1_EnterPowerRoomWithKey(){
     return !IsOnTitle() &&
         TriggeredEvent(1, "OpenedPowerRoomDoor")
+}
+
+function Episode1_EnterTheSubmarine(){
+    return !IsOnTitle() &&
+        RoomTransition(Rooms["Episode1"]["SubmarineBay"], Rooms["Episode1"]["Submarine"])
 }
 
 // Episode 2 - Achievement Functions //
@@ -1059,6 +1020,30 @@ achievement("Billboard Island", "Reach Billboard Island", points = 2, type = "pr
     trigger = Episode1_ReachBillboardIsland()
 )
 
+achievement("Siver Otakki - Episode 1", "Correctly answer Siver Otakki's question in Episode 1", points = 2, type = "missable",
+    trigger = Episode1_SiverOtakkiQuestion()
+)
+
+achievement("Submarine", "Solve the Submarine Bay puzzle and enter the Submarine", points = 5, type = "missable",
+    trigger = Episode1_EnterTheSubmarine()
+)
+
+achievement("Billboard Treasures", "Find all Weapons, Clothing, and Boots hidden on Billboard Island", points = 10, type = "missable",
+    trigger = Episode1_Treasures()
+)
+
+achievement("Power Room Door", "Enter the Power Room Door on Billboard Island using the Silver Key", points = 3, type = "missable",
+    trigger = Episode1_EnterPowerRoomWithKey()
+)
+
+achievement("No Heal - Gumbo", "Defeat Gumbo the Robot on Billboard Island without healing", points = 10, type = "missable",
+    trigger = always_false()
+)
+
+achievement("Clear Challenge - Turret", "Gain 30 or more CP during the Turret Sequence on Billboard Island", points = 5, type = "missable",
+    trigger = Episode1_ClearTurretChallenge()
+)
+
 achievement("Gumbo", "Defeat Gumbo the Robot on Billboard Island", points = 3, type = "progression",
     trigger = Episode1_DefeatedGumbo()
 )
@@ -1069,6 +1054,10 @@ achievement("Turret", "Clear the Turret Sequence on Billboard Island", points = 
 
 achievement("Encounters", "Escape Billboard Island and Clear Episode 1", points = 5, type = "progression",
     trigger = Episode1_ClearEpisode()
+)
+
+achievement("S Rank - Episode 1", "Clear Episode 1 with an S Rank", points = 10, type = "missable",
+    trigger = Episode1_ClearEpisode_SRank()
 )
 
 // -- Episode 2 -- //
@@ -1233,72 +1222,6 @@ achievement("Another Future", "Prevent an uncertain future and clear Episode 7",
 
 achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
     trigger = Any_PayedForWindow()
-)
-
-achievement("Pumpkin Cake", "Admire the Bar Maids butt in Pumpkin Hall", points = 1,
-    trigger = always_false()
-)
-
-achievement("Weapons", "Collect all Weapons", points = 10,
-    trigger = always_false()
-)
-
-achievement("Boots", "Collect all Boots", points = 10,
-    trigger = always_false()
-)
-
-achievement("Clothes - Acarno", "Collect all of Acarno's Clothing", points = 10,
-    trigger = always_false()
-)
-
-achievement("Clothes - Chris", "Collect all of Chris' Clothing", points = 10,
-    trigger = always_false()
-)
-
-achievement("Clothes - Navarro", "Collect all of Navarro's Clothing", points = 10,
-    trigger = always_false()
-)
-
-// -- Episode 1 -- //
-
-achievement("Siver Otakki - Episode 1", "Correctly answer Siver Otakki's question in Episode 1", points = 2, type = "missable",
-    trigger = Episode1_SiverOtakkiQuestion()
-)
-
-achievement("Wet Suit", "Find the Wet Suit on Billboard Island", points = 3, type = "missable",
-    trigger = Episode1_GotWetSuit()
-)
-
-achievement("Army Jacket", "Find the Army Jacket and Spiked Boots on Billboard Island", points = 3, type = "missable",
-    trigger = Episode1_GotArmyJacketAndSpikedBoots()
-)
-
-achievement("Power Room Door", "Enter the Power Room Door on Billboard Island using the Silver Key", points = 3, type = "missable",
-    trigger = Episode1_EnterPowerRoomWithKey()
-)
-
-achievement("20 Year Old", "Find the 20 Yr Old Suit on Billboard Island", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Laser Knife", "Find the Laser Knife on Billboard Island", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Insulator", "Find the Insulator Boots on Billboard Island", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Gumbo", "Defeat Gumbo the Robot on Billboard Island without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Clear Challenge - Turret", "Gain 30 or more CP during the Turret Sequence on Billboard Island", points = 5, type = "missable",
-    trigger = Episode1_ClearTurretChallenge()
-)
-
-achievement("S Rank - Episode 1", "Clear Episode 1 with an S Rank", points = 10, type = "missable",
-    trigger = Episode1_ClearEpisode_SRank()
 )
 
 // -- Episode 2 -- //

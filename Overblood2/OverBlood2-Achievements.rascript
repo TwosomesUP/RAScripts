@@ -79,7 +79,12 @@ Items = {
     "LastAcquired": {
         "ID": dword(0xd35d4)
     },
+    "SelectedItem": {
+        "ID": word(0xd35cc),
+        "Action": word(0xd35d2)
+    },
     "Inventory": {
+        "State": word(0xd2f04),
         "Start": 0x1beec4,
         "Offsets": {
             "ID": 0x00,
@@ -535,18 +540,24 @@ function TriggeredItemFlagCount(episode, flags, measured = false){
 
 function CompletedMinigame(episode, room){
     return Game["Episode"] == episode &&
-        IsInRoom(Rooms["Episode" + episode][room], true) &&
+        IsInRoom(episode, room, true) &&
         prev(Game["MiniGame"]) == 1 &&
         Game["MiniGame"] == 0
 }
 
 function CompletedMinigameChallenge(episode, room, points){
     return Game["Episode"] == episode &&
-        IsInRoom(Rooms["Episode" + episode][room], true) &&
+        IsInRoom(episode, room, true) &&
         Game["ClearStats"]["Episode" + episode]["CP"] >= prev(Game["ClearStats"]["Episode" + episode]["CP"]) + points
 }
 
-function IsInRoom(map, previous = false){
+function IsInRoom(episode, room, previous = false){
+    episodeLookup = "Episode" + episode
+    
+    if(episode == 0)
+        episodeLookup = "Any"
+
+    map = Rooms[episodeLookup][room]
     trigger = Game["Map"]["Location"] == map[0] &&
         Game["Map"]["Area"] == map[1] &&
         Game["Map"]["Room"] == map[2]
@@ -561,19 +572,28 @@ function IsInRoom(map, previous = false){
 }
 
 function IsInAnyRoom(episode, rooms){
-    return any_of(rooms, room => IsInRoom(Rooms["Episode" + episode][room]))
+    return any_of(rooms, room => IsInRoom(episode, room))
 }
 
-function RoomTransition(start, end){
-    return IsInRoom(start, true) &&
-        IsInRoom(end)
+function RoomTransition(episode, start, end){
+    return IsInRoom(episode, start, true) &&
+        IsInRoom(episode, end)
 }
 
-function DefeatedBoss(episode, map){
-    return Game["Episode"] == episode &&
-        IsInRoom(Rooms["Episode" + episode][map]) &&
-        prev(Enemies["Boss"]["HP"]) != 0x00 &&
+function DefeatedBoss(episode, room, challenge = false){
+    trigger = Game["Episode"] == episode
+    roomCheck = IsInRoom(episode, room)
+    bossCheck = prev(Enemies["Boss"]["HP"]) != 0x00 &&
         Enemies["Boss"]["HP"] == 0x00
+    
+    if(!challenge)
+        trigger = trigger && roomCheck
+    else
+        bossCheck = trigger_when(bossCheck)
+
+    trigger = trigger && bossCheck
+
+    return trigger
 }
 
 function AnswerSiverOtakki(episode){
@@ -589,7 +609,8 @@ function TriggeredScene(episode, room, scene, any = false){
     
     if (any)
         sceneEpisode = "Any"
-    else {
+    else 
+    {
         if (episode != 8)
             episodeCheck = Game["Episode"] == episode
     }
@@ -598,7 +619,7 @@ function TriggeredScene(episode, room, scene, any = false){
         sceneIdCheck =  Objects["LastInteraction"]["ID"] == ObjectInteractions[sceneEpisode][scene]["ID"]
  
     return episodeCheck &&
-        IsInRoom(Rooms[sceneEpisode][room]) &&
+        IsInRoom(episode, room) &&
         sceneIdCheck &&
         prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions[sceneEpisode][scene]["Scene"]["Begin"] &&
         Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions[sceneEpisode][scene]["Scene"]["End"]
@@ -611,14 +632,12 @@ function WasInMinigame(){
 function SpokeToCreature(number){
     return once(
         Game["Episode"] == 7 &&
-        IsInRoom(Rooms["Episode7"]["CreatureRoom"]) &&
+        IsInRoom(7,"CreatureRoom") &&
         Objects["LastInteraction"]["ID"] == ObjectInteractions["Episode7"]["Creature" + number]["ID"] &&
         prev(Objects["LastInteraction"]["SceneIndex"]) == ObjectInteractions["Episode7"]["Creature" + number]["Scene"]["Begin"] &&
         Objects["LastInteraction"]["SceneIndex"] == ObjectInteractions["Episode7"]["Creature" + number]["Scene"]["End"]
     )
 }
-
-// ------------------------- Achievement Functions ------------------------- //
 
 function CompletedEpisode(episode){
     return !IsOnTitle() &&
@@ -631,6 +650,18 @@ function CompletedEpisodeWithSRank(episode){
     return CompletedEpisode(episode) &&
         Game["ClearStats"]["Episode" + episode]["CP"] >= EpisodeGoals["SRank"]["Episode" + episode]
 }
+
+function PlayerHealed(){
+    return any_of([
+        ItemIDs["Cure"]["EmergencySpray"],
+        ItemIDs["KeyItems"]["JuiceCan"],
+        ItemIDs["KeyItems"]["Banana"],
+        ItemIDs["KeyItems"]["HorsemeatBurger"]
+    ], item => Items["SelectedItem"]["ID"] == item && Items["Inventory"]["State"] == 4) &&
+    prev(Character["Acarno"]["HP"]) < Character["Acarno"]["HP"]
+}
+
+// ------------------------- Achievement Functions ------------------------- //
 
 // Any Episode - Achievement Functions //
 
@@ -655,9 +686,33 @@ function Episode1_ReachBillboardIsland(){
         TriggeredEvent(1, "ArriveOnBillboardIsland")
 }
 
+function Episode1_EnterTheSubmarine(){
+    return !IsOnTitle() &&
+        RoomTransition(1,"SubmarineBay", "Submarine")
+}
+
+function Episode1_Treasures(){
+    return !IsOnTitle() &&
+        IsInAnyRoom(1, ["Submarine", "GoldDoorRoom", "RedDoorRoom", "SilverDoorRoom1", "SilverDoorRoom3"]) &&
+        TriggeredItemFlagCount(1, ["WetSuit", "ArmyJacket", "SpikedBoots", "20YrOldSuit", "InsulatorBoots", "LaserKnife"], true)
+}
+
+function Episode1_EnterPowerRoomWithKey(){
+    return !IsOnTitle() &&
+        TriggeredEvent(1, "OpenedPowerRoomDoor")
+}
+
 function Episode1_DefeatedGumbo(){
     return !IsOnTitle() &&
         DefeatedBoss(1, "GumboFight")
+}
+
+function Episode1_DefeatGumbo_NoHeal(){
+    return DefeatedBoss(1, "GumboFight", true) &&
+        disable_when(PlayerHealed()) &&
+        (always_false() || 
+        ((never(IsOnTitle()) && never(Character["Acarno"]["HP"] == 0)) || 
+        never(!IsInRoom(1, "GumboFight"))))
 }
 
 function Episode1_ClearTurret(){
@@ -676,22 +731,6 @@ function Episode1_ClearEpisode(){
 
 function Episode1_ClearEpisode_SRank(){
     return CompletedEpisodeWithSRank(1)
-}
-
-function Episode1_Treasures(){
-    return !IsOnTitle() &&
-        IsInAnyRoom(1, ["Submarine", "GoldDoorRoom", "RedDoorRoom", "SilverDoorRoom1", "SilverDoorRoom3"]) &&
-        TriggeredItemFlagCount(1, ["WetSuit", "ArmyJacket", "SpikedBoots", "20YrOldSuit", "InsulatorBoots", "LaserKnife"], true)
-}
-
-function Episode1_EnterPowerRoomWithKey(){
-    return !IsOnTitle() &&
-        TriggeredEvent(1, "OpenedPowerRoomDoor")
-}
-
-function Episode1_EnterTheSubmarine(){
-    return !IsOnTitle() &&
-        RoomTransition(Rooms["Episode1"]["SubmarineBay"], Rooms["Episode1"]["Submarine"])
 }
 
 // Episode 2 - Achievement Functions //
@@ -742,7 +781,7 @@ function Episode3_SiverOtakkiQuestion(){
 function Episode3_ReachUndergroundTerminous(){
     return !IsOnTitle() &&
         Game["Episode"] == 3 &&
-        RoomTransition(Rooms["Episode3"]["UndergroundTerminousStation_Cutscene"], Rooms["Episode3"]["UndergroundTerminousStation"])
+        RoomTransition(3, "UndergroundTerminousStation_Cutscene", "UndergroundTerminousStation")
 }
 
 function Episode3_DestroyAntiProtonCore(){
@@ -812,7 +851,7 @@ function Episode5_FoundSiverTreasure(){
 function Episode5_ReachJungle(){
     return !IsOnTitle() &&
         Game["Episode"] == 5 &&
-        RoomTransition(Rooms["Episode5"]["ChurchControlRoom"], Rooms["Episode5"]["JungleStart"])
+        RoomTransition(5, "ChurchControlRoom", "JungleStart")
 }
 
 function Episode5_ClearRiver1(){
@@ -822,7 +861,7 @@ function Episode5_ClearRiver1(){
 
 function Episode5_DefeatedPlant(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode5"]["MutantPlant"]) &&
+        IsInRoom(5, "MutantPlant") &&
         TriggeredItemFlag(5, "DefeatedPlant")
 }
 
@@ -833,7 +872,7 @@ function Episode5_ClearRiver2(){
 
 function Episode5_DestroyAntiGravityStation(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode5"]["AntiGravityStation"]) &&
+        IsInRoom(5, "AntiGravityStation") &&
         TriggeredEvent(5, "AntiGravityStation")
 }
 
@@ -864,7 +903,7 @@ function Episode5_ClearEpisode_SRank(){
 
 function Episode6_EastEdgeSecret(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode6"]["MuseumStreet"]) &&
+        IsInRoom(6, "MuseumStreet") &&
         TriggeredEvent(6, "MuseumTreasure")
 }
 
@@ -877,12 +916,12 @@ function Episode6_GiveOrphanBanana(){
 function Episode6_ReachGloomAlley(){
     return !IsOnTitle() &&
         Game["Episode"] == 6 &&
-        RoomTransition(Rooms["Episode6"]["GloomAlleyEntrance"], Rooms["Episode6"]["GloomAlleyStart"])
+        RoomTransition(6, "GloomAlleyEntrance", "GloomAlleyStart")
 }
 
 function Episode6_FindGhostHouseKey(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode6"]["GloomAlleyBar"]) &&
+        IsInRoom(6, "GloomAlleyBar") &&
         TriggeredEvent(6, "GotGhostHouseKey")
 }
 
@@ -891,15 +930,15 @@ function Episode6_AlternateGhostHouse(){
         Game["Episode"] == 6 &&
         Events["Episode6"]["UnlockedGhostHouseDoor"] == 0 &&
         (
-            (RoomTransition(Rooms["Episode6"]["GhostHouseYard"], Rooms["Episode6"]["GhostHouseEntryway"])) ||
-            (RoomTransition(Rooms["Episode6"]["GhostHouseYard"], Rooms["Episode6"]["GhostHouseWaterTower"])) 
+            (RoomTransition(6, "GhostHouseYard", "GhostHouseEntryway")) ||
+            (RoomTransition(6, "GhostHouseYard", "GhostHouseWaterTower")) 
         )
 }
 
 function Episode6_ReachJunkyard(){
     return !IsOnTitle() &&
         Game["Episode"] == 6 &&
-        RoomTransition(Rooms["Episode6"]["GhostHouseYard"], Rooms["Episode6"]["JunkyardHighway"])
+        RoomTransition(6, "GhostHouseYard", "JunkyardHighway")
 }
 
 function Episode6_WinJunkyardRace(){
@@ -926,7 +965,7 @@ function Episode7_UnlockedEpisode8(){
 function Episode7_ReachShangrila(){
     return !IsOnTitle() &&
         Game["Episode"] == 7 &&
-        RoomTransition(Rooms["Episode7"]["AirShip"], Rooms["Episode7"]["AirDock"])
+        RoomTransition(7, "AirShip", "AirDock")
 }
 
 function Episode7_CreatureClues(){
@@ -944,7 +983,7 @@ function Episode7_CreatureClues(){
 function Episode7_CryoRoom(){
     return !IsOnTitle() &&
         Game["Episode"] == 7 &&
-        RoomTransition(Rooms["Episode7"]["MechMaze"], Rooms["Episode7"]["CryoRoom"])
+        RoomTransition(7, "MechMaze", "CryoRoom")
 }
 
 function Episode7_ActivateElevator(){
@@ -996,7 +1035,7 @@ function Episode7_ClearEpisode_SRank(){
 
 function Episode7_AcquiredKatana(){
     return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode7"]["BurningBridge"]) &&
+        IsInRoom(7, "BurningBridge") &&
         TriggeredItemFlag(7, "Katana")
 }
 
@@ -1008,7 +1047,7 @@ function Episode8_Completed(){
         TriggeredScene(8, "End", "Complete")
 }
 
-// ------------------------- Achievement Definitions - Progression ------------------------- //
+// ------------------------- Achievement Definitions ------------------------- //
 
 // -- Episode 1 -- //
 
@@ -1016,12 +1055,12 @@ achievement("East Edge", "Reach East Edge City", points = 2, type = "progression
     trigger = Episode1_ReachEastEdge()
 )
 
-achievement("Billboard Island", "Reach Billboard Island", points = 2, type = "progression",
-    trigger = Episode1_ReachBillboardIsland()
-)
-
 achievement("Siver Otakki - Episode 1", "Correctly answer Siver Otakki's question in Episode 1", points = 2, type = "missable",
     trigger = Episode1_SiverOtakkiQuestion()
+)
+
+achievement("Billboard Island", "Reach Billboard Island", points = 2, type = "progression",
+    trigger = Episode1_ReachBillboardIsland()
 )
 
 achievement("Submarine", "Solve the Submarine Bay puzzle and enter the Submarine", points = 5, type = "missable",
@@ -1036,20 +1075,20 @@ achievement("Power Room Door", "Enter the Power Room Door on Billboard Island us
     trigger = Episode1_EnterPowerRoomWithKey()
 )
 
-achievement("No Heal - Gumbo", "Defeat Gumbo the Robot on Billboard Island without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Clear Challenge - Turret", "Gain 30 or more CP during the Turret Sequence on Billboard Island", points = 5, type = "missable",
-    trigger = Episode1_ClearTurretChallenge()
-)
-
 achievement("Gumbo", "Defeat Gumbo the Robot on Billboard Island", points = 3, type = "progression",
     trigger = Episode1_DefeatedGumbo()
 )
 
+achievement("No Heal - Gumbo", "Defeat Gumbo the Robot on Billboard Island without healing", points = 10, type = "missable",
+    trigger = Episode1_DefeatGumbo_NoHeal()
+)
+
 achievement("Turret", "Clear the Turret Sequence on Billboard Island", points = 3, type = "progression",
     trigger = Episode1_ClearTurret()
+)
+
+achievement("Clear Challenge - Turret", "Gain 30 or more CP during the Turret Sequence on Billboard Island", points = 5, type = "missable",
+    trigger = Episode1_ClearTurretChallenge()
 )
 
 achievement("Encounters", "Escape Billboard Island and Clear Episode 1", points = 5, type = "progression",

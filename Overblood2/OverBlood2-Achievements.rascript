@@ -707,6 +707,7 @@ function Episode1_DefeatedGumbo(){
         DefeatedBoss(1, "GumboFight")
 }
 
+// TO DO: Add boss active state for the check as well
 function Episode1_DefeatGumbo_NoHeal(){
     return DefeatedBoss(1, "GumboFight", true) &&
         disable_when(PlayerHealed()) &&

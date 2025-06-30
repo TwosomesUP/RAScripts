@@ -58,9 +58,16 @@ Game = {
 }
 
 Character = {
-    "ID": dword(0x1bed90),
-    "Acarno": {
-        "HP": dword(0x1bed94)
+    "Index": dword(0x1bed90),
+    "Start": 0x1bed94,
+    "Size": 0x4c,
+    "Offsets": {
+        "Health": 0x00,
+        "Air": 0x04,
+        "GravityControllerStatus": 0x08,
+        "WeaponSlot": 0x0c,
+        "ClothingSlot": 0x10,
+        "BootsSlot": 0x014
     }
 }
 
@@ -84,11 +91,22 @@ Items = {
         "Action": word(0xd35d2)
     },
     "Inventory": {
+        "Acarno": {
+            "WeaponSlot": dword(0x1bed8c),
+            "ClothingSlot": dword(0x1beda4),
+            "BootsSlot": dword(0x1beda8) 
+        },
+        "EquippedWeaponSlot": dword(0x1bed8c),
+        "EquippedClothingSlot": dword(0x1beda4),
+        "EquippedBootsSlot": dword(0x1beda8),
         "State": word(0xd2f04),
         "Start": 0x1beec4,
+        "SlotSize": 0xc,
         "Offsets": {
             "ID": 0x00,
+            "Category": 0x02,
             "Count": 0x04,
+            "Ammo": 0x0a
         }
     },
     "Flags": {
@@ -99,6 +117,54 @@ Items = {
             "LaserKnife": bit4(0x1beb28),
             "InsulatorBoots": bit1(0x1beb38),
             "WetSuit": bit0(0x1beb60)
+        },
+        "Episode2":{
+            "Treasures": {
+                "FireExtinguisher": bit4(0x1beb22), // second guard tower drop
+                "HeavyBoots": bit2(0x1beb23), // second guard tower drop
+                "HeatProofSuit": bit0(0xbeb49), // second guardian drop
+                "LightSabre": bit0(0x1beaf8), // first guard tower drop
+                "SuperLightSabre": bit7(0x1beb78), // third guard tower drop
+                "FlameThrower": bit4(0x1beb29), // second guard tower drop
+                "HandBazooka": bit4(0x1beb08), // first guard tower drop
+            },
+            "DrillGems": {
+                "DrillEmeralds1": bit5(0x1beb58), // 5 Emeralds
+                "DrillDiamonds1": bit7(0x1beb58), // 4 Diamonds
+                "DrillDiamonds2": bit6(0x1beb58), // 2 Diamonds
+                "DrillGeoStones": bit4(0x1beb58), // 10 Geo Stones
+            },
+            "Monitors":{
+                "Monitor1": bit1(0x1beb70),
+                "Monitor2": bit2(0x1beb70),
+                "Monitor3": bit3(0x1beb70),
+                "Monitor4": bit4(0x1beb70),
+                "Monitor5": bit5(0x1beb70),
+                "Monitor6": bit6(0x1beb70),
+                "Monitor7": bit7(0x1beb70),
+                "Monitor8": bit0(0x1beb71),
+                "Monitor9": bit1(0x1beb71),
+                "Monitor10": bit2(0x1beb71),
+                "Monitor11": bit3(0x1beb71),
+                "Monitor12": bit4(0x1beb71),
+                "Monitor13": bit5(0x1beb71),
+                "Monitor14": bit6(0x1beb71),
+                "Monitor15": bit7(0x1beb71),
+                "Monitor16": bit0(0x1beb72),
+                "Monitor17": bit1(0x1beb72),
+                "Monitor18": bit2(0x1beb72),
+                "Monitor19": bit3(0x1beb72),
+                "Monitor20": bit4(0x1beb72),
+                "Monitor21": bit5(0x1beb72),
+                "Monitor22": bit6(0x1beb72),
+                "Monitor23": bit7(0x1beb72),
+                "Monitor24": bit0(0x1beb73)
+            },
+            "OilTanks": {
+                "Tank1": bit0(0x1beb38),
+                "Tank2": bit1(0x1beb38),
+                "Tank3": bit2(0x1beb38),
+            }
         },
         "Episode5":{
             "DefeatedPlant": bit4(0x1beaf8)
@@ -121,8 +187,25 @@ Items = {
 
 Enemies = {
     "Boss": {
-        "Active": byte(0x186dc8), //Unreliable
-        "HP": dword(0x186e4c)
+        "ID": dword(0x186dcc),
+        "Loaded": dword(0x186dfc),
+        "HP": dword(0x186e4c),
+        "State": byte(0x186dd4),
+        "States": {
+            "Episode2":{
+                "ThirdGuardian": {
+                    "InWater": 0x06,
+                    "DeathByIce": 0x0c
+                }
+            }
+        },
+        "IDs": {
+            "Gumbo": 0x51,
+            "FirstGuardian": 0x52,
+            "SecondGuardian": 0x53,
+            "ThirdGuardian": 0x54,
+            "PagodaKondo": 0x56
+        }
     }
 }
 
@@ -419,6 +502,17 @@ Rooms = {
         "TurretSequence_End": [1, 6, 1]
     },
     "Episode2": {
+        "LightSabre": [2, 1, 3],
+        "HandBazooka": [2, 1, 5],
+        "FirstGuardian": [2, 1, 5],
+        "FireExtinguisher": [2, 2, 0],
+        "FlameThrower": [2, 2, 1],
+        "OilTanks": [2, 2, 3],
+        "SecondGuardian": [2, 2, 6],
+        "UnderwaterPassage": [2, 3, 1],
+        "ControlRoom": [2, 3, 4],
+        "ThirdGuardian": [2, 3, 6],
+        "SuperLightSabre": [2, 3, 5],
         "KondoFight": [2, 4, 3],
         "KondoFightEnd": [2, 4, 2]
     },
@@ -651,6 +745,18 @@ function CompletedEpisodeWithSRank(episode){
         Game["ClearStats"]["Episode" + episode]["CP"] >= EpisodeGoals["SRank"]["Episode" + episode]
 }
 
+function GetCharacterHealth(){
+    index = Character["Index"]
+    start = Character["Start"]
+    size = Character["Size"]
+    healthOffset = Character["Offsets"]["Health"]
+    
+    characterOffset = index * size
+    healthAddress = start + characterOffset + healthOffset
+    
+    return dword(healthAddress)
+}
+
 function PlayerHealed(){
     return any_of([
         ItemIDs["Cure"]["EmergencySpray"],
@@ -658,7 +764,57 @@ function PlayerHealed(){
         ItemIDs["KeyItems"]["Banana"],
         ItemIDs["KeyItems"]["HorsemeatBurger"]
     ], item => Items["SelectedItem"]["ID"] == item && Items["Inventory"]["State"] == 4) &&
-    prev(Character["Acarno"]["HP"]) < Character["Acarno"]["HP"]
+    prev(GetCharacterHealth()) < GetCharacterHealth()
+}
+
+function BossIsActive(name){
+    bossId = Enemies["Boss"]["ID"]
+    ids = Enemies["Boss"]["IDs"]
+    return bossId == ids[name]
+}
+
+function IsBossDamaged(){
+    bossHealth = Enemies["Boss"]["HP"]
+    return bossHealth < 0xb40
+}
+
+function GetCharacterItemSlot(type){
+    index = Character["Index"]
+    start = Character["Start"]
+    size = Character["Size"]
+    slotOffset = Character["Offsets"][type + "Slot"]
+    
+    characterOffset = index * size
+    slotAddress = start + characterOffset + slotOffset
+    
+    return dword(slotAddress)
+}
+
+function GetWeaponSlotAddress(){
+    inventoryStart = Items["Inventory"]["Start"]
+    slotSize = Items["Inventory"]["SlotSize"]
+    equippedSlot = GetCharacterItemSlot("Weapon")
+    slotOffset = slotSize * equippedSlot
+    
+    return inventoryStart + slotOffset
+}
+
+function HasWeaponEquipped(name){
+    idOffset = Items["Inventory"]["Offsets"]["ID"]
+    
+    idAddress = (GetWeaponSlotAddress()) + idOffset
+    weaponId = word(idAddress)
+    
+    return weaponId == ItemIDs["Weapons"][name]
+}
+
+function ReloadedWeapon(){
+    ammoOffset = Items["Inventory"]["Offsets"]["Ammo"]
+    
+    ammoAddress = (GetWeaponSlotAddress()) + ammoOffset
+    ammoCount = word(ammoAddress)
+    
+    return prev(ammoCount) < ammoCount
 }
 
 // ------------------------- Achievement Functions ------------------------- //
@@ -707,13 +863,26 @@ function Episode1_DefeatedGumbo(){
         DefeatedBoss(1, "GumboFight")
 }
 
-// TO DO: Add boss active state for the check as well
+// Only disabled if the boss has already taken damage
 function Episode1_DefeatGumbo_NoHeal(){
-    return DefeatedBoss(1, "GumboFight", true) &&
-        disable_when(PlayerHealed()) &&
-        (always_false() || 
-        ((never(IsOnTitle()) && never(Character["Acarno"]["HP"] == 0)) || 
-        never(!IsInRoom(1, "GumboFight"))))
+    return BossIsActive("Gumbo") &&
+        DefeatedBoss(1, "GumboFight", true) &&
+        disable_when
+        (
+            BossIsActive("Gumbo") && 
+            IsBossDamaged() && 
+            PlayerHealed()
+        ) &&
+        (
+            always_false() || 
+            (
+                (
+                    never(IsOnTitle()) && 
+                    never(GetCharacterHealth() == 0)
+                ) || 
+                never(!IsInRoom(1, "GumboFight"))
+            )
+        )
 }
 
 function Episode1_ClearTurret(){
@@ -747,7 +916,33 @@ function Episode2_ReachPagodaTower(){
 
 function Episode2_DestroyFirstGuard(){
     return !IsOnTitle() &&
-        TriggeredEvent(2, "DefeatedFirstGuardingSystem")
+        DefeatedBoss(2, "FirstGuardian")
+}
+
+function Episode2_FirstGuardChallenge(){
+    return BossIsActive("FirstGuardian") &&
+        DefeatedBoss(2, "FirstGuardian", true) &&
+        disable_when
+        (
+            BossIsActive("FirstGuardian") && 
+            IsBossDamaged() && 
+            HasWeaponEquipped("LightSabre") &&
+            ReloadedWeapon()
+        ) &&
+        (
+            always_false() || 
+            (
+                (
+                    never(IsOnTitle()) && 
+                    never(GetCharacterHealth() == 0)
+                ) || 
+                never(!IsInRoom(2, "FirstGuardian"))
+            )
+        )
+}
+
+function Episode2_DestroyOilTanks(){
+    return always_false()
 }
 
 function Episode2_DestroySecondGuard(){
@@ -755,14 +950,40 @@ function Episode2_DestroySecondGuard(){
         TriggeredEvent(2, "DefeatedSecondGuardingSystem")
 }
 
+function Episode2_SecondGuardChallenge(){
+    return always_false()
+}
+
+function Episode2_DangerousGems(){
+    return always_false()
+}
+
+function Episode2_DestroyMonitors(){
+    return always_false()
+}
+
+function Episode2_Treasures(){
+    return !IsOnTitle() &&
+        IsInAnyRoom(1, ["Submarine", "GoldDoorRoom", "RedDoorRoom", "SilverDoorRoom1", "SilverDoorRoom3"]) &&
+        TriggeredItemFlagCount(1, ["WetSuit", "ArmyJacket", "SpikedBoots", "20YrOldSuit", "InsulatorBoots", "LaserKnife"], true)
+}
+
 function Episode2_DestroyThirdGuard(){
     return !IsOnTitle() &&
         TriggeredEvent(2, "DefeatedThirdGuardingSystem")
 }
 
+function Episode2_ThirdGuardChallenge(){
+    return always_false()
+}
+
 function Episode2_DefeatedKondo(){
     return !IsOnTitle() &&
         DefeatedBoss(2, "KondoFight")
+}
+
+function Episode2_KondoChallenge(){
+    return always_false()
 }
 
 function Episode2_ClearEpisode(){
@@ -1102,6 +1323,10 @@ achievement("S Rank - Episode 1", "Clear Episode 1 with an S Rank", points = 10,
 
 // -- Episode 2 -- //
 
+achievement("Siver Otakki - Episode 2", "Correctly answer Siver Otakki's question in Episode 2", points = 2, type = "missable",
+    trigger = Episode2_SiverOtakkiQuestion()
+)
+
 achievement("Pagoda Tower", "Reach the Pagoda Tower", points = 2, type = "progression",
     trigger = Episode2_ReachPagodaTower()
 )
@@ -1110,21 +1335,58 @@ achievement("First Guarding", "Destroy the First Guarding System in the Pagoda T
     trigger = Episode2_DestroyFirstGuard()
 )
 
+achievement("First Guardian - Challenge", "Defeat the First Guardian in the Pagoda Tower with the Light Sabre without having to recharge it", points = 10, type = "missable",
+    trigger = Episode2_FirstGuardChallenge()
+)
+
+achievement("Oil Tanks", "Destroy all 3 Oil Tanks in the Pagoda Tower", points = 3, type = "missable",
+    trigger = Episode2_DestroyOilTanks()
+)
+
 achievement("Second Guarding", "Destroy the Second Guarding System in the Pagoda Tower", points = 3, type = "progression",
     trigger = Episode2_DestroySecondGuard()
+)
+
+achievement("Second Guardian - Challenge", "Defeat the Second Guardian in the Pagoda Tower with the Antique Gun in 20 shots or less", points = 10, type = "missable",
+    trigger = Episode2_SecondGuardChallenge()
+)
+
+achievement("Dangerous Gems", "Find all 4 gems in the Pagoda Tower Third Guarding System Underwater Passage", points = 10, type = "missable",
+    trigger = Episode2_DangerousGems()
+)
+
+achievement("Monitors", "Break all of the Monitors in the Pagoda Tower Control Room", points = 3, type = "missable",
+    trigger = Episode2_DestroyMonitors()
+)
+
+achievement("Pagoda Treasures", "Find all Weapons, Clothing, and Boots hidden in the Pagoda Tower", points = 10, type = "missable",
+    trigger = Episode2_Treasures()
 )
 
 achievement("Third Guarding", "Destroy the Third Guarding System in the Pagoda Tower", points = 3, type = "progression",
     trigger = Episode2_DestroyThirdGuard()
 )
 
+achievement("Third Guardian - Challenge", "Death the Third Guardian in the Pagoda Tower by freezing it in its tracks", points = 10, type = "missable",
+    trigger = Episode2_ThirdGuardChallenge()
+)
+
 achievement("Kondo", "Defeat Kondo in the Pagoda Tower", points = 3, type = "progression",
     trigger = Episode2_DefeatedKondo()
+)
+
+achievement("Kondo - Challenge", "Defeat the Kondo in the Pagoda Tower without healing", points = 10, type = "missable",
+    trigger = Episode2_KondoChallenge()
 )
 
 achievement("Awakening", "Escape the Pagoda Tower and Clear Episode 2", points = 5, type = "progression",
     trigger = Episode2_ClearEpisode()
 )
+
+achievement("S Rank - Episode 2", "Clear Episode 2 with an S Rank", points = 10, type = "missable",
+    trigger = Episode2_ClearEpisode_SRank()
+)
+
 
 // -- Episode 3 -- //
 
@@ -1262,64 +1524,6 @@ achievement("Another Future", "Prevent an uncertain future and clear Episode 7",
 
 achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
     trigger = Any_PayedForWindow()
-)
-
-// -- Episode 2 -- //
-
-achievement("Siver Otakki - Episode 2", "Correctly answer Siver Otakki's question in Episode 2", points = 2, type = "missable",
-    trigger = Episode2_SiverOtakkiQuestion()
-)
-
-achievement("Fire Extinguisher", "Find the Fire Extinguisher in the Pagoda Tower", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Heavy Boots", "Find the Heavy Boot in the Pagoda Tower", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Heat Proof", "Find the Heat Proof Suit in the Pagoda Tower", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Oil Tanks", "Destroy all 3 Oil Tanks in the Pagoda Tower", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Monitors", "Break all of the Monitors in the Pagoda Tower Control Room", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Super Light Sabre", "Find the Super Light Sabre in the Pagoda Tower", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Flame Thrower", "Find the Flame Thrower in the Pagoda Tower", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Dangerous Gems", "Find all 4 gems in the Pagoda Tower Third Guarding System Underwater Passage", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - First Guardian", "Defeat the First Guardian in the Pagoda Tower without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Second Guardian", "Defeat the Second Guardian in the Pagoda Tower without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Third Guardian", "Defeat the Third Guardian in the Pagoda Tower without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Kondo", "Defeat the Kondo in the Pagoda Tower without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("S Rank - Episode 2", "Clear Episode 2 with an S Rank", points = 10, type = "missable",
-    trigger = Episode2_ClearEpisode_SRank()
 )
 
 // -- Episode 3 -- //
@@ -1502,3 +1706,5 @@ achievement("Final Break Down", "Clear Episode 8", points = 10,
 achievement("Emergency Spray", "Clear Episode 8 with 5 or more Emergency Sprays remaining", points = 25,
     trigger = always_false()
 )
+
+

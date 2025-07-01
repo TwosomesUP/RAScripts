@@ -111,12 +111,14 @@ Items = {
     },
     "Flags": {
         "Episode1":{
-            "20YrOldSuit": bit2(0x1beb18),
-            "ArmyJacket": bit1(0x1beb20),
-            "SpikedBoots": bit2(0x1beb20),
-            "LaserKnife": bit4(0x1beb28),
-            "InsulatorBoots": bit1(0x1beb38),
-            "WetSuit": bit0(0x1beb60)
+            "Treasures":{
+                "20YrOldSuit": bit2(0x1beb18),
+                "ArmyJacket": bit1(0x1beb20),
+                "SpikedBoots": bit2(0x1beb20),
+                "LaserKnife": bit4(0x1beb28),
+                "InsulatorBoots": bit1(0x1beb38),
+                "WetSuit": bit0(0x1beb60)
+            }
         },
         "Episode2":{
             "Treasures": {
@@ -167,20 +169,24 @@ Items = {
             }
         },
         "Episode5":{
-            "DefeatedPlant": bit4(0x1beaf8)
+            "Plant": {
+                "Defeated": bit4(0x1beaf8)
+            }
         },
         "Episode7":{
-            "Katana": bit4(0x1beba2),
-            "DivaPieces": [
-                bit2(0x1beb99),
-                bit3(0x1beb79),
-                bit0(0x1beb38),
-                bit3(0x1beb08),
-                bit4(0x1beb08),
-                bit0(0x1beb00),
-                bit3(0x1beaf9),
-                bit7(0x1beba1)
-            ]
+            "Treasures": {
+                "Katana": bit4(0x1beba2),
+            },
+            "DivaPieces": {
+                "Piece1": bit2(0x1beb99),
+                "Piece2": bit3(0x1beb79),
+                "Piece3": bit0(0x1beb38),
+                "Piece4": bit3(0x1beb08),
+                "Piece5": bit4(0x1beb08),
+                "Piece6": bit0(0x1beb00),
+                "Piece7": bit3(0x1beaf9),
+                "Piece8": bit7(0x1beba1)
+            }
         }
     }
 }
@@ -607,21 +613,18 @@ function TriggeredEvent(episode, event, inverse = false){
         trigger  
 }
 
-function TriggeredItemFlag(episode, flag){
+function TriggeredItemFlag(episode, category, flag){
     return Game["Episode"] == episode &&
-        prev(Items["Flags"]["Episode" + episode][flag]) < Items["Flags"]["Episode" + episode][flag]
+        prev(Items["Flags"]["Episode" + episode][category][flag]) < Items["Flags"]["Episode" + episode][category][flag]
 }
 
-function TriggeredItemFlagCount(episode, flags, measured = false){
+function TriggeredItemFlagCount(episode, category, measured = false){
+    flags = Items["Flags"]["Episode" + episode][category]
     count = length(flags)
-    prevTotal = 0
-    total = 0
     
-    for flag in range(0, count - 1) {
-        prevTotal = prevTotal + prev(Items["Flags"]["Episode" + episode][flags[flag]])
-        total = total + Items["Flags"]["Episode" + episode][flags[flag]]
-    }
-    
+    prevTotal = sum_of(flags, flag => prev(flags[flag]))
+    total = sum_of(flags, flag => flags[flag])
+  
     countCheck = total >= count
     
     if(measured)
@@ -778,6 +781,11 @@ function IsBossDamaged(){
     return bossHealth < 0xb40
 }
 
+function BossTookDamage(){
+    bossHealth = Enemies["Boss"]["HP"]
+    return prev(bossHealth) > bossHealth
+}
+
 function GetCharacterItemSlot(type){
     index = Character["Index"]
     start = Character["Start"]
@@ -808,14 +816,27 @@ function HasWeaponEquipped(name){
     return weaponId == ItemIDs["Weapons"][name]
 }
 
-function ReloadedWeapon(){
+function GetWeaponAmmoCount(){
     ammoOffset = Items["Inventory"]["Offsets"]["Ammo"]
     
     ammoAddress = (GetWeaponSlotAddress()) + ammoOffset
     ammoCount = word(ammoAddress)
+
+    return ammoCount
+}
+
+function ReloadedWeapon(){
+    ammoCount = GetWeaponAmmoCount()
     
     return prev(ammoCount) < ammoCount
 }
+
+function CountWeaponShots(limit){
+    ammoCount = GetWeaponAmmoCount()
+    
+    return repeated(limit, prev(ammoCount) > ammoCount)
+}
+
 
 // ------------------------- Achievement Functions ------------------------- //
 
@@ -850,7 +871,7 @@ function Episode1_EnterTheSubmarine(){
 function Episode1_Treasures(){
     return !IsOnTitle() &&
         IsInAnyRoom(1, ["Submarine", "GoldDoorRoom", "RedDoorRoom", "SilverDoorRoom1", "SilverDoorRoom3"]) &&
-        TriggeredItemFlagCount(1, ["WetSuit", "ArmyJacket", "SpikedBoots", "20YrOldSuit", "InsulatorBoots", "LaserKnife"], true)
+        TriggeredItemFlagCount(1, "Treasures", true)
 }
 
 function Episode1_EnterPowerRoomWithKey(){
@@ -929,6 +950,13 @@ function Episode2_FirstGuardChallenge(){
             HasWeaponEquipped("LightSabre") &&
             ReloadedWeapon()
         ) &&
+        disable_when
+        (
+            BossIsActive("FirstGuardian") &&
+            IsBossDamaged() &&
+            !HasWeaponEquipped("LightSabre") &&
+            BossTookDamage()
+        ) &&
         (
             always_false() || 
             (
@@ -942,7 +970,9 @@ function Episode2_FirstGuardChallenge(){
 }
 
 function Episode2_DestroyOilTanks(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(2, "OilTanks") &&
+        TriggeredItemFlagCount(2, "OilTanks", true)
 }
 
 function Episode2_DestroySecondGuard(){
@@ -951,21 +981,50 @@ function Episode2_DestroySecondGuard(){
 }
 
 function Episode2_SecondGuardChallenge(){
-    return always_false()
+    return BossIsActive("SecondGuardian") &&
+        DefeatedBoss(2, "SecondGuardian", true) &&
+        disable_when
+        (
+            BossIsActive("SecondGuardian") && 
+            IsBossDamaged() && 
+            HasWeaponEquipped("AntiqueGun") &&
+            CountWeaponShots(19)
+        ) &&
+        disable_when
+        (
+            BossIsActive("SecondGuardian") &&
+            IsBossDamaged() &&
+            !HasWeaponEquipped("AntiqueGun") &&
+            BossTookDamage()
+        ) &&
+        (
+            always_false() || 
+            (
+                (
+                    never(IsOnTitle()) && 
+                    never(GetCharacterHealth() == 0)
+                ) || 
+                never(!IsInRoom(2, "SecondGuardian"))
+            )
+        )
 }
 
 function Episode2_DangerousGems(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(2, "UnderwaterPassage") &&
+        TriggeredItemFlagCount(2, "DrillGems", true)
 }
 
 function Episode2_DestroyMonitors(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(2, "ControlRoom") &&
+        TriggeredItemFlagCount(2, "Monitors", true)
 }
 
 function Episode2_Treasures(){
     return !IsOnTitle() &&
-        IsInAnyRoom(1, ["Submarine", "GoldDoorRoom", "RedDoorRoom", "SilverDoorRoom1", "SilverDoorRoom3"]) &&
-        TriggeredItemFlagCount(1, ["WetSuit", "ArmyJacket", "SpikedBoots", "20YrOldSuit", "InsulatorBoots", "LaserKnife"], true)
+        IsInAnyRoom(2, ["LightSabre", "HandBazooka", "FireExtinguisher", "FlameThrower", "SecondGuardian", "SuperLightSabre"]) &&
+        TriggeredItemFlagCount(2, "Treasures", true)
 }
 
 function Episode2_DestroyThirdGuard(){
@@ -1084,7 +1143,7 @@ function Episode5_ClearRiver1(){
 function Episode5_DefeatedPlant(){
     return !IsOnTitle() &&
         IsInRoom(5, "MutantPlant") &&
-        TriggeredItemFlag(5, "DefeatedPlant")
+        TriggeredItemFlag(5, "Plant", "Defeated")
 }
 
 function Episode5_ClearRiver2(){
@@ -1213,10 +1272,11 @@ function Episode7_ActivateElevator(){
     TriggeredEvent(7, "UnlockElevator")
 }
 
+// TO DO: Get room ids for each piece
 function Episode7_GotDivaPieces(){
     return !IsOnTitle() &&
-        prev(sum_of(Items["Flags"]["Episode7"]["DivaPieces"], item => item)) == 7 &&
-        measured(sum_of(Items["Flags"]["Episode7"]["DivaPieces"], item => item) == 8, Game["Episode"] == 7)
+        // IsInRoom(2, "OilTanks") &&
+        TriggeredItemFlagCount(7, "DivaPieces", true)
 }
 
 function Episode7_DefeatedKondo(){
@@ -1258,7 +1318,7 @@ function Episode7_ClearEpisode_SRank(){
 function Episode7_AcquiredKatana(){
     return !IsOnTitle() &&
         IsInRoom(7, "BurningBridge") &&
-        TriggeredItemFlag(7, "Katana")
+        TriggeredItemFlag(7, "Treasures", "Katana")
 }
 
 // Episode 8 - Achievement Functions //
@@ -1335,7 +1395,7 @@ achievement("First Guarding", "Destroy the First Guarding System in the Pagoda T
     trigger = Episode2_DestroyFirstGuard()
 )
 
-achievement("First Guardian - Challenge", "Defeat the First Guardian in the Pagoda Tower with the Light Sabre without having to recharge it", points = 10, type = "missable",
+achievement("First Guardian - Challenge", "With the Light Sabre equipped, defeated the First Guardian in the Pagoda Tower without recharging", points = 10, type = "missable",
     trigger = Episode2_FirstGuardChallenge()
 )
 
@@ -1347,7 +1407,7 @@ achievement("Second Guarding", "Destroy the Second Guarding System in the Pagoda
     trigger = Episode2_DestroySecondGuard()
 )
 
-achievement("Second Guardian - Challenge", "Defeat the Second Guardian in the Pagoda Tower with the Antique Gun in 20 shots or less", points = 10, type = "missable",
+achievement("Second Guardian - Challenge", "With the Antique Gun equipped, defeat the Second Guardian in the Pagoda Tower in 18 shots or less", points = 10, type = "missable",
     trigger = Episode2_SecondGuardChallenge()
 )
 

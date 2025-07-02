@@ -88,6 +88,7 @@ Items = {
     },
     "SelectedItem": {
         "ID": word(0xd35cc),
+        "Slot": word(0xd35ce),
         "Action": word(0xd35d2)
     },
     "Inventory": {
@@ -198,11 +199,9 @@ Enemies = {
         "HP": dword(0x186e4c),
         "State": byte(0x186dd4),
         "States": {
-            "Episode2":{
-                "ThirdGuardian": {
-                    "InWater": 0x06,
-                    "DeathByIce": 0x0c
-                }
+            "ThirdGuardian": {
+                "InWater": 0x06,
+                "DeathByIce": 0x0c
             }
         },
         "IDs": {
@@ -760,14 +759,51 @@ function GetCharacterHealth(){
     return dword(healthAddress)
 }
 
-function PlayerHealed(){
-    return any_of([
-        ItemIDs["Cure"]["EmergencySpray"],
-        ItemIDs["KeyItems"]["JuiceCan"],
-        ItemIDs["KeyItems"]["Banana"],
-        ItemIDs["KeyItems"]["HorsemeatBurger"]
-    ], item => Items["SelectedItem"]["ID"] == item && Items["Inventory"]["State"] == 4) &&
+/*function UsedItem(type, name){
+    item = ItemIDs[type][name]
+    selected = Items["SelectedItem"]["ID"]
+    state = Items["Inventory"]["State"] 
+    return selected == item && state == 4
+}*/
+
+function UsedItem(type, name, reduced = true){
+    item = ItemIDs[type][name]
+    selected = Items["SelectedItem"]["ID"]
+    slot = Items["SelectedItem"]["Slot"]
+    start = Items["Inventory"]["Start"]
+    size = Items["Inventory"]["SlotSize"]
+    offset = Items["Inventory"]["Offsets"]["Count"]
+    
+    address = start + (slot * size) + offset
+    count = word(address)
+    
+    trigger = selected == item
+    
+    if (reduced)
+        trigger = trigger && prev(count) > count
+    
+    return trigger
+}
+
+/*function PlayerHealed(){
+    return 
+    (
+        UsedItem("Cure", "EmergencySpray") ||
+        UsedItem("KeyItems", "JuiceCan") ||
+        UsedItem("KeyItems", "Banana") ||
+        UsedItem("KeyItems", "HorsemeatBurger")
+    ) &&
     prev(GetCharacterHealth()) < GetCharacterHealth()
+}*/
+
+function PlayerHealed(){
+    return 
+    (
+        UsedItem("Cure", "EmergencySpray") ||
+        UsedItem("KeyItems", "JuiceCan") ||
+        UsedItem("KeyItems", "Banana") ||
+        UsedItem("KeyItems", "HorsemeatBurger")
+    )
 }
 
 function BossIsActive(name){
@@ -784,6 +820,23 @@ function IsBossDamaged(){
 function BossTookDamage(){
     bossHealth = Enemies["Boss"]["HP"]
     return prev(bossHealth) > bossHealth
+}
+
+function BossStateChange(boss, state1, state2){
+    state = Enemies["Boss"]["State"]
+    states = Enemies["Boss"]["States"][boss]
+    start = states[state1]
+    end = states[state2]
+    
+    return prev(state) == start && state == end
+}
+
+function BossInState(boss, state){
+    bossState = Enemies["Boss"]["State"]
+    states = Enemies["Boss"]["States"][boss]
+    stateId = states[state]
+    
+    return bossState == stateId
 }
 
 function GetCharacterItemSlot(type){
@@ -836,7 +889,6 @@ function CountWeaponShots(limit){
     
     return repeated(limit, prev(ammoCount) > ammoCount)
 }
-
 
 // ------------------------- Achievement Functions ------------------------- //
 
@@ -1033,7 +1085,11 @@ function Episode2_DestroyThirdGuard(){
 }
 
 function Episode2_ThirdGuardChallenge(){
-    return always_false()
+    return !IsOnTitle() &&
+        BossIsActive("ThirdGuardian") &&
+        UsedItem("Equipment", "FreezePack", false) &&
+        BossInState("ThirdGuardian", "DeathByIce") &&
+        TriggeredEvent(2, "DefeatedThirdGuardingSystem")
 }
 
 function Episode2_DefeatedKondo(){

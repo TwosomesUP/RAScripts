@@ -197,6 +197,7 @@ Enemies = {
         "ID": dword(0x186dcc),
         "Loaded": dword(0x186dfc),
         "HP": dword(0x186e4c),
+        "AltHP": dword(0x187090),
         "State": byte(0x186dd4),
         "States": {
             "ThirdGuardian": {
@@ -806,19 +807,34 @@ function PlayerHealed(){
     )
 }
 
+function PlayerTookDamage(){
+    health = GetCharacterHealth()
+    return prev(health) > health
+}
+
+function GetPlayerHealthPercentage(){
+    health = GetCharacterHealth()
+    maxHealth = 2880.00
+    return (health / maxHealth) * 100.00
+}
+
 function BossIsActive(name){
     bossId = Enemies["Boss"]["ID"]
     ids = Enemies["Boss"]["IDs"]
     return bossId == ids[name]
 }
 
-function IsBossDamaged(){
+function IsBossDamaged(alt = false){
     bossHealth = Enemies["Boss"]["HP"]
+    if(alt)
+        bossHealth = Enemies["Boss"]["AltHP"]
     return bossHealth < 0xb40
 }
 
-function BossTookDamage(){
+function BossTookDamage(alt = false){
     bossHealth = Enemies["Boss"]["HP"]
+    if(alt)
+        bossHealth = Enemies["Boss"]["AltHP"]
     return prev(bossHealth) > bossHealth
 }
 
@@ -933,6 +949,7 @@ function Episode1_EnterPowerRoomWithKey(){
 
 function Episode1_DefeatedGumbo(){
     return !IsOnTitle() &&
+        BossIsActive("Gumbo") &&
         DefeatedBoss(1, "GumboFight")
 }
 
@@ -989,11 +1006,13 @@ function Episode2_ReachPagodaTower(){
 
 function Episode2_DestroyFirstGuard(){
     return !IsOnTitle() &&
+        BossIsActive("FirstGuardian") &&
         DefeatedBoss(2, "FirstGuardian")
 }
 
 function Episode2_FirstGuardChallenge(){
     return BossIsActive("FirstGuardian") &&
+        HasWeaponEquipped("LightSabre") &&
         DefeatedBoss(2, "FirstGuardian", true) &&
         disable_when
         (
@@ -1029,11 +1048,13 @@ function Episode2_DestroyOilTanks(){
 
 function Episode2_DestroySecondGuard(){
     return !IsOnTitle() &&
-        TriggeredEvent(2, "DefeatedSecondGuardingSystem")
+        BossIsActive("SecondGuardian") &&
+        DefeatedBoss(2, "SecondGuardian")
 }
 
 function Episode2_SecondGuardChallenge(){
     return BossIsActive("SecondGuardian") &&
+        HasWeaponEquipped("AntiqueGun") &&
         DefeatedBoss(2, "SecondGuardian", true) &&
         disable_when
         (
@@ -1081,7 +1102,8 @@ function Episode2_Treasures(){
 
 function Episode2_DestroyThirdGuard(){
     return !IsOnTitle() &&
-        TriggeredEvent(2, "DefeatedThirdGuardingSystem")
+        BossIsActive("ThirdGuardian") &&
+        DefeatedBoss(2, "ThirdGuardian")
 }
 
 function Episode2_ThirdGuardChallenge(){
@@ -1089,7 +1111,7 @@ function Episode2_ThirdGuardChallenge(){
         BossIsActive("ThirdGuardian") &&
         UsedItem("Equipment", "FreezePack", false) &&
         BossInState("ThirdGuardian", "DeathByIce") &&
-        TriggeredEvent(2, "DefeatedThirdGuardingSystem")
+        DefeatedBoss(2, "ThirdGuardian")
 }
 
 function Episode2_DefeatedKondo(){
@@ -1098,7 +1120,40 @@ function Episode2_DefeatedKondo(){
 }
 
 function Episode2_KondoChallenge(){
-    return always_false()
+    return BossIsActive("PagodaKondo") &&
+        HasWeaponEquipped("SuperLightSabre") &&
+        DefeatedBoss(2, "KondoFight", true) &&
+        disable_when
+        (
+            BossIsActive("PagodaKondo") && 
+            IsBossDamaged(true) && 
+            prev(GetPlayerHealthPercentage()) > 50 &&
+            GetPlayerHealthPercentage() < 50
+        ) &&
+        disable_when
+        (
+            BossIsActive("PagodaKondo") && 
+            IsBossDamaged(true) && 
+            GetPlayerHealthPercentage() < 50 &&
+            PlayerTookDamage()
+        ) &&
+        disable_when
+        (
+            BossIsActive("PagodaKondo") &&
+            IsBossDamaged(true) &&
+            !HasWeaponEquipped("SuperLightSabre") &&
+            BossTookDamage(true)
+        ) &&
+        (
+            always_false() || 
+            (
+                (
+                    never(IsOnTitle()) && 
+                    never(GetCharacterHealth() == 0)
+                ) || 
+                never(!IsInRoom(2, "KondoFight"))
+            )
+        )
 }
 
 function Episode2_ClearEpisode(){
@@ -1491,7 +1546,7 @@ achievement("Kondo", "Defeat Kondo in the Pagoda Tower", points = 3, type = "pro
     trigger = Episode2_DefeatedKondo()
 )
 
-achievement("Kondo - Challenge", "Defeat the Kondo in the Pagoda Tower without healing", points = 10, type = "missable",
+achievement("Kondo - Challenge", "With the Super Light Sabre equipped, defeat Kondo in the Pagoda Tower without dropping below 50% health", points = 10, type = "missable",
     trigger = Episode2_KondoChallenge()
 )
 

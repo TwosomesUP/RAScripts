@@ -1170,10 +1170,26 @@ function Episode3_SiverOtakkiQuestion(){
     return AnswerSiverOtakki(3)
 }
 
+function Episode3_SubwayTrainItems(){
+    return always_false()
+}
+
 function Episode3_ReachUndergroundTerminous(){
     return !IsOnTitle() &&
         Game["Episode"] == 3 &&
         RoomTransition(3, "UndergroundTerminousStation_Cutscene", "UndergroundTerminousStation")
+}
+
+function Episode3_GiantMech(){
+    return always_false()
+}
+
+function Episode3_TrailerLifts(){
+    return always_false()
+}
+
+function Episode3_Treasures(){
+    return always_false()
 }
 
 function Episode3_DestroyAntiProtonCore(){
@@ -1184,6 +1200,10 @@ function Episode3_DestroyAntiProtonCore(){
 function Episode3_DefeatSperio(){
     return !IsOnTitle() &&
         DefeatedBoss(3, "SperioFight")
+}
+
+function Episode3_SperioChallenge(){
+    return always_false()
 }
 
 function Episode3_CompleteJunkbladeScene(){
@@ -1561,8 +1581,28 @@ achievement("S Rank - Episode 2", "Clear Episode 2 with an S Rank", points = 10,
 
 // -- Episode 3 -- //
 
+achievement("Siver Otakki - Episode 3", "Correctly answer Siver Otakki's question in Episode 3", points = 2, type = "missable",
+    trigger = Episode3_SiverOtakkiQuestion()
+)
+
+achievement("Subway Train", "Collect all items on the Subway Train before time runs out", points = 10, type = "missable",
+    trigger = Episode3_SubwayTrainItems()
+)
+
 achievement("Underground Terminous", "Reach the Underground Terminous", points = 2, type = "progression",
     trigger = Episode3_ReachUndergroundTerminous()
+)
+
+achievement("Giant Mech", "Destroy all of the Giant Mech's parts in the Underground Terminous", points = 3, type = "missable",
+    trigger = Episode3_GiantMech()
+)
+
+achievement("Trailer Lift", "Operate both Trailer Lifts in the Underground Terminous", points = 3, type = "missable",
+    trigger = Episode3_TrailerLifts()
+)
+
+achievement("Terminous Treasures", "Find the Laser Gun and Big Magnum in the Underground Terminous (and train)", points = 10, type = "missable",
+    trigger = Episode3_Treasures()
 )
 
 achievement("Anti Proton", "Destroy the Anti Proton Core with the Plasma Bomb in the Underground Terminous", points = 2, type = "progression",
@@ -1573,8 +1613,20 @@ achievement("Sperio", "Defeat Sperio in the Underground Terminous", points = 3, 
     trigger = Episode3_DefeatSperio()
 )
 
+achievement("Sperio - Challenge", "With the Big Magnum equipped, defeat Sperio in the Underground Terminous in 5 shots or less", points = 10, type = "missable",
+    trigger = Episode3_SperioChallenge()
+)
+
+achievement("No Damage - Terminous Junkblade", "Clear the Junkblade sequence in the Underground Terminous without taking damage", points = 10, type = "missable",
+    trigger = Episode3_CompleteJunkbladeScene_NoDamage()
+)
+
 achievement("Underground Space", "Escape the Underground Terminous on Sperio's Junkblade and Clear Episode 3", points = 5, type = "progression",
     trigger = Episode3_CompleteEpisode()
+)
+
+achievement("S Rank - Episode 3", "Clear Episode 3 with an S Rank", points = 10, type = "missable",
+    trigger = Episode3_ClearEpisode_SRank()
 )
 
 // -- Episode 4 -- //
@@ -1695,40 +1747,6 @@ achievement("Another Future", "Prevent an uncertain future and clear Episode 7",
 
 achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
     trigger = Any_PayedForWindow()
-)
-
-// -- Episode 3 -- //
-
-achievement("Siver Otakki - Episode 3", "Correctly answer Siver Otakki's question in Episode 3", points = 2, type = "missable",
-    trigger = Episode3_SiverOtakkiQuestion()
-)
-
-achievement("Subway Train", "Collect all items on the Subway Train before time runs out", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Big Magnum", "Find the Big Magnum in the Underground Terminous", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Giant Mech", "Destroy all of the Giant Mech's parts in the Underground Terminous", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Trailer Lift", "Operate both Trailer Lifts in the Underground Terminous", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Sperio", "Defeat Sperio in the Underground Terminous without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Damage - Terminous Junkblade", "Clear the Junkblade sequence in the Underground Terminous without taking damage", points = 10, type = "missable",
-    trigger = Episode3_CompleteJunkbladeScene_NoDamage()
-)
-
-achievement("S Rank - Episode 3", "Clear Episode 3 with an S Rank", points = 10, type = "missable",
-    trigger = Episode3_ClearEpisode_SRank()
 )
 
 // -- Episode 4 -- //

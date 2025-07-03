@@ -169,6 +169,22 @@ Items = {
                 "Tank3": bit2(0x1beb38),
             }
         },
+        "Episode3":{
+            "Train":{
+                "Item1": bit0(0x1beaf0),
+                "Item2": bit1(0x1beaf0),
+                "Item3": bit2(0x1beaf0),
+                "Item4": bit0(0x1beaf1),
+                "Item5": bit3(0x1beaf0),
+                "Item6": bit4(0x1beaf0),
+                "Item7": bit6(0x1beaf0),
+                "Item8": bit5(0x1beaf0),
+                "Item9": bit7(0x1beaf0)
+            },  
+            "Treasures":{
+                "LaserGun": bit0(0x1beaf1),
+            }
+        },
         "Episode5":{
             "Plant": {
                 "Defeated": bit4(0x1beaf8)

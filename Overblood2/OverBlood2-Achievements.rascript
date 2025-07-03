@@ -125,7 +125,7 @@ Items = {
             "Treasures": {
                 "FireExtinguisher": bit4(0x1beb22), // second guard tower drop
                 "HeavyBoots": bit2(0x1beb23), // second guard tower drop
-                "HeatProofSuit": bit0(0xbeb49), // second guardian drop
+                "HeatProofSuit": bit0(0x1beb49), // second guardian drop
                 "LightSabre": bit0(0x1beaf8), // first guard tower drop
                 "SuperLightSabre": bit7(0x1beb78), // third guard tower drop
                 "FlameThrower": bit4(0x1beb29), // second guard tower drop
@@ -626,12 +626,13 @@ function TriggeredItemFlagCount(episode, category, measured = false){
     total = sum_of(flags, flag => flags[flag])
   
     countCheck = total >= count
+    episodeCheck = Game["Episode"] == episode
     
     if(measured)
-        countCheck = measured(countCheck)
+        countCheck = measured(countCheck, episodeCheck)
+    else countCheck = countCheck && episodeCheck
     
-    return Game["Episode"] == episode &&
-        prevTotal < count &&
+    return prevTotal < count &&
         countCheck
 }
 
@@ -760,13 +761,6 @@ function GetCharacterHealth(){
     return dword(healthAddress)
 }
 
-/*function UsedItem(type, name){
-    item = ItemIDs[type][name]
-    selected = Items["SelectedItem"]["ID"]
-    state = Items["Inventory"]["State"] 
-    return selected == item && state == 4
-}*/
-
 function UsedItem(type, name, reduced = true){
     item = ItemIDs[type][name]
     selected = Items["SelectedItem"]["ID"]
@@ -785,17 +779,6 @@ function UsedItem(type, name, reduced = true){
     
     return trigger
 }
-
-/*function PlayerHealed(){
-    return 
-    (
-        UsedItem("Cure", "EmergencySpray") ||
-        UsedItem("KeyItems", "JuiceCan") ||
-        UsedItem("KeyItems", "Banana") ||
-        UsedItem("KeyItems", "HorsemeatBurger")
-    ) &&
-    prev(GetCharacterHealth()) < GetCharacterHealth()
-}*/
 
 function PlayerHealed(){
     return 
@@ -906,6 +889,21 @@ function CountWeaponShots(limit){
     return repeated(limit, prev(ammoCount) > ammoCount)
 }
 
+function ResetBossChallenge(episode, room){
+    return 
+    (
+        always_false() || 
+        (
+            (
+                never(IsOnTitle()) && 
+                never(GetCharacterHealth() == 0) &&
+                never(GetCharacterHealth() > 0xb40)
+            ) || 
+            never(!IsInRoom(episode, room))
+        )
+    )
+}
+
 // ------------------------- Achievement Functions ------------------------- //
 
 // Any Episode - Achievement Functions //
@@ -963,16 +961,7 @@ function Episode1_DefeatGumbo_NoHeal(){
             IsBossDamaged() && 
             PlayerHealed()
         ) &&
-        (
-            always_false() || 
-            (
-                (
-                    never(IsOnTitle()) && 
-                    never(GetCharacterHealth() == 0)
-                ) || 
-                never(!IsInRoom(1, "GumboFight"))
-            )
-        )
+        ResetBossChallenge(1, "GumboFight")
 }
 
 function Episode1_ClearTurret(){
@@ -1019,6 +1008,7 @@ function Episode2_FirstGuardChallenge(){
             BossIsActive("FirstGuardian") && 
             IsBossDamaged() && 
             HasWeaponEquipped("LightSabre") &&
+            prev(HasWeaponEquipped("LightSabre")) &&
             ReloadedWeapon()
         ) &&
         disable_when
@@ -1028,16 +1018,7 @@ function Episode2_FirstGuardChallenge(){
             !HasWeaponEquipped("LightSabre") &&
             BossTookDamage()
         ) &&
-        (
-            always_false() || 
-            (
-                (
-                    never(IsOnTitle()) && 
-                    never(GetCharacterHealth() == 0)
-                ) || 
-                never(!IsInRoom(2, "FirstGuardian"))
-            )
-        )
+        ResetBossChallenge(2, "FirstGuardian")
 }
 
 function Episode2_DestroyOilTanks(){
@@ -1070,16 +1051,7 @@ function Episode2_SecondGuardChallenge(){
             !HasWeaponEquipped("AntiqueGun") &&
             BossTookDamage()
         ) &&
-        (
-            always_false() || 
-            (
-                (
-                    never(IsOnTitle()) && 
-                    never(GetCharacterHealth() == 0)
-                ) || 
-                never(!IsInRoom(2, "SecondGuardian"))
-            )
-        )
+        ResetBossChallenge(2, "SecondGuardian")
 }
 
 function Episode2_DangerousGems(){
@@ -1144,16 +1116,7 @@ function Episode2_KondoChallenge(){
             !HasWeaponEquipped("SuperLightSabre") &&
             BossTookDamage(true)
         ) &&
-        (
-            always_false() || 
-            (
-                (
-                    never(IsOnTitle()) && 
-                    never(GetCharacterHealth() == 0)
-                ) || 
-                never(!IsInRoom(2, "KondoFight"))
-            )
-        )
+        ResetBossChallenge(2, "KondoFight")
 }
 
 function Episode2_ClearEpisode(){
@@ -1558,7 +1521,7 @@ achievement("Third Guarding", "Destroy the Third Guarding System in the Pagoda T
     trigger = Episode2_DestroyThirdGuard()
 )
 
-achievement("Third Guardian - Challenge", "Death the Third Guardian in the Pagoda Tower by freezing it in its tracks", points = 10, type = "missable",
+achievement("Third Guardian - Challenge", "Defeat the Third Guardian in the Pagoda Tower by freezing it in its tracks", points = 10, type = "missable",
     trigger = Episode2_ThirdGuardChallenge()
 )
 

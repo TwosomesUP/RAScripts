@@ -8,6 +8,7 @@
 Game = {
     "Episode": dword(0x1be9e8),
     "Paused": dword(0xd2f58),
+    "Cutscene": dword(0xd2f54),
     "MiniGame": dword(0xd2f60),
     "OnTitle": dword(0xd2f64),
     "Episode4Cheat": byte(0x1f79d0),
@@ -183,6 +184,20 @@ Items = {
             },  
             "Treasures":{
                 "LaserGun": bit0(0x1beaf1),
+                "BigMagnum": bit0(0x1beb08)
+            },
+            "Mech": {
+                "Part1": bit0(0x1beb20),
+                "Part2": bit1(0x1beb20),
+                "Part3": bit2(0x1beb20),
+                "Part4": bit3(0x1beb20),
+                "Part5": bit4(0x1beb20),
+                "Part6": bit5(0x1beb20),
+                "Part7": bit6(0x1beb20),
+                "Part8": bit7(0x1beb20),
+                "Part9": bit1(0x1beb21),
+                "Part10": bit3(0x1beb22),
+                "Part11": bit4(0x1beb22)
             }
         },
         "Episode5":{
@@ -244,6 +259,18 @@ Events = {
         "DefeatedThirdGuardingSystem": bit7(0x1bf4c4)
     },
     "Episode3":{
+        "Trailer1":{
+            "UsedOil": bit3(0x1bf4c7),
+            "UsedKey": bit1(0x1bf4d3),
+            "UsedBattery": bit2(0x1bf4d3),
+            "UsedCrane": bit1(0x1bf4dd)
+        },
+        "Trailer2": {
+            "UsedOil": bit6(0x1bf4de),
+            "UsedKey": bit6(0x1bf4d2),
+            "UsedBattery": bit7(0x1bf4d2),
+            "UsedCrane": bit2(0x1bf4de)
+        },
         "PlacedPlasmaBomb": bit2(0x1bf4d4),
         "DefeatedSperio": bit3(0x1bf4d8)
     },
@@ -542,6 +569,10 @@ Rooms = {
         "SubwayStation": [3, 1, 0],
         "SubwayTracks": [3, 1, 1],
         "SubwayTrain": [3, 1, 2],
+        "TrailerRoom1": [3, 2, 1],
+        "TrailerRoom2": [3, 2, 8],
+        "MechRoom": [3, 2, 5],
+        "Magnum": [3, 2, 2],
         "UndergroundTerminousStation_Cutscene": [3, 0, 0],
         "UndergroundTerminousStation": [3, 2, 0],
         "SperioFight": [3, 2, 8],
@@ -634,7 +665,7 @@ function TriggeredItemFlag(episode, category, flag){
         prev(Items["Flags"]["Episode" + episode][category][flag]) < Items["Flags"]["Episode" + episode][category][flag]
 }
 
-function TriggeredItemFlagCount(episode, category, measured = false){
+function TriggeredItemFlagCount(episode, category, measured = false, challenge = false){
     flags = Items["Flags"]["Episode" + episode][category]
     count = length(flags)
     
@@ -643,13 +674,19 @@ function TriggeredItemFlagCount(episode, category, measured = false){
   
     countCheck = total >= count
     episodeCheck = Game["Episode"] == episode
+    prevCheck = prevTotal < count
     
     if(measured)
         countCheck = measured(countCheck, episodeCheck)
-    else countCheck = countCheck && episodeCheck
+    else 
+        countCheck = countCheck && episodeCheck      
+        
+    trigger = countCheck
     
-    return prevTotal < count &&
-        countCheck
+    if(!challenge)
+        trigger = prevCheck && countCheck
+    
+    return trigger
 }
 
 function CompletedMinigame(episode, room){
@@ -920,6 +957,10 @@ function ResetBossChallenge(episode, room){
     )
 }
 
+function CutsceneTriggered(){
+    return prev(Game["Cutscene"]) < Game["Cutscene"]
+}
+
 // ------------------------- Achievement Functions ------------------------- //
 
 // Any Episode - Achievement Functions //
@@ -1150,7 +1191,10 @@ function Episode3_SiverOtakkiQuestion(){
 }
 
 function Episode3_SubwayTrainItems(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(3, "SubwayTrain") &&
+        TriggeredItemFlagCount(3, "Train", true, true) &&
+        CutsceneTriggered()
 }
 
 function Episode3_ReachUndergroundTerminous(){
@@ -1159,15 +1203,19 @@ function Episode3_ReachUndergroundTerminous(){
         RoomTransition(3, "UndergroundTerminousStation_Cutscene", "UndergroundTerminousStation")
 }
 
+function Episode3_Treasures(){
+    return !IsOnTitle() &&
+        IsInAnyRoom(3, ["SubwayTrain", "Magnum"]) &&
+        TriggeredItemFlagCount(3, "Treasures", true)
+}
+
 function Episode3_GiantMech(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(3, "MechRoom") &&
+        TriggeredItemFlagCount(3, "Mech", true)
 }
 
 function Episode3_TrailerLifts(){
-    return always_false()
-}
-
-function Episode3_Treasures(){
     return always_false()
 }
 
@@ -1572,16 +1620,16 @@ achievement("Underground Terminous", "Reach the Underground Terminous", points =
     trigger = Episode3_ReachUndergroundTerminous()
 )
 
+achievement("Terminous Treasures", "Find the Laser Gun and Big Magnum in the Underground Terminous (and train)", points = 10, type = "missable",
+    trigger = Episode3_Treasures()
+)
+
 achievement("Giant Mech", "Destroy all of the Giant Mech's parts in the Underground Terminous", points = 3, type = "missable",
     trigger = Episode3_GiantMech()
 )
 
 achievement("Trailer Lift", "Operate both Trailer Lifts in the Underground Terminous", points = 3, type = "missable",
     trigger = Episode3_TrailerLifts()
-)
-
-achievement("Terminous Treasures", "Find the Laser Gun and Big Magnum in the Underground Terminous (and train)", points = 10, type = "missable",
-    trigger = Episode3_Treasures()
 )
 
 achievement("Anti Proton", "Destroy the Anti Proton Core with the Plasma Bomb in the Underground Terminous", points = 2, type = "progression",

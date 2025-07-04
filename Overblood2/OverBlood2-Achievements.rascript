@@ -195,9 +195,12 @@ Items = {
                 "Part6": bit5(0x1beb20),
                 "Part7": bit6(0x1beb20),
                 "Part8": bit7(0x1beb20),
-                "Part9": bit1(0x1beb21),
+                "Part9": bit0(0x1beb21),
                 "Part10": bit3(0x1beb22),
-                "Part11": bit4(0x1beb22)
+                "Part11": bit4(0x1beb22),
+                "Part12": bit4(0x1beb21),
+                "Part13": bit5(0x1beb21),
+                "Part14": bit6(0x1beb21),
             }
         },
         "Episode5":{
@@ -259,17 +262,9 @@ Events = {
         "DefeatedThirdGuardingSystem": bit7(0x1bf4c4)
     },
     "Episode3":{
-        "Trailer1":{
-            "UsedOil": bit3(0x1bf4c7),
-            "UsedKey": bit1(0x1bf4d3),
-            "UsedBattery": bit2(0x1bf4d3),
-            "UsedCrane": bit1(0x1bf4dd)
-        },
-        "Trailer2": {
-            "UsedOil": bit6(0x1bf4de),
-            "UsedKey": bit6(0x1bf4d2),
-            "UsedBattery": bit7(0x1bf4d2),
-            "UsedCrane": bit2(0x1bf4de)
+        "Trailers":{
+            "UsedCrane1": bit1(0x1bf4dd),
+            "UsedCrane2": bit2(0x1bf4de)
         },
         "PlacedPlasmaBomb": bit2(0x1bf4d4),
         "DefeatedSperio": bit3(0x1bf4d8)
@@ -658,6 +653,30 @@ function TriggeredEvent(episode, event, inverse = false){
         
     return Game["Episode"] == episode &&
         trigger  
+}
+
+function TriggeredEventFlagCount(episode, category, measured = false, challenge = false){
+    flags = Events["Episode" + episode][category]
+    count = length(flags)
+    
+    prevTotal = sum_of(flags, flag => prev(flags[flag]))
+    total = sum_of(flags, flag => flags[flag])
+  
+    countCheck = total >= count
+    episodeCheck = Game["Episode"] == episode
+    prevCheck = prevTotal < count
+    
+    if(measured)
+        countCheck = measured(countCheck, episodeCheck)
+    else 
+        countCheck = countCheck && episodeCheck      
+        
+    trigger = countCheck
+    
+    if(!challenge)
+        trigger = prevCheck && countCheck
+    
+    return trigger
 }
 
 function TriggeredItemFlag(episode, category, flag){
@@ -1216,7 +1235,9 @@ function Episode3_GiantMech(){
 }
 
 function Episode3_TrailerLifts(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInAnyRoom(3, ["TrailerRoom1", "TrailerRoom2"]) &&
+        TriggeredEventFlagCount(3, "Trailers", true)
 }
 
 function Episode3_DestroyAntiProtonCore(){
@@ -1628,7 +1649,7 @@ achievement("Giant Mech", "Destroy all of the Giant Mech's parts in the Undergro
     trigger = Episode3_GiantMech()
 )
 
-achievement("Trailer Lift", "Operate both Trailer Lifts in the Underground Terminous", points = 3, type = "missable",
+achievement("Trailer Lift", "Have both Tailer Lifts raised in the Underground Terminous", points = 3, type = "missable",
     trigger = Episode3_TrailerLifts()
 )
 

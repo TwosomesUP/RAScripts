@@ -244,7 +244,8 @@ Enemies = {
             "FirstGuardian": 0x52,
             "SecondGuardian": 0x53,
             "ThirdGuardian": 0x54,
-            "PagodaKondo": 0x56
+            "PagodaKondo": 0x56,
+            "Sperio": 0x58
         }
     }
 }
@@ -750,11 +751,15 @@ function RoomTransition(episode, start, end){
         IsInRoom(episode, end)
 }
 
-function DefeatedBoss(episode, room, challenge = false){
+function DefeatedBoss(episode, room, challenge = false, alt = false){
     trigger = Game["Episode"] == episode
+    health = Enemies["Boss"]["HP"]
     roomCheck = IsInRoom(episode, room)
-    bossCheck = prev(Enemies["Boss"]["HP"]) != 0x00 &&
-        Enemies["Boss"]["HP"] == 0x00
+        
+    if(alt)
+        health = Enemies["Boss"]["AltHP"]
+        
+    bossCheck = prev(health) != 0x00 && health == 0x00
     
     if(!challenge)
         trigger = trigger && roomCheck
@@ -1027,7 +1032,6 @@ function Episode1_DefeatedGumbo(){
         DefeatedBoss(1, "GumboFight")
 }
 
-// Only disabled if the boss has already taken damage
 function Episode1_DefeatGumbo_NoHeal(){
     return BossIsActive("Gumbo") &&
         DefeatedBoss(1, "GumboFight", true) &&
@@ -1235,8 +1239,13 @@ function Episode3_GiantMech(){
 }
 
 function Episode3_TrailerLifts(){
+    rooms = [
+        "TrailerRoom1",
+        "TrailerRoom2"
+    ]
+
     return !IsOnTitle() &&
-        IsInAnyRoom(3, ["TrailerRoom1", "TrailerRoom2"]) &&
+        IsInAnyRoom(3, rooms) &&
         TriggeredEventFlagCount(3, "Trailers", true)
 }
 
@@ -1247,11 +1256,28 @@ function Episode3_DestroyAntiProtonCore(){
 
 function Episode3_DefeatSperio(){
     return !IsOnTitle() &&
-        DefeatedBoss(3, "SperioFight")
+        DefeatedBoss(3, "SperioFight", alt = true)
 }
 
 function Episode3_SperioChallenge(){
-    return always_false()
+    return BossIsActive("Sperio") &&
+        HasWeaponEquipped("BigMagnum") &&
+        DefeatedBoss(3, "SperioFight", true, true) &&
+        disable_when
+        (
+            BossIsActive("Sperio") && 
+            IsBossDamaged(true) && 
+            HasWeaponEquipped("BigMagnum") &&
+            CountWeaponShots(6)
+        ) &&
+        disable_when
+        (
+            BossIsActive("Sperio") &&
+            IsBossDamaged(true) &&
+            !HasWeaponEquipped("BigMagnum") &&
+            BossTookDamage()
+        ) &&
+        ResetBossChallenge(3, "SperioFight")
 }
 
 function Episode3_CompleteJunkbladeScene(){
@@ -1653,7 +1679,7 @@ achievement("Trailer Lift", "Have both Tailer Lifts raised in the Underground Te
     trigger = Episode3_TrailerLifts()
 )
 
-achievement("Anti Proton", "Destroy the Anti Proton Core with the Plasma Bomb in the Underground Terminous", points = 2, type = "progression",
+achievement("Anti Proton", "Place the Plasma Bomba and destroy the Anti Proton Core in the Underground Terminous", points = 2, type = "progression",
     trigger = Episode3_DestroyAntiProtonCore()
 )
 

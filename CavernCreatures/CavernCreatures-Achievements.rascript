@@ -27,6 +27,24 @@ Game = {
     )
 }
 
+ResetValues = [
+    byte(0x54f5), byte(0x54f6), byte(0x54f7), byte(0x54f8), byte(0x54f9)
+]
+
+ResetScore = [
+    0x88, 0x7e, 0x7e, 0x92, 0x44
+]
+
+Level = {
+    "Stage1":{
+        "Position": byte(0x4)
+    },
+    "Stage2":{
+        "Position": byte(0x198b),
+        "Section": byte(0x198c)
+    }
+}
+
 Player = {
     "Fuel": byte(0xc5),
     "Lives": low4(0x17) + high4(0x17) * 10,
@@ -90,6 +108,47 @@ ScreenIDs = {
 
 function IsInGame() => Game["State"]["InDemo"] == 0 && Player["Lives"] > 0
 
+function HasReset(){
+    trigger = ResetScore[0] != ResetValues[0] &&
+        ResetScore[1] != ResetValues[1] &&
+        ResetScore[2] != ResetValues[2] &&
+        ResetScore[3] != ResetValues[3] &&
+        ResetScore[4] != ResetValues[4]
+    return (trigger)
+}
+
+function CompletedZone1(challenge){
+    screenId = Game["ScreenID"]
+    position = Level["Stage1"]["Position"]
+    trigger = IsInGame()
+    cleared = prev(position) == 0xf7 && 
+        position == 0xf8
+    
+    if(challenge)
+        cleared = trigger_when(cleared)
+    else
+        cleared = screenId == ScreenIDs["Zone1"] && cleared
+        
+    return trigger && cleared
+}
+
+function CompletedZone2(challenge){
+    screenId = Game["ScreenID"]
+    position = Level["Stage2"]["Position"]
+    section = Level["Stage2"]["Section"]
+    trigger = IsInGame()
+    cleared = section == 0x2 && 
+    prev(position) == 0x6f &&
+        position == 0x70
+    
+    if(challenge)
+        cleared = trigger_when(cleared)
+    else
+        cleared = screenId == ScreenIDs["Zone2"] && cleared
+        
+    return trigger && cleared
+}
+
 function CompletedZone(zone, challenge){
     trigger = IsInGame() && prev(Game["ScreenID"]) == ScreenIDs[zone]
     cleared =  Game["ScreenID"] == ScreenIDs["ZoneTransition"]
@@ -101,7 +160,7 @@ function CompletedZone(zone, challenge){
 } 
 
 function AchievedScore(amount){
-    return (IsInGame() && Game["ScreenID"] == ScreenIDs["Zone1"] &&
+    return HasReset() && ((IsInGame() && Game["ScreenID"] == ScreenIDs["Zone1"] &&
         prev(Player["Score"]["Zone1"]) < amount &&
         Player["Score"]["Zone1"] >= amount &&
         prev(Player["Score"]["Zone1"]) != prev(Game["StoredScore"])) ||
@@ -112,18 +171,21 @@ function AchievedScore(amount){
         (IsInGame() && Game["ScreenID"] == ScreenIDs["Zone3"] &&
         prev(Player["Score"]["Zone3"]) < amount &&
         Player["Score"]["Zone3"] >= amount &&
-        prev(Player["Score"]["Zone3"]) != prev(Game["StoredScore"]))
+        prev(Player["Score"]["Zone3"]) != prev(Game["StoredScore"])))
 }
 
 function Zone1Challenge(){
-    return CompletedZone("Zone1", true) &&
-        disable_when(IsInGame() && Game["ScreenID"] == ScreenIDs["Zone1"] && prev(Player["Lives"]) > Player["Lives"], Game["ScreenID"] != ScreenIDs["Zone1"] && Game["ScreenID"] != ScreenIDs["ZoneTransition"]) &&
-        disable_when(IsInGame() && Game["ScreenID"] == ScreenIDs["Zone1"] && prev(Player["Fuel"]) >= 0x14 && Player["Fuel"] < 0x14, Game["ScreenID"] != ScreenIDs["Zone1"] && Game["ScreenID"] != ScreenIDs["ZoneTransition"])
+    return CompletedZone1(true) &&
+        Player["Fuel"] >= 0x14 &&
+        disable_when(IsInGame() && Game["ScreenID"] == ScreenIDs["Zone1"] && prev(Player["Lives"]) > Player["Lives"]) &&
+        disable_when(IsInGame() && Game["ScreenID"] == ScreenIDs["Zone1"] && prev(Player["Fuel"]) >= 0x14 && Player["Fuel"] < 0x14) &&
+        (always_false() || (never(Game["ScreenID"] != ScreenIDs["Zone1"])))
 }
 
 function Zone2Challenge(){
-    return CompletedZone("Zone2", true) &&
-        disable_when(repeated(3, IsInGame() && Game["ScreenID"] == ScreenIDs["Zone2"] && prev(Player["Lives"]) > Player["Lives"]), Game["ScreenID"] != ScreenIDs["Zone2"] && Game["ScreenID"] != ScreenIDs["ZoneTransition"])
+    return CompletedZone2(true) &&
+        disable_when(repeated(3, IsInGame() && Game["ScreenID"] == ScreenIDs["Zone2"] && prev(Player["Lives"]) > Player["Lives"])) &&
+        (always_false() || (never(Game["ScreenID"] != ScreenIDs["Zone2"])))
 }
 
 function Zone3Challenge(){
@@ -136,11 +198,11 @@ function Zone3Challenge(){
 //===========================================================//
 
 achievement("Cave Crawler", "Survive Zone 1 and clear the Caverns", points = 5, type = "progression", id = 485616,
-    trigger = CompletedZone("Zone1", false)
+    trigger = CompletedZone1(false)
 )
 
 achievement("Capital Crusader", "Survive Zone 2 after discovering the Underground City", points = 10, type = "progression", id = 485617,
-    trigger = CompletedZone("Zone2", false)
+    trigger = CompletedZone2(false)
 )
 
 achievement("Contraption Conquerer", "Survive Zone 3 after facing the Ultimate Opponent", points = 25, type = "win_condition", id = 485618,

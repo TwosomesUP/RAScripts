@@ -1179,14 +1179,14 @@ function Episode2_KondoChallenge(){
         (
             BossIsActive("PagodaKondo") && 
             IsBossDamaged(true) && 
-            prev(GetPlayerHealthPercentage()) > 50 &&
-            GetPlayerHealthPercentage() < 50
+            prev(GetPlayerHealthPercentage()) > 25 &&
+            GetPlayerHealthPercentage() < 25
         ) &&
         disable_when
         (
             BossIsActive("PagodaKondo") && 
             IsBossDamaged(true) && 
-            GetPlayerHealthPercentage() < 50 &&
+            GetPlayerHealthPercentage() < 25 &&
             PlayerTookDamage()
         ) &&
         disable_when
@@ -1309,14 +1309,22 @@ function Episode4_CompleteDanceScene(){
         CompletedMinigame(4, "DanceSequence")
 }
 
+function Episode4_CompleteDanceScene_MaxCP(){
+    return !IsOnTitle() &&
+        CompletedMinigameChallenge(4, "DanceSequence", 100)
+}
+
+function Episode4_BatManiac(){
+    return always_false()
+}
+
 function Episode4_DefeatedGartlude(){
     return !IsOnTitle() &&
         DefeatedBoss(4, "GartludeFight")
 }
 
-function Episode4_CompleteDanceScene_MaxCP(){
-    return !IsOnTitle() &&
-        CompletedMinigameChallenge(4, "DanceSequence", 100)
+function Episode4_GartludeChallenge(){
+    return always_false()
 }
 
 function Episode4_ClearEpisode(){
@@ -1334,13 +1342,21 @@ function Episode5_FoundSiverTreasure(){
         TriggeredEvent(5, "MoonlightBoots")
 }
 
+function Episode5_ChurchEmeralds(){
+    return always_false()
+}
+
 function Episode5_ReachJungle(){
     return !IsOnTitle() &&
         Game["Episode"] == 5 &&
         RoomTransition(5, "ChurchControlRoom", "JungleStart")
 }
 
-function Episode5_ClearRiver1(){
+function Episode5_TRexChallenge(){
+    return always_false()
+}
+
+function Episode5_River1Challenge(){
     return !IsOnTitle() &&
         CompletedMinigame(5, "RiverPart1")
 }
@@ -1351,7 +1367,11 @@ function Episode5_DefeatedPlant(){
         TriggeredItemFlag(5, "Plant", "Defeated")
 }
 
-function Episode5_ClearRiver2(){
+function Episode5_PlantChallenge(){
+    return always_false()
+}
+
+function Episode5_River2Challenge(){
     return !IsOnTitle() &&
         CompletedMinigame(5, "RiverPart2")
 }
@@ -1362,14 +1382,30 @@ function Episode5_DestroyAntiGravityStation(){
         TriggeredEvent(5, "AntiGravityStation")
 }
 
+function Episode5_LaserCannons(){
+    return always_false()
+}
+
 function Episode5_DefeatedTiger(){
     return !IsOnTitle() &&
         DefeatedBoss(5, "TigerFight")
 }
 
+function Episode5_TigerChallenge(){
+    return always_false()
+}
+
+function Episode5_MiyabiSuit(){
+    return always_false()
+}
+
 function Episode5_DefeatedLady(){
     return !IsOnTitle() &&
         DefeatedBoss(5, "LadyFight")
+}
+
+function Episode5_LadyChallenge(){
+    return always_false()
 }
 
 function Episode5_DefeatedAdidi(){
@@ -1379,6 +1415,10 @@ function Episode5_DefeatedAdidi(){
 
 function Episode5_ClearEpisode(){
     return CompletedEpisode(5)
+}
+
+function Episode5_AdidiChallenge(){
+    return always_false()
 }
 
 function Episode5_ClearEpisode_SRank(){
@@ -1393,10 +1433,8 @@ function Episode6_EastEdgeSecret(){
         TriggeredEvent(6, "MuseumTreasure")
 }
 
-function Episode6_GiveOrphanBanana(){
-    return !IsOnTitle() &&
-        IsInRoom(Rooms["Episode6"]["EastEdgeBridge"]) &&
-        TriggeredEvent(6, "EastEdgeBridge")
+function Episode6_GloomAlleyGems(){
+    return always_false()
 }
 
 function Episode6_ReachGloomAlley(){
@@ -1411,6 +1449,10 @@ function Episode6_FindGhostHouseKey(){
         TriggeredEvent(6, "GotGhostHouseKey")
 }
 
+function Episode6_EvilSiver(){
+    return always_false()
+}
+
 function Episode6_AlternateGhostHouse(){
     return !IsOnTitle() &&
         Game["Episode"] == 6 &&
@@ -1419,6 +1461,10 @@ function Episode6_AlternateGhostHouse(){
             (RoomTransition(6, "GhostHouseYard", "GhostHouseEntryway")) ||
             (RoomTransition(6, "GhostHouseYard", "GhostHouseWaterTower")) 
         )
+}
+
+function Episode6_MachineGun(){
+    return always_false()
 }
 
 function Episode6_ReachJunkyard(){
@@ -1442,12 +1488,6 @@ function Episode6_ClearEpisode_SRank(){
 
 // Episode 7 - Achievement Functions //
 
-function Episode7_UnlockedEpisode8(){
-    return CompletedEpisode(7) &&
-        prev(!IsEpisode8Unlocked()) &&
-        IsEpisode8Unlocked()
-}
-
 function Episode7_ReachShangrila(){
     return !IsOnTitle() &&
         Game["Episode"] == 7 &&
@@ -1466,15 +1506,24 @@ function Episode7_CreatureClues(){
         never(Game["Episode"] != 7)
 }
 
-function Episode7_CryoRoom(){
-    return !IsOnTitle() &&
-        Game["Episode"] == 7 &&
-        RoomTransition(7, "MechMaze", "CryoRoom")
-}
-
 function Episode7_ActivateElevator(){
     return !IsOnTitle() &&
     TriggeredEvent(7, "UnlockElevator")
+}
+
+function Episode7_AcquiredKatana(){
+    return !IsOnTitle() &&
+        IsInRoom(7, "BurningBridge") &&
+        TriggeredItemFlag(7, "Treasures", "Katana")
+}
+
+function Episode7_DefeatedKondo(){
+    return !IsOnTitle() &&
+        DefeatedBoss(7, "KondoFight")
+}
+
+function Episode7_KondoChallenge(){
+    return always_false()
 }
 
 // TO DO: Get room ids for each piece
@@ -1484,18 +1533,21 @@ function Episode7_GotDivaPieces(){
         TriggeredItemFlagCount(7, "DivaPieces", true)
 }
 
-function Episode7_DefeatedKondo(){
-    return !IsOnTitle() &&
-        DefeatedBoss(7, "KondoFight")
-}
-
 function Episode7_DefeatedZeno1(){
     return DefeatedBoss(7, "Zeno1Fight")
+}
+
+function Episode7_Zeno1Challenge(){
+    return always_false()
 }
 
 function Episode7_DefeatedTempest(){
     return !IsOnTitle() &&
         DefeatedBoss(7, "TempestFight")
+}
+
+function Episode7_TempestChallenge(){
+    return always_false()
 }
 
 function Episode7_DeactivatedCore(){
@@ -1507,9 +1559,17 @@ function Episode7_DefeatedZeno2(){
     return DefeatedBoss(7, "Zeno2Fight")
 }
 
+function Episode7_Zeno2Challenge(){
+    return always_false()
+}
+
 function Episode7_CompletedJunkbladeEscape(){
     return !IsOnTitle() &&
         CompletedMinigame(7, "JunkbladeRace")
+}
+
+function Episode7_JunkbladeChallenge(){
+    return always_false()
 }
 
 function Episode7_CompletedEpisode(){
@@ -1520,18 +1580,26 @@ function Episode7_ClearEpisode_SRank(){
     return CompletedEpisodeWithSRank(7)
 }
 
-function Episode7_AcquiredKatana(){
-    return !IsOnTitle() &&
-        IsInRoom(7, "BurningBridge") &&
-        TriggeredItemFlag(7, "Treasures", "Katana")
+function Episode7_UnlockedEpisode8(){
+    return CompletedEpisode(7) &&
+        prev(!IsEpisode8Unlocked()) &&
+        IsEpisode8Unlocked()
 }
 
 // Episode 8 - Achievement Functions //
+
+function Episode8_AllSnacks(){
+    return always_false()
+}
 
 function Episode8_Completed(){
     return !IsOnTitle() &&
         IsEpisode8Unlocked() &&
         TriggeredScene(8, "End", "Complete")
+}
+
+function Episode8_EmergencySpayChallenge(){
+    return always_false()
 }
 
 // ------------------------- Achievement Definitions ------------------------- //
@@ -1540,6 +1608,10 @@ function Episode8_Completed(){
 
 achievement("East Edge", "Reach East Edge City", points = 2, type = "progression",
     trigger = Episode1_ReachEastEdge()
+)
+
+achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
+    trigger = Any_PayedForWindow()
 )
 
 achievement("Siver Otakki - Episode 1", "Correctly answer Siver Otakki's question in Episode 1", points = 2, type = "missable",
@@ -1640,7 +1712,7 @@ achievement("Kondo", "Defeat Kondo in the Pagoda Tower", points = 3, type = "pro
     trigger = Episode2_DefeatedKondo()
 )
 
-achievement("Kondo - Challenge", "With the Super Light Sabre equipped, defeat Kondo in the Pagoda Tower without dropping below 50% health", points = 10, type = "missable",
+achievement("Kondo - Challenge", "With the Super Light Sabre equipped, defeat Kondo in the Pagoda Tower without dropping below 25% health", points = 10, type = "missable",
     trigger = Episode2_KondoChallenge()
 )
 
@@ -1705,56 +1777,141 @@ achievement("S Rank - Episode 3", "Clear Episode 3 with an S Rank", points = 10,
 
 // -- Episode 4 -- //
 
-achievement("Dance Sequence", "Clear the Dance Sequence in the Aqua Liberty Ballroom", points = 2, type = "progression",
+achievement("Siver Otakki - Episode 4", "Correctly answer Siver Otakki's question in Episode 4", points = 2, type = "missable",
+    trigger = Episode4_SiverOtakkiQuestion()
+)
+
+achievement("Dance Sequence", "Clear the Dance Sequence in the Aqua Liberty Ballroom", points = 3, type = "progression",
     trigger = Episode4_CompleteDanceScene()
+)
+
+achievement("Hard Dancing", "Passionately clear the Dance Sequence in the Aqua Liberty Ballroom and gain the maximum CP possible", points = 5, type = "missable",
+    trigger = Episode4_CompleteDanceScene_MaxCP()
+)
+
+achievement("Bat Maniac", "Find the Bat Maniac Outfit in the Aqua Liberty Ballroom", points = 3, type = "missable",
+    trigger = Episode4_BatManiac()
 )
 
 achievement("Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom Station", points = 3, type = "progression",
     trigger = Episode4_DefeatedGartlude()
 )
 
+achievement("Quick Kill - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom in 20 seconds or less", points = 10, type = "missable",
+    trigger = Episode4_GartludeChallenge()
+)
+
 achievement("Bloody Rose", "Escape the Aqua Liberty Ballroom and Clear Episode 4", points = 5, type = "progression",
     trigger = Episode4_ClearEpisode()
 )
 
+achievement("S Rank - Episode 4", "Clear Episode 4 with an S Rank", points = 10, type = "missable",
+    trigger = Episode4_ClearEpisode_SRank()
+)
+
+
 // -- Episode 5 -- //
+
+achievement("Siver Otakki - Episode 5", "Find Siver Otakki's Special Treasure in Episode 5", points = 5, type = "missable",
+    trigger = Episode5_FoundSiverTreasure()
+)
+
+achievement("Church Emeralds", "Find all gems in the East Edge Church in Episode 5", points = 3, type = "missable",
+    trigger = Episode5_ChurchEmeralds()
+)
 
 achievement("Jungle", "Reach the Jungle", points = 2, type = "progression",
     trigger = Episode5_ReachJungle()
+)
+
+achievement("T-Rex", "Defeat a T-Rex using a Quicksand trap in the Jungle", points = 5, type = "missable",
+    trigger = Episode5_TRexChallenge()
+)
+
+achievement("No Damage - River Ride 1", "Clear the River Ride part 1 in the Jungle without taking damage", points = 5, type = "missable",
+    trigger = Episode5_River1Challenge()
 )
 
 achievement("Mutated Plant", "Defeat the Mutated Plant in the Jungle", points = 3, type = "progression",
     trigger = Episode5_DefeatedPlant()
 )
 
-achievement("Anti Gravity", "Destroy Anti Gravity Defense Station in the Jungle", points = 2, type = "progression",
+achievement("Monsterous Tentacles", "Destroy all of the Mutated Plant's tentacles before defeating it, in the Jungle", points = 5, type = "missable",
+    trigger = Episode5_PlantChallenge()
+)
+
+achievement("No Damage - River Ride 2", "Clear the River Ride part 2 in the Jungle without taking damage", points = 5, type = "missable",
+    trigger = Episode5_River2Challenge()
+)
+
+achievement("Anti Gravity", "Destroy Anti Gravity Defense Station in the Jungle", points = 3, type = "progression",
     trigger = Episode5_DestroyAntiGravityStation()
+)
+
+achievement("Laser Cannons", "Destroy all 4 Laser Cannons in the Jungle", points = 5, type = "missable",
+    trigger = Episode5_LaserCannons()
 )
 
 achievement("Tiger", "Defeat Tiger in the Jungle", points = 5, type = "progression",
     trigger = Episode5_DefeatedTiger()
 )
 
+achievement("Tiger - Challenge", "With the Bazooka equipped, defeat Tiger in the Jungle in 5 shots or less", points = 10, type = "missable",
+    trigger = Episode5_TigerChallenge()
+)
+
+achievement("Miyabi Suit", "Find the Y.O. Miyabi Suit in the Jamelgalda Prison", points = 3, type = "missable",
+    trigger = Episode5_MiyabiSuit()
+)
+
 achievement("Lady", "Defeat Lady in the Jamelgalda Prison", points = 5, type = "progression",
     trigger = Episode5_DefeatedLady()
+)
+
+achievement("No Heal - Lady", "With the Super Light Sabre equipped, defeated Lady in the Jamelgalda without dropping below 25% health", points = 10, type = "missable",
+    trigger = Episode5_LadyChallenge()
 )
 
 achievement("Deceptive Jungle", "Defeat Adidi, escape the Jamelgalda Prison, and clear Episode 5", points = 10, type = "progression",
     trigger = Episode5_ClearEpisode()
 )
 
+achievement("No Heal - Adidi", "With the Flame Thrower equipped, defeat Adidi in the Jamelgalda Prison without reloading", points = 10, type = "missable",
+    trigger = Episode5_AdidiChallenge()
+)
+
+achievement("S Rank - Episode 5", "Clear Episode 5 with an S Rank", points = 10, type = "missable",
+    trigger = Episode5_ClearEpisode_SRank()
+)
+
 // -- Episode 6 -- //
+
+achievement("East Edge Treasure", "Find the hidden East Edge Treasure in Episode 6", points = 3, type = "missable",
+    trigger = Episode6_EastEdgeSecret()
+)
 
 achievement("Gloom Alley", "Reach Gloom Alley", points = 3, type = "progression",
     trigger = Episode6_ReachGloomAlley()
+)
+
+achievement("Geo Stones", "Find all gems in the Gloom Alley Streets", points = 3, type = "missable",
+    trigger = Episode6_GloomAlleyGems()
 )
 
 achievement("Ghost House", "Find the Ghost House Key", points = 3, type = "missable",
     trigger = Episode6_FindGhostHouseKey()
 )
 
+achievement("Agressive Siver", "Defeat a Mysterious Adversary in Episode 6", points = 10, type = "missable",
+    trigger = Episode6_EvilSiver()
+)
+
 achievement("Breaking and Entering", "Enter the Ghost House without unlocking the front door", points = 3, type = "missable",
     trigger = Episode6_AlternateGhostHouse()
+)
+
+achievement("Machine Gun", "Find the Machine Gun in the Gloom Alley Ghost House", points = 3, type = "missable",
+    trigger = Episode6_MachineGun()
 )
 
 achievement("Junkyard", "Reach the Junkyard", points = 3, type = "progression",
@@ -1769,22 +1926,34 @@ achievement("Edgy Kids", "Discover your hidden powers and clear Episode 6", poin
     trigger = Episode6_ClearEpisode()
 )
 
+achievement("S Rank - Episode 6", "Clear Episode 6 with an S Rank", points = 10, type = "missable",
+    trigger = Episode6_ClearEpisode_SRank()
+)
+
 // -- Episode 7 -- //
 
 achievement("Shangri-la", "Reach Shangri-la", points = 3, type = "progression",
     trigger = Episode7_ReachShangrila()
 )
 
-achievement("Cryo Room", "Find a familiar location from Raz's past", points = 1, type = "missable",
-    trigger = Episode7_CryoRoom()
+achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatures in Shangri-la", points = 2, type = "missable",
+    trigger = Episode7_CreatureClues()
 )
 
 achievement("Elevator", "Activate the Shangri-la Elevator", points = 5, type = "progression",
     trigger = Episode7_ActivateElevator()
 )
 
+achievement("Katana", "Find the Katana in Shangri-la", points = 3, type = "missable",
+    trigger = Episode7_AcquiredKatana()
+)
+
 achievement("Kondo 2", "Defeat Kondo in Shangri-la", points = 5, type = "progression",
     trigger = Episode7_DefeatedKondo()
+)
+
+achievement("No Heal - Kondo 2", "With the Katana equipped, defeat Kondo in Shangri-la without healing", points = 10, type = "missable",
+    trigger = Episode7_KondoChallenge()
 )
 
 achievement("Diva Pieces", "Find all Diva Pieces in Shangri-la", points = 5, type = "progression",
@@ -1795,8 +1964,16 @@ achievement("Zeno", "Defeat Zeno in Shangri-la", points = 5, type = "progression
     trigger = Episode7_DefeatedZeno1()
 )
 
+achievement("Minimum Damage - Zeno", "Defeat Zeno in Shangri-la with 50% or more health remaining", points = 10, type = "missable",
+    trigger = Episode7_Zeno1Challenge()
+)
+
 achievement("Tempest", "Defeat Tempest in Shangri-la", points = 5, type = "progression",
     trigger = Episode7_DefeatedTempest()
+)
+
+achievement("No Damage - Tempest", "Defeat Tempest in Shangri-la without taking damage", points = 10, type = "missable",
+    trigger = Episode7_TempestChallenge()
 )
 
 achievement("Power Source", "Destroy the Shangri-la Power Source", points = 5, type = "progression",
@@ -1807,159 +1984,34 @@ achievement("Zeno 2", "Defeat Traveler Zeno in Shangri-la", points = 10, type = 
     trigger = Episode7_DefeatedZeno2()
 )
 
+achievement("Minimum Damage - Zeno 2", "Defeat Traveler Zeno in Shangri-la with 50% or more health remaining", points = 10, type = "missable",
+    trigger = Episode7_Zeno2Challenge()
+)
+
 achievement("Shangri-la Junkblade", "Escape Shangri-la on your Junkblade", points = 10, type = "progression",
     trigger = Episode7_CompletedJunkbladeEscape()
+)
+
+achievement("No Damage - Shangri-la Junkblade", "Clear the Shangri-la Junkblade sequence without taking damage", points = 10, type = "missable",
+    trigger = Episode7_JunkbladeChallenge()
 )
 
 achievement("Another Future", "Prevent an uncertain future and clear Episode 7", points = 25, type = "win_condition",
     trigger = Episode7_CompletedEpisode()
 )
 
-// ------------------------- Achievement Definitions - Challenges ------------------------- //
-
-// -- Any -- //
-
-achievement("Window Pain", "Break an Array Bridge Shop Window and pay for your actions", points = 3,
-    trigger = Any_PayedForWindow()
-)
-
-// -- Episode 4 -- //
-
-achievement("Siver Otakki - Episode 4", "Correctly answer Siver Otakki's question in Episode 4", points = 2, type = "missable",
-    trigger = Episode4_SiverOtakkiQuestion()
-)
-
-achievement("Hard Dancing", "Clear the Dance sequence in the Aqua Liberty Ballroom with passion", points = 5, type = "missable",
-    trigger = Episode4_CompleteDanceScene_MaxCP()
-)
-
-achievement("Bat Maniac", "Find the Bat Maniac Outfit in the Aqua Liberty Ballroom", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Quick Kill - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom in 20 seconds or less", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("S Rank - Episode 4", "Clear Episode 4 with an S Rank", points = 10, type = "missable",
-    trigger = Episode4_ClearEpisode_SRank()
-)
-
-// -- Episode 5 -- //
-
-achievement("Siver Otakki - Episode 5", "Find Siver Otakki's Special Treasure in Episode 5", points = 5, type = "missable",
-    trigger = Episode5_FoundSiverTreasure()
-)
-
-achievement("Church Emeralds", "Find all gems in the East Edge Church in Episode 5", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("T-Rex", "Defeat a T-Rex using a Quicksand trap in the Jungle", points = 5, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Laser Cannons", "Destroy all 4 Laser Cannons in the Jungle", points = 5, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Damage - River Ride 1", "Clear the River Ride part 1 in the Jungle without taking damage", points = 5, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Monsterous Tentacles", "Destroy all of the Mutated Plant's tentacles before defeating it, in the Jungle", points = 5, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Damage - River Ride 2", "Clear the River Ride part 2 in the Jungle without taking damage", points = 5, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Tiger", "Defeat Tiger in the Jungle without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Miyabi Suit", "Find the Y.O. Miyabi Suit in the Jamelgalda Prison", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Lady", "Defeat Lady in the Jamelgalda Prison without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Heal - Adidi", "Defeat Adidi in the Jamelgalda Prison without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("S Rank - Episode 5", "Clear Episode 5 with an S Rank", points = 10, type = "missable",
-    trigger = Episode5_ClearEpisode_SRank()
-)
-
-// -- Episode 6 -- //
-
-
-achievement("East Edge Treasure", "Find the hidden East Edge Treasure in Episode 6", points = 3, type = "missable",
-    trigger = Episode6_EastEdgeSecret()
-)
-
-achievement("Geo Stones", "Find all gems in the Gloom Alley Streets", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Agressive Siver", "Defeat a Mysterious Adversary in Episode 6", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Machine Gun", "Find the Machine Gun in the Gloom Alley Ghost House", points = 3, type = "missable",
-    trigger = always_false()
-)
-
-achievement("S Rank - Episode 6", "Clear Episode 6 with an S Rank", points = 10, type = "missable",
-    trigger = Episode6_ClearEpisode_SRank()
-)
-
-// -- Episode 7 -- //
-
-achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatures in Shangri-la", points = 2, type = "missable",
-    trigger = Episode7_CreatureClues()
-)
-
-achievement("Katana", "Find the Katana in Shangri-la", points = 3, type = "missable",
-    trigger = Episode7_AcquiredKatana()
-)
-
-achievement("No Heal - Kondo 2", "Defeat Kondo in Shangri-la without healing", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Minimum Damage - Zeno", "Defeat Zeno in Shangri-la with 50% or more health remaining", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Damage - Tempest", "Defeat Tempest in Shangri-la without taking damage", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("Minimum Damage - Zeno 2", "Defeat Traveler Zeno in Shangri-la with 50% or more health remaining", points = 10, type = "missable",
-    trigger = always_false()
-)
-
-achievement("No Damage - Shangri-la Junkblade", "Clear the Shangri-la Junkblade sequence without taking damage", points = 10, type = "missable",
-    trigger = always_false()
-)
-
 achievement("S Rank - Episode 7", "Clear Episode 7 with an S Rank", points = 10, type = "missable",
     trigger = Episode7_ClearEpisode_SRank()
 )
 
-// -- Episode 8 -- //
-
 achievement("Unlock Episode 8", "Clear Episode 7 after acquiring a total of 2000 CP or more", points = 10, type = "missable",
-    trigger = always_false()
+    trigger = Episode7_UnlockedEpisode8()
 )
 
+// -- Episode 8 -- //
+
 achievement("Snacks", "Find all snacks in Episode 8", points = 10,
-    trigger = always_false()
+    trigger = Episode8_AllSnacks()
 )
 
 achievement("Final Break Down", "Clear Episode 8", points = 10,
@@ -1967,7 +2019,6 @@ achievement("Final Break Down", "Clear Episode 8", points = 10,
 )
 
 achievement("Emergency Spray", "Clear Episode 8 with 5 or more Emergency Sprays remaining", points = 25,
-    trigger = always_false()
+    trigger = Episode8_EmergencySpayChallenge()
 )
-
 

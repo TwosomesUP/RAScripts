@@ -210,6 +210,10 @@ Items = {
             }  
         },
         "Episode5":{
+            "ChurchGems": {
+                "Gem1": bit6(0x1bebb0),
+                "Gem2": bit7(0x1bebb0)
+            },
             "Plant": {
                 "Defeated": bit4(0x1beaf8)
             }
@@ -589,6 +593,7 @@ Rooms = {
     },
     "Episode5": {
         "SiverTreasure": [8, 5, 0],
+        "Church": [8, 1, 1],
         "ChurchControlRoom": [8, 1, 2],
         "JungleStart": [5, 1, 0],
         "JungleRiver": [5, 0, 0],
@@ -1353,7 +1358,9 @@ function Episode5_FoundSiverTreasure(){
 }
 
 function Episode5_ChurchEmeralds(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(5, "Church") &&
+        TriggeredItemFlagCount(5, "ChurchGems", true)
 }
 
 function Episode5_ReachJungle(){

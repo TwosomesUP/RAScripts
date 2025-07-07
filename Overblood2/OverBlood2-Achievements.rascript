@@ -13,6 +13,7 @@ Game = {
     "OnTitle": dword(0xd2f64),
     "Episode4Cheat": byte(0x1f79d0),
     "Episode8Unlocked": byte(0xd2fa4),
+    "Timer": byte(0x1e3ad4),
     "Time":{
         "Overall": {
             "Hours": dword(0x1be99c),
@@ -202,6 +203,11 @@ Items = {
                 "Part13": bit5(0x1beb21),
                 "Part14": bit6(0x1beb21),
             }
+        },
+        "Episode4":{
+            "Treasures":{
+                "BatManiac": bit2(0x1beaf8)
+            }  
         },
         "Episode5":{
             "Plant": {
@@ -578,6 +584,7 @@ Rooms = {
     },
     "Episode4": {
       "DanceSequence": [4, 1, 5],
+      "BatManiac": [4, 1, 3],
       "GartludeFight": [4, 1, 2]
     },
     "Episode5": {
@@ -716,9 +723,9 @@ function CompletedMinigame(episode, room){
         Game["MiniGame"] == 0
 }
 
-function CompletedMinigameChallenge(episode, room, points){
+function CompletedMinigameChallenge(episode, room, points, prev = true){
     return Game["Episode"] == episode &&
-        IsInRoom(episode, room, true) &&
+        IsInRoom(episode, room, prev) &&
         Game["ClearStats"]["Episode" + episode]["CP"] >= prev(Game["ClearStats"]["Episode" + episode]["CP"]) + points
 }
 
@@ -1311,11 +1318,13 @@ function Episode4_CompleteDanceScene(){
 
 function Episode4_CompleteDanceScene_MaxCP(){
     return !IsOnTitle() &&
-        CompletedMinigameChallenge(4, "DanceSequence", 100)
+        CompletedMinigameChallenge(4, "DanceSequence", 100, false)
 }
 
 function Episode4_BatManiac(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(4, "BatManiac") &&
+        TriggeredItemFlag(4, "Treasures", "BatManiac")
 }
 
 function Episode4_DefeatedGartlude(){
@@ -1324,7 +1333,8 @@ function Episode4_DefeatedGartlude(){
 }
 
 function Episode4_GartludeChallenge(){
-    return always_false()
+    timer = Game["Timer"]
+    return timer >= 40 && Episode4_DefeatedGartlude()
 }
 
 function Episode4_ClearEpisode(){
@@ -1724,7 +1734,6 @@ achievement("S Rank - Episode 2", "Clear Episode 2 with an S Rank", points = 10,
     trigger = Episode2_ClearEpisode_SRank()
 )
 
-
 // -- Episode 3 -- //
 
 achievement("Siver Otakki - Episode 3", "Correctly answer Siver Otakki's question in Episode 3", points = 2, type = "missable",
@@ -1797,7 +1806,7 @@ achievement("Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom Station", 
     trigger = Episode4_DefeatedGartlude()
 )
 
-achievement("Quick Kill - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom in 20 seconds or less", points = 10, type = "missable",
+achievement("Quick Kill - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom with 40 seconds or more left on the timer", points = 10, type = "missable",
     trigger = Episode4_GartludeChallenge()
 )
 
@@ -1808,7 +1817,6 @@ achievement("Bloody Rose", "Escape the Aqua Liberty Ballroom and Clear Episode 4
 achievement("S Rank - Episode 4", "Clear Episode 4 with an S Rank", points = 10, type = "missable",
     trigger = Episode4_ClearEpisode_SRank()
 )
-
 
 // -- Episode 5 -- //
 

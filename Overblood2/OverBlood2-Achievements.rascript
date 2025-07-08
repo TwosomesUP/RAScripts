@@ -216,6 +216,11 @@ Items = {
             },
             "Plant": {
                 "Defeated": bit4(0x1beaf8)
+            },
+            "Lasers": {
+                "Laser1": bit4(0x1beb20),
+                "Laser2": bit5(0x1beb20),
+                "Laser3": bit6(0x1beb20)
             }
         },
         "Episode7":{
@@ -247,6 +252,18 @@ EnemyList = {
         "HP": 0x88
     },
     "Enemies":{
+        "Plant":{
+            "HP": dword(0x1d3770),
+            "Room": "MutantPlant",
+            "Tentacles": [
+                dword(0x1d3758),
+                dword(0x1d375c),
+                dword(0x1d3760),
+                dword(0x1d3764),
+                dword(0x1d3768),
+                dword(0x1d376c)
+            ]
+        },
         "Gumbo": {
             "ID": 0x51,
             "Room": "GumboFight",
@@ -325,6 +342,15 @@ EnemyList = {
             "ID": 0x4,
             "Room": "GhostHouseYard",
             "Index": 0
+        },
+        "TRex": {
+            "ID": 0x49,
+            "Room": "TRexRiver",
+            "Index": 0,
+            "States": {
+                "Trapped": 0x5,
+                "Dead": 0x06
+            }
         }
     }
 }
@@ -674,7 +700,8 @@ Rooms = {
         "AntiGravityStation": [5, 2, 2],
         "TigerFight": [5, 1, 0xd],
         "LadyFight": [5, 3, 2],
-        "AdidiFight": [5, 3, 0]
+        "AdidiFight": [5, 3, 0],
+        "TRexRiver": [5, 1, 1]
     },
     "Episode6": {
         "MuseumStreet": [8, 3, 3],
@@ -1503,27 +1530,40 @@ function Episode5_ReachJungle(){
 }
 
 function Episode5_TRexChallenge(){
-    return always_false()
+    return !IsOnTitle() &&
+        BossIsActive("TRex") &&
+        BossInState("TRex", "Dead") &&
+        DefeatedBoss(5, "TRex")
 }
 
 function Episode5_River1Challenge(){
     return !IsOnTitle() &&
-        CompletedMinigame(5, "RiverPart1")
+        CompletedMinigameChallenge(5, "RiverPart1", 40, false)
 }
 
 function Episode5_DefeatedPlant(){
+    plant = EnemyList["Enemies"]["Plant"]
+    hp = plant["HP"]
+    room = plant["Room"]    
+
     return !IsOnTitle() &&
-        IsInRoom(5, "MutantPlant") &&
-        TriggeredItemFlag(5, "Plant", "Defeated")
+        IsInRoom(5, room) &&
+        prev(hp) != 0 && hp == 0
 }
 
 function Episode5_PlantChallenge(){
-    return always_false()
+    plant = EnemyList["Enemies"]["Plant"]
+    tentacles = plant["Tentacles"]
+    room = plant["Room"]
+    tentacleCheck = tally_of(tentacles, 6, tentacle => IsInRoom(5, room) && prev(tentacle) > 0 && tentacle == 0)
+
+    return measured(tentacleCheck, IsInRoom(5, room)) &&
+        Episode5_DefeatedPlant()
 }
 
 function Episode5_River2Challenge(){
     return !IsOnTitle() &&
-        CompletedMinigame(5, "RiverPart2")
+        CompletedMinigameChallenge(5, "RiverPart2", 40, false)
 }
 
 function Episode5_DestroyAntiGravityStation(){

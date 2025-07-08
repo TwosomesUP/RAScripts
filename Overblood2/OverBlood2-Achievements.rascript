@@ -236,26 +236,95 @@ Items = {
     }
 }
 
-Enemies = {
-    "Boss": {
-        "ID": dword(0x186dcc),
-        "Loaded": dword(0x186dfc),
-        "HP": dword(0x186e4c),
-        "AltHP": dword(0x187090),
-        "State": byte(0x186dd4),
-        "States": {
-            "ThirdGuardian": {
+EnemyList = {
+    "Start": 0x186dc4,
+    "Size": 0x244,
+    "Offsets":{
+        "Index": 0x0,
+        "Active": 0x4,
+        "ID": 0x8,
+        "State": 0x10,
+        "HP": 0x88
+    },
+    "Enemies":{
+        "Gumbo": {
+            "ID": 0x51,
+            "Room": "GumboFight",
+            "Index": 0
+        },
+        "FirstGuardian": {
+            "ID": 0x52,
+            "Room": "FirstGuardian",
+            "Index": 0
+        },
+        "SecondGuardian": {
+            "ID": 0x53,
+            "Room": "SecondGuardian",
+            "Index": 0
+        },
+        "ThirdGuardian": {
+            "ID": 0x54,
+            "Room": "ThirdGuardian",
+            "Index": 0,
+            "States": {
                 "InWater": 0x06,
                 "DeathByIce": 0x0c
             }
         },
-        "IDs": {
-            "Gumbo": 0x51,
-            "FirstGuardian": 0x52,
-            "SecondGuardian": 0x53,
-            "ThirdGuardian": 0x54,
-            "PagodaKondo": 0x56,
-            "Sperio": 0x58
+        "Kondo": {
+            "ID": 0x55,
+            "Room": "KondoFight",
+            "Index": 1
+        },
+        "Sperio": {
+            "ID": 0x57,
+            "Room": "SperioFight",
+            "Index": 1
+        },
+        "Gartlude": {
+            "ID": 0x59,
+            "Room": "GartludeFight",
+            "Index": 0
+        },
+        "Tiger": {
+            "ID": 0x4d,
+            "Room": "TigerFight",
+            "Index": 0
+        },
+        "Lady": {
+            "ID": 0x5b,
+            "Room": "LadyFight",
+            "Index": 0
+        },
+        "Adidi": {
+            "ID": 0x5a,
+            "Room": "AdidiFight",
+            "Index": 0
+        },
+        "Kondo2": {
+            "ID": 0x5e,
+            "Room": "KondoFight",
+            "Index": 0
+        },
+        "Zeno": {
+            "ID": 0x5c,
+            "Room": "Zeno1Fight",
+            "Index": 0
+        },
+        "Tempest": {
+            "ID": 0x5d,
+            "Room": "TempestFight",
+            "Index": 0
+        },
+        "Zeno2": {
+            "ID": 0x5f,
+            "Room": "Zeno2Fight",
+            "Index": 0
+        },
+        "Siver": {
+            "ID": 0x4,
+            "Room": "GhostHouseYard",
+            "Index": 0
         }
     }
 }
@@ -763,13 +832,86 @@ function RoomTransition(episode, start, end){
         IsInRoom(episode, end)
 }
 
-function DefeatedBoss(episode, room, challenge = false, alt = false){
+function GetEnemyHP(index){
+    start = EnemyList["Start"]
+    size = EnemyList["Size"]
+    offset = EnemyList["Offsets"]["HP"]
+    slot = index * size
+    hp = dword(start + slot + offset)
+    
+    return hp
+}
+
+function GetEnemyID(index){
+    start = EnemyList["Start"]
+    size = EnemyList["Size"]
+    offset = EnemyList["Offsets"]["ID"]
+    slot = index * size
+    id = dword(start + slot + offset)
+    
+    return id
+}
+
+function GetEnemyState(index){
+    start = EnemyList["Start"]
+    size = EnemyList["Size"]
+    offset = EnemyList["Offsets"]["State"]
+    slot = index * size
+    state = dword(start + slot + offset)
+    
+    return state
+}
+
+function IsEnemyActive(index, name){
+    id = GetEnemyID(index)
+    enemyID = EnemyList["Enemies"][name]["ID"]
+    
+    return id == enemyID
+}
+
+function IsEnemyDamaged(index){
+    hp = GetEnemyHP(index)
+    return hp < 0xb40
+}
+
+function IsEnemyInState(index, name, state){
+    enemy = EnemyList["Enemies"][name] 
+    states = enemy["States"]
+    enemyState = GetEnemyState(index)
+    value = states[state]
+    
+    return enemyState == value
+}
+
+function EnemyStateChanged(index, name, state1, state2){
+    enemy = EnemyList["Enemies"][name] 
+    states = enemy["States"]
+    enemyState = GetEnemyState(index)
+    value1 = states[state1]
+    value2 = states[state2]
+    
+    return prev(enemyState) == value1 && enemyState == value2
+}
+
+function GetEnemyIndex(name){
+    enemy = EnemyList["Enemies"][name]
+    index = enemy["Index"]
+    return index
+}
+
+function GetEnemyRoom(name){
+    enemy = EnemyList["Enemies"][name]
+    room = enemy["Room"]
+    return room
+}
+
+function DefeatedBoss(episode, name, challenge = false){
+    index = GetEnemyIndex(name)
+    room = GetEnemyRoom(name)
+    
     trigger = Game["Episode"] == episode
-    health = Enemies["Boss"]["HP"]
+    health = GetEnemyHP(index)
     roomCheck = IsInRoom(episode, room)
-        
-    if(alt)
-        health = Enemies["Boss"]["AltHP"]
         
     bossCheck = prev(health) != 0x00 && health == 0x00
     
@@ -891,40 +1033,29 @@ function GetPlayerHealthPercentage(){
 }
 
 function BossIsActive(name){
-    bossId = Enemies["Boss"]["ID"]
-    ids = Enemies["Boss"]["IDs"]
-    return bossId == ids[name]
+    index = GetEnemyIndex(name)
+    return IsEnemyActive(index, name)
 }
 
-function IsBossDamaged(alt = false){
-    bossHealth = Enemies["Boss"]["HP"]
-    if(alt)
-        bossHealth = Enemies["Boss"]["AltHP"]
-    return bossHealth < 0xb40
+function IsBossDamaged(name){
+    index = GetEnemyIndex(name)
+    return IsEnemyDamaged(index)
 }
 
-function BossTookDamage(alt = false){
-    bossHealth = Enemies["Boss"]["HP"]
-    if(alt)
-        bossHealth = Enemies["Boss"]["AltHP"]
-    return prev(bossHealth) > bossHealth
+function BossTookDamage(name){
+    index = GetEnemyIndex(name)
+    health = GetEnemyHP(index)
+    return prev(health) > health
 }
 
-function BossStateChange(boss, state1, state2){
-    state = Enemies["Boss"]["State"]
-    states = Enemies["Boss"]["States"][boss]
-    start = states[state1]
-    end = states[state2]
-    
-    return prev(state) == start && state == end
+function BossStateChange(name, state1, state2){
+    index = GetEnemyIndex(name)
+    return EnemyStateChanged(index, name, state1, state2)
 }
 
-function BossInState(boss, state){
-    bossState = Enemies["Boss"]["State"]
-    states = Enemies["Boss"]["States"][boss]
-    stateId = states[state]
-    
-    return bossState == stateId
+function BossInState(name, state){
+    index = GetEnemyIndex(name)
+    return IsEnemyInState(index, name, state)
 }
 
 function GetCharacterItemSlot(type){
@@ -983,13 +1114,12 @@ function ResetBossChallenge(episode, room){
     (
         always_false() || 
         (
-            (
-                never(IsOnTitle()) && 
-                never(GetCharacterHealth() == 0) &&
-                never(GetCharacterHealth() > 0xb40)
-            ) || 
+
+            never(IsOnTitle()) && 
+            never(GetCharacterHealth() == 0) &&
+            never(GetCharacterHealth() > 0xb40) &&
             never(!IsInRoom(episode, room))
-        )
+        ) 
     )
 }
 
@@ -1041,16 +1171,16 @@ function Episode1_EnterPowerRoomWithKey(){
 function Episode1_DefeatedGumbo(){
     return !IsOnTitle() &&
         BossIsActive("Gumbo") &&
-        DefeatedBoss(1, "GumboFight")
+        DefeatedBoss(1, "Gumbo")
 }
 
 function Episode1_DefeatGumbo_NoHeal(){
     return BossIsActive("Gumbo") &&
-        DefeatedBoss(1, "GumboFight", true) &&
+        DefeatedBoss(1, "Gumbo", true) &&
         disable_when
         (
             BossIsActive("Gumbo") && 
-            IsBossDamaged() && 
+            IsBossDamaged("Gumbo") && 
             PlayerHealed()
         ) &&
         ResetBossChallenge(1, "GumboFight")
@@ -1098,7 +1228,7 @@ function Episode2_FirstGuardChallenge(){
         disable_when
         (
             BossIsActive("FirstGuardian") && 
-            IsBossDamaged() && 
+            IsBossDamaged("FirstGuardian") && 
             HasWeaponEquipped("LightSabre") &&
             prev(HasWeaponEquipped("LightSabre")) &&
             ReloadedWeapon()
@@ -1106,9 +1236,9 @@ function Episode2_FirstGuardChallenge(){
         disable_when
         (
             BossIsActive("FirstGuardian") &&
-            IsBossDamaged() &&
+            IsBossDamaged("FirstGuardian") &&
             !HasWeaponEquipped("LightSabre") &&
-            BossTookDamage()
+            BossTookDamage("FirstGuardian")
         ) &&
         ResetBossChallenge(2, "FirstGuardian")
 }
@@ -1132,16 +1262,16 @@ function Episode2_SecondGuardChallenge(){
         disable_when
         (
             BossIsActive("SecondGuardian") && 
-            IsBossDamaged() && 
+            IsBossDamaged("SecondGuardian") && 
             HasWeaponEquipped("AntiqueGun") &&
             CountWeaponShots(19)
         ) &&
         disable_when
         (
             BossIsActive("SecondGuardian") &&
-            IsBossDamaged() &&
+            IsBossDamaged("SecondGuardian") &&
             !HasWeaponEquipped("AntiqueGun") &&
-            BossTookDamage()
+            BossTookDamage("SecondGuardian")
         ) &&
         ResetBossChallenge(2, "SecondGuardian")
 }
@@ -1180,33 +1310,34 @@ function Episode2_ThirdGuardChallenge(){
 
 function Episode2_DefeatedKondo(){
     return !IsOnTitle() &&
-        DefeatedBoss(2, "KondoFight")
+        BossIsActive("Kondo") &&
+        DefeatedBoss(2, "Kondo")
 }
 
 function Episode2_KondoChallenge(){
-    return BossIsActive("PagodaKondo") &&
+    return BossIsActive("Kondo") &&
         HasWeaponEquipped("SuperLightSabre") &&
-        DefeatedBoss(2, "KondoFight", true) &&
+        DefeatedBoss(2, "Kondo", true) &&
         disable_when
         (
-            BossIsActive("PagodaKondo") && 
-            IsBossDamaged(true) && 
+            BossIsActive("Kondo") && 
+            IsBossDamaged("Kondo") && 
             prev(GetPlayerHealthPercentage()) > 25 &&
             GetPlayerHealthPercentage() < 25
         ) &&
         disable_when
         (
-            BossIsActive("PagodaKondo") && 
-            IsBossDamaged(true) && 
+            BossIsActive("Kondo") && 
+            IsBossDamaged("Kondo") && 
             GetPlayerHealthPercentage() < 25 &&
             PlayerTookDamage()
         ) &&
         disable_when
         (
-            BossIsActive("PagodaKondo") &&
-            IsBossDamaged(true) &&
+            BossIsActive("Kondo") &&
+            IsBossDamaged("Kondo") &&
             !HasWeaponEquipped("SuperLightSabre") &&
-            BossTookDamage(true)
+            BossTookDamage("Kondo")
         ) &&
         ResetBossChallenge(2, "KondoFight")
 }
@@ -1268,26 +1399,27 @@ function Episode3_DestroyAntiProtonCore(){
 
 function Episode3_DefeatSperio(){
     return !IsOnTitle() &&
-        DefeatedBoss(3, "SperioFight", alt = true)
+        BossIsActive("Sperio") &&
+        DefeatedBoss(3, "Sperio")
 }
 
 function Episode3_SperioChallenge(){
     return BossIsActive("Sperio") &&
         HasWeaponEquipped("BigMagnum") &&
-        DefeatedBoss(3, "SperioFight", true, true) &&
+        DefeatedBoss(3, "Sperio", true) &&
         disable_when
         (
             BossIsActive("Sperio") && 
-            IsBossDamaged(true) && 
+            IsBossDamaged("Sperio") && 
             HasWeaponEquipped("BigMagnum") &&
             CountWeaponShots(6)
         ) &&
         disable_when
         (
             BossIsActive("Sperio") &&
-            IsBossDamaged(true) &&
+            IsBossDamaged("Sperio") &&
             !HasWeaponEquipped("BigMagnum") &&
-            BossTookDamage()
+            BossTookDamage("Sperio")
         ) &&
         ResetBossChallenge(3, "SperioFight")
 }
@@ -1334,7 +1466,8 @@ function Episode4_BatManiac(){
 
 function Episode4_DefeatedGartlude(){
     return !IsOnTitle() &&
-        DefeatedBoss(4, "GartludeFight")
+        BossIsActive("Gartlude") &&
+        DefeatedBoss(4, "Gartlude")
 }
 
 function Episode4_GartludeChallenge(){
@@ -1405,7 +1538,8 @@ function Episode5_LaserCannons(){
 
 function Episode5_DefeatedTiger(){
     return !IsOnTitle() &&
-        DefeatedBoss(5, "TigerFight")
+        BossIsActive("Tiger") &&
+        DefeatedBoss(5, "Tiger")
 }
 
 function Episode5_TigerChallenge(){
@@ -1418,7 +1552,8 @@ function Episode5_MiyabiSuit(){
 
 function Episode5_DefeatedLady(){
     return !IsOnTitle() &&
-        DefeatedBoss(5, "LadyFight")
+        BossIsActive("Lady") &&
+        DefeatedBoss(5, "Lady")
 }
 
 function Episode5_LadyChallenge(){
@@ -1427,7 +1562,8 @@ function Episode5_LadyChallenge(){
 
 function Episode5_DefeatedAdidi(){
     return !IsOnTitle() &&
-        DefeatedBoss(5, "AdidiFight")
+        BossIsActive("Adidi") &&
+        DefeatedBoss(5, "Adidi")
 }
 
 function Episode5_ClearEpisode(){
@@ -1467,7 +1603,9 @@ function Episode6_FindGhostHouseKey(){
 }
 
 function Episode6_EvilSiver(){
-    return always_false()
+    return !IsOnTitle() &&
+        BossIsActive("Siver") &&
+        DefeatedBoss(6, "Siver")
 }
 
 function Episode6_AlternateGhostHouse(){
@@ -1536,7 +1674,8 @@ function Episode7_AcquiredKatana(){
 
 function Episode7_DefeatedKondo(){
     return !IsOnTitle() &&
-        DefeatedBoss(7, "KondoFight")
+        BossIsActive("Kondo2") &&
+        DefeatedBoss(7, "Kondo2")
 }
 
 function Episode7_KondoChallenge(){
@@ -1551,7 +1690,8 @@ function Episode7_GotDivaPieces(){
 }
 
 function Episode7_DefeatedZeno1(){
-    return DefeatedBoss(7, "Zeno1Fight")
+    return BossIsActive("Zeno") &&
+        DefeatedBoss(7, "Zeno")
 }
 
 function Episode7_Zeno1Challenge(){
@@ -1560,7 +1700,8 @@ function Episode7_Zeno1Challenge(){
 
 function Episode7_DefeatedTempest(){
     return !IsOnTitle() &&
-        DefeatedBoss(7, "TempestFight")
+        BossIsActive("Tempest") &&
+        DefeatedBoss(7, "Tempest")
 }
 
 function Episode7_TempestChallenge(){
@@ -1573,7 +1714,8 @@ function Episode7_DeactivatedCore(){
 }
 
 function Episode7_DefeatedZeno2(){
-    return DefeatedBoss(7, "Zeno2Fight")
+    return BossIsActive("Zeno2") &&
+        DefeatedBoss(7, "Zeno2")
 }
 
 function Episode7_Zeno2Challenge(){

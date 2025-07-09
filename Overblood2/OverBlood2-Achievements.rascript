@@ -221,6 +221,23 @@ Items = {
                 "Laser1": bit4(0x1beb20),
                 "Laser2": bit5(0x1beb20),
                 "Laser3": bit6(0x1beb20)
+            },
+            "Treasures": {
+                "MiyabiSuit": bit5(0x1beb68)
+            }
+        },
+        "Episode6":{
+            "Treasures": {
+                "MachineGun": bit4(0x1beb01)
+            },
+            "AlleyGems": {
+                "Gem1": bit1(0x1beae0),
+                "Gem2": bit2(0x1beae0),
+                "Gem3": bit3(0x1beae0),
+                "Gem4": bit4(0x1beae0),
+                "Gem5": bit0(0x1beae8),
+                "Gem6": bit1(0x1beae8),
+                "Gem7": bit2(0x1beae8)
             }
         },
         "Episode7":{
@@ -701,16 +718,19 @@ Rooms = {
         "TigerFight": [5, 1, 0xd],
         "LadyFight": [5, 3, 2],
         "AdidiFight": [5, 3, 0],
-        "TRexRiver": [5, 1, 1]
+        "TRexRiver": [5, 1, 1],
+        "Lasers": [5, 1 , 0xb],
+        "MiyabiSuit": [5, 3, 6]
     },
     "Episode6": {
         "MuseumStreet": [8, 3, 3],
         "EastEdgeBridge": [8, 4, 7],
         "GloomAlleyEntrance": [8, 4, 8],
-        "GloomAlleyStart": [6, 1, 0],
+        "GloomAlley1": [6, 1, 0],
+        "GloomAlley2": [6, 1, 1],
         "GloomAlleyBar": [6, 1, 2],
         "GhostHouseYard": [6, 1, 3],
-        "GhostHouseEntryway": [6, 1, 4],
+        "GhostHouse": [6, 1, 4],
         "GhostHouseWaterTower": [6, 1, 5],
         "JunkyardHighway": [6, 2, 0],
         "JunkyardRace": [6, 2, 3]
@@ -1573,7 +1593,9 @@ function Episode5_DestroyAntiGravityStation(){
 }
 
 function Episode5_LaserCannons(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(5, "Lasers") &&
+        TriggeredItemFlagCount(5, "Lasers", true)
 }
 
 function Episode5_DefeatedTiger(){
@@ -1583,11 +1605,30 @@ function Episode5_DefeatedTiger(){
 }
 
 function Episode5_TigerChallenge(){
-    return always_false()
+    return BossIsActive("Tiger") &&
+        HasWeaponEquipped("HandBazooka") &&
+        DefeatedBoss(5, "Tiger", true) &&
+        disable_when
+        (
+            BossIsActive("Tiger") && 
+            IsBossDamaged("Tiger") && 
+            HasWeaponEquipped("HandBazooka") &&
+            CountWeaponShots(7)
+        ) &&
+        disable_when
+        (
+            BossIsActive("Tiger") &&
+            IsBossDamaged("Tiger") &&
+            !HasWeaponEquipped("HandBazooka") &&
+            BossTookDamage("Tiger")
+        ) &&
+        ResetBossChallenge(5, "TigerFight")
 }
 
 function Episode5_MiyabiSuit(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(5, "MiyabiSuit") &&
+        TriggeredItemFlag(5, "Treasures", "MiyabiSuit")
 }
 
 function Episode5_DefeatedLady(){
@@ -1597,7 +1638,15 @@ function Episode5_DefeatedLady(){
 }
 
 function Episode5_LadyChallenge(){
-    return always_false()
+    return BossIsActive("Lady") &&
+        DefeatedBoss(5, "Lady", true) &&
+        disable_when
+        (
+            BossIsActive("Lady") && 
+            IsBossDamaged("Lady") && 
+            PlayerTookDamage()
+        ) &&
+        ResetBossChallenge(5, "LadyFight")
 }
 
 function Episode5_DefeatedAdidi(){
@@ -1611,7 +1660,31 @@ function Episode5_ClearEpisode(){
 }
 
 function Episode5_AdidiChallenge(){
-    return always_false()
+    return BossIsActive("Adidi") &&
+        HasWeaponEquipped("SuperLightSabre") &&
+        DefeatedBoss(5, "Adidi", true) &&
+        disable_when
+        (
+            BossIsActive("Adidi") && 
+            IsBossDamaged("Adidi") && 
+            prev(GetPlayerHealthPercentage()) > 25 &&
+            GetPlayerHealthPercentage() < 25
+        ) &&
+        disable_when
+        (
+            BossIsActive("Adidi") && 
+            IsBossDamaged("Adidi") && 
+            GetPlayerHealthPercentage() < 25 &&
+            PlayerTookDamage()
+        ) &&
+        disable_when
+        (
+            BossIsActive("Adidi") &&
+            IsBossDamaged("Adidi") &&
+            !HasWeaponEquipped("SuperLightSabre") &&
+            BossTookDamage("Adidi")
+        ) &&
+        ResetBossChallenge(5, "AdidiFight")
 }
 
 function Episode5_ClearEpisode_SRank(){
@@ -1627,13 +1700,20 @@ function Episode6_EastEdgeSecret(){
 }
 
 function Episode6_GloomAlleyGems(){
-    return always_false()
+    rooms = [
+        "GloomAlley1",
+        "GloomAlley2"
+    ]
+    
+    return !IsOnTitle() &&
+        IsInAnyRoom(6, rooms) &&
+        TriggeredItemFlagCount(6, "AlleyGems", true)
 }
 
 function Episode6_ReachGloomAlley(){
     return !IsOnTitle() &&
         Game["Episode"] == 6 &&
-        RoomTransition(6, "GloomAlleyEntrance", "GloomAlleyStart")
+        RoomTransition(6, "GloomAlleyEntrance", "GloomAlley1")
 }
 
 function Episode6_FindGhostHouseKey(){
@@ -1653,13 +1733,15 @@ function Episode6_AlternateGhostHouse(){
         Game["Episode"] == 6 &&
         Events["Episode6"]["UnlockedGhostHouseDoor"] == 0 &&
         (
-            (RoomTransition(6, "GhostHouseYard", "GhostHouseEntryway")) ||
+            (RoomTransition(6, "GhostHouseYard", "GhostHouse")) ||
             (RoomTransition(6, "GhostHouseYard", "GhostHouseWaterTower")) 
         )
 }
 
 function Episode6_MachineGun(){
-    return always_false()
+    return !IsOnTitle() &&
+        IsInRoom(6, "GhostHouse") &&
+        TriggeredItemFlag(6, "Treasures", "MachineGun")
 }
 
 function Episode6_ReachJunkyard(){
@@ -2045,7 +2127,7 @@ achievement("Anti Gravity", "Destroy Anti Gravity Defense Station in the Jungle"
     trigger = Episode5_DestroyAntiGravityStation()
 )
 
-achievement("Laser Cannons", "Destroy all 4 Laser Cannons in the Jungle", points = 5, type = "missable",
+achievement("Laser Cannons", "Destroy all 3 Laser Cannons in the Jungle", points = 5, type = "missable",
     trigger = Episode5_LaserCannons()
 )
 
@@ -2053,7 +2135,7 @@ achievement("Tiger", "Defeat Tiger in the Jungle", points = 5, type = "progressi
     trigger = Episode5_DefeatedTiger()
 )
 
-achievement("Tiger - Challenge", "With the Bazooka equipped, defeat Tiger in the Jungle in 5 shots or less", points = 10, type = "missable",
+achievement("Tiger - Challenge", "With the Bazooka equipped, defeat Tiger in the Jungle in 6 shots or less", points = 10, type = "missable",
     trigger = Episode5_TigerChallenge()
 )
 
@@ -2065,7 +2147,7 @@ achievement("Lady", "Defeat Lady in the Jamelgalda Prison", points = 5, type = "
     trigger = Episode5_DefeatedLady()
 )
 
-achievement("No Heal - Lady", "With the Super Light Sabre equipped, defeated Lady in the Jamelgalda without dropping below 25% health", points = 10, type = "missable",
+achievement("No Heal - Lady", "Defeated Lady in the Jamelgalda without taking damage", points = 10, type = "missable",
     trigger = Episode5_LadyChallenge()
 )
 
@@ -2073,7 +2155,7 @@ achievement("Deceptive Jungle", "Defeat Adidi, escape the Jamelgalda Prison, and
     trigger = Episode5_ClearEpisode()
 )
 
-achievement("No Heal - Adidi", "With the Flame Thrower equipped, defeat Adidi in the Jamelgalda Prison without reloading", points = 10, type = "missable",
+achievement("No Heal - Adidi", "With the Super Light Sabre equipped, defeat Adidi in the Jamelgalda Prison without dropping below 25% health", points = 10, type = "missable",
     trigger = Episode5_AdidiChallenge()
 )
 

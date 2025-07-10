@@ -254,6 +254,14 @@ Items = {
                 "Piece7": bit3(0x1beaf9),
                 "Piece8": bit7(0x1beba1)
             }
+        },
+        "Episode8":{
+            "Snacks": {
+                "Snack1": bit0(0x1beaf8),
+                "Snack2": bit4(0x1beaf8),
+                "Snack3": bit5(0x1beaf8),
+                "Snack4": bit3(0x1beb03)
+            }
         }
     }
 }
@@ -633,12 +641,19 @@ ObjectInteractions = {
             }
         },
         "JunkbladeRace":{
-          "ID": 0xcf,
-          "Scene":{
+            "ID": 0xcf,
+            "Scene":{
               "Begin": 0x00,
               "End": 0x00
-          }
-      }  
+            }
+        },
+        "DestroyCore":{
+            "ID": 0xe0,
+            "Scene": {
+              "Begin": 0x263,
+              "End": 0x273
+            }
+        }
     },
     "Episode8": {
         "Complete": {
@@ -748,9 +763,19 @@ Rooms = {
         "TempestFight": [7, 2, 5],
         "EngineCore": [7, 2, 7],
         "Zeno2Fight": [7, 2, 0xd],
-        "JunkbladeRace": [7, 2, 0xa]
+        "JunkbladeRace": [7, 2, 0xa],
+        "Diva1": [7, 1, 3],
+        "Diva2": [7, 1, 4],
+        "Diva3": [7, 1, 5],
+        "Diva4": [7, 2, 0xc],
+        "Diva5": [7, 0, 7],
+        "Diva6": [7, 2, 8],
+        "Diva7": [7, 1, 0xb]
     },
     "Episode8": {
+        "Room1": [9, 0, 1],
+        "Room2": [9, 0, 2],
+        "Room3": [9, 0, 3],
         "End": [9, 0, 4]
     }
 }
@@ -821,7 +846,11 @@ function TriggeredItemFlagCount(episode, category, measured = false, challenge =
     total = sum_of(flags, flag => flags[flag])
   
     countCheck = total >= count
+    
     episodeCheck = Game["Episode"] == episode
+    if(episode == 8)
+        episodeCheck = Game["Map"]["Location"] == 0x9
+    
     prevCheck = prevTotal < count
     
     if(measured)
@@ -1801,13 +1830,46 @@ function Episode7_DefeatedKondo(){
 }
 
 function Episode7_KondoChallenge(){
-    return always_false()
+    return BossIsActive("Kondo2") &&
+        HasWeaponEquipped("Katana") &&
+        DefeatedBoss(7, "Kondo2", true) &&
+        disable_when
+        (
+            BossIsActive("Kondo2") && 
+            IsBossDamaged("Kondo2") && 
+            prev(GetPlayerHealthPercentage()) > 25 &&
+            GetPlayerHealthPercentage() < 25
+        ) &&
+        disable_when
+        (
+            BossIsActive("Kondo2") && 
+            IsBossDamaged("Kondo2") && 
+            GetPlayerHealthPercentage() < 25 &&
+            PlayerTookDamage()
+        ) &&
+        disable_when
+        (
+            BossIsActive("Kondo2") &&
+            IsBossDamaged("Kondo2") &&
+            !HasWeaponEquipped("Katana") &&
+            BossTookDamage("Kondo2")
+        ) &&
+        ResetBossChallenge(7, "KondoFight")
 }
 
-// TO DO: Get room ids for each piece
 function Episode7_GotDivaPieces(){
+    rooms = [
+        "Diva1",
+        "Diva2",
+        "Diva3",
+        "Diva4",
+        "Diva5",
+        "Diva6",
+        "Diva7"
+    ]
+    
     return !IsOnTitle() &&
-        // IsInRoom(2, "OilTanks") &&
+        IsInAnyRoom(7, rooms) &&
         TriggeredItemFlagCount(7, "DivaPieces", true)
 }
 
@@ -1817,7 +1879,9 @@ function Episode7_DefeatedZeno1(){
 }
 
 function Episode7_Zeno1Challenge(){
-    return always_false()
+    return BossIsActive("Zeno") &&
+        DefeatedBoss(7, "Zeno", true) &&
+        GetPlayerHealthPercentage() >= 50
 }
 
 function Episode7_DefeatedTempest(){
@@ -1827,12 +1891,20 @@ function Episode7_DefeatedTempest(){
 }
 
 function Episode7_TempestChallenge(){
-    return always_false()
+    return BossIsActive("Tempest") &&
+        DefeatedBoss(7, "Tempest", true) &&
+        disable_when
+        (
+            BossIsActive("Tempest") && 
+            IsBossDamaged("Tempest") && 
+            PlayerTookDamage()
+        ) &&
+        ResetBossChallenge(7, "TempestFight")
 }
 
 function Episode7_DeactivatedCore(){
     return !IsOnTitle() &&
-        TriggeredEvent(7, "DeactivateCore")
+        TriggeredScene(7, "EngineCore", "DestroyCore")
 }
 
 function Episode7_DefeatedZeno2(){
@@ -1841,7 +1913,9 @@ function Episode7_DefeatedZeno2(){
 }
 
 function Episode7_Zeno2Challenge(){
-    return always_false()
+    return BossIsActive("Zeno2") &&
+        DefeatedBoss(7, "Zeno2", true) &&
+        GetPlayerHealthPercentage() >= 50
 }
 
 function Episode7_CompletedJunkbladeEscape(){
@@ -1850,7 +1924,8 @@ function Episode7_CompletedJunkbladeEscape(){
 }
 
 function Episode7_JunkbladeChallenge(){
-    return always_false()
+    return !IsOnTitle() &&
+        CompletedMinigameChallenge(7, "JunkbladeRace", 120, true)
 }
 
 function Episode7_CompletedEpisode(){
@@ -1870,7 +1945,16 @@ function Episode7_UnlockedEpisode8(){
 // Episode 8 - Achievement Functions //
 
 function Episode8_AllSnacks(){
-    return always_false()
+    rooms = [
+        "Room1",
+        "Room2",
+        "Room3",
+        "End"
+    ]
+    
+    return !IsOnTitle() &&
+        IsInAnyRoom(8, rooms) &&
+        TriggeredItemFlagCount(8, "Snacks", true)
 }
 
 function Episode8_Completed(){

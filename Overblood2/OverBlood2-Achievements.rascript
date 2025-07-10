@@ -1155,6 +1155,62 @@ function GetWeaponSlotAddress(){
     return inventoryStart + slotOffset
 }
 
+function HasItem(type, name, max){
+    inventoryCount = Items["Count"]    
+    inventory = Items["Inventory"]
+    start = inventory["Start"]
+    size = inventory["SlotSize"]
+    offsets = inventory["Offsets"]
+    idOffset = offsets["ID"]
+    countOffset = offsets["Count"]
+    
+    itemId = ItemIDs[type][name]
+    
+    conditions = []
+    
+    for index in range(0, max - 1){
+        slotOffset = index * size
+        slotAddress = start + slotOffset
+        
+        id = word(slotAddress + idOffset)
+        count = word(slotAddress + countOffset)
+        
+        condition = inventoryCount >= index && id == itemId && count > 0
+        
+        array_push(conditions, condition)
+    }
+    
+    return any_of(conditions, condition => condition)
+}
+
+function HasItemAmount(type, name, amount, max){
+    inventoryCount = Items["Count"]    
+    inventory = Items["Inventory"]
+    start = inventory["Start"]
+    size = inventory["SlotSize"]
+    offsets = inventory["Offsets"]
+    idOffset = offsets["ID"]
+    countOffset = offsets["Count"]
+    
+    itemId = ItemIDs[type][name]
+    
+    conditions = []
+    
+    for index in range(0, max - 1){
+        slotOffset = index * size
+        slotAddress = start + slotOffset
+        
+        id = word(slotAddress + idOffset)
+        count = word(slotAddress + countOffset)
+        
+        condition = inventoryCount >= index && id == itemId && count >= amount
+        
+        array_push(conditions, condition)
+    }
+    
+    return any_of(conditions, condition => condition)
+}
+
 function HasWeaponEquipped(name){
     idOffset = Items["Inventory"]["Offsets"]["ID"]
     
@@ -1964,7 +2020,8 @@ function Episode8_Completed(){
 }
 
 function Episode8_EmergencySpayChallenge(){
-    return always_false()
+    return Episode8_Completed() &&
+        HasItemAmount("Cure", "EmergencySpray", 5, 100)
 }
 
 // ------------------------- Achievement Definitions ------------------------- //

@@ -2021,7 +2021,7 @@ function Episode8_Completed(){
 
 function Episode8_EmergencySpayChallenge(){
     return Episode8_Completed() &&
-        HasItemAmount("Cure", "EmergencySpray", 5, 100)
+        HasItemAmount("Cure", "EmergencySpray", 4, 100)
 }
 
 // ------------------------- Achievement Definitions ------------------------- //
@@ -2438,7 +2438,7 @@ achievement("Final Break Down", "Clear Episode 8", points = 10,
     trigger = Episode8_Completed()
 )
 
-achievement("Emergency Spray", "Clear Episode 8 with 5 or more Emergency Sprays remaining", points = 25,
+achievement("Emergency Spray", "Clear Episode 8 with 4 or more Emergency Sprays remaining", points = 25,
     trigger = Episode8_EmergencySpayChallenge()
 )
 

@@ -2028,417 +2028,417 @@ function Episode8_EmergencySpayChallenge(){
 
 // -- Episode 1 -- //
 
-achievement("Episode 1 - East Edge", "Arrive in East Edge City in Episode 1", points = 2, type = "progression",
+achievement("Episode 1 - East Edge", "Arrive in East Edge City in Episode 1", points = 2, type = "progression", id = 532506,
     trigger = Episode1_ReachEastEdge()
 )
 
-achievement("Window Pain", "Break a window at the Array Bridge Shop and pay for the damages", points = 3,
+achievement("Window Pain", "Break a window at the Array Bridge Shop and pay for the damages", points = 3, id = 532507,
     trigger = Any_PayedForWindow()
 )
 
-achievement("Episode 1 - Billboard Island", "Arrive on Billboard Island in Episode 1", points = 2, type = "progression",
+achievement("Episode 1 - Billboard Island", "Arrive on Billboard Island in Episode 1", points = 2, type = "progression", id = 532508,
     trigger = Episode1_ReachBillboardIsland()
 )
 
-achievement("Episode 1 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 1", points = 2, type = "missable",
+achievement("Episode 1 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 1", points = 2, type = "missable", id = 532509,
     trigger = Episode1_SiverOtakkiQuestion()
 )
 
-achievement("Episode 1 - Submarine", "Solve the Submarine Bay puzzle and enter the Submarine on Billboard Island in Episode 1", points = 5, type = "missable",
+achievement("Episode 1 - Submarine", "Solve the Submarine Bay puzzle and enter the Submarine on Billboard Island in Episode 1", points = 5, type = "missable", id = 532510,
     trigger = Episode1_EnterTheSubmarine()
 )
 
-achievement("Billboard Island Treasures", "Find all hidden weapons, clothing items, and boots on Billboard Island in Episode 1", points = 10, type = "missable",
+achievement("Billboard Island Treasures", "Find all hidden weapons, clothing items, and boots on Billboard Island in Episode 1", points = 10, type = "missable", id = 532511,
     trigger = Episode1_Treasures()
 )
 
-achievement("Episode 1 - Power Room Door", "Enter the Power Room Door on Billboard Island in Episode 1 using the Silver Key", points = 3, type = "missable",
+achievement("Episode 1 - Power Room Door", "Enter the Power Room Door on Billboard Island in Episode 1 using the Silver Key", points = 3, type = "missable", id = 532512,
     trigger = Episode1_EnterPowerRoomWithKey()
 )
 
-achievement("Episode 1 - Gumbo", "Defeat Gumbo the Robot on Billboard Island in Episode 1", points = 3, type = "progression",
+achievement("Episode 1 - Gumbo", "Defeat Gumbo the Robot on Billboard Island in Episode 1", points = 3, type = "progression", id = 532513,
     trigger = Episode1_DefeatedGumbo()
 )
 
-achievement("Episode 1 - Gumbo Challenge", "Defeat Gumbo the Robot on Billboard Island in Episode 1 without taking damage", points = 10, type = "missable",
+achievement("Episode 1 - Gumbo Challenge", "Defeat Gumbo the Robot on Billboard Island in Episode 1 without taking damage", points = 10, type = "missable", id = 532514,
     trigger = Episode1_DefeatGumbo_NoHeal()
 )
 
-achievement("Episode 1 - Turrets", "Complete the Turret Sequence on Billboard Island in Episode 1", points = 3, type = "progression",
+achievement("Episode 1 - Turrets", "Complete the Turret Sequence on Billboard Island in Episode 1", points = 3, type = "progression", id = 532515,
     trigger = Episode1_ClearTurret()
 )
 
-achievement("Episode 1 - Turret Challenge", "Complete the Turret Sequence on Billboard Island in Episode 1 after destroying 10 or more helicopters", points = 5, type = "missable",
+achievement("Episode 1 - Turret Challenge", "Complete the Turret Sequence on Billboard Island in Episode 1 after destroying 10 or more helicopters", points = 5, type = "missable", id = 532516,
     trigger = Episode1_ClearTurretChallenge()
 )
 
-achievement("Encounters", "Escape Billboard Island and complete Episode 1", points = 5, type = "progression",
+achievement("Encounters", "Escape Billboard Island and complete Episode 1", points = 5, type = "progression", id = 532517,
     trigger = Episode1_ClearEpisode()
 )
 
-achievement("Episode 1 - S Rank", "Complete Episode 1 with an S Rank", points = 10, type = "missable",
+achievement("Episode 1 - S Rank", "Complete Episode 1 with an S Rank", points = 10, type = "missable", id = 532518,
     trigger = Episode1_ClearEpisode_SRank()
 )
 
 // -- Episode 2 -- //
 
-achievement("Episode 2 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 2", points = 2, type = "missable",
+achievement("Episode 2 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 2", points = 2, type = "missable", id = 532519,
     trigger = Episode2_SiverOtakkiQuestion()
 )
 
-achievement("Episode 2 - Pagoda Tower", "Arrive in the Pagoda Tower in Episode 2", points = 2, type = "progression",
+achievement("Episode 2 - Pagoda Tower", "Arrive in the Pagoda Tower in Episode 2", points = 2, type = "progression", id = 532520,
     trigger = Episode2_ReachPagodaTower()
 )
 
-achievement("Episode 2 - First Guardian", "Destroy the First Guarding System in the Pagoda Tower in Episode 2", points = 3, type = "progression",
+achievement("Episode 2 - First Guardian", "Destroy the First Guarding System in the Pagoda Tower in Episode 2", points = 3, type = "progression", id = 532521,
     trigger = Episode2_DestroyFirstGuard()
 )
 
-achievement("Episode 2 - First Guardian Challenge", "With the Light Sabre equipped, defeated the First Guardian in the Pagoda Tower in Episode 2 without recharging", points = 10, type = "missable",
+achievement("Episode 2 - First Guardian Challenge", "With the Light Sabre equipped, defeated the First Guardian in the Pagoda Tower in Episode 2 without recharging", points = 10, type = "missable", id = 532522,
     trigger = Episode2_FirstGuardChallenge()
 )
 
-achievement("Episode 2 - Oil Tanks", "Destroy all 3 Oil Tanks in the Pagoda Tower in Episode 2", points = 3, type = "missable",
+achievement("Episode 2 - Oil Tanks", "Destroy all 3 Oil Tanks in the Pagoda Tower in Episode 2", points = 3, type = "missable", id = 532523,
     trigger = Episode2_DestroyOilTanks()
 )
 
-achievement("Episode 2 - Second Guardian", "Destroy the Second Guarding System in the Pagoda Tower in Episode 2", points = 3, type = "progression",
+achievement("Episode 2 - Second Guardian", "Destroy the Second Guarding System in the Pagoda Tower in Episode 2", points = 3, type = "progression", id = 532524,
     trigger = Episode2_DestroySecondGuard()
 )
 
-achievement("Episode 2 - Second Guardian Challenge", "With the Antique Gun equipped, defeat the Second Guardian in the Pagoda Tower in Episode 2 in 18 shots or less", points = 10, type = "missable",
+achievement("Episode 2 - Second Guardian Challenge", "With the Antique Gun equipped, defeat the Second Guardian in the Pagoda Tower in Episode 2 in 18 shots or less", points = 10, type = "missable", id = 532525,
     trigger = Episode2_SecondGuardChallenge()
 )
 
-achievement("Hazardous Gems", "Find all gem stones protected by hazards in the Pagoda Tower Third Guarding System Underwater Passage in Episode 2", points = 10, type = "missable",
+achievement("Hazardous Gems", "Find all gem stones protected by hazards in the Pagoda Tower Third Guarding System Underwater Passage in Episode 2", points = 10, type = "missable", id = 532526,
     trigger = Episode2_DangerousGems()
 )
 
-achievement("Episode 2 - Monitors", "Break all of the Monitors in the Pagoda Tower Control Room in Episode 2", points = 3, type = "missable",
+achievement("Episode 2 - Monitors", "Break all of the Monitors in the Pagoda Tower Control Room in Episode 2", points = 3, type = "missable", id = 532527,
     trigger = Episode2_DestroyMonitors()
 )
 
-achievement("Pagoda Tower Treasures", "Find all hidden weapons, clothing items, and boots in the Pagoda Tower in Episode 2", points = 10, type = "missable",
+achievement("Pagoda Tower Treasures", "Find all hidden weapons, clothing items, and boots in the Pagoda Tower in Episode 2", points = 10, type = "missable", id = 532528,
     trigger = Episode2_Treasures()
 )
 
-achievement("Episode 2 - Third Guardian", "Destroy the Third Guarding System in the Pagoda Tower in Episode 2", points = 3, type = "progression",
+achievement("Episode 2 - Third Guardian", "Destroy the Third Guarding System in the Pagoda Tower in Episode 2", points = 3, type = "progression", id = 532529,
     trigger = Episode2_DestroyThirdGuard()
 )
 
-achievement("Episode 2 - Third Guardian Challenge", "Destroy the Third Guardian in the Pagoda Tower in Episode 2 by freezing it in its tracks", points = 10, type = "missable",
+achievement("Episode 2 - Third Guardian Challenge", "Destroy the Third Guardian in the Pagoda Tower in Episode 2 by freezing it in its tracks", points = 10, type = "missable", id = 532530,
     trigger = Episode2_ThirdGuardChallenge()
 )
 
-achievement("Episode 2 - Kondo", "Defeat Kondo in the Pagoda Tower in Episode 2", points = 3, type = "progression",
+achievement("Episode 2 - Kondo", "Defeat Kondo in the Pagoda Tower in Episode 2", points = 3, type = "progression", id = 532531,
     trigger = Episode2_DefeatedKondo()
 )
 
-achievement("Episode 2 - Kondo Challenge", "With the Super Light Sabre equipped, defeat Kondo in the Pagoda Tower in Episode 2 without dropping below 25% health", points = 10, type = "missable",
+achievement("Episode 2 - Kondo Challenge", "With the Super Light Sabre equipped, defeat Kondo in the Pagoda Tower in Episode 2 without dropping below 25% health", points = 10, type = "missable", id = 532532,
     trigger = Episode2_KondoChallenge()
 )
 
-achievement("Awakening", "Escape the Pagoda Tower and complete Episode 2", points = 5, type = "progression",
+achievement("Awakening", "Escape the Pagoda Tower and complete Episode 2", points = 5, type = "progression", id = 532533,
     trigger = Episode2_ClearEpisode()
 )
 
-achievement("Episode 2 - S Rank", "Complete Episode 2 with an S Rank", points = 10, type = "missable",
+achievement("Episode 2 - S Rank", "Complete Episode 2 with an S Rank", points = 10, type = "missable", id = 532534,
     trigger = Episode2_ClearEpisode_SRank()
 )
 
 // -- Episode 3 -- //
 
-achievement("Episode 3 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 3", points = 2, type = "missable",
+achievement("Episode 3 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 3", points = 2, type = "missable", id = 532535,
     trigger = Episode3_SiverOtakkiQuestion()
 )
 
-achievement("Train Treasure Tracker", "Collect all items on the Subway Train in Episode 3 before time runs out", points = 10, type = "missable",
+achievement("Train Treasure Tracker", "Collect all items on the Subway Train in Episode 3 before time runs out", points = 10, type = "missable", id = 532536,
     trigger = Episode3_SubwayTrainItems()
 )
 
-achievement("Episode 3 - Underground Terminous", "Arrive in the Underground Terminous in Episode 3", points = 2, type = "progression",
+achievement("Episode 3 - Underground Terminous", "Arrive in the Underground Terminous in Episode 3", points = 2, type = "progression", id = 532537,
     trigger = Episode3_ReachUndergroundTerminous()
 )
 
-achievement("Terminous Treasures", "Find the Laser Gun and Big Magnum in the Underground Terminous in Episode 3", points = 10, type = "missable",
+achievement("Terminous Treasures", "Find the Laser Gun and Big Magnum in the Underground Terminous in Episode 3", points = 10, type = "missable", id = 532538,
     trigger = Episode3_Treasures()
 )
 
-achievement("Episode 3 - Giant Mech", "Destroy all of the Giant Mech's parts in the Underground Terminous in Episode 3", points = 3, type = "missable",
+achievement("Episode 3 - Giant Mech", "Destroy all of the Giant Mech's parts in the Underground Terminous in Episode 3", points = 3, type = "missable", id = 532539,
     trigger = Episode3_GiantMech()
 )
 
-achievement("Episode 3 - Trailer Lift", "Operate and have both Trailer Lifts raised in the Underground Terminous in Episode 3", points = 3, type = "missable",
+achievement("Episode 3 - Trailer Lift", "Operate and have both Trailer Lifts raised in the Underground Terminous in Episode 3", points = 3, type = "missable", id = 532540,
     trigger = Episode3_TrailerLifts()
 )
 
-achievement("Episode 3 - Anti Proton", "Place the Plasma Bomb and destroy the Anti Proton Core in the Underground Terminous in Episode 3", points = 2, type = "progression",
+achievement("Episode 3 - Anti Proton", "Place the Plasma Bomb and destroy the Anti Proton Core in the Underground Terminous in Episode 3", points = 2, type = "progression", id = 532541,
     trigger = Episode3_DestroyAntiProtonCore()
 )
 
-achievement("Episode 3 - Sperio", "Defeat Sperio in the Underground Terminous in Episode 3", points = 3, type = "progression",
+achievement("Episode 3 - Sperio", "Defeat Sperio in the Underground Terminous in Episode 3", points = 3, type = "progression", id = 532542,
     trigger = Episode3_DefeatSperio()
 )
 
-achievement("Episode 3 - Sperio Challenge", "With the Big Magnum equipped, defeat Sperio in the Underground Terminous in Episode 3 in 5 shots or less", points = 10, type = "missable",
+achievement("Episode 3 - Sperio Challenge", "With the Big Magnum equipped, defeat Sperio in the Underground Terminous in Episode 3 in 5 shots or less", points = 10, type = "missable", id = 532543,
     trigger = Episode3_SperioChallenge()
 )
 
-achievement("Episode 3 - Terminous Junkblade Challenge", "Complete the Junkblade sequence in the Underground Terminous in Episode 3 without taking damage and gain the maximum amount of CP possible", points = 10, type = "missable",
+achievement("Episode 3 - Terminous Junkblade Challenge", "Complete the Junkblade sequence in the Underground Terminous in Episode 3 without taking damage and gain the maximum amount of CP possible", points = 10, type = "missable",  id = 532544,
     trigger = Episode3_CompleteJunkbladeScene_NoDamage()
 )
 
-achievement("Underground Space", "Escape the Underground Terminous on Sperio's Junkblade and complete Episode 3", points = 5, type = "progression",
+achievement("Underground Space", "Escape the Underground Terminous on Sperio's Junkblade and complete Episode 3", points = 5, type = "progression", id = 532545,
     trigger = Episode3_CompleteEpisode()
 )
 
-achievement("Episode 3 - S Rank", "Complete Episode 3 with an S Rank", points = 10, type = "missable",
+achievement("Episode 3 - S Rank", "Complete Episode 3 with an S Rank", points = 10, type = "missable", id = 532546,
     trigger = Episode3_ClearEpisode_SRank()
 )
 
 // -- Episode 4 -- //
 
-achievement("Episode 4 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 4", points = 2, type = "missable",
+achievement("Episode 4 - Siver Otakki", "Correctly answer Siver Otakki's question in Episode 4", points = 2, type = "missable", id = 532547,
     trigger = Episode4_SiverOtakkiQuestion()
 )
 
-achievement("Episode 4 - Dance Sequence", "Complete the Dance Sequence in the Aqua Liberty Ballroom in Episode 4", points = 3, type = "progression",
+achievement("Episode 4 - Dance Sequence", "Complete the Dance Sequence in the Aqua Liberty Ballroom in Episode 4", points = 3, type = "progression", id = 532548,
     trigger = Episode4_CompleteDanceScene()
 )
 
-achievement("Episode 4 - Dance Challenge", "Passionately finish the Dance sequence in the Aqua Liberty Ballroom in Episode 4 and gain the maximum amount of CP possible", points = 5, type = "missable",
+achievement("Episode 4 - Dance Challenge", "Passionately finish the Dance sequence in the Aqua Liberty Ballroom in Episode 4 and gain the maximum amount of CP possible", points = 5, type = "missable", id = 532549,
     trigger = Episode4_CompleteDanceScene_MaxCP()
 )
 
-achievement("Aqua Liberty Treasures", "Find the Bat Maniac Outfit in the Aqua Liberty Ballroom in Episode 4", points = 3, type = "missable",
+achievement("Aqua Liberty Treasures", "Find the Bat Maniac Outfit in the Aqua Liberty Ballroom in Episode 4", points = 3, type = "missable", id = 532550,
     trigger = Episode4_BatManiac()
 )
 
-achievement("Episode 4 - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom Station in Episode 4", points = 3, type = "progression",
+achievement("Episode 4 - Gartlude", "Defeat Gartlude in the Aqua Liberty Ballroom Station in Episode 4", points = 3, type = "progression", id = 532551,
     trigger = Episode4_DefeatedGartlude()
 )
 
-achievement("Episode 4 - Gartlude Challenge", "Defeat Gartlude in the Aqua Liberty Ballroom in Episode 4 with 40 seconds or more left on the timer", points = 10, type = "missable",
+achievement("Episode 4 - Gartlude Challenge", "Defeat Gartlude in the Aqua Liberty Ballroom in Episode 4 with 40 seconds or more left on the timer", points = 10, type = "missable", id = 532552,
     trigger = Episode4_GartludeChallenge()
 )
 
-achievement("Bloody Rose", "Escape the Aqua Liberty Ballroom and complete Episode 4", points = 5, type = "progression",
+achievement("Bloody Rose", "Escape the Aqua Liberty Ballroom and complete Episode 4", points = 5, type = "progression", id = 532553,
     trigger = Episode4_ClearEpisode()
 )
 
-achievement("Episode 4 - S Rank", "Complete Episode 4 with an S Rank", points = 10, type = "missable",
+achievement("Episode 4 - S Rank", "Complete Episode 4 with an S Rank", points = 10, type = "missable", id = 532554,
     trigger = Episode4_ClearEpisode_SRank()
 )
 
 // -- Episode 5 -- //
 
-achievement("Otakki Treasure", "Find Siver Otakki's Special Treasure in Episode 5", points = 5, type = "missable",
+achievement("Otakki Treasure", "Find Siver Otakki's Special Treasure in Episode 5", points = 5, type = "missable", id = 532555,
     trigger = Episode5_FoundSiverTreasure()
 )
 
-achievement("Divine Gems", "Find all gems in the East Edge Church in Episode 5", points = 3, type = "missable",
+achievement("Divine Gems", "Find all gems in the East Edge Church in Episode 5", points = 3, type = "missable", id = 532556,
     trigger = Episode5_ChurchEmeralds()
 )
 
-achievement("Episode 5 - Jungle", "Arrive in the Jungle in Episode 5", points = 2, type = "progression",
+achievement("Episode 5 - Jungle", "Arrive in the Jungle in Episode 5", points = 2, type = "progression", id = 532557,
     trigger = Episode5_ReachJungle()
 )
 
-achievement("Episode 5 - T-Rex", "Defeat a T-Rex using a Quicksand trap in the Jungle in Episode 5", points = 5, type = "missable",
+achievement("Episode 5 - T-Rex", "Defeat a T-Rex using a Quicksand trap in the Jungle in Episode 5", points = 5, type = "missable", id = 532558,
     trigger = Episode5_TRexChallenge()
 )
 
-achievement("Episode 5 - River Ride 1", "Complete the River Ride part 1 in the Jungle in Episode 5 without taking damage and gain the maximum amount of CP possible", points = 5, type = "missable",
+achievement("Episode 5 - River Ride 1", "Complete the River Ride part 1 in the Jungle in Episode 5 without taking damage and gain the maximum amount of CP possible", points = 5, type = "missable", id = 532559,
     trigger = Episode5_River1Challenge()
 )
 
-achievement("Episode 5 - Mutated Plant", "Defeat the Mutated Plant in the Jungle in Episode 5", points = 3, type = "progression",
+achievement("Episode 5 - Mutated Plant", "Defeat the Mutated Plant in the Jungle in Episode 5", points = 3, type = "progression", id = 532560,
     trigger = Episode5_DefeatedPlant()
 )
 
-achievement("Monsterous Tentacles", "Destroy all of the Mutated Plant's tentacles before defeating it, in the Jungle in Episode 5", points = 5, type = "missable",
+achievement("Monsterous Tentacles", "Destroy all of the Mutated Plant's tentacles before defeating it, in the Jungle in Episode 5", points = 5, type = "missable", id = 532561,
     trigger = Episode5_PlantChallenge()
 )
 
-achievement("Episode 5 - River Ride 2", "Complete the River Ride part 2 in the Jungle in Episode 5 without taking damage and gain the maximum amount of CP possible", points = 5, type = "missable",
+achievement("Episode 5 - River Ride 2", "Complete the River Ride part 2 in the Jungle in Episode 5 without taking damage and gain the maximum amount of CP possible", points = 5, type = "missable", id = 532562,
     trigger = Episode5_River2Challenge()
 )
 
-achievement("Episode 5 - Anti Gravity Defense", "Destroy Anti Gravity Defense Station in the Jungle in Episode 5", points = 3, type = "progression",
+achievement("Episode 5 - Anti Gravity Defense", "Destroy Anti Gravity Defense Station in the Jungle in Episode 5", points = 3, type = "progression", id = 532563,
     trigger = Episode5_DestroyAntiGravityStation()
 )
 
-achievement("Episode 5 - Laser Cannons", "Destroy all 3 Laser Cannons in the Jungle in Episode 5", points = 5, type = "missable",
+achievement("Episode 5 - Laser Cannons", "Destroy all 3 Laser Cannons in the Jungle in Episode 5", points = 5, type = "missable", id = 532564,
     trigger = Episode5_LaserCannons()
 )
 
-achievement("Episode 5 - Tiger", "Defeat Tiger in the Jungle in Episode 5", points = 5, type = "progression",
+achievement("Episode 5 - Tiger", "Defeat Tiger in the Jungle in Episode 5", points = 5, type = "progression", id = 532565,
     trigger = Episode5_DefeatedTiger()
 )
 
-achievement("Episode 5 - Tiger Challenge", "With the Bazooka equipped, defeat Tiger in the Jungle in Episode 5 in 5 shots or less", points = 10, type = "missable",
+achievement("Episode 5 - Tiger Challenge", "With the Bazooka equipped, defeat Tiger in the Jungle in Episode 5 in 5 shots or less", points = 10, type = "missable", id = 532566,
     trigger = Episode5_TigerChallenge()
 )
 
-achievement("Jamelgalda Treasures", "Find the Y.O. Miyabi Suit in the Jamelgalda Prison in Episode 5", points = 3, type = "missable",
+achievement("Jamelgalda Treasures", "Find the Y.O. Miyabi Suit in the Jamelgalda Prison in Episode 5", points = 3, type = "missable", id = 532567,
     trigger = Episode5_MiyabiSuit()
 )
 
-achievement("Episode 5 - Lady", "Defeat Lady in the Jamelgalda Prison in Episode 5", points = 5, type = "progression",
+achievement("Episode 5 - Lady", "Defeat Lady in the Jamelgalda Prison in Episode 5", points = 5, type = "progression", id = 532568,
     trigger = Episode5_DefeatedLady()
 )
 
-achievement("Episode 5 - Lady Challenge", "Defeat Lady in the Jamelgalda in Episode 5 without taking damage", points = 10, type = "missable",
+achievement("Episode 5 - Lady Challenge", "Defeat Lady in the Jamelgalda in Episode 5 without taking damage", points = 10, type = "missable", id = 532569,
     trigger = Episode5_LadyChallenge()
 )
 
-achievement("Deceptive Jungle", "Defeat Adidi, escape the Jamelgalda Prison, and complete Episode 5", points = 10, type = "progression",
+achievement("Deceptive Jungle", "Defeat Adidi, escape the Jamelgalda Prison, and complete Episode 5", points = 10, type = "progression", id = 532570,
     trigger = Episode5_ClearEpisode()
 )
 
-achievement("Episode 5 - Adidi Challenge", "With the Super Light Sabre equipped, defeat Adidi in the Jamelgalda Prison in Episode 5 without dropping below 25% health", points = 10, type = "missable",
+achievement("Episode 5 - Adidi Challenge", "With the Super Light Sabre equipped, defeat Adidi in the Jamelgalda Prison in Episode 5 without dropping below 25% health", points = 10, type = "missable", id = 532572,
     trigger = Episode5_AdidiChallenge()
 )
 
-achievement("Episode 5 - S Rank", "Complete Episode 5 with an S Rank", points = 10, type = "missable",
+achievement("Episode 5 - S Rank", "Complete Episode 5 with an S Rank", points = 10, type = "missable", id = 532573,
     trigger = Episode5_ClearEpisode_SRank()
 )
 
 // -- Episode 6 -- //
 
-achievement("East Edge Treasure", "Find the hidden East Edge Treasure in Episode 6", points = 3, type = "missable",
+achievement("East Edge Treasure", "Find the hidden East Edge Treasure in Episode 6", points = 3, type = "missable", id = 532574,
     trigger = Episode6_EastEdgeSecret()
 )
 
-achievement("Episode 6 - Gloom Alley", "Arrive in Gloom Alley in Episode 6", points = 3, type = "progression",
+achievement("Episode 6 - Gloom Alley", "Arrive in Gloom Alley in Episode 6", points = 3, type = "progression", id = 532575,
     trigger = Episode6_ReachGloomAlley()
 )
 
-achievement("Gloomy Gems", "Find all gems in the Gloom Alley Streets in Episode 6", points = 3, type = "missable",
+achievement("Gloomy Gems", "Find all gems in the Gloom Alley Streets in Episode 6", points = 3, type = "missable", id = 532576,
     trigger = Episode6_GloomAlleyGems()
 )
 
-achievement("Episode 6 - Ghost House", "Find the Ghost House Key in the Gloom Alley Streets in Episode 6", points = 3, type = "missable",
+achievement("Episode 6 - Ghost House", "Find the Ghost House Key in the Gloom Alley Streets in Episode 6", points = 3, type = "missable", id = 532577,
     trigger = Episode6_FindGhostHouseKey()
 )
 
-achievement("Frenemies", "Defeat a Mysterious Adversary in Episode 6", points = 10, type = "missable",
+achievement("Frenemies", "Defeat a Mysterious Adversary in Episode 6", points = 10, type = "missable", id = 532578,
     trigger = Episode6_EvilSiver()
 )
 
-achievement("Breaking and Entering", "Enter the Ghost House in Episode 6 without unlocking the front door", points = 3, type = "missable",
+achievement("Breaking and Entering", "Enter the Ghost House in Episode 6 without unlocking the front door", points = 3, type = "missable", id = 532579,
     trigger = Episode6_AlternateGhostHouse()
 )
 
-achievement("Ghost House Treasures", "Find the Machine Gun in the Ghost House in Episode 6", points = 3, type = "missable",
+achievement("Ghost House Treasures", "Find the Machine Gun in the Ghost House in Episode 6", points = 3, type = "missable", id = 532580,
     trigger = Episode6_MachineGun()
 )
 
-achievement("Episode 6 - Junkyard", "Arrive in the Junkyard in Episode 6", points = 3, type = "progression",
+achievement("Episode 6 - Junkyard", "Arrive in the Junkyard in Episode 6", points = 3, type = "progression", id = 532581,
     trigger = Episode6_ReachJunkyard()
 )
 
-achievement("Episode 6 - Junkyard Race", "Win the Junkyard Race in Episode 6", points = 5, type = "progression",
+achievement("Episode 6 - Junkyard Race", "Win the Junkyard Race in Episode 6", points = 5, type = "progression", id = 532582,
     trigger = Episode6_WinJunkyardRace()
 )
 
-achievement("Edgy Kids", "Discover your hidden powers and complete Episode 6", points = 10, type = "progression",
+achievement("Edgy Kids", "Discover your hidden powers and complete Episode 6", points = 10, type = "progression", id = 532583,
     trigger = Episode6_ClearEpisode()
 )
 
-achievement("Episode 6 - S Rank", "Complete Episode 6 with an S Rank", points = 10, type = "missable",
+achievement("Episode 6 - S Rank", "Complete Episode 6 with an S Rank", points = 10, type = "missable", id = 532584,
     trigger = Episode6_ClearEpisode_SRank()
 )
 
 // -- Episode 7 -- //
 
-achievement("Episode 7 - Shangri-la", "Arrive in Shangri-la in Episode 7", points = 3, type = "progression",
+achievement("Episode 7 - Shangri-la", "Arrive in Shangri-la in Episode 7", points = 3, type = "progression", id = 532585,
     trigger = Episode7_ReachShangrila()
 )
 
-achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatures in Shangri-la in Episode 7", points = 2, type = "missable",
+achievement("Monsterous Clues", "Listen to all clues from a set of sagely creatures in Shangri-la in Episode 7", points = 2, type = "missable", id = 532586,
     trigger = Episode7_CreatureClues()
 )
 
-achievement("Episode 7 - Elevator", "Activate the Shangri-la Elevator in Episode 7", points = 5, type = "progression",
+achievement("Episode 7 - Elevator", "Activate the Shangri-la Elevator in Episode 7", points = 5, type = "progression", id = 532587,
     trigger = Episode7_ActivateElevator()
 )
 
-achievement("Shangri-la Treasure", "Find the Katana in Shangri-la in Episode 7", points = 3, type = "missable",
+achievement("Shangri-la Treasure", "Find the Katana in Shangri-la in Episode 7", points = 3, type = "missable", id = 532588,
     trigger = Episode7_AcquiredKatana()
 )
 
-achievement("Episode 7 - Kondo", "Defeat Kondo in Shangri-la in Episode 7", points = 5, type = "progression",
+achievement("Episode 7 - Kondo", "Defeat Kondo in Shangri-la in Episode 7", points = 5, type = "progression", id = 532589,
     trigger = Episode7_DefeatedKondo()
 )
 
-achievement("Episode 7 - Kondo Challenge", "With the Katana equipped, defeat Kondo in Shangri-la in Episode 7 without healing", points = 10, type = "missable",
+achievement("Episode 7 - Kondo Challenge", "With the Katana equipped, defeat Kondo in Shangri-la in Episode 7 without healing", points = 10, type = "missable", id = 532590,
     trigger = Episode7_KondoChallenge()
 )
 
-achievement("Episode 7 - Diva Pieces", "Find all Diva Pieces in Shangri-la in Episode 7", points = 5, type = "progression",
+achievement("Episode 7 - Diva Pieces", "Find all Diva Pieces in Shangri-la in Episode 7", points = 5, type = "progression", id = 532591,
     trigger = Episode7_GotDivaPieces()
 )
 
-achievement("Episode 7 - Zeno", "Defeat Zeno in Shangri-la in Episode 7", points = 5, type = "progression",
+achievement("Episode 7 - Zeno", "Defeat Zeno in Shangri-la in Episode 7", points = 5, type = "progression", id = 532592,
     trigger = Episode7_DefeatedZeno1()
 )
 
-achievement("Episode 7 - Zeno Challenge", "Defeat Zeno in Shangri-la in Episode 7 with 50% or more health remaining", points = 10, type = "missable",
+achievement("Episode 7 - Zeno Challenge", "Defeat Zeno in Shangri-la in Episode 7 with 50% or more health remaining", points = 10, type = "missable", id = 532593,
     trigger = Episode7_Zeno1Challenge()
 )
 
-achievement("Episode 7 - Tempest", "Defeat Tempest in Shangri-la in Episode 7", points = 5, type = "progression",
+achievement("Episode 7 - Tempest", "Defeat Tempest in Shangri-la in Episode 7", points = 5, type = "progression", id = 532594,
     trigger = Episode7_DefeatedTempest()
 )
 
-achievement("Episode 7 - Tempest Challenget", "Defeat Tempest in Shangri-la in Episode 7 without taking damage", points = 10, type = "missable",
+achievement("Episode 7 - Tempest Challenge", "Defeat Tempest in Shangri-la in Episode 7 without taking damage", points = 10, type = "missable", id = 532595,
     trigger = Episode7_TempestChallenge()
 )
 
-achievement("Episode 7 - Power Source", "Destroy the Shangri-la in Episode 7 Power Source", points = 5, type = "progression",
+achievement("Episode 7 - Power Source", "Destroy the Shangri-la in Episode 7 Power Source", points = 5, type = "progression", id = 532596,
     trigger = Episode7_DeactivatedCore()
 )
 
-achievement("Episode 7 - Traveler Zeno", "Defeat Traveler Zeno in Shangri-la in Episode 7", points = 10, type = "progression",
+achievement("Episode 7 - Traveler Zeno", "Defeat Traveler Zeno in Shangri-la in Episode 7", points = 10, type = "progression", id = 532597,
     trigger = Episode7_DefeatedZeno2()
 )
 
-achievement("Episode 7 - Traveler Zeno Challenge", "Defeat Traveler Zeno in Shangri-la in Episode 7 with 50% or more health remaining", points = 10, type = "missable",
+achievement("Episode 7 - Traveler Zeno Challenge", "Defeat Traveler Zeno in Shangri-la in Episode 7 with 50% or more health remaining", points = 10, type = "missable", id = 532598,
     trigger = Episode7_Zeno2Challenge()
 )
 
-achievement("Episode 7 - Junkblade Escape", "Escape Shangri-la on your Junkblade in Episode 7", points = 10, type = "progression",
+achievement("Episode 7 - Junkblade Escape", "Escape Shangri-la on your Junkblade in Episode 7", points = 10, type = "progression", id = 532599,
     trigger = Episode7_CompletedJunkbladeEscape()
 )
 
-achievement("Episode 7 - Junkblade Escape Challenge", "Complete the Shangri-la Junkblade sequence without taking damage in Episode 7 and gain the maximum amount of CP possible", points = 10, type = "missable",
+achievement("Episode 7 - Junkblade Escape Challenge", "Complete the Shangri-la Junkblade sequence without taking damage in Episode 7 and gain the maximum amount of CP possible", points = 10, type = "missable", id = 532600,
     trigger = Episode7_JunkbladeChallenge()
 )
 
-achievement("Another Future", "Prevent an uncertain future and complete Episode 7", points = 25, type = "win_condition",
+achievement("Another Future", "Prevent an uncertain future and complete Episode 7", points = 25, type = "win_condition", id = 532601,
     trigger = Episode7_CompletedEpisode()
 )
 
-achievement("Episode 7 - S Rank", "Complete Episode 7 with an S Rank", points = 10, type = "missable",
+achievement("Episode 7 - S Rank", "Complete Episode 7 with an S Rank", points = 10, type = "missable", id = 532602,
     trigger = Episode7_ClearEpisode_SRank()
 )
 
-achievement("Unlock Episode 8", "Complete Episode 7 after acquiring a total of 2000 CP or more", points = 10, type = "missable",
+achievement("Unlock Episode 8", "Complete Episode 7 after acquiring a total of 2000 CP or more", points = 10, type = "missable", id = 532603,
     trigger = Episode7_UnlockedEpisode8()
 )
 
 // -- Episode 8 -- //
 
-achievement("Episode 8 - Snacks", "Find all snacks in Episode 8", points = 10,
+achievement("Episode 8 - Snacks", "Find all snacks in Episode 8", points = 10, id = 532604,
     trigger = Episode8_AllSnacks()
 )
 
-achievement("Final Break Down", "Complete Episode 8", points = 10,
+achievement("Final Break Down", "Complete Episode 8", points = 10, id = 532605,
     trigger = Episode8_Completed()
 )
 
-achievement("Episode 8 - Emergency Spray", "Complete Episode 8 with 4 or more Emergency Sprays remaining", points = 25,
+achievement("Episode 8 - Emergency Spray", "Complete Episode 8 with 4 or more Emergency Sprays remaining", points = 25, id = 532606,
     trigger = Episode8_EmergencySpayChallenge()
 )
 

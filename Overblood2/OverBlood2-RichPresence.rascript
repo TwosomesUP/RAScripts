@@ -6,6 +6,7 @@
 // ------------------------- Accessors ------------------------- //
 
 Game = {
+    "InGame": dword(0xd2f34),
     "Loaded": dword(0xd2f40),
     "Episode": dword(0x1be9e8),
     "Paused": dword(0xd2f58),
@@ -963,19 +964,20 @@ function IsGameLoaded(){
 
 function IsOnTitle(){
     title = Game["OnTitle"]
-    miniGame = Game["MiniGame"]
-    return title == 0x01 && miniGame != 0x01
+    inGame = Game["InGame"]
+    return title == 0x01 && inGame == 0x00
 }
 
 function IsInGame(){
-    title = Game["OnTitle"]
-    miniGame = Game["MiniGame"]
-    return IsGameLoaded() && (title != 0x01 || (title == 0x01 && miniGame == 0x01))
+    inGame = Game["InGame"]
+    inCutscene = Game["Cutscene"]
+    return IsGameLoaded() && (inGame == 0x01 || inCutscene == 0x01)
 }
 
 function IsInMiniGame(){
     miniGame = Game["MiniGame"]
-    return miniGame == 0x01
+    inGame = Game["InGame"]
+    return miniGame == 0x01 && IsInGame()
 }
 
 function IsInEpisode8(){

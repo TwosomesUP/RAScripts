@@ -988,22 +988,11 @@ function IsEpisode8Unlocked(){
     return episodeUnlocked == 0x01
 }
 
-function IsInRoom(episode, room, previous = false){
-    episodeLookup = "Episode" + episode
-    
-    if(episode == 0)
-        episodeLookup = "Any"
-
-    map = Rooms[episodeLookup][room]
-    trigger = Game["Map"]["Location"] == map[0] &&
-        Game["Map"]["Area"] == map[1] &&
-        Game["Map"]["Room"] == map[2]
-    
-    if(previous){
-        trigger = prev(Game["Map"]["Location"]) == map[0] &&
-        prev(Game["Map"]["Area"] == map[1]) &&
-        prev(Game["Map"]["Room"] == map[2])
-    }
+function IsInRoom(location, area, room){
+   
+    trigger = Game["Map"]["Location"] == location &&
+        Game["Map"]["Area"] == area &&
+        Game["Map"]["Room"] == room
         
     return trigger
 }
@@ -1280,7 +1269,7 @@ RankLookup = {
 // ------------------------- Rich Presence Functions ------------------------- //
 
 function UseGameDisplay(){
-    return IsInGame() && !IsInEpisode8()
+    return IsInGame() && !IsInEpisode8() && GetEpisode() != 0
 }
 
 function UseEpisode8Display(){
@@ -1294,25 +1283,25 @@ function UseTitleDisplay(){
 
 // ------------------------- Rich Presence Definitions ------------------------- //
 
-rich_presence_conditional_display(UseGameDisplay(), "{0} is fighting through Episode {1} | Equipment: {2} • {3} • {4} | Items: {5} | Ranks: {6} • {7} • {8} • {9} • {10} • {11} • {12} | Total CP: {13} | {14}",
+rich_presence_conditional_display(UseGameDisplay(), "{0} is fighting through Episode {1} | 🗡️ {2} 🧥 {3} 🥾 {4} | 💎 {5} | 🔶 {6} • {7} • {8} • {9} • {10} • {11} • {12} | ✨ {13} | 🕙 {14}",
     rich_presence_lookup("Character", GetCharacter(), CharacterLookup),
     rich_presence_value("Episode", GetEpisode()),
     rich_presence_lookup("Weapon", GetEquippedWeapon(), WeaponLookup, "None"),
     rich_presence_lookup("Clothing", GetEquippedClothing(), ClothingLookup),
     rich_presence_lookup("Boots", GetEquippedBoots(), BootsLookup),
     rich_presence_value("Items", GetInventoryCount()),
-    rich_presence_lookup("EP1Rank", GetRank(1), RankLookup, "_"),
-    rich_presence_lookup("EP2Rank", GetRank(2), RankLookup, "_"),
-    rich_presence_lookup("EP3Rank", GetRank(3), RankLookup, "_"),
-    rich_presence_lookup("EP4Rank", GetRank(4), RankLookup, "_"),
-    rich_presence_lookup("EP5Rank", GetRank(5), RankLookup, "_"),
-    rich_presence_lookup("EP6Rank", GetRank(6), RankLookup, "_"),
-    rich_presence_lookup("EP7Rank", GetRank(7), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(1), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(2), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(3), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(4), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(5), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(6), RankLookup, "_"),
+    rich_presence_lookup("EPRank", GetRank(7), RankLookup, "_"),
     rich_presence_value("CP", GetTotalCP()),
     rich_presence_value("Time", GetGameTime(), "SECS")
 )
 
-rich_presence_conditional_display(UseEpisode8Display(), "{0} is fighting through Episode 8 | Equipment: {1} • {2} • {3} | Items: {4} | {5}",
+rich_presence_conditional_display(UseEpisode8Display(), "{0} is fighting through Episode 8 | 🗡️ {1} 🧥 {2} 🥾 {3} | 💎 {4} | 🕙 {5}",
     rich_presence_lookup("Character", GetCharacter(), CharacterLookup),
     rich_presence_lookup("Weapon", GetEquippedWeapon(), WeaponLookup, "None"),
     rich_presence_lookup("Clothing", GetEquippedClothing(), ClothingLookup),

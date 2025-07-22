@@ -1,0 +1,29 @@
+0x00 = Inactive/Off Screen
+0x12 = Explosion
+0x13 = Sub-Boss Explosion
+0x14 = Boss Explosion (Area 2 Boss uses)
+0x17 = Sub-Boss/Boss Explosion
+0x1b = Red Shield Option
+0x20 = Bullet Type 1
+0x24 = Bullet Type 2 (Red/White)
+0x27 = Bullet Type 3 (Yellow/Red)
+0x36 = Missile
+0x1f = Yellow Enemy
+0x3b = Area 1 Sub-Boss Turret
+0x3c = Area 1 Sub-Boss/ Area 2 Boss Part (0x5a (center part))
+0x3c = Area 3 Boss - Worm Head
+0x3d = Area 3 Boss Parts (0x6e (outer parts))
+0x3d = Area 4 Boss - Body (Type = 0xa0) * Auto dies once head dies
+0x3e = Area 1 Boss (Type 0xa) /Area 2 Sub Boss Parts (0x32 (tail), 0x4b (wing), 0x3c (nose))
+0x3e = Area 3 Boss - Worm Tail (Type = 0x5a)
+0x3f = Area 4 Boss - Head (Type = 0x06)
+0x40 = Area 2 Boss Parts (0x30 (tail), 0x4b (wing, 0x11 (nose))
+0x40 = Area 4 Boss - Turret (Type = 0xc8)
+0x0e = Power Up
+
+0e 0d 50 00 20 42 3b 4b 45 7c 16 80 40 01 90 00
+0e 0d 50 00 40 b1 3b 4b 20 86 17 81 70 00 90 00
+
+30 00 38 00 00 22 c0 04 0a 02 00 20 0c 00 01 00
+30 00 6b 41 00 22 c0 00 00 01 00 1e 0c 00 01 00
+

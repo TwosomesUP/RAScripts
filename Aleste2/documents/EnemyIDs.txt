@@ -1,8 +1,14 @@
 0x00 = Inactive/Off Screen
 0x12 = Explosion
 0x13 = Sub-Boss Explosion
-0x14 = Boss Explosion (Area 2 Boss uses)
+0x14 = Boss Explosion
+0x14 = Area 5 Sub-Boss Explosion
+0x14 = Area 5 Boss Explosion
+0x16 = Area 7 Boss - Small Cannon Explosion
 0x17 = Sub-Boss/Boss Explosion
+0x17 = Area 6 Boss Explosion
+0x17 = Area 7 Boss - Laser Cannon Explosion
+0x17 = Area 7 Boss - Large Cannon Explosion
 0x1b = Red Shield Option
 0x20 = Bullet Type 1
 0x24 = Bullet Type 2 (Red/White)
@@ -11,14 +17,24 @@
 0x1f = Yellow Enemy
 0x3b = Area 1 Sub-Boss Turret
 0x3c = Area 1 Sub-Boss/ Area 2 Boss Part (0x5a (center part))
+0x3c = Area 5 Sub-Boss - Tower (Type = 0x08)
 0x3c = Area 3 Boss - Worm Head
 0x3d = Area 3 Boss Parts (0x6e (outer parts))
 0x3d = Area 4 Boss - Body (Type = 0xa0) * Auto dies once head dies
+0x3d = Area 7 Boss - Large Cannon (Type = 0x37)
 0x3e = Area 1 Boss (Type 0xa) /Area 2 Sub Boss Parts (0x32 (tail), 0x4b (wing), 0x3c (nose))
 0x3e = Area 3 Boss - Worm Tail (Type = 0x5a)
+0x3e = Area 5 Boss (Type = 0x28)
 0x3f = Area 4 Boss - Head (Type = 0x06)
+0x3f = Area 7 Boss - Laser Cannon (Type = 0x55)
 0x40 = Area 2 Boss Parts (0x30 (tail), 0x4b (wing, 0x11 (nose))
 0x40 = Area 4 Boss - Turret (Type = 0xc8)
+0x41 = Area 7 Boss - Small Cannon (Type = 0x16)
+0x44 = Area 6 Boss (Type = 0x49)
+0x44 = Mech (Type = 0x07)
+0x45 = Area 6 Boss - Worm Tail (Type = 0x46)
+0x45 = Area 6 Boss - Worm Head (Type = 0x2d)
+0x0d = Power Up Ship (Type Matches the Power Up it drops)
 0x0e = Power Up
 
 0e 0d 50 00 20 42 3b 4b 45 7c 16 80 40 01 90 00

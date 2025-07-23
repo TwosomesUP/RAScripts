@@ -1,45 +1,68 @@
-0x00 = Inactive/Off Screen
-0x12 = Explosion
-0x13 = Sub-Boss Explosion
-0x14 = Boss Explosion
-0x14 = Area 5 Sub-Boss Explosion
-0x14 = Area 5 Boss Explosion
-0x16 = Area 7 Boss - Small Cannon Explosion
-0x17 = Sub-Boss/Boss Explosion
-0x17 = Area 6 Boss Explosion
-0x17 = Area 7 Boss - Laser Cannon Explosion
-0x17 = Area 7 Boss - Large Cannon Explosion
-0x1b = Red Shield Option
-0x20 = Bullet Type 1
-0x24 = Bullet Type 2 (Red/White)
-0x27 = Bullet Type 3 (Yellow/Red)
-0x36 = Missile
-0x1f = Yellow Enemy
-0x3b = Area 1 Sub-Boss Turret
-0x3c = Area 1 Sub-Boss/ Area 2 Boss Part (0x5a (center part))
-0x3c = Area 5 Sub-Boss - Tower (Type = 0x08)
-0x3c = Area 3 Boss - Worm Head
-0x3d = Area 3 Boss Parts (0x6e (outer parts))
-0x3d = Area 4 Boss - Body (Type = 0xa0) * Auto dies once head dies
-0x3d = Area 7 Boss - Large Cannon (Type = 0x37)
-0x3e = Area 1 Boss (Type 0xa) /Area 2 Sub Boss Parts (0x32 (tail), 0x4b (wing), 0x3c (nose))
-0x3e = Area 3 Boss - Worm Tail (Type = 0x5a)
-0x3e = Area 5 Boss (Type = 0x28)
-0x3f = Area 4 Boss - Head (Type = 0x06)
-0x3f = Area 7 Boss - Laser Cannon (Type = 0x55)
-0x40 = Area 2 Boss Parts (0x30 (tail), 0x4b (wing, 0x11 (nose))
-0x40 = Area 4 Boss - Turret (Type = 0xc8)
-0x41 = Area 7 Boss - Small Cannon (Type = 0x16)
-0x44 = Area 6 Boss (Type = 0x49)
-0x44 = Mech (Type = 0x07)
-0x45 = Area 6 Boss - Worm Tail (Type = 0x46)
-0x45 = Area 6 Boss - Worm Head (Type = 0x2d)
-0x0d = Power Up Ship (Type Matches the Power Up it drops)
-0x0e = Power Up
-
-0e 0d 50 00 20 42 3b 4b 45 7c 16 80 40 01 90 00
-0e 0d 50 00 40 b1 3b 4b 20 86 17 81 70 00 90 00
-
-30 00 38 00 00 22 c0 04 0a 02 00 20 0c 00 01 00
-30 00 6b 41 00 22 c0 00 00 01 00 1e 0c 00 01 00
-
+00 = Inactive
+0c-00 = Power Chip
+0c-07 = Power Chip from Drop Ship
+0d-00 = Weapon 0 Drop Ship
+0d-01 = Weapon 1 Drop Ship
+0d-02 = Weapon 2 Drop Ship
+0d-03 = Weapon 3 Drop Ship
+0d-04 = Weapon 4 Drop Ship
+0d-05 = Weapon 5 Drop Ship
+0d-06 = Weapon 6 Drop Ship
+0d-07 = Power Ship Drop Ship
+0e-00 = Secondary Weapon 0
+0e-01 = Secondary Weapon 1
+0e-02 = Secondary Weapon 2
+0e-03 = Secondary Weapon 3
+0e-04 = Secondary Weapon 4
+0e-05 = Secondary Weapon 5
+0e-06 = Secondary Weapon 6
+12 = Explosion
+13 = Sub-Boss Explosion
+14 = Boss Explosion
+14 = Area 5 Sub-Boss Explosion
+14 = Area 5 Boss Explosion
+14-00 = Area 8 Boss Phase 2 - Death
+16-16 = Area 7 Boss - Small Cannon Explosion
+17 = Boss Explosion
+17 = Area 6 Boss Explosion
+17-55 = Area 7 Boss - Laser Cannon Explosion
+17-37 = Area 7 Boss - Large Cannon Explosion
+1a = Yellow Shield Option
+1b = Red Shield Option
+1c = Blue Shield Option
+1d = Gray Shield Option
+1f = Yellow Item Enemy 
+20 = Bullet Type 1
+24 = Bullet Type 2 (Red/White)
+27 = Bullet Type 3 (Yellow/Red)
+36 = Missile
+3b = Area 1 Sub-Boss Turret
+3c = Area 1 Sub-Boss
+3c-5a = Area 2 Boss Part
+3c-08 = Area 5 Sub-Boss - Tower
+3c = Area 3 Boss - Worm Head
+3d-6e = Area 3 Boss - Outer Parts
+3d-a0 = Area 4 Boss - Body
+3d-37 = Area 7 Boss - Large Cannon
+3e-32 = Area 2 Boss - Tail
+3e-4b = Area 2 Boss - Wing
+3e-3c = Area 2 Boss - Nose
+3e-5a = Area 3 Boss - Worm Tail
+3e-28 = Area 5 Boss
+3f-06 = Area 4 Boss - Head
+3f-55 = Area 7 Boss - Laser Cannon
+40-30 = Area 2 Boss - Tail
+40-4b = Area 2 Boss - Wing
+40-11 = Area 2 Boss - Nose
+40-c8 = Area 4 Boss - Turret
+41-16 = Area 7 Boss - Small Cannon
+44-49 = Area 6 Boss - Body
+44-07 = Mech
+45-46 = Area 6 Boss - Worm Tail
+45-2d = Area 6 Boss - Worm Head
+4b-c8 = Area 8 Boss - Body
+4b-03 = Area 8 Boss - Body Transition
+4b-02 = Area 8 Boss - Body Transition
+4b-01 = Area 8 Boss - Body Transition
+4b-00 = Area 8 Boss - Body Phase 2
+4e-8c = Area 8 Boss - Laser

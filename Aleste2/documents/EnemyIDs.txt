@@ -1,6 +1,8 @@
 00 = Inactive
+
 0c-00 = Power Chip
 0c-07 = Power Chip from Drop Ship
+
 0d-00 = Weapon 0 Drop Ship
 0d-01 = Weapon 1 Drop Ship
 0d-02 = Weapon 2 Drop Ship
@@ -9,6 +11,7 @@
 0d-05 = Weapon 5 Drop Ship
 0d-06 = Weapon 6 Drop Ship
 0d-07 = Power Ship Drop Ship
+
 0e-00 = Secondary Weapon 0
 0e-01 = Secondary Weapon 1
 0e-02 = Secondary Weapon 2
@@ -16,53 +19,66 @@
 0e-04 = Secondary Weapon 4
 0e-05 = Secondary Weapon 5
 0e-06 = Secondary Weapon 6
-12 = Explosion
-13 = Sub-Boss Explosion
-14 = Boss Explosion
-14 = Area 5 Sub-Boss Explosion
-14 = Area 5 Boss Explosion
-14-00 = Area 8 Boss Phase 2 - Death
-16-16 = Area 7 Boss - Small Cannon Explosion
-17 = Boss Explosion
-17 = Area 6 Boss Explosion
-17-55 = Area 7 Boss - Laser Cannon Explosion
-17-37 = Area 7 Boss - Large Cannon Explosion
-1a = Yellow Shield Option
-1b = Red Shield Option
-1c = Blue Shield Option
-1d = Gray Shield Option
-1f = Yellow Item Enemy 
-20 = Bullet Type 1
-24 = Bullet Type 2 (Red/White)
-27 = Bullet Type 3 (Yellow/Red)
-36 = Missile
-3b = Area 1 Sub-Boss Turret
-3c = Area 1 Sub-Boss
-3c-5a = Area 2 Boss Part
-3c-08 = Area 5 Sub-Boss - Tower
-3c = Area 3 Boss - Worm Head
-3d-6e = Area 3 Boss - Outer Parts
-3d-a0 = Area 4 Boss - Body
-3d-37 = Area 7 Boss - Large Cannon
-3e-32 = Area 2 Boss - Tail
-3e-4b = Area 2 Boss - Wing
-3e-3c = Area 2 Boss - Nose
-3e-5a = Area 3 Boss - Worm Tail
-3e-28 = Area 5 Boss
-3f-06 = Area 4 Boss - Head
-3f-55 = Area 7 Boss - Laser Cannon
+
+3b-5a = Area 1 Sub-Boss - Turret
+3b-1e = Area 1 Sub-Boss - Final Turret
+3c-?? = Area 1 Sub-Boss - Body (Type constantly increases during fight)
+17-3b = Area 1 Sub-Boss - Turret Explosion
+17-1e = Area 1 Sub-Boss - Final Turret Explosion
+3e-0a = Area 1 Boss
+12-0a = Area 1 Boss Explosion
+
+3e-32 = Area 2 Sub-Boss - Tail
+3e-4b = Area 2 Sub-Boss - Wing
+3e-3c = Area 2 Sub-Boss - Nose
+17-3c = Area 2 Sub-Boss - Nose Explosion
+17-3e = Area 2 Sub-Boss - Tail Explosion
+17-4b = Area 2 Sub-Boss - Wing Explosion
 40-30 = Area 2 Boss - Tail
 40-4b = Area 2 Boss - Wing
 40-11 = Area 2 Boss - Nose
+17-30 = Area 2 Boss - Tail Explosion
+17-4b = Area 2 Boss - Wing Explosion
+17-11 = Area 2 Boss - Nose Explosion
+
+3e-64 = Area 3 Boss - Worm Tail
+3c-41 = Area 3 Boss - Worm Head
+3d-78 = Area 3 Boss - Outer Parts
+17-78 = Area 3 Boss - Outer Part Explosion
+14-64 = Area 3 Boss - Worm Tail Explosion
+00-41 = Area 3 Boss - Worm Head Explosion
+
+3d-a0 = Area 4 Boss - Body
+3f-06 = Area 4 Boss - Head
 40-c8 = Area 4 Boss - Turret
-41-16 = Area 7 Boss - Small Cannon
-44-49 = Area 6 Boss - Body
-44-07 = Mech
-45-46 = Area 6 Boss - Worm Tail
+17-c8 = Area 4 Boss - Turrent Explosion
+17-06 = Area 4 Boss - Head Explosion
+14-a0 = Area 4 Boss - Body Explosion
+
+3c-08 = Area 5 Sub-Boss - Tower
+3e-2d = Area 5 Boss
+14-08 = Area 5 Sub-Boss - Tower Explosion
+14-2d = Area 5 Boss - Explosion
+
+44-4b = Area 6 Boss - Body
+45-4b = Area 6 Boss - Worm Tail
 45-2d = Area 6 Boss - Worm Head
+17-4b = Area 6 Boss - Body Explosion
+
+3d-37 = Area 7 Boss - Large Cannon
+3f-55 = Area 7 Boss - Laser Cannon
+41-16 = Area 7 Boss - Small Cannon
+16-16 = Area 7 Boss - Small Cannon Explosion
+17-55 = Area 7 Boss - Laser Cannon Explosion
+17-37 = Area 7 Boss - Large Cannon Explosion
+
+4a-06 = Area 8 Sub-Boss
 4b-c8 = Area 8 Boss - Body
 4b-03 = Area 8 Boss - Body Transition
 4b-02 = Area 8 Boss - Body Transition
 4b-01 = Area 8 Boss - Body Transition
 4b-00 = Area 8 Boss - Body Phase 2
 4e-8c = Area 8 Boss - Laser
+14-00 = Area 8 Boss Phase 2 - Death
+14-01 = Area 8 Sub-Boss - Explosion 1
+14-02 = Area 8 Sub-Boss - Explosion 2

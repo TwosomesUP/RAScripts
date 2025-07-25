@@ -9,6 +9,8 @@ Game = {
     "Difficulty": byte(0x878),
     "InGame": byte(0x81f),
     "InDemo": bit2(0x810),
+    "GameOver": bit3(0x810),
+    "Continued": bit4(0x810),
     "Area": {
         "Level": byte(0x183f),
         "State": byte(0x8d9),
@@ -37,6 +39,10 @@ Game = {
 Player = {
     "Speed": byte(0x80e),
     "Lives": byte(0x840),
+    "Buttons": {
+        "Primary": bit4(0x800),
+        "Secondary": bit5(0x800)
+    },
     "Weapons":{
         "Primary": {
             "Power": byte(0x841)
@@ -146,50 +152,61 @@ LevelEndings = {
 Bosses = {
     "Area1":{
         "Sub": {
+            "StartTime": 0x64,
             "Position": 0x1c9
         },
         "Main": {
+            "StartTime": 0x64,
             "Position": 0x33c
         }
     },
     "Area2":{
         "Sub": {
+            "StartTime": 0x78,
             "Position": 0x2f0
         },
         "Main": {
+            "StartTime": 0x82,
             "Position": 0x3f8
         }
     },
     "Area3":{
         "Main": {
+            "StartTime": 0x78,
             "Position": 0x555
         }
     },
     "Area4":{
         "Main": {
+            "StartTime": 0x78,
             "Position": 0x32f
         }
     },
     "Area5":{
         "Sub": {
+            "StartTime": 0x64,
             "Position": 0x2c3
         },
         "Main": {
+            "StartTime": 0x8c,
             "Position": 0x3b8
         }
     },
     "Area6":{
         "Main": {
+            "StartTime": 0x8c,
             "Position": 0x2e2
         }
     },
     "Area7":{
         "Main": {
+            "StartTime": 0x78,
             "Position": 0x230
         }
     },
     "Area8":{
         "Sub": {
+            "StartTime": 0x46,
             "Position": 0x252
         },
         "Main": {
@@ -209,7 +226,12 @@ function IsDiskLoaded(disk){
 function IsInGame(){
     inGame = Game["InGame"]
     inDemo = Game["InDemo"]
-    return inGame == 0x01 && inDemo == 0
+    loading = Game["Continued"]
+    gameOver = Game["GameOver"]
+    
+    flags = inDemo + loading + gameOver
+    
+    return inGame == 0x01 && flags == 0
 }
 
 function IsInDemo(){
@@ -223,8 +245,8 @@ function IsInArea(area){
     return currentArea == area
 }
 
-function ClearedArea(area){
-    trigger = IsInArea(area)
+function ClearedArea(area, challenge = false){
+    areaCheck = IsInArea(area)
     currentPosition = Game["Area"]["Position"]
     
     if (area != 4)
@@ -232,8 +254,7 @@ function ClearedArea(area){
         positions = LevelEndings["Area" + area]["Position"]
         start = positions["Start"]
         end = positions["End"]
-        trigger = trigger && 
-            prev(currentPosition) == start &&
+        clearCheck = prev(currentPosition) == start &&
             currentPosition == end
     }
     else
@@ -241,11 +262,15 @@ function ClearedArea(area){
         clearText = SpecialItems["ClearText"]
         specialItem = Player["SpecialItem"]
         bossPosition = Bosses["Area" + area]["Main"]["Position"]
-        trigger = trigger &&
-            currentPosition == bossPosition &&
+        clearCheck = currentPosition == bossPosition &&
             prev(specialItem) == 0x00 &&
             specialItem == clearText
     }
+    
+    trigger = clearCheck
+    
+    if (!challenge)
+        trigger = areaCheck && clearCheck
     
     return trigger
 }
@@ -336,7 +361,7 @@ function IsDifficulty(difficulty){
     return trigger
 }
 
-function IsFightingBoss(area, sub = false){
+function IsFightingBoss(area, sub = false, challenge = false){
     type = "Main"
     
     if (sub)
@@ -346,18 +371,22 @@ function IsFightingBoss(area, sub = false){
     currentArea = Game["Area"]["Level"]
     currentPosition = Game["Area"]["Position"]
     
-    return currentArea == area &&
-        currentPosition == position
+    trigger = currentPosition == position
+    if (!challenge)
+        trigger = currentArea == area &&
+            trigger
+    
+    return trigger
 }
 
-function DefeatedBoss(area, sub = false){
-    fightingBoss = IsFightingBoss(area, sub)
+function DefeatedBoss(area, sub = false, challenge = false){
+    fightingBoss = IsFightingBoss(area, sub, challenge)
     count = Game["Boss"]["Count"]
     return fightingBoss && prev(count) > 0 && count == 0
 }
 
-function DefeatedBossWithTimer(area, sub = false){
-    fightingBoss = IsFightingBoss(area, sub)
+function DefeatedBossWithTimer(area, sub = false, challenge = false){
+    fightingBoss = IsFightingBoss(area, sub, challenge)
     timer = Game["Boss"]["Timer"]
     return fightingBoss && prev(timer) > 0 && timer == 0
 }
@@ -441,14 +470,39 @@ function GetScore(){
     return sum_of(scores, score => scores[score])
 }
 
+// Need a better way to detect this
+function PlayerFiredShot(){
+    return GetFiredShot() > 0
+}
+
+function GetFiredShot(){
+    primaryButton = Player["Buttons"]["Primary"]
+    secondaryButton = Player["Buttons"]["Secondary"]
+    buttonsPressed = primaryButton + secondaryButton
+    return buttonsPressed
+}
+
 function FailedARMChallenge(disk, area){
     return disable_when(IsInArea(area) && !HasSubWeapon(0)) &&
         ResetChallenge(disk, area)
 }
 
-function FailedBossChallenge(disk, area, sub = false){
+function FailedBossDefeatChallenge(disk, area, sub = false){
     lives = Player["Lives"]
-    return disable_when(IsInArea(area) && IsFightingBoss(area, sub) && prev(lives) > lives) &&
+    return disable_when(IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && prev(lives) > lives) &&
+        ResetChallenge(disk, area)
+}
+
+function FailedBossTimerChallenge(disk, area, sub = false){
+    type = "Main"
+    if (sub)
+        type = "Sub"
+
+    timer = Game["Boss"]["Timer"]
+    timerStart = Bosses["Area" + area][type]["StartTime"]
+    timerLimit = timerStart - 3
+    
+    return disable_when(repeated(3, IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && timer < timerLimit && PlayerFiredShot() && never(GetFiredShot() == 0))) &&
         ResetChallenge(disk, area)
 }
 
@@ -458,7 +512,6 @@ function ResetChallenge(disk, area){
         always_false() || 
         (
             never(!IsInArea(area)) &&
-            never(lives == 0x00) &&
             never(!IsDiskLoaded(disk)) &&
             never(!IsInGame())
         )
@@ -485,40 +538,33 @@ function Area1_OniClear(){
 
 function Area1_ARM0Clear(){
     return HasSubWeapon(0) &&
-        Area1_HitoClear() &&
+        IsDifficulty("Hito") &&
+        ClearedArea(1, true) &&
         FailedARMChallenge(1, 1)
 }
 
 function Area1_SubBossTimerChallenge(){
-    return IsDiskLoaded(1) &&
-        IsInGame() &&
-        IsDifficulty("Hito") &&
-        DefeatedBossWithTimer(1, true) &&
-        FailedBossChallenge(1, 1, true)
+    return IsDifficulty("Hito") &&
+        DefeatedBossWithTimer(1, true, true) &&
+        FailedBossTimerChallenge(1, 1, true)
 }
 
 function Area1_SubBossDefeatChallenge(){
-    return IsDiskLoaded(1) &&
-        IsInGame() &&
-        IsDifficulty("Hito") &&
-        DefeatedBoss(1, true) &&
-        FailedBossChallenge(1, 1, true)
+    return IsDifficulty("Hito") &&
+        DefeatedBoss(1, true, true) &&
+        FailedBossDefeatChallenge(1, 1, true)
 }
 
 function Area1_BossTimerChallenge(){
-    return IsDiskLoaded(1) &&
-        IsInGame() &&
-        IsDifficulty("Hito") &&
-        DefeatedBossWithTimer(1) &&
-        FailedBossChallenge(1, 1)
+    return IsDifficulty("Hito") &&
+        DefeatedBossWithTimer(1, challenge = true) &&
+        FailedBossTimerChallenge(1, 1)
 }
 
 function Area1_BossDefeatChallenge(){
-    return IsDiskLoaded(1) &&
-        IsInGame() &&
-        IsDifficulty("Hito") &&
-        DefeatedBoss(1) &&
-        FailedBossChallenge(1, 1)
+    return IsDifficulty("Hito") &&
+        DefeatedBoss(1, challenge = true) &&
+        FailedBossDefeatChallenge(1, 1)
 }
 
 // Area 2
@@ -817,20 +863,20 @@ achievement("Area 1 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 1 
     trigger = Area1_ARM0Clear()
 )
 
-achievement("Area 1 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area1_SubBossTimerChallenge()
-)
-
-achievement("Area 1 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+achievement("Area 1 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area1_SubBossDefeatChallenge()
 )
 
-achievement("Area 1 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area1_BossTimerChallenge()
+achievement("Area 1 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area1_SubBossTimerChallenge()
 )
 
-achievement("Area 1 - Boss Challenge", "On Hito difficulty or higher, survive the Area 1 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+achievement("Area 1 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area1_BossDefeatChallenge()
+)
+
+achievement("Area 1 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 1 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area1_BossTimerChallenge()
 )
 
 
@@ -848,20 +894,20 @@ achievement("Area 2 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 2 
     trigger = Area2_ARM0Clear()
 )
 
-achievement("Area 2 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area2_SubBossTimerChallenge()
-)
-
-achievement("Area 2 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+achievement("Area 2 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area2_SubBossDefeatChallenge()
 )
 
-achievement("Area 2 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area2_BossTimerChallenge()
+achievement("Area 2 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area2_SubBossTimerChallenge()
 )
 
-achievement("Area 2 - Boss Challenge", "On Hito difficulty or higher, survive the Area 2 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+achievement("Area 2 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area2_BossDefeatChallenge()
+)
+
+achievement("Area 2 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 2 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area2_BossTimerChallenge()
 )
 
 
@@ -879,12 +925,12 @@ achievement("Area 3 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 3 
     trigger = Area3_ARM0Clear()
 )
 
-achievement("Area 3 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area3_BossTimerChallenge()
+achievement("Area 3 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area3_BossDefeatChallenge()
 )
 
-achievement("Area 3 - Boss Challenge", "On Hito difficulty or higher, survive the Area 3 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
-    trigger = Area3_BossDefeatChallenge()
+achievement("Area 3 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 3 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area3_BossTimerChallenge()
 )
 
 
@@ -902,12 +948,12 @@ achievement("Area 4 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 4 
     trigger = Area4_ARM0Clear()
 )
 
-achievement("Area 4 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area4_BossTimerChallenge()
+achievement("Area 4 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area4_BossDefeatChallenge()
 )
 
-achievement("Area 4 - Boss Challenge", "On Hito difficulty or higher, survive the Area 4 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
-    trigger = Area4_BossDefeatChallenge()
+achievement("Area 4 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 4 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area4_BossTimerChallenge()
 )
 
 achievement("Area 4 - Hidden Text", "Reveal the hidden story text after clearing Area 4", points = 2,
@@ -933,20 +979,20 @@ achievement("Area 5 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 5 
     trigger = Area5_ARM0Clear()
 )
 
-achievement("Area 5 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area5_SubBossTimerChallenge()
-)
-
-achievement("Area 5 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+achievement("Area 5 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area5_SubBossDefeatChallenge()
 )
 
-achievement("Area 5 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area5_BossTimerChallenge()
+achievement("Area 5 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area5_SubBossTimerChallenge()
 )
 
-achievement("Area 5 - Boss Challenge", "On Hito difficulty or higher, survive the Area 5 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+achievement("Area 5 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area5_BossDefeatChallenge()
+)
+
+achievement("Area 5 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 5 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area5_BossTimerChallenge()
 )
 
 
@@ -964,12 +1010,12 @@ achievement("Area 6 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 6 
     trigger = Area6_ARM0Clear()
 )
 
-achievement("Area 6 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area6_BossTimerChallenge()
+achievement("Area 6 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area6_BossDefeatChallenge()
 )
 
-achievement("Area 6 - Boss Challenge", "On Hito difficulty or higher, survive the Area 6 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
-    trigger = Area6_BossDefeatChallenge()
+achievement("Area 6 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 6 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area6_BossTimerChallenge()
 )
 
 // Area 7
@@ -986,12 +1032,12 @@ achievement("Area 7 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 7 
     trigger = Area7_ARM0Clear()
 )
 
-achievement("Area 7 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area7_BossTimerChallenge()
+achievement("Area 7 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area7_BossDefeatChallenge()
 )
 
-achievement("Area 7 - Boss Challenge", "On Hito difficulty or higher, survive the Area 7 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
-    trigger = Area7_BossDefeatChallenge()
+achievement("Area 7 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 7 Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area7_BossTimerChallenge()
 )
 
 // Area 8
@@ -1008,12 +1054,12 @@ achievement("Area 8 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 8 
     trigger = Area8_ARM0Clear()
 )
 
-achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5,
-    trigger = Area8_SubBossTimerChallenge()
+achievement("Area 8 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area8_SubBossDefeatChallenge()
 )
 
-achievement("Area 8 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
-    trigger = Area8_SubBossDefeatChallenge()
+achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+    trigger = Area8_SubBossTimerChallenge()
 )
 
 achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Boss without losing a life", points = 5,

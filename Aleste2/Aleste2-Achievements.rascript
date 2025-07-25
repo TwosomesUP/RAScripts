@@ -429,4 +429,632 @@ function GetScore(){
     return sum_of(scores, score => scores[score])
 }
 
-achievement("Test", "Test", 3, trigger = IsInGame() && IsDiskLoaded(1) && ClearedArea(4))
+// Trigger Function
+
+// Area 1
+
+function Area1_HitoClear(){
+    return always_false()
+}
+
+function Area1_OniClear(){
+    return always_false()
+}
+
+function Area1_ARM0Clear(){
+    return always_false()
+}
+
+function Area1_SubBossTimerChallenge(){
+    return always_false()
+}
+
+function Area1_SubBossDefeatChallenge(){
+    return always_false()
+}
+
+function Area1_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area1_BossDefeatChallenge(){
+    return always_false()
+}
+
+// Area 2
+
+function Area2_HitoClear(){
+    return always_false()
+}
+
+function Area2_OniClear(){
+    return always_false()
+}
+
+function Area2_ARM0Clear(){
+    return always_false()
+}
+
+function Area2_SubBossTimerChallenge(){
+    return always_false()
+}
+
+function Area2_SubBossDefeatChallenge(){
+    return always_false()
+}
+
+function Area2_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area2_BossDefeatChallenge(){
+    return always_false()
+}
+
+// Area 3
+
+function Area3_HitoClear(){
+    return always_false()
+}
+
+function Area3_OniClear(){
+    return always_false()
+}
+
+function Area3_ARM0Clear(){
+    return always_false()
+}
+
+function Area3_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area3_BossDefeatChallenge(){
+    return always_false()
+}
+
+// Area 4
+
+function Area4_HitoClear(){
+    return always_false()
+}
+
+function Area4_OniClear(){
+    return always_false()
+}
+
+function Area4_ARM0Clear(){
+    return always_false()
+}
+
+function Area4_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area4_BossDefeatChallenge(){
+    return always_false()
+}
+
+function Area4_HiddenStoryText(){
+    return always_false()
+}
+
+function Area4_HiddenScene(){
+    return always_false()
+}
+
+// Area 5
+
+function Area5_HitoClear(){
+    return always_false()
+}
+
+function Area5_OniClear(){
+    return always_false()
+}
+
+function Area5_ARM0Clear(){
+    return always_false()
+}
+
+function Area5_SubBossTimerChallenge(){
+    return always_false()
+}
+
+function Area5_SubBossDefeatChallenge(){
+    return always_false()
+}
+
+function Area5_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area5_BossDefeatChallenge(){
+    return always_false()
+}
+
+// Area 6
+
+function Area6_HitoClear(){
+    return always_false()
+}
+
+function Area6_OniClear(){
+    return always_false()
+}
+
+function Area6_ARM0Clear(){
+    return always_false()
+}
+
+function Area6_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area6_BossDefeatChallenge(){
+    return always_false()
+}
+
+// Area 7
+
+function Area7_HitoClear(){
+    return always_false()
+}
+
+function Area7_OniClear(){
+    return always_false()
+}
+
+function Area7_ARM0Clear(){
+    return always_false()
+}
+
+function Area7_BossTimerChallenge(){
+    return always_false()
+}
+
+function Area7_BossDefeatChallenge(){
+    return always_false()
+}
+
+// Area 8
+
+function Area8_HitoClear(){
+    return always_false()
+}
+
+function Area8_OniClear(){
+    return always_false()
+}
+
+function Area8_ARM0Clear(){
+    return always_false()
+}
+
+function Area8_SubBossTimerChallenge(){
+    return always_false()
+}
+
+function Area8_SubBossDefeatChallenge(){
+    return always_false()
+}
+
+function Area8_BossDefeatChallenge(){
+    return always_false()
+}
+
+function Area8_HiddenStoryText(){
+    return always_false()
+}
+
+function Area8_Credits(){
+    return always_false()
+}
+
+// Other
+
+function Other_MaxPrimary(){
+    return always_false()
+}
+
+function Other_MaxARM0(){
+    return always_false()
+}
+
+function Other_MaxARM1(){
+    return always_false()
+}
+
+function Other_MaxARM2(){
+    return always_false()
+}
+
+function Other_MaxARM3(){
+    return always_false()
+}
+
+function Other_MaxARM4(){
+    return always_false()
+}
+
+function Other_MaxARM5(){
+    return always_false()
+}
+
+function Other_MaxARM6(){
+    return always_false()
+}
+
+function Other_RedOption(){
+    return always_false()
+}
+
+function Other_BlueOption(){
+    return always_false()
+}
+
+function Other_GrayOption(){
+    return always_false()
+}
+
+function Other_YellowOption(){
+    return always_false()
+}
+
+function Other_3Options(){
+    return always_false()
+}
+
+function Other_3DifferentOptions(){
+    return always_false()
+}
+
+function Other_BlueCreature(){
+    return always_false()
+}
+
+function Other_StarOrb(){
+    return always_false()
+}
+
+function Other_PowerChipExtend(){
+    return always_false()
+}
+
+function Other_20KExtend(){
+    return always_false()
+}
+
+function Other_80KExtend(){
+    return always_false()
+}
+
+function Other_250Thousand(){
+    return always_false()
+}
+
+function Other_500Thousand(){
+    return always_false()
+}
+
+function Other_1Million(){
+    return always_false()
+}
+
+// Achievement Definitions
+
+// Area 1
+
+achievement("Area 1 - Hito Clear", "On Hito difficulty or higher, clear Area 1", points = 3, type = "progression",
+    trigger = Area1_HitoClear()
+)
+
+achievement("Area 1 - Oni Clear", "On Oni difficulty, clear Area 1", points = 10,
+    trigger = Area1_OniClear()
+)
+
+achievement("Area 1 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 1 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area1_ARM0Clear()
+)
+
+achievement("Area 1 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area1_SubBossTimerChallenge()
+)
+
+achievement("Area 1 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area1_SubBossDefeatChallenge()
+)
+
+achievement("Area 1 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area1_BossTimerChallenge()
+)
+
+achievement("Area 1 - Boss Challenge", "On Hito difficulty or higher, survive the Area 1 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area1_BossDefeatChallenge()
+)
+
+
+// Area 2
+
+achievement("Area 2 - Hito Clear", "On Hito difficulty or higher, clear Area 2", points = 3, type = "progression",
+    trigger = Area2_HitoClear()
+)
+
+achievement("Area 2 - Oni Clear", "On Oni difficulty, clear Area 2", points = 10,
+    trigger = Area2_OniClear()
+)
+
+achievement("Area 2 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 2 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area2_ARM0Clear()
+)
+
+achievement("Area 2 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area2_SubBossTimerChallenge()
+)
+
+achievement("Area 2 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area2_SubBossDefeatChallenge()
+)
+
+achievement("Area 2 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area2_BossTimerChallenge()
+)
+
+achievement("Area 2 - Boss Challenge", "On Hito difficulty or higher, survive the Area 2 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area2_BossDefeatChallenge()
+)
+
+
+// Area 3
+
+achievement("Area 3 - Hito Clear", "On Hito difficulty or higher, clear Area 3", points = 3, type = "progression",
+    trigger = Area3_HitoClear()
+)
+
+achievement("Area 3 - Oni Clear", "On Oni difficulty, clear Area 3", points = 10,
+    trigger = Area3_OniClear()
+)
+
+achievement("Area 3 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 3 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area3_ARM0Clear()
+)
+
+achievement("Area 3 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area3_BossTimerChallenge()
+)
+
+achievement("Area 3 - Boss Challenge", "On Hito difficulty or higher, survive the Area 3 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area3_BossDefeatChallenge()
+)
+
+
+// Area 4
+
+achievement("Area 4 - Hito Clear", "On Hito difficulty or higher, clear Area 4", points = 3, type = "progression",
+    trigger = Area4_HitoClear()
+)
+
+achievement("Area 4 - Oni Clear", "On Oni difficulty, clear Area 4", points = 10,
+    trigger = Area4_OniClear()
+)
+
+achievement("Area 4 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 4 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area4_ARM0Clear()
+)
+
+achievement("Area 4 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area4_BossTimerChallenge()
+)
+
+achievement("Area 4 - Boss Challenge", "On Hito difficulty or higher, survive the Area 4 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area4_BossDefeatChallenge()
+)
+
+achievement("Area 4 - Hidden Text", "Reveal the hidden story text after clearing Area 4", points = 2,
+    trigger = Area4_HiddenStoryText()
+)
+
+achievement("Area 4 - Hidden Scene", "Watch the hidden scene to the end after clearing Area 4", points = 2,
+    trigger = Area4_HiddenScene()
+)
+
+
+// Area 5
+
+achievement("Area 5 - Hito Clear", "On Hito difficulty or higher, clear Area 5", points = 5, type = "progression",
+    trigger = Area5_HitoClear()
+)
+
+achievement("Area 5 - Oni Clear", "On Oni difficulty, clear Area 5", points = 10,
+    trigger = Area5_OniClear()
+)
+
+achievement("Area 5 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 5 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area5_ARM0Clear()
+)
+
+achievement("Area 5 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area5_SubBossTimerChallenge()
+)
+
+achievement("Area 5 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area5_SubBossDefeatChallenge()
+)
+
+achievement("Area 5 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area5_BossTimerChallenge()
+)
+
+achievement("Area 5 - Boss Challenge", "On Hito difficulty or higher, survive the Area 5 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area5_BossDefeatChallenge()
+)
+
+
+// Area 6
+
+achievement("Area 6 - Hito Clear", "On Hito difficulty or higher, clear Area 6", points = 5, type = "progression",
+    trigger = Area6_HitoClear()
+)
+
+achievement("Area 6 - Oni Clear", "On Oni difficulty, clear Area 6", points = 10,
+    trigger = Area6_OniClear()
+)
+
+achievement("Area 6 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 6 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area6_ARM0Clear()
+)
+
+achievement("Area 6 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area6_BossTimerChallenge()
+)
+
+achievement("Area 6 - Boss Challenge", "On Hito difficulty or higher, survive the Area 6 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area6_BossDefeatChallenge()
+)
+
+// Area 7
+
+achievement("Area 7 - Hito Clear", "On Hito difficulty or higher, clear Area 7", points = 5, type = "progression",
+    trigger = Area7_HitoClear()
+)
+
+achievement("Area 7 - Oni Clear", "On Oni difficulty, clear Area 7", points = 10,
+    trigger = Area7_OniClear()
+)
+
+achievement("Area 7 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 7 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area7_ARM0Clear()
+)
+
+achievement("Area 7 - Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area7_BossTimerChallenge()
+)
+
+achievement("Area 7 - Boss Challenge", "On Hito difficulty or higher, survive the Area 7 Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area7_BossDefeatChallenge()
+)
+
+// Area 8
+
+achievement("Area 8 - Hito Clear", "On Hito difficulty or higher, clear Area 8", points = 10, type = "win_condition",
+    trigger = Area8_HitoClear()
+)
+
+achievement("Area 8 - Oni Clear", "On Oni difficulty, clear Area 8", points = 25, type = "win_condition",
+    trigger = Area8_OniClear()
+)
+
+achievement("Area 8 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 8 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+    trigger = Area8_ARM0Clear()
+)
+
+achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+    trigger = Area8_SubBossTimerChallenge()
+)
+
+achievement("Area 8 - Sub-Boss Challenge", "On Hito difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, dealing only minimal damage, and without losing a life", points = 5,
+    trigger = Area8_SubBossDefeatChallenge()
+)
+
+achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Boss without losing a life", points = 5,
+    trigger = Area8_BossDefeatChallenge()
+)
+
+achievement("Area 8 - Hidden Text", "Reveal the hidden story text after clearing Area 8", points = 2,
+    trigger = Area8_HiddenStoryText()
+)
+
+achievement("Area 8 - Hidden Scene", "Watch the credits scene to the end after clearing Area 8", points = 2,
+    trigger = Area8_Credits()
+)
+
+// Other
+
+achievement("Max Primary", "Reach maximum power for your Primary Weapon", points = 5,
+    trigger = Other_MaxPrimary()
+)
+
+achievement("Max ARM0", "Reach maximum power for ARM Type 0: Super-Rapid", points = 5,
+    trigger = Other_MaxARM0()
+)
+
+achievement("Max ARM1", "Reach maximum power for ARM Type 1: Destroy-Cutter", points = 5,
+    trigger = Other_MaxARM1()
+)
+
+achievement("Max ARM2", "Reach maximum power for ARM Type 2: Super-Energy", points = 5,
+    trigger = Other_MaxARM2()
+)
+
+achievement("Max ARM3", "Reach maximum power for ARM Type 3: Lazer-Beam", points = 5,
+    trigger = Other_MaxARM3()
+)
+
+achievement("Max ARM4", "Reach maximum power for ARM Type 4: Homing-Energy", points = 5,
+    trigger = Other_MaxARM4()
+)
+
+achievement("Max ARM5", "Reach maximum power for ARM Type 5: Separate", points = 5,
+    trigger = Other_MaxARM5()
+)
+
+achievement("Max ARM6", "Reach maximum power for ARM Type 6: Drop-Down", points = 5,
+    trigger = Other_MaxARM6()
+)
+
+achievement("Red Shield", "Collect a Red Shield Option for the first time", points = 3,
+    trigger = Other_RedOption()
+)
+
+achievement("Blue Shield", "Collect a Blue Shield Option for the first time", points = 3,
+    trigger = Other_BlueOption()
+)
+
+achievement("Gray Shield", "Collect a Gray Shield Option for the first time", points = 3,
+    trigger = Other_GrayOption()
+)
+
+achievement("Yellow Shield", "Collect a Yellow Shield Option for the first time", points = 3,
+    trigger = Other_YellowOption()
+)
+
+achievement("Three Options", "Have 3 Shield Options at once", points = 5,
+    trigger = Other_3Options()
+)
+
+achievement("Three Different Options", "Have 3 Shield Options of different colors at once", points = 10,
+    trigger = Other_3DifferentOptions()
+)
+
+achievement("Blue Creature", "Collect a strange blue friend and max out all of your weapons at once", points = 3,
+    trigger = Other_BlueCreature()
+)
+
+achievement("Star Orb", "Collect a Star Orb and destroy all enemies on screen", points = 3,
+    trigger = Other_StarOrb()
+)
+
+achievement("Power Chip Extend", "Extend your lives by 1 by collecting 100 Power Chips", points = 5,
+    trigger = Other_PowerChipExtend()
+)
+
+achievement("20K Extend", "Extend your lives by 1 by scoring 20 thousand points or more", points = 3,
+    trigger = Other_20KExtend()
+)
+
+achievement("80K Extend", "Extend your lives by 1 by scoring 80 thousand points or more", points = 5,
+    trigger = Other_80KExtend()
+)
+
+achievement("250K Points", "Reach a score of 250 thousand points or more before beating the final boss in Area 8", points = 3,
+    trigger = Other_250Thousand()
+)
+
+achievement("500K Points", "Reach a score of 500 thousand points or more before beating the final boss in Area 8", points = 5,
+    trigger = Other_500Thousand()
+)
+
+achievement("1M Points", "Reach a score of 1 million points or more before beating the final boss in Area 8", points = 10,
+    trigger = Other_1Million()
+)
+

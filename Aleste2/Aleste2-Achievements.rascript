@@ -342,12 +342,24 @@ function IsFightingBoss(area, sub = false){
     if (sub)
         type = "Sub"
         
-    position = Bosses["Area" + area][type]
-    currentArea = Game["Area"]
+    position = Bosses["Area" + area][type]["Position"]
+    currentArea = Game["Area"]["Level"]
     currentPosition = Game["Area"]["Position"]
     
     return currentArea == area &&
         currentPosition == position
+}
+
+function DefeatedBoss(area, sub = false){
+    fightingBoss = IsFightingBoss(area, sub)
+    count = Game["Boss"]["Count"]
+    return fightingBoss && prev(count) > 0 && count == 0
+}
+
+function DefeatedBossWithTimer(area, sub = false){
+    fightingBoss = IsFightingBoss(area, sub)
+    timer = Game["Boss"]["Timer"]
+    return fightingBoss && prev(timer) > 0 && timer == 0
 }
 
 function MaxedPrimaryWeapon(){
@@ -429,36 +441,84 @@ function GetScore(){
     return sum_of(scores, score => scores[score])
 }
 
+function FailedARMChallenge(disk, area){
+    return disable_when(IsInArea(area) && !HasSubWeapon(0)) &&
+        ResetChallenge(disk, area)
+}
+
+function FailedBossChallenge(disk, area, sub = false){
+    lives = Player["Lives"]
+    return disable_when(IsInArea(area) && IsFightingBoss(area, sub) && prev(lives) > lives) &&
+        ResetChallenge(disk, area)
+}
+
+function ResetChallenge(disk, area){
+    lives = Player["Lives"]
+    return (
+        always_false() || 
+        (
+            never(!IsInArea(area)) &&
+            never(lives == 0x00) &&
+            never(!IsDiskLoaded(disk)) &&
+            never(!IsInGame())
+        )
+    )
+}
+
 // Trigger Function
 
 // Area 1
 
 function Area1_HitoClear(){
-    return always_false()
+    return IsDiskLoaded(1) &&
+        IsInGame() &&
+        IsDifficulty("Hito") &&
+        ClearedArea(1)
 }
 
 function Area1_OniClear(){
-    return always_false()
+    return IsDiskLoaded(1) &&
+        IsInGame() &&
+        IsDifficulty("Oni") &&
+        ClearedArea(1)
 }
 
 function Area1_ARM0Clear(){
-    return always_false()
+    return HasSubWeapon(0) &&
+        Area1_HitoClear() &&
+        FailedARMChallenge(1, 1)
 }
 
 function Area1_SubBossTimerChallenge(){
-    return always_false()
+    return IsDiskLoaded(1) &&
+        IsInGame() &&
+        IsDifficulty("Hito") &&
+        DefeatedBossWithTimer(1, true) &&
+        FailedBossChallenge(1, 1, true)
 }
 
 function Area1_SubBossDefeatChallenge(){
-    return always_false()
+    return IsDiskLoaded(1) &&
+        IsInGame() &&
+        IsDifficulty("Hito") &&
+        DefeatedBoss(1, true) &&
+        FailedBossChallenge(1, 1, true)
 }
 
 function Area1_BossTimerChallenge(){
-    return always_false()
+    return IsDiskLoaded(1) &&
+        IsInGame() &&
+        IsDifficulty("Hito") &&
+        DefeatedBossWithTimer(1) &&
+        FailedBossChallenge(1, 1)
 }
 
 function Area1_BossDefeatChallenge(){
-    return always_false()
+    return IsDiskLoaded(1) &&
+        IsInGame() &&
+        IsDifficulty("Hito") &&
+        DefeatedBoss(1) &&
+        FailedBossChallenge(1, 1)
 }
 
 // Area 2

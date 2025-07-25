@@ -17,6 +17,7 @@ Game = {
         "Position": word(0x8a6)
     },
     "Boss": {
+        "State": byte(0x8d8),
         "Count": byte(0x8db),
         "Timer": byte(0x8e1)
     },
@@ -45,6 +46,7 @@ Player = {
     },
     "Weapons":{
         "Primary": {
+            "State": byte(0x85b),
             "Power": byte(0x841)
         },
         "Secondary": {
@@ -372,6 +374,7 @@ function IsFightingBoss(area, sub = false, challenge = false){
     currentPosition = Game["Area"]["Position"]
     
     trigger = currentPosition == position
+        
     if (!challenge)
         trigger = currentArea == area &&
             trigger
@@ -470,16 +473,15 @@ function GetScore(){
     return sum_of(scores, score => scores[score])
 }
 
-// Need a better way to detect this
-function PlayerFiredShot(){
-    return GetFiredShot() > 0
+function PlayerFiredPrimaryShot(){
+    state = Player["Weapons"]["Primary"]["State"]
+    return state > 1 && state <= 6
 }
 
-function GetFiredShot(){
-    primaryButton = Player["Buttons"]["Primary"]
-    secondaryButton = Player["Buttons"]["Secondary"]
-    buttonsPressed = primaryButton + secondaryButton
-    return buttonsPressed
+function PlayerFiredSecondaryShot(){
+    ammo = Player["Weapons"]["Secondary"]["Ammo"]
+    type = Player["Weapons"]["Secondary"]["Type"]
+    return prev(type) == type && prev(ammo) > ammo
 }
 
 function FailedARMChallenge(disk, area){
@@ -489,7 +491,7 @@ function FailedARMChallenge(disk, area){
 
 function FailedBossDefeatChallenge(disk, area, sub = false){
     lives = Player["Lives"]
-    return disable_when(IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && prev(lives) > lives) &&
+    return disable_when(IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && prev(lives) > lives) &&        
         ResetChallenge(disk, area)
 }
 
@@ -502,7 +504,8 @@ function FailedBossTimerChallenge(disk, area, sub = false){
     timerStart = Bosses["Area" + area][type]["StartTime"]
     timerLimit = timerStart - 3
     
-    return disable_when(repeated(3, IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && timer < timerLimit && PlayerFiredShot() && never(GetFiredShot() == 0))) &&
+    return disable_when(repeated(3, IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && timer < timerLimit && PlayerFiredPrimaryShot())) &&
+        disable_when(IsInGame() && IsInArea(area) && IsFightingBoss(area, sub) && timer < timerLimit && PlayerFiredSecondaryShot()) &&
         ResetChallenge(disk, area)
 }
 

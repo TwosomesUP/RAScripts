@@ -109,8 +109,8 @@ Options = {
 LevelEndings = {
     "Area1": {
         "Position": {
-            "Start": 0x3c6,
-            "End": 0x3c7
+            "Start": 0x368,
+            "End": 0x369
         }
     },
     "Area2": {
@@ -217,6 +217,13 @@ Bosses = {
     }
 }
 
+Scenes = {
+    "Area4Ending": {
+        "Start": 0x5618,
+        "End": 0x5619
+    }
+}
+
 // Helpers
 
 function IsDiskLoaded(disk){
@@ -228,12 +235,13 @@ function IsDiskLoaded(disk){
 function IsInGame(){
     inGame = Game["InGame"]
     inDemo = Game["InDemo"]
-    loading = Game["Continued"]
     gameOver = Game["GameOver"]
     
-    flags = inDemo + loading + gameOver
+    flags = inDemo + gameOver
     
-    return inGame == 0x01 && flags == 0
+    trigger = inGame == 0x01 && flags == 0
+    
+    return trigger
 }
 
 function IsInDemo(){
@@ -385,7 +393,8 @@ function IsFightingBoss(area, sub = false, challenge = false){
 function DefeatedBoss(area, sub = false, challenge = false){
     fightingBoss = IsFightingBoss(area, sub, challenge)
     count = Game["Boss"]["Count"]
-    return fightingBoss && prev(count) > 0 && count == 0
+    timer = Game["Boss"]["Timer"]
+    return fightingBoss && timer > 0 && prev(count) > 0 && count == 0
 }
 
 function DefeatedBossWithTimer(area, sub = false, challenge = false){
@@ -485,7 +494,7 @@ function PlayerFiredSecondaryShot(){
 }
 
 function FailedARMChallenge(disk, area){
-    return disable_when(IsInArea(area) && !HasSubWeapon(0)) &&
+    return disable_when(IsInGame() && IsInArea(area) && !HasSubWeapon(0)) &&
         ResetChallenge(disk, area)
 }
 
@@ -521,127 +530,149 @@ function ResetChallenge(disk, area){
     )
 }
 
+// Trigger Helpers
+
+function AchievedAreaClear(difficulty, disk, area){
+    return IsDiskLoaded(disk) &&
+        IsInGame() &&
+        IsDifficulty(difficulty) &&
+        ClearedArea(area)
+}
+
+function AchievedAreaARMChallenge(disk, area){
+    return HasSubWeapon(0) &&
+        IsDifficulty("Hito") &&
+        ClearedArea(area, true) &&
+        FailedARMChallenge(disk, area)
+}
+
+function AchievedBossTimerChallenge(disk, area, sub = false){
+    return IsDifficulty("Hito") &&
+        DefeatedBossWithTimer(area, sub, true) &&
+        FailedBossTimerChallenge(disk, area, sub)
+}
+
+function AchievedBossChallenge(disk, area, sub = false){
+    return IsDifficulty("Hito") &&
+        DefeatedBoss(area, sub, true) &&
+        FailedBossDefeatChallenge(disk, area, sub)
+}
+
+function TriggeredScene(disk, area, scene){
+    sceneIndex = Game["Scene"]["Index"]
+    start = Scenes[scene]["Start"]
+    end = Scenes[scene]["End"]
+    
+    return IsDiskLoaded(disk) &&
+        IsInArea(area) &&
+        prev(sceneIndex) == start &&
+        sceneIndex == end
+}
+
 // Trigger Function
 
 // Area 1
 
 function Area1_HitoClear(){
-    return IsDiskLoaded(1) &&
-        IsInGame() &&
-        IsDifficulty("Hito") &&
-        ClearedArea(1)
+    return AchievedAreaClear("Hito", 1, 1)
 }
 
 function Area1_OniClear(){
-    return IsDiskLoaded(1) &&
-        IsInGame() &&
-        IsDifficulty("Oni") &&
-        ClearedArea(1)
+    return AchievedAreaClear("Oni", 1, 1)
 }
 
 function Area1_ARM0Clear(){
-    return HasSubWeapon(0) &&
-        IsDifficulty("Hito") &&
-        ClearedArea(1, true) &&
-        FailedARMChallenge(1, 1)
+    return AchievedAreaARMChallenge(1, 1)
 }
 
 function Area1_SubBossTimerChallenge(){
-    return IsDifficulty("Hito") &&
-        DefeatedBossWithTimer(1, true, true) &&
-        FailedBossTimerChallenge(1, 1, true)
+    return AchievedBossTimerChallenge(1, 1, true)
 }
 
 function Area1_SubBossDefeatChallenge(){
-    return IsDifficulty("Hito") &&
-        DefeatedBoss(1, true, true) &&
-        FailedBossDefeatChallenge(1, 1, true)
+    return AchievedBossChallenge(1, 1, true)
 }
 
 function Area1_BossTimerChallenge(){
-    return IsDifficulty("Hito") &&
-        DefeatedBossWithTimer(1, challenge = true) &&
-        FailedBossTimerChallenge(1, 1)
+    return AchievedBossTimerChallenge(1, 1)
 }
 
 function Area1_BossDefeatChallenge(){
-    return IsDifficulty("Hito") &&
-        DefeatedBoss(1, challenge = true) &&
-        FailedBossDefeatChallenge(1, 1)
+    return AchievedBossChallenge(1, 1)
 }
 
 // Area 2
 
 function Area2_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 1, 2)
 }
 
 function Area2_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 1, 2)
 }
 
 function Area2_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(1, 2)
 }
 
 function Area2_SubBossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(1, 2, true)
 }
 
 function Area2_SubBossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(1, 2, true)
 }
 
 function Area2_BossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(1, 2)
 }
 
 function Area2_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(1, 2)
 }
 
 // Area 3
 
 function Area3_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 1, 3)
 }
 
 function Area3_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 1, 3)
 }
 
 function Area3_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(1, 3)
 }
 
 function Area3_BossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(1, 3)
 }
 
 function Area3_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(1, 3)
 }
 
 // Area 4
 
 function Area4_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 1, 4)
 }
 
 function Area4_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 1, 4)
 }
 
 function Area4_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(1, 4)
 }
 
 function Area4_BossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(1, 4)
 }
 
 function Area4_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(1, 4)
 }
 
 function Area4_HiddenStoryText(){
@@ -649,7 +680,7 @@ function Area4_HiddenStoryText(){
 }
 
 function Area4_HiddenScene(){
-    return always_false()
+    return TriggeredScene(0, 5, "Area4Ending") 
 }
 
 // Area 5

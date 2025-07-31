@@ -1,0 +1,89 @@
+Disk A - Hidden Text
+0x780b (In RAM)
+0x1780b (In ROM)
+Line Break: FE (New Line) 10/18 (Left alignment pixels) 30 (Line Number) 00 (End)
+Line Terminate: FF
+Each line is 28 characters
+13 lines total
+
+=== INTRO ===
+37 characters
+2 lines
+
+Captain, we can accelerate as 
+soon as we clear the asteroid belt.
+
+Good... {{This new 'Shinano' ship is really
+something...
+
+I {wish {colonel {Waizen {would
+transfer to the space army...
+
+Wh-what's that?!
+
+Confirmed: Spaceship ahead, likely
+originating from the 3rd plant.
+
+[Officer Brahwell]
+
+Hmm, so those pathetic humans have
+found their way into space as well...
+
+What should we do, Majesty?
+
+They obstruct my view... 
+Eliminate them!!
+
+[Vegant Emperor Gaizel]
+
+Yes!
+
+Prepare to fire the front lasers!
+
+[Officer Rosa]
+
+Extreme heat source approaching
+
+Send an SOS to HQ immediately!!!
+
+AAAAHHHH!!!
+
+There is no one in the universe
+who can oppose the Vegants!
+
+This will be out next target!
+
+New York,
+2039 AD
+
+=============
+
+From within the ruins,		0
+Brahwell awakened and		1
+revealed a terrible truth.  2
+This otherworldly space		3
+was a trap for Ellinor.		4
+
+When Ellinor defeated		6
+Brahwell, the world			7
+vanished, but three days	8
+had passed on Earth.		9
+
+Hurry, Ellinor-				11
+The Earth is in danger!!	12
+
+=====  
+
+Though her friends cheered,    0
+Ellinor's heart was heavy.     1
+Brahwell was gone, but Earth   2
+had been destroyed. Alone,     3     
+she laid flowers by the surf   4
+for her father. Nearby, a      5
+Rosa slips into the dusk.      6
+The story may not be over...   7
+
+Meanwhile, by sheer will,      9 
+Ray came from across the       10
+sea, riding a whale.           11     
+(What a guy, that Ray...)      12

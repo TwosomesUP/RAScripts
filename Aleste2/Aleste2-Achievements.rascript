@@ -109,44 +109,44 @@ Options = {
 LevelEndings = {
     "Area1": {
         "Position": {
-            "Start": 0x368,
-            "End": 0x369
+            "Start": 0x388,
+            "End": 0x389
         }
     },
     "Area2": {
         "Position": {
-            "Start": 0x405,
-            "End": 0x406
+            "Start": 0x404,
+            "End": 0x405
         }
     },
     "Area3": {
         "Position": {
-            "Start": 0x5f6,
-            "End": 0x5f7
+            "Start": 0x621,
+            "End": 0x622
         }
     },
     "Area5": {
         "Position": {
-            "Start": 0x442,
-            "End": 0x443
+            "Start": 0x408,
+            "End": 0x409
         }
     },
     "Area6": {
         "Position": {
-            "Start": 0x3e7,
-            "End": 0x3e8
+            "Start": 0x393,
+            "End": 0x394
         }
     },
     "Area7": {
         "Position": {
-            "Start": 0x269,
-            "End": 0x26a
+            "Start": 0x272,
+            "End": 0x273
         }
     },
     "Area8": {
         "Position": {
-            "Start": 0x4b8,
-            "End": 0x4b9
+            "Start": 0x440,
+            "End": 0x441
         }
     }
 }
@@ -218,9 +218,52 @@ Bosses = {
 }
 
 Scenes = {
+    "Intro": {
+        "Start": 0x5f80,
+        "End": 0x5f84 
+    },
     "Area4Ending": {
         "Start": 0x5618,
         "End": 0x5619
+    }
+}
+
+TextScenes = {
+    "Disk1": {
+        "Area5": {
+            "Original": {
+                "Start": 0xa8,
+                "End": 0xba
+            },
+            "Translation": {
+                "Start": 0xc6,
+                "End": 0xcf
+            }
+        }
+    },
+    "Disk2": {
+        "Area1": {
+            "Ending": {
+                "Original": {
+                    "Start": 0xd5,
+                    "End": 0xe7
+                },
+                "Translation": {
+                    "Start": 0xc6,
+                    "End": 0xf3
+                }
+            },
+            "TrueEnding": {
+                "Original": {
+                    "Start": 0xa5,
+                    "End": 0xd2
+                },
+                "Translation": {
+                    "Start": 0x90,
+                    "End": 0xd8
+                }
+            }
+        }
     }
 }
 
@@ -228,8 +271,15 @@ Scenes = {
 
 function IsDiskLoaded(disk){
     address = 0x00
+    altAddress = 0x100
     diskId = DiskIds["Disk" + disk]
-    return ascii_string_equals(address, diskId)
+    
+    trigger = ascii_string_equals(address, diskId)
+    
+    if (disk == 0)
+        trigger = trigger || ascii_string_equals(altAddress, diskId)
+    
+    return trigger
 }
 
 function IsInGame(){
@@ -569,9 +619,38 @@ function TriggeredScene(disk, area, scene){
         sceneIndex == end
 }
 
+function TriggeredText(disk, area, trueEnding = false){
+    scene = TextScenes["Disk" + disk]["Area" + area]
+    text = Game["Scene"]["Text"]
+    
+    if (disk != 2) {
+        original = scene["Original"]
+        translation = scene["Translation"]
+    } else {
+        original = scene["Ending"]["Original"]
+        translation = scene["Ending"]["Translation"]
+        
+        if (trueEnding) {
+            original = scene["TrueEnding"]["Original"]
+            translation = scene["TrueEnding"]["Translation"]
+        }
+    }
+    
+    return IsDiskLoaded(disk) &&
+        IsInArea(area) &&
+        (
+            (prev(text) == original["Start"] && text == original["End"]) ||
+            (prev(text) == translation["Start"] && text == translation["End"])
+        )
+}
+
 // Trigger Function
 
 // Area 1
+
+function Intro_Cutscene(){
+    return TriggeredScene(0, 1, "Intro")
+}
 
 function Area1_HitoClear(){
     return AchievedAreaClear("Hito", 1, 1)
@@ -676,7 +755,7 @@ function Area4_BossDefeatChallenge(){
 }
 
 function Area4_HiddenStoryText(){
-    return always_false()
+    return TriggeredText(1, 5)
 }
 
 function Area4_HiddenScene(){
@@ -783,11 +862,15 @@ function Area8_BossDefeatChallenge(){
     return always_false()
 }
 
-function Area8_HiddenStoryText(){
-    return always_false()
+function Area8_EndingText(){
+    return TriggeredText(2, 1)
 }
 
-function Area8_Credits(){
+function Area8_TrueEndingText(){
+    return TriggeredText(2, 1, true)
+}
+
+function Area8_EndingScene(){
     return always_false()
 }
 
@@ -884,6 +967,10 @@ function Other_1Million(){
 // Achievement Definitions
 
 // Area 1
+
+achievement("Watch the Intro", "Watch the intro cutscene to the end", points = 1, 
+    trigger = Intro_Cutscene()
+)
 
 achievement("Area 1 - Hito Clear", "On Hito difficulty or higher, clear Area 1", points = 3, type = "progression",
     trigger = Area1_HitoClear()
@@ -1100,12 +1187,16 @@ achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the
     trigger = Area8_BossDefeatChallenge()
 )
 
-achievement("Area 8 - Hidden Text", "Reveal the hidden story text after clearing Area 8", points = 2,
-    trigger = Area8_HiddenStoryText()
+achievement("Area 8 - Ending Text", "Reveal the hidden text for the ending after clearing Area 8", points = 2,
+    trigger = Area8_EndingText()
+)
+
+achievement("Area 8 - True Ending Text", "Reveal the hidden text for the true ending after clearing Area 8", points = 2,
+    trigger = Area8_TrueEndingText()
 )
 
 achievement("Area 8 - Hidden Scene", "Watch the credits scene to the end after clearing Area 8", points = 2,
-    trigger = Area8_Credits()
+    trigger = Area8_EndingScene()
 )
 
 // Other
@@ -1197,4 +1288,5 @@ achievement("500K Points", "Reach a score of 500 thousand points or more before 
 achievement("1M Points", "Reach a score of 1 million points or more before beating the final boss in Area 8", points = 10,
     trigger = Other_1Million()
 )
+
 

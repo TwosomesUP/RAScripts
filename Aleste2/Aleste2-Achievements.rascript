@@ -23,7 +23,7 @@ Game = {
     },
     "Scene": {
         "Index": word(0xf80),
-        "Text": byte(0x1876)
+        "Text": byte(0x1aff)
     },
     "EntityStack": {
         "Count": 24,
@@ -225,45 +225,10 @@ Scenes = {
     "Area4Ending": {
         "Start": 0x5618,
         "End": 0x5619
-    }
-}
-
-TextScenes = {
-    "Disk1": {
-        "Area5": {
-            "Original": {
-                "Start": 0xa8,
-                "End": 0xba
-            },
-            "Translation": {
-                "Start": 0xc6,
-                "End": 0xcf
-            }
-        }
     },
-    "Disk2": {
-        "Area1": {
-            "Ending": {
-                "Original": {
-                    "Start": 0xd5,
-                    "End": 0xe7
-                },
-                "Translation": {
-                    "Start": 0xc6,
-                    "End": 0xf3
-                }
-            },
-            "TrueEnding": {
-                "Original": {
-                    "Start": 0xa5,
-                    "End": 0xd2
-                },
-                "Translation": {
-                    "Start": 0x90,
-                    "End": 0xd8
-                }
-            }
-        }
+    "Ending": {
+        "Start": 0x500b,
+        "End": 0x500c
     }
 }
 
@@ -495,7 +460,7 @@ function GetEntityAddress(index){
 function GotPowerChip1Up(){
     chips = Player["PowerChips"]
     lives = Player["Lives"]
-    return prev(chips) < 99 &&
+    return prev(chips) >= 97 &&
         chips == 0 &&
         prev(lives) < lives 
 }
@@ -620,28 +585,64 @@ function TriggeredScene(disk, area, scene){
 }
 
 function TriggeredText(disk, area, trueEnding = false){
-    scene = TextScenes["Disk" + disk]["Area" + area]
     text = Game["Scene"]["Text"]
     
-    if (disk != 2) {
-        original = scene["Original"]
-        translation = scene["Translation"]
-    } else {
-        original = scene["Ending"]["Original"]
-        translation = scene["Ending"]["Translation"]
+    trigger = IsDiskLoaded(disk) &&
+        IsInArea(area)
         
-        if (trueEnding) {
-            original = scene["TrueEnding"]["Original"]
-            translation = scene["TrueEnding"]["Translation"]
-        }
-    }
+    if (trueEnding)
+            trigger = trigger && IsDifficulty("Oni")
     
-    return IsDiskLoaded(disk) &&
-        IsInArea(area) &&
-        (
-            (prev(text) == original["Start"] && text == original["End"]) ||
-            (prev(text) == translation["Start"] && text == translation["End"])
-        )
+    return trigger && prev(text) == 0x48 && text == 0x4a
+}
+
+function AchievedMaxSubWeapon(weapon){
+    return IsInGame() &&
+        MaxedSubWeapon(weapon)
+}
+
+function AchievedOption(option){
+    return IsInGame() &&
+        EquippedOptionColor(option)
+}
+
+function Achieved3Options(){
+    return IsInGame() &&
+        Equipped3Options()
+}
+
+function Achieved3DifferentOptions(){
+    return IsInGame() &&
+       Equipped3DifferentOptions() 
+}
+
+function AchievedSpecialItem(type){
+    return IsInGame() &&
+        CollectedSpecialItem(type)
+}
+
+function AchievedPowerChipExtend(){
+    return IsInGame() &&
+        GotPowerChip1Up()
+}
+
+function AchievedScore(score, beforeEnd = false){
+    bossCount = Game["Boss"]["Count"]
+
+    trigger = IsInGame() && ReachedScore(score)
+    
+    disabled = IsDiskLoaded(2) &&
+        IsFightingBoss(8) &&
+        prev(bossCount) > 0 &&
+        bossCount == 0
+    
+    reset = !IsInArea(8) && 
+        !IsInGame()  
+    
+    if (beforeEnd)
+        trigger = trigger && disable_when(disabled, reset)
+        
+    return trigger
 }
 
 // Trigger Function
@@ -765,101 +766,101 @@ function Area4_HiddenScene(){
 // Area 5
 
 function Area5_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 2, 5)
 }
 
 function Area5_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 2, 5)
 }
 
 function Area5_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(2, 5)
 }
 
 function Area5_SubBossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(2, 5, true)
 }
 
 function Area5_SubBossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(2, 5, true)
 }
 
 function Area5_BossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(2, 5)
 }
 
 function Area5_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(2, 5)
 }
 
 // Area 6
 
 function Area6_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 2, 6)
 }
 
 function Area6_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 2, 6)
 }
 
 function Area6_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(2, 6)
 }
 
 function Area6_BossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(2, 6)
 }
 
 function Area6_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(2, 6)
 }
 
 // Area 7
 
 function Area7_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 2, 7)
 }
 
 function Area7_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 2, 7)
 }
 
 function Area7_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(2, 7)
 }
 
 function Area7_BossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(2, 7)
 }
 
 function Area7_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(2, 7)
 }
 
 // Area 8
 
 function Area8_HitoClear(){
-    return always_false()
+    return AchievedAreaClear("Hito", 2, 8)
 }
 
 function Area8_OniClear(){
-    return always_false()
+    return AchievedAreaClear("Oni", 2, 8)
 }
 
 function Area8_ARM0Clear(){
-    return always_false()
+    return AchievedAreaARMChallenge(2, 8)
 }
 
 function Area8_SubBossTimerChallenge(){
-    return always_false()
+    return AchievedBossTimerChallenge(2, 8, true)
 }
 
 function Area8_SubBossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(2, 8, true)
 }
 
 function Area8_BossDefeatChallenge(){
-    return always_false()
+    return AchievedBossChallenge(2, 8)
 }
 
 function Area8_EndingText(){
@@ -871,97 +872,102 @@ function Area8_TrueEndingText(){
 }
 
 function Area8_EndingScene(){
-    return always_false()
+    return TriggeredScene(0, 1, "Ending")
 }
 
 // Other
 
 function Other_MaxPrimary(){
-    return always_false()
+    power = Player["Weapons"]["Primary"]["Power"]
+    max = 0x0f
+    
+    return IsInGame() &&
+        prev(power) < max &&
+        power >= max
 }
 
 function Other_MaxARM0(){
-    return always_false()
+    return AchievedMaxSubWeapon(0)
 }
 
 function Other_MaxARM1(){
-    return always_false()
+    return AchievedMaxSubWeapon(1)
 }
 
 function Other_MaxARM2(){
-    return always_false()
+    return AchievedMaxSubWeapon(2)
 }
 
 function Other_MaxARM3(){
-    return always_false()
+    return AchievedMaxSubWeapon(3)
 }
 
 function Other_MaxARM4(){
-    return always_false()
+    return AchievedMaxSubWeapon(4)
 }
 
 function Other_MaxARM5(){
-    return always_false()
+    return AchievedMaxSubWeapon(5)
 }
 
 function Other_MaxARM6(){
-    return always_false()
+    return AchievedMaxSubWeapon(6)
 }
 
 function Other_RedOption(){
-    return always_false()
+    return AchievedOption("Red")
 }
 
 function Other_BlueOption(){
-    return always_false()
+    return AchievedOption("Blue")
 }
 
 function Other_GrayOption(){
-    return always_false()
+    return AchievedOption("Gray")
 }
 
 function Other_YellowOption(){
-    return always_false()
+    return AchievedOption("Yellow")
 }
 
 function Other_3Options(){
-    return always_false()
+    return Achieved3Options()
 }
 
 function Other_3DifferentOptions(){
-    return always_false()
+    return Achieved3DifferentOptions()
 }
 
 function Other_BlueCreature(){
-    return always_false()
+    return AchievedSpecialItem("BlueCreature")
 }
 
 function Other_StarOrb(){
-    return always_false()
+    return AchievedSpecialItem("StarOrb")
 }
 
 function Other_PowerChipExtend(){
-    return always_false()
+    return AchievedPowerChipExtend()
 }
 
 function Other_20KExtend(){
-    return always_false()
+    return AchievedScore(20000)
 }
 
 function Other_80KExtend(){
-    return always_false()
+    return AchievedScore(80000)
 }
 
 function Other_250Thousand(){
-    return always_false()
+    return AchievedScore(250000, true)
 }
 
 function Other_500Thousand(){
-    return always_false()
+    return AchievedScore(500000, true)
 }
 
 function Other_1Million(){
-    return always_false()
+    return AchievedScore(1000000, true)
 }
 
 // Achievement Definitions

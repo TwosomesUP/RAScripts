@@ -296,15 +296,18 @@ function ClearedArea(area, challenge = false){
     
     if (!challenge)
         trigger = areaCheck && clearCheck
+    else
+        trigger = trigger
     
     return trigger
 }
 
+// Add point value for the item to detect pickup
 function CollectedSpecialItem(item){
     specialItem = Player["SpecialItem"]
     value = SpecialItems[item]
-    return prev(specialItem) != value &&
-        specialItem == value
+    return prev(specialItem) == value &&
+        specialItem != value
 }
 
 function GetOptionType(index){
@@ -326,9 +329,9 @@ function EquippedOptionColor(option){
     for index in range(1, 3){
         id = GetOptionId(index)
         type = GetOptionType(index)
-        condition = type == value && 
-            prev(id) == 0x00 &&
-            id != 0x00
+        condition = id != 0x00 && 
+            prev(type) != value &&
+            type == value
         array_push(conditions, condition)
     }
     
@@ -341,9 +344,9 @@ function EquippedAnyOption(){
     conditions = []
     
     for index in range(1, 3){
-        id = GetOptionId(index)
-        condition = prev(id) == 0x00 &&
-            id != 0x00
+        type = GetOptionType(index)
+        condition = prev(type) == 0xff &&
+            (type == 0x1a || type == 0x1b || type == 0x1c || type == 0x1d)
         array_push(conditions, condition)
     }
     
@@ -353,27 +356,27 @@ function EquippedAnyOption(){
 }
 
 function Equipped3Options(){
-    id1 = GetOptionId(1)
-    id2 = GetOptionId(2)
-    id3 = GetOptionId(3)
-    trigger = id1 != 0x00 &&
-        id2 != 0x00 &&
-        id3 != 0x00 &&
+    type1 = GetOptionType(1)
+    type2 = GetOptionType(2)
+    type3 = GetOptionType(3)
+    trigger = type1 != 0xff &&
+        type2 != 0xff &&
+        type3 != 0xff &&
         EquippedAnyOption()
         
     return trigger
 }
 
 function Equipped3DifferentOptions(){
-    id1 = GetOptionId(1)
-    id2 = GetOptionId(2)
-    id3 = GetOptionId(3)
-    trigger = id1 != 0x00 &&
-        id2 != 0x00 &&
-        id3 != 0x00 &&
-        id1 != id2 &&
-        id1 != id3 &&
-        id2 != id3 &&
+    type1 = GetOptionType(1)
+    type2 = GetOptionType(2)
+    type3 = GetOptionType(3)
+    trigger = type1 != 0xff &&
+        type2 != 0xff &&
+        type3 != 0xff &&
+        type1 != type2 &&
+        type1 != type3 &&
+        type2 != type3 &&
         EquippedAnyOption()
         
     return trigger
@@ -409,13 +412,16 @@ function DefeatedBoss(area, sub = false, challenge = false){
     fightingBoss = IsFightingBoss(area, sub, challenge)
     count = Game["Boss"]["Count"]
     timer = Game["Boss"]["Timer"]
-    return fightingBoss && timer > 0 && prev(count) > 0 && count == 0
+    return fightingBoss && 
+        timer > 0 && 
+        trigger_when(prev(count) > 0 && count == 0)
 }
 
 function DefeatedBossWithTimer(area, sub = false, challenge = false){
     fightingBoss = IsFightingBoss(area, sub, challenge)
     timer = Game["Boss"]["Timer"]
-    return fightingBoss && prev(timer) > 0 && timer == 0
+    return fightingBoss && 
+        trigger_when(prev(timer) > 0 && timer == 0)
 }
 
 function MaxedPrimaryWeapon(){
@@ -555,9 +561,9 @@ function AchievedAreaClear(difficulty, disk, area){
 }
 
 function AchievedAreaARMChallenge(disk, area){
-    return HasSubWeapon(0) &&
+    return trigger_when(HasSubWeapon(0) &&
         IsDifficulty("Hito") &&
-        ClearedArea(area, true) &&
+        ClearedArea(area, true)) &&
         FailedARMChallenge(disk, area)
 }
 
@@ -643,6 +649,13 @@ function AchievedScore(score, beforeEnd = false){
         trigger = trigger && disable_when(disabled, reset)
         
     return trigger
+}
+
+function AchievedLivesCount(count){
+    lives = Player["Lives"]
+    return IsInGame() &&
+        prev(lives) < count &&
+        lives >= count
 }
 
 // Trigger Function
@@ -1269,6 +1282,10 @@ achievement("Blue Creature", "Collect a strange blue friend and max out all of y
 
 achievement("Star Orb", "Collect a Star Orb and destroy all enemies on screen", points = 3,
     trigger = Other_StarOrb()
+)
+
+achievement("10 Lives", "Reach a stock of 10 lives", points = 5,
+    trigger = AchievedLivesCount(10)
 )
 
 achievement("Power Chip Extend", "Extend your lives by 1 by collecting 100 Power Chips", points = 5,

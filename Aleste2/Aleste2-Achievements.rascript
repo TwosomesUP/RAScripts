@@ -56,6 +56,7 @@ Player = {
         }
     },
     "SpecialItem": byte(0x1600),
+    "SpecialItemTrigger": byte(0x7c60),
     "Options": {
         "Option1": {
             "Id": byte(0x1620),
@@ -94,9 +95,16 @@ Difficulties = {
 }
 
 SpecialItems = {
-    "ClearText": 0x02,
-    "BlueCreature": 0x18,
-    "StarOrb": 0x19
+    "ClearText": {
+        "Id": 0x02
+    },
+    "BlueCreature": {
+        "Id": 0x18
+    },
+    "StarOrb": {
+        "Id": 0x19,
+        "Points": 1000
+    }
 }
 
 Options = {
@@ -121,8 +129,8 @@ LevelEndings = {
     },
     "Area3": {
         "Position": {
-            "Start": 0x621,
-            "End": 0x622
+            "Start": 0x5a8,
+            "End": 0x5a9
         }
     },
     "Area5": {
@@ -284,7 +292,7 @@ function ClearedArea(area, challenge = false){
     }
     else
     {
-        clearText = SpecialItems["ClearText"]
+        clearText = SpecialItems["ClearText"]["Id"]
         specialItem = Player["SpecialItem"]
         bossPosition = Bosses["Area" + area]["Main"]["Position"]
         clearCheck = currentPosition == bossPosition &&
@@ -302,12 +310,11 @@ function ClearedArea(area, challenge = false){
     return trigger
 }
 
-// Add point value for the item to detect pickup
 function CollectedSpecialItem(item){
     specialItem = Player["SpecialItem"]
-    value = SpecialItems[item]
+    value = SpecialItems[item]["Id"]
     return prev(specialItem) == value &&
-        specialItem != value
+        specialItem == 0x00
 }
 
 function GetOptionType(index){
@@ -623,7 +630,23 @@ function Achieved3DifferentOptions(){
 }
 
 function AchievedSpecialItem(type){
-    return IsInGame() &&
+    trigger = IsInGame()
+    primaryPower = Player["Weapons"]["Primary"]["Power"]
+    secondaryPower = Player["Weapons"]["Secondary"]["Level"]
+    specialTrigger = Player["SpecialItemTrigger"]
+    
+    if (type == "BlueCreature")
+        trigger = trigger &&
+            ((prev(primaryPower) != 0xf &&
+            primaryPower == 0xf) ||
+            (prev(secondaryPower) != 0x5 &&
+            secondaryPower == 0x5))
+            
+    if (type == "StarOrb")
+        trigger = trigger &&
+            specialTrigger == 0x19
+            
+    return trigger &&
         CollectedSpecialItem(type)
 }
 

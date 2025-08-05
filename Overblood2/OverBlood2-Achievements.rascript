@@ -1981,7 +1981,7 @@ function Episode7_CompletedJunkbladeEscape(){
 
 function Episode7_JunkbladeChallenge(){
     return !IsOnTitle() &&
-        CompletedMinigameChallenge(7, "JunkbladeRace", 120, true)
+        CompletedMinigameChallenge(7, "JunkbladeRace", 70, true)
 }
 
 function Episode7_CompletedEpisode(){
@@ -2368,7 +2368,7 @@ achievement("Shangri-la Treasure", "Find the Katana in Shangri-la in Episode 7",
     trigger = Episode7_AcquiredKatana()
 )
 
-achievement("Super Kondo Showdown ", "Defeat Kondo in Shangri-la in Episode 7", points = 5, type = "progression", id = 532589,
+achievement("Super Kondo Showdown", "Defeat Kondo in Shangri-la in Episode 7", points = 5, type = "progression", id = 532589,
     trigger = Episode7_DefeatedKondo()
 )
 
@@ -2396,7 +2396,7 @@ achievement("Tempest Ascendance", "Defeat Tempest in Shangri-la in Episode 7 wit
     trigger = Episode7_TempestChallenge()
 )
 
-achievement("Killswitch", "Destroy the Shangri-la in Episode 7 Power Source", points = 5, type = "progression", id = 532596,
+achievement("Killswitch", "Destroy the Power Source in Shangri-la in Episode 7", points = 5, type = "progression", id = 532596,
     trigger = Episode7_DeactivatedCore()
 )
 
@@ -2412,7 +2412,7 @@ achievement("Elusive Junkblade", "Escape Shangri-la on your Junkblade in Episode
     trigger = Episode7_CompletedJunkbladeEscape()
 )
 
-achievement("Untouchable Junkblade", "Complete the Shangri-la Junkblade sequence without taking damage in Episode 7 and gain the maximum amount of CP possible", points = 10, type = "missable", id = 532600,
+achievement("Untouchable Junkblade", "Complete the Shangri-la Junkblade sequence taking 4 hits or less in Episode 7", points = 10, type = "missable", id = 532600,
     trigger = Episode7_JunkbladeChallenge()
 )
 

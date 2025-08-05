@@ -147,14 +147,14 @@ LevelEndings = {
     },
     "Area7": {
         "Position": {
-            "Start": 0x272,
-            "End": 0x273
+            "Start": 0x252,
+            "End": 0x253
         }
     },
     "Area8": {
         "Position": {
-            "Start": 0x440,
-            "End": 0x441
+            "Start": 0x431,
+            "End": 0x432
         }
     }
 }
@@ -235,8 +235,8 @@ Scenes = {
         "End": 0x5619
     },
     "Ending": {
-        "Start": 0x500b,
-        "End": 0x500c
+        "Start": 0x5005,
+        "End": 0x500a
     }
 }
 
@@ -474,7 +474,7 @@ function GotPowerChip1Up(){
     chips = Player["PowerChips"]
     lives = Player["Lives"]
     return prev(chips) >= 97 &&
-        chips == 0 &&
+        chips <= 10 &&
         prev(lives) < lives 
 }
 
@@ -1119,11 +1119,11 @@ achievement("Area 4 - Boss Timer Challenge", "On Hito difficulty or higher, surv
     trigger = Area4_BossTimerChallenge()
 )
 
-achievement("Area 4 - Hidden Text", "Reveal the hidden story text after clearing Area 4", points = 2,
+achievement("Area 4 - Hidden Text", "Reveal the post Area 4 story text after defeating Brahwell", points = 1,
     trigger = Area4_HiddenStoryText()
 )
 
-achievement("Area 4 - Hidden Scene", "Watch the hidden scene to the end after clearing Area 4", points = 2,
+achievement("Area 4 - Hidden Scene", "Watch the post Area 4 cutscene to the end, after defeating Brahwell", points = 1,
     trigger = Area4_HiddenScene()
 )
 
@@ -1229,15 +1229,15 @@ achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the
     trigger = Area8_BossDefeatChallenge()
 )
 
-achievement("Area 8 - Ending Text", "Reveal the hidden text for the ending after clearing Area 8", points = 2,
+achievement("Area 8 - Ending Text", "Reveal the ending text after clearing Area 8", points = 2,
     trigger = Area8_EndingText()
 )
 
-achievement("Area 8 - True Ending Text", "Reveal the hidden text for the true ending after clearing Area 8", points = 2,
+achievement("Area 8 - True Ending Text", "Reveal the true ending text after clearing Area 8", points = 2,
     trigger = Area8_TrueEndingText()
 )
 
-achievement("Area 8 - Hidden Scene", "Watch the credits scene to the end after clearing Area 8", points = 2,
+achievement("Area 8 - Hidden Scene", "Watch the ending cutscene to the end after clearing Area 8", points = 2,
     trigger = Area8_EndingScene()
 )
 

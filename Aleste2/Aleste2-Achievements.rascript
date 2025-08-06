@@ -1225,19 +1225,19 @@ achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, 
     trigger = Area8_SubBossTimerChallenge()
 )
 
-achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Boss without losing a life", points = 5,
+achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Boss without losing a life", points = 10,
     trigger = Area8_BossDefeatChallenge()
 )
 
-achievement("Area 8 - Ending Text", "Reveal the ending text after clearing Area 8", points = 2,
+achievement("Area 8 - Ending Text", "Reveal the ending text after clearing Area 8", points = 1,
     trigger = Area8_EndingText()
 )
 
-achievement("Area 8 - True Ending Text", "Reveal the true ending text after clearing Area 8", points = 2,
+achievement("Area 8 - True Ending Text", "Reveal the true ending text after clearing Area 8", points = 1,
     trigger = Area8_TrueEndingText()
 )
 
-achievement("Area 8 - Hidden Scene", "Watch the ending cutscene to the end after clearing Area 8", points = 2,
+achievement("Area 8 - Hidden Scene", "Watch the ending cutscene to the end after clearing Area 8", points = 1,
     trigger = Area8_EndingScene()
 )
 

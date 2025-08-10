@@ -1014,108 +1014,108 @@ achievement("Watch the Intro", "Watch the intro cutscene to the end", points = 1
     trigger = Intro_Cutscene()
 )
 
-achievement("Area 1 - Hito Clear", "On Hito difficulty or higher, clear Area 1", points = 3, type = "progression",
+achievement("Area 1 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 1", points = 3, type = "progression",
     trigger = Area1_HitoClear()
 )
 
-achievement("Area 1 - Oni Clear", "On Oni difficulty, clear Area 1", points = 10,
+achievement("Area 1 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 1", points = 10,
     trigger = Area1_OniClear()
 )
 
-achievement("Area 1 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 1 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 1 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 1 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area1_ARM0Clear()
 )
 
-achievement("Area 1 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 1 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area1_SubBossDefeatChallenge()
 )
 
-achievement("Area 1 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 1 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area1_SubBossTimerChallenge()
 )
 
-achievement("Area 1 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 1 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area1_BossDefeatChallenge()
 )
 
-achievement("Area 1 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 1 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 1 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 1 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area1_BossTimerChallenge()
 )
 
 
 // Area 2
 
-achievement("Area 2 - Hito Clear", "On Hito difficulty or higher, clear Area 2", points = 3, type = "progression",
+achievement("Area 2 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 2", points = 3, type = "progression",
     trigger = Area2_HitoClear()
 )
 
-achievement("Area 2 - Oni Clear", "On Oni difficulty, clear Area 2", points = 10,
+achievement("Area 2 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 2", points = 10,
     trigger = Area2_OniClear()
 )
 
-achievement("Area 2 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 2 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 2 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 2 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area2_ARM0Clear()
 )
 
-achievement("Area 2 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 2 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area2_SubBossDefeatChallenge()
 )
 
-achievement("Area 2 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 2 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area2_SubBossTimerChallenge()
 )
 
-achievement("Area 2 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 2 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area2_BossDefeatChallenge()
 )
 
-achievement("Area 2 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 2 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 2 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 2 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area2_BossTimerChallenge()
 )
 
 
 // Area 3
 
-achievement("Area 3 - Hito Clear", "On Hito difficulty or higher, clear Area 3", points = 3, type = "progression",
+achievement("Area 3 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 3", points = 3, type = "progression",
     trigger = Area3_HitoClear()
 )
 
-achievement("Area 3 - Oni Clear", "On Oni difficulty, clear Area 3", points = 10,
+achievement("Area 3 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 3", points = 10,
     trigger = Area3_OniClear()
 )
 
-achievement("Area 3 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 3 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 3 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 3 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area3_ARM0Clear()
 )
 
-achievement("Area 3 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 3 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area3_BossDefeatChallenge()
 )
 
-achievement("Area 3 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 3 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 3 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 3 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area3_BossTimerChallenge()
 )
 
 
 // Area 4
 
-achievement("Area 4 - Hito Clear", "On Hito difficulty or higher, clear Area 4", points = 3, type = "progression",
+achievement("Area 4 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 4", points = 3, type = "progression",
     trigger = Area4_HitoClear()
 )
 
-achievement("Area 4 - Oni Clear", "On Oni difficulty, clear Area 4", points = 10,
+achievement("Area 4 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 4", points = 10,
     trigger = Area4_OniClear()
 )
 
-achievement("Area 4 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 4 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 4 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 4 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area4_ARM0Clear()
 )
 
-achievement("Area 4 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 4 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area4_BossDefeatChallenge()
 )
 
-achievement("Area 4 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 4 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 4 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 4 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area4_BossTimerChallenge()
 )
 
@@ -1123,109 +1123,109 @@ achievement("Area 4 - Hidden Text", "Reveal the post Area 4 story text after def
     trigger = Area4_HiddenStoryText()
 )
 
-achievement("Area 4 - Hidden Scene", "Watch the post Area 4 cutscene to the end, after defeating Brahwell", points = 1,
+achievement("Area 4 - Hidden Scene", "Watch the post Area 4 cutscene to the end after defeating Brahwell", points = 1,
     trigger = Area4_HiddenScene()
 )
 
 
 // Area 5
 
-achievement("Area 5 - Hito Clear", "On Hito difficulty or higher, clear Area 5", points = 5, type = "progression",
+achievement("Area 5 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 5", points = 5, type = "progression",
     trigger = Area5_HitoClear()
 )
 
-achievement("Area 5 - Oni Clear", "On Oni difficulty, clear Area 5", points = 10,
+achievement("Area 5 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 5", points = 10,
     trigger = Area5_OniClear()
 )
 
-achievement("Area 5 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 5 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 5 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 5 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area5_ARM0Clear()
 )
 
-achievement("Area 5 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 5 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area5_SubBossDefeatChallenge()
 )
 
-achievement("Area 5 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 5 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area5_SubBossTimerChallenge()
 )
 
-achievement("Area 5 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 5 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area5_BossDefeatChallenge()
 )
 
-achievement("Area 5 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 5 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 5 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 5 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area5_BossTimerChallenge()
 )
 
 
 // Area 6
 
-achievement("Area 6 - Hito Clear", "On Hito difficulty or higher, clear Area 6", points = 5, type = "progression",
+achievement("Area 6 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 6", points = 5, type = "progression",
     trigger = Area6_HitoClear()
 )
 
-achievement("Area 6 - Oni Clear", "On Oni difficulty, clear Area 6", points = 10,
+achievement("Area 6 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 6", points = 10,
     trigger = Area6_OniClear()
 )
 
-achievement("Area 6 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 6 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 6 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 6 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area6_ARM0Clear()
 )
 
-achievement("Area 6 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 6 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area6_BossDefeatChallenge()
 )
 
-achievement("Area 6 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 6 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 6 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 6 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area6_BossTimerChallenge()
 )
 
 // Area 7
 
-achievement("Area 7 - Hito Clear", "On Hito difficulty or higher, clear Area 7", points = 5, type = "progression",
+achievement("Area 7 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 7", points = 5, type = "progression",
     trigger = Area7_HitoClear()
 )
 
-achievement("Area 7 - Oni Clear", "On Oni difficulty, clear Area 7", points = 10,
+achievement("Area 7 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 7", points = 10,
     trigger = Area7_OniClear()
 )
 
-achievement("Area 7 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 7 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 7 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 7 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area7_ARM0Clear()
 )
 
-achievement("Area 7 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 7 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area7_BossDefeatChallenge()
 )
 
-achievement("Area 7 - Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 7 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 7 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 7 Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area7_BossTimerChallenge()
 )
 
 // Area 8
 
-achievement("Area 8 - Hito Clear", "On Hito difficulty or higher, clear Area 8", points = 10, type = "win_condition",
+achievement("Area 8 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 8", points = 10, type = "win_condition",
     trigger = Area8_HitoClear()
 )
 
-achievement("Area 8 - Oni Clear", "On Oni difficulty, clear Area 8", points = 25, type = "win_condition",
+achievement("Area 8 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 8", points = 25, type = "win_condition",
     trigger = Area8_OniClear()
 )
 
-achievement("Area 8 - ARM 0 Clear", "On Hito difficulty or higher, clear Area 8 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Area 8 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 8 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
     trigger = Area8_ARM0Clear()
 )
 
-achievement("Area 8 - Sub-Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Area 8 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5,
     trigger = Area8_SubBossDefeatChallenge()
 )
 
-achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
     trigger = Area8_SubBossTimerChallenge()
 )
 
-achievement("Area 8 - Boss Challenge", "On Hito difficulty or higher, defeat the Area 8 Boss without losing a life", points = 10,
+achievement("Area 8 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 8 Boss without losing a life", points = 10,
     trigger = Area8_BossDefeatChallenge()
 )
 

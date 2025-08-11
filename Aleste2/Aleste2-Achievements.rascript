@@ -419,9 +419,21 @@ function DefeatedBoss(area, sub = false, challenge = false){
     fightingBoss = IsFightingBoss(area, sub, challenge)
     count = Game["Boss"]["Count"]
     timer = Game["Boss"]["Timer"]
-    return fightingBoss && 
-        timer > 0 && 
-        trigger_when(prev(count) > 0 && count == 0)
+    
+    addTimer = true
+    
+    if (area == 8 && !sub)
+        addTimer = false
+        
+    trigger = fightingBoss && 
+        trigger_when(prev(count) > 0 && 
+        count == 0)
+        
+    if (addTimer)
+        trigger = trigger &&
+            timer > 0
+    
+    return trigger
 }
 
 function DefeatedBossWithTimer(area, sub = false, challenge = false){
@@ -1010,328 +1022,328 @@ function Other_1Million(){
 
 // Area 1
 
-achievement("Watch the Intro", "Watch the intro cutscene to the end", points = 1, 
+achievement("Antagonistic Assault", "Watch the intro cutscene to the end", points = 1, id = 537884,
     trigger = Intro_Cutscene()
 )
 
-achievement("Area 1 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 1", points = 3, type = "progression",
+achievement("Carnivore", "On Hito (Level 1) difficulty or higher, clear Area 1", points = 3, type = "progression", id = 537885,
     trigger = Area1_HitoClear()
 )
 
-achievement("Area 1 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 1", points = 10,
+achievement("Predator", "On Oni (Level 3) difficulty, clear Area 1", points = 10, id = 537886,
     trigger = Area1_OniClear()
 )
 
-achievement("Area 1 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 1 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Breakneck", "On Hito (Level 1) difficulty or higher, clear Area 1 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537887,
     trigger = Area1_ARM0Clear()
 )
 
-achievement("Area 1 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Dam Defenses", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5, id = 537888,
     trigger = Area1_SubBossDefeatChallenge()
 )
 
-achievement("Area 1 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Actions", "On Hito (Level 1) difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5, id = 537889,
     trigger = Area1_SubBossTimerChallenge()
 )
 
-achievement("Area 1 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Crimson Verglan", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Boss before the timer runs out, and without losing a life", points = 5, id = 537890,
     trigger = Area1_BossDefeatChallenge()
 )
 
-achievement("Area 1 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 1 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Exercises", "On Hito (Level 1) difficulty or higher, survive the Area 1 Boss by letting the timer run out, without firing a shot", points = 5, id = 537891,
     trigger = Area1_BossTimerChallenge()
 )
 
 
 // Area 2
 
-achievement("Area 2 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 2", points = 3, type = "progression",
+achievement("City Battle", "On Hito (Level 1) difficulty or higher, clear Area 2", points = 3, type = "progression", id = 537892,
     trigger = Area2_HitoClear()
 )
 
-achievement("Area 2 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 2", points = 10,
+achievement("Civic Assault", "On Oni (Level 3) difficulty, clear Area 2", points = 10, id = 537893,
     trigger = Area2_OniClear()
 )
 
-achievement("Area 2 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 2 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Expeditious", "On Hito (Level 1) difficulty or higher, clear Area 2 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537894,
     trigger = Area2_ARM0Clear()
 )
 
-achievement("Area 2 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Gickant", "On Hito (Level 1) difficulty or higher, defeat the Area 2 Sub-Boss before the timer runs out, and without losing a life", points = 5, id = 537895,
     trigger = Area2_SubBossDefeatChallenge()
 )
 
-achievement("Area 2 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Maneuvers", "On Hito (Level 1) difficulty or higher, survive the Area 2 Sub-Boss by letting the timer run out, without firing a shot", points = 5, id = 537896,
     trigger = Area2_SubBossTimerChallenge()
 )
 
-achievement("Area 2 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Infected Gickant", "On Hito (Level 1) difficulty or higher, defeat the Area 2 Boss before the timer runs out, and without losing a life", points = 5, id = 537897,
     trigger = Area2_BossDefeatChallenge()
 )
 
-achievement("Area 2 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 2 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Operations", "On Hito (Level 1) difficulty or higher, survive the Area 2 Boss by letting the timer run out, without firing a shot", points = 5, id = 537898,
     trigger = Area2_BossTimerChallenge()
 )
 
 
 // Area 3
 
-achievement("Area 3 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 3", points = 3, type = "progression",
+achievement("Corrupt Sea", "On Hito (Level 1) difficulty or higher, clear Area 3", points = 3, type = "progression", id = 537899,
     trigger = Area3_HitoClear()
 )
 
-achievement("Area 3 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 3", points = 10,
+achievement("Nefarious Expanse", "On Oni (Level 3) difficulty, clear Area 3", points = 10, id = 537900,
     trigger = Area3_OniClear()
 )
 
-achievement("Area 3 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 3 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Excessive", "On Hito (Level 1) difficulty or higher, clear Area 3 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537901,
     trigger = Area3_ARM0Clear()
 )
 
-achievement("Area 3 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Op Thorb", "On Hito (Level 1) difficulty or higher, defeat the Area 3 Boss before the timer runs out, and without losing a life", points = 5, id = 537902,
     trigger = Area3_BossDefeatChallenge()
 )
 
-achievement("Area 3 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 3 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Aggression", "On Hito (Level 1) difficulty or higher, survive the Area 3 Boss by letting the timer run out, without firing a shot", points = 5, id = 537903,
     trigger = Area3_BossTimerChallenge()
 )
 
 
 // Area 4
 
-achievement("Area 4 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 4", points = 3, type = "progression",
+achievement("Convection", "On Hito (Level 1) difficulty or higher, clear Area 4", points = 3, type = "progression", id = 537904,
     trigger = Area4_HitoClear()
 )
 
-achievement("Area 4 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 4", points = 10,
+achievement("Transmission", "On Oni (Level 3) difficulty, clear Area 4", points = 10, id = 537905,
     trigger = Area4_OniClear()
 )
 
-achievement("Area 4 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 4 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Headlong", "On Hito (Level 1) difficulty or higher, clear Area 4 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537906,
     trigger = Area4_ARM0Clear()
 )
 
-achievement("Area 4 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Vallantus", "On Hito (Level 1) difficulty or higher, defeat the Area 4 Boss before the timer runs out, and without losing a life", points = 5, id = 537907,
     trigger = Area4_BossDefeatChallenge()
 )
 
-achievement("Area 4 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 4 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Intervention", "On Hito (Level 1) difficulty or higher, survive the Area 4 Boss by letting the timer run out, without firing a shot", points = 5, id = 537908,
     trigger = Area4_BossTimerChallenge()
 )
 
-achievement("Area 4 - Hidden Text", "Reveal the post Area 4 story text after defeating Brahwell", points = 1,
+achievement("A Terrible Trap", "Reveal the post Area 4 story text after defeating Brahwell", points = 1, id = 537909,
     trigger = Area4_HiddenStoryText()
 )
 
-achievement("Area 4 - Hidden Scene", "Watch the post Area 4 cutscene to the end after defeating Brahwell", points = 1,
+achievement("A Terrible Truth", "Watch the post Area 4 cutscene to the end after defeating Brahwell", points = 1, id = 537910,
     trigger = Area4_HiddenScene()
 )
 
 
 // Area 5
 
-achievement("Area 5 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 5", points = 5, type = "progression",
+achievement("Cruel Sea", "On Hito (Level 1) difficulty or higher, clear Area 5", points = 5, type = "progression", id = 537911,
     trigger = Area5_HitoClear()
 )
 
-achievement("Area 5 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 5", points = 10,
+achievement("Heartless Expanse", "On Oni (Level 3) difficulty, clear Area 5", points = 10, id = 537912,
     trigger = Area5_OniClear()
 )
 
-achievement("Area 5 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 5 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Brisk", "On Hito (Level 1) difficulty or higher, clear Area 5 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537913,
     trigger = Area5_ARM0Clear()
 )
 
-achievement("Area 5 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 1 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Herbaceous Defense", "On Hito (Level 1) difficulty or higher, defeat the Area 5 Sub-Boss before the timer runs out, and without losing a life", points = 5, id = 537914,
     trigger = Area5_SubBossDefeatChallenge()
 )
 
-achievement("Area 5 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 1 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Onslaught", "On Hito (Level 1) difficulty or higher, survive the Area 5 Sub-Boss by letting the timer run out, without firing a shot", points = 5, id = 537915,
     trigger = Area5_SubBossTimerChallenge()
 )
 
-achievement("Area 5 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Barside", "On Hito (Level 1) difficulty or higher, defeat the Area 5 Boss before the timer runs out, and without losing a life", points = 5, id = 537916,
     trigger = Area5_BossDefeatChallenge()
 )
 
-achievement("Area 5 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 5 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Skirmish", "On Hito (Level 1) difficulty or higher, survive the Area 5 Boss by letting the timer run out, without firing a shot", points = 5, id = 537917,
     trigger = Area5_BossTimerChallenge()
 )
 
 
 // Area 6
 
-achievement("Area 6 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 6", points = 5, type = "progression",
+achievement("Cancerous City", "On Hito (Level 1) difficulty or higher, clear Area 6", points = 5, type = "progression", id = 537918,
     trigger = Area6_HitoClear()
 )
 
-achievement("Area 6 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 6", points = 10,
+achievement("Malignant Metropolis", "On Oni (Level 3) difficulty, clear Area 6", points = 10, id = 537919,
     trigger = Area6_OniClear()
 )
 
-achievement("Area 6 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 6 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Hairtrigger", "On Hito (Level 1) difficulty or higher, clear Area 6 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537920,
     trigger = Area6_ARM0Clear()
 )
 
-achievement("Area 6 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Jurassic Thorb", "On Hito (Level 1) difficulty or higher, defeat the Area 6 Boss before the timer runs out, and without losing a life", points = 5, id = 537921,
     trigger = Area6_BossDefeatChallenge()
 )
 
-achievement("Area 6 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 6 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Rush", "On Hito (Level 1) difficulty or higher, survive the Area 6 Boss by letting the timer run out, without firing a shot", points = 5, id = 537922,
     trigger = Area6_BossTimerChallenge()
 )
 
 // Area 7
 
-achievement("Area 7 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 7", points = 5, type = "progression",
+achievement("Conspiracy", "On Hito (Level 1) difficulty or higher, clear Area 7", points = 5, type = "progression", id = 537923,
     trigger = Area7_HitoClear()
 )
 
-achievement("Area 7 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 7", points = 10,
+achievement("Counterplot", "On Oni (Level 3) difficulty, clear Area 7", points = 10, id = 537924,
     trigger = Area7_OniClear()
 )
 
-achievement("Area 7 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 7 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Nimble", "On Hito (Level 1) difficulty or higher, clear Area 7 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537925,
     trigger = Area7_ARM0Clear()
 )
 
-achievement("Area 7 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Mothership", "On Hito (Level 1) difficulty or higher, defeat the Area 7 Boss before the timer runs out, and without losing a life", points = 5, id = 537926,
     trigger = Area7_BossDefeatChallenge()
 )
 
-achievement("Area 7 - Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 7 Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Initiative", "On Hito (Level 1) difficulty or higher, survive the Area 7 Boss by letting the timer run out, without firing a shot", points = 5, id = 537927,
     trigger = Area7_BossTimerChallenge()
 )
 
 // Area 8
 
-achievement("Area 8 - Hito Clear", "On Hito (Level 1) difficulty or higher, clear Area 8", points = 10, type = "win_condition",
+achievement("Culmination", "On Hito (Level 1) difficulty or higher, clear Area 8", points = 10, type = "win_condition", id = 537928,
     trigger = Area8_HitoClear()
 )
 
-achievement("Area 8 - Oni Clear", "On Oni (Level 3) difficulty, clear Area 8", points = 25, type = "win_condition",
+achievement("Consummation", "On Oni (Level 3) difficulty, clear Area 8", points = 25, type = "win_condition", id = 537929,
     trigger = Area8_OniClear()
 )
 
-achievement("Area 8 - ARM 0 Clear", "On Hito (Level 1) difficulty or higher, clear Area 8 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5,
+achievement("Electric", "On Hito (Level 1) difficulty or higher, clear Area 8 using ARM Type 0 Super-Rapid without changing secondary weapons", points = 5, id = 537930,
     trigger = Area8_ARM0Clear()
 )
 
-achievement("Area 8 - Sub-Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5,
+achievement("Azure Verglan", "On Hito (Level 1) difficulty or higher, defeat the Area 8 Sub-Boss before the timer runs out, and without losing a life", points = 5, id = 537931,
     trigger = Area8_SubBossDefeatChallenge()
 )
 
-achievement("Area 8 - Sub-Boss Timer Challenge", "On Hito (Level 1) difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, without firing a shot", points = 5,
+achievement("Passive Blitz", "On Hito (Level 1) difficulty or higher, survive the Area 8 Sub-Boss by letting the timer run out, without firing a shot", points = 5, id = 537932,
     trigger = Area8_SubBossTimerChallenge()
 )
 
-achievement("Area 8 - Boss Challenge", "On Hito (Level 1) difficulty or higher, defeat the Area 8 Boss without losing a life", points = 10,
+achievement("Gaizel", "On Hito (Level 1) difficulty or higher, defeat the Area 8 Boss without losing a life", points = 10, id = 537933,
     trigger = Area8_BossDefeatChallenge()
 )
 
-achievement("Area 8 - Ending Text", "Reveal the ending text after clearing Area 8", points = 1,
+achievement("A Heavy Heart", "Reveal the ending text after clearing Area 8", points = 1, id = 537934,
     trigger = Area8_EndingText()
 )
 
-achievement("Area 8 - True Ending Text", "Reveal the true ending text after clearing Area 8", points = 1,
+achievement("By Sheer Will", "Reveal the true ending text after clearing Area 8", points = 1, id = 537935,
     trigger = Area8_TrueEndingText()
 )
 
-achievement("Area 8 - Hidden Scene", "Watch the ending cutscene to the end after clearing Area 8", points = 1,
+achievement("A Bittersweet Victory", "Watch the ending cutscene to the end after clearing Area 8", points = 1, id = 537936,
     trigger = Area8_EndingScene()
 )
 
 // Other
 
-achievement("Max Primary", "Reach maximum power for your Primary Weapon", points = 5,
+achievement("Super-Power", "Reach maximum power for your Primary Weapon", points = 5, id = 537937,
     trigger = Other_MaxPrimary()
 )
 
-achievement("Max ARM0", "Reach maximum power for ARM Type 0: Super-Rapid", points = 5,
+achievement("Super-Rapid", "Reach maximum power for ARM Type 0", points = 5, id = 537938,
     trigger = Other_MaxARM0()
 )
 
-achievement("Max ARM1", "Reach maximum power for ARM Type 1: Destroy-Cutter", points = 5,
+achievement("Destroy-Cutter", "Reach maximum power for ARM Type 1", points = 5, id = 537939,
     trigger = Other_MaxARM1()
 )
 
-achievement("Max ARM2", "Reach maximum power for ARM Type 2: Super-Energy", points = 5,
+achievement("Super-Energy", "Reach maximum power for ARM Type 2", points = 5, id = 537940,
     trigger = Other_MaxARM2()
 )
 
-achievement("Max ARM3", "Reach maximum power for ARM Type 3: Lazer-Beam", points = 5,
+achievement("Lazer-Beam", "Reach maximum power for ARM Type 3", points = 5, id = 537941,
     trigger = Other_MaxARM3()
 )
 
-achievement("Max ARM4", "Reach maximum power for ARM Type 4: Homing-Energy", points = 5,
+achievement("Homing-Energy", "Reach maximum power for ARM Type 4", points = 5, id = 537942,
     trigger = Other_MaxARM4()
 )
 
-achievement("Max ARM5", "Reach maximum power for ARM Type 5: Separate", points = 5,
+achievement("Separate", "Reach maximum power for ARM Type 5", points = 5, id = 537943,
     trigger = Other_MaxARM5()
 )
 
-achievement("Max ARM6", "Reach maximum power for ARM Type 6: Drop-Down", points = 5,
+achievement("Drop-Down", "Reach maximum power for ARM Type 6", points = 5, id = 537944,
     trigger = Other_MaxARM6()
 )
 
-achievement("Red Shield", "Collect a Red Shield Option for the first time", points = 3,
+achievement("Bursting Bulwark", "Collect a Red Shield Option for the first time", points = 3, id = 537945,
     trigger = Other_RedOption()
 )
 
-achievement("Blue Shield", "Collect a Blue Shield Option for the first time", points = 3,
+achievement("Penetrating Protection", "Collect a Blue Shield Option for the first time", points = 3, id = 537946,
     trigger = Other_BlueOption()
 )
 
-achievement("Gray Shield", "Collect a Gray Shield Option for the first time", points = 3,
+achievement("Vigorous Volley", "Collect a Gray Shield Option for the first time", points = 3, id = 537947,
     trigger = Other_GrayOption()
 )
 
-achievement("Yellow Shield", "Collect a Yellow Shield Option for the first time", points = 3,
+achievement("Bulky Barricade", "Collect a Yellow Shield Option for the first time", points = 3, id = 537948,
     trigger = Other_YellowOption()
 )
 
-achievement("Three Options", "Have 3 Shield Options at once", points = 5,
+achievement("Triple UP", "Have 3 Shield Options at once", points = 5, id = 537949,
     trigger = Other_3Options()
 )
 
-achievement("Three Different Options", "Have 3 Shield Options of different colors at once", points = 10,
+achievement("Rainbow Ramparts", "Have 3 Shield Options of different colors at once", points = 10, id = 537950,
     trigger = Other_3DifferentOptions()
 )
 
-achievement("Blue Creature", "Collect a strange blue friend and max out all of your weapons at once", points = 3,
+achievement("Helping Hand", "Collect a strange blue friend and max out all of your weapons at once", points = 3, id = 537951,
     trigger = Other_BlueCreature()
 )
 
-achievement("Star Orb", "Collect a Star Orb and destroy all enemies on screen", points = 3,
+achievement("Cosmic Charge", "Collect a Star Orb and destroy all enemies on screen", points = 3, id = 537952,
     trigger = Other_StarOrb()
 )
 
-achievement("10 Lives", "Reach a stock of 10 lives", points = 5,
+achievement("Heightened Growth", "Reach a stock of 10 lives", points = 5, id = 537953,
     trigger = AchievedLivesCount(10)
 )
 
-achievement("Power Chip Extend", "Extend your lives by 1 by collecting 100 Power Chips", points = 5,
+achievement("Powered UP", "Extend your lives by 1 by collecting 100 Power Chips", points = 5, id = 537954,
     trigger = Other_PowerChipExtend()
 )
 
-achievement("20K Extend", "Extend your lives by 1 by scoring 20 thousand points or more", points = 3,
+achievement("Amplified", "Extend your lives by 1 by scoring 20 thousand points or more", points = 3, id = 537955,
     trigger = Other_20KExtend()
 )
 
-achievement("80K Extend", "Extend your lives by 1 by scoring 80 thousand points or more", points = 5,
+achievement("Vitalized", "Extend your lives by 1 by scoring 80 thousand points or more", points = 5, id = 537956,
     trigger = Other_80KExtend()
 )
 
-achievement("250K Points", "Reach a score of 250 thousand points or more before beating the final boss in Area 8", points = 3,
+achievement("Intensified", "Reach a score of 250 thousand points or more before beating the final boss in Area 8", points = 3, id = 537957,
     trigger = Other_250Thousand()
 )
 
-achievement("500K Points", "Reach a score of 500 thousand points or more before beating the final boss in Area 8", points = 5,
+achievement("Invigorated", "Reach a score of 500 thousand points or more before beating the final boss in Area 8", points = 5, id = 537958,
     trigger = Other_500Thousand()
 )
 
-achievement("1M Points", "Reach a score of 1 million points or more before beating the final boss in Area 8", points = 10,
+achievement("Maximized", "Reach a score of 1 million points or more before beating the final boss in Area 8", points = 10, id = 537959,
     trigger = Other_1Million()
 )
 

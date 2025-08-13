@@ -206,88 +206,88 @@ function AchievedScore(target){
 
 // Round 1
 
-achievement("Another Story", "Watch the intro cutscene to the end", points = 1,
+achievement("Another Story", "Watch the intro cutscene to the end", points = 1, id = 538078,
     trigger = TriggeredScene("Intro")
 )
 
-achievement("Heated Highway", "Clear Round 1", points = 3, type = "progression",
+achievement("Heated Highway", "Clear Round 1", points = 3, type = "progression", id = 538079,
     trigger = ClearedRound(1)
 )
 
-achievement("Defensive Wall", "Defeat the Round 1 boss without dying", points = 5,
+achievement("Defensive Wall", "Defeat the Round 1 boss without dying", points = 5, id = 538080,
     trigger = DefeatedBoss(1)
 )
 
 // Round 2
 
-achievement("Borough Barrage", "Clear Round 2", points = 3, type = "progression",
+achievement("Borough Barrage", "Clear Round 2", points = 3, type = "progression", id = 538081,
     trigger = ClearedRound(2)
 )
 
-achievement("Rhino Solos", "Defeat the Round 2 boss without dying", points = 5,
+achievement("Rhino Solos", "Defeat the Round 2 boss without dying", points = 5, id = 538082,
     trigger = DefeatedBoss(2)
 )
 
 // Round 3
 
-achievement("Woodland Woes", "Clear Round 3", points = 3, type = "progression",
+achievement("Woodland Woes", "Clear Round 3", points = 3, type = "progression", id = 538083,
     trigger = ClearedRound(3)
 )
 
-achievement("Balrog", "Defeat the Round 3 boss without dying", points = 5,
+achievement("Balrog", "Defeat the Round 3 boss without dying", points = 5, id = 538084,
     trigger = DefeatedBoss(3)
 )
 
 // Round 4
 
-achievement("Stone Steps", "Clear Round 4", points = 3, type = "progression",
+achievement("Stone Steps", "Clear Round 4", points = 3, type = "progression", id = 538085,
     trigger = ClearedRound(4)
 )
 
-achievement("Sylph", "Defeat the Round 4 boss without dying", points = 5,
+achievement("Sylph", "Defeat the Round 4 boss without dying", points = 5, id = 538086,
     trigger = DefeatedBoss(4)
 )
 
 // Round 5
 
-achievement("Ceiling Nest", "Clear Round 5", points = 5, type = "win_condition",
+achievement("Ceiling Nest", "Clear Round 5", points = 5, type = "win_condition", id = 538087,
     trigger = ClearedRound(5)
 )
 
-achievement("Idea 51", "Defeat the Round 5 boss without dying", points = 10,
+achievement("Idea 51", "Defeat the Round 5 boss without dying", points = 10, id = 538088,
     trigger = DefeatedBoss(5)
 )
 
-achievement("Another Era", "Watch the ending cutscene to the end", points = 1,
+achievement("Another Era", "Watch the ending cutscene to the end", points = 1, id = 538089,
     trigger = TriggeredScene("Ending")
 )
 
 // Other
 
-achievement("Max Potential", "Reach maximum power with any Chikara", points = 5,
+achievement("Max Potential", "Reach maximum power with any Chikara", points = 5, id = 538090,
     trigger = MaxedWeapon()
 )
 
-achievement("Shadow Companion", "Collect a Shadow Double", points = 1,
+achievement("Shadow Companion", "Collect a Shadow Double", points = 1, id = 538091,
     trigger = EquippedShadow()
 )
 
-achievement("Shadow Squad", "Have 2 Shadow Doubles equipped at once", points = 3,
+achievement("Shadow Squad", "Have 2 Shadow Doubles equipped at once", points = 3, id = 538092,
     trigger = EquippedBothShadows()
 )
 
-achievement("Fully Armed", "Reach maximum power for any Chikara while equipped with 2 Shadow Doubles", points = 5,
+achievement("Fully Armed", "Reach maximum power for any Chikara while equipped with 2 Shadow Doubles", points = 5, id = 538093,
     trigger = MaxedEverything()
 )
 
-achievement("Compelling", "Reach a score of 10 thousand points or more", points = 3,
+achievement("Compelling", "Reach a score of 10 thousand points or more", points = 3, id = 538094,
     trigger = AchievedScore(10000)
 )
 
-achievement("Commanding", "Reach a score of 50 thousand points or more", points = 5,
+achievement("Commanding", "Reach a score of 50 thousand points or more", points = 5, id = 538095,
     trigger = AchievedScore(50000)
 )
 
-achievement("Dominating", "Reach a score of 100 thousand points or more", points = 10,
+achievement("Dominating", "Reach a score of 100 thousand points or more", points = 10, id = 538096,
     trigger = AchievedScore(100000)
 )

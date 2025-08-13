@@ -131,7 +131,7 @@ function DefeatedBoss(round){
     bossActive = RoundStates["BossActive"]
     lives = Player["Lives"]
     
-    trigger = IsInGame() &&
+    activeCheck = IsInGame() &&
         level == round &&
         state == bossActive
         
@@ -140,14 +140,14 @@ function DefeatedBoss(round){
     else
         defeatCheck = trigger_when(prev(bossState) != bossDefeated && bossState == bossDefeated)
 
-    return trigger && 
+    return IsInGame() && 
         defeatCheck &&
-        disable_when(trigger && prev(lives) > lives) &&
+        disable_when(activeCheck && prev(lives) > lives) &&
         (
             always_false() || 
             (
                 never(level != round) &&
-                never(bossState != bossActive)
+                never(state != bossActive)
             )
         )
 }
@@ -206,88 +206,88 @@ function AchievedScore(target){
 
 // Round 1
 
-achievement("Intro", "Watch the intro cutscene to the end", points = 1,
+achievement("Another Story", "Watch the intro cutscene to the end", points = 1,
     trigger = TriggeredScene("Intro")
 )
 
-achievement("Round 1 - Clear", "Clear Round 1", points = 3, type = "progression",
+achievement("Heated Highway", "Clear Round 1", points = 3, type = "progression",
     trigger = ClearedRound(1)
 )
 
-achievement("Round 1 - Boss Challenge", "Defeat the Round 1 boss without dying", points = 5,
+achievement("Defensive Wall", "Defeat the Round 1 boss without dying", points = 5,
     trigger = DefeatedBoss(1)
 )
 
 // Round 2
 
-achievement("Round 2 - Clear", "Clear Round 2", points = 3, type = "progression",
+achievement("Borough Barrage", "Clear Round 2", points = 3, type = "progression",
     trigger = ClearedRound(2)
 )
 
-achievement("Round 2 - Boss Challenge", "Defeat the Round 2 boss without dying", points = 5,
+achievement("Rhino Solos", "Defeat the Round 2 boss without dying", points = 5,
     trigger = DefeatedBoss(2)
 )
 
 // Round 3
 
-achievement("Round 3 - Clear", "Clear Round 3", points = 3, type = "progression",
+achievement("Woodland Woes", "Clear Round 3", points = 3, type = "progression",
     trigger = ClearedRound(3)
 )
 
-achievement("Round 3 - Boss Challenge", "Defeat the Round 3 boss without dying", points = 5,
+achievement("Balrog", "Defeat the Round 3 boss without dying", points = 5,
     trigger = DefeatedBoss(3)
 )
 
 // Round 4
 
-achievement("Round 4 - Clear", "Clear Round 4", points = 3, type = "progression",
+achievement("Stone Steps", "Clear Round 4", points = 3, type = "progression",
     trigger = ClearedRound(4)
 )
 
-achievement("Round 4 - Boss Challenge", "Defeat the Round 4 boss without dying", points = 5,
+achievement("Sylph", "Defeat the Round 4 boss without dying", points = 5,
     trigger = DefeatedBoss(4)
 )
 
 // Round 5
 
-achievement("Round 5 - Clear", "Clear Round 5", points = 5, type = "win_condition",
+achievement("Ceiling Nest", "Clear Round 5", points = 5, type = "win_condition",
     trigger = ClearedRound(5)
 )
 
-achievement("Round 5 - Boss Challenge", "Defeat the Round 5 boss without dying", points = 10,
+achievement("Idea 51", "Defeat the Round 5 boss without dying", points = 10,
     trigger = DefeatedBoss(5)
 )
 
-achievement("Ending", "Watch the ending cutscene to the end", points = 1,
+achievement("Another Era", "Watch the ending cutscene to the end", points = 1,
     trigger = TriggeredScene("Ending")
 )
 
 // Other
 
-achievement("Max Chikara", "Reach maximum power with any Chikara", points = 5,
+achievement("Max Potential", "Reach maximum power with any Chikara", points = 5,
     trigger = MaxedWeapon()
 )
 
-achievement("Shadow Double", "Collect a Shadow Double", points = 1,
+achievement("Shadow Companion", "Collect a Shadow Double", points = 1,
     trigger = EquippedShadow()
 )
 
-achievement("Double Shadow Double", "Have 2 Shadow Doubles equipped at once", points = 3,
+achievement("Shadow Squad", "Have 2 Shadow Doubles equipped at once", points = 3,
     trigger = EquippedBothShadows()
 )
 
-achievement("Max Chikara Doubles", "Reach maximum power for any Chikara while equipped with 2 Shadow Doubles", points = 5,
+achievement("Fully Armed", "Reach maximum power for any Chikara while equipped with 2 Shadow Doubles", points = 5,
     trigger = MaxedEverything()
 )
 
-achievement("10k Points", "Reach a score of 10 thousand points or more", points = 3,
+achievement("Compelling", "Reach a score of 10 thousand points or more", points = 3,
     trigger = AchievedScore(10000)
 )
 
-achievement("50k Points", "Reach a score of 50 thousand points or more", points = 5,
+achievement("Commanding", "Reach a score of 50 thousand points or more", points = 5,
     trigger = AchievedScore(50000)
 )
 
-achievement("100k Points", "Reach a score of 100 thousand points or more", points = 10,
+achievement("Dominating", "Reach a score of 100 thousand points or more", points = 10,
     trigger = AchievedScore(100000)
 )

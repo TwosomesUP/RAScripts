@@ -1,0 +1,105 @@
+===========
+Stage 1
+-----------
+100 Yen x 9 [2] (Start)
+100 Yen x 6 [1] (Checkpoint 1)
+-----------
+Secret 1: Screen 7
+Secret 2: Screen 11
+-----------
+Checkpoint 1: Screen 8
+Checkpoint 2: Screen 17
+-----------
+Sub-Boss: Screen 17
+Boss: Screen 19
+
+===========
+Stage 2
+-----------
+100 Yen x 6 (Start)
+100 Yen x 3 [2] (Checkpoint 2)
+-----------
+Secret 1: Screen 9/10
+Secret 2: Screen 16/17
+-----------
+Checkpoint 1: Screen 13
+Checkpoint 2: Screen 15
+-----------
+Sub-Boss: Screen 14
+Boss: Screen 20
+
+===========
+Stage 3
+-----------
+100 Yen x 14 [1] (Start)
+100 Yen x 2 (Checkpoint 1)
+100 Yen x 6 [1] (Checkpoint 2)
+-----------
+Secret 1: Screen 8
+Secret 2: Screen 16
+-----------
+Checkpoint 1: Screen 10
+Checkpoint 2: Screen 14
+-----------
+Sub-Boss: Screen 14
+Boss: Screen 19
+
+===========
+Stage 4
+-----------
+100 Yen x 5 (Start)
+100 Yen x 3 [1] (Checkpoint 1)
+-----------
+Secret 1: Screen 4
+Secret 2: Screen 13
+-----------
+Checkpoint 1: Screen 13
+Checkpoint 2: Screen 15
+-----------
+Sub-Boss: Screen 15
+Boss: Screen 19
+
+===========
+Stage 5
+-----------
+100 Yen x 2 (Checkpoint 1)
+100 Yen x 1 (Checkpoint 2)
+-----------
+Secret 1: Screen 9
+-----------
+Checkpoint 1: Screen 6
+Checkpoint 2: Screen 11
+-----------
+Sub-Boss: Screen 11
+Boss: Screen 19
+
+===========
+Stage 6
+-----------
+100 Yen x 2 [2] (Start)
+100 Yen x 5 (Checkpoint 2)
+-----------
+Secret 1: Screen 5
+Secret 2: Screen 18
+-----------
+Checkpoint 1: Screen 9
+Checkpoint 2: Screen 13
+-----------
+Sub-Boss: Screen 13
+Boss: Screen 19
+
+===========
+Stage 7
+-----------
+100 Yen x 6 (Start)
+100 Yen x 11 [3] (Checkpoint 1)
+100 Yen x 4 [3] (Checkpoint 2)
+-----------
+Secret 1: Screen 12/13
+Secret 2: Screen 16/17
+-----------
+Checkpoint 1: Screen 9
+Checkpoint 2: Screen 15
+-----------
+Sub-Boss: Screen 14
+Boss: Screen 21

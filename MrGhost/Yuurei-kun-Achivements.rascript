@@ -205,15 +205,15 @@ function IsPlaying(){
     state = GetGameState()
     playing = GameStates["Playing"]
     
-    return state == playing && 
-        IsInGame()
+    return state == playing
 }
 
 function IsInGame(){
     id = GetScreenId()
+    title = ScreenIds["Title"]
     intro = ScreenIds["Intro"]
     
-    return id < intro
+    return id > title && id < intro
 }
 
 function IsGameOver(){
@@ -225,10 +225,9 @@ function IsGameOver(){
 
 function IsInDemo(){
     state = GetGameState()
-    playing = GameStates["Playing"]
-    gameOver = GameStates["GameOver"]
+    demo = GameStates["Demo"]
 
-    return state != playing && state != gameOver
+    return state == demo
 }
 
 function GetGameState(){
@@ -282,12 +281,15 @@ function CollectedYen(stage, checkpoint){
     checkpoints = screens["Checkpoints"]
     
     condition = IsPlaying() && 
+        IsInGame() &&
         currentStage == stage &&
         currentYen == prev(currentYen) + 100 
    
     screenCheck = currentScreen >= checkpoints[checkpoint]
     resetScreenCheck = screenCheck
     
+    // Need to be sure the boss isn't alive if the checkpoint and boss room are the same
+    // If that's the case reset if the player dies on checkpoint + 1
     if (checkpoint < 2) 
     {
         screenCheck = screenCheck  &&
@@ -313,11 +315,9 @@ function CountCollectedYen(stage){
 
     conditions = array_map(range(0, 2), index => CollectedYen(stage, index))
     
-    count = tally(total, conditions) &&
-        never(currentStage != stage) &&
-        never(currentScreen == 0 && prev(currentLives) == 0 && currentLives == 2) &&
-        never(!IsInGame()) &&
-        never(IsInDemo())
+    count = measured(tally(total, conditions)) &&
+        never(!IsInDemo() && currentStage != stage) &&
+        never(!IsInDemo() && currentStage == 1 && currentScreen == 0 && prev(currentLives) == 0 && currentLives == 2)
             
     return count
 }
@@ -326,8 +326,33 @@ function CountCollectedYen(stage){
 // Resets all when not on stage 1
 // Reset all when start is selected on Game Over screen
 // Resets all when watching intro, ending, or credits
-achievement("test2", "test2", points=1,
-trigger = CountCollectedYen(1))
+achievement("Stage 1 - Yen", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3,
+    trigger = CountCollectedYen(1)
+)
+
+achievement("Stage 2 - Yen", "Collect 7 or more hidden Yen blocks in Stage 2", points = 3,
+    trigger = CountCollectedYen(2)
+)
+
+achievement("Stage 3 - Yen", "Collect 20 or more hidden Yen blocks in Stage 3", points = 3,
+    trigger = CountCollectedYen(3)
+)
+
+achievement("Stage 4 - Yen", "Collect 7 or more hidden Yen blocks in Stage 4", points = 3,
+    trigger = CountCollectedYen(4)
+)
+
+achievement("Stage 5 - Yen", "Collect all 3 hidden Yen blocks in Stage 5", points = 3,
+    trigger = CountCollectedYen(5)
+)
+
+achievement("Stage 6 - Yen", "Collect 5 or more hidden Yen blocks in Stage 6", points = 3,
+    trigger = CountCollectedYen(6)
+)
+
+achievement("Stage 7 - Yen", "Collect 15 or more hidden Yen blocks in Stage 7", points = 3,
+    trigger = CountCollectedYen(7)
+)
 
 rich_presence_display("Stage: {0} Screen: {1} Yen: {2} Score: {3}",
     rich_presence_value("Stage", Game["Stage"]["Number"]),

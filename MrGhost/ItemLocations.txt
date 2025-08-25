@@ -5,7 +5,10 @@ Stage 1
 100 Yen x 6 [1] (Checkpoint 1)
 -----------
 Secret 1: Screen 7
+	0x556: 100 Yen
+	0x559: 100 Yen
 Secret 2: Screen 11
+	0x59c: 100 Yen
 -----------
 Checkpoint 1: Screen 8
 Checkpoint 2: Screen 17
@@ -20,7 +23,10 @@ Stage 2
 100 Yen x 3 [2] (Checkpoint 2)
 -----------
 Secret 1: Screen 9/10
+	None
 Secret 2: Screen 16/17
+	0x53a: 100 Yen
+	0x53c: 100 Yen
 -----------
 Checkpoint 1: Screen 13
 Checkpoint 2: Screen 15
@@ -36,7 +42,9 @@ Stage 3
 100 Yen x 6 [1] (Checkpoint 2)
 -----------
 Secret 1: Screen 8
+	0x535: 100 Yen
 Secret 2: Screen 16
+	0x569: 100 Yen
 -----------
 Checkpoint 1: Screen 10
 Checkpoint 2: Screen 14
@@ -51,7 +59,9 @@ Stage 4
 100 Yen x 3 [1] (Checkpoint 1)
 -----------
 Secret 1: Screen 4
+	None
 Secret 2: Screen 13
+	0x549: 100 Yen
 -----------
 Checkpoint 1: Screen 13
 Checkpoint 2: Screen 15
@@ -66,6 +76,7 @@ Stage 5
 100 Yen x 1 (Checkpoint 2)
 -----------
 Secret 1: Screen 9
+	None
 -----------
 Checkpoint 1: Screen 6
 Checkpoint 2: Screen 11
@@ -80,7 +91,10 @@ Stage 6
 100 Yen x 5 (Checkpoint 2)
 -----------
 Secret 1: Screen 5
+	0x55e: 100 Yen
+	0x595: 100 Yen
 Secret 2: Screen 18
+	None
 -----------
 Checkpoint 1: Screen 9
 Checkpoint 2: Screen 13
@@ -93,10 +107,16 @@ Stage 7
 -----------
 100 Yen x 6 (Start)
 100 Yen x 11 [3] (Checkpoint 1)
-100 Yen x 4 [3] (Checkpoint 2)
+100 Yen x 4 [4] (Checkpoint 2)
 -----------
 Secret 1: Screen 12/13
+	0x53d: 100 Yen
+	0x587: 100 Yen
 Secret 2: Screen 16/17
+	0x526: 100 Yen
+	0x546: 100 Yen
+	0x576: 100 Yen
+	0x596: 100 Yen
 -----------
 Checkpoint 1: Screen 9
 Checkpoint 2: Screen 15

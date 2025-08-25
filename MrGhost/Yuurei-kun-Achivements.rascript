@@ -13,7 +13,7 @@ Game = {
     },
     "Screen": {
         "Number": byte(0x287),
-        "Id": byte(0x2a1)
+        "Id": byte(0x2a2)
     },
     "State": byte(0x3af)
 }
@@ -58,6 +58,10 @@ EnemyStates = {
     ]
 }
 
+SoundIndices = {
+    "YenBlock": 0xd5
+}
+
 GameStates = {
     "Playing": 0x00,
     "Demo": 0x87,
@@ -94,10 +98,18 @@ StageInfo = {
                 "Mid": 17,
                 "End": 19
             },
-            "Checkpoints": [0, 8, 17],
+            "Checkpoints": [0, 8, 17, 19],
             "Secrets": {
-                "First": [7],
-                "Second": [11]
+                "First": {
+                    "Checkpoint": 8,
+                    "Rooms":[7],
+                    "Blocks": [0x556, 0x559]
+                },
+                "Second": {
+                    "Checkpoint": 17,
+                    "Rooms": [11],
+                    "Blocks": [0x59c]
+                }
             }
         }
     },
@@ -110,10 +122,18 @@ StageInfo = {
                 "Mid": 14,
                 "End": 20
             },
-            "Checkpoints": [1, 13, 15],
+            "Checkpoints": [1, 12, 14, 20],
             "Secrets": {
-                "First": [9, 10],
-                "Second": [16, 17]
+                "First": {
+                    "Checkpoint": 13,
+                    "Rooms": [9, 10],
+                    "Blocks": []
+                },
+                "Second": {
+                    "Checkpoint": 20,
+                    "Rooms": [16, 17],
+                    "Blocks": [0x53a, 0x55c]
+                }
             }
         }
     },
@@ -126,10 +146,18 @@ StageInfo = {
                 "Mid": 14,
                 "End": 19
             },
-            "Checkpoints": [0, 10, 14],
+            "Checkpoints": [0, 10, 14, 19],
             "Secrets": {
-                "First": [8],
-                "Second": [16]
+                "First": {
+                    "Checkpoint": 10,
+                    "Rooms": [8],
+                    "Blocks": [0x535]
+                },
+                "Second": {
+                    "Checkpoint": 19,
+                    "Rooms": [16],
+                    "Blocks": [0x569]
+                }
             }
         }
     },
@@ -142,10 +170,18 @@ StageInfo = {
                 "Mid": 15,
                 "End": 19
             },
-            "Checkpoints": [0, 13, 15],
+            "Checkpoints": [0, 13, 15, 19],
             "Secrets": {
-                "First": [4],
-                "Second": [13]
+                "First": {
+                    "Checkpoint": 13,
+                    "Rooms": [4],
+                    "Blocks": []
+                },
+                "Second": {
+                    "Checkpoint": 15,
+                    "Rooms": [13],
+                    "Blocks": [0x549]
+                }
             }
         }
     },
@@ -158,10 +194,18 @@ StageInfo = {
                 "Mid": 11,
                 "End": 19
             },
-            "Checkpoints": [0, 6, 11],
+            "Checkpoints": [0, 6, 11, 19],
             "Secrets": {
-                "First": [9],
-                "Second": []
+                "First": {
+                    "Checkpoint": 11,
+                    "Rooms": [9],
+                    "Blocks": []
+                },
+                "Second": {
+                    "Checkpoint": 19,
+                    "Rooms": [],
+                    "Blocks": []
+                }
             }
         }
     },
@@ -174,26 +218,42 @@ StageInfo = {
                 "Mid": 13,
                 "End": 19
             },
-            "Checkpoints": [0, 5, 18],
+            "Checkpoints": [0, 5, 18, 19],
             "Secrets": {
-                "First": [5],
-                "Second": [18]
+                "First": {
+                    "Checkpoint": 18,
+                    "Rooms": [5],
+                    "Blocks": [0x55e, 0x595]
+                },
+                "Second": {
+                    "Checkpoint": 19,
+                    "Rooms": [18],
+                    "Blocks": []
+                }
             }
         }
     },
     "Stage7": 
     {
-        "Yen": 15,
+        "Yen": 14,
         "Screens": 
         {
             "Bosses": {
                 "Mid": 14,
                 "End": 21
             },
-            "Checkpoints": [1, 9, 15],
+            "Checkpoints": [1, 8, 14, 21],
             "Secrets": {
-                "First": [12, 13],
-                "Second": [16, 17]
+                "First": {
+                    "Checkpoint": 14,
+                    "Rooms": [12, 13],
+                    "Blocks": [0x53d, 0x587]
+                },
+                "Second": {
+                    "Checkpoint": 21,
+                    "Rooms": [16, 17],
+                    "Blocks": [0x526, 0x546, 0x576, 0x596]
+                }
             }
         }
     },
@@ -228,6 +288,13 @@ function IsInDemo(){
     demo = GameStates["Demo"]
 
     return state == demo
+}
+
+function IsFightingBoss(){
+    id = GetScreenId()
+    boss = ScreenIds["MidBoss"]
+    gameOver = ScreenIds["GameOver"]
+    return id >= boss && id < gameOver
 }
 
 function GetGameState(){
@@ -275,6 +342,7 @@ function CollectedYen(stage, checkpoint){
     currentYen = GetYen()
     currentLife = GetLife()
     currentScreen = GetScreen()
+    bonusTimer = Game["Stage"]["BonusTimer"]
     info = GetStageInfo(stage)
     
     screens = info["Screens"]
@@ -283,24 +351,80 @@ function CollectedYen(stage, checkpoint){
     condition = IsPlaying() && 
         IsInGame() &&
         currentStage == stage &&
+        bonusTimer == 0x00 &&
         currentYen == prev(currentYen) + 100 
    
-    screenCheck = currentScreen >= checkpoints[checkpoint]
-    resetScreenCheck = screenCheck
+    screenCheck = currentScreen >= checkpoints[checkpoint] &&
+        currentScreen < checkpoints[checkpoint + 1]
+        
+    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
     
-    // Need to be sure the boss isn't alive if the checkpoint and boss room are the same
-    // If that's the case reset if the player dies on checkpoint + 1
-    if (checkpoint < 2) 
-    {
-        screenCheck = screenCheck  &&
-            currentScreen < checkpoints[checkpoint + 1]
-            
-        resetScreenCheck = currentScreen < checkpoints[checkpoint + 1]
-    }
+    resetScreenCheck = currentScreen < checkpoints[checkpoint + 1]
     
-    reset = never(resetScreenCheck && prev(currentLife) > 0 && currentLife == 0)
+    reset = never
+        (
+            currentStage == stage && 
+            lostLifeCheck && 
+            (
+                resetScreenCheck  || 
+                currentScreen == checkpoints[checkpoint + 1] && IsFightingBoss()
+            )
+        )
        
     return condition && screenCheck && reset
+}
+
+function CollectedBonusYen(stage, conditions){  
+    info = GetStageInfo(stage)
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    currentYen = GetYen()
+    currentLife = GetLife()
+    
+    secrets = info["Screens"]["Secrets"]
+    
+    bonusTimer = Game["Stage"]["BonusTimer"]
+    stageCheck = currentStage == stage && bonusTimer > 0
+    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
+    
+    for secret in secrets {
+        rooms = secrets[secret]["Rooms"]
+        checkpoint = secrets[secret]["Checkpoint"]
+        blocks = secrets[secret]["Blocks"]
+        
+        roomCount = length(rooms)
+        blockCount = length(blocks)
+        
+        if (roomCount > 0 && blockCount > 0) {
+            roomCheck = currentScreen == rooms[0]
+            
+            if(roomCount > 1)
+                roomCheck = currentScreen >= rooms[0] &&
+                    currentScreen <= rooms[1]
+                    
+            for index in range(0, blockCount - 1){
+                block = high4(blocks[index])
+                blockCheck = prev(block) == 0x04 &&
+                    block != 0x04 
+                    // Remove Yen check - timing is inconsistent
+                    // && currentYen == prev(currentYen) + 100
+                    
+                reset = never
+                (
+                    currentStage == stage && 
+                    lostLifeCheck && 
+                    (
+                        currentScreen < checkpoint  || 
+                        currentScreen == checkpoint && IsFightingBoss()
+                    )
+                ) 
+                    
+                array_push(conditions, stageCheck && roomCheck && blockCheck && reset)
+            }
+        }
+    }
+    
+    return conditions
 }
 
 function CountCollectedYen(stage){
@@ -314,6 +438,7 @@ function CountCollectedYen(stage){
     checkpoints = screens["Checkpoints"]
 
     conditions = array_map(range(0, 2), index => CollectedYen(stage, index))
+    conditions = CollectedBonusYen(stage, conditions)
     
     count = measured(tally(total, conditions)) &&
         never(!IsInDemo() && currentStage != stage) &&
@@ -322,10 +447,11 @@ function CountCollectedYen(stage){
     return count
 }
 
+// Preserves post-checkpoint yen after death
+// Preserves post-checkpoint yen if player continues on Game Over/Title Screen
 // Resets pre-checkpoint yen on death/continue
 // Resets all when not on stage 1
-// Reset all when start is selected on Game Over screen
-// Resets all when watching intro, ending, or credits
+// Reset all when start is selected on Game Over/Title screen
 achievement("Stage 1 - Yen", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3,
     trigger = CountCollectedYen(1)
 )
@@ -350,7 +476,7 @@ achievement("Stage 6 - Yen", "Collect 5 or more hidden Yen blocks in Stage 6", p
     trigger = CountCollectedYen(6)
 )
 
-achievement("Stage 7 - Yen", "Collect 15 or more hidden Yen blocks in Stage 7", points = 3,
+achievement("Stage 7 - Yen", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3,
     trigger = CountCollectedYen(7)
 )
 
@@ -360,3 +486,5 @@ rich_presence_display("Stage: {0} Screen: {1} Yen: {2} Score: {3}",
     rich_presence_value("Yen", Player["Yen"]),
     rich_presence_value("Score", Player["Score"], "SCORE")
 )
+
+

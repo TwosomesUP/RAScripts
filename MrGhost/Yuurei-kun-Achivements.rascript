@@ -101,11 +101,13 @@ StageInfo = {
             "Checkpoints": [0, 8, 17, 19],
             "Secrets": {
                 "First": {
+                    "AltValue": false,
                     "Checkpoint": 8,
                     "Rooms":[7],
                     "Blocks": [0x556, 0x559]
                 },
                 "Second": {
+                    "AltValue": false,
                     "Checkpoint": 17,
                     "Rooms": [11],
                     "Blocks": [0x59c]
@@ -125,11 +127,13 @@ StageInfo = {
             "Checkpoints": [1, 12, 14, 20],
             "Secrets": {
                 "First": {
+                    "AltValue": false,
                     "Checkpoint": 13,
                     "Rooms": [9, 10],
                     "Blocks": []
                 },
                 "Second": {
+                    "AltValue": false,
                     "Checkpoint": 20,
                     "Rooms": [16, 17],
                     "Blocks": [0x53a, 0x55c]
@@ -149,11 +153,13 @@ StageInfo = {
             "Checkpoints": [0, 10, 14, 19],
             "Secrets": {
                 "First": {
+                    "AltValue": true,
                     "Checkpoint": 10,
                     "Rooms": [8],
                     "Blocks": [0x535]
                 },
                 "Second": {
+                    "AltValue": true,
                     "Checkpoint": 19,
                     "Rooms": [16],
                     "Blocks": [0x569]
@@ -173,11 +179,13 @@ StageInfo = {
             "Checkpoints": [0, 13, 15, 19],
             "Secrets": {
                 "First": {
+                    "AltValue": false,
                     "Checkpoint": 13,
                     "Rooms": [4],
                     "Blocks": []
                 },
                 "Second": {
+                    "AltValue": false,
                     "Checkpoint": 15,
                     "Rooms": [13],
                     "Blocks": [0x549]
@@ -197,11 +205,13 @@ StageInfo = {
             "Checkpoints": [0, 6, 11, 19],
             "Secrets": {
                 "First": {
+                    "AltValue": false,
                     "Checkpoint": 11,
                     "Rooms": [9],
                     "Blocks": []
                 },
                 "Second": {
+                    "AltValue": false,
                     "Checkpoint": 19,
                     "Rooms": [],
                     "Blocks": []
@@ -218,14 +228,16 @@ StageInfo = {
                 "Mid": 13,
                 "End": 19
             },
-            "Checkpoints": [0, 5, 18, 19],
+            "Checkpoints": [0, 9, 13, 19],
             "Secrets": {
                 "First": {
-                    "Checkpoint": 18,
+                    "AltValue": false,
+                    "Checkpoint": 9,
                     "Rooms": [5],
                     "Blocks": [0x55e, 0x595]
                 },
                 "Second": {
+                    "AltValue": false,
                     "Checkpoint": 19,
                     "Rooms": [18],
                     "Blocks": []
@@ -245,11 +257,13 @@ StageInfo = {
             "Checkpoints": [1, 8, 14, 21],
             "Secrets": {
                 "First": {
+                    "AltValue": false,
                     "Checkpoint": 14,
                     "Rooms": [12, 13],
                     "Blocks": [0x53d, 0x587]
                 },
                 "Second": {
+                    "AltValue": false,
                     "Checkpoint": 21,
                     "Rooms": [16, 17],
                     "Blocks": [0x526, 0x546, 0x576, 0x596]
@@ -391,6 +405,7 @@ function CollectedBonusYen(stage, conditions){
         rooms = secrets[secret]["Rooms"]
         checkpoint = secrets[secret]["Checkpoint"]
         blocks = secrets[secret]["Blocks"]
+        altCheck = secrets[secret]["AltValue"]
         
         roomCount = length(rooms)
         blockCount = length(blocks)
@@ -404,11 +419,14 @@ function CollectedBonusYen(stage, conditions){
                     
             for index in range(0, blockCount - 1){
                 block = high4(blocks[index])
-                blockCheck = prev(block) == 0x04 &&
-                    block != 0x04 
-                    // Remove Yen check - timing is inconsistent
-                    // && currentYen == prev(currentYen) + 100
+                blockValue = 0x04
+                
+                if (altCheck)
+                    blockValue = 0x05
                     
+                blockCheck = prev(block) == blockValue &&
+                    block != blockValue 
+                     
                 reset = never
                 (
                     currentStage == stage && 

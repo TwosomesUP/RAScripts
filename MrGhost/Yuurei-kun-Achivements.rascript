@@ -95,8 +95,18 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 17,
-                "End": 19
+                "Mid": {
+                    "Attacks": 10,
+                    "Screen": [17],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                },
+                "End": {
+                    "Attacks": 14,
+                    "Screen": [19],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                }
             },
             "Checkpoints": [0, 8, 17, 19],
             "Secrets": {
@@ -121,8 +131,18 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 14,
-                "End": 20
+                "Mid": {
+                    "Attacks": 16,
+                    "Screen": [14],
+                    "Health": [],
+                    "UseScreenId": true // 0x8 -> 0x2
+                },
+                "End": {
+                    "Attacks": 18,
+                    "Screen": [20],
+                    "Health": [0xe6],
+                    "UseScreenId": false // 0x9 -> 0x0
+                }
             },
             "Checkpoints": [1, 12, 14, 20],
             "Secrets": {
@@ -147,8 +167,18 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 14,
-                "End": 19
+                "Mid": {
+                    "Attacks": 14,
+                    "Screen": [14],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                },
+                "End": {
+                    "Attacks": 10,
+                    "Screen": [19],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                },
             },
             "Checkpoints": [0, 10, 14, 19],
             "Secrets": {
@@ -173,8 +203,18 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 15,
-                "End": 19
+                "Mid": {
+                    "Attacks": 14,
+                    "Screen": [15],
+                    "Health": [0x46, 0x56],
+                    "UseScreenId": false
+                },
+                "End": {
+                    "Attacks": 18,
+                    "Screen": [19],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                }
             },
             "Checkpoints": [0, 13, 15, 19],
             "Secrets": {
@@ -199,8 +239,24 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 11,
-                "End": 19
+                "Skeletons": {
+                    "Attacks": 40,
+                    "Screen": [1,2,3,5],
+                    "Health": [0xc6],
+                    "UseScreenId": false
+                },
+                "Snail": {
+                    "Attacks": 14,
+                    "Screen": [11],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                },
+                "End": {
+                    "Attacks": 16,
+                    "Screen": [19],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                }
             },
             "Checkpoints": [0, 6, 11, 19],
             "Secrets": {
@@ -225,8 +281,18 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 13,
-                "End": 19
+                "Mid": {
+                    "Attacks": 12,
+                    "Screen": [13],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                },
+                "End": {
+                    "Attacks": 18,
+                    "Screen": [19],
+                    "Health": [0x46, 0x56],
+                    "UseScreenId": false
+                }
             },
             "Checkpoints": [0, 9, 13, 19],
             "Secrets": {
@@ -251,8 +317,18 @@ StageInfo = {
         "Screens": 
         {
             "Bosses": {
-                "Mid": 14,
-                "End": 21
+                "Mid": {
+                    "Attacks": 14,
+                    "Screen": [14],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                },
+                "End": {
+                    "Attacks": 14,
+                    "Screen": [21],
+                    "Health": [0x46],
+                    "UseScreenId": false
+                }
             },
             "Checkpoints": [1, 8, 14, 21],
             "Secrets": {
@@ -321,6 +397,11 @@ function GetStage(){
     return stage
 }
 
+function GetBonusTimer(){
+    timer = Game["Stage"]["BonusTimer"]
+    return timer
+}
+
 function GetYen(){
     yen = Player["Yen"]
     return yen
@@ -346,6 +427,11 @@ function GetScreenId(){
     return id
 }
 
+function GetAttackEnergy(){
+    energy = Player["Attack"]
+    return energy
+}
+
 function GetStageInfo(stage){
     info = StageInfo["Stage" + stage]
     return info
@@ -354,7 +440,6 @@ function GetStageInfo(stage){
 function CollectedYen(stage, checkpoint){
     currentStage = GetStage()
     currentYen = GetYen()
-    currentLife = GetLife()
     currentScreen = GetScreen()
     bonusTimer = Game["Stage"]["BonusTimer"]
     info = GetStageInfo(stage)
@@ -368,22 +453,13 @@ function CollectedYen(stage, checkpoint){
         bonusTimer == 0x00 &&
         currentYen == prev(currentYen) + 100 
    
-    screenCheck = currentScreen >= checkpoints[checkpoint] &&
-        currentScreen < checkpoints[checkpoint + 1]
-        
-    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
+    checkpointStart = checkpoints[checkpoint]
+    checkpointEnd = checkpoints[checkpoint + 1]
     
-    resetScreenCheck = currentScreen < checkpoints[checkpoint + 1]
-    
-    reset = never
-        (
-            currentStage == stage && 
-            lostLifeCheck && 
-            (
-                resetScreenCheck  || 
-                currentScreen == checkpoints[checkpoint + 1] && IsFightingBoss()
-            )
-        )
+    screenCheck = currentScreen >= checkpointStart &&
+        currentScreen < checkpointEnd
+
+    reset = CheckpointReset(stage, checkpointEnd)
        
     return condition && screenCheck && reset
 }
@@ -393,13 +469,11 @@ function CollectedBonusYen(stage, conditions){
     currentStage = GetStage()
     currentScreen = GetScreen()
     currentYen = GetYen()
-    currentLife = GetLife()
     
     secrets = info["Screens"]["Secrets"]
     
     bonusTimer = Game["Stage"]["BonusTimer"]
-    stageCheck = currentStage == stage && bonusTimer > 0
-    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
+    stageCheck = IsPlaying() && IsInGame() && currentStage == stage && bonusTimer > 0
     
     for secret in secrets {
         rooms = secrets[secret]["Rooms"]
@@ -427,15 +501,7 @@ function CollectedBonusYen(stage, conditions){
                 blockCheck = prev(block) == blockValue &&
                     block != blockValue 
                      
-                reset = never
-                (
-                    currentStage == stage && 
-                    lostLifeCheck && 
-                    (
-                        currentScreen < checkpoint  || 
-                        currentScreen == checkpoint && IsFightingBoss()
-                    )
-                ) 
+                reset = CheckpointReset(stage, checkpoint)
                     
                 array_push(conditions, stageCheck && roomCheck && blockCheck && reset)
             }
@@ -459,44 +525,564 @@ function CountCollectedYen(stage){
     conditions = CollectedBonusYen(stage, conditions)
     
     count = measured(tally(total, conditions)) &&
-        never(!IsInDemo() && currentStage != stage) &&
-        never(!IsInDemo() && currentStage == 1 && currentScreen == 0 && prev(currentLives) == 0 && currentLives == 2)
+        StageReset(stage)
             
     return count
 }
 
+function FoundSecrets(stage){
+    info = GetStageInfo(stage)
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    timer = GetBonusTimer()
+    currentLife = GetLife()
+    
+    screens = info["Screens"]
+    secrets = screens["Secrets"]
+    
+    conditions = []
+    
+    stageCheck = IsPlaying() && IsInGame() && currentStage == stage
+    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
+    
+    for secret in secrets {
+        rooms = secrets[secret]["Rooms"]
+        checkpoint = secrets[secret]["Checkpoint"]
+        
+        roomCount = length(rooms)
+        
+        if (roomCount > 0) {
+            roomCheck = currentScreen == rooms[0]
+            
+            if (roomCount > 1)
+                roomCheck = currentScreen >= rooms[0] &&
+                    currentScreen <= rooms[1]
+                    
+            secretCheck = prev(timer) == 0 && timer > 0
+            
+            reset = CheckpointReset(stage, checkpoint)
+            
+            array_push(conditions, stageCheck && roomCheck && secretCheck && reset)
+        }
+    }
+    
+    conditionCount = length(conditions)
+    
+    return measured(tally(conditionCount, conditions)) &&
+        StageReset(stage)        
+}
+
+function DefeatedBoss(stage, midboss = false, skeleton = false){
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    currentScreenId = GetScreenId()
+    currentEnergy = GetAttackEnergy()
+    info = GetStageInfo(stage)
+    
+    bosses = info["Screens"]["Bosses"]
+    boss = bosses["End"]
+    disableConditions = []
+    
+    if (midboss)
+        if (stage == 5)
+            if (skeleton)
+                boss = bosses["Skeletons"]
+            else
+                boss = bosses["Snail"]
+        else
+            boss = bosses["Mid"]
+
+    screens = boss["Screen"]
+    healths = boss["Health"]
+    useScreenId = boss["UseScreenId"]
+    attackCount = boss["Attacks"]
+    
+    stageCheck = IsPlaying() && IsInGame() && currentStage == stage
+    
+    bossScreen = screens[0]
+    
+    if (skeleton)
+        bossScreen = screens[3]
+        
+    screenCheck = currentScreen == bossScreen
+       
+    if (useScreenId)
+        deathCheck = prev(currentScreenId) >= 0x08 && prev(currentScreenId) <= 0x09 && currentScreenId < 0x08
+    else 
+    {
+        health = sum_of(healths, h => byte(h))
+        deathCheck = prev(health) > 0 && health == 0
+    }
+          
+    defeatedCheck = stageCheck &&
+        screenCheck &&
+        trigger_when(deathCheck)
+        
+    for screen in screens {
+        attackCheck = prev(currentEnergy) > currentEnergy
+        condition = stageCheck && screenCheck && IsFightingBoss() && attackCheck
+        array_push(disableConditions, condition)
+    }
+    
+    return defeatedCheck &&
+        disable_when(tally(attackCount + 1, disableConditions)) &&
+        BossReset(stage, bossScreen)
+}
+
+function CheckpointReset(stage, checkpoint){
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    currentLife = GetLife()
+    
+    stageCheck = currentStage == stage
+    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
+    screenCheck = currentScreen < checkpoint
+    bossCheck = currentScreen == checkpoint && IsFightingBoss()
+    
+    return never
+    (
+        stageCheck &&
+        lostLifeCheck &&
+        (
+            screenCheck ||
+            bossCheck
+        )
+    )
+}
+
+function BossReset(stage, screen){
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    currentLife = GetLife()
+    
+    stageCheck = currentStage == stage
+    notInStage = currentStage != stage
+    lostLifeCheck = prev(currentLife) > 0 && currentLife == 0
+    
+    return 
+    (
+        always_false() || 
+        (
+            never(stageCheck && lostLifeCheck) &&
+            never(notInStage)
+        )
+    )
+}
+
+function StageReset(stage){
+    currentStage = GetStage()
+    currentLives = GetLives()
+    currentScreen = GetScreen()
+    
+    return never(!IsInDemo() && currentStage != stage) &&
+        never(!IsInDemo() && currentStage == 1 && currentScreen == 0 && prev(currentLives) == 0 && currentLives == 2)
+}
+
+// Achievement Functions
+
+// Stage 1
+
+function Stage1_Yen(){
+    return CountCollectedYen(1)
+}
+
+function Stage1_Secrets(){
+    return FoundSecrets(1)
+}
+
+function Stage1_MidBoss(){
+    return DefeatedBoss(1, true)
+}
+
+function Stage1_Boss(){
+    return DefeatedBoss(1)
+}
+
+function Stage1_Clear(){
+    return always_false()
+}
+
+// Stage 2
+
+function Stage2_Yen(){
+    return CountCollectedYen(2)
+}
+
+function Stage2_Secrets(){
+    return FoundSecrets(2)
+}
+
+function Stage2_MidBoss(){
+    return DefeatedBoss(2, true)
+}
+
+function Stage2_Boss(){
+    return DefeatedBoss(2)
+}
+
+function Stage2_Clear(){
+    return always_false()
+}
+
+// Stage 3
+
+function Stage3_Yen(){
+    return CountCollectedYen(3)
+}
+
+function Stage3_Secrets(){
+    return FoundSecrets(3)
+}
+
+function Stage3_MidBoss(){
+    return DefeatedBoss(3, true)
+}
+
+function Stage3_Boss(){
+    return DefeatedBoss(3)
+}
+
+function Stage3_Clear(){
+    return always_false()
+}
+
+// Stage 4
+
+function Stage4_Yen(){
+    return CountCollectedYen(4)
+}
+
+function Stage4_Secrets(){
+    return FoundSecrets(4)
+}
+
+function Stage4_MidBoss(){
+    return DefeatedBoss(4, true)
+}
+
+function Stage4_Boss(){
+    return DefeatedBoss(4)
+}
+
+function Stage4_Clear(){
+    return always_false()
+}
+
+// Stage 5
+
+function Stage5_Yen(){
+    return CountCollectedYen(5)
+}
+
+function Stage5_Secrets(){
+    return FoundSecrets(5)
+}
+
+function Stage5_MidBoss1(){
+    return DefeatedBoss(5, true, true)
+}
+
+function Stage5_MidBoss2(){
+    return DefeatedBoss(5, true)
+}
+
+function Stage5_Boss(){
+    return DefeatedBoss(5)
+}
+
+function Stage5_Clear(){
+    return always_false()
+}
+
+// Stage 6
+
+function Stage6_Yen(){
+    return CountCollectedYen(6)
+}
+
+function Stage6_Secrets(){
+    return FoundSecrets(6)
+}
+
+function Stage6_MidBoss(){
+    return DefeatedBoss(6, true)
+}
+
+function Stage6_Boss(){
+    return DefeatedBoss(6)
+}
+
+function Stage6_Clear(){
+    return always_false()
+}
+
+// Stage 7
+
+function Stage7_Yen(){
+    return CountCollectedYen(7)
+}
+
+function Stage7_Secrets(){
+    return FoundSecrets(7)
+}
+
+function Stage7_MidBoss(){
+    return DefeatedBoss(7, true)
+}
+
+function Stage7_Boss(){
+    return DefeatedBoss(7)
+}
+
+function Stage7_Clear(){
+    return always_false()
+}
+
+// Other
+
+function Other_YenChallenge(){
+    return always_false()
+}
+
+function Other_ComboChallenge(){
+    return always_false()
+}
+
+function Other_Stopwatch(){
+    return always_false()
+}
+
+function Other_Heart(){
+    return always_false()
+}
+
+function Other_Barrier(){
+    return always_false()
+}
+
+function Other_AttackRefill1(){
+    return always_false()
+}
+
+function Other_AttackRefill2(){
+    return always_false()
+}
+
+function Other_Ochokotama1(){
+    return always_false()
+}
+
+function Other_Ochokotama2(){
+    return always_false()
+}
+
+// Reset Conditions:
 // Preserves post-checkpoint yen after death
 // Preserves post-checkpoint yen if player continues on Game Over/Title Screen
 // Resets pre-checkpoint yen on death/continue
 // Resets all when not on stage 1
 // Reset all when start is selected on Game Over/Title screen
+
+
+// Achievement Definitions
+
+// Stage 1
+
 achievement("Stage 1 - Yen", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3,
-    trigger = CountCollectedYen(1)
+    trigger = Stage1_Yen()
 )
+
+achievement("Stage 1 - Secrets", "Find 2 hidden bonus rooms in Stage 1", points = 3,
+    trigger = Stage1_Secrets()
+)
+
+achievement("Stage 1 - Mid-Boss", "Defeat the Mid-Boss on Stage 1 using 10 or less attack energy", points = 5,
+    trigger = Stage1_MidBoss()
+)
+
+achievement("Stage 1 - Boss", "Defeat the Boss on Stage 1 using 14 or less attack energy", points = 5,
+    trigger = Stage1_Boss()
+)
+
+achievement("Stage 1 - Clear", "Clear Stage 1", points = 3, type = "progression",
+    trigger = Stage1_Clear()
+)
+
+// Stage 2
 
 achievement("Stage 2 - Yen", "Collect 7 or more hidden Yen blocks in Stage 2", points = 3,
-    trigger = CountCollectedYen(2)
+    trigger = Stage2_Yen()
 )
+
+achievement("Stage 2 - Secrets", "Find 2 hidden bonus rooms in Stage 2", points = 3,
+    trigger = Stage2_Secrets()
+)
+
+achievement("Stage 2 - Mid-Boss", "Defeat the Mid-Boss on Stage 2 using 16 or less attack energy", points = 5,
+    trigger = Stage2_MidBoss()
+)
+
+achievement("Stage 2 - Boss", "Defeat the Boss on Stage 2 using 18 or less attack energy", points = 5,
+    trigger = Stage2_Boss()
+)
+
+achievement("Stage 2 - Clear", "Clear Stage 2", points = 3, type = "progression",
+    trigger = Stage2_Clear()
+)
+
+// Stage 3
 
 achievement("Stage 3 - Yen", "Collect 20 or more hidden Yen blocks in Stage 3", points = 3,
-    trigger = CountCollectedYen(3)
+    trigger = Stage3_Yen()
 )
+
+achievement("Stage 3 - Secrets", "Find 2 hidden bonus rooms in Stage 3", points = 3,
+    trigger = Stage3_Secrets()
+)
+
+achievement("Stage 3 - Mid-Boss", "Defeat the Mid-Boss on Stage 3 using 14 or less attack energy", points = 5,
+    trigger = Stage3_MidBoss()
+)
+
+achievement("Stage 3 - Boss", "Defeat the Boss on Stage 3 using 10 or less attack energy", points = 5,
+    trigger = Stage3_Boss()
+)
+
+achievement("Stage 3 - Clear", "Clear Stage 3", points = 3, type = "progression",
+    trigger = Stage3_Clear()
+)
+
+// Stage 4
 
 achievement("Stage 4 - Yen", "Collect 7 or more hidden Yen blocks in Stage 4", points = 3,
-    trigger = CountCollectedYen(4)
+    trigger = Stage4_Yen()
 )
+
+achievement("Stage 4 - Secrets", "Find 2 hidden bonus rooms in Stage 4", points = 3,
+    trigger = Stage4_Secrets()
+)
+
+achievement("Stage 4 - Mid-Boss", "Defeat the Mid-Boss on Stage 4 using 14 or less attack energy", points = 5,
+    trigger = Stage4_MidBoss()
+)
+
+achievement("Stage 4 - Boss", "Defeat the Boss on Stage 4 using 18 or less attack energy", points = 5,
+    trigger = Stage4_Boss()
+)
+
+achievement("Stage 4 - Clear", "Clear Stage 4", points = 5, type = "progression",
+    trigger = Stage4_Clear()
+)
+
+// Stage 5
 
 achievement("Stage 5 - Yen", "Collect all 3 hidden Yen blocks in Stage 5", points = 3,
-    trigger = CountCollectedYen(5)
+    trigger = Stage5_Yen()
 )
+
+achievement("Stage 5 - Secrets", "Find the hidden bonus room in Stage 5", points = 3,
+    trigger = Stage5_Secrets()
+)
+
+achievement("Stage 5 - Mid-Boss 1", "Defeat all 4 of the skeleton Mid-Bosses on Stage 5 using 40 or less attack energy", points = 10,
+    trigger = Stage5_MidBoss1()
+)
+
+achievement("Stage 5 - Mid-Boss 2", "Defeat the snail Mid-Boss on Stage 5 using 14 or less attack energy", points = 5,
+    trigger = Stage5_MidBoss2()
+)
+
+achievement("Stage 5 - Boss", "Defeat the Boss on Stage 5 using 16 or less attack energy", points = 5,
+    trigger = Stage5_Boss()
+)
+
+achievement("Stage 5 - Clear", "Clear Stage 5", points = 5, type = "progression",
+    trigger = Stage5_Clear()
+)
+
+// Stage 6
 
 achievement("Stage 6 - Yen", "Collect 5 or more hidden Yen blocks in Stage 6", points = 3,
-    trigger = CountCollectedYen(6)
+    trigger = Stage6_Yen()
 )
 
-achievement("Stage 7 - Yen", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3,
-    trigger = CountCollectedYen(7)
+achievement("Stage 6 - Secrets", "Find 2 hidden bonus rooms in Stage 6", points = 3,
+    trigger = Stage6_Secrets()
 )
+
+achievement("Stage 6 - Mid-Boss", "Defeat the Mid-Boss on Stage 6 using 12 or less attack energy", points = 5,
+    trigger = Stage6_MidBoss()
+)
+
+achievement("Stage 6 - Boss", "Defeat the Boss on Stage 6 using 18 or less attack energy", points = 5,
+    trigger = Stage6_Boss()
+)
+
+achievement("Stage 6 - Clear", "Clear Stage 6", points = 5, type = "progression",
+    trigger = Stage6_Clear()
+)
+
+// Stage 7
+
+achievement("Stage 7 - Yen", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3,
+    trigger = Stage7_Yen()
+)
+
+achievement("Stage 7 - Secrets", "Find 2 hidden bonus rooms in Stage 7", points = 3,
+    trigger = Stage7_Secrets()
+)
+
+achievement("Stage 7 - Mid-Boss", "Defeat the Mid-Boss on Stage 7 using 14 or less attack energy", points = 10,
+    trigger = Stage7_MidBoss()
+)
+
+achievement("Stage 7 - Boss", "Defeat the Boss on Stage 7 using 14 or less attack energy", points = 10,
+    trigger = Stage7_Boss()
+)
+
+achievement("Stage 7 - Clear", "Clear Stage 7", points = 10, type = "win_condition",
+    trigger = Stage7_Clear()
+)
+
+// Other
+
+achievement("Other - Yen Challenge", "Have a stock of 2000 or more Yen", points = 5,
+    trigger = Other_YenChallenge()
+)
+
+achievement("Other - Combo Challenge", "Achieve a combo of 16x by defeating multiple enemies at once", points = 3,
+    trigger = Other_ComboChallenge()
+)
+
+achievement("Other - Stopwatch", "Find and purchase a Stopwatch, and freeze all enemies in their tracks", points = 3,
+    trigger = Other_Stopwatch()
+)
+
+achievement("Other - Heart", "Find and purchase a Heart, and refill your health", points = 3,
+    trigger = Other_Heart()
+)
+
+achievement("Other - Barrier", "Have a stock of 2000 or more Yen", points = 3,
+    trigger = Other_Barrier()
+)
+
+achievement("Other - Attack Refill 1", "Find and purchase an Attack Refill", points = 3,
+    trigger = Other_AttackRefill1()
+)
+
+achievement("Other - Attack Refill 2", "Have a stock of 2 Attack Refills", points = 5,
+    trigger = Other_AttackRefill2()
+)
+
+achievement("Other - Ochokotama 1", "Acquire a second Ochokotama Ball", points = 4,
+    trigger = Other_Ochokotama1()
+)
+
+achievement("Other - Ochokotama 2", "Acquire a third Ochokotama Balls", points = 5,
+    trigger = Other_Ochokotama2()
+)
+
+// Rich Presence Definitions
 
 rich_presence_display("Stage: {0} Screen: {1} Yen: {2} Score: {3}",
     rich_presence_value("Stage", Game["Stage"]["Number"]),
@@ -504,5 +1090,3 @@ rich_presence_display("Stage: {0} Screen: {1} Yen: {2} Score: {3}",
     rich_presence_value("Yen", Player["Yen"]),
     rich_presence_value("Score", Player["Score"], "SCORE")
 )
-
-

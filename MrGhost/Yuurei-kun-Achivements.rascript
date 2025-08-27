@@ -13,7 +13,8 @@ Game = {
     },
     "Screen": {
         "Number": byte(0x287),
-        "Id": byte(0x2a2)
+        "Id": byte(0x2a2),
+        "AltId": byte(0x2a1)
     },
     "State": byte(0x3af)
 }
@@ -39,7 +40,7 @@ Player = {
 
 EnemyList = {
     "Start": 0x40,
-    "Size": 0x0f,
+    "Size": 0x10,
     "Offsets": {
         "Health": 0x06,
         "State": 0x07
@@ -138,7 +139,7 @@ StageInfo = {
                     "UseScreenId": true // 0x8 -> 0x2
                 },
                 "End": {
-                    "Attacks": 18,
+                    "Attacks": 10,
                     "Screen": [20],
                     "Health": [0xe6],
                     "UseScreenId": false // 0x9 -> 0x0
@@ -380,8 +381,8 @@ function IsInDemo(){
     return state == demo
 }
 
-function IsFightingBoss(){
-    id = GetScreenId()
+function IsFightingBoss(alt = false){
+    id = GetScreenId(alt)
     boss = ScreenIds["MidBoss"]
     gameOver = ScreenIds["GameOver"]
     return id >= boss && id < gameOver
@@ -422,8 +423,10 @@ function GetScreen(){
     return screen
 }
 
-function GetScreenId(){
+function GetScreenId(alt = false){
     id = Game["Screen"]["Id"]
+    if (alt)
+        id = Game["Screen"]["AltId"]
     return id
 }
 
@@ -577,6 +580,7 @@ function DefeatedBoss(stage, midboss = false, skeleton = false){
     currentScreen = GetScreen()
     currentScreenId = GetScreenId()
     currentEnergy = GetAttackEnergy()
+    currentLife = GetLife()
     info = GetStageInfo(stage)
     
     bosses = info["Screens"]["Bosses"]
@@ -597,7 +601,7 @@ function DefeatedBoss(stage, midboss = false, skeleton = false){
     useScreenId = boss["UseScreenId"]
     attackCount = boss["Attacks"]
     
-    stageCheck = IsPlaying() && IsInGame() && currentStage == stage
+    stageCheck = IsPlaying()
     
     bossScreen = screens[0]
     
@@ -607,26 +611,167 @@ function DefeatedBoss(stage, midboss = false, skeleton = false){
     screenCheck = currentScreen == bossScreen
        
     if (useScreenId)
-        deathCheck = prev(currentScreenId) >= 0x08 && prev(currentScreenId) <= 0x09 && currentScreenId < 0x08
+        deathCheck = prev(IsFightingBoss()) && currentScreenId < 0x08
     else 
     {
+        screenCheck = screenCheck
         health = sum_of(healths, h => byte(h))
         deathCheck = prev(health) > 0 && health == 0
     }
-          
-    defeatedCheck = stageCheck &&
-        screenCheck &&
+    
+    defeatedCheck = stageCheck && 
+        currentLife > 0
+        
+    defeatedTrigger = IsFightingBoss(true) &&
+        screenCheck && 
         trigger_when(deathCheck)
+        
+    if (stage == 2 && midboss)
+        defeatedTrigger = screenCheck &&
+            trigger_when(deathCheck)
+    
+    if (stage == 5 && skeleton)
+        defeatedTrigger = IsFightingBoss(true) &&
+            currentScreen < bossScreen + 1 &&
+            trigger_when(screenCheck && deathCheck)
+          
+    defeatedCheck = defeatedCheck &&
+        defeatedTrigger
         
     for screen in screens {
         attackCheck = prev(currentEnergy) > currentEnergy
-        condition = stageCheck && screenCheck && IsFightingBoss() && attackCheck
+        
+        screenCheck = currentScreen == screen
+            
+        condition = stageCheck && screenCheck && IsFightingBoss(true) && IsFightingBoss() && attackCheck
         array_push(disableConditions, condition)
     }
     
     return defeatedCheck &&
         disable_when(tally(attackCount + 1, disableConditions)) &&
         BossReset(stage, bossScreen)
+}
+
+function ClearedStage(stage){
+    currentStage = GetStage()
+    currentScreenId = GetScreenId(true)
+    
+    endingId = ScreenIds["Ending"]
+    creditsId = ScreenIds["Credits"]
+    
+    clearedCheck = prev(currentStage) == stage &&
+        currentStage == stage + 1
+        
+    if (stage == 7)
+        clearedCheck = currentStage == stage &&
+            prev(currentScreenId) == endingId &&
+            currentScreenId == creditsId
+    
+    return IsPlaying() && clearedCheck 
+}
+
+function GotStockedYen(amount){
+    currentYen = GetYen()
+    
+    return IsPlaying() &&
+        IsInGame() &&
+        prev(currentYen) < amount &&
+        currentYen >= amount
+}
+
+function GotComboCount(){
+    enemyCount = 24
+    
+    trigger = IsPlaying() &&
+        IsInGame()
+        
+    return trigger &&
+        any_of(range(0, enemyCount - 1), index => CheckEnemyCombo(index))
+}
+
+function CheckEnemyCombo(index){
+    list = EnemyList
+    start = list["Start"]
+    size = list["Size"]
+    stateOffset = list["Offsets"]["State"]
+    
+    enemyAddress = start + (index * size)
+    stateAddress = enemyAddress + stateOffset
+    
+    enemyState = byte(stateAddress)
+    
+    return prev(enemyState) == 0xc3 &&
+        enemyState == 0xc4
+}
+
+function CollectedStopwatch(){
+    timer = Player["Items"]["Stopwatch"]["Timer"]
+    
+    return IsPlaying() && IsInGame() &&
+        prev(timer) < timer
+}
+
+function CollectedHeart(){
+    life = GetLife()
+    
+    return IsPlaying() && IsInGame() &&
+        prev(life) < life
+}
+
+function CollectedBarrier(){
+    energy = Player["Items"]["Barrier"]["Energy"]
+    
+    return IsPlaying() && IsInGame() &&
+        prev(energy) < energy
+}
+
+function CollectedRefill() {
+    count = Player["Items"]["Refill"]["Count"]
+    
+    return IsPlaying() && IsInGame() &&
+        prev(count) < count
+}
+
+function CollectedRefill2() {
+    count = Player["Items"]["Refill"]["Count"]
+    
+    return IsPlaying() && IsInGame() &&
+        prev(count) == 1 &&
+        count == 2
+}
+
+function AcquiredOchokotama1(){
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    currentScreenId = GetScreenId()
+    
+    info = GetStageInfo(2)
+    
+    boss = info["Screens"]["Bosses"]["Mid"]
+    bossScreen = boss["Screen"][0]
+    deathCheck = prev(IsFightingBoss()) && currentScreenId < 0x08
+    
+    return IsPlaying() &&
+        currentScreen == bossScreen &&
+        deathCheck
+}
+
+function AcquiredOchokotama2(){
+    currentStage = GetStage()
+    currentScreen = GetScreen()
+    currentScreenId = GetScreenId()
+    
+    info = GetStageInfo(4)
+    
+    boss = info["Screens"]["Bosses"]["Mid"]
+    bossScreen = boss["Screen"][0]
+    health = sum_of(boss["Health"], h => byte(h))
+    deathCheck = prev(health) > 0 && health == 0
+    
+    return IsPlaying() &&
+        IsFightingBoss() &&
+        currentScreen == bossScreen &&
+        deathCheck
 }
 
 function CheckpointReset(stage, checkpoint){
@@ -699,7 +844,7 @@ function Stage1_Boss(){
 }
 
 function Stage1_Clear(){
-    return always_false()
+    return ClearedStage(1)
 }
 
 // Stage 2
@@ -721,7 +866,7 @@ function Stage2_Boss(){
 }
 
 function Stage2_Clear(){
-    return always_false()
+    return ClearedStage(2)
 }
 
 // Stage 3
@@ -743,7 +888,7 @@ function Stage3_Boss(){
 }
 
 function Stage3_Clear(){
-    return always_false()
+    return ClearedStage(3)
 }
 
 // Stage 4
@@ -765,7 +910,7 @@ function Stage4_Boss(){
 }
 
 function Stage4_Clear(){
-    return always_false()
+    return ClearedStage(4)
 }
 
 // Stage 5
@@ -791,7 +936,7 @@ function Stage5_Boss(){
 }
 
 function Stage5_Clear(){
-    return always_false()
+    return ClearedStage(5)
 }
 
 // Stage 6
@@ -813,7 +958,7 @@ function Stage6_Boss(){
 }
 
 function Stage6_Clear(){
-    return always_false()
+    return ClearedStage(6)
 }
 
 // Stage 7
@@ -835,45 +980,45 @@ function Stage7_Boss(){
 }
 
 function Stage7_Clear(){
-    return always_false()
+    return ClearedStage(7)
 }
 
 // Other
 
 function Other_YenChallenge(){
-    return always_false()
+    return GotStockedYen(2000)
 }
 
 function Other_ComboChallenge(){
-    return always_false()
+    return GotComboCount()
 }
 
 function Other_Stopwatch(){
-    return always_false()
+    return CollectedStopwatch()
 }
 
 function Other_Heart(){
-    return always_false()
+    return CollectedHeart()
 }
 
 function Other_Barrier(){
-    return always_false()
+    return CollectedBarrier()
 }
 
 function Other_AttackRefill1(){
-    return always_false()
+    return CollectedRefill()
 }
 
 function Other_AttackRefill2(){
-    return always_false()
+    return CollectedRefill2()
 }
 
 function Other_Ochokotama1(){
-    return always_false()
+    return AcquiredOchokotama1()
 }
 
 function Other_Ochokotama2(){
-    return always_false()
+    return AcquiredOchokotama2()
 }
 
 // Reset Conditions:
@@ -888,197 +1033,197 @@ function Other_Ochokotama2(){
 
 // Stage 1
 
-achievement("Stage 1 - Yen", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3,
+achievement("Phantom Fortune", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3,
     trigger = Stage1_Yen()
 )
 
-achievement("Stage 1 - Secrets", "Find 2 hidden bonus rooms in Stage 1", points = 3,
+achievement("Icing on the Cake", "Find 2 hidden bonus rooms in Stage 1", points = 3,
     trigger = Stage1_Secrets()
 )
 
-achievement("Stage 1 - Mid-Boss", "Defeat the Mid-Boss on Stage 1 using 10 or less attack energy", points = 5,
+achievement("Rainbow Roll", "Defeat the Mid-Boss on Stage 1 using 10 or less attack energy", points = 5,
     trigger = Stage1_MidBoss()
 )
 
-achievement("Stage 1 - Boss", "Defeat the Boss on Stage 1 using 14 or less attack energy", points = 5,
+achievement("Onimaki", "Defeat the Boss on Stage 1 using 14 or less attack energy", points = 5,
     trigger = Stage1_Boss()
 )
 
-achievement("Stage 1 - Clear", "Clear Stage 1", points = 3, type = "progression",
+achievement("Hell's Gate", "Clear Stage 1", points = 3, type = "progression",
     trigger = Stage1_Clear()
 )
 
 // Stage 2
 
-achievement("Stage 2 - Yen", "Collect 7 or more hidden Yen blocks in Stage 2", points = 3,
+achievement("Wraith Riches", "Collect 7 or more hidden Yen blocks in Stage 2", points = 3,
     trigger = Stage2_Yen()
 )
 
-achievement("Stage 2 - Secrets", "Find 2 hidden bonus rooms in Stage 2", points = 3,
+achievement("Lucky Streak", "Find 2 hidden bonus rooms in Stage 2", points = 3,
     trigger = Stage2_Secrets()
 )
 
-achievement("Stage 2 - Mid-Boss", "Defeat the Mid-Boss on Stage 2 using 16 or less attack energy", points = 5,
+achievement("Sashimi", "Defeat the Mid-Boss on Stage 2 using 16 or less attack energy", points = 5,
     trigger = Stage2_MidBoss()
 )
 
-achievement("Stage 2 - Boss", "Defeat the Boss on Stage 2 using 18 or less attack energy", points = 5,
+achievement("Uramaki", "Defeat the Boss on Stage 2 using 10 or less attack energy", points = 5,
     trigger = Stage2_Boss()
 )
 
-achievement("Stage 2 - Clear", "Clear Stage 2", points = 3, type = "progression",
+achievement("Hell's Pit", "Clear Stage 2", points = 3, type = "progression",
     trigger = Stage2_Clear()
 )
 
 // Stage 3
 
-achievement("Stage 3 - Yen", "Collect 20 or more hidden Yen blocks in Stage 3", points = 3,
+achievement("Banshee Bucks", "Collect 20 or more hidden Yen blocks in Stage 3", points = 3,
     trigger = Stage3_Yen()
 )
 
-achievement("Stage 3 - Secrets", "Find 2 hidden bonus rooms in Stage 3", points = 3,
+achievement("Get a Leg Up", "Find 2 hidden bonus rooms in Stage 3", points = 3,
     trigger = Stage3_Secrets()
 )
 
-achievement("Stage 3 - Mid-Boss", "Defeat the Mid-Boss on Stage 3 using 14 or less attack energy", points = 5,
+achievement("Futomaki", "Defeat the Mid-Boss on Stage 3 using 14 or less attack energy", points = 5,
     trigger = Stage3_MidBoss()
 )
 
-achievement("Stage 3 - Boss", "Defeat the Boss on Stage 3 using 10 or less attack energy", points = 5,
+achievement("Uni-don", "Defeat the Boss on Stage 3 using 10 or less attack energy", points = 5,
     trigger = Stage3_Boss()
 )
 
-achievement("Stage 3 - Clear", "Clear Stage 3", points = 3, type = "progression",
+achievement("Sanzu River", "Clear Stage 3", points = 3, type = "progression",
     trigger = Stage3_Clear()
 )
 
 // Stage 4
 
-achievement("Stage 4 - Yen", "Collect 7 or more hidden Yen blocks in Stage 4", points = 3,
+achievement("Goulish Gold", "Collect 7 or more hidden Yen blocks in Stage 4", points = 3,
     trigger = Stage4_Yen()
 )
 
-achievement("Stage 4 - Secrets", "Find 2 hidden bonus rooms in Stage 4", points = 3,
+achievement("Hit the Jackpot", "Find 2 hidden bonus rooms in Stage 4", points = 3,
     trigger = Stage4_Secrets()
 )
 
-achievement("Stage 4 - Mid-Boss", "Defeat the Mid-Boss on Stage 4 using 14 or less attack energy", points = 5,
+achievement("Kappa Maki", "Defeat the Mid-Boss on Stage 4 using 14 or less attack energy", points = 5,
     trigger = Stage4_MidBoss()
 )
 
-achievement("Stage 4 - Boss", "Defeat the Boss on Stage 4 using 18 or less attack energy", points = 5,
+achievement("Spider Roll", "Defeat the Boss on Stage 4 using 18 or less attack energy", points = 5,
     trigger = Stage4_Boss()
 )
 
-achievement("Stage 4 - Clear", "Clear Stage 4", points = 5, type = "progression",
+achievement("Cave of Spikes", "Clear Stage 4", points = 5, type = "progression",
     trigger = Stage4_Clear()
 )
 
 // Stage 5
 
-achievement("Stage 5 - Yen", "Collect all 3 hidden Yen blocks in Stage 5", points = 3,
+achievement("Poltergeist Pennies", "Collect all 3 hidden Yen blocks in Stage 5", points = 3,
     trigger = Stage5_Yen()
 )
 
-achievement("Stage 5 - Secrets", "Find the hidden bonus room in Stage 5", points = 3,
+achievement("Coming Up Roses", "Find the hidden bonus room in Stage 5", points = 3,
     trigger = Stage5_Secrets()
 )
 
-achievement("Stage 5 - Mid-Boss 1", "Defeat all 4 of the skeleton Mid-Bosses on Stage 5 using 40 or less attack energy", points = 10,
+achievement("Aji Sashimi", "Defeat all 4 of the skeleton Mid-Bosses on Stage 5 using 40 or less attack energy", points = 10,
     trigger = Stage5_MidBoss1()
 )
 
-achievement("Stage 5 - Mid-Boss 2", "Defeat the snail Mid-Boss on Stage 5 using 14 or less attack energy", points = 5,
+achievement("Tsubugai Sushi", "Defeat the snail Mid-Boss on Stage 5 using 14 or less attack energy", points = 5,
     trigger = Stage5_MidBoss2()
 )
 
-achievement("Stage 5 - Boss", "Defeat the Boss on Stage 5 using 16 or less attack energy", points = 5,
+achievement("Spicy California Roll", "Defeat the Boss on Stage 5 using 16 or less attack energy", points = 5,
     trigger = Stage5_Boss()
 )
 
-achievement("Stage 5 - Clear", "Clear Stage 5", points = 5, type = "progression",
+achievement("Blood Ponds", "Clear Stage 5", points = 5, type = "progression",
     trigger = Stage5_Clear()
 )
 
 // Stage 6
 
-achievement("Stage 6 - Yen", "Collect 5 or more hidden Yen blocks in Stage 6", points = 3,
+achievement("Specter Silver", "Collect 5 or more hidden Yen blocks in Stage 6", points = 3,
     trigger = Stage6_Yen()
 )
 
-achievement("Stage 6 - Secrets", "Find 2 hidden bonus rooms in Stage 6", points = 3,
+achievement("In the Groove", "Find 2 hidden bonus rooms in Stage 6", points = 3,
     trigger = Stage6_Secrets()
 )
 
-achievement("Stage 6 - Mid-Boss", "Defeat the Mid-Boss on Stage 6 using 12 or less attack energy", points = 5,
+achievement("Revolving Sushi", "Defeat the Mid-Boss on Stage 6 using 12 or less attack energy", points = 5,
     trigger = Stage6_MidBoss()
 )
 
-achievement("Stage 6 - Boss", "Defeat the Boss on Stage 6 using 18 or less attack energy", points = 5,
+achievement("Dragon Roll", "Defeat the Boss on Stage 6 using 18 or less attack energy", points = 5,
     trigger = Stage6_Boss()
 )
 
-achievement("Stage 6 - Clear", "Clear Stage 6", points = 5, type = "progression",
+achievement("Moat of Flames", "Clear Stage 6", points = 5, type = "progression",
     trigger = Stage6_Clear()
 )
 
 // Stage 7
 
-achievement("Stage 7 - Yen", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3,
+achievement("Haunted Hoard", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3,
     trigger = Stage7_Yen()
 )
 
-achievement("Stage 7 - Secrets", "Find 2 hidden bonus rooms in Stage 7", points = 3,
+achievement("Lucky Devil", "Find 2 hidden bonus rooms in Stage 7", points = 3,
     trigger = Stage7_Secrets()
 )
 
-achievement("Stage 7 - Mid-Boss", "Defeat the Mid-Boss on Stage 7 using 14 or less attack energy", points = 10,
+achievement("Crispy Eye Roll", "Defeat the Mid-Boss on Stage 7 using 14 or less attack energy", points = 10,
     trigger = Stage7_MidBoss()
 )
 
-achievement("Stage 7 - Boss", "Defeat the Boss on Stage 7 using 14 or less attack energy", points = 10,
+achievement("Kiwami Omakase", "Defeat the Boss on Stage 7 using 14 or less attack energy", points = 10,
     trigger = Stage7_Boss()
 )
 
-achievement("Stage 7 - Clear", "Clear Stage 7", points = 10, type = "win_condition",
+achievement("Confrontation", "Clear Stage 7", points = 10, type = "win_condition",
     trigger = Stage7_Clear()
 )
 
 // Other
 
-achievement("Other - Yen Challenge", "Have a stock of 2000 or more Yen", points = 5,
+achievement("Deep Pockets", "Have a stock of 2000 or more Yen", points = 5,
     trigger = Other_YenChallenge()
 )
 
-achievement("Other - Combo Challenge", "Achieve a combo of 16x by defeating multiple enemies at once", points = 3,
+achievement("Well Oiled Machine", "Achieve a combo of 16x by defeating multiple enemies at once", points = 3,
     trigger = Other_ComboChallenge()
 )
 
-achievement("Other - Stopwatch", "Find and purchase a Stopwatch, and freeze all enemies in their tracks", points = 3,
+achievement("Kill Time", "Find and purchase a Stopwatch, and freeze all enemies in their tracks", points = 3,
     trigger = Other_Stopwatch()
 )
 
-achievement("Other - Heart", "Find and purchase a Heart, and refill your health", points = 3,
+achievement("Lock, Stock, and Barrel", "Find and purchase a Heart, and refill your health", points = 3,
     trigger = Other_Heart()
 )
 
-achievement("Other - Barrier", "Have a stock of 2000 or more Yen", points = 3,
+achievement("Play it Safe", "Find and purchase a Barrier, and temporarily protect yourself from damage", points = 3,
     trigger = Other_Barrier()
 )
 
-achievement("Other - Attack Refill 1", "Find and purchase an Attack Refill", points = 3,
+achievement("Extra Padding", "Find and purchase an Attack Refill", points = 3,
     trigger = Other_AttackRefill1()
 )
 
-achievement("Other - Attack Refill 2", "Have a stock of 2 Attack Refills", points = 5,
+achievement("All Decked Out", "Have a stock of 2 Attack Refills", points = 5,
     trigger = Other_AttackRefill2()
 )
 
-achievement("Other - Ochokotama 1", "Acquire a second Ochokotama Ball", points = 4,
+achievement("Two's Company", "Acquire a second Ochokotama Ball", points = 4,
     trigger = Other_Ochokotama1()
 )
 
-achievement("Other - Ochokotama 2", "Acquire a third Ochokotama Balls", points = 5,
+achievement("Three's a Party", "Acquire a third Ochokotama Balls", points = 5,
     trigger = Other_Ochokotama2()
 )
 

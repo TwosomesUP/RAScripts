@@ -1033,197 +1033,197 @@ function Other_Ochokotama2(){
 
 // Stage 1
 
-achievement("Phantom Fortune", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3,
+achievement("Phantom Fortune", "Collect 12 or more hidden Yen blocks in Stage 1", points = 3, id = 539843,
     trigger = Stage1_Yen()
 )
 
-achievement("Icing on the Cake", "Find 2 hidden bonus rooms in Stage 1", points = 3,
+achievement("Icing on the Cake", "Find 2 hidden bonus rooms in Stage 1", points = 3, id = 539844,
     trigger = Stage1_Secrets()
 )
 
-achievement("Rainbow Roll", "Defeat the Mid-Boss on Stage 1 using 10 or less attack energy", points = 5,
+achievement("Rainbow Roll", "Defeat the Mid-Boss on Stage 1 using 10 or less attack energy", points = 5, id = 539845,
     trigger = Stage1_MidBoss()
 )
 
-achievement("Onimaki", "Defeat the Boss on Stage 1 using 14 or less attack energy", points = 5,
+achievement("Onimaki", "Defeat the Boss on Stage 1 using 14 or less attack energy", points = 5, id = 539846,
     trigger = Stage1_Boss()
 )
 
-achievement("Hell's Gate", "Clear Stage 1", points = 3, type = "progression",
+achievement("Hell's Gate", "Clear Stage 1", points = 3, type = "progression", id = 539847,
     trigger = Stage1_Clear()
 )
 
 // Stage 2
 
-achievement("Wraith Riches", "Collect 7 or more hidden Yen blocks in Stage 2", points = 3,
+achievement("Wraith Riches", "Collect 7 or more hidden Yen blocks in Stage 2", points = 3, id = 539848,
     trigger = Stage2_Yen()
 )
 
-achievement("Lucky Streak", "Find 2 hidden bonus rooms in Stage 2", points = 3,
+achievement("Lucky Streak", "Find 2 hidden bonus rooms in Stage 2", points = 3, id = 539849,
     trigger = Stage2_Secrets()
 )
 
-achievement("Sashimi", "Defeat the Mid-Boss on Stage 2 using 16 or less attack energy", points = 5,
+achievement("Sashimi", "Defeat the Mid-Boss on Stage 2 using 16 or less attack energy", points = 5, id = 539850,
     trigger = Stage2_MidBoss()
 )
 
-achievement("Uramaki", "Defeat the Boss on Stage 2 using 10 or less attack energy", points = 5,
+achievement("Uramaki", "Defeat the Boss on Stage 2 using 10 or less attack energy", points = 5, id = 539851,
     trigger = Stage2_Boss()
 )
 
-achievement("Hell's Pit", "Clear Stage 2", points = 3, type = "progression",
+achievement("Hell's Pit", "Clear Stage 2", points = 3, type = "progression", id = 539852,
     trigger = Stage2_Clear()
 )
 
 // Stage 3
 
-achievement("Banshee Bucks", "Collect 20 or more hidden Yen blocks in Stage 3", points = 3,
+achievement("Banshee Bucks", "Collect 20 or more hidden Yen blocks in Stage 3", points = 3, id = 539853,
     trigger = Stage3_Yen()
 )
 
-achievement("Get a Leg Up", "Find 2 hidden bonus rooms in Stage 3", points = 3,
+achievement("Get a Leg Up", "Find 2 hidden bonus rooms in Stage 3", points = 3, id = 539854,
     trigger = Stage3_Secrets()
 )
 
-achievement("Futomaki", "Defeat the Mid-Boss on Stage 3 using 14 or less attack energy", points = 5,
+achievement("Futomaki", "Defeat the Mid-Boss on Stage 3 using 14 or less attack energy", points = 5, id = 539855,
     trigger = Stage3_MidBoss()
 )
 
-achievement("Uni-don", "Defeat the Boss on Stage 3 using 10 or less attack energy", points = 5,
+achievement("Uni-don", "Defeat the Boss on Stage 3 using 10 or less attack energy", points = 5, id = 539856,
     trigger = Stage3_Boss()
 )
 
-achievement("Sanzu River", "Clear Stage 3", points = 3, type = "progression",
+achievement("Sanzu River", "Clear Stage 3", points = 3, type = "progression", id = 539857,
     trigger = Stage3_Clear()
 )
 
 // Stage 4
 
-achievement("Goulish Gold", "Collect 7 or more hidden Yen blocks in Stage 4", points = 3,
+achievement("Goulish Gold", "Collect 7 or more hidden Yen blocks in Stage 4", points = 3, id = 539858,
     trigger = Stage4_Yen()
 )
 
-achievement("Hit the Jackpot", "Find 2 hidden bonus rooms in Stage 4", points = 3,
+achievement("Hit the Jackpot", "Find 2 hidden bonus rooms in Stage 4", points = 3, id = 539859,
     trigger = Stage4_Secrets()
 )
 
-achievement("Kappa Maki", "Defeat the Mid-Boss on Stage 4 using 14 or less attack energy", points = 5,
+achievement("Kappa Maki", "Defeat the Mid-Boss on Stage 4 using 14 or less attack energy", points = 5, id = 539860,
     trigger = Stage4_MidBoss()
 )
 
-achievement("Spider Roll", "Defeat the Boss on Stage 4 using 18 or less attack energy", points = 5,
+achievement("Spider Roll", "Defeat the Boss on Stage 4 using 18 or less attack energy", points = 5, id = 539861,
     trigger = Stage4_Boss()
 )
 
-achievement("Cave of Spikes", "Clear Stage 4", points = 5, type = "progression",
+achievement("Cave of Spikes", "Clear Stage 4", points = 5, type = "progression", id = 539862,
     trigger = Stage4_Clear()
 )
 
 // Stage 5
 
-achievement("Poltergeist Pennies", "Collect all 3 hidden Yen blocks in Stage 5", points = 3,
+achievement("Poltergeist Pennies", "Collect all 3 hidden Yen blocks in Stage 5", points = 3, id = 539863,
     trigger = Stage5_Yen()
 )
 
-achievement("Coming Up Roses", "Find the hidden bonus room in Stage 5", points = 3,
+achievement("Coming Up Roses", "Find the hidden bonus room in Stage 5", points = 3, id = 539864,
     trigger = Stage5_Secrets()
 )
 
-achievement("Aji Sashimi", "Defeat all 4 of the skeleton Mid-Bosses on Stage 5 using 40 or less attack energy", points = 10,
+achievement("Aji Sashimi", "Defeat all 4 of the skeleton Mid-Bosses on Stage 5 using 40 or less attack energy", points = 10, id = 539865,
     trigger = Stage5_MidBoss1()
 )
 
-achievement("Tsubugai Sushi", "Defeat the snail Mid-Boss on Stage 5 using 14 or less attack energy", points = 5,
+achievement("Tsubugai Sushi", "Defeat the snail Mid-Boss on Stage 5 using 14 or less attack energy", points = 5, id = 539866,
     trigger = Stage5_MidBoss2()
 )
 
-achievement("Spicy California Roll", "Defeat the Boss on Stage 5 using 16 or less attack energy", points = 5,
+achievement("Spicy California Roll", "Defeat the Boss on Stage 5 using 16 or less attack energy", points = 5, id = 539867,
     trigger = Stage5_Boss()
 )
 
-achievement("Blood Ponds", "Clear Stage 5", points = 5, type = "progression",
+achievement("Blood Ponds", "Clear Stage 5", points = 5, type = "progression", id = 539868,
     trigger = Stage5_Clear()
 )
 
 // Stage 6
 
-achievement("Specter Silver", "Collect 5 or more hidden Yen blocks in Stage 6", points = 3,
+achievement("Specter Silver", "Collect 5 or more hidden Yen blocks in Stage 6", points = 3, id = 539869,
     trigger = Stage6_Yen()
 )
 
-achievement("In the Groove", "Find 2 hidden bonus rooms in Stage 6", points = 3,
+achievement("In the Groove", "Find 2 hidden bonus rooms in Stage 6", points = 3, id = 539870,
     trigger = Stage6_Secrets()
 )
 
-achievement("Revolving Sushi", "Defeat the Mid-Boss on Stage 6 using 12 or less attack energy", points = 5,
+achievement("Revolving Sushi", "Defeat the Mid-Boss on Stage 6 using 12 or less attack energy", points = 5, id = 539871,
     trigger = Stage6_MidBoss()
 )
 
-achievement("Dragon Roll", "Defeat the Boss on Stage 6 using 18 or less attack energy", points = 5,
+achievement("Dragon Roll", "Defeat the Boss on Stage 6 using 18 or less attack energy", points = 5, id = 539872,
     trigger = Stage6_Boss()
 )
 
-achievement("Moat of Flames", "Clear Stage 6", points = 5, type = "progression",
+achievement("Moat of Flames", "Clear Stage 6", points = 5, type = "progression", id = 539873,
     trigger = Stage6_Clear()
 )
 
 // Stage 7
 
-achievement("Haunted Hoard", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3,
+achievement("Haunted Hoard", "Collect 14 or more hidden Yen blocks in Stage 7", points = 3, id = 539874,
     trigger = Stage7_Yen()
 )
 
-achievement("Lucky Devil", "Find 2 hidden bonus rooms in Stage 7", points = 3,
+achievement("Lucky Devil", "Find 2 hidden bonus rooms in Stage 7", points = 3, id = 539875,
     trigger = Stage7_Secrets()
 )
 
-achievement("Crispy Eye Roll", "Defeat the Mid-Boss on Stage 7 using 14 or less attack energy", points = 10,
+achievement("Crispy Eye Roll", "Defeat the Mid-Boss on Stage 7 using 14 or less attack energy", points = 10, id = 539876,
     trigger = Stage7_MidBoss()
 )
 
-achievement("Kiwami Omakase", "Defeat the Boss on Stage 7 using 14 or less attack energy", points = 10,
+achievement("Kiwami Omakase", "Defeat the Boss on Stage 7 using 14 or less attack energy", points = 10, id = 539877,
     trigger = Stage7_Boss()
 )
 
-achievement("Confrontation", "Clear Stage 7", points = 10, type = "win_condition",
+achievement("Confrontation", "Clear Stage 7", points = 10, type = "win_condition", id = 539878,
     trigger = Stage7_Clear()
 )
 
 // Other
 
-achievement("Deep Pockets", "Have a stock of 2000 or more Yen", points = 5,
+achievement("Deep Pockets", "Have a stock of 2000 or more Yen", points = 5, id = 539879,
     trigger = Other_YenChallenge()
 )
 
-achievement("Well Oiled Machine", "Achieve a combo of 16x by defeating multiple enemies at once", points = 3,
+achievement("Well Oiled Machine", "Achieve a combo of 16x by defeating multiple enemies at once", points = 3, id = 539880,
     trigger = Other_ComboChallenge()
 )
 
-achievement("Kill Time", "Find and purchase a Stopwatch, and freeze all enemies in their tracks", points = 3,
+achievement("Kill Time", "Find and purchase a Stopwatch, and freeze all enemies in their tracks", points = 3, id = 539881,
     trigger = Other_Stopwatch()
 )
 
-achievement("Lock, Stock, and Barrel", "Find and purchase a Heart, and refill your health", points = 3,
+achievement("Lock, Stock, and Barrel", "Find and purchase a Heart, and refill your health", points = 3, id = 539882,
     trigger = Other_Heart()
 )
 
-achievement("Play it Safe", "Find and purchase a Barrier, and temporarily protect yourself from damage", points = 3,
+achievement("Play it Safe", "Find and purchase a Barrier, and temporarily protect yourself from damage", points = 3, id = 539883,
     trigger = Other_Barrier()
 )
 
-achievement("Extra Padding", "Find and purchase an Attack Refill", points = 3,
+achievement("Extra Padding", "Find and purchase an Attack Refill", points = 3, id = 539884,
     trigger = Other_AttackRefill1()
 )
 
-achievement("All Decked Out", "Have a stock of 2 Attack Refills", points = 5,
+achievement("All Decked Out", "Have a stock of 2 Attack Refills", points = 5, id = 539885,
     trigger = Other_AttackRefill2()
 )
 
-achievement("Two's Company", "Acquire a second Ochokotama Ball", points = 4,
+achievement("Two's Company", "Acquire a second Ochokotama Ball", points = 4, id = 539886,
     trigger = Other_Ochokotama1()
 )
 
-achievement("Three's a Party", "Acquire a third Ochokotama Balls", points = 5,
+achievement("Three's a Party", "Acquire a third Ochokotama Balls", points = 5, id = 539887,
     trigger = Other_Ochokotama2()
 )
 

@@ -1,15 +1,22 @@
 == Progression ==
--- Vita Base Intro --
+-- Vita Base - Airlock 1 --
 	- Collect the Radio with each character and send a message
 	- Leave Decontamination with Kenzo (can't with Matlock/Karne)
+-- Vita Base - Madison Avenue --
 	- Acquire an Orange Tag and Micro-recorder from dead body on North Madison Avenue
 	- Unlock the Orange door and enter the Base Director's Quarters (Antonio Felicci)
+	
+-- Base Director's Quarters - Boulevard St. Michel --
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
  - Attempt to open the airlock with each character
  - Dump all luxury items for each character
  - Acquire the Piccolo Gun (Matlock)
+ - Beat the game with the Silve Bullet in your pocket (Karne)
+ - Try to leave the Decontamination Chamber with both Karne and Matlock?
+ - Decontaminate all 3 characters?
+ - Visit all map locations
 
 
 -- Other --

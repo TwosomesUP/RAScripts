@@ -1,0 +1,11 @@
+== 0x11d1cd + 0x11d1cf ==
+08-02: Airlock (Matlock)
+07-02: Airlock (Karne)
+07-01: Airlock (Kenzo)
+03-02: Decontamination (Kenzo)
+
+
+== 0x11d1de ==
+0x38: Airlock (Matlock)
+0x44: Airlock (Kenzo)
+0x4d: Airlock (Karne)

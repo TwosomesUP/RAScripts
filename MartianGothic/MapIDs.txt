@@ -6,6 +6,19 @@
 
 
 == 0x11d1de ==
+0x02: Boulevard St. Michel - Hallway 1
+0x03: Boulevard St. Michel - Hallway 2
+0x04: Madison Avenue - Hallway 3
+0x05: Madison Avenue - Hallway 1
+0x06: Madison Avenue - Hallway 2
+0x11: State Street - Hallway 1
+0x2d: Sunset Boulevard - Hallway 1
+0x34: State Street - Hallway 2
+0x35: Broadway - Hallway 2 (State Street Intersection)
+0x36: Broadway - Hallway 1
+0x37: Airlock (Matlock) - Decontamination Room
 0x38: Airlock (Matlock)
 0x44: Airlock (Kenzo)
+0x43: Airlock (Kenzo) - Decontamination Room
 0x4d: Airlock (Karne)
+0x4c: Airlock (Karne) - Decontamination Room

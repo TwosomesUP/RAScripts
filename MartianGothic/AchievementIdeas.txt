@@ -1,12 +1,63 @@
+** Progression Achievement
+++ Possible Challenge Achievement
+
 == Progression ==
--- Vita Base - Airlock 1 --
-	- Collect the Radio with each character and send a message
-	- Leave Decontamination with Kenzo (can't with Matlock/Karne)
--- Vita Base - Madison Avenue --
-	- Acquire an Orange Tag and Micro-recorder from dead body on North Madison Avenue
-	- Unlock the Orange door and enter the Base Director's Quarters (Antonio Felicci)
-	
--- Base Director's Quarters - Boulevard St. Michel --
+
+-- Section 1 - Airlocks --
+ - Collect Radios
+ - Use Radios
+ - Escape Madison Avenue as Kenzo **
+ - Collect Madison Avenue Orange Tag ++
+ - Collect Microcorder (Felicci) ++
+ - Unlock Director's Quarters with Orange Tag
+ - Unlock Computer
+ - Get Password: PANDORA ++
+ - Unlock Inocashira Douri Airlock
+ - Collect Key (MED)
+ - Collect Ben Gunn #1 Note and get password: PARK LANE ++
+ - Escape the Inocashira Douri Airlock as Karne **
+ - Get Watch Passwords: 4864, 3172, 2915
+ - Collect Park Lane Green Tag ++
+ - Unlock Gymnasium with Green Tag
+ - Get Paperclip from Notes
+ - Get Bible Password: WORMWOOD
+ - Collect Mars Hopper
+ - Collect Belt
+ - Collect Gym Green Tag ++
+ - Collect Gym Dorm #1 Tag ++
+ - Unlock Washroom with Green Tag
+ - Collect Vibro-scour
+ - Collect Washroom Green Tag ++
+ - Collect Washroom Purple Tag ++
+ - Collect Arboretum Code
+ - Unlock Recreation Room with Green Tag
+ - Collect Pop-Gun
+ - Collect Biosensor ++
+ - Collect Desk Key
+ - Collect Magnetic Checker
+ - Collect Extra Green Tag ++
+ - Unlock Study with Purple Tag
+ - Collect Blue Tag
+ - Unlock Arboretum **
+ - Collect Gun ++
+ - Collect Blue Tag ++
+ - Collect Microcorder (Tierney)
+ - Collect Book in Study
+ - Unlock Time Square Airlock with Tierney's Code
+ - Escape the Time Square Airlock as Matlock **
+ 
+-- Section 2 - Arboretum and Power Core --
+ - Collect Hacksaw
+ - Collect Microcorder
+ - Collect Brown Tag
+ - Unlock Chem Lab with the Brown Tag
+ - Collect Martian Rock
+
+-- Section 3 - The Dorms --
+
+-- Section 4 - The Nectropolis --
+
+
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
@@ -24,4 +75,5 @@
  - Kick X zombies while they're down
  - Find all Micro-recorders
 	- 1 in Vita Base Intro (Antonio Felicci)
+ - Listen to all Martian Mayhem scenes
 

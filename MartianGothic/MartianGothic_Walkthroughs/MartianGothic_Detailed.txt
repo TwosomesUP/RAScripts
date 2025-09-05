@@ -1,0 +1,289 @@
+== Air Locks ==  
+ -- All --  
+ - Store personal items in each Storage Locker  
+ - Collect radios from helmets  
+
+ -- Matlock --  
+ - Collect Piccolo and Piccolo (Ammo) from Locker  
+
+ -- Kenzo --  
+ - Use radio  
+ - Enter contamination chamber and activate it  
+ - Collect Orange Tag + Felicci’s Microcorder on Boulevard St Michel 1  
+ - Head toward the Orange Door on Boulevard St. Michel 2  
+ - Unlock Orange Door  
+
+== Orange Door, Boulevard St. Michel - Director’s Quarters ==  
+ -- Kenzo --  
+ - Collect Piccolo (Ammo) from corpse  
+ - Use Felicci’s Microcorder to log into computer  
+ - Receive password: **PANDORA**  
+ - Save game  
+ - Use computer to release locks (Karne free, Matlock still locked)  
+ - Escape zombie  
+ - Store Microcorder in hatch outside Orange Door  
+ - Collect Health Boost from Broadway hatch  
+ - Collect MED Key on State Street  
+ - Collect Ben Gunn #1 Note from Vac-tube on Sunset Boulevard  
+ - Receive password: **PARK LANE**  
+ - Switch to Karne  
+
+ -- Karne --  
+ - Walk down hall until watch stops  
+ - Check watch → passwords: **4864**, **3172**, **2915**  
+ - Continue to Park Lane  
+ - Unlock hatch with **4864** → collect Green Tag  
+ - Send Green Tag to Kenzo via Vac-tube  
+ - Switch to Kenzo  
+
+ -- Kenzo --  
+ - Collect Green Tag from Vac-tube  
+ - Head to State Street → unlock Green Door (Gymnasium)  
+
+== Green Door, State Street - Gymnasium ==  
+ -- Kenzo --  
+ - Search hanging body → Notes (Paperclip)  
+ - Examine Bible → password: **WORMWOOD**  
+ - Collect Mars Hopper from floor  
+ - Collect Belt from Exercise Bike  
+ - Return to Sunset Boulevard → unlock Green Door (Washroom)  
+
+== Green Door, Sunset Boulevard - Washroom ==  
+ -- Kenzo --  
+ - Search bodies  
+ - Open lockers → store Bible, Microcorder, Notes  
+ - Collect items  
+ - Send Vibro-scour, Paperclip, and Tags to Karne  
+ - Switch to Karne  
+
+ -- Karne --  
+ - Collect items from Vac-tube  
+ - Head to Inocashira Douri → unlock Green Door → enter Recreation Room  
+
+== Green Door, Inocashira Douri - Recreation Room ==  
+ -- Karne --  
+ - Collect Pop-Gun + Biosensor from table  
+ - Examine Music Box → collect Desk Key  
+ - Pick locked box with Paperclip → Magnetic Checker + Dillinger Ammo  
+ - (Optional: Search body for extra Green Tag)  
+ - Head to Park Lane → unlock Purple Door (Study)  
+
+== Purple Door, Park Lane - Study ==  
+ -- Karne --  
+ - Unlock Desk → Blue Tag  
+ - Save using computer  
+ - Use watch codes to read restricted files  
+ - Book drops (collect later)  
+ - Head to Arboretum (Park Lane) → unlock with Washroom code  
+
+== Arboretum, Park Lane ==  
+ -- Karne --  
+ - Search dead body on bench → collect items  
+ - Lure zombie near garden shed, kill + loot → Gun, Blue Tag, Microcorder (Tierney)  
+ - Examine Green Door (Trimorph blocking)  
+ - Return to Study (Purple Door) → collect dropped book  
+ - Send Piccolo Gun, Remote Control, Magnetic Checker, Blue Tags to Kenzo  
+ - Wait at Arboretum door → switch to Kenzo  
+
+ -- Kenzo --  
+ - Collect items from Vac-tube  
+ - Send MED Key, Blue Tags, Belt to Matlock via Vac-tube  
+ - Return to Director’s Room (Orange Door) → enter  
+ - Kill zombie  
+ - Use Tierney’s Microcorder code to free Matlock  
+ - Switch to Matlock  
+
+ -- Matlock --  
+ - Exit Airlock → head east  
+ - Collect Hacksaw from hatch  
+ - Collect Microcorder + Brown Tag from corpse (Piccadilly Circus)  
+ - Unlock Brown Door (Chem Lab) → enter  
+
+== Brown Door, Piccadilly Circus - Chem Lab ==  
+ -- Matlock --  
+ - Collect items from Vac-tube (Martian Rock, MED Key, Tags, Belt)  
+ - Store Hacksaw in Vac-tube (for Karne)  
+ - Store Martian Rock + Belt in locker  
+ - Collect Flask + Biosensor → store in outside hatch  
+ - Lure zombie to Times Square, kill for safety  
+ - Unlock Eastern Blue Door (Piccadilly Circus) → collect Microcorder, Locker Key, Dorm #1 Key, Yellow Tag  
+ - Unlock Southern Blue Door (Piccadilly Circus) → head toward Med Lab  
+
+== Med Lab, Piccadilly Circus ==  
+ -- Matlock --  
+ - Use Chemical Extractor → create health/antitoxin  
+ - Collect Blue Tag from locker  
+ - Collect 4 syringes (for blood samples later)  
+ - Use computer → hear Harroway’s message  
+
+== Arboretum - Garden Shed & Air Recycling Center (ARC) ==
+ -- Karne --
+ - Collect Hacksaw from Vac-tube (sent by Matlock)
+ - Return to Arboretum shed → cut chain, collect Weed Killer Gun + Gloves
+ - Send empty cartridge to Matlock
+ - Matlock fills cartridge in Chem Lab with Hydrochloric Acid
+ - Send cartridge back to Karne → load Weed Killer Gun
+ - Use on Trimorph blocking Air Recycling Center
+ - Collect Bicycle Pump + Respirator Mask inside shed
+ - Enter Air Recycling Center (ARC)
+ - Clean filter with Vibro-scour
+ - Restore power and restart fan
+ - Collect Oily Rag + Nail Gun + Ammo
+ - Send Oily Rag to Matlock; Yellow Tag, Pump, Mask, and Desk Key to Kenzo
+
+== Yellow Door - MOOD Chamber ==
+ -- Kenzo --
+ - Use Desk Key in Director’s Quarters → collect Silver Bell
+ - Kill floating zombie, search body → Electric Screwdriver
+ - Use screwdriver on air duct → collect Remote-Control Car
+ - Send Magnetic Checker with car to free space
+ - Patch wall breach: Mars Hopper + Bicycle Pump + Mask
+ - Enter MOOD chamber and talk with MOOD
+ - Requirement: Replace Receptor Panel in Power Core
+
+== Power Core (Times Square, North Door) ==
+ -- Matlock --
+ - Create Nitro bomb (Flask + Rag + Lighter) → blast jammed door
+ - Enter Power Core
+ - Need fingerprint ID:
+   - Kenzo cuts Jamison’s hand with Hacksaw in Washroom
+   - Sends severed hand + screwdriver to Matlock
+ - Matlock replaces Receptor Panel
+ - Restore power
+ - Return to MOOD → give password “PARK LANE”
+ - Use VR chair → raise bulkheads, unlock Vita Base
+
+== Dorm #1 ==
+ -- Matlock --
+ - Kill zombies
+ - Use Locker Key → collect Notes (Oda, Pickman), Ammo, Martian Rock
+ - Unlock vent (to Shuttle Bay) but don’t enter yet (Trimorph trap)
+ - Use hangar doors + Kenzo with VR map to trap Trimorph
+ - Enter Shuttle Bay
+
+== Shuttle Bay ==
+ -- Matlock --
+ - Collect Dillinger Gun, Ammo, Welding Torch, Grey Tag, Microrecorders
+ - Learn colonists needed 2 people to launch rocket
+ - Send Welding Torch to Karne
+
+== Kitchen ==
+ -- Karne --
+ - Use Welding Torch to cut lock
+ - Enter Kitchen, meet Ben Gunn
+ - Ben demands Pumice Stone in exchange for Red Tag
+
+== Dorm #2 ==
+ -- Kenzo --
+ - Collect Pumice Stone, Ammo
+ - Return to Kitchen, trade stone with Ben Gunn for Red Tag
+
+== Dormitory Area ==
+ -- Matlock --
+ - Fight zombies in confined space
+ - Collect Dorm #3 Tag, Ammo, Screwdriver
+ - Enter Dorm #3
+
+== Dorm #3 ==
+ -- Kenzo --
+ - Carefully collect Resonator, Screwdriver, and send via Vac-tube
+ - Optional: Use Buggy + Magnetic Checker → collect Spectrometer
+ - Kill Trimorph later with Flare Gun (after Airlock #2)
+ - Send Pumice Stone to Karne → trade with Ben Gunn → gain Red Tag
+
+== Geo Lab ==
+ -- Matlock --
+ - Statue causes psychic damage every few minutes
+ - Collect Shaped Rock + Martian Rocks, cut them with Rock Cutter
+ - Place rocks in statue slots
+ - Use Rover to retrieve missing rock (C6 coordinate)
+ - Place last shaped rock, use Resonator → break psychic curse
+
+== Bio Lab ==
+ -- Matlock --
+ - Collect White Tag, Notes, Ammo
+ - Later: Use Scalpel to cut web, explore back area
+ - Collect Centrifuge, Microscope, Ben Gunn’s blood sample
+ - Begin cure research
+
+== Mai Lin’s Quarters ==
+ -- Kenzo --
+ - Collect Diabolus Gun, Ammo, Needle & Thread
+ - Use Spiritus Remote → shut off fireplace → collect Black Tag
+ - Send Black Tag to Matlock
+ 
+== Necropolis Elevator ==
+ -- Karne --
+ - Blocked by Trimorph guarding elevator
+ - Collect Laser Scalpel from corpse
+ - Return later with Flare Gun to kill Trimorph
+
+== Rainbow Room - Project Director’s Quarters ==
+ -- Matlock --
+ - Find Judith Harroway’s body → collect Rainbow Tag + Desk Key
+ - Use computer → story revelations about Karne & Harroway
+ - Unlock Kremlin access
+
+== Kremlin ==
+ -- Karne & Matlock --
+ - Collect Flare Bolts, Contact Lenses, Painting data (Spectrometer)
+ - Use Pop-Gun trick to hit simultaneous switches with partner
+ - Activate computer, receive Erebus printout password
+ - Karne reveals true identity
+
+== Airlock #2 ==
+ -- Matlock --
+ - Use Screwdriver to repair panel → lure Trimorph out
+ - Use Scarab + Book of Egypt to trigger voice command door
+ - Trap Trimorph in chamber, eject into space
+ - Collect Flare Gun (now can kill Trimorphs permanently)
+
+== Dorm #3 (Return) ==
+ -- Kenzo --
+ - Use Flare Gun → kill Trimorph guarding Spectrometer + Psionarra path
+ - Collect Spectrometer (if not earlier)
+ - Collect Psionarra (Kenzo only psychic weapon, watch code unlock)
+
+== Lonely Street & Storage ==
+ -- Kenzo --
+ - Fight Dillinger zombie, disarm him
+ - Collect Storage Key, open Storage Room → Crank + Silver Case
+ - Enter watch code → Psionarra (3172)
+
+== Necropolis (via Black Door Elevator) ==
+ -- Matlock --
+ - Kill Trimorph with Flare Gun
+ - Repair elevator with Belt
+ - Use Erebus printout to descend into Necropolis
+ - Explore 4 Points:
+   - Pit Chamber (Monkey Wrench, Storage Code)
+   - Arena Site (Chorus artifact, Palmtop Computer)
+   - Obelisk (Trimorph charges Chorus, then kill it)
+   - North Chamber/Altar (use Chorus at Altar → Grey Tag Dorm #4)
+
+== Dorm #4 (Arkham Dorm) ==
+ -- Kenzo --
+ - Solve puzzles (Oda note + Spectrometer data)
+ - Collect Airlock #5 code + Heart of Stone
+
+== Airlock #5 & Whittaker’s Grave ==
+ -- Kenzo --
+ - Kill ghost zombie with Psionarra
+ - Collect Hourglass + Red Sand
+ - Defeat Whittaker → combine items → restore Arkham Dorm
+ - Obtain Heart of Stone → Flesh Heart
+
+== Regal Tomb ==
+ -- Karne --
+ - Place Flesh Heart in Sarcophagus → awaken Queen Mab (Sovereign)
+
+== Final Boss – Queen Mab ==
+ -- All Characters --
+ - Use Chorus, Resonator, Psionarra, and Flare Gun to weaken and kill her
+
+== Escape & Ending ==
+ -- Team --
+ - Return to Shuttle Bay
+ - Use rocket (requires two survivors minimum)
+ - Launch escape sequence
+ - Ending cutscenes resolve Karne’s motives, Harroway’s role, and fate of contagion

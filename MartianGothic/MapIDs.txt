@@ -12,7 +12,11 @@
 	- Picollo Ammo
 0x2d: Sunset Boulevard 1
 	- Note (Ben Gunn #1)
+0x30: Park Lane 2
 0x31: Park Lane 1
+	- Green Tag
+	- Health Boost
+	- Anitoxin
 0x32: Inocashira Douri 2
 0x33: Inocashira Douri 1
 0x34: State Street 2
@@ -20,15 +24,21 @@
 0x36: Broadway 1
 	- Hatch
 	- Health Boost
-0x37: Time Square - Decontamination Room
-0x38: Time Square - Airlock
+0x37: Time Square - Decontamination Room 1
+0x38: Time Square - Airlock 1
 	- Raio
 	- Picollo
 	- Picollo Ammo
-0x43: Madison Avenue - Decontamination Room
-0x44: Madison Avenue - Airlock
+0x39: State Street - Gymnasium
+	- Deflated Mars Hopper
+	- Green Tag
+	- Notes
+	- Bible
+	- Microcorder (Dieta Mentz)
+0x43: Madison Avenue - Decontamination Room 4
+0x44: Madison Avenue - Airlock 4
 	- Radio
-0x4c: Inocashira Douri - Decontamination Room
-0x4d: Inocashira Douri - Airlock
+0x4c: Inocashira Douri - Decontamination Room 3
+0x4d: Inocashira Douri - Airlock 3
 	- Radio
 0x79: Inocashira Douri 3

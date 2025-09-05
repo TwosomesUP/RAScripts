@@ -31,9 +31,9 @@
  -- Karne --  
  - Walk down hall until watch stops  
  - Check watch → passwords: **4864**, **3172**, **2915**  
- - Continue to Park Lane  
- - Unlock hatch with **4864** → collect Green Tag  
- - Send Green Tag to Kenzo via Vac-tube  
+ - Continue to Park Lane 1
+ - Unlock Park Lane 1 hatch with **4864** → collect Green Tag, Health Boost, Antitoxin  
+ - Send Green Tag to Kenzo via Park Lane 1 Vac-tube  
  - Switch to Kenzo  
 
  -- Kenzo --  
@@ -42,8 +42,8 @@
 
 == Green Door, State Street - Gymnasium ==  
  -- Kenzo --  
- - Search hanging body → Notes (Paperclip)  
- - Examine Bible → password: **WORMWOOD**  
+ - Search hanging body → Notes (Paperclip), Bible, Microcorder (Mentz), Green Tag
+ - Examine Bible → password: **WORMWOOD**
  - Collect Mars Hopper from floor  
  - Collect Belt from Exercise Bike  
  - Return to Sunset Boulevard → unlock Green Door (Washroom)  

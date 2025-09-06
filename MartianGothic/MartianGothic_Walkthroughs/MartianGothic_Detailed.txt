@@ -45,15 +45,16 @@
  - Search hanging body → Notes (Paperclip), Bible, Microcorder (Mentz), Green Tag
  - Examine Bible → password: **WORMWOOD**
  - Collect Mars Hopper from floor  
- - Collect Belt from Exercise Bike  
+ - Collect Drive Belt from Exercise Bike  
  - Return to Sunset Boulevard → unlock Green Door (Washroom)  
 
 == Green Door, Sunset Boulevard - Washroom ==  
  -- Kenzo --  
- - Search bodies  
- - Open lockers → store Bible, Microcorder, Notes  
- - Collect items  
- - Send Vibro-scour, Paperclip, and Tags to Karne  
+ - Search stall corpse → Purple Tag, Passcode (Arboretum)
+ - Open lockers → Green Tag, Vibro-scourer, Note (Power Core Request), Green Tag (Dorm 2), Antitoxin 
+ - Examine Passcode (Arboretum): 3376
+ - Store → store Bible, Microcorder, Notes  
+ - Send Vibro-scour, Paperclip, and Green and Purple Tags to Karne (Keep Dorm Tag)
  - Switch to Karne  
 
  -- Karne --  

@@ -29,15 +29,17 @@
 	- Raio
 	- Picollo
 	- Picollo Ammo
-0x39: State Street - Gymnasium
+0x39: State Street - Gymnasium (Green Door)
 	- Deflated Mars Hopper
 	- Green Tag
 	- Notes
 	- Bible
 	- Microcorder (Dieta Mentz)
+0x3d: Inocashira Douri - Recreation Room (Green Door)
 0x43: Madison Avenue - Decontamination Room 4
 0x44: Madison Avenue - Airlock 4
 	- Radio
+0x47: Sunset Boulevard - Washroom (Green Door)
 0x4c: Inocashira Douri - Decontamination Room 3
 0x4d: Inocashira Douri - Airlock 3
 	- Radio

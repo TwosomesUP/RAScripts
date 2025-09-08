@@ -19,8 +19,10 @@ class InventoryOffsets {
 }
 
 class Inventory {
+    type = byte(0x1365b8)
     state = byte(0x1365dc)
     index = byte(0x1365b9)
+    items = byte(0x1365ab)
 
     start = 0x1365e0
     slots = 18
@@ -32,7 +34,11 @@ class Inventory {
     function IsOpen() {
         return this.state != 0
     }
-
+    
+    function IsBrowsingStorage(){
+        return this.type == 8
+    }
+    
     function GetSelectedItem() {
         startAddress = this.start + (this.size * game.player.character)
         slotAddress = startAddress + (this.index * this.slotSize)
@@ -48,14 +54,53 @@ class Inventory {
     }
 }
 
+class Storage {
+    infoBase = 0x1373e0
+    storageBase = 0x137688
+    slotSize = 56
+
+    infoIndex = word(0x10f578)
+    infoOffset = infoIndex * 2
+    
+    objectIndex = word(infoBase + infoOffset)
+    objectOffset = objectIndex * slotSize
+    
+    objectBase = storageBase + objectOffset
+    
+    function IsOpen(){
+        return this.infoIndex != 0xff
+    }
+    
+    function GetSelectedItem(prevIndex = false){
+        index = game.inventory.index
+        if (prevIndex)
+            index = prev(index)
+    
+        slotAddress = this.objectBase + (index * game.inventory.slotSize)
+        itemAddress = slotAddress + game.inventory.offsets.name
+        return byte(itemAddress)
+    }
+    
+    function GetSplitAddress(){
+        base = this.objectBase - 0x130000
+        b0 = base - (base / 256) * 256 
+        b1 = base / 256
+        return [b1, b0]
+    }
+    
+    function CollectedItem(id){
+        return this.IsOpen() && game.inventory.IsOpen() && 
+            prev(this.GetSelectedItem()) == id && 
+            this.GetSelectedItem() != id &&
+            prev(game.inventory.items) < game.inventory.items
+    }
+}
+
 class Game {
     player = Player()
     map = Map()
     inventory = Inventory()
-
-    function Test(){
-        p = this.player
-    }
+    storage = Storage()
 }
 
 // Lookups
@@ -103,7 +148,7 @@ class Lookups {
         0x1e: "0x1e", 0x1f: "0x1f", 0x20: "0x20", 0x21: "0x21", 0x22: "0x22", 0x23: "0x23", 0x24: "0x24", 0x25: "0x25", 0x26: "0x26", 0x27: "0x27",
         0x28: "0x28", 0x29: "0x29", 0x2a: "0x2a", 0x2b: "0x2b", 0x2c: "0x2c", 0x2d: "0x2d", 0x2e: "0x2e", 0x2f: "0x2f", 0x30: "0x30", 0x31: "0x31",
         0x32: "0x32", 0x33: "0x33", 0x34: "0x34", 0x35: "0x35", 0x36: "0x36", 0x37: "0x37", 0x38: "0x38", 0x39: "0x39", 0x3a: "0x3a Drive Belt", 0x3b: "0x3b",
-        0x3c: "0x3c", 0x3d: "0x3d", 0x3e: "Watch", 0x3f: "Satsuma", 0x40: "Nicotine Patch", 0x41: "0x41 Contact Lense", 0x42: "0x42 Lipstick", 0x43: "0x43 Booklet", 0x44: "0x44 Photo (Matlock)", 0x45: "0x45 Letter",
+        0x3c: "0x3c", 0x3d: "0x3d", 0x3e: "0x3e Watch", 0x3f: "0x3f Satsuma", 0x40: "0x40 Nicotine Patch", 0x41: "0x41 Contact Lense", 0x42: "0x42 Lipstick", 0x43: "0x43 Booklet", 0x44: "0x44 Photo (Matlock)", 0x45: "0x45 Letter",
         0x46: "0x46 Silver Bullet", 0x47: "0x47 Wrapper", 0x48: "0x48", 0x49: "0x49", 0x4a: "0x4a", 0x4b: "0x4b", 0x4c: "0x4c", 0x4d: "0x4d", 0x4e: "0x4e", 0x4f: "0x4f",
         0x50: "0x50", 0x51: "0x51", 0x52: "0x52 Orange Tag", 0x53: "0x53 Purple Tag", 0x54: "0x54", 0x55: "0x55", 0x56: "0x56", 0x57: "0x57", 0x58: "0x58", 0x59: "0x59",
         0x5a: "0x5a", 0x5b: "0x5b Piccolo", 0x5c: "0x5c", 0x5d: "0x5d", 0x5e: "0x5e", 0x5f: "0x5f", 0x60: "0x60", 0x61: "0x61", 0x62: "0x62", 0x63: "0x63",
@@ -124,6 +169,35 @@ class Lookups {
         0xf0: "0xf0", 0xf1: "0xf1", 0xf2: "0xf2", 0xf3: "0xf3", 0xf4: "0xf4", 0xf5: "0xf5 Note (Power Core Request)", 0xf6: "0xf6", 0xf7: "0xf7", 0xf8: "0xf8", 0xf9: "0xf9",
         0xfa: "0xfa", 0xfb: "0xfb", 0xfc: "0xfc", 0xfd: "0xfd", 0xfe: "0xfe", 0xff: "N/A"
     }
+    
+    hex = {
+        0x00: "00", 0x01: "01", 0x02: "02", 0x03: "03", 0x04: "04", 0x05: "05", 0x06: "06", 0x07: "07", 0x08: "08", 0x09: "09",
+        0x0a: "0a", 0x0b: "0b", 0x0c: "0c", 0x0d: "0d", 0x0e: "0e", 0x0f: "0f", 0x10: "10", 0x11: "11", 0x12: "12", 0x13: "13",
+        0x14: "14", 0x15: "15", 0x16: "16", 0x17: "17", 0x18: "18", 0x19: "19", 0x1a: "1a", 0x1b: "1b", 0x1c: "1c", 0x1d: "1d",
+        0x1e: "1e", 0x1f: "1f", 0x20: "20", 0x21: "21", 0x22: "22", 0x23: "23", 0x24: "24", 0x25: "25", 0x26: "26", 0x27: "27",
+        0x28: "28", 0x29: "29", 0x2a: "2a", 0x2b: "2b", 0x2c: "2c", 0x2d: "2d", 0x2e: "2e", 0x2f: "2f", 0x30: "30", 0x31: "31",
+        0x32: "32", 0x33: "33", 0x34: "34", 0x35: "35", 0x36: "36", 0x37: "37", 0x38: "38", 0x39: "39", 0x3a: "3a", 0x3b: "3b",
+        0x3c: "3c", 0x3d: "3d", 0x3e: "3e", 0x3f: "3f", 0x40: "40", 0x41: "41", 0x42: "42", 0x43: "43", 0x44: "44", 0x45: "45",
+        0x46: "46", 0x47: "47", 0x48: "48", 0x49: "49", 0x4a: "4a", 0x4b: "4b", 0x4c: "4c", 0x4d: "4d", 0x4e: "4e", 0x4f: "4f",
+        0x50: "50", 0x51: "51", 0x52: "52", 0x53: "53", 0x54: "54", 0x55: "55", 0x56: "56", 0x57: "57", 0x58: "58", 0x59: "59",
+        0x5a: "5a", 0x5b: "5b", 0x5c: "5c", 0x5d: "5d", 0x5e: "5e", 0x5f: "5f", 0x60: "60", 0x61: "61", 0x62: "62", 0x63: "63",
+        0x64: "64", 0x65: "65", 0x66: "66", 0x67: "67", 0x68: "68", 0x69: "69", 0x6a: "6a", 0x6b: "6b", 0x6c: "6c", 0x6d: "6d",
+        0x6e: "6e", 0x6f: "6f", 0x70: "70", 0x71: "71", 0x72: "72", 0x73: "73", 0x74: "74", 0x75: "75", 0x76: "76", 0x77: "77",
+        0x78: "78", 0x79: "79", 0x7a: "7a", 0x7b: "7b", 0x7c: "7c", 0x7d: "7d", 0x7e: "7e", 0x7f: "7f", 0x80: "80", 0x81: "81",
+        0x82: "82", 0x83: "83", 0x84: "84", 0x85: "85", 0x86: "86", 0x87: "87", 0x88: "88", 0x89: "89", 0x8a: "8a", 0x8b: "8b",
+        0x8c: "8c", 0x8d: "8d", 0x8e: "8e", 0x8f: "8f", 0x90: "90", 0x91: "91", 0x92: "92", 0x93: "93", 0x94: "94", 0x95: "95",
+        0x96: "96", 0x97: "97", 0x98: "98", 0x99: "99", 0x9a: "9a", 0x9b: "9b", 0x9c: "9c", 0x9d: "9d", 0x9e: "9e", 0x9f: "9f",
+        0xa0: "a0", 0xa1: "a1", 0xa2: "a2", 0xa3: "a3", 0xa4: "a4", 0xa5: "a5", 0xa6: "a6", 0xa7: "a7", 0xa8: "a8", 0xa9: "a9",
+        0xaa: "aa", 0xab: "ab", 0xac: "ac", 0xad: "ad", 0xae: "ae", 0xaf: "af", 0xb0: "b0", 0xb1: "b1", 0xb2: "b2", 0xb3: "b3",
+        0xb4: "b4", 0xb5: "b5", 0xb6: "b6", 0xb7: "b7", 0xb8: "b8", 0xb9: "b9", 0xba: "ba", 0xbb: "bb", 0xbc: "bc", 0xbd: "bd",
+        0xbe: "be", 0xbf: "bf", 0xc0: "c0", 0xc1: "c1", 0xc2: "c2", 0xc3: "c3", 0xc4: "c4", 0xc5: "c5", 0xc6: "c6", 0xc7: "c7",
+        0xc8: "c8", 0xc9: "c9", 0xca: "ca", 0xcb: "cb", 0xcc: "cc", 0xcd: "cd", 0xce: "ce", 0xcf: "cf", 0xd0: "d0", 0xd1: "d1",
+        0xd2: "d2", 0xd3: "d3", 0xd4: "d4", 0xd5: "d5", 0xd6: "d6", 0xd7: "d7", 0xd8: "d8", 0xd9: "d9", 0xda: "da", 0xdb: "db",
+        0xdc: "dc", 0xdd: "dd", 0xde: "de", 0xdf: "df", 0xe0: "e0", 0xe1: "e1", 0xe2: "e2", 0xe3: "e3", 0xe4: "e4", 0xe5: "e5",
+        0xe6: "e6", 0xe7: "e7", 0xe8: "e8", 0xe9: "e9", 0xea: "ea", 0xeb: "eb", 0xec: "ec", 0xed: "ed", 0xee: "ee", 0xef: "ef",
+        0xf0: "f0", 0xf1: "f1", 0xf2: "f2", 0xf3: "f3", 0xf4: "f4", 0xf5: "f5", 0xf6: "f6", 0xf7: "f7", 0xf8: "f8", 0xf9: "f9",
+        0xfa: "fa", 0xfb: "fb", 0xfc: "fc", 0xfd: "fd", 0xfe: "fe", 0xff: "ff"
+    }
 }
 
 // Globals
@@ -138,11 +212,31 @@ rich_presence_conditional_display(!game.inventory.IsOpen(), "{0} || Location: {1
     rich_presence_lookup("Location", game.map.id, lookups.map)
 )
 
-rich_presence_conditional_display(game.inventory.IsOpen(), "{0} || Location: {1} || Slot {2}: {3}",
+rich_presence_conditional_display(game.inventory.IsOpen() && !game.storage.IsOpen(), "{0} || Location: {1} || Slot {2}: {3}",
     rich_presence_lookup("Character", game.player.character, lookups.character),
     rich_presence_lookup("Location", game.map.id, lookups.map),
     rich_presence_value("InventorySlot", game.inventory.index),
     rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item)
 )
 
+rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && !game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Storage Start: 0x13{4}{5} || Inventory Slot {2}: {3}",
+    rich_presence_lookup("Character", game.player.character, lookups.character),
+    rich_presence_lookup("Location", game.map.id, lookups.map),
+    rich_presence_value("InventorySlot", game.inventory.index),
+    rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex)
+)
+
+rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Storage Start: 0x13{4}{5} || Storage Slot {2}: {3}",
+    rich_presence_lookup("Character", game.player.character, lookups.character),
+    rich_presence_lookup("Location", game.map.id, lookups.map),
+    rich_presence_value("InventorySlot", game.inventory.index),
+    rich_presence_lookup("InventoryItem", game.storage.GetSelectedItem(), lookups.item),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex)
+)
+
 rich_presence_display("Nothing Here")
+
+achievement("test", "Test", points= 1, trigger = game.storage.CollectedItem(0x46))

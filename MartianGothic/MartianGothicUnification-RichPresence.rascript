@@ -10,7 +10,7 @@ class Player {
 }
 
 class Map {
-    id = byte(0x11d1de)
+    id = byte(0x10b5d4)
 }
 
 class InventoryOffsets {
@@ -59,10 +59,14 @@ class Storage {
     storageBase = 0x137688
     slotSize = 56
 
-    infoIndex = word(0x10f578)
+    infoIndex = byte(0x10f578)
     infoOffset = infoIndex * 2
     
-    objectIndex = word(infoBase + infoOffset)
+    objectIndexAddress = infoBase + infoOffset
+    objectIndex = word(objectIndexAddress)
+    
+    objectCountAddress = objectIndexAddress + 0x154
+    objectCount = word(objectCountAddress)
     objectOffset = objectIndex * slotSize
     
     objectBase = storageBase + objectOffset
@@ -82,10 +86,19 @@ class Storage {
     }
     
     function GetSplitAddress(){
-        base = this.objectBase - 0x130000
-        b0 = base - (base / 256) * 256 
-        b1 = base / 256
-        return [b1, b0]
+        base1 = this.objectIndexAddress - 0x130000
+        b0 = base1 - (base1 / 256) * 256 
+        b1 = base1 / 256
+        
+        base2 = this.objectCountAddress - 0x130000
+        b2 = base2 - (base2 / 256) * 256 
+        b3 = base2 / 256
+        
+        base3 = this.objectBase - 0x130000
+        b4 = base3 - (base3 / 256) * 256 
+        b5 = base3 / 256
+        
+        return [b1, b0, b3, b2, b5, b4]
     }
     
     function CollectedItem(id){
@@ -219,22 +232,30 @@ rich_presence_conditional_display(game.inventory.IsOpen() && !game.storage.IsOpe
     rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item)
 )
 
-rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && !game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Storage Start: 0x13{4}{5} || Inventory Slot {2}: {3}",
+rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && !game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || SO Index: 0x13{4}{5} || SO Count: 0x13{6}{7} || SO Base: 0x13{8}{9} || Inventory Slot {2}: {3}",
     rich_presence_lookup("Character", game.player.character, lookups.character),
     rich_presence_lookup("Location", game.map.id, lookups.map),
     rich_presence_value("InventorySlot", game.inventory.index),
     rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item),
     rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex)
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[2], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[3], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[4], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[5], lookups.hex)
 )
 
-rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Storage Start: 0x13{4}{5} || Storage Slot {2}: {3}",
+rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || SO Index: 0x13{4}{5} || SO Count: 0x13{6}{7} || SO Base: 0x13{8}{9} || Storage Slot {2}: {3}",
     rich_presence_lookup("Character", game.player.character, lookups.character),
     rich_presence_lookup("Location", game.map.id, lookups.map),
     rich_presence_value("InventorySlot", game.inventory.index),
     rich_presence_lookup("InventoryItem", game.storage.GetSelectedItem(), lookups.item),
     rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex)
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[2], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[3], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[4], lookups.hex),
+    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[5], lookups.hex)
 )
 
 rich_presence_display("Nothing Here")

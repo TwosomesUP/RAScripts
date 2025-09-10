@@ -16,6 +16,7 @@ Items: Key (MED)
 ==========
 0x2a: Director's Quarters
 Items: Picollo Ammo
+Save Computer
 ==========
 0x2d: Sunset Boulevard 1
 Items: Note (Ben Gunn #1)

@@ -11,7 +11,7 @@
  - Enter contamination chamber and activate it  
  - Collect Orange Tag + Felicci’s Microcorder on Boulevard St Michel 1  
  - Head toward the Orange Door on Boulevard St. Michel 2  
- - Unlock Orange Door  
+ - Unlock Orange Door 
 
 == Orange Door, Boulevard St. Michel - Director’s Quarters ==  
  -- Kenzo --  
@@ -19,6 +19,7 @@
  - Use Felicci’s Microcorder to log into computer  
  - Receive password: **PANDORA**  
  - Save game  
+ - Listen to all of Martian Mayhem
  - Use computer to release locks (Karne free, Matlock still locked)  
  - Escape zombie  
  - Store Microcorder in hatch outside Orange Door  

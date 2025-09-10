@@ -54,7 +54,7 @@
  - Search stall corpse → Purple Tag, Passcode (Arboretum)
  - Open lockers → Green Tag, Vibro-scourer, Note (Power Core Request), Green Tag (Dorm 2), Antitoxin 
  - Examine Passcode (Arboretum): 3376
- - Store → store Bible, Microcorder, Notes  
+ - Store → store Bible, Microcorders, Notes  
  - Send Vibro-scour, Paperclip, and Green and Purple Tags to Karne (Keep Dorm Tag)
  - Switch to Karne  
 
@@ -65,10 +65,10 @@
 == Green Door, Inocashira Douri - Recreation Room ==  
  -- Karne --  
  - Collect Pop-Gun + Biosensor from table  
- - Examine Music Box → collect Desk Key  
+ - Examine Music Box → collect Desk Key
  - Pick locked box with Paperclip → Magnetic Checker + Dillinger Ammo  
  - (Optional: Search body for extra Green Tag)  
- - Head to Park Lane → unlock Purple Door (Study)  
+ - Head to Park Lane → unlock Purple Door (Study) 
 
 == Purple Door, Park Lane - Study ==  
  -- Karne --  

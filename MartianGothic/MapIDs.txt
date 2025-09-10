@@ -46,6 +46,7 @@ Items: Radio, Picollo, Picollo Ammo
 Items: Deflated Mars Hopper, Green Tag, Notes, Bible, Microcorder (Dieta Mentz), Drive Belt
 ==========
 0x3d: Recreation Room
+Items: Study Drawer Key, Pop-gun, Biosensor, Checker, Dillinger Ammo
 ==========
 0x43: Decontamination Room 4
 ==========
@@ -54,6 +55,9 @@ Items: Radio
 ==========
 0x47: Washroom
 Items: Purple Tag, Passcode (Arboretum), Green Tag, Vibro-scourer, Note (Power Core Request), Green Tag (Dorm 2), Antitoxin
+==========
+0x49: Study
+Items: 
 ==========
 0x4c: Decontamination Room 3
 ==========

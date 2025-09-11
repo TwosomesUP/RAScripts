@@ -14,6 +14,19 @@ Items: Microcorder (Felicci), Orange Tag
 0x11: State Street 1
 Items: Key (MED)
 ==========
+0x15: Time Square 2
+Items: Scarab
+==========
+0x16: Time Square 1
+==========
+0x17: Baker Street
+Items: Note (Holmes), Hacksaw, Piccolo Ammo
+==========
+0x18: Piccadilly Circus 1
+Items: Brown Tag, Microcorder (Andreivitch), Lighter, Cigarettes
+==========
+0x29: Arboretum 1
+==========
 0x2a: Director's Quarters
 Items: Picollo Ammo
 Save Computer
@@ -37,9 +50,9 @@ Items: Green Tag, Health Boost, Anitoxin
 0x36: Broadway 1
 Items: Health Boost
 ==========
-0x37: Decontamination Room 1
+0x37: Decontamination Room 3
 ==========
-0x38: Airlock 1
+0x38: Airlock 3
 Items: Radio, Picollo, Picollo Ammo
 ==========
 0x39: Gymnasium
@@ -48,21 +61,33 @@ Items: Deflated Mars Hopper, Green Tag, Notes, Bible, Microcorder (Dieta Mentz),
 0x3d: Recreation Room
 Items: Study Drawer Key, Pop-gun, Biosensor, Checker, Dillinger Ammo
 ==========
-0x43: Decontamination Room 4
+0x3f: Chem Lab
+Items: Martian Rock, 
 ==========
-0x44: Airlock 4
+0x43: Decontamination Room 2
+==========
+0x44: Airlock 2
 Items: Radio
 ==========
 0x47: Washroom
 Items: Purple Tag, Passcode (Arboretum), Green Tag, Vibro-scourer, Note (Power Core Request), Green Tag (Dorm 2), Antitoxin
 ==========
 0x49: Study
-Items: 
+Items: Blue Tag
+Save Computer
 ==========
-0x4c: Decontamination Room 3
+0x4c: Decontamination Room 1
 ==========
-0x4d: Airlock 3
+0x4d: Airlock 1
 Items: Radio
+==========
+0x4e: Recycling Antichamber
+==========
+0x5c: Arboretum 2
+Items: Note (Alter), Picollo Ammo, Green Tag (Dorm 4), Babybug Remote, Note (Suicide) 
+==========
+0x5c: Arboretum 3
+Items: Blue Tag, Microcorder (Tierney), Brown Herbs x 7, Lichen x 2
 ==========
 0x79: Inocashira Douri 3
 ==========

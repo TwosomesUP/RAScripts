@@ -4,6 +4,12 @@
 == Progression ==
 
 -- Section 1 - Airlocks --
+ - Free Karne
+ - Unlock Arboretum
+ - Free Matlock
+
+
+-- Section 1 - Airlocks --
  - Collect Radios
  - Use Radios
  - Escape Madison Avenue as Kenzo **
@@ -62,7 +68,7 @@
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
  - Complete the game with Karne's lucky charm (never remove the silver bullet from his inventory)
- - Complete the game without saving
+ - Complete the game without saving (or using 3 saves or less)
  - Attempt to open the airlock with each character
  - Dump all luxury items for each character
  - Acquire the Piccolo Gun (Matlock)
@@ -70,6 +76,7 @@
  - Try to leave the Decontamination Chamber with both Karne and Matlock?
  - Decontaminate all 3 characters?
  - Visit all map locations
+ - Examine all notes
 
 
 -- Other --

@@ -67,21 +67,24 @@
  - Collect Pop-Gun + Biosensor from table  
  - Examine Music Box → collect Desk Key
  - Pick locked box with Paperclip → Magnetic Checker + Dillinger Ammo  
- - (Optional: Search body for extra Green Tag)  
+ - (Optional: Search body for extra Green Tag)
  - Head to Park Lane → unlock Purple Door (Study) 
 
 == Purple Door, Park Lane - Study ==  
  -- Karne --  
  - Unlock Desk → Blue Tag  
  - Save using computer  
- - Use watch codes to read restricted files  
+ - Use watch codes to read restricted files (can't access Operation Akarak yet)
+ - Listen to all three of Judith Harroway's reports
  - Book drops (collect later)  
- - Head to Arboretum (Park Lane) → unlock with Washroom code  
+ - Head to Arboretum (Park Lane) → unlock with Passcode (Arboretum) - 3376
 
 == Arboretum, Park Lane ==  
  -- Karne --  
- - Search dead body on bench → collect items  
- - Lure zombie near garden shed, kill + loot → Gun, Blue Tag, Microcorder (Tierney)  
+ - Search dead body on bench → collect items 
+ - Once the zombie wakes up skirt it and take the gun it drops 
+ - Lure zombie near garden shed and incapacitate it → Gun, Blue Tag, Microcorder (Tierney) 
+ - Listent to the Microcorder to get the Decontam 3 code: 2734  
  - Examine Green Door (Trimorph blocking)  
  - Return to Study (Purple Door) → collect dropped book  
  - Send Piccolo Gun, Remote Control, Magnetic Checker, Blue Tags to Kenzo  
@@ -89,10 +92,11 @@
 
  -- Kenzo --  
  - Collect items from Vac-tube  
- - Send MED Key, Blue Tags, Belt to Matlock via Vac-tube  
+ - Send MED Key, Blue Tags, Belt to Matlock via Vac-tube
  - Return to Director’s Room (Orange Door) → enter  
- - Kill zombie  
- - Use Tierney’s Microcorder code to free Matlock  
+ - Kill zombie
+ - Use Tierney’s Microcorder code to free Matlock - 2734
+ - Stand outside the Director's Office (safe spot)
  - Switch to Matlock  
 
  -- Matlock --  
@@ -105,7 +109,7 @@
  -- Matlock --  
  - Collect items from Vac-tube (Martian Rock, MED Key, Tags, Belt)  
  - Store Hacksaw in Vac-tube (for Karne)  
- - Store Martian Rock + Belt in locker  
+ - Store Martian Rock + Belt in locker
  - Collect Flask + Biosensor → store in outside hatch  
  - Lure zombie to Times Square, kill for safety  
  - Unlock Eastern Blue Door (Piccadilly Circus) → collect Microcorder, Locker Key, Dorm #1 Key, Yellow Tag  

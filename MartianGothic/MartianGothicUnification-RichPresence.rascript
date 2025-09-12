@@ -109,11 +109,29 @@ class Storage {
     }
 }
 
+class Time {
+    hours = 0
+    minutes = 0
+    seconds = 0
+}
+
+class Timer {
+    hours = byte(0x10ccc0)
+    minutes = byte(0x10ccc1)
+    seconds = byte(0x10ccc2)
+    frames = dword(0x10ccbc)
+
+    function GetTimeInSeconds(){
+        return this.hours * 3600 + this.minutes * 60 + this.seconds
+    }
+}
+
 class Game {
     player = Player()
     map = Map()
     inventory = Inventory()
     storage = Storage()
+    timer = Timer()
 }
 
 // Lookups
@@ -126,9 +144,9 @@ class Lookups {
     }
 
     map = {
-        0x00: "0x00", 0x01: "0x01", 0x02: "Boulevard St. Michel 1", 0x03: "Boulevard St. Michel 2", 0x04: "Madison Avenue 3", 0x05: "Madison Avenue 1", 0x06: "Madison Avenue 2", 0x07: "0x07", 0x08: "0x08", 0x09: "0x09",
+        0x00: "0x00", 0x01: "0x01", 0x02: "Boulevard St. Michel 1", 0x03: "Boulevard St. Michel 2", 0x04: "Madison Avenue 3", 0x05: "Madison Avenue 1", 0x06: "Madison Avenue 2", 0x07: "0x07", 0x08: "Med Lab", 0x09: "0x09",
         0x0a: "0x0a", 0x0b: "0x0b", 0x0c: "0x0c", 0x0d: "0x0d", 0x0e: "0x0e", 0x0f: "0x0f", 0x10: "0x10", 0x11: "State Street 1", 0x12: "0x12", 0x13: "0x13",
-        0x14: "0x14", 0x15: "Time Square 2", 0x16: "Time Square 1", 0x17: "Baker Street", 0x18: "Piccadilly Circus 1", 0x19: "0x19", 0x1a: "0x1a", 0x1b: "0x1b", 0x1c: "0x1c", 0x1d: "0x1d",
+        0x14: "0x14", 0x15: "Time Square 2", 0x16: "Time Square 1", 0x17: "Baker Street", 0x18: "Piccadilly Circus 1", 0x19: "Piccadilly Circus 2", 0x1a: "Sterile Room 1", 0x1b: "Broadway 3", 0x1c: "0x1c", 0x1d: "0x1d",
         0x1e: "0x1e", 0x1f: "0x1f", 0x20: "0x20", 0x21: "0x21", 0x22: "0x22", 0x23: "0x23", 0x24: "0x24", 0x25: "0x25", 0x26: "0x26", 0x27: "0x27",
         0x28: "0x28", 0x29: "0x29", 0x2a: "Director's Quarters", 0x2b: "0x2b", 0x2c: "0x2c", 0x2d: "Sunset Boulevard 1", 0x2e: "0x2e", 0x2f: "Arboretum 1", 0x30: "Park Lane 2", 0x31: "Park Lane 1",
         0x32: "Inocashira Douri 2", 0x33: "Inocashira Douri 1", 0x34: "State Street 2", 0x35: "Broadway 2", 0x36: "Broadway 1", 0x37: "Decontamination Room 3", 0x38: "Airlock 3", 0x39: "Gymnasium", 0x3a: "0x3a", 0x3b: "0x3b",
@@ -156,14 +174,14 @@ class Lookups {
 
     item = {
         0x00: "0x00", 0x01: "0x01", 0x02: "0x02", 0x03: "0x03", 0x04: "0x04 Microcorder (Felicci)", 0x05: "0x05", 0x06: "0x06", 0x07: "0x07", 0x08: "0x08", 0x09: "0x09",
-        0x0a: "0x0a", 0x0b: "0x0b", 0x0c: "0x0c", 0x0d: "0x0d", 0x0e: "0x0e", 0x0f: "0x0f", 0x10: "0x10 Radio", 0x11: "0x11", 0x12: "0x12", 0x13: "0x13 Photo (Kenzo)",
+        0x0a: "0x0a", 0x0b: "0x0b", 0x0c: "0x0c", 0x0d: "0x0d", 0x0e: "0x0e", 0x0f: "0x0f", 0x10: "0x10 Radio", 0x11: "0x11", 0x12: "0x12 Microcorder (Andrew Muir)", 0x13: "0x13 Photo (Kenzo)",
         0x14: "0x14 Scarab", 0x15: "0x15", 0x16: "0x16", 0x17: "0x17 Book (Lords of Egypt)", 0x18: "0x18", 0x19: "0x19", 0x1a: "0x1a Biosensor (Matlock)", 0x1b: "0x1b", 0x1c: "0x1c", 0x1d: "0x1d Flask",
         0x1e: "0x1e Brown Herbs", 0x1f: "0x1f", 0x20: "0x20", 0x21: "0x21", 0x22: "0x22", 0x23: "0x23", 0x24: "0x24", 0x25: "0x25", 0x26: "0x26", 0x27: "0x27",
         0x28: "0x28", 0x29: "0x29", 0x2a: "0x2a", 0x2b: "0x2b", 0x2c: "0x2c", 0x2d: "0x2d", 0x2e: "0x2e", 0x2f: "0x2f", 0x30: "0x30", 0x31: "0x31",
         0x32: "0x32", 0x33: "0x33", 0x34: "0x34", 0x35: "0x35 Hacksaw", 0x36: "0x36", 0x37: "0x37", 0x38: "0x38", 0x39: "0x39", 0x3a: "0x3a Drive Belt", 0x3b: "0x3b",
         0x3c: "0x3c Lighter", 0x3d: "0x3d Cigarettes", 0x3e: "0x3e Watch", 0x3f: "0x3f Satsuma", 0x40: "0x40 Nicotine Patch", 0x41: "0x41 Contact Lense", 0x42: "0x42 Lipstick", 0x43: "0x43 Booklet", 0x44: "0x44 Photo (Matlock)", 0x45: "0x45 Letter",
-        0x46: "0x46 Silver Bullet", 0x47: "0x47 Wrapper", 0x48: "0x48 Brown Tag", 0x49: "0x49", 0x4a: "0x4a", 0x4b: "0x4b", 0x4c: "0x4c", 0x4d: "0x4d", 0x4e: "0x4e Blue Tag", 0x4f: "0x4f",
-        0x50: "0x50", 0x51: "0x51", 0x52: "0x52 Orange Tag", 0x53: "0x53 Purple Tag", 0x54: "0x54", 0x55: "0x55", 0x56: "0x56", 0x57: "0x57", 0x58: "0x58", 0x59: "0x59",
+        0x46: "0x46 Silver Bullet", 0x47: "0x47 Wrapper", 0x48: "0x48 Brown Tag", 0x49: "0x49", 0x4a: "0x4a", 0x4b: "0x4b", 0x4c: "0x4c", 0x4d: "0x4d", 0x4e: "0x4e Blue Tag", 0x4f: "0x4f Green Tag (Dorm 1)",
+        0x50: "0x50", 0x51: "0x51 Yellow Tag", 0x52: "0x52 Orange Tag", 0x53: "0x53 Purple Tag", 0x54: "0x54", 0x55: "0x55", 0x56: "0x56", 0x57: "0x57", 0x58: "0x58", 0x59: "0x59",
         0x5a: "0x5a Pop-gun", 0x5b: "0x5b Piccolo", 0x5c: "0x5c", 0x5d: "0x5d", 0x5e: "0x5e", 0x5f: "0x5f", 0x60: "0x60", 0x61: "0x61", 0x62: "0x62 Martian Rock", 0x63: "0x63",
         0x64: "0x64", 0x65: "0x65", 0x66: "0x66 Receptor Panel", 0x67: "0x67", 0x68: "0x68", 0x69: "0x69", 0x6a: "0x6a", 0x6b: "0x6b", 0x6c: "0x6c Piccolo Ammo", 0x6d: "0x6d",
         0x6e: "0x6e", 0x6f: "0x6f Vibro-Scourer", 0x70: "0x70", 0x71: "0x71", 0x72: "0x72", 0x73: "0x73", 0x74: "0x74", 0x75: "0x75 Biosensor", 0x76: "0x76 Paperclip", 0x77: "0x77 Note",
@@ -178,7 +196,7 @@ class Lookups {
         0xc8: "0xc8", 0xc9: "0xc9", 0xca: "0xca", 0xcb: "0xcb", 0xcc: "0xcc", 0xcd: "0xcd", 0xce: "0xce", 0xcf: "0xcf", 0xd0: "0xd0", 0xd1: "0xd1",
         0xd2: "0xd2", 0xd3: "0xd3", 0xd4: "0xd4 Checker", 0xd5: "0xd5", 0xd6: "0xd6", 0xd7: "0xd7", 0xd8: "0xd8", 0xd9: "0xd9", 0xda: "0xda", 0xdb: "0xdb",
         0xdc: "0xdc", 0xdd: "0xdd", 0xde: "0xde", 0xdf: "0xdf", 0xe0: "0xe0", 0xe1: "0xe1", 0xe2: "0xe2", 0xe3: "0xe3", 0xe4: "0xe4", 0xe5: "0xe5",
-        0xe6: "0xe6", 0xe7: "0xe7", 0xe8: "0xe8", 0xe9: "0xe9", 0xea: "0xea Bible", 0xeb: "0xeb Microcorder (Dieta Mentz)", 0xec: "0xec", 0xed: "0xed Note (Holmes)", 0xee: "0xee Microcorder (Andreivitch)", 0xef: "0xef Note (Ben Gunn #1)",
+        0xe6: "0xe6", 0xe7: "0xe7", 0xe8: "0xe8", 0xe9: "0xe9 Locker Key", 0xea: "0xea Bible", 0xeb: "0xeb Microcorder (Dieta Mentz)", 0xec: "0xec", 0xed: "0xed Note (Holmes)", 0xee: "0xee Microcorder (Andreivitch)", 0xef: "0xef Note (Ben Gunn #1)",
         0xf0: "0xf0", 0xf1: "0xf1 Microcorder (Tierney)", 0xf2: "0xf2 Note Suicide", 0xf3: "0xf3", 0xf4: "0xf4 Note (Alter)", 0xf5: "0xf5 Note (Power Core Request)", 0xf6: "0xf6", 0xf7: "0xf7", 0xf8: "0xf8", 0xf9: "0xf9",
         0xfa: "0xfa", 0xfb: "0xfb", 0xfc: "0xfc", 0xfd: "0xfd", 0xfe: "0xfe", 0xff: "N/A"
     }
@@ -220,43 +238,68 @@ lookups = Lookups()
 
 // Rich Presence Definitions
 
-rich_presence_conditional_display(!game.inventory.IsOpen(), "{0} || Location: {1}",
-    rich_presence_lookup("Character", game.player.character, lookups.character),
-    rich_presence_lookup("Location", game.map.id, lookups.map)
-)
-
-rich_presence_conditional_display(game.inventory.IsOpen() && !game.storage.IsOpen(), "{0} || Location: {1} || Slot {2}: {3}",
+rich_presence_conditional_display(!game.inventory.IsOpen(), "{0} || Location: {1} || Time: {2}",
     rich_presence_lookup("Character", game.player.character, lookups.character),
     rich_presence_lookup("Location", game.map.id, lookups.map),
-    rich_presence_value("InventorySlot", game.inventory.index),
-    rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item)
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
 )
 
-rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && !game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || SO Index: 0x13{4}{5} || SO Count: 0x13{6}{7} || SO Base: 0x13{8}{9} || Inventory Slot {2}: {3}",
+rich_presence_conditional_display(game.inventory.IsOpen() && !game.storage.IsOpen(), "{0} || Location: {1} || Time: {4} || Slot {2}: {3}",
     rich_presence_lookup("Character", game.player.character, lookups.character),
     rich_presence_lookup("Location", game.map.id, lookups.map),
     rich_presence_value("InventorySlot", game.inventory.index),
     rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[2], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[3], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[4], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[5], lookups.hex)
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
 )
 
-rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || SO Index: 0x13{4}{5} || SO Count: 0x13{6}{7} || SO Base: 0x13{8}{9} || Storage Slot {2}: {3}",
-    rich_presence_lookup("Character", game.player.character, lookups.character),
-    rich_presence_lookup("Location", game.map.id, lookups.map),
-    rich_presence_value("InventorySlot", game.inventory.index),
-    rich_presence_lookup("InventoryItem", game.storage.GetSelectedItem(), lookups.item),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[2], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[3], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[4], lookups.hex),
-    rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[5], lookups.hex)
-)
+// Debug RP definitions
+debug = false
+if (debug) {
+    rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && !game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Time: {10} || SO Index: 0x13{4}{5} || SO Count: 0x13{6}{7} || SO Base: 0x13{8}{9} || Inventory Slot {2}: {3}",
+        rich_presence_lookup("Character", game.player.character, lookups.character),
+        rich_presence_lookup("Location", game.map.id, lookups.map),
+        rich_presence_value("InventorySlot", game.inventory.index),
+        rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[2], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[3], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[4], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[5], lookups.hex),
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
+    )
+
+    rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Time: {10} ||  SO Index: 0x13{4}{5} || SO Count: 0x13{6}{7} || SO Base: 0x13{8}{9} || Storage Slot {2}: {3}",
+        rich_presence_lookup("Character", game.player.character, lookups.character),
+        rich_presence_lookup("Location", game.map.id, lookups.map),
+        rich_presence_value("InventorySlot", game.inventory.index),
+        rich_presence_lookup("InventoryItem", game.storage.GetSelectedItem(), lookups.item),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[0], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[1], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[2], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[3], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[4], lookups.hex),
+        rich_presence_lookup("HexLookup", game.storage.GetSplitAddress()[5], lookups.hex),
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
+    )
+} else {
+    rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && !game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Time: {4} ||  Inventory Slot {2}: {3}",
+        rich_presence_lookup("Character", game.player.character, lookups.character),
+        rich_presence_lookup("Location", game.map.id, lookups.map),
+        rich_presence_value("InventorySlot", game.inventory.index),
+        rich_presence_lookup("InventoryItem", game.inventory.GetSelectedItem(), lookups.item),
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
+    )
+
+    rich_presence_conditional_display(game.inventory.IsOpen() && game.storage.IsOpen() && game.inventory.IsBrowsingStorage(), "{0} || Location: {1} || Time: {4} ||  Storage Slot {2}: {3}",
+        rich_presence_lookup("Character", game.player.character, lookups.character),
+        rich_presence_lookup("Location", game.map.id, lookups.map),
+        rich_presence_value("InventorySlot", game.inventory.index),
+        rich_presence_lookup("InventoryItem", game.storage.GetSelectedItem(), lookups.item),
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
+    )
+}
+
 
 rich_presence_display("Nothing Here")
 

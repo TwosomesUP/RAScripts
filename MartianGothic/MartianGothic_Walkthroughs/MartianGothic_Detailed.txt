@@ -112,8 +112,8 @@
  - Store Martian Rock + Belt in locker
  - Collect Flask + Biosensor → store in outside hatch  
  - Lure zombie to Times Square, kill for safety  
- - Unlock Eastern Blue Door (Piccadilly Circus) → collect Microcorder, Locker Key, Dorm #1 Key, Yellow Tag  
- - Unlock Southern Blue Door (Piccadilly Circus) → head toward Med Lab  
+ - Unlock Eastern Blue Door (Sterile Room 1) → collect Microcorder, Locker Key, Dorm #1 Key, Yellow Tag  
+ - Unlock Southern Blue Door (Piccadilly Circus 2q) → head toward Med Lab  
 
 == Med Lab, Piccadilly Circus ==  
  -- Matlock --  

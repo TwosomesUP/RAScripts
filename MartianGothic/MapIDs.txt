@@ -11,6 +11,8 @@ Items: Microcorder (Felicci), Orange Tag
 ==========
 0x06: Madison Avenue 2
 ==========
+0x08: Med Lab
+==========
 0x11: State Street 1
 Items: Key (MED)
 ==========
@@ -24,6 +26,13 @@ Items: Note (Holmes), Hacksaw, Piccolo Ammo
 ==========
 0x18: Piccadilly Circus 1
 Items: Brown Tag, Microcorder (Andreivitch), Lighter, Cigarettes
+==========
+0x19: Piccadilly Circus 2
+==========
+0x1a: Sterile Room 1
+Items: Microcorder (Andrew Muir), Yellow Tag, Green Tag (Dorm 1), Locker Key, Blue Tag
+==========
+0x1b: Broadway 3
 ==========
 0x29: Arboretum 1
 ==========

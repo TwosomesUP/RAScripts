@@ -1,0 +1,39 @@
+{
+    "watchList": [
+        {
+            "address": "80EA2538",
+            "baseIndex": 0,
+            "label": "Total Captured",
+            "typeIndex": 2,
+            "unsigned": true
+        },
+        {
+            "address": "80EA25A0",
+            "baseIndex": 0,
+            "label": "Red Captured?",
+            "typeIndex": 2,
+            "unsigned": true
+        },
+        {
+            "address": "80EA27E0",
+            "baseIndex": 0,
+            "label": "Yellow Captured",
+            "typeIndex": 2,
+            "unsigned": true
+        },
+        {
+            "address": "80EC7604",
+            "baseIndex": 0,
+            "label": "Shots?",
+            "typeIndex": 2,
+            "unsigned": true
+        },
+        {
+            "address": "80EAA853",
+            "baseIndex": 0,
+            "label": "No label",
+            "typeIndex": 0,
+            "unsigned": true
+        }
+    ]
+}

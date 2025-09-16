@@ -7,6 +7,9 @@
  - Free Karne
  - Unlock Arboretum
  - Free Matlock
+ - Kill Creature in Air Recycling Antichamber (with Weed Killer)
+ - Clean Air Filter in Air Recycling Center
+ 
 
 
 -- Section 1 - Airlocks --

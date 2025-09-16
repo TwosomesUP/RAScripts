@@ -119,22 +119,24 @@
  -- Matlock --  
  - Use Chemical Extractor → create health/antitoxin  
  - Collect Blue Tag from locker  
- - Collect 4 syringes (for blood samples later)  
+ - Note the 4 syringes (for blood samples later)  
  - Use computer → hear Harroway’s message  
 
 == Arboretum - Garden Shed & Air Recycling Center (ARC) ==
  -- Karne --
  - Collect Hacksaw from Vac-tube (sent by Matlock)
  - Return to Arboretum shed → cut chain, collect Weed Killer Gun + Gloves
+ - Examine Weed Killer and take empty cartridge
  - Send empty cartridge to Matlock
  - Matlock fills cartridge in Chem Lab with Hydrochloric Acid
  - Send cartridge back to Karne → load Weed Killer Gun
  - Use on Trimorph blocking Air Recycling Center
  - Collect Bicycle Pump + Respirator Mask inside shed
  - Enter Air Recycling Center (ARC)
- - Clean filter with Vibro-scour
+ - Stop fan by using the Recyc option in the Computer
+ - Enter the Fan and clean filter with Vibro-scour
  - Restore power and restart fan
- - Collect Oily Rag + Nail Gun + Ammo
+ - Collect Oily Rag + Nail Gun + Ammo from Zombi
  - Send Oily Rag to Matlock; Yellow Tag, Pump, Mask, and Desk Key to Kenzo
 
 == Yellow Door - MOOD Chamber ==

@@ -90,13 +90,13 @@ Save Computer
 0x4d: Airlock 1
 Items: Radio
 ==========
-0x4e: Recycling Antichamber
+0x4e: Air Recycling Antichamber
 ==========
 0x5c: Arboretum 2
 Items: Note (Alter), Picollo Ammo, Green Tag (Dorm 4), Babybug Remote, Note (Suicide) 
 ==========
 0x5c: Arboretum 3
-Items: Blue Tag, Microcorder (Tierney), Brown Herbs x 7, Lichen x 2
+Items: Blue Tag, Microcorder (Tierney), Brown Herbs x 7, Lichen x 2, Gloves, Weed Killer Spray-Gun
 ==========
 0x79: Inocashira Douri 3
 ==========

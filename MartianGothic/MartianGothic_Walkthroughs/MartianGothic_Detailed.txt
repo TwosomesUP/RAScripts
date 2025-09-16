@@ -137,29 +137,40 @@
  - Enter the Fan and clean filter with Vibro-scour
  - Restore power and restart fan
  - Collect Oily Rag + Nail Gun + Ammo from Zombi
- - Send Oily Rag to Matlock; Yellow Tag, Pump, Mask, and Desk Key to Kenzo
+ - Send Oily Rag to Matlock; Yellow Tag, Pump, Respirator Mask, and Desk Key to Kenzo
 
 == Yellow Door - MOOD Chamber ==
  -- Kenzo --
  - Use Desk Key in Director’s Quarters → collect Silver Bell
  - Kill floating zombie, search body → Electric Screwdriver
- - Use screwdriver on air duct → collect Remote-Control Car
- - Send Magnetic Checker with car to free space
- - Patch wall breach: Mars Hopper + Bicycle Pump + Mask
- - Enter MOOD chamber and talk with MOOD
+ - Use screwdriver on air duct → collect Babybug
+ - Use the Magnetic Checker with the Babybug to free space
+ - Enter Yellow Door - MOOD Antichamber
+ - Use Respirator Mask
+ - Patch wall breach: Mars Hopper + Bicycle Pump
+ - Enter MOOD chamber and interact with MOOD
  - Requirement: Replace Receptor Panel in Power Core
+ - Switch to Matlock
 
 == Power Core (Times Square, North Door) ==
  -- Matlock --
- - Create Nitro bomb (Flask + Rag + Lighter) → blast jammed door
+ - Create Nitro bomb: Chem Lab - (Flask + Nitro)
+ - Head to the Power Core door on Time Square: Oily Rag + Lighter + Nitro
  - Enter Power Core
+ - Get Passcode (Downing Street) from corpse: 1010
  - Need fingerprint ID:
-   - Kenzo cuts Jamison’s hand with Hacksaw in Washroom
+   - Switch to Karne and send Hacksaw to Kenzo
+   - Find Jamison in the Washroom and use the Hacksaw to get his hand
    - Sends severed hand + screwdriver to Matlock
- - Matlock replaces Receptor Panel
- - Restore power
+ - Unlock Power Core computer and activate Power Core Control
+ - Matlock replaces Receptor Panel on Generator Hood
+ - Restore power by activating the Arm Control again using the computer
  - Return to MOOD → give password “PARK LANE”
- - Use VR chair → raise bulkheads, unlock Vita Base
+ - Interact with MOOD
+ - Sit in Simureal chair
+ - Unlock the door by Picking up the Shamisen and using the Silver Bell
+ - Inspect the Rock and release the bulkheads
+ - Switch to Matlock and head to Dorm 1 on Wallstreet
 
 == Dorm #1 ==
  -- Matlock --

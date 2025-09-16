@@ -8,8 +8,13 @@
  - Unlock Arboretum
  - Free Matlock
  - Kill Creature in Air Recycling Antichamber (with Weed Killer)
- - Clean Air Filter in Air Recycling Center
- 
+ - Clean Air Filter in Air Recycling Center and repair fan
+ - Repair breach in MOOD Chamber
+ - Interact with MOOD
+ - Access the Power Core (blow up the door)
+ - Cut off Jamison's Arm
+ - Restore power in the Power Core
+ - Unlock Vita Base (use MOOD to raise bulkheads)
 
 
 -- Section 1 - Airlocks --
@@ -80,6 +85,9 @@
  - Decontaminate all 3 characters?
  - Visit all map locations
  - Examine all notes
+ - Escape MOOD Chamber in X Time
+ - Fix Air Recycling Fan in X Timer
+ - Learn all you can from MOOD
 
 
 -- Other --

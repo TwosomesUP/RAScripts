@@ -3,7 +3,6 @@
 
 == Progression ==
 
--- Section 1 - Airlocks --
  - Free Karne
  - Unlock Arboretum
  - Free Matlock
@@ -14,86 +13,20 @@
  - Access the Power Core (blow up the door)
  - Cut off Jamison's Arm
  - Restore power in the Power Core
- - Unlock Vita Base (use MOOD to raise bulkheads)
-
-
--- Section 1 - Airlocks --
- - Collect Radios
- - Use Radios
- - Escape Madison Avenue as Kenzo **
- - Collect Madison Avenue Orange Tag ++
- - Collect Microcorder (Felicci) ++
- - Unlock Director's Quarters with Orange Tag
- - Unlock Computer
- - Get Password: PANDORA ++
- - Unlock Inocashira Douri Airlock
- - Collect Key (MED)
- - Collect Ben Gunn #1 Note and get password: PARK LANE ++
- - Escape the Inocashira Douri Airlock as Karne **
- - Get Watch Passwords: 4864, 3172, 2915
- - Collect Park Lane Green Tag ++
- - Unlock Gymnasium with Green Tag
- - Get Paperclip from Notes
- - Get Bible Password: WORMWOOD
- - Collect Mars Hopper
- - Collect Belt
- - Collect Gym Green Tag ++
- - Collect Gym Dorm #1 Tag ++
- - Unlock Washroom with Green Tag
- - Collect Vibro-scour
- - Collect Washroom Green Tag ++
- - Collect Washroom Purple Tag ++
- - Collect Arboretum Code
- - Unlock Recreation Room with Green Tag
- - Collect Pop-Gun
- - Collect Biosensor ++
- - Collect Desk Key
- - Collect Magnetic Checker
- - Collect Extra Green Tag ++
- - Unlock Study with Purple Tag
- - Collect Blue Tag
- - Unlock Arboretum **
- - Collect Gun ++
- - Collect Blue Tag ++
- - Collect Microcorder (Tierney)
- - Collect Book in Study
- - Unlock Time Square Airlock with Tierney's Code
- - Escape the Time Square Airlock as Matlock **
- 
--- Section 2 - Arboretum and Power Core --
- - Collect Hacksaw
- - Collect Microcorder
- - Collect Brown Tag
- - Unlock Chem Lab with the Brown Tag
- - Collect Martian Rock
-
--- Section 3 - The Dorms --
-
--- Section 4 - The Nectropolis --
-
+ - Release the Bulkheads (use MOOD)
 
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
  - Complete the game with Karne's lucky charm (never remove the silver bullet from his inventory)
- - Complete the game without saving (or using 3 saves or less)
- - Attempt to open the airlock with each character
- - Dump all luxury items for each character
- - Acquire the Piccolo Gun (Matlock)
+ - Complete the game without saving (or using 3 saves or less) *
+ - Complete the game in less than 3 hours
+ - Attempt to open the airlock with each character *
  - Beat the game with the Silve Bullet in your pocket (Karne)
  - Try to leave the Decontamination Chamber with both Karne and Matlock?
- - Decontaminate all 3 characters?
- - Visit all map locations
- - Examine all notes
- - Escape MOOD Chamber in X Time
- - Fix Air Recycling Fan in X Timer
- - Learn all you can from MOOD
-
-
--- Other --
- - Break hold of X zombies
- - Kick X zombies while they're down
- - Find all Micro-recorders
-	- 1 in Vita Base Intro (Antonio Felicci)
- - Listen to all Martian Mayhem scenes
-
+ - Visit all map locations *
+ - Find all GUNN notes?
+ - Learn all you can from MOOD *
+ - Convert all herbs and lichen into usable items?
+ - Unlock all colored doors in Vita Base
+ - Listen to all Martian Mayhem scenes *

@@ -170,19 +170,29 @@
  - Sit in Simureal chair
  - Unlock the door by Picking up the Shamisen and using the Silver Bell
  - Inspect the Rock and release the bulkheads
- - Switch to Matlock and head to Dorm 1 on Wallstreet
+ - Switch to Matlock and head to Dorm 1 on Wall Street
 
 == Dorm #1 ==
  -- Matlock --
- - Kill zombies
- - Use Locker Key → collect Notes (Oda, Pickman), Ammo, Martian Rock
- - Unlock vent (to Shuttle Bay) but don’t enter yet (Trimorph trap)
- - Use hangar doors + Kenzo with VR map to trap Trimorph
- - Enter Shuttle Bay
+ - Kill zombies and grab Notes (Pickman), Martian Rock
+ - Unlock Locker with Locker Key → collect Notes (Oda), Dillinger Ammo, Green Tag (Dorm #1)
+ - Store Notes in Locker along with any extra Blue Tags (you still need 1)
+ - Exit Dorm #1 and head to Penny Lane
+ - Remove vent (to Shuttle Bay) with Screwdriver but don’t enter yet (Trimorph trap)
+ - Continue to the end of Penny Lane and enter the Shuttle Bay Entrance
+ - Walk up to the Hanger Doors at the end of the hall and switch to Kenzo
+ - Using the MOOD chair, enter the Simureal Room and interact with the rock
+ - Select the third map, then switch back to Matlock
+ - Open the Hanger Door, run to the second and open that too
+ - Once open, run back to the first hanger door and close it before the Trimorph gets you
+ - Switch back to Kenzo and have him close the hanger door from the Rock
+ - Switch back to Matlock and head back to the vent on Penny Lane
+ - Enter the vent to reach the qShuttle Bay
 
 == Shuttle Bay ==
  -- Matlock --
- - Collect Dillinger Gun, Ammo, Welding Torch, Grey Tag, Microrecorders
+ - Collect Gray Tag, Microcorder (Nadja Kerenski) from corpse
+ - 
  - Learn colonists needed 2 people to launch rocket
  - Send Welding Torch to Karne
 

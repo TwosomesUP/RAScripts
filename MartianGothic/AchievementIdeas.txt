@@ -14,6 +14,9 @@
  - Cut off Jamison's Arm
  - Restore power in the Power Core
  - Release the Bulkheads (use MOOD)
+ - Trap the Trimorph in the Shuttle Bay/Enter Shuttle Bay after trapping the Trimorph
+ - Cut the lock and access the Kitchen
+
 
 
 == Challenges/Easter Eggs ==
@@ -22,11 +25,15 @@
  - Complete the game without saving (or using 3 saves or less) *
  - Complete the game in less than 3 hours
  - Attempt to open the airlock with each character *
- - Beat the game with the Silve Bullet in your pocket (Karne)
  - Try to leave the Decontamination Chamber with both Karne and Matlock?
  - Visit all map locations *
  - Find all GUNN notes?
- - Learn all you can from MOOD *
- - Convert all herbs and lichen into usable items?
- - Unlock all colored doors in Vita Base
+ - Learn all you can from MOOD (requires multiple visits with all characters?)
+ - Unlock all colored doors in Vita Base?
  - Listen to all Martian Mayhem scenes *
+ - Find a Picollo Gun
+ - Find a Dillinger
+ - Find a Nail Gun
+ - Find a Diabolus
+ - Find a Flare Gun
+ - Find a Psionara

@@ -192,9 +192,12 @@
 == Shuttle Bay ==
  -- Matlock --
  - Collect Gray Tag, Microcorder (Nadja Kerenski) from corpse
- - 
- - Learn colonists needed 2 people to launch rocket
+ - Find Welding Torch on red crate
  - Send Welding Torch to Karne
+ - Leave Shuttle Bay and find a safe spot to leave Matlock
+ - Switch back to Karne and head back to the Airlock on Inocashira Douri 
+ - You can now cut the lock on the door across from that Airlock with the Torch
+ - Enter the Kitchen
 
 == Kitchen ==
  -- Karne --

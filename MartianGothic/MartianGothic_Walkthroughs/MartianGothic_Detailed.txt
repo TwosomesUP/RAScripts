@@ -191,24 +191,29 @@
 
 == Shuttle Bay ==
  -- Matlock --
- - Collect Gray Tag, Microcorder (Nadja Kerenski) from corpse
- - Find Welding Torch on red crate
+ - Collect Microcorder (Luke Barton), Microcorder (Nadja Kerenski), Gray Tag, Piccolo (if needed), Dillinger, and ammo from corpses and hatch
+ - Store any notes, microcorders, etc that you don't need in the hatch
+ - Find Welder on red crate
  - Send Welding Torch to Karne
- - Leave Shuttle Bay and find a safe spot to leave Matlock
+ - Hide in Shuttle (safe spot)
  - Switch back to Karne and head back to the Airlock on Inocashira Douri 
  - You can now cut the lock on the door across from that Airlock with the Torch
  - Enter the Kitchen
 
 == Kitchen ==
  -- Karne --
- - Use Welding Torch to cut lock
- - Enter Kitchen, meet Ben Gunn
+ - Talk to Ben Gunn and go through each topic
+ - Ask about the Reg Tags around his next
  - Ben demands Pumice Stone in exchange for Red Tag
+ - Switch to Kenzo and head to Dorm #2 on Madison Avenue
 
 == Dorm #2 ==
  -- Kenzo --
  - Collect Pumice Stone, Ammo
- - Return to Kitchen, trade stone with Ben Gunn for Red Tag
+ - Switch back to Karne and speak to Ben Gunn
+ - Ask about Red Tag
+ - Ask about Pumice Stone (this gives it to him)
+ - Pick up Red Tag on counter
 
 == Dormitory Area ==
  -- Matlock --

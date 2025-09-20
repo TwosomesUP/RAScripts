@@ -16,6 +16,8 @@
  - Release the Bulkheads (use MOOD)
  - Trap the Trimorph in the Shuttle Bay/Enter Shuttle Bay after trapping the Trimorph
  - Cut the lock and access the Kitchen
+ - Give Ben Gunn the Pumice stone for the Red Tag
+ 
 
 
 
@@ -29,6 +31,7 @@
  - Visit all map locations *
  - Find all GUNN notes?
  - Learn all you can from MOOD (requires multiple visits with all characters?)
+ - Learn all you can from Ben Gunn (not notes)
  - Unlock all colored doors in Vita Base?
  - Listen to all Martian Mayhem scenes *
  - Find a Picollo Gun

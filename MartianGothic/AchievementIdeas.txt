@@ -17,9 +17,8 @@
  - Trap the Trimorph in the Shuttle Bay/Enter Shuttle Bay after trapping the Trimorph
  - Cut the lock and access the Kitchen
  - Give Ben Gunn the Pumice stone for the Red Tag
- 
-
-
+ - Disable Statue and break the curse in the Geo Lab (4 shaped rocks + resonator)
+ - Cut Bio Lab tentacles with Laser Scalpel
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
@@ -40,3 +39,6 @@
  - Find a Diabolus
  - Find a Flare Gun
  - Find a Psionara
+ - Collect the Spectrometer using the Babybug
+ - Collect Psionara before acquiring the Flare Gun and killing the Trimorph in Dorm 3
+ - Unlock all colored doors

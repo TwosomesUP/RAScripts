@@ -195,6 +195,7 @@
  - Store any notes, microcorders, etc that you don't need in the hatch
  - Find Welder on red crate
  - Send Welding Torch to Karne
+ - Send Dillinger and Dillinger Ammo to Kenzo
  - Hide in Shuttle (safe spot)
  - Switch back to Karne and head back to the Airlock on Inocashira Douri 
  - You can now cut the lock on the door across from that Airlock with the Torch
@@ -214,46 +215,75 @@
  - Ask about Red Tag
  - Ask about Pumice Stone (this gives it to him)
  - Pick up Red Tag on counter
+ - Switch back to Kenzo and head south on Madison Avenue into Downing Street/Dead Man's Walk and find Dorm 3
 
 == Dormitory Area ==
- -- Matlock --
- - Fight zombies in confined space
- - Collect Dorm #3 Tag, Ammo, Screwdriver
+ - Search Hatch (passcode 1010) on Downing Street for Green Tag (Dorm #3), Screwdriver, Diabolus Ammo, Piccolo Ammo
+ - Continue heading towards Dorm #3 on Dead Man's Walkway
+ - Search corpse for Microcorder (Jean Merrow)
  - Enter Dorm #3
 
 == Dorm #3 ==
  -- Kenzo --
- - Carefully collect Resonator, Screwdriver, and send via Vac-tube
+ ** Don't get too close to the Trimorph in this room
+ - Search corpse for Resonator, Nailgun, and Ammo
+ - Send Pumice Stone to Karne and get the Red Tag from Ben Gunn (if you haven't all ready) 
+ - Send Resonator, Screwdriver to Matlock
  - Optional: Use Buggy + Magnetic Checker → collect Spectrometer
- - Kill Trimorph later with Flare Gun (after Airlock #2)
- - Send Pumice Stone to Karne → trade with Ben Gunn → gain Red Tag
+ - Optional: Run past Trimorph into 42nd Street to collect Psionara, Crank, and an extra Dillinger
+ - Switch to Karne and send Red Tag to Matlock
+ - Switch to Matlock and retrieve all of the vac-tube items
+ - If you have the Martian Rocks stored, retrieve them - you'll need both plus the Resonator
+ - Head to the Geo Lab on Piccadilly Circus (Gray Door)
 
 == Geo Lab ==
  -- Matlock --
- - Statue causes psychic damage every few minutes
- - Collect Shaped Rock + Martian Rocks, cut them with Rock Cutter
- - Place rocks in statue slots
- - Use Rover to retrieve missing rock (C6 coordinate)
- - Place last shaped rock, use Resonator → break psychic curse
+ - Examine corpse for Remote Control (Spiritus)
+ - Collect Shaped Rock from Drawer behind statue
+ - Place Shaped Rock in Statue
+ - Using the computer, activate the Rover and send it to Grid Cell C6 for the final Martian Rock
+ - Place Martian Rocks in Rock Cutter
+ - Activate rock cutter to shape martian rocks
+ - Place newly shaped rocks in statue slots
+ - Use Resonator on Statue and break the psychic curse
 
-== Bio Lab ==
+== Bio Lab - Front ==
  -- Matlock --
- - Collect White Tag, Notes, Ammo
- - Later: Use Scalpel to cut web, explore back area
- - Collect Centrifuge, Microscope, Ben Gunn’s blood sample
- - Begin cure research
+ - Collect White Tag and Microcorder (Mai Lin) from Vac-tube
+ - Send White Tag and Remote Control (Spiritus) to Kenzo
+ - Switch to Kenzo and head to Mai Lin's room on Boulevard St. Michel (White Door)
 
 == Mai Lin’s Quarters ==
  -- Kenzo --
- - Collect Diabolus Gun, Ammo, Needle & Thread
- - Use Spiritus Remote → shut off fireplace → collect Black Tag
+ - Collect Diabolus from the bed next to the vent
+ - Collect Needle & Thread from Jar next to the fireplace
+ - Use the Remove Control (Spiritus) on the fireplace to turn it off
+ - Collect the Black Tag
+ - Head back to the MOOD chamber
  - Send Black Tag to Matlock
+ - Switch to Matlock, collect the Black Tag, and head to the Necropolis Elevator at the end of Time Square (Black Door)
  
 == Necropolis Elevator ==
- -- Karne --
- - Blocked by Trimorph guarding elevator
- - Collect Laser Scalpel from corpse
- - Return later with Flare Gun to kill Trimorph
+ -- Matlock --
+ - Collect the laser scalpel from the corpse
+ - Head back to the Bio Lab
+
+== Bio Lab - Back ==
+ -- Matlock --
+ - Cut the Trimorph tentacle with the Laser scalpel
+ - Send Scalpel to Karne
+ - Head into the Bio Lab back room
+ - Unlock computer (2915) and listen to Harroway's Journal
+ - Run back to the Med Lab and take a blood sample from Matlock using the stored syringes
+ - Switch to Karne, collect the Vac-tube items and start heading toward the Rainbow Room on Madison Avenue
+ - On the way, cut the lock on the Broadway 2 Door with the Laser Scalpel
+ - Hide Karne in the Madison Avenue Air Lock and switch to Matlock
+ - Head to Mai Lin's Room on Boulevard St. Michel and unscrew the air vent
+ - Switch to Kenzo, enter the Simureal Chamber, examine the rock, and view the vent map making sure the doors are open
+ - Switch back to Matlock and enter the vent.
+ - Continue to press forward to escape the Trimorph and enter the Project Director's Quarters
+ ** There is a bug where if you interacted with the Vent Doors through the Simureal chamber earlier in the game, the doors may not work correctly
+ ** Should I make a save after this point for people?
 
 == Rainbow Room - Project Director’s Quarters ==
  -- Matlock --

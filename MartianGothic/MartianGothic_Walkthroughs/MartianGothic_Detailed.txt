@@ -287,9 +287,16 @@
 
 == Rainbow Room - Project Director’s Quarters ==
  -- Matlock --
- - Find Judith Harroway’s body → collect Rainbow Tag + Desk Key
- - Use computer → story revelations about Karne & Harroway
- - Unlock Kremlin access
+ - Search body on the bed for the Rainbow Tag
+ - Take the Alarm Clock from the Dresser
+ - Search the rug for a Desk Key
+ - Use the Desk Key to unlock the Desk and take the Passcode (Main Hatch): 3471
+ - Access computer and listen to Harroway's Journal 5
+ - Leave the Project Director's Quarters and head back to the Chem Lab
+ - Switch to Karne and head to the Project Director's Quarters
+ - Examine the Computer and listen to Harroway's Journal 6
+ - Use the Door Control to unlock the Kremlin
+ - Leave the room and head to Broadway 5 and enter the Kremlin (Rainbow Door on map)
 
 == Kremlin ==
  -- Karne & Matlock --

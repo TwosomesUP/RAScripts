@@ -1,0 +1,1680 @@
+-----------------------------
+Martian Gothic: Unification
+Developer - Creative Reality
+FAQ ~ Full Walkthrough
+-----------------------------
+
+
+Platform: Playstation 1
+Author: Shock
+Contact Info: shocker2972@yahoo.com
+Current Version ~ 1.02
+Release Date: (12-02-01)
+Last Updated: (02-16-02)
+Copyright 2001, All Rights Reserved
+
+
+
+============================================================================
+
+i. Legal Stuff:
+
+This document is for private and personal use only. If you wish to use this
+document on another website I ask only a couple of things. First of all do
+not altar this document in any way without the author's explicit permission.
+This document may not be sold or redistributed for profit without my
+consultation. If you’d like to use this document in its unaltered form all
+you need to do is ask and I will add your site to the list. I just wish to
+know where this document is circulating. Thanks for taking the time to read.
+Enjoy the FAQ.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+This FAQ is available at the following sites:
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+www.gamefaqs.com       www.playpalace.co.uk
+www.psxcodez.com       www.fastcheater.com
+www.cheatcc.com        www.25000cheats.com
+www.cheatportal.com
+www.911codes.com
+www.911cheats.com
+
+============================================================================
+
+ii. Revision History:
+
+Version 1.00 - (12/02/01): FAQ Released.
+
+Version 1.01 - (12/16/01): Added Cheats section. Tried to give a better
+description for the Obelisk puzzle. Updated items. Fixed some spelling
+errors. Added Rezin's section.
+
+Version 1.02 - (02/16/02): Added information regarding the troublesome PS1
+"Respirator Bug". Added 4-digit watch codes. Updated items (near complete).
+============================================================================
+
+
+Table of Contents:
+-----------------
+
+  I. Intro
+ II. Controls
+III. PC vs. Playstation
+ IV. Prolog
+  V. Walkthrough
+
+     1.01 – Welcome to Vita Base       1.21 – Mai Lin’s Quarters (Kenzo)
+     1.02 – Base Director’s Quarters   1.22 – Necropolis Elevator
+     1.03 – The Gymnasium              1.23 – Bio Lab (Back)
+     1.04 – The Washroom               1.24 – Mai Lin’s Quarters (Matlock)
+     1.05 – Rec Room                   1.25 – Project Director’s Room
+     1.06 – The Study                  1.26 – The Kremlin
+     1.07 – The Arboretum              1.27 – Airlock #2
+     1.08 – Chem Lab                   1.28 – Dormitory – The Psionarra
+     1.09 – MED Lab                    1.29 – Enter the Necropolis
+     1.10 – Air Recycling Center       1.30 – Necropolis Elevator (Revisit)
+     1.11 – MOOD                       1.31 – The Pit Chamber
+     1.12 – Power Core                 1.32 – Arena Site
+     1.13 – Dorm #1                    1.33 – The Obelisk
+     1.14 – Shuttle Bay                1.34 – Obelisk Puzzle
+     1.15 – The Kitchen                1.35 – The North Chamber
+     1.16 – Dorm #2                    1.36 – Altar Puzzle
+     1.17 – The Dormitory Area         1.37 – Arkham Dorm
+     1.18 – Dorm #3                    1.38 – Whittaker's Grave
+     1.19 – Geo Lab                    1.39 - Search for a Cure
+     1.20 – Bio Lab (Front)            1.40 - Final Mission
+
+ VI. Extras
+VII. Cheats
+VIII Special Thanks (Credits)
+
+
+============================================================================
+
+I. Intro:
+---------
+
+"Stay Alone, Stay Alive". This was the final transmition sent from Vita Base
+almost 10 months ago. There’s been continuous radio silence ever since.
+Earth Control has sent a 3 man team to investigate and determine the fate of
+their lost Vita colony. What dark secrets lie beneath the frozen Martian
+surface? And what has become of Vita Base’s 58 man crew: Mutiny? A bacterial
+outbreak? Or perhaps something far, far worse...
+
+A deadly game is about to begin. Something very old and very deadly has
+returned…
+
+Martian Gothic Unification is a sci-fi thriller that gets its roots from
+classic titles like Resident Evil, Alone in the Dark, and Day of the
+Tentacle. However MG focuses a bit more on the puzzle aspect of these games.
+There’s still plenty of action in Martian Gothic but weapons will only get
+you so far. Strategy will get you a lot further than firepower but in the
+end you’ll need plenty of both to survive. As you explore Vita Base you’ll
+be controlling up to 3 characters simultaneously. Teamwork will be
+essential.
+
+============================================================================
+
+II. Controls:
+-------------
+
+The controls are pretty much your standard Resident Evil configuration so
+I’m not going to go into too much detail here. There are a few minor
+differences though.
+
+Select button:~~~~~~~~~~~~~~~~Switch characters.
+Start button:~~~~~~~~~~~~~~~~~Inventory.
+X button:~~~~~~~~~~~~~~~~~~~~~Interact/Action, Shoot.
+O button:~~~~~~~~~~~~~~~~~~~~~Run.
+Square button:~~~~~~~~~~~~~~~~Kick.
+Triangle button:~~~~~~~~~~~~~~Exit/Go Back a Screen.
+O + X (repeatedly):~~~~~~~~~~~Break zombies hold (Press buttons rapidly).
+R1 button:~~~~~~~~~~~~~~~~~~~~Draw Weapon/Enter combat mode.
+R1 + X:~~~~~~~~~~~~~~~~~~~~~~~Draw, Fire weapon.
+R1 + Triangle:~~~~~~~~~~~~~~~~Aim down, Fire weapon.
+
+============================================================================
+
+III. PC vs. Playstation:
+------------------------
+
+The two versions play out pretty much the same. There are no major story
+changes and all the codes/puzzles are the same. I’ve got to admit that this
+is probably one of the better ported games I’ve played on the PS1. It’s good
+to see that Creative Reality took their time and got it right. There are a
+few minor differences between the 2 versions though.
+
+1) PS1 version gives you 12 saves per computer. PC you only got 2-5 before
+the patch. You'll also find health and ammo in larger amounts on the PS1.
+
+2) The Trimorph AI seems better on the PC.
+
+3) Some puzzles/rooms have been improved on PS1 (Kremlin, Altar, zombie in
+orange room). Others have been slightly altered for the PS1 (Obelisk).
+
+4) The 3rd breed of Extrude has been removed from the PS1 version (no
+paralysis). The 4th radio for Ben Gunn is also missing.
+
+5) Nothing else really worth mentioning.
+
+============================================================================
+
+IV. Prolog:
+-----------
+
+In Martian Gothic there’s really no set way of doing things. You’ll be able
+to perform many tasks in several different orders. I've decided to exclude
+numeric codes from this document but I will tell you where you can find
+them. I'll try to keep the backtracking to a minimum but with the
+substantial amount of items you’ll be finding it’s almost inevitable.
+There’s obviously going to be some spoilers in this next section so consider
+yourself warned.
+
+============================================================================
+
+V. Walkthrough:
+----------------
+
+============================================================================
+
+1.01 - Welcome to Vita Base
+----------------------------
+
+Your ship crash-lands and the party makes their way to Vita base. Upon
+arrival the group splits up and each member enters through a different
+airlock. The team has been given very little in terms of information and
+supplies. Your only briefing was a mysterious warning, "Stay alone and stay
+alive". If only it was that simple.
+
+Each team member has a unique talent. Martin Karne is the leader of the
+group. As the story unfolds you’ll learn that Karne has actually taken this
+mission for more "personal" reasons. Kenzo Uji is the infamous infomesher;
+the computer expert of the team. And finally there’s Diane Matlock, the
+medical/science expert who accompanies the team in the event of a biohazard.
+Take a few moments to get a feel for the controls and then it’s time to head
+out.
+
+You’ll start off with Karne in Airlock #1. If you examine the spacesuit
+you’ll see that the tanks are empty. You’re basically trapped on Vita Base
+for the time being. Search the helmet and you’ll find a radio inside.
+There’s also an empty locker in this room so you can take this opportunity
+to dump off your luxury items (Silver bullet and candy wrapper). Once you’ve
+finished checking out the helmet and the locker, switch to Kenzo and Matlock
+and do the same thing. All 3 airlocks have suits with radios and Matlock’s
+room even has a locker with a Piccolo gun and some ammo (Sweet!). Feel free
+to dump off their luxury items as well (Lipstick, contact, nicotine patch,
+pictures, game book, -just eat the Satsuma). When all 3 characters have
+their radios use one and they’ll carry out a little conversation. After
+Karne gives them a little pep talk, walk through the main door and into the
+decontamination room. If you’re using Karne or Matlock you won’t get very
+far. Airlocks #1 and #3 are sealed and you’ll have to bypass them by
+computer. That just leaves Kenzo so go through the little decontamination
+sequence and exit Airlock #4.
+
+You’ll start off on Madison Avenue. To the south (refer to map) is the
+dormitory area but you can’t go there yet because the bulkheads are down. So
+head north instead and go through the door. In the next room you’ll meet
+your very first member of Vita Base; unfortunately it appears that he’s been
+dead for quite some time now. You’ll find another corpse further down the
+hall. Search the body and you’ll find an orange tag and a micro-recorder.
+Listen to the recorder and you’ll learn that this is the body of Antonio
+Felicci; base director of Vita Base. Felicci sounds demoralized in his
+message as he talks about "floating men", gunfire, and other craziness.
+Not a lot of questions answered here so head east on Boulevard St. Michel
+and go through the next door.
+
+You’re path will be obstructed by the floating man that Felicci was
+referring to. Don’t worry, he can’t harm you. There’s also an empty hatch to
+your left (great for storage). Use the orange tag to unlock the door on your
+right and enter Felicci's bedroom.
+
+================================
+1.02 - Base Director’s Quarters:
+--------------------------------
+
+*LOCATION: Orange Door, Boulevard St. Michel
+*ITEMS: Piccolo ammo, Computer, Vac-tube, Silver bell (later).
+
+
+You can search the body on the bed for some ammo. There’s a locked drawer in
+this room but you won’t be able to open it until later so go over to the
+computer and login. When you try to use the computer it asks for voice
+authorization. Use Felicci’s micro recorder with the computer (to simulate
+his voice) and you’ll be greeted by an emergency transmition from Judith
+Harroway; Project Director of Vita Base.
+
+The message is distorted but you can tell she’s pretty livid; talking about
+"opening Pandora’s box", "people clumping together", and more of this "Stay
+alone, stay alive" stuff. The message ends and you’ll receive your first
+password: PANDORA. Feel free to browse through the files if you want.
+Nothing vital but it adds to the story. When you’re tired of reading go to
+the Martian Mayhem option and save your game; you’ll see why in just a
+second. Go to the Doors menu and release the locks. Karne’s door will open
+but Matlock’s door remains locked and needs a pass code. Before you can do
+anything else the girl on the bed sits up and starts coming after you. You
+don’t have any weapons yet so you can’t fight her. Your only option is to
+get out of the room fast.
+
+**(SIDE NOTE)** This part used to be extremely frustrating on the PC version
+but they’ve made some improvements. If she grabs you rapidly start pressing
+the O and X buttons and try to shake her off. You can also reload from your
+previous save if you get into trouble. She won’t sit up until after you
+release the doors so try to take a few back steps toward the door before
+she sits up. You’ll have trouble opening the door if you’re moving so calmly
+walk toward the door, stop, open it, and get out.
+
+Once you’re outside stash the micro-recorder in the hatch, you won’t need it
+anymore, and go back the way you came. Head through the door on the west
+side this time and you’ll find a hatch with a health boost inside. Take your
+time and explore these corridors thoroughly. You’ll be running through this
+area quite frequently so start getting acquainted with all the doors, bends,
+and curves. There are dead bodies everywhere so search them all (one of them
+has the MED key). Follow the corridors until you come to an area (Sunset
+Blvd) with a vac-tube and a locked green door. Check the vac-tube and you’ll
+find a note from Ben Gunn. You’re done with Kenzo for now so press Select
+and switch to Karne.
+
+Karne starts off in an area where most of his doors are locked or sealed. As
+Karne starts walking down the hall he’ll notice that his watch stops. If you
+go to the inventory screen you’ll notice that everybody’s watch has stopped.
+Continue exploring the corridors and make you’re way down to Park Lane.
+You’ll see another hatch on the wall near the purple room but this one
+requires a pass code. Try using the 4-digit number on your watch and the
+hatch should pop open revealing your first green tag.
+
+############################################################################
+*Watch Codes: Some people are having trouble reading the numbers at the top
+of the screen (different formats). For those who can't see the numbers:
+
+Karne: 4864               Kenzo: 3172               Matlock: 2915
+############################################################################
+
+There are 3 green doors on Vita Base (not the numbered doors). These 3 rooms
+can be opened in any order but I prefer opening them like this because it
+requires the least amount of backtracking. Follow Park Lane a little bit
+further and Karne will come across another vac-tube. Place the Green tag in
+the vac-tube and send it over to Kenzo; we’re going to open his 2 doors
+first so check the map. Kenzo is already standing right next to one of the
+green doors but ignore this one for now and head over to the far door. Use
+the green tag and enter the Gymnasium.
+
+=================
+1.03 - Gymnasium:
+-----------------
+
+*LOCATION: Green Door, State Street
+*ITEMS: Mars hopper, Belt, Notes/Paperclip, Bible, Micro-recorder (Mentz),
+Green tag.
+
+
+Wow, somebody sure knows how to throw a party. Search the hanging body for a
+bunch of items. The recorder describes the final moments of Dieta Mentz (an
+old friend of Matlock). It should be pretty obvious by now that there’s
+something terribly wrong with this place. You can examine her notes but you
+won’t find much -- except for a trusty paperclip. Take a look at the Bible
+and you’ll find a highlighted passage which reveals another password:
+WORMWOOD. Before you leave be sure to grab the deflated Mars hopper on the
+floor and don’t forget to take the belt off the exercise bike (it’s near the
+basketball hoop). Head back to the vac-tube where the other green door was.
+Open the door with the Green tag you found in the Gym and enter the
+Washroom.
+
+=========================
+1.04 - Bathroom/Washroom:
+-------------------------
+
+*LOCATION: Green Door, Sunset Blvd (near vac-tube)
+*ITEMS: Vibro-scour, Green tag, anti-toxin, #2 Dorm tag, Notes, Pass code to
+Arboretum, Tanning beds, Jameson’s Body (later).
+
+
+Enter the bathroom and search the body that’s sitting on the toilet; what a
+way to die. The bathroom has a couple of bad camera angles so make sure you
+search this area carefully. There’s another body on the floor that you can
+use with something later on. Ignore Jameson's body for now but remember
+where you found him. Just beyond the body there’s a blind corner with a set
+of lockers. Open the locker and you’ll see that it’s loaded with items.
+There’s a ton of storage space here so I recommend freeing up some space
+(Dump off the Bible, Micro-recorder, and any notes you have -- write down
+the Arboretum #). There's also some tanning beds in the Washroom which you
+can use to recharge the Biosensors you’ll be finding soon. When you’re ready
+head back outside and use the vac-tube to send the Vibro-scour, paperclip,
+and the purple/green tags over to Karne.
+
+Switch to Karne and make your way toward the 3rd and final green room. Use
+the Green tag on the door and enter the Recreation Room.
+
+================
+1.05 - Rec Room:
+----------------
+
+*LOCATION: Green Door, Inocashira Doori
+*ITEMS: Pop-gun, Biosensor, Magnetic checker, Dillinger ammo, Desk key,
+Green tag, Vac-tube.
+
+
+Don’t search the bodies just yet! Start by picking up the pop-gun and the
+biosensor on the table. The pop-gun is not a weapon so you won’t be able to
+hurt anything with it. There are 2 boxes in this room that you need to open.
+One’s on the table near the dartboard and the other one is on the table by
+the vac-tube. Open the music box and it will start playing the song 3 Blind
+Mice (How ironic). Take the key you find inside. Now go ahead and examine
+the other box and you’ll see that it’s locked. Use the paperclip to pick the
+lock and you’ll receive the checker and some ammo.
+
+Now if you’ve opened all the Green rooms in the order I specified you won’t
+need to search any of the bodies. You can leave the Rec Room now. The body
+sitting by the movie screen has an extra Green tag but he’s going to attack
+you if you try to take it from him. The extra tag was put in the game to
+keep you from getting stuck; doesn’t matter how you opened the rooms you’ll
+always end up with an extra Green tag. If you still need this tag try to
+stand as far away from him as possible before searching. This should give
+you a couple extra seconds to get out of the room.
+
+When you’re finished with all the Green rooms, it’s time for Karne to use
+his Purple tag and enter the Study.
+
+=================
+1.06 - The Study:
+-----------------
+
+*LOCATION: Purple Room, Park Lane
+*ITEMS: Blue tag, Book of Egypt (Khepri), Vac-tube, Computer.
+
+
+There’s not a whole lot to do in this room. Use the drawer key that you
+found in the Rec Room to open the desk. You’ll receive a Blue tag. There’s a
+dead body sitting in a chair with a book in his hand. Use the computer and
+save your progress. You can now access some of the restricted files on the
+computer (use your watch codes) but there’s still one file you won’t be able
+to get into. Don’t worry about it. You’ve got the tag and you’ve saved so
+it’s time to head to the Arboretum. As you leave the Study you’ll hear
+something drop (the book) and the corpse will stand up from his chair.
+You’ll need to go back for this book eventually but it can wait. Just ignore
+him and leave the room.
+
+Head back toward the vac-tube but this time keep going until you reach the
+door at the very end of the hallway. Enter the Arboretum code that you found
+in the Washroom and go inside.
+
+=================
+1.07 - Arboretum:
+-----------------
+
+*LOCATION: End of Park Lane
+*ITEMS: Altar note, #4 Dorm tag, Remote control, Suicide note, Piccolo ammo,
+Lichens (2), Brown herbs (7), Piccolo guns (2), Blue tag, Micro-recorder
+(Tierney), Weed Killer gun, Rubber gloves, Bicycle pump, Respirator mask.
+
+
+Welcome to the ArborEATum. This is a large outdoor area that the colonist
+used for plant experimentation and air filtration. There will likely be more
+items than you can carry here so take what you can and come back for the
+rest later. There’s a lot of area to cover so let's get started.
+
+On the east side of the fountain you’ll see a dead man sitting on a bench
+way off in the distance. Run over to him and examine his body and you’ll see
+that he has a gun which he’s clutching like a vice. You can’t get the gun
+yet so search him, grab what you can, and leave. As you’re leaving he’ll
+decide to get up and come after you (leaving the gun behind). Zombies really
+aren’t much of a threat in large open areas like this so just keep moving
+around until you get a decent camera view and let the zombie come closer.
+When you think you’ve lured the zombie far enough away simply run around him
+and head back to the bench to pick up the gun. You can shoot him if you’d
+like but there’s really no point. Save some ammo and just avoid him.
+
+On the south side of the fountain you’ll see a green doorway which leads to
+the Air Recycling Center. Karne looks inside but the way is blocked by a
+Trimorph that’s hanging from the ceiling. If you get too close the Trimorph
+will grab you and eat you alive so keep your distance. It‘s best just to
+leave him alone for now.
+
+On the west side of the fountain you’ll see a zombie that’s walking near a
+garden shed. Equip your gun and shoot him down. Search his body and you’ll
+find some really nice stuff. Make sure you grab the micro-recorder and the
+gun (and the Blue tag if you have room). This micro-recorder is extremely
+important because it contains the 4-digit code needed to free Matlock from
+the airlock. If you examine the shed you’ll see that it’s padlocked and the
+chains are kind of rusty (need an item). There’s nothing more you can do
+here so leave the Arboretum the same way you entered.
+
+Once you’re back inside you’ll see that Vita Base is becoming pretty lively
+again. The Nondead are coming back to life and these suckers won’t stay down
+for long. It takes several shots just to knock one down and they’ll get
+right back up after a couple of minutes. Go back to the Study and retrieve
+the book you left behind (search the area where he was sitting) and then
+head back to the vac-tube and send Kenzo the extra Piccolo gun you just
+found. You can also send the remote control, the checker, and both Blue tags
+over to him. When you’re finished take Karne back toward the Arboretum door
+but don’t go through it. We’re going to park him next to the door for now
+(safe spot).
+
+Switch to Kenzo and take the items Karne sent. Now place the MED key, the 2
+Blue tags, and the belt into the vac-tube. Send the stuff out and leave it
+be (These items are going to Matlock). Your next goal will be to get Matlock
+out of the airlock, so make your way back to the Director’s room (orange
+room). Don’t shoot the floating zombie yet. Enter Felicci’s room and shoot
+the zombie that jumped you earlier. Now go to the computer and enter the
+numeric code that you found on Tierney’s recorder. Matlock will finally be
+free and all of your characters should have weapons now. Nice work. Take
+Kenzo outside and leave him in the area with the floating guy (safe spot).
+
+Matlock starts off at the Times Square intersection. To you’re west is a
+body with a scarab; don’t worry about the blue door for now. To the north is
+a door with a cable hanging from it. The door is jammed so you’ll need to
+find a way to blow it open. Head to the east and check the Baker Street
+storage hatch for a hacksaw. You’ll come to an intersection called
+Piccadilly Circus where there are several doors. Search the body and you’ll
+find some items and another micro-recorder (Andreivich). You’ll learn a
+little bit more about Operation Akarak and Earth Control’s role in it. Yuri
+had hoped to sabotage the project before it’s completion but was
+unsuccessful. Use the Brown tag you just found and enter the Chem Lab.
+
+================
+1.08 - Chem Lab:
+----------------
+
+*LOCATION: Brown door, Piccadilly Circus
+*ITEMS: Desk key, Lichen, Receptor panel, Health, Martian Rock, Flask,
+Biosensor, Computer, Vac-tube, Chemical combiner.
+
+
+############################################################################
+With 3 characters you’ll be using the vac-tubes a lot more frequently now.
+You’ll have to start juggling items a little bit more on your own. I
+recommend freeing up as much space as possible on Karne. You’ll be entering
+the Recycling center soon and Karne’s going to need about 6-7 open slots.
+All the herbs and lichens you’ve found so far can go to Matlock; she will
+soon be able to convert them to health and anti-toxins. Make sure you keep
+the vibro-scour in Karne’s inventory. You’ll need it for Recyc.
+############################################################################
+
+Check the tube for the items Kenzo sent (MED key, tags, and belt) and send
+the hacksaw to Karne so he can open the shed in the Arboretum. You’ll find a
+Martian rock inside the vac-tube. Store the rock and the belt in the locker
+for later use. There’s a Chemical combiner in this room that can be used to
+create a variety of mixtures. You can use the flask on the countertop to
+build a nitroglycerine bomb for the door but you can’t finish it yet because
+you need a wick. As long as you're carrying the nitro in your inventory you
+won’t be able to run so just leave the flask in Chem Lab for now (or store
+it in the hatch outside). There’s also a biosensor by the sink you won’t
+want to miss.
+
+**(SIDE NOTE)** When you leave Chem Lab the corpse will get up and start
+following you. Walk past the storage hatch and lure the zombie down the
+hallway (towards Time Square). When he can’t follow you any further shoot
+him down and head back to Piccadilly Circus. Nondead only stand up when you
+get too close to them. If you’ve lured him far enough away he won’t bother
+you anymore. You’ll be able to roam Piccadilly Circus freely and you’ll save
+a ton of ammo.
+
+Use the Blue tags on the two blue doors in Piccadilly Circus. Go through the
+east door and search the body for a micro-recorder (Muir), locker key, Dorm
+#1 tag, and the Yellow tag. Now head back to the south blue door and make
+your way down toward MED Lab.
+
+===============
+1.09 - MED Lab:
+---------------
+
+*LOCATION: Carnaby Street (near Air Lock #2)
+*ITEMS: Syringes (4), Blue tag, Health, Vac-tube, Computer, Chemical
+extractor.
+
+
+The hallway is coated in blood and there’s howling noises coming from the
+end of the corridor. It seems the colonists have trapped something very
+large inside Airlock #2. Fortunately the control panel has been smashed so
+you’re safe for the time being.
+
+The most valuable thing in this room is the chemical extractor. You can use
+it to transform herbs/lichens into health/antitoxins. It’s a handy device so
+you’ll definitely want to take advantage of it. There’s also another message
+from Harroway on this computer; nothing earth shattering here but it
+enhances the story. There’s an extra Blue tag inside the locker if you need
+it. Ignore the syringes for now but remember where they’re at. That’s pretty
+much it for now. Once you’re finished extracting herbs switch to Karne.
+
+Send all your herbs to Matlock (if you haven’t already) and free up some
+space. Take the hacksaw and head back to the Arboretum where you saw the
+storage shed with the padlock. Cut the chain with the hacksaw and go inside.
+Carefully search the shelf for a small metal box. Inside this box is a pair
+of gloves and a weed killer gun. Examine the spray gun and remove the empty
+cartridge. Now leave the Arboretum and head back to the vac-tube.
+
+Send the cartridge to Matlock and head back to Chem Lab. Place the cartridge
+inside the Chemical combiner and fill it with Hydrochloric acid. Send the
+cartridge back to Karne and load it into the spray gun -- It’s time to kill
+a Trimorph. Head back to the room in the Arboretum with the Trimorph and use
+the spray gun on it. The Trimorph will scream out in pain and disappear up
+into the ceiling. Search the shelf and take the bicycle pump and the
+respirator mask before going through the door to ARC.
+
+============================
+1.10 - Air Recycling Center:
+----------------------------
+
+*LOCATION: Arboretum
+*ITEMS: Anti-toxin, Oily rag, Nail gun, Nail ammo, Brown herb, Computer.
+
+
+Watch out for that annoying little spider creature (Extrude) on the floor.
+You can kick or shoot these guys but you're best bet is to just try to avoid
+them. Search the body for some items and then run over to the computer and
+login. You’ll hear a couple of messages from Harroway (more background
+info). If you’re near full health go ahead and burn a save here. There’s no
+reason to come back to Recyc again unless you run out of saves. Press the
+Recyc Button and the fan will turn off. An audible warning tells you that
+you only have 5 minutes left before environmental systems failure. This will
+be plenty of time if you already have the vibro-scour in your inventory.
+
+Run to the large fan located behind the computer and Karne will climb up to
+examine the filter. Use the vibro-scour to clean the dirty filter. When
+you’re finished climb down and go back and use the computer again. Press the
+Recyc button AGAIN to turn the fan back on: a lot of people get this far and
+forget to turn the fan back on. Once the fan starts spinning again you'll
+know that it's working. Leave ARC and exit the Arboretum for the LAST time
+(you’re finished here).
+
+Head back to the vac-tube. Give the oily rag to Matlock and send the yellow
+tag, bike pump, respirator, and desk key over to Kenzo. Use the key to open
+the drawer in the Director’s quarters and take the silver bell. You should
+now have everything you need to open the MOOD chamber. You can go ahead and
+shoot the floating zombie now. Search his body and you will find an electric
+screwdriver. Try using the screwdriver on the air duct behind him and take
+the remote control car that you'll find inside. If you want you can use the
+magnetic checker with the buggy now and free up an inventory slot. Head to
+the yellow door and enter the MOOD chamber.
+
+**(SIDE NOTE)** The buggy is a fun little toy that has many uses. You can
+use it to scout ahead and explore new hallways. You can also use it to
+transfer items between characters when you’re low on ammo or just feeling
+lazy. Monsters will completely ignore the buggy as it drives by. It will
+also be used to solve a puzzle later on in the game so don’t forget where
+you parked it.
+
+The first time you open the yellow door you’ll discover a breech in the
+wall. The air is rapidly escaping so you'll need to use the respirator mask
+you found back in the Arboretum. After you've equipped the mask, place the
+Martian Hopper inside the hole. Now inflate the balloon with the bicycle
+pump and the hopper will expand to seal the breech. Now that you've patched
+the hole you can enter the chamber and talk to MOOD.
+
+############################################################################
+PS1 Respirator Bug:
+
+I've received several emails concerning a bug that occurs when Kenzo uses
+the respirator mask in the MOOD chamber hallway. There are 2 camera angles
+in this hallway and, depending on where you're standing, you'll either get a
+black screen or the game will lock-up as soon as the POV changes. I'm not
+sure what causes this freeze to happen but there's no real workaround for it
+yet (obviously it can't be patched). If you're having problems with this
+bug here is what I've been recommending.
+
+"If you're experiencing problems with the respirator bug this is the only
+thing that's worked for me. Save the game just before Kenzo enters the
+yellow door so you can quickly reload if necessary. When the game freezes
+most people usually press the reset button, load the game, make it back to
+the same point, and the game freezes yet again. However when I turn the
+power off on the Playstation (let it sit for 10 seconds) and then
+start and reload the game, it plays through normally almost everytime. Not
+sure what powering down the Playstation does but it seems to work for some
+people -- unfortunately this method doesn't work for everybody."
+
+If the above method didn't work I'd also recommend trying to load the game
+on a friends Playstation. If anyone has any tips or workarounds for this bug
+I'll continue adding them in future updates.
+############################################################################
+
+
+====================
+1.11 - MOOD Chamber:
+--------------------
+
+When you first encounter MOOD she doesn’t feel much like talking. She won’t
+help you unless you replace the receptor panel in Power Core and give her a
+power boost. You couldn’t get into the Power Core earlier because the door
+was jammed but now you have the necessary ingredients to make your nitro
+bomb. Switch to Matlock and make a nitro solution with the flask (you may
+have already done this). Take the nitro, receptor panel, oily rag, and the
+lighter and head to the jammed door. Tie the oily rag to the hanging cable
+and then wrap the rag around the neck of the flask. Use the lighter and RUN!
+The explosion will blast the door to bits and you’ll be able to enter Power
+Core.
+
+==================
+1.12 - Power Core:
+------------------
+
+*LOCATION: Times Square (North door)
+*ITEMS: Health, Downing Street code, Vac-tube, Computer.
+
+
+Watch out for the Extrudes that appear after the explosion. You’ll need to
+use the computer to lower the large mechanical arm but first you need a
+fingerprint ID. This seems impossible at first because all the colonists are
+dead but Matlock gives you a little hint. Remember the body you found back
+in the Washroom earlier? Switch to Kenzo and take him back to the Washroom
+(Green door, Sunset). Make sure you bring the hacksaw with you. Find
+Jamison’s body and use the hacksaw to cut off his hand.
+
+Place the severed hand and the screwdriver inside the vac-tube and send them
+over to Matlock. Take Kenzo back to the MOOD chamber and have him wait
+there. Now you should be able to use the hand to activate the computer and
+lower the generator hood. Replace the receptor panel and go back to the
+computer to activate it. Once power has been restored you can head back to
+Chem Lab.
+
+Once the power has been restored MOOD will become much more sociable. Ask
+MOOD about the bulkheads and MOOD says that she might raise the bulkheads IF
+you can guess her password. Choose to talk to MOOD about the bulkheads a
+second time and this time Kenzo will give her the password: PARK LANE (note
+from Ben Gunn).
+
+The bulkheads still aren’t up yet. You'll need to sit in the chair and
+activate the VR chamber. You’ll appear inside a house that looks just like
+Kenzo’s home back in Japan. You start in a closed room with a musical
+instrument in the corner. Pick up and play the shamisen with the silver bell
+and it will open a door outside. In the yard you’ll find a large rock slab.
+Examine the slab and you will see a very crude map of Vita base. Rocks
+represent bulkheads and you can lift the rocks to open and close them. Raise
+the rocks and the bulkheads will go up; this will completely open up Vita
+Base to you. There are two other maps on this stone slab that we’re going to
+use a little later.
+
+There are many subjects that you can talk to MOOD about. MOOD is usually
+pretty cryptic with her answers but she knows everything. Check back with
+her periodically because new topics appear from time to time -- she also
+gives out passwords for the computers. MOOD’s answers will vary depending on
+which team member is talking to her. MOOD will be receptive to Kenzo but she
+HATES Karne and won’t even give him the time of day.
+
+############################################################################
+Once you’ve raised the bulkheads things can get pretty confusing. The game
+becomes nonlinear from here on, but there’s still a standard set of goals
+you must accomplish. With so many items backtracking is almost inevitable
+now. You’ll also have to make sure your characters never cross paths. This
+shouldn’t be too much of a problem but it’s worth mentioning.
+############################################################################
+
+Alright, the bulkheads are up so take the closest person (Matlock) and head
+over to Dorm #1. Don’t forget to bring the screwdriver and the locker key
+with you.
+
+===============
+1.13 - Dorm #1:
+---------------
+
+*LOCATION: Green #1, Wall Street
+*ITEMS: Note (Mr. Oda), #1 Dorm tag, Dillinger ammo, Martian rock, Note
+(Pickman), Health, Nails, Vac-tube.
+
+
+This room is pretty straight forward. Shoot the 2 zombies and collect the
+items. Use the locker key to open the locker. The 2 notes you just found
+hold valuable clues to future puzzles. I’ll explain what they mean later so
+just read and store them away for future reference.
+
+Exit the hall and continue towards the end of Penny Lane. The bulkheads have
+been unlocked so you can use the vac-tube on Sunset if you need to transfer
+(safe spot). When you’re nearing the end you’ll come across another air duct
+which can be opened with your screwdriver. If you examine the duct Matlock
+says she can fit inside. Whatever you do, DO NOT climb inside the vent just
+yet! This vent leads to the Shuttle Bay but there is a Trimorph guarding the
+spacecraft. This isn’t like the one you saw earlier in the Arboretum. It’s
+bigger, faster, and extremely deadly. If you try using the vent now you will
+be killed instantly.
+
+You’re going to need some help here (might not be a bad idea to save before
+you try this). Go through the door at the end of Penny Lane and you will
+enter a wide hallway which ends with a large hanger door. Go ahead and
+switch to Kenzo, use the MOOD chair, and go back to the rock slab. There are
+2 more maps here so take a look at the one that represents Penny Lane.
+You’ll see 2 rocks and a bug at the end (Bug=Trimorph). Kenzo says he can’t
+open either of the doors but he might be able to close one of them. Your
+goal is to trap the Trimorph between the 2 rocks. The only problem is you’re
+going to have to use Matlock as bait.
+
+Change to Matlock and hit the switch to open the first hanger door. The door
+will open and reveal a second hanger door. You need to press the switch to
+open the second hanger door, run as fast as you can back to the first hanger
+door, and then hit the switch to close the first door behind you. It helps
+if you’re facing the direction you want to run when you open the second
+door. The Trimorph will be right behind you so be quick. If you survive the
+chase switch back to Kenzo and have him lower the second door. The Trimorph
+will be trapped between the 2 doors and you can now use the ventilation
+shaft to safely enter the Shuttle Bay.
+
+===================
+1.14 - Shuttle Bay:
+-------------------
+
+*LOCATION: End of Penny Lane (vent)
+*ITEMS: Dillinger gun, Dillinger ammo, Piccolo ammo, Welding torch,
+Micro-recorders (Barton and Kerenski), Grey tag, Brown herb, Vac-tube.
+
+
+The biohazard alarm warns that there are 3 infected humans on the base. MOOD
+turns off the alarm and Kenzo says he’ll ask her about the contagion.
+There’s a ton of ammo here so search all the bodies. There’s also a welding
+torch (kind of hard to see) sitting on top of a red crate that you don’t
+want to miss. If you listen to the recorders you will learn that the
+colonists were trying to escape but they needed at least two people to
+launch the rocket. This could be a problem for your group later on but
+there’s nothing you can do about it now. The colonists couldn’t get enough
+people together in time and that Trimorph came into the Shuttle Bay and
+killed everyone. When you’re finished in the Shuttle Bay send the welding
+torch over to Karne and head back to Chem Lab.
+
+**(SIDE NOTE)** Don’t open the Grey door at Piccadilly Circus until after
+you’ve found the 2 Martian rocks and the resonator. When you enter Geo Lab
+it triggers a nasty series of events where paranormal activity starts
+damaging your team members every couple minutes. It’s not life threatening
+damage but it does get annoying so just wait a little longer.
+
+Karne can now cut through the bolted door with his torch. The room is back
+where you started near Airlock #1. The Extrudes have invaded the hallways so
+move quickly. Cut the lock and enter the Kitchen.
+
+=====================
+1.15 - The Kitchen:
+---------------------
+
+*LOCATION: Bolted door across from Airlock #1.
+*ITEMS: Vac-tube, Red tag.
+
+
+The cafeteria is a mess and there’s graffiti scribbled all over the walls.
+There are subliminal messages hidden in the graffiti and there might even be
+a couple computer passwords (hard to read on PS1). Go up to the counter and
+you’ll meet a strange little man named Ben Gunn. Ben is pretty nutty but
+he’ll answer some of your questions. Ben is similar to MOOD, in how he
+responds differently to each team member. He’s wearing a Red tag around his
+neck but he won’t give it to you unless you bring him a Pumice stone.
+
+Send Kenzo a Dillinger gun and take him over to Dorm #2. Bring the buggy and
+the remote control if you've got the room (not mandatory, this can be done
+later). After this we’re going to keep heading south, past Airlock #4, and
+go after the resonator.
+
+===============
+1.16 - Dorm #2:
+---------------
+
+*LOCATION: Green #2 Door, Madison Avenue
+*ITEMS: Pumice Stone, Dillinger ammo, Piccolo ammo, Vac-tube.
+
+
+Another pretty straight forward room. There are 2 zombies here but they’re
+not carrying any items so kill or avoid them. The Pumice stone is on the
+shower floor at the back of the room. There’s also a locker here that has
+some ammo in it. That’s all there is to do here. Leave and keep heading
+south down Madison and into the Dormitory area.
+
+==========================
+1.17 - The Dormitory Area:
+--------------------------
+
+This is a very dangerous area because there are a lot of zombies in a
+confined space. The Dillinger gun makes things easier because it has the
+potential to knock down enemies with one shot. There are some bad blind
+spots in this area so be extra cautious when you search the bodies and try
+not to get surrounded. When you get to Downing Street you will see a hatch
+on the wall. Open it with the note you found earlier and you’ll receive a
+Dorm #3 tag, some ammo, and another screwdriver. Continue down Dead Man’s
+Walk which will lead you to Dorm #3.
+
+===========================================
+1.18 - Dorm #3: (Warning: Trimorph inside!)
+-------------------------------------------
+
+*LOCATION: Green #3, Dead Man's Walk
+*ITEMS: Health, Anti-toxin, Nails, Nail gun, Resonator, Spectrometer,
+Vac-tube.
+
+
+You’ve actually got a couple of options here. Your main goal is to acquire
+the resonator but you’ll have to be extremely careful moving around in this
+room. There’s a Trimorph in the far corner of the room and if you get too
+close he will pounce on you. Walk slowly toward KENZO’s left and the camera
+view will change. You should see a vac-tube and a body on the ground. Search
+the body and carefully send the resonator, screwdriver, and the Pumice stone
+through the vac-tube (stay as far away from the tube as possible). Make your
+way back toward the entrance of Dorm #3. You’ve accomplished your primary
+objective.
+
+Now if you brought the buggy, place it on the floor and get your remote
+control ready. Be sure to use the magnetic checker with the car so that it's
+magnetized (if you haven’t already). Drive the buggy toward the Trimorph and
+go right underneath it. He’s protecting a hole in the wall which has the
+spectrometer inside. The magnetic checker will latch onto the spectrometer
+and you can drive it back to Kenzo. If the magnet doesn’t latch on after a
+few tries check the buggy and make sure there’s nothing inside of it. The
+spectrometer won’t be used until later so don’t worry if you missed it. You
+can head back to the MOOD chamber when you’re finished. Or you can...
+
+**(SIDE NOTE)** Now if you’re feeling brave it's possible to get past this
+room without killing the Trimorph. To get past the Trimorph you’ll need to
+make a dash for the other door. You can acquire the best weapon in the game
+for Kenzo on the other side; the Psionarra. I recommend waiting until after
+you get the flare gun but it IS possible to get the Psionarra at this point
+in the game. I'll cover this area in more detail later on (Section 1.28).
+
+Give Karne the Pumice stone and send the rest of the items over to Matlock.
+Karne will trade the Pumice stone for a Red tag (Ben will keep asking for
+another Pumice stone but he’ll set the tag on the counter so just pick it
+up). Send the Red tag over to Matlock.
+
+If you have the 2 Martian rocks and the resonator you can now go ahead and
+enter Geo Lab; or you can use the Red tag and enter the Bio Lab. Doesn’t
+matter which room you decide to do first because we’ll be doing them back to
+back.
+
+===============
+1.19 - Geo Lab:
+---------------
+
+*LOCATION: Grey door, Piccadilly Circus
+*ITEMS: Shaped rock, Martian rock, Dillinger gun, Dillinger ammo, Spiritus
+remote, Brown herb, Computer, Vac-tube, Rock cutter, Rover.
+
+
+You’ll receive a nasty surprise when you enter Geo Lab. There’s a creepy
+looking statue standing at the center of the room. Some weird psychic
+activity starts emanating from the statue which causes your team to lose
+health every couple of minutes. Search the body for some items and then go
+past the body and check the drawer in the very back (it’s easy to miss
+because it’s almost behind the statue). You’ll find a shaped rock in this
+drawer. Go to the statue and drop the shaped rock inside; there are 4 holes
+and 1 should disappear. If you try hitting it with the resonator now it will
+sound off key -- so you’ll need to find 3 more stones. Place the 2 Martian
+rocks you found inside the Rock cutter and go to the computer. Activate the
+rock cutter and it will shape the rocks. Now you can use them to fill 2 more
+holes. You should only have 1 hole left now.
+
+Now if you remember Pickman’s note from earlier there was a picture of this
+statue on it. If you look at the picture closely you’ll see the abbreviation
+C6 over one of the holes. Go back to the computer, use the Rover, and a
+grid will appear on the screen. The grid is actually a map of the planet
+surface and you can send the rover to explore any given coordinate. C6 is
+the location you want to send the rover to so send it out and it will come
+back with the final Martian rock. Put the rock inside the cutting machine,
+shape it, and drop it in the final hole. Now use the resonator on the statue
+and the psionic spell will be broken. You’re finished with Geo Lab now so
+head over to the Bio Lab.
+
+============================
+1.20 - Bio Lab: (Front Area)
+----------------------------
+
+*LOCATION: Red door, Piccadilly Circus
+*ITEMS: White tag, Micro-recorders (Lin and Trask), Piccolo ammo, Health,
+Vac-tube.
+
+
+You can only access the front part of Bio Lab right now. The lab animals
+have been infected by the bacteria and have formed a Trimorphic web which
+blocks your progress. Search the body and the vac-tube for a White tag and a
+few other items. You’ll eventually need to find a way to cut through this
+webbing but don't worry about it for now.
+
+When you’ve finished the labs send the White tag and the Spiritus remote
+over to Kenzo. Your destination will be the White door at the very end of
+Boulevard St. Michel.
+
+==================================
+1.21 - Mai Lin’s Quarters (Kenzo):
+----------------------------------
+
+*LOCATION: White door, End of Boulevard St. Michel (past floating zombie)
+*ITEMS: Anti-toxin, Diabolus gun, Diabolus ammo, Needle & thread, Black tag,
+Vac-tube.
+
+
+Search the drawer for some items and check the jar toward the back for the
+needle and thread. There’s also a Diabolus machine gun lying next to that
+odd piece of furniture (left of the vent, hard to see in PSX version). Use
+the Spiritus remote that you found in Geo Lab to turn off the fireplace and
+pick up the Black tag. There’s a ventilation shaft inside this room that
+connects to the Rainbow colored room (see map). The Rainbow room is locked
+from the inside so you’ll need Matlock’s help. Send the Black tag over to
+Matlock so she can access the door to the far west. Then take Kenzo back to
+the MOOD chamber.
+
+=============================================
+1.22 - Necropolis Elevator: Warning Trimorph!
+---------------------------------------------
+
+Location: Black door, Times Square (West Passage)
+Items: Laser Scalpel, Dillinger gun, Dillinger ammo, Health.
+
+
+There’s an elevator in this room that will take you down to the underground
+Necropolis. Unfortunately there’s a Trimorph guarding the elevator right
+now. You can’t use the elevator yet so search the body for the laser scalpel
+and head back to Bio Lab. We’ll come back here later when you have the flare
+gun.
+
+===========================
+1.23 - Bio Lab: (Back Area)
+---------------------------
+
+*LOCATION: Red Door, Piccadilly Circus
+*ITEMS: Decapitated body, Centrifuge, Thermalizer, Microscope, Ben Gunn
+blood sample, Computer.
+
+
+Cut through the Trimorphic web with the laser scalpel. Careful not to get
+too close or you'll be knocked back. When you’re finished send the scalpel
+over to Karne and explore the back room. You’ll find a decapitated body on
+the table. There’s also a computer and a bunch of laboratory equipment. Use
+the computer (Matlock’s got the number on her watch - 2915) and you’ll
+receive a message from Harroway. She talks about a guy named Whittaker who
+must have died before the accident. The colonists buried the body outside
+but Whittaker seems to have resurfaced from his grave and now haunts the
+Dormitory. If you dig through the computer a little more you’ll see that Dr.
+Farr was working on an antidote for the contagion; before he lost his mind.
+You’ll eventually need to finish his work so take the syringes you found
+over in MED lab and collect a blood sample from everyone. You’ll still need
+a Trimorph tissue sample and an alien fluid sample but we’ll worry about
+those later.
+
+Now take Karne and start heading toward the east Rainbow door. On your way
+there make a quick stop at the sealed door you saw near the Broadway hatch.
+Cut the lock with the scalpel and you will connect the two hallways (Karne’s
+the only one who can do this). Now you have a nice long hallway that
+connects the east and west sides of the base. You’ll be able to avoid all of
+those nasty corridors and save tons of ammo and health. Proceed on to the
+Rainbow door. When you arrive the door will be locked so just take Karne
+into the adjacent airlock and leave him there for now. Change over to
+Matlock and head for Mai Lin’s room so you can crawl through the vent. Don’t
+forget to bring the electric screwdriver.
+
+==============================================
+1.24 - Mai Lin’s Quarters Revisited (Matlock):
+----------------------------------------------
+
+*LOCATION: White door, End of Boulevard St. Michel (past floating zombie)
+*ITEMS: (already collected).
+
+
+When you get to Mai Lin’s room go ahead and save the game on the computer.
+Unscrew the vent but don’t climb inside yet. There’s a Trimorph inside the
+vent and you’re going to need Kenzo’s help again. This will be very similar
+to the Shuttle Bay puzzle you solved earlier. Have Kenzo use the chair again
+and go to the last map on the slab. You will see a diagram of the
+ventilation system. Matlock will need to crawl through the vent while Kenzo
+closes the door behind her. When you’re ready take Matlock into the air
+duct. You’ll be controlling Matlock so don’t stop moving -- just hold up on
+the controller and she should be fine. If everything goes as planned, Kenzo
+drops the door just in time and Matlock will be safely inside the Rainbow
+room.
+
+**(SIDE NOTE)** There used to be a MAJOR bug here in the PC version that
+(potentially) could prevent you from finishing the game. A glitch would
+sometimes prevent the door from shutting properly (other times the Trimorph
+would walk right through it). It looks like this has been fixed on the PS1.
+However if you’re playing the PC version and this happens it probably means
+your save file is corrupt. You’ll either have to load from a previous save a
+couple hours back or ask someone to email you a save file that will take you
+past this point (I don’t have any save files so please don’t ask). You can
+also try downloading the latest patches from Talonsoft's website.
+
+==============================
+1.25 - Project Directors Room:
+------------------------------
+
+*LOCATION: Rainbow room, Madison Ave.
+*ITEMS: Alarm clock, Drawer Key, Note (Kremlin Hatch Code), Rainbow Tag,
+Health, Computer, Vac-tube.
+
+
+Once inside you’ll find Judith Harroway resting peacefully on her bed.
+Search her body for the Rainbow tag. Look under the rug in front of the bed
+and you’ll find the desk key. Unlock the desk and then use the computer. In
+the first message you’ll learn about Judith and Karne’s past relationship.
+Judith also left a second message specifically for Karne. Only he can access
+it. Exit the room by using the Rainbow tag and take Matlock back to the
+labs.
+
+Now switch to Karne and escort him to Judith’s room. If you haven’t been
+able to piece the story together this message should fill in most of the
+gaps. Harroway’s message explains everything that’s been happening on Vita
+Base but it also raises a few new questions. When the message ends you’ll be
+able to open the doors and gain access to the Kremlin (use the computer).
+
+===================
+1.26 - The Kremlin:
+-------------------
+
+*LOCATION: Rainbow door, Broadway (extremely hard to see)
+*ITEMS: Flare bolts, Lenses (4), Brown herb, Micro-recorder (Fellner),
+Painting, Printout (Erebus), Weapons storage room, Vac-tube, Computer.
+
+
+The hardest part will be FINDING the stupid door to this place. The Kremlin
+is the other Rainbow colored door on your map but the camera view is
+terrible. Hug the far wall and eventually the camera view will change and
+you’ll see a set of double doors.
+
+The Kremlin is a large room with a vaulted ceiling. The door on your left is
+a weapons room but you don’t have the pass code yet. To your right will be 2
+storage hatches (both pass coded). You’ve already found one of the codes in
+Harroway’s desk. The other code can be found on a micro-recorder in this
+room. Open these hatches and you’ll find contact lenses and some flare
+bolts. There’s a desk in this room which has one of those abstract paintings
+that Pickman made. You can use the spectrometer with the painting and take
+some readings. Write these numbers down for future reference. You won’t use
+this data until later on (after the Necropolis) so don’t worry if you missed
+the spectrometer earlier. You still have plenty of time to go back for it.
+
+You’ll also find a computer and a pair of simultaneous switches in this
+room. The computer is offline right now and can only be activated by hitting
+the 2 switches. Somehow you’ll have to press both buttons at the same time.
+These buttons are several meters apart so you’re going to need 2 people.
+Take Karne behind the desk so the zombies won’t mess with him (safe spot)
+and bring one of the other team members to the Kremlin; I prefer Matlock but
+you could also use Kenzo.
+
+This can get pretty tricky. You’ll have to keep your characters as far apart
+as possible. If they get to close they will "clump together" and it’s game
+over. The switches are too close together to have one person on each switch.
+You’ll have to find a way to hit one of the buttons from a distance; this is
+where the pop-gun comes in handy. Have the person with the pop-gun stand
+next to the Kremlin door. Change to your second character and carefully
+position him in front of one of the switches. The zombies in this room will
+make things difficult. Now change back to your first character and walk
+toward the switches (stop as soon as the view changes). Aim your gun and the
+POV should change; you’ll get more of an over the shoulder POV. Aim and fire
+and the second person will automatically hit the other switch. If you
+succeed you’ll see the computer turn on. Good work. Now stash the pop-gun
+inside one of the hatches and take Matlock over to Med Lab (don’t forget to
+move your other character to safety). There’s another message for Karne on
+this computer so let him read it. After reading this message Karne will
+finally reveal his true identity. You’ll uncover the truth about what’s
+really been going on and learn about the Underground and the Thule program.
+You’ll receive a computer printout with a password on it. You will need this
+password for the elevator that takes you down to the Necropolis.
+
+Leave Karne in a safe place and switch over to Matlock in Med Lab. It’s time
+to go after the flare gun.
+
+===============================================
+1.27 - Air Lock #2: (Warning: Trimorph inside!)
+-----------------------------------------------
+
+*LOCATION: Bloody Door, end of Carnaby Street
+*ITEMS: Flare gun, Piccolo gun, and Piccolo ammo.
+
+
+If you thought the last puzzle was tricky you haven’t seen anything yet.
+This is going to sound pretty crazy but hear me out. There’s a flare gun
+inside Airlock #2 which you’ll need to get before heading down to the
+Necropolis. If you haven’t figured it out already there’s also a Trimorph
+behind this door. This can be one of toughest puzzles in the game so I’ll
+break it down into parts
+
+Your first goal will be to lure the Trimorph out of the Airlock. Make sure
+you have the scarab, the book of Egypt (Khepri), and the regular screwdriver
+(not electric) before attempting this. Repair the control panel with the
+screwdriver and the bloody door will open automatically. You’ll be standing
+face to face with the Trimorph. It will take the Trimorph a few seconds to
+react so run back to MED Lab.
+
+This Trimorph is actually pretty stupid so you should be able to take
+advantage of it. He’ll just sit in the decontamination chamber until you
+make the first move. Exit the lab, take a few steps towards the hallway, and
+then quickly run up against the MED Lab door (don’t go inside). If done
+properly the Trimorph will run right past you and keep on going all the way
+to the Blue door before returning. Use this opportunity to quickly sneak
+inside the airlock.
+
+You’ve managed to get inside Airlock #2. Great! But where’s my flare gun?
+Sorry, but you’ll have to do a couple more things first. Check out the door
+at the back of the room. This is the door that Muir was referring to on his
+micro-recorder. He said it was special because you need a voice command to
+open it. Put the scarab in the door and then use the book with the door.
+Your character will say, "Khepri" and you’ll have about 10 seconds to get
+out of the Airlock.
+
+The Trimorph knows you’re inside the Airlock and is trying to get in. Run up
+next to the exit and position yourself just to the left of the door. As long
+as you don’t stand directly in front of the door you should be fine. When
+you’re ready, open the door (the Trimorph will run right past you again) and
+quickly run back into the decontamination chamber. The door will close and
+the Trimorph will be trapped inside Airlock #2. The door with the scarab
+opens and the Trimorph is sucked outside.
+
+Congratulations! Now go back to Airlock #2 and you'll see the flare gun
+lying on the floor. Now you have a way of dealing with the Trimorphs.
+
+############################################################################
+You can do one of several things now. There are 3 more Trimorphs on
+Vita Base that you can kill right now. There’s the one you trapped by the
+Shuttle Bay which gives you a tissue sample (used later), there’s the one in
+Dorm #3 that’s guarding the spectrometer and blocking your route to the
+Psionarra, and finally there’s the one guarding the elevator that leads down
+to the Necropolis. It doesn’t matter what order you chose.
+############################################################################
+
+================================
+1.28 - Dormitory: The Psionarra:
+--------------------------------
+
+Now that you’ve got the flare gun this shouldn’t be too hard. Take Kenzo and
+head back to Dorm #3. Unfortunately the flare gun doesn’t work on zombies so
+you’ll just have to use your other weapons. When you get to Dorm #3, dispose
+of the Trimorph and use the buggy with the checker to grab the spectrometer
+(if you haven’t already). Move on to 42nd Street and you will find a locked
+storage room. This is the room with the Psionarra so remember the location.
+You can’t access Dorm #4 yet and there’s a ghost zombie blocking your way to
+Airlock #5 so all that’s left is Lonely Street. When you reach Lonely Street
+somebody will start shooting at you. There’s a zombie with a Dillinger gun
+so you’ll have to keep a real close eye on your health. These shots can do
+some heavy damage and the zombie doesn't miss very often.
+
+**(SIDE NOTE)** This is the best way I’ve found to disarm the zombie. As
+soon as he fires start running at him. As you get closer to him the camera
+view will change. As soon as the POV changes, draw your weapon and fire in
+the general direction of the zombie (you won't be able to see him on your
+screen). Your shot will knock the gun out of his hand and then you can just
+drop him normally. Don’t try to dodge the bullets because you'll only take
+more damage. You're probably going to get hit here so just run at him and
+fire quickly.
+
+Search all of the bodies and check the hatch for the storage key. Lonely
+Street ends at a locked door which can’t be opened yet. That’s OK though
+because you’ve got the Storage key now. Head back to the locked door you
+saw earlier and open it with the key. Once inside you’ll find a crank and a
+shiny silver case. The silver case is locked with a 4-digit pass code but
+you’re in luck -- you already have the number on your watch. Enter the code
+and you’ve got the Psionarra (3172).
+
+The Psionarra is a new form of psychic weaponry that only Kenzo can use. The
+Psionarra has incredible one-shot knockdown power and can even pierce
+through multiple enemies. The downside to this weapon is that it drains your
+health with every shot (a very small amount though). It takes a little while
+to get used to, but once you get the hang of it this will be your weapon of
+choice.
+
+That’s all you can do in the Dormitory area for now. Head back to the locked
+door at the end of Lonely Street and use the crank to open it. Go through
+the door and return to the MOOD chamber. It’s time to head down to the
+Necropolis.
+
+============================
+1.29 - Enter the Necropolis:
+----------------------------
+
+Now here’s where things get interesting. The Necropolis is an ancient city
+once inhabited by the Karakarak several millions years ago. It’s almost as
+large as Vita Base so you’ll have a lot of area to cover. There are no
+street signs but there are 4 reference points on your map that you will need
+to explore. The Necropolis is a perilous maze of winding tunnels and
+bottomless crevices. It’s really easy to get lost down here and there are a
+couple of areas where you can fall so try to stay away from the edges.
+You’ll encounter a lot of resistance down here (even a couple Trimorphs) so
+stay alert and try not to get surrounded.
+
+=========================================================
+1.30 - Necropolis Elevator Revisited: (Warning Trimorph!)
+---------------------------------------------------------
+
+*LOCATION: Black door, Times Square (West Passage)
+*ITEMS: Explosives, Detonator, Piccolo ammo, Diabolus ammo.
+
+
+Take Matlock back to the elevator room. Be sure you bring the flare gun, a
+pair of lenses, the belt (Gym), and the Erebus printout that Karne received
+earlier. Enter the room and kill the Trimorph with the flare gun. For some
+reason he doesn’t move in the PS1 version so he’s kind of an easy target.
+When you’ve disposed of him search the crate by the elevator for some items.
+Just leave the explosives and the detonator in the box for now; you won’t
+need them until the very end. Stand in front of the elevator (not inside)
+and search the area. You’ll see that the elevator is missing a drive belt so
+use your belt to fix it. Now step inside and use the printout to go down to
+the Necropolis.
+
+When the elevator reaches the bottom it will be pitch black. Your character
+won’t be able to see anything at first so you’ll need to use a pair of those
+night vision lenses that you found in the Kremlin. Take a look at the map
+and make your way over to Point #1.
+
+=======================
+1.31 - The Pit Chamber:
+-----------------------
+
+*LOCATION: Point #1 (south of it actually)
+*ITEMS: Store room code, Nails, Piccolo ammo, Dillinger ammo, Monkey wrench,
+Health.
+
+
+When you reach Point #1 you’ll find a vac-tube and a storage chest. The
+store room code is for the locked door in the Kremlin. Continue south and
+head for the large circle region on your map. The colonists called this area
+The Pit. When you arrive at the Pit you’ll hear some heavy footsteps so
+equip your flare gun and wait in the hallway; a Trimorph will come running
+from around the circle. Shoot the Trimorph for an easy kill and head
+counterclockwise around the Pit. Make sure you stay away from the inside
+edge because you can fall here. At the end you’ll see a giant fissure which
+you’ll need to use the explosives on later. There’s nothing else to see here
+so make your way through the narrow passageway that leads to Point #2.
+
+==================
+1.32 - Arena Site:
+------------------
+
+*LOCATION: Point #2
+*ITEMS: Dillinger ammo, Diabolus ammo, Health, Artifact (Chorus), Red card,
+Micro-recorder (Darnly #2), Palmtop Computer, Chorus note, Vac-tube.
+
+
+Make your way through the Nondead and Extrudes and try not to get
+surrounded. It’s hard to tell where you’re going down here but you’ll know
+your close when the narrow corridor ends and you see an archway to your
+north. Head through the little tunnel and you’ll come to Point #2. The Arena
+Site is a fairly large area but there are only 2 places you need to check
+out (it’s reasonably safe). First, there’s a generator to your west but it’s
+not working right now. Don’t worry about it yet. Check out the storage box
+for some ammo and the artifact. The Chorus is a unique item that will play
+an important role later on -- once you figure out what it does. Enter the
+building and take the Palmtop and the Chorus note. The laptop doesn’t work
+yet, it needs a battery, but once you get it running you’ll be able to save
+anywhere in the game. When you’re ready to go, it’s time to move on to Point
+#3.
+
+===================
+1.33 - The Obelisk:
+-------------------
+
+*LOCATION: Point #3
+*ITEMS: Dead battery, Health, Piccolo ammo, Diabolus ammo, Dillinger ammo,
+Vac-tube.
+
+
+The path to Point #3 can be kind of confusing. I’ve found that if you take
+the straightest route you’ll always end up at Point #3. Search the storage
+box for the battery. You’ll need to recharge it back at Point #2 but there
+are a couple more things to see here first.
+
+======================
+1.34 - Obelisk Puzzle:
+----------------------
+
+The Obelisk puzzle is probably the toughest puzzle in the game now. It’s not
+really difficult it’s just really hard to figure out what’s going on here.
+If you continue to the west you’ll see a Trimorph guarding a large stone
+pillar. There are 2 things that you’ll need to be aware of here. First of
+all, that large pillar he’s standing in front of is called the Obelisk.
+There is no way to get to the Obelisk when the Trimorph is blocking it.
+
+So why not just shoot it with the flare gun you say? Well here’s the second
+thing you’ll need to know. This Trimorph is invincible. It’s hard to tell on
+the PS1 but when you play the game on the PC you’ll see that this Trimorph
+is noticeably different from the others – He has a golden sheen around him.
+Plus, in the PC version he’s not just standing in front of the Obelisk; he’s
+pounding on it with his fists and shaking the entire cavern. To really
+understand this puzzle you need to assume that the Trimorph is hitting the
+Obelisk.
+
+If you run past the Trimorph and continue to the west you’ll come across an
+excavation site. This area is called the Regal Tomb. It’s where the
+colonists discovered that giant Sarcophagus you’ve been hearing so much
+about. Inside the Sarcophagus lies the sleeping Sovereign (Queen Mab). You
+can’t use the crane yet because there isn’t enough power so you’ll have to
+backtrack all the way to Point #2 and repair the generator. Return to the
+Arena Site and fix the generator cable with the monkey wrench. Once the
+generator is running again open the generator hatch and place the battery
+inside to recharge it. You can now use the battery to activate your palmtop.
+The palmtop is loaded with valuable information about the Necropolis so make
+sure you read everything (MOOD has the pass word). There’s also some
+valuable information about the Chorus here.
+
+You’ll learn that the Chorus is a musical artifact and that the Obelisk
+produces a faint noise when struck by a human. However when you strike the
+Obelisk with an inanimate object it remains silent. It is believed that the
+ancient Karakarak were much larger than humans so they could use the Obelisk
+to produce a full musical note which could then be transferred to the
+Chorus. There seems to be a mysterious relationship between the Chorus and
+the Obelisk that nobody understands.
+
+So now you know that the only way to charge the Chorus is to have something
+large and organic strike it – and that is why it’s important to realize
+that the Trimorph is hitting the Obelisk. You won’t be able to place the
+artifact in the Obelisk by yourself. You’re going to need some help luring
+the Trimorph away from it.
+
+Bring Karne down to the Necropolis, (you’ll need Kenzo for something else
+later), and have the person with the Chorus wait at Point #3 while the
+second person waits at the excavation site. Switch to the second person and
+walk back to the Obelisk area (the screen will load). When it’s finished
+loading DON’T MOVE and you will see the Trimorph running in place. He’s
+running at you but he’s not moving (a bug maybe?). You won’t be in any
+danger unless you move around so change back to your first character. The
+Trimorph will completely ignore your first character so just take the Chorus
+and place it in the Obelisk. Now move both of your characters to safety and
+the Trimorph will return to the Obelisk. When he strikes the Obelisk (you
+won’t see it on PS1 you’ll just have to assume he does) he’ll charge the
+Chorus and lose his invincibility. Now you can kill him with your flare gun
+and retrieve the charged Chorus from the niche.
+
+You’re going to need 2 people in the Regal Tomb later so you may as well
+leave Karne inside the crane for now. Once you’ve obtained the charged
+Chorus take Matlock over to Point #4.
+
+=========================
+1.35 - The North Chamber:
+-------------------------
+
+*LOCATION: Point #4
+*ITEMS: Piccolo ammo, Health.
+
+
+For this next part you’ll need the charged Chorus and the #4 Dorm tag. Go to
+Point #4 and search the chest for some items. Now head to the northern
+circle on your map and you will enter the Altar room. Here you’ll find
+another one of those weird statues like the one you saw in Geo Lab. You’ll
+also see a spiral platform with a hole at the center. Refer to the Altar and
+Chorus notes for clues to this puzzle.
+
+====================
+1.36 - Altar Puzzle:
+--------------------
+
+This is another one that stumps a lot of people. You’ll need to start by
+placing the charged Chorus at the center of the Altar. The Altar will start
+radiating light and you’ll need to get off of it as quick as possible. If
+you stay on too long you’ll end up dead just like the other guy. Now that
+you’ve activated the Altar you’ll need to refer to the Altar note. The note
+says that for any object that denies its color, the Altar will come to life.
+During your explorations I’m sure you came across a room that had a strange
+light emanating from it. This room is called Arkham Dorm(#4) and for some
+reason the door wouldn’t respond with your tag earlier. That’s because you
+needed to modify it first.
+
+Notice that the light from the Altar fluctuates every couple seconds.
+There’s a pattern so you’ll have to time it just right. When the light goes
+down run to the center, insert the tag, and get off the Altar. When the
+light returns it will decolorize the card. Wait for the light to go down
+again and retrieve the tag. The tag should appear grey now. Send the tag
+over to Kenzo so he can access Dorm #4.
+
+===================
+1.37 - Arkham Dorm:
+-------------------
+
+*LOCATION: Dorm #4, Whitehall
+*ITEMS: Airlock #5 code, Heart of Stone (later), Vac-tube.
+
+
+Welcome to the Twilight Zone. You’ll need Oda’s note to solve the first part
+to this puzzle. The note has the color sequence you need to open this
+locker. If you’re having trouble figuring out which buttons to press think
+of it this way. Blue is the darkest shade of grey and Yellow is the
+lightest. The other two colors are in between (Red being the darker of the
+remaining 2). Now apply this to the button panel and you shouldn’t have any
+problems entering the code.
+
+Once you’ve gotten the first locker open you’ll find another locked hatch.
+Refer to the note again and it will tell you that the combination you need
+is equal to the numeric wavelength of the color yellow. If you didn’t write
+it down earlier you’ll need to take your spectrometer back to the Kremlin
+and use it on the painting. You MUST take the reading or the door won’t open
+(even if you already know the code). Enter the number and you’ll receive the
+pass code to Air Lock #5.
+
+When you arrive at Airlock #5 there will be a ghost zombie guarding it. Let
+him have it with the Psionarra and enter the code for the door. Examine the
+EVA suits and you’ll see that they have air in the tanks. If you open the
+EVA suit nothing seems to happen. Exit Vita Base through the back door and
+you can explore the area outside.
+
+=========================
+1.38 - Whittaker's Grave:
+-------------------------
+
+*LOCATION: Outside Airlock #5
+*ITEMS: Psionarra cell, Diabolus ammo, Health, Hourglass, Red Sand.
+
+
+When you walk outside Kenzo will automatically equip the spacesuit. This is
+a small area but make sure you explore every inch of it. The first thing
+you’ll see is a dead man in a spacesuit. Search his body and walk closer to
+the grave. You’ll see the hourglass just sitting out in the open so pick it
+up. There’s one more area you need to explore here before you leave. There’s
+a hole to the left of the tombstone (left of the hour glass) so keep walking
+around until you find it.
+
+You will be greeted by Whittaker who rises up from the grave. He’ll
+graciously invite you to join him in his transformation, but respectfully
+decline and blast him with the Psionarra. Search his body for the red sand
+and combine it with the hourglass. Examine the completed hourglass and Kenzo
+will give you a hint about where to go next. Take the hourglass and head
+back to Arkham dorm. You can use it anywhere inside. Everything will be
+restored to normal and you’ll find the Heart of Stone lying on the ground.
+Now take the Heart over to the Kitchen and show it to Ben Gunn.
+
+When you arrive at the cafeteria you’ll notice that something’s not right.
+The door to the back of the Kitchen is wide open and Ben Gunn is missing.
+Take Ben’s parting gift and read the invitation right next to it. The
+invitation says it all.
+
+Take all of the items back to the laboratory area and switch to Matlock.
+You’ll need to bring Matlock back to Bio Lab so she can start work on a
+serum. You’ve reached the final stretch, we’re almost there.
+
+=========================
+1.39 - Search for a Cure:
+-------------------------
+
+First you’re going to need blood samples from all 3 characters so take the
+syringes you found in MED lab and collect some samples. Put them in the
+Centrifuge where you’ll find a fourth sample from Ben Gunn. Now you only
+need the Trimorph tissue sample and the Alien fluid sample. You can get the
+Trimorph sample from the Trimorph you trapped near the Shuttle Bay. Just
+shoot it with the flare gun and collect the sample with the rubber glove.
+Examine the tissue under the microscope and you’ll be 2/3rds of the way
+there. That just leaves the Alien Fluid sample.
+
+The fluid is going to be a little bit trickier to find. Matlock will need to
+finish the science project that’s going on in Bio Lab first. Go over to the
+decapitated body and use Ben’s head with the corpse. Now you’ll need to sew
+the head back on with the needle and thread you found in Mai Lin’s room. Now
+here’s where many people get stuck. Take the Heart of Stone from Kenzo and
+place it inside the chest cavity: when you examine the corpse you’ll have to
+scroll down through the menu options. The body will sit up and Ben will
+speak to you with his dying breath. Search the corpse and you’ll receive the
+Flesh heart.
+
+Now that you have the Flesh heart you’ll have to go all the way back down to
+the Regal Tomb and place it in the Niche. Send the laser scalpel, the Flesh
+heart, and the final syringe over to Kenzo and take him down to the
+Necropolis. The Psionarra will make this trip a whole lot easier. When you
+reach the Regal Tomb, place the heart inside the niche and you will see the
+protective membrane slowly dissolve. The Sovereign will be left unprotected
+so you can collect your fluid sample. You’ll need 2 people to operate the
+crane and Karne should already be in position.
+
+Lower the crane and have Kenzo climb up on the platform. The crane will lift
+you up and over the Sarcophagus. Use the winch to lower yourself down and
+you’ll find yourself face to face with the Sovereign. Now you’ll need to use
+the laser scalpel to cut through the Sovereign’s breast plate. After you’ve
+made your incision, use the syringe to extract some milk and send the sample
+back up to Bio Lab so Matlock can finish her viral antidote.
+
+Place the milk in the Thermalizer. You should now have everything you need
+to complete your antidote. You’ll get 3 vaccines so make sure everybody gets
+one. The team is cured and it’s time to go home. There’s only one thing left
+to do now.
+
+=====================
+1.40 - Final Mission:
+---------------------
+
+Karne is the demolitions expert so this will be his job. You’ll need to take
+the explosives down to the Pit Chamber and set the charge by the Fissure.
+Don’t be stingy with the health and ammo because this is the last mission.
+Take the explosives you found in the crate and combine them with the
+detonator. Now head down to the Pit and place them near the Fissure.
+
+Karne will set the timer and tell his people that it’s time to leave. You
+will have a little bit over 5 minutes to make it from the Pit Chamber all
+the way to the Shuttle Bay. Don’t worry about Kenzo and Matlock (they’ll
+find their own way there). You’re only responsible for Karne’s safety so get
+moving. MOOD will start talking to you and you will see the Sovereign come
+to life. Don’t bother going after the Sovereign because she’ll be gone by
+the time you reach the Sarcophagus. Get to the Shuttle Bay ASAP!
+
+When you arrive at the Shuttle Bay Kenzo and Matlock will be waiting for
+you. The antidote seems to have worked because everyone’s still alive. The
+team boards the rocket ship and prepares for takeoff but MOOD chimes in with
+one last message. It seems that the dome hatch is locked and someone will
+have to pull the manual override lever to open it. The switch is located on
+the wall, on the other side of the rocket. You’ll only have a minute so run
+outside and hit the switch. Sit back and watch the anticlimactic ending.
+
+Congratulations! You’ve just completed Martian Gothic Unification.
+
+============================================================================
+============================================================================
+
+VI. Extras:
+-----------
+
+I’ve added this section just to share some interesting tidbits about the
+game.
+
+******************
+Alternate Ending?
+******************
+
+There are only two possible endings. You either make it to the ship or you
+don’t. However the PS1 ending is a little bit shorter than the PC version.
+The PS1 ending felt kind of rushed to me. You get the nice FMV but after
+that the game abruptly ends. The PC version has an extra little segment at
+the end which expands on the story a bit more.
+
+After the explosion we hear MOOD’s voice. MOOD (or whatever MOOD was)
+survives the blast and has been freed from her bondage. She can now explore
+infinite space but chooses to remain here and watch over things. She
+concludes by saying that the bad dreams weren’t so bad after all but doesn’t
+rule out the possibility of bad dreams in the future. That’s about it. Not a
+whole lot better but at least it gives you a little more to think about.
+
+************
+Extra Items:
+************
+
+You will find that many items in MG don’t really have a purpose. So why did
+Creative Reality decide to leave them in the game? There are likely several
+reasons for the extra items.
+
+Luxury Items: When you start the game each character will have a set of
+items that they brought with them. Most of these items serve no real
+purpose: Pictures, Lipstick, Nicotine Patch. They just add a tiny bit of
+depth to the game.
+
+Tags: By the time you’ve completed the game you’ll have quite a few leftover
+tags. Some of these tags were added to make sure you didn’t come up one tag
+short in certain areas (green rooms). Others were probably added to keep you
+from getting frustrated (Blue). And of course some are just there for
+realism (Dorm tags).
+
+Alarm Clock: The alarm clock was not supposed to be an extra item. CR had
+planned on using it in a puzzle but they were pressed for time. The true
+purpose of the clock never made it into the final game; thus it became
+another extra item.
+
+Weapons and Lens: These could have been added for realism but I have my
+doubts. The extra pair of contact lenses leads me to believe that CR may
+have wanted to use a 4th person in the Necropolis (Ben Gunn?). There was
+also an extra radio in the PC version that you could give to Ben. If you
+were paralyzed by an Extrude you could call Ben for help. They may have
+just ran out of time and scrapped the idea.
+
+*****************************************
+Sound Bytes: (Credit Rezin for .XA files)
+*****************************************
+
+A developer's true ambition may sometimes exceed their grasp. A lot of
+things can change over the course of a development cycle and many ideas are
+never fully implemented into the final version. Here are a couple of things
+that DIDN'T make it to the final version of Martina Gothic.
+
+*(SPOILERS)*
+
+
+-MOOD survives the explosion (mentioned above). Kenzo asks Matlock to drink
+some Sake with him in memory of Karne. May have been possible at one time to
+choose which character stayed; (there's a reference to Kenzo meshing with
+MOOD and surviving in the VR).
+
+-Several references to the Sovereign creating a "psychic webbing" that wraps
+around the entire base and prevents escape. Shuttle Bay hatch is blocked and
+the team had to confront the Sovereign and go to the Pit Chamber before they
+could escape. Must have been one of the final puzzles.
+
+-Nose clippers, Digital camera, Clockwork mice, and Letter opener were
+removed from game. Clippers went to Ben Gunn, letter opener was used to pick
+a lock, no idea what the other 2 items were for.
+
+-You could call Ben Gunn for help on the radio. Ben could also perform blood
+transfusions in MED bay (limit 16).
+
+-Airlock #2 puzzle was altered drastically. Required 2 people and the door
+opened in intervals? Probably why this puzzle remains so confusing.
+
+-Rock Cutter machine could cut different shapes.
+
+-Characters interacted with each other more (checked up on each other).
+
+-Also some pretty funny outtakes.
+
+
+
+============================================================================
+
+VII. Cheats:
+------------
+
+In Gaming there's a very fine line between fun and frustration. Developers
+strive for the perfect combination of fun vs. challenge but this theoretical
+balance is probably impossible. So that's why we have CHEATS. To some it's a
+forbidden 6-letter word that is completely immoral. To others it just adds
+to the fun and gameplay. Whatever your beliefs, consider yourself warned.
+This section could either make or break the game for you so enter these
+codes at your own risk.
+
+PC Codes
+--------
+
+*Version 2.0+ - Highlight the gamebook and type in the codes.
+
+Infinite Health~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~YOULOOKINATME
+Infinite Ammo~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~IFEELUNUSUAL
+Immune to Poison~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~QUICKSUCKITOUT
+Listen to Darnley's recorder~~~~~~~~~~~~~~~~~~PATRICKMARLEY
+View Credits~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ILOVETHISGAMEWHOMADEIT
+
+PS1 Codes (*GameShark required)
+---------
+
+12/12/01 - Three new "infinite health" codes were added to Gameshark.com.
+
+02/16/02 - I'll add non-shark codes as they become available.
+
+============================================================================
+
+VIII. Special Thanks:
+---------------------
+
+To Steven Marley and all the guys at Creative Reality. Nice work. It’s
+amazing that such a small team could produce such a solid game. We’re all
+still holding out hope for a sequel. I also need to give thanks to all the
+good people on the Talonsoft board. SS, Teague, EB, and everyone else who
+helped unravel the many mysteries of Vita Base. Sorry this FAQ took so long
+to be developed. Recent events have been keeping me pretty busy these days.
+I still receive questions every now and then about the game so I figured
+that maybe writing a FAQ would put some of these questions to rest. It’s
+nice being able to give something back and hopefully this document will
+accomplish just that.

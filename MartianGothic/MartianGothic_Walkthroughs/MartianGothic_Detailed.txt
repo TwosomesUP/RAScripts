@@ -299,18 +299,36 @@
  - Leave the room and head to Broadway 5 and enter the Kremlin (Rainbow Door on map)
 
 == Kremlin ==
- -- Karne & Matlock --
- - Collect Flare Bolts, Contact Lenses, Painting data (Spectrometer)
- - Use Pop-Gun trick to hit simultaneous switches with partner
- - Activate computer, receive Erebus printout password
+ - Use the Main Hatch passcode (3471) to unlock the main hatch. Grab 2 of the lenses.
+ - Switch to Kenzo and send the Spectrometer to Karne.
+ - Switch back to Karne and get the Spectrometer from the Vac-tube.
+ - Examine the painting with the spectrometer and write down the numbers:
+    - Red: 703.8
+    - Blue: 441.6
+    - Yellow: 563.7
+    - Orange: 600.8
+    - Green: 506.6
+ - Examine one of the corpses for the Microcorder (Simon Fellner), this will give you the code for the emergency hatch: 0756
+ - Unlock the Emergency Hatch and collect the Flare Bolts
+ - Switch to Matlock and bring her to the Kremlin. You need to keep both characters far apart otherwise gameover.
+ - Move Matlock close to the buttons, then move Karne close to the door
+ - Take out the popgun and shoot one of the buttons. Matlock will press the other activating the computer.
+ - Move Karne out of the way so Matlock can leave. Take her to the Med Lab
+ - Examine the computer as Karne
  - Karne reveals true identity
+ - After examining the computer an Printout will be in your inventory. Read it to get the password: Erebus
+ - Send the Egyptian Book, Flare Bolts, and the Printout (maybe) to Matlock
+ - Switch back to Matlock, pick up the items from the Vac-tube, and head to the Carnaby Street Airlock
 
-== Airlock #2 ==
- -- Matlock --
- - Use Screwdriver to repair panel → lure Trimorph out
- - Use Scarab + Book of Egypt to trigger voice command door
- - Trap Trimorph in chamber, eject into space
- - Collect Flare Gun (now can kill Trimorphs permanently)
+== Carnaby Street Airlock ==
+ - Repair the control panel for the airlock with the Screwdriver
+ - Once the door opens, run into the Med lab
+ - Leave the med lab, walk a few steps forward, then run back to the med lab door (don't go in)
+ - Once the trimorph runs past you, sneak into the airlock
+ - Walk to the back door and use the scarab then use the book
+ - Quickly run just to the left of the airlock entrance and open the door
+ - The trimorph will run past you. When it does run into the decontamination chamber
+ - The door will close, the trimorph will be sucked out the airlock, and you can reenter to grab the flare gun
 
 == Dorm #3 (Return) ==
  -- Kenzo --

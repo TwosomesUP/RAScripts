@@ -20,6 +20,8 @@
  - Disable Statue and break the curse in the Geo Lab (4 shaped rocks + resonator)
  - Cut Bio Lab tentacles with Laser Scalpel
  - Listen to Harroway's Journal 6
+ - Activate the Kremline computer and learn the truth (Karne is a Rebel)
+ - Send Trimorph out the Airlock on Carnaby Street
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
@@ -43,3 +45,5 @@
  - Collect the Spectrometer using the Babybug
  - Collect Psionara before acquiring the Flare Gun and killing the Trimorph in Dorm 3
  - Unlock all colored doors
+ - Have all 3 characters is the same room at once
+ - Kill all 4 trimorphs on the base

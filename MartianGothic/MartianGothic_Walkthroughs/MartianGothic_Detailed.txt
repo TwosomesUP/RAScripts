@@ -329,24 +329,37 @@
  - Quickly run just to the left of the airlock entrance and open the door
  - The trimorph will run past you. When it does run into the decontamination chamber
  - The door will close, the trimorph will be sucked out the airlock, and you can reenter to grab the flare gun
+ - Head to the Med or Chem lab and send the Flare Gun 
+ - Switch to Kenzo and head back to Dorm 3
 
 == Dorm #3 (Return) ==
- -- Kenzo --
+ - Grab the Flare gun from the Vac-tube
  - Use Flare Gun → kill Trimorph guarding Spectrometer + Psionarra path
- - Collect Spectrometer (if not earlier)
- - Collect Psionarra (Kenzo only psychic weapon, watch code unlock)
+ - Collect Spectrometer (if not earlier) using the baby bug + remote
+ - Head to 42nd Street
+ - You'll find a locked door (this is the storage room with the Psionara)
+ - Head to Lonely Street
 
 == Lonely Street & Storage ==
- -- Kenzo --
- - Fight Dillinger zombie, disarm him
- - Collect Storage Key, open Storage Room → Crank + Silver Case
- - Enter watch code → Psionarra (3172)
+ - Fight Dillinger zombie, disarm him (if you haven't already)
+ - Collect Storage Key from the Hatch
+ - Open Storage Room
+ - Collect Crank
+ - Open the silver case using Kenzo's watch code (3172) and collect the Psionara
+ - Head to the end of Lonely street and unlock the door with the crank
+ - Stop by the Director's Quarters and send the Flare Gun to Matlock
+ - Switch to Karne and send a pair of lenses to Matlock
+ - Switch back to Kenzo and head back to the MOOD Chamber
+ - Switch to Matlock and collect the items
+ - Head to Penny Lane and kill the Trimorph in the Shuttle Bay hall
+ - The Trimorph will drop a sample (we'll collect it later)
+ - Head back to the Necropolis Elevator on Time Square
 
 == Necropolis (via Black Door Elevator) ==
- -- Matlock --
  - Kill Trimorph with Flare Gun
- - Repair elevator with Belt
- - Use Erebus printout to descend into Necropolis
+ - Search the crate and take ammo if you need it (leave explosives for now)
+ - Repair elevator with Drive Belt
+ - Use Erebus printout to descend into Necropolis (or interacto with the elevator with the printout in your inventory)
  - Explore 4 Points:
    - Pit Chamber (Monkey Wrench, Storage Code)
    - Arena Site (Chorus artifact, Palmtop Computer)

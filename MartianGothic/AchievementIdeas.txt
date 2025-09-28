@@ -22,6 +22,8 @@
  - Listen to Harroway's Journal 6
  - Activate the Kremline computer and learn the truth (Karne is a Rebel)
  - Send Trimorph out the Airlock on Carnaby Street
+ - Repair the Necropolis Elevator and enter the Necropolis
+ 
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --

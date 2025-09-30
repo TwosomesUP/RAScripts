@@ -1507,7 +1507,7 @@ to complete your antidote. You’ll get 3 vaccines so make sure everybody gets
 one. The team is cured and it’s time to go home. There’s only one thing left
 to do now.
 
-=====================
+=====================q
 1.40 - Final Mission:
 ---------------------
 

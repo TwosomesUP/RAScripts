@@ -23,7 +23,17 @@
  - Activate the Kremline computer and learn the truth (Karne is a Rebel)
  - Send Trimorph out the Airlock on Carnaby Street
  - Repair the Necropolis Elevator and enter the Necropolis
- 
+ - Repair the Arena Site generator and charge the battery
+ - Charge the Chorus Artifact
+ - Find the Arkham Tag from the Altar
+ - Unlock the Locker in the Arkham Dorm
+ - Unlock Airlock 5
+ - Find the hourglass and combine it with the red sand
+ - Restore the Arkham Dorm to normal
+ - Collect all parts of the cure (blood samples, trimorph sample, alien fluid sample)
+ - Complete the cure
+ - Cure each character of the virus
+ - Place the explosives in the Pit Chamber and escape the base
 
 == Challenges/Easter Eggs ==
 -- Vita Base Intro --
@@ -48,4 +58,12 @@
  - Collect Psionara before acquiring the Flare Gun and killing the Trimorph in Dorm 3
  - Unlock all colored doors
  - Have all 3 characters is the same room at once
- - Kill all 4 trimorphs on the base
+ - Kill all trimorphs on the base
+    - Arboretum
+    - Airlock 2
+    - Dorm 3
+    - Shuttle Bay
+    - Necropolis Elevator
+    - Necropolis - Pit Chamber 2
+    - Obelisk
+ - Escape the explosive with 2 minutes or more remaining on the clock

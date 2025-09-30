@@ -113,7 +113,7 @@
  - Collect Flask + Biosensor → store in outside hatch  
  - Lure zombie to Times Square, kill for safety  
  - Unlock Eastern Blue Door (Sterile Room 1) → collect Microcorder, Locker Key, Dorm #1 Key, Yellow Tag  
- - Unlock Southern Blue Door (Piccadilly Circus 2q) → head toward Med Lab  
+ - Unlock Southern Blue Door (Piccadilly Circus 2) → head toward Med Lab  
 
 == Med Lab, Piccadilly Circus ==  
  -- Matlock --  
@@ -187,7 +187,7 @@
  - Once open, run back to the first hanger door and close it before the Trimorph gets you
  - Switch back to Kenzo and have him close the hanger door from the Rock
  - Switch back to Matlock and head back to the vent on Penny Lane
- - Enter the vent to reach the qShuttle Bay
+ - Enter the vent to reach the Shuttle Bay
 
 == Shuttle Bay ==
  -- Matlock --
@@ -361,34 +361,106 @@
  - Repair elevator with Drive Belt
  - Use Erebus printout to descend into Necropolis (or interacto with the elevator with the printout in your inventory)
  - Explore 4 Points:
-   - Pit Chamber (Monkey Wrench, Storage Code)
-   - Arena Site (Chorus artifact, Palmtop Computer)
-   - Obelisk (Trimorph charges Chorus, then kill it)
-   - North Chamber/Altar (use Chorus at Altar → Grey Tag Dorm #4)
+   - Pit Chamber (Site 1)
+      - Check the vac-tube and storage chest and grab any ammo you need as well as the passcode (5748) and monkey wrench
+      - Passcode is for the storage room in the Kremlin
+      - Head south and Kill the Trimorph with the Flare gun
+      - Check the fissure found at the end of the path (you'll destroy this later)
+      - Switch to Karne and explore the Kremlin Storage Room and grab any supplies you need
+      - Switch back to Matlock
+      - Head to Site 2 - Arena Site
+   - Arena Site (Site 2)
+      - Take note of the generator (we'll fix this later)
+      - Examine the Storage box and take any ammo you need, as well as the Artifact
+      - Enter the building
+      - Examine the corpse for Microcorder (Jonathon Darnley 2)
+      - Grab the Palmtop Computer and Note (Chorus) from the shelf
+      - Read note and listen to microcorders
+      - Head to Site 3 - Obelisk
+   - Obelisk
+      - Search the Storage Container and grab the Dead Battery
+      - Head West toward the Obelisk and the Giant Trimorph pounding on it
+      - Run past the Trimorph and continue heading west toward the Regal Tomb excavation site
+      - Head back to Site 2 (Arean Site) and repair the Generator with the Monkey Wrench
+      - Open Generator Hatch and place Dead Batter to recharge it
+      - Take the Charged Battery and use it to power on the Palmtop
+      - Read through the documents in the Palmtop - Restricted Password: Hammer
+      - Switch to Karne
+      - Send Dorm #4 tag to Kenzo
+      - Move Karne to the Royal Tomb (make sure you take some lenses)
+      - Enter the Obelisk room again but don't move, the trimorph should be stuck in it's running animation
+      - Switch to Matlock and move to the Obelisk room (just behind the Trimorph)
+      - run up to the Obelisk and place the Chorus
+      - Move both characters out of the way and the trimorph will strike the chorus charging it
+      - The trimorph will no longer be invulnerable so kill it with the flare gun
+      - Once the trimorph is dead, collect the Charged Chorus
+      - Head to the North Chamber (Site 4)
+      - Get the Dorm #4 Tag from the Vac-tub (send by Karne earlier)
+      - Keep heading north to the Alter Room
+   - Altar room
+      - Place the Chorus on the Alter and run off of it immediately
+      - Once the light goes down, run back on and place the Dorm #4 tag on it
+      - Run off again
+      - Once the light goes down again, run back on and grab the newly colored Dorm #4 tag (Arkham Tag)
+      - Send the tag to Kenzo
+      - Switch to Kenzo, take the Arkham Dorm tag from a vac-tube and head to the Arkham Dorm (Dorm 4)
 
 == Dorm #4 (Arkham Dorm) ==
- -- Kenzo --
- - Solve puzzles (Oda note + Spectrometer data)
- - Collect Airlock #5 code + Heart of Stone
+ - Unlock locker using the color sequence found in Mr. Oba's note (Red (3), Blue (4), Red (3), Green (2), Yellow (1), Blue (4))
+ - Once unlocked, there will be another code. Use the value of Yellow from the spectrometer reading in the Kremlin: 563.7
+ - Collect the Passcode (Airlock 5) and read it: 9689
+ - Head to Airlock 5 on Lonely Street
 
-== Airlock #5 & Whittaker’s Grave ==
- -- Kenzo --
+== Airlock 5 ==
  - Kill ghost zombie with Psionarra
- - Collect Hourglass + Red Sand
- - Defeat Whittaker → combine items → restore Arkham Dorm
- - Obtain Heart of Stone → Flesh Heart
+ - Unlock the door with the passcode (9689)
+ - Examine the EVA suits
+ - Leave through the Airlock Door
 
-== Regal Tomb ==
- -- Karne --
- - Place Flesh Heart in Sarcophagus → awaken Queen Mab (Sovereign)
+== Whittaker’s Grave ==
+  - Examine the corpse
+  - Pick up the hourglass on the grave
+  - Explore the hole near the grave and a ghost appears
+  - Kill the ghost with the Psionara
+  - Grab the red sand that it drops and combine it with the hourglass
+  - Head back to the Arkham Dorm
+  - Use the Hourglass and pick up the Heart of Stone
+  - Take the Heart of Stone back to Ben Gunn on Inocashira Douri
+  - Collect Ben's Head and the Invitation on the counter
 
-== Final Boss – Queen Mab ==
- -- All Characters --
- - Use Chorus, Resonator, Psionarra, and Flare Gun to weaken and kill her
+== The Vaccine ==
+  - Head to the Med Lab and get kenzo's blood sample
+  - Have Kenzo send both Matlock and Karne syringes to collect their samples (if you haven't already), then send them back
+  - Switch to Karne and send Kenzo the Gloves
+  - Switch back to Kenzo and get the Gloves and any blood samples from the vac-tube
+  - Head to the Shuttle Bay and collect the Trimorph sample
+  - Head to the Bio Lab, add the blood samples to the centerfuge
+  - Place the trimorph sample under the microscope
+  - Place Ben Gunn's Head on the corpse
+  - Leave the Bio Lab and hide out in the Chem lab
+  - Switch to Matlock and head to the Bio Lab
+  - Have Kenzo send Needle and Thread and Heart of Stone to Matlock
+  - Sew the head on the corpse
+  - Place heart of stone in corpse
+  - Examine the reanimated corpse for the Flesh Heart
+  - Send Flesh Heart and Laser Scalpel to Kenzo
+  - Switch to Kenzo and grab the final syringe from the Med Lab
+  - Switch back to Karne and have him operate the crane (stay in it for now)
+  - Switch to Kenzo and head down to the Royal Tomb (make sure you grab some lenses)
+  - Place the flesh heart in the niche
+  - Climb on the crane and lower yourself into the Sarcophagus using the winch
+  - Use the laser scalpel to cut through the membrane
+  - Use the syringe to collect the sample, then send it back to Matlock
+  - Switch to Matlock and collect the sample
+  - Place the sample in the Termalizer
+  - Use the Computer to complete the vaccines
+  - Collect the vaccine and use it on each character
 
-== Escape & Ending ==
- -- Team --
- - Return to Shuttle Bay
- - Use rocket (requires two survivors minimum)
- - Launch escape sequence
- - Ending cutscenes resolve Karne’s motives, Harroway’s role, and fate of contagion
+== The Fissure ==
+  - Switch to Karne and head back up the elevator and collect the explosives
+  - Take the explosives to the Fissure at site 1 in the Necropolis
+  - Combine the Detonator and the Explosives, then use them at the fissure
+  - Escape to the Shuttle Bay
+  - Once you arrive, everyone will enter the Shuttle
+  - MOOD mentions a manual override
+  - Flip the switch and escape 

@@ -1,8 +1,4 @@
-** Progression Achievement
-++ Possible Challenge Achievement
-
 == Progression ==
-
  - Free Karne
  - Unlock Arboretum
  - Free Matlock
@@ -36,13 +32,12 @@
  - Place the explosives in the Pit Chamber and escape the base
 
 == Challenges/Easter Eggs ==
--- Vita Base Intro --
  - Complete the game with Karne's lucky charm (never remove the silver bullet from his inventory)
  - Complete the game without saving (or using 3 saves or less) *
  - Complete the game in less than 3 hours
  - Attempt to open the airlock with each character *
  - Try to leave the Decontamination Chamber with both Karne and Matlock?
- - Visit all map locations *
+ - Visit all map locations
  - Find all GUNN notes?
  - Learn all you can from MOOD (requires multiple visits with all characters?)
  - Learn all you can from Ben Gunn (not notes)

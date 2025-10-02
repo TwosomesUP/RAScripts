@@ -17,9 +17,18 @@ class Characters {
     Matlock = Character(2, word(0x10f834), byte(0x10f83d))
 }
 
+characters = Characters()
+
 class Player {
     id = byte(0x10ccae)
-    characters = Characters()
+
+    function CharacterDidntChange(){
+        return prev(this.id) == this.id
+    }
+
+    function IsCharacter(character){
+        return this.id == character.id
+    }
 }
 
 player = Player()
@@ -75,6 +84,7 @@ class Locations {
     MadisonAvenue1 = Location(0x05, byte(0x10b741))
     BoulevardStMichel2 = Location(0x03, byte(0x10b73f))
     BaseDirectorQuarters = Location(0x2a, byte(0x10b766))
+    InocashiraDouri1 = Location(0x33, byte(0x10b76f))
     InocashiraDouri2 = Location(0x32, byte(0x10b76e))
     Arboretum1 = Location(0x2f, byte(0x10b76b))
     ParkLane2 = Location(0x30, byte(0x10b76c))
@@ -89,6 +99,14 @@ class Locations {
     Washroom = Location(0x47, byte(0x10b783))
     SimurealChamber = Location(0x59, byte(0x10b795))
     SunsetBoulevard = Location(0x2d, byte(0x10b769))
+    StateStreet2 = Location(0x34, byte(0x10b770))
+    WallStreet1 = Location(0x22, byte(0x10b75e))
+    ShuttleBayEntrance = Location(0x1d, byte(0x10b759))
+    ShuttleBay = Location(0x1c, byte(0x10b758))
+    PennyLane1 = Location(0x2c, byte(0x10b768))
+    Kitchen = Location(0x48, byte(0x10b784))
+    MadisonAvenueDorm = Location(0x4b, byte(0x10b787))
+    MadisonAvenue3 = Location(0x04, byte(0x10b740))
 }
 
 locations = Locations()
@@ -106,6 +124,14 @@ class Door {
 
         return unlocked
     }
+
+    function IsClosed(){
+        return this.flag == 0
+    }
+
+    function IsOpen(){
+        return this.flag != 0
+    }
 }
 
 class Doors {
@@ -114,6 +140,9 @@ class Doors {
     ChemLab = Door(locations.PiccadillyCircus, byte(0x10cc62))
     MedLab = Door(locations.CarnabyStreet, bit0(0x10b69a))
     Washroom = Door(locations.SunsetBoulevard, byte(0x10cc99))
+    WallStreetDorm = Door(locations.WallStreet1, byte(0x10cc8c))
+    ShuttleBayDoor2 = Door(locations.ShuttleBay, byte(0x10cc31))
+    MadisonAvenueDorm = Door(locations.MadisonAvenue3, byte(0x10cc83))
 }
 
 doors = Doors()
@@ -132,7 +161,11 @@ class DialogEntry {
 
     function Triggered(checkRoom = true){
         roomCheck = map.IsInRoom(this.location)
+
         triggered = prior(this.id) == this.start && this.id == this.end
+
+        if (this.start == this.end)
+            triggered = prior(this.id) != this.start && this.id == this.end
 
         if (checkRoom)
             triggered = roomCheck && triggered
@@ -143,6 +176,8 @@ class DialogEntry {
 
 class DialogList {
     KarneTimeStops = DialogEntry(locations.InocashiraDouri2, 0x801871cc, 0x801871fe)
+    KenzoBulkheads = DialogEntry(locations.SimurealChamber, 0x8018657e, 0x801865c0)
+    KarneCutKitchenLock = DialogEntry(locations.InocashiraDouri1, 0x80185520, 0x80185520)
 }
 
 dialog = DialogList()
@@ -259,8 +294,13 @@ class Event {
     location = 0
     flag = 0
 
-    function IsTriggered(){
-        return this.flag != 0
+    function IsTriggered(value = 0){
+        triggered = this.flag != 0
+
+        if (value != 0)
+            triggered = this.flag == value
+
+        return triggered
     }
 
     function Trigger(checkRoom = true) {
@@ -296,6 +336,12 @@ class Events {
     MovePowerCoreArmControl = Event(locations.PowerCore, byte(0x10b69b))
     OpenSimurealGardenDoor = Event(locations.SimurealChamber, byte(0x10b692))
     BlowUpPowerCoreDoor = Event(locations.TimeSquare1, byte(0x10b6c5))
+    RaiseBulkheads = Event(locations.StateStreet2, bit5(0x10b67b))
+    ShuttleBayTrimorphTrapped = Event(locations.ShuttleBayEntrance, byte(0x10b6be))
+    EnteredShuttleBayThroughVent = Event(locations.PennyLane1, bit7(0x10b67b))
+
+    // or maybe bit0 0x10b684
+    BreakLockOnKitchenDoor = Event(locations.InocashiraDouri1, bit0(0x10b684))
 
     function EventSetTriggered(eventArray){
         triggered = sum_of(eventArray, event => event.flag)
@@ -447,27 +493,39 @@ function Progression_AccessSimurealChamber(){
 }
 
 function Progression_ReleaseVitaBaseBulkheads(){
-    return always_false()
+    return game.state.IsInGame() &&
+        events.RaiseBulkheads.IsTriggered() &&
+        dialog.KenzoBulkheads.Triggered()
 }
 
 function Progression_AccessWallStreetDorm(){
-    return always_false()
+    return game.state.IsInGame() &&
+        doors.WallStreetDorm.Unlocked()
 }
 
 function Progression_TrapShuttleBayTrimorph(){
-    return always_false()
+    return game.state.IsInGame() &&
+        player.IsCharacter(characters.Kenzo) &&
+        doors.ShuttleBayDoor2.IsClosed() &&
+        events.ShuttleBayTrimorphTrapped.IsTriggered(2) &&
+        map.Transition(locations.ShuttleBay, locations.SimurealChamber)
 }
 
 function Progression_AccessShuttleBay(){
-    return always_false()
+    return game.state.IsInGame() &&
+        events.EnteredShuttleBayThroughVent.IsTriggered() &&
+        map.Transition(locations.PennyLane1, locations.ShuttleBay)
 }
 
 function Progression_AccessKitchen(){
-    return always_false()
+    return game.state.IsInGame() &&
+        events.BreakLockOnKitchenDoor.IsTriggered() &&
+        dialog.KarneCutKitchenLock.Triggered()
 }
 
 function Progression_AccessMadisonAvenueDorm(){
-    return always_false()
+    return game.state.IsInGame() &&
+        doors.MadisonAvenueDorm.Unlocked()
 }
 
 function Progression_TradeForRedTag(){
@@ -655,7 +713,7 @@ function Challenge_VisitAllLocations(){
 
 achievement(
     "Vita Base", 
-    "Radio your team and head into the Vita Base", 
+    "Coordinate with your team then enter the Vita Base", 
     points = 2,
     trigger = Progression_ArriveInVitaBase(),
     type = "progression"
@@ -663,7 +721,7 @@ achievement(
 
 achievement(
     "Base Director's Quarters", 
-    "Access the Base Director's Quarters", 
+    "Discover the use for a colorful tag and gain access to the Base Director's Quarters", 
     points = 2,
     trigger = Progression_AccessBaseDirectorQuarters(),
     type = "progression"
@@ -671,7 +729,7 @@ achievement(
 
 achievement(
     "Free Karne", 
-    "Use the Base Director's Computer and free Karne from the Inocashira Douri Airlock", 
+    "Use the Base Director's Computer and free Karne from the Inocashiro Douri Airlock", 
     points = 2,
     trigger = Progression_UnlockInocashiraDouriDecontamination(),
     type = "progression"
@@ -687,7 +745,7 @@ achievement(
 
 achievement(
     "Arboretum", 
-    "Access the Arboretum", 
+    "Find a hidden passcode and gain access to the Arboretum", 
     points = 2,
     trigger = Progression_AccessArboretum(),
     type = "progression"
@@ -703,7 +761,7 @@ achievement(
 
 achievement(
     "Chem Lab", 
-    "Access the Chem Lab", 
+    "Discover the use for a colorful tag and gain access to the Chem Lab", 
     points = 2,
     trigger = Progression_AccessChemLab(),
     type = "progression"
@@ -711,7 +769,7 @@ achievement(
 
 achievement(
     "Med Lab", 
-    "Access the Med Lab", 
+    "Discover the use for a mysterious key and gain access to the Med Lab", 
     points = 2,
     trigger = Progression_AccessMedLab(),
     type = "progression"
@@ -719,7 +777,7 @@ achievement(
 
 achievement(
     "Air Recycling", 
-    "Repair and restart the Vita Base Air Recycling system", 
+    "Repair the Vita Base Air Recycling system and save your team from suffocation", 
     points = 4,
     trigger = Progression_RestartAirRecycling(),
     type = "progression"
@@ -727,7 +785,7 @@ achievement(
 
 achievement(
     "Repair Breach", 
-    "Repair a breach in the Vita Base Hull", 
+    "Repair a breach in the Vita Base Hull and save your team from an untimely end", 
     points = 4,
     trigger = Progression_RepairBreach(),
     type = "progression"
@@ -735,7 +793,7 @@ achievement(
 
 achievement(
     "Power Core", 
-    "Access the Vita Base Power Core", 
+    "Employ your alchemic ingenuity and gain access to the Vita Base Power Core", 
     points = 2,
     trigger = Progression_AccessPowerCore(),
     type = "progression"
@@ -743,7 +801,7 @@ achievement(
 
 achievement(
     "Jamison's Hand", 
-    "Get a hand from Jamison", 
+    "Receive a helping hand from Jamison", 
     points = 2,
     trigger = Progression_CollectJamisonHand(),
     type = "progression"
@@ -751,7 +809,7 @@ achievement(
 
 achievement(
     "Restore Power", 
-    "Restore power to the Vita Base", 
+    "Employ your engineering prowess and restore power to the Vita Base", 
     points = 4,
     trigger = Progression_RestoreVitaBasePower(),
     type = "progression"
@@ -767,7 +825,7 @@ achievement(
 
 achievement(
     "Bulkheads", 
-    "Release the Vita Base Emergency Bulkheads", 
+    "Grant your team some breathing room and release the Vita Base Emergency Bulkheads", 
     points = 2,
     trigger = Progression_ReleaseVitaBaseBulkheads(),
     type = "progression"
@@ -775,7 +833,7 @@ achievement(
 
 achievement(
     "Wall Street Dorm", 
-    "Access the Wall Street Dorm", 
+    "Discover the use for a colorful tag and gain access to the Wall Street Dorm", 
     points = 3,
     trigger = Progression_AccessWallStreetDorm(),
     type = "progression"
@@ -783,7 +841,7 @@ achievement(
 
 achievement(
     "Shuttle Bay Trimorph", 
-    "Trap the Trimorph that's stalking the Shuttle Bay", 
+    "Employ the help of a friend and trap the Trimorph that's stalking the Shuttle Bay", 
     points = 4,
     trigger = Progression_TrapShuttleBayTrimorph(),
     type = "progression"
@@ -791,7 +849,7 @@ achievement(
 
 achievement(
     "Shuttle Bay", 
-    "Access the Shuttle Bay", 
+    "Don't let a deadly obstacle get in your way and gain access to the Shuttle Bay", 
     points = 3,
     trigger = Progression_AccessShuttleBay(),
     type = "progression"
@@ -799,7 +857,7 @@ achievement(
 
 achievement(
     "Kitchen", 
-    "Hack your way through to the Kitchen", 
+    "Employ your welding skills and cut your way through to the Kitchen", 
     points = 3,
     trigger = Progression_AccessKitchen(),
     type = "progression"
@@ -807,7 +865,7 @@ achievement(
 
 achievement(
     "Madison Avenue Dorm", 
-    "Access the Madison Avenue Dorm", 
+    "Discover the use for a colorful tag and gain access to the Madison Avenue Dorm", 
     points = 3,
     trigger = Progression_AccessMadisonAvenueDorm(),
     type = "progression"
@@ -815,7 +873,7 @@ achievement(
 
 achievement(
     "Red Tag", 
-    "Trade with Ben Gunn for a Red Tag", 
+    "Keep Ben Gunn happy and earn yourself a Red Tag", 
     points = 4,
     trigger = Progression_TradeForRedTag(),
     type = "progression"
@@ -823,7 +881,7 @@ achievement(
 
 achievement(
     "Dead Man Walk Dorm", 
-    "Access the Dead Man's Walk Dorm", 
+    "Discover the use for a colorful tag and gain access to the Dead Man's Walk Dorm", 
     points = 3,
     trigger = Progression_AccessDeadMansWalkDorm(),
     type = "progression"
@@ -831,7 +889,7 @@ achievement(
 
 achievement(
     "Geo Lab", 
-    "Access the Geo Lab", 
+    "Discover the use for a colorful tag and gain access to the Geo Lab", 
     points = 3,
     trigger = Progression_AccessGeoLab(),
     type = "progression"
@@ -839,7 +897,7 @@ achievement(
 
 achievement(
     "Psychic Curse", 
-    "Break the Psychic Curse inflicted upon your team", 
+    "Employ your sculpting know-how and break the Psychic Curse afflicting your team", 
     points = 4,
     trigger = Progression_BreakPsychicCurse(),
     type = "progression"
@@ -847,7 +905,7 @@ achievement(
 
 achievement(
     "Mai Lin's Room", 
-    "Access Mai Lin's Room", 
+    "Discover the use for a colorful tag and gain access to Mai Lin's Room", 
     points = 3,
     trigger = Progression_AccessMaiLinsRoom(),
     type = "progression"
@@ -855,7 +913,7 @@ achievement(
 
 achievement(
     "Bio Lab", 
-    "Access the Bio Lab", 
+    "Employ your surgical dexterity and gain access to the Bio Lab", 
     points = 3,
     trigger = Progression_AccessBioLab(),
     type = "progression"
@@ -871,7 +929,7 @@ achievement(
 
 achievement(
     "Kremlin", 
-    "Access the Kremlin", 
+    "Employ your technical aptitude and gain access to the Kremlin", 
     points = 4,
     trigger = Progression_AccessKremlin(),
     type = "progression"
@@ -879,7 +937,7 @@ achievement(
 
 achievement(
     "Kremlin Computer", 
-    "Work as a team and power on the Kremlin Computer", 
+    "Employ the help of a friend and power on the Kremlin Computer", 
     points = 5,
     trigger = Progression_ActivateKremlinComputer(),
     type = "progression"
@@ -887,7 +945,7 @@ achievement(
 
 achievement(
     "Carnaby Street Airlock", 
-    "Access the Carnaby Street Airlock", 
+    "Employ your mechanical mastery and gain access to the Carnaby Street Airlock", 
     points = 4,
     trigger = Progression_AccessCarnabyStreetAirlock(),
     type = "progression"
@@ -895,7 +953,7 @@ achievement(
 
 achievement(
     "Necroplolis Elevator", 
-    "Repair the Vita Base Elevator and gain access to the Necropolis", 
+    "Employ your mechanical genius to repair the Vita Base Elevator and gain access to the Necropolis", 
     points = 4,
     trigger = Progression_AccessNecropolis(),
     type = "progression"
@@ -903,7 +961,7 @@ achievement(
 
 achievement(
     "Necropolis Generator", 
-    "Repair the Necropolis Arena Generator", 
+    "Employ your electrical expertise and repair the Necropolis Arena Generator", 
     points = 4,
     trigger = Progression_RepairNecropolisGenerator(),
     type = "progression"
@@ -911,7 +969,7 @@ achievement(
 
 achievement(
     "Charged Chorus", 
-    "Use the power of the Necropolis Obelisk and charge the Chorus", 
+    "Use the energy of the Necropolis Obelisk and empower a mysterious artifact", 
     points = 5,
     trigger = Progression_ChargeChorus(),
     type = "progression"
@@ -919,7 +977,7 @@ achievement(
 
 achievement(
     "Arkham Tag", 
-    "Use the power of the Necropolis Altar and acquire the Arkham Tag", 
+    "Use the power of the Necropolis Altar and acquire a mysterious tag", 
     points = 5,
     trigger = Progression_AcquireArkhamTag(),
     type = "progression"
@@ -927,7 +985,7 @@ achievement(
 
 achievement(
     "Lonely Street Dorm", 
-    "Access the Lonely Street Dorm", 
+    "Discover the use for a colorless tag and gain access to the Lonely Street Dorm", 
     points = 4,
     trigger = Progression_AccessLonelyStreetDorm(),
     type = "progression"
@@ -935,7 +993,7 @@ achievement(
 
 achievement(
     "Lonely Street Dorm Bunk", 
-    "Gain access to the locked bunk in the Lonely Street Dorm", 
+    "Employ your achromatic insight and gain access to the bunk locker in the Lonely Street Dorm ", 
     points = 5,
     trigger = Progression_AccessLonelyStreetDormBunk(),
     type = "progression"
@@ -943,7 +1001,7 @@ achievement(
 
 achievement(
     "Whittaker's Grave", 
-    "Find Whittaker's Grave", 
+    "Touch Martian soil and discover a hautned grave", 
     points = 4,
     trigger = Progression_AccessWhittakersGrave(),
     type = "progression"
@@ -951,7 +1009,7 @@ achievement(
 
 achievement(
     "Lonely Street Dorm Puzzle", 
-    "Solve a colorless conundrum in the Lonely Street Dorm", 
+    "Solve a chromatic conundrum in the Lonely Street Dorm", 
     points = 5,
     trigger = Progression_SolveLonelyStreetDormPuzzle(),
     type = "progression"
@@ -959,7 +1017,7 @@ achievement(
 
 achievement(
     "Ben Gunn's Experiment", 
-    "Finish Ben Gunn's Experiment", 
+    "Employ your inner Frankenstein and finish Ben Gunn's experiment", 
     points = 3,
     trigger = Progression_CompleteBenGunnsExperiment(),
     type = "progression"
@@ -967,7 +1025,7 @@ achievement(
 
 achievement(
     "Blood Samples", 
-    "Collect a sample from each of your team", 
+    "Collect a blood sample from each member of your team", 
     points = 3,
     trigger = Progression_CollectBloodSamples(),
     type = "progression"
@@ -975,7 +1033,7 @@ achievement(
 
 achievement(
     "Trimorph Sample", 
-    "Collect a sample from a Trimorph", 
+    "Collect a tissue sample from a Trimorph", 
     points = 3,
     trigger = Progression_CollectTrimorphSample(),
     type = "progression"
@@ -983,7 +1041,7 @@ achievement(
 
 achievement(
     "Alien Fluid Sample", 
-    "Collect a sample from an the ancient alien Sovereign", 
+    "Collect a fluid sample from an ancient alien Sovereign", 
     points = 4,
     trigger = Progression_CollectAlienSample(),
     type = "progression"
@@ -991,7 +1049,7 @@ achievement(
 
 achievement(
     "Cure Virus", 
-    "Cure your team of the deadly Martian Virus", 
+    "Employ your medical proficiency and cure your team of the deadly Martian Virus", 
     points = 5,
     trigger = Progression_CureTheVirus(),
     type = "progression"
@@ -999,7 +1057,7 @@ achievement(
 
 achievement(
     "Place Explosive", 
-    "Condemn the Vita Base to an explosive end", 
+    "Employ your demolitions expertise and condemn the Vita Base to an explosive end", 
     points = 3,
     trigger = Progression_SetVitaBaseExplosive(),
     type = "progression"
@@ -1007,7 +1065,7 @@ achievement(
 
 achievement(
     "Escape Vita Base", 
-    "Escape Vita Base", 
+    "Employ your aeronautical savvy and escape the Vita Base leaving Mars behind", 
     points = 10,
     trigger = Progression_EscapeVitaBase(),
     type = "progression"
@@ -1019,42 +1077,42 @@ achievement(
 
 achievement(
     "Save Challenge",
-    "Beat the game using 3 saves or less",
+    "Escape the Vita Base using 3 saves or less",
     points = 25,
     trigger = Challenge_EscapeWithSaveLimit()
 )
 
 achievement(
     "Time Challenge",
-    "Beat the game in 5 hours or less",
+    "Escape the Vita Base in 5 hours or less",
     points = 25,
     trigger = Challenge_EscapeWithTimeLimit()
 )
 
 achievement(
     "Ben Gunn's Notes",
-    "Find a Ben Gunn note",
+    "Find a helpful note from a mysterious friend",
     points = 2,
     trigger = Challenge_FindABenGunnNote()
 )
 
 achievement(
     "Martian Mayhem",
-    "Listen to all Martian Mayhem scenes",
+    "Go against your better judgement and listen to all Martian Mayhem scenes",
     points = 2,
     trigger = Challenge_ListenToAllMartianMayhemScenes()
 )
 
 achievement(
     "Judith Harroway",
-    "Listen to all of Judith Harroway's Reports/Journals",
+    "Unveil the harrowing history of the Vita Base by listening to all of Judith Harroway's Reports",
     points = 4,
     trigger = Challenge_ListToAllJudithHarrowayReports()
 )
 
 achievement(
     "Early Psionara",
-    "Collect the Psionara without killing the Trimorph found in the Dead Man's Walk Dorm",
+    "Tempt fate and collect the Psionara without killing the Trimorph found in the Dead Man's Walk Dorm",
     points = 10,
     trigger = Challenge_FindPsionaraEarly()
 )
@@ -1068,28 +1126,28 @@ achievement(
 
 achievement(
     "Ben Gunn's Advice",
-    "Learn all you can from Ben Gunn",
+    "Be a good friend and listen to everything Ben Gunn has to say",
     points = 4,
     trigger = Challenge_ListenToAllBenGunnAdvice()
 )
 
 achievement(
     "MOOD's Advice",
-    "Learn all you can from MOOD",
+    "Be a good student and learn all you can from MOOD",
     points = 4,
     trigger = Challenge_ListenToAllMOODAdvice()
 )
 
 achievement(
     "Portable Computer",
-    "Find and repair a portable computer",
+    "Make your life easier and repair a portable computer",
     points = 2,
     trigger = Challenge_FindAPortableComputer()
 )
 
 achievement(
     "All Together Now",
-    "Before finding a cure, have all 3 characters in the same room",
+    "Defy your primary directive and have all 3 characters in the same room before finding a cure for the Martian Virus",
     points = 10,
     trigger = Challenge_ThreeCharactersInOneRoom()
 )
@@ -1138,7 +1196,7 @@ achievement(
 
 achievement(
     "Mars Explorer",
-    "Visit all locations on the Vita Base",
+    "Employ your inner cartographer and visit all locations on the Vita Base",
     points = 5,
     trigger = Challenge_VisitAllLocations()
 )

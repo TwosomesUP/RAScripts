@@ -9,6 +9,10 @@ class Character {
     id = 0
     health = 0
     room = 0
+
+    function IsInRoom(location) {
+        return this.room == location.id
+    }
 }
 
 class Characters {
@@ -38,7 +42,7 @@ player = Player()
 // #region Map Classes
 
 class Map {
-    id = word(0x10b5d4)
+    id = byte(0x10b5d4)
     screenId = word(0x10b5d6)
     
     function Transition(from, to){
@@ -100,18 +104,21 @@ class Locations {
     InocashiraDouri1 = Location(0x33, byte(0x10b76f))
     InocashiraDouri2 = Location(0x32, byte(0x10b76e))
     Arboretum1 = Location(0x2f, byte(0x10b76b))
+    ParkLane1 = Location(0x31, byte(0x10b76d))
     ParkLane2 = Location(0x30, byte(0x10b76c))
     ChemLab = Location(0x3f, byte(0x10b77b))
     MedLab = Location(0x08, byte(0x10b744))
     PiccadillyCircus = Location(0x18, byte(0x10b754))
     CarnabyStreet = Location(0x19, byte(0x10b755))
     AirRecycling = Location(0x4f, byte(0x10b78b))
+    AirRecyclingAntichamber = Location(0x4e, byte(0x10b78a))
     MOODAntiChamber = Location(0x01, byte(0x10b73d))
     PowerCore = Location(0x1e, byte(0x10b75a))
     TimeSquare1 = Location(0x16, byte(0x10b752))
     Washroom = Location(0x47, byte(0x10b783))
     SimurealChamber = Location(0x59, byte(0x10b795))
     SunsetBoulevard = Location(0x2d, byte(0x10b769))
+    StateStreet1 = Location(0x11, byte(0x10b74d))
     StateStreet2 = Location(0x34, byte(0x10b770))
     WallStreet1 = Location(0x22, byte(0x10b75e))
     ShuttleBayEntrance = Location(0x1d, byte(0x10b759))
@@ -120,6 +127,7 @@ class Locations {
     Kitchen = Location(0x48, byte(0x10b784))
     MadisonAvenueDorm = Location(0x4b, byte(0x10b787))
     MadisonAvenue3 = Location(0x04, byte(0x10b740))
+    DeadMansWalkDorm = Location(0x0b, byte(0x10b747))
     DeadMansWalk2 = Location(0x10, byte(0x10b74c))
     FortySecondStreet1 = Location(0x0c, byte(0x10b748))
     GeoLab = Location(0x3e, byte(0x10b77a))
@@ -144,7 +152,13 @@ class Locations {
     RegalTomb = Location(0x66, byte(0x10b7a2))
     PitChamber1 = Location(0x54, byte(0x10b790))
     PitChamber2 = Location(0x6f, byte(0x10b7ab))
+    FortySecondStreetStoreroom = Location(0x0f, byte(0x10b74b))
+    TimeSquareAirlock = Location(0x38, byte(0x10b774))
+    MadisonAvenueAirlock = Location(0x44, byte(0x10b780))
+    InocashiraDouriAirlock = Location(0x4d, byte(0x10b789))
+
     Ending = Location()
+    GameOver = Location(0x74, byte(0x10b7b0))
 }
 
 locations = Locations()
@@ -208,6 +222,10 @@ class Doors {
     Kremlin = Door(locations.Broadway5, byte(0x10cc73))
     LonelyStreetDorm = Door(locations.LonelyStreet3, byte(0x10cc8e))
     LonelyStreetDormWhitehall = Door(locations.Whitehall2, byte(0x10cc8f))
+    Gymnasium = Door(locations.StateStreet1, byte(0x10cc71))
+    Washroom = Door(locations.SunsetBoulevard, byte(0x10cc99))
+    RecreationRoom = Door(locations.InocashiraDouri2, byte(0x10cc72))
+    Study = Door(locations.ParkLane1, byte(0x10cc7f))
 }
 
 doors = Doors()
@@ -273,6 +291,8 @@ class Instances {
     AltarArkhamTag = Instance(locations.NecropolisAltar, byte(0x10c788))
     ShuttleBayTrimorphSample = Instance(locations.ShuttleBayEntrance, byte(0x10bc49))
     ShuttleBayTrimorphSampleAlt = Instance(locations.ShuttleBayEntrance, byte(0x10bc4a))
+    CarnabyStreetAirlockFlareGun = Instance(locations.CarnabyStreetAirlock, byte(0x10c2b2))
+    ChargePalmtop = Instance(locations.NecropolisArena, byte(0x10c96d))
 }
 
 instances = Instances()
@@ -292,6 +312,13 @@ class Items {
     BenGunnNote2 = Item(0x105)
     BenGunnNote3 = Item(0x106)
     BenGunnNote4 = Item(0x107)
+    Psionara = Item(0x92)
+    Piccolo = Item(0x5b)
+    NailGun = Item(0x5e)
+    Dillinger = Item(0x5d)
+    Diabolus = Item(0x5c)
+    FlareGun = Item(0x5f)
+    PalmTop = Item(0x7a)
 }
 
 items = Items()
@@ -301,6 +328,7 @@ items = Items()
 class InventoryOffsets {
     name = 0x8
     count = 0x10
+    state = 0x0e
 }
 
 class Inventory {
@@ -336,6 +364,37 @@ class Inventory {
         slotAddress = startAddress + (this.index * this.slotSize)
         itemAddress = slotAddress + this.offsets.count
         return byte(itemAddress)
+    }
+
+    function CollectedItem(item) {
+        startAddress = this.start
+        allSlots = 18 * 3
+        checks = []
+
+        for index in range(0, allSlots - 1){
+            baseAddress = startAddress + (index * this.slotSize)
+            itemId = word(baseAddress + this.offsets.name)
+            check = prev(itemId) == 0xffff && itemId == item.id
+            array_push(checks, check)
+        }
+
+        return any_of(checks, c => c)
+    }
+
+    function ItemStateChanged(item, start, end) {
+        startAddress = this.start
+        allSlots = 18 * 3
+        checks = []
+
+        for index in range(0, allSlots - 1){
+            baseAddress = startAddress + (index * this.slotSize)
+            itemId = word(baseAddress + this.offsets.name)
+            itemState = word(baseAddress + this.offsets.state)
+            check = itemId == item.id && prev(itemState) == start && itemState == end
+            array_push(checks, check)
+        }
+
+        return any_of(checks, c => c)
     }
 }
 
@@ -482,6 +541,13 @@ class Events {
     PrimePitChamberExplosive = Event(locations.PitChamber1, bit6(0x10b67c))
     FlipOverrideSwitch = Event(locations.ShuttleBay, byte(0x10b685))
     ListenToAllMartianMayhem = Event(Location(), byte(0x10ccb0))
+    KilledDorm3Trimorph = Event(locations.DeadMansWalkDorm, bit4(0x10b68a))
+    KilledObeliskTrimorph = Event(locations.NecropolisObelisk2, bit5(0x10b68a))
+    KilledShuttleBayTrimorph = Event(locations.ShuttleBayEntrance, bit1(0x10b68a))
+    KilledPitChamberTrimorph = Event(locations.PitChamber2, bit2(0x10b68a))
+    KilledNecropolisElevatorTrimorph = Event(locations.NecropolisElevator, bit3(0x10b68a))
+    KilledCarnabyStreetAirlockTrimorph = Event(locations.CarnabyStreetAirlock, bit1(0x10b6a4))
+    KilledAirRecyclingTrimorph = Event(locations.AirRecyclingAntichamber, bit2(0x10b6a2))
 
     function EventSetTriggered(eventArray, isMeasured = true){
         triggered = sum_of(eventArray, event => event.flag)
@@ -528,7 +594,7 @@ class Saves {
     function GetUsedSaves() {
         maxSaves = 144
         baseAddress = 0x10b5e1
-        count = 14
+        count = 13
 
         excluded = [0x10b5e1, 0x10b5e8]
         included = []
@@ -593,6 +659,26 @@ function Progression_TimeStandsStill(){
     return game.state.IsInGame() &&
         events.WatchesStop.IsTriggered() &&
         dialog.KarneTimeStops.Triggered()
+}
+
+function Progression_AccessGymnasium(){
+    return game.state.IsInGame() &&
+        doors.Gymnasium.Unlocked()
+}
+
+function Progression_AccessWashroom(){
+    return game.state.IsInGame() &&
+        doors.Washroom.Unlocked()
+}
+
+function Progression_AccessRecreationRoom(){
+    return game.state.IsInGame() &&
+        doors.RecreationRoom.Unlocked()
+}
+
+function Progression_AccessStudy(){
+    return game.state.IsInGame() &&
+        doors.Study.Unlocked()
 }
 
 function Progression_AccessArboretum(){
@@ -738,18 +824,6 @@ function Progression_ActivateKremlinComputer(){
         events.ActivateKermlinComputer.IncrementalTrigger(2, 3)
 }
 
-function Progression_AccessCarnabyStreetAirlock(){
-    return game.state.IsInGame() &&
-        events.EjectTrimorphOutOfCarnabyStreetAirlock.IncrementalTrigger(1, 2, false) &&
-        (
-            // Allow triggering from any of the Carnaby Street related rooms (just in case)
-            map.IsInRoom(locations.CarnabyStreetAirlock) ||
-            map.IsInRoom(locations.CarnabyStreetDecontamination) ||
-            map.IsInRoom(locations.CarnabyStreet) ||
-            map.IsInRoom(locations.MedLab)
-        )
-}
-
 function Progression_AccessNecropolis(){
     return game.state.IsInGame() &&
         events.RepairNecropolisElevator.Trigger()
@@ -815,11 +889,12 @@ function Progression_CollectBloodSamples(){
 
 function Progression_CollectTrimorphSample(){
     return game.state.IsInGame() &&
-    (
-        // Both flags are reset once collected, so check for either
-        instances.ShuttleBayTrimorphSample.Collected() ||
-        instances.ShuttleBayTrimorphSampleAlt.Collected()
-    )  
+        events.KilledShuttleBayTrimorph.IsTriggered() &&
+        (
+            // Both flags are reset once collected, so check for either
+            instances.ShuttleBayTrimorphSample.Collected() ||
+            instances.ShuttleBayTrimorphSampleAlt.Collected()
+        )  
 }
 
 function Progression_CollectAlienSample(){
@@ -880,56 +955,79 @@ function Challenge_ListenToAllMartianMayhemScenes(){
         events.ListenToAllMartianMayhem.IncrementalTrigger(0x99, 0x9a, false)
 }
 
-function Challenge_ListToAllJudithHarrowayReports(){
-    return always_false()
-}
-
 function Challenge_FindPsionaraEarly(){
-    return always_false()
+    return game.state.IsInGame() &&
+        map.IsInRoom(locations.FortySecondStreetStoreroom) &&
+        !events.KilledDorm3Trimorph.IsTriggered() &&
+        inventory.CollectedItem(items.Psionara)
 }
 
 function Challenge_KillAllTrimorphs(){
-    return always_false()
-}
-
-function Challenge_ListenToAllBenGunnAdvice(){
-    return always_false()
-}
-
-function Challenge_ListenToAllMOODAdvice(){
-    return always_false()
+    return game.state.IsInGame() &&
+        events.EventSetTriggered(
+            [
+                events.KilledAirRecyclingTrimorph,
+                events.KilledCarnabyStreetAirlockTrimorph,
+                events.KilledDorm3Trimorph,
+                events.KilledShuttleBayTrimorph,
+                events.KilledNecropolisElevatorTrimorph,
+                events.KilledPitChamberTrimorph,
+                events.KilledObeliskTrimorph
+            ]
+        )
 }
 
 function Challenge_FindAPortableComputer(){
-    return always_false()
+    return game.state.IsInGame() &&
+        inventory.ItemStateChanged(items.PalmTop, 0x100a, 0x0010)
 }
 
 function Challenge_ThreeCharactersInOneRoom(){
-    return always_false()
+    return game.state.IsInGame() &&
+        !characters.Karne.IsInRoom(locations.GameOver) &&
+        !prev(characters.Karne.IsInRoom(locations.Ending)) &&
+        !characters.Kenzo.IsInRoom(locations.GameOver) &&
+        !prev(characters.Kenzo.IsInRoom(locations.Ending)) &&
+        !characters.Matlock.IsInRoom(locations.GameOver) &&
+        !prev(characters.Matlock.IsInRoom(locations.Ending)) &&
+        prev(characters.Karne.room) == prev(characters.Kenzo.room) &&
+        prev(characters.Kenzo.room) == prev(characters.Matlock.room) &&
+        (
+            prev(characters.Kenzo.room) != characters.Kenzo.room ||
+            prev(characters.Karne.room) != characters.Karne.room ||
+            prev(characters.Matlock.room) != characters.Matlock.room
+        )
 }
 
-function Challenge_FindAPicollo(){
-    return always_false()
+function Challenge_FindAPiccolo(){
+    return game.state.IsInGame() &&
+        inventory.CollectedItem(items.Piccolo)
 }
 
 function Challenge_FindANailGun(){
-    return always_false()
+    return game.state.IsInGame() &&
+        inventory.CollectedItem(items.NailGun)
 }
 
 function Challenge_FindADillinger(){
-    return always_false()
+    return game.state.IsInGame() &&
+        inventory.CollectedItem(items.Dillinger)
 }
 
 function Challenge_FindAPsionara(){
-    return always_false()
+    return game.state.IsInGame() &&
+        map.IsInRoom(locations.FortySecondStreetStoreroom) &&
+        inventory.CollectedItem(items.Psionara)
 }
 
 function Challenge_FindADiabolus(){
-    return always_false()
+    return game.state.IsInGame() &&
+        inventory.CollectedItem(items.Diabolus)
 }
 
 function Challenge_FindAFlareGun(){
-    return always_false()
+    return game.state.IsInGame() &&
+        inventory.CollectedItem(items.FlareGun)
 }
 
 function Challenge_VisitAllLocations(){
@@ -938,16 +1036,21 @@ function Challenge_VisitAllLocations(){
 }
 
 function Challenge_FindJudithHarroway(){
-    return always_false()
-}
-
-function Challenge_TryTheAirlock(){
-    return always_false()
+    return game.state.IsInGame() &&
+        map.IsInRoom(locations.ProjectDirectorQuarters) &&
+        events.ExamineJudithHarrowayCorpse.Trigger()
 }
 
 // #endregion
 
-// #region Progression Achievements
+// #region Achievement Definitions
+
+achievement(
+    "Piccolo",
+    "Find a Piccolo",
+    points = 2,
+    trigger = Challenge_FindAPiccolo()
+)
 
 achievement(
     "Vita Base", 
@@ -982,11 +1085,57 @@ achievement(
 )
 
 achievement(
+    "Gymnasium", 
+    "Discover the use for a colorful tag and gain access to the Gymnasium", 
+    points = 2,
+    trigger = Progression_AccessGymnasium(),
+    type = "progression"
+)
+
+achievement(
+    "Washroom", 
+    "Discover the use for a colorful tag and gain access to the Washroom", 
+    points = 2,
+    trigger = Progression_AccessWashroom(),
+    type = "progression"
+)
+
+achievement(
+    "Ben Gunn's Notes",
+    "Find a helpful note from a mysterious friend",
+    points = 2,
+    trigger = Challenge_FindABenGunnNote()
+)
+
+achievement(
+    "Recreation Room", 
+    "Discover the use for a colorful tag and gain access to the Recreation Room", 
+    points = 2,
+    trigger = Progression_AccessRecreationRoom(),
+    type = "progression"
+)
+
+achievement(
+    "Study", 
+    "Discover the use for a colorful tag and gain access to the Study", 
+    points = 2,
+    trigger = Progression_AccessStudy(),
+    type = "progression"
+)
+
+achievement(
     "Arboretum", 
     "Find a hidden passcode and gain access to the Arboretum", 
     points = 2,
     trigger = Progression_AccessArboretum(),
     type = "progression"
+)
+
+achievement(
+    "Nail Gun",
+    "Find a Nail Gun",
+    points = 2,
+    trigger = Challenge_FindANailGun()
 )
 
 achievement(
@@ -1094,6 +1243,13 @@ achievement(
 )
 
 achievement(
+    "Dillinger",
+    "Find a Dillinger",
+    points = 2,
+    trigger = Challenge_FindADillinger()
+)
+
+achievement(
     "Kitchen", 
     "Employ your welding skills and cut your way through to the Kitchen", 
     points = 3,
@@ -1126,6 +1282,13 @@ achievement(
 )
 
 achievement(
+    "Early Psionara",
+    "Tempt fate and collect the Psionara without killing the Trimorph found in the Dead Man's Walk Dorm",
+    points = 10,
+    trigger = Challenge_FindPsionaraEarly()
+)
+
+achievement(
     "Geo Lab", 
     "Discover the use for a colorful tag and gain access to the Geo Lab", 
     points = 3,
@@ -1150,6 +1313,13 @@ achievement(
 )
 
 achievement(
+    "Diabolus",
+    "Find a Diabolus",
+    points = 2,
+    trigger = Challenge_FindADiabolus()
+)
+
+achievement(
     "Bio Lab", 
     "Employ your surgical dexterity and gain access to the Bio Lab", 
     points = 3,
@@ -1163,6 +1333,13 @@ achievement(
     points = 4,
     trigger = Progression_AccessProjectDirectorQuarters(),
     type = "progression"
+)
+
+achievement(
+    "Find Judith Harroway",
+    "Discover a lost companion and commit to ending the Martian Virus at any cost",
+    points = 2,
+    trigger = Challenge_FindJudithHarroway()
 )
 
 achievement(
@@ -1182,11 +1359,17 @@ achievement(
 )
 
 achievement(
-    "Carnaby Street Airlock", 
-    "Employ your mechanical mastery and eject a Trimorph out of the Carnaby Street Airlock", 
-    points = 4,
-    trigger = Progression_AccessCarnabyStreetAirlock(),
-    type = "progression"
+    "Flare Gun",
+    "Find a Flare Gun",
+    points = 2,
+    trigger = Challenge_FindAFlareGun()
+)
+
+achievement(
+    "Psionara",
+    "Find a Psionara",
+    points = 2,
+    trigger = Challenge_FindAPsionara()
 )
 
 achievement(
@@ -1203,6 +1386,13 @@ achievement(
     points = 4,
     trigger = Progression_RepairNecropolisGenerator(),
     type = "progression"
+)
+
+achievement(
+    "Portable Computer",
+    "Make your life easier and repair a portable computer",
+    points = 2,
+    trigger = Challenge_FindAPortableComputer()
 )
 
 achievement(
@@ -1306,12 +1496,8 @@ achievement(
     "Employ your aeronautical savvy and escape the Vita Base leaving Mars behind", 
     points = 10,
     trigger = Progression_EscapeVitaBase(),
-    type = "progression"
+    type = "win_condition"
 )
-
-// #endregion
-
-// #region Challenge Achievements
 
 achievement(
     "Save Challenge",
@@ -1322,16 +1508,9 @@ achievement(
 
 achievement(
     "Time Challenge",
-    "Escape the Vita Base in 5 hours or less",
+    "Escape the Vita Base in 3 hours or less",
     points = 25,
-    trigger = Challenge_EscapeWithTimeLimit()
-)
-
-achievement(
-    "Ben Gunn's Notes",
-    "Find a helpful note from a mysterious friend",
-    points = 2,
-    trigger = Challenge_FindABenGunnNote()
+    trigger = Challenge_EscapeWithTimeLimit(10800)
 )
 
 achievement(
@@ -1342,17 +1521,10 @@ achievement(
 )
 
 achievement(
-    "Judith Harroway",
-    "Unveil the harrowing history of the Vita Base by listening to all of Judith Harroway's Reports",
-    points = 4,
-    trigger = Challenge_ListToAllJudithHarrowayReports()
-)
-
-achievement(
-    "Early Psionara",
-    "Tempt fate and collect the Psionara without killing the Trimorph found in the Dead Man's Walk Dorm",
+    "All Together Now",
+    "Before finding a cure, defy your primary directive and have all 3 characters in the same room, then leave without dying",
     points = 10,
-    trigger = Challenge_FindPsionaraEarly()
+    trigger = Challenge_ThreeCharactersInOneRoom()
 )
 
 achievement(
@@ -1360,90 +1532,6 @@ achievement(
     "Kill all Trimorphs stalking the halls of Vita Base",
     points = 5,
     trigger = Challenge_KillAllTrimorphs()
-)
-
-achievement(
-    "Ben Gunn's Advice",
-    "Be a good friend and listen to everything Ben Gunn has to say",
-    points = 4,
-    trigger = Challenge_ListenToAllBenGunnAdvice()
-)
-
-achievement(
-    "MOOD's Advice",
-    "Be a good student and learn all you can from MOOD",
-    points = 4,
-    trigger = Challenge_ListenToAllMOODAdvice()
-)
-
-achievement(
-    "Portable Computer",
-    "Make your life easier and repair a portable computer",
-    points = 2,
-    trigger = Challenge_FindAPortableComputer()
-)
-
-achievement(
-    "All Together Now",
-    "Defy your primary directive and have all 3 characters in the same room before finding a cure for the Martian Virus",
-    points = 10,
-    trigger = Challenge_ThreeCharactersInOneRoom()
-)
-
-achievement(
-    "Find Judith Harroway",
-    "Discover a lost companion and commit to ending the Martian Virus at any cost",
-    points = 2,
-    trigger = Challenge_FindJudithHarroway()
-)
-
-achievement(
-    "Airlock Escape",
-    "Flirt with the cold embrace of space and attempt the Airlock with each character before entering the Vita Base.",
-    points = 2,
-    trigger = Challenge_TryTheAirlock()
-)
-
-achievement(
-    "Piccolo",
-    "Find a Piccolo",
-    points = 2,
-    trigger = Challenge_FindAPicollo()
-)
-
-achievement(
-    "Nail Gun",
-    "Find a Nail Gun",
-    points = 2,
-    trigger = Challenge_FindANailGun()
-)
-
-achievement(
-    "Dillinger",
-    "Find a Dillinger",
-    points = 2,
-    trigger = Challenge_FindADillinger()
-)
-
-achievement(
-    "Psionara",
-    "Find a Psionara",
-    points = 2,
-    trigger = Challenge_FindAPsionara()
-)
-
-achievement(
-    "Diabolus",
-    "Find a Diabolus",
-    points = 2,
-    trigger = Challenge_FindADiabolus()
-)
-
-achievement(
-    "Flare Gun",
-    "Find a Flare Gun",
-    points = 2,
-    trigger = Challenge_FindAFlareGun()
 )
 
 achievement(

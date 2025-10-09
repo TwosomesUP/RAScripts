@@ -1,0 +1,22 @@
+>    r0          volatile, may be used by function linkage
+>    r1          stack pointer
+>    r2          reserved for system
+>    r3  .. r4   volatile, pass 1st - 2nd int args, return 1st - 2nd ints
+>    r5  .. r10  volatile, pass 3rd - 8th int args
+>    r11 .. r12  volatile, may be used by function linkage
+>    r13         small data area pointer
+>    r14 .. r31  saved
+>    f0          volatile
+>    f1          volatile, pass 1st float arg, return 1st float
+>    f2  .. f8   volatile, pass 2nd - 8th float args
+>    f9  .. f13  volatile
+>    f14 .. f30  saved
+>    f31         saved, static chain if needed.
+>    lr          volatile, return address
+>    ctr         volatile
+>    xer         volatile
+>    fpscr       volatile
+>    cr0         volatile
+>    cr1         volatile
+>    cr2 .. cr4  saved
+>    cr5 .. cr7  volatile

@@ -881,8 +881,7 @@ function Progression_SolveLonelyStreetDormPuzzle(){
 
 function Progression_CompleteBenGunnsExperiment(){
     return game.state.IsInGame() &&
-        events.CompleteBenGunnExperiment.IsTriggered() &&
-        dialog.BenGunnHeartOfFlesh.Triggered()
+        events.CompleteBenGunnExperiment.Trigger()
 }
 
 function Progression_CollectBloodSamples(){
@@ -1193,563 +1192,563 @@ lookups = Lookups()
 // #region Achievement Definitions
 
 achievement(
-    id = 550057,
     "Change Your Tune",
     "Find a Piccolo",
     points = 2,
-    trigger = Challenge_FindAPiccolo()
+    trigger = Challenge_FindAPiccolo(),
+    id = 550057
 )
 
 achievement(
-    id = 550058,
     "All Hands on Deck", 
     "Coordinate with your team then enter the Vita Base", 
     points = 2,
     trigger = Progression_ArriveInVitaBase(),
-    type = "progression"
+    type = "progression",
+    id = 550058
 )
 
 achievement(
-    id = 550059,
     "Nothing Rhymes with Orange", 
     "Discover the use for a colorful tag and gain access to the Base Director's Quarters", 
     points = 2,
     trigger = Progression_AccessBaseDirectorQuarters(),
-    type = "progression"
+    type = "progression",
+    id = 550059
 )
 
 achievement(
-    id = 550060,
     "Elbow Room", 
     "Use the Base Director's Computer and free Karne from the Inocashiro Douri Airlock", 
     points = 2,
     trigger = Progression_UnlockInocashiraDouriDecontamination(),
-    type = "progression"
+    type = "progression",
+    id = 550060
 )
 
 achievement(
-    id = 550061,
     "Time Will Tell", 
     "Witness time stand still and receive a set of mysterious numbers", 
     points = 2,
     trigger = Progression_TimeStandsStill(),
-    type = "progression"
+    type = "progression",
+    id = 550061
 )
 
 achievement(
-    id = 550062,
     "Gym Rat", 
     "Discover the use for a colorful tag and gain access to the Gymnasium", 
     points = 2,
     trigger = Progression_AccessGymnasium(),
-    type = "progression"
+    type = "progression",
+    id = 550062
 )
 
 achievement(
-    id = 550064,
     "Nature Calls", 
     "Discover the use for a colorful tag and gain access to the Washroom", 
     points = 2,
     trigger = Progression_AccessWashroom(),
-    type = "progression"
+    type = "progression",
+    id = 550064
 )
 
 achievement(
-    id = 550065,
     "Perfect Stranger",
     "Find a helpful note from a mysterious friend",
     points = 2,
-    trigger = Challenge_FindABenGunnNote()
+    trigger = Challenge_FindABenGunnNote(),
+    id = 550065
 )
 
 achievement(
-    id = 550066,
     "Recharge Your Batteries", 
     "Discover the use for a colorful tag and gain access to the Recreation Room", 
     points = 2,
     trigger = Progression_AccessRecreationRoom(),
-    type = "progression"
+    type = "progression",
+    id = 550066
 )
 
 achievement(
-    id = 550067,
     "Crack a Book", 
     "Discover the use for a colorful tag and gain access to the Study", 
     points = 2,
     trigger = Progression_AccessStudy(),
-    type = "progression"
+    type = "progression",
+    id = 550067
 )
 
 achievement(
-    id = 550068,
     "Beat Around the Bush", 
     "Find a hidden passcode and gain access to the Arboretum", 
     points = 2,
     trigger = Progression_AccessArboretum(),
-    type = "progression"
+    type = "progression",
+    id = 550068
 )
 
 achievement(
-    id = 550069,
     "Tooth and Nail",
     "Find a Nail Gun",
     points = 2,
-    trigger = Challenge_FindANailGun()
+    trigger = Challenge_FindANailGun(),
+    id = 550069
 )
 
 achievement(
-    id = 550070,
     "Free Spirit", 
     "Use the Base Director's Computer and free Matlock from the Time Square Airlock", 
     points = 2,
     trigger = Progression_UnlockTimeSquareDecontamination(),
-    type = "progression"
+    type = "progression",
+    id = 550070
 )
 
 achievement(
-    id = 550071,
     "In Your Element", 
     "Discover the use for a colorful tag and gain access to the Chem Lab", 
     points = 2,
     trigger = Progression_AccessChemLab(),
-    type = "progression"
+    type = "progression",
+    id = 550071
 )
 
 achievement(
-    id = 550072,
     "Health is Wealth", 
     "Discover the use for a mysterious key and gain access to the Med Lab", 
     points = 2,
     trigger = Progression_AccessMedLab(),
-    type = "progression"
+    type = "progression",
+    id = 550072
 )
 
 achievement(
-    id = 550073,
     "Catch Your Breath", 
     "Repair the Vita Base Air Recycling system and save your team from suffocation", 
     points = 4,
     trigger = Progression_RestartAirRecycling(),
-    type = "progression"
+    type = "progression",
+    id = 550073
 )
 
 achievement(
-    id = 550074,
     "Last Ditch Effort", 
     "Repair a breach in the Vita Base Hull and save your team from an untimely end", 
     points = 4,
     trigger = Progression_RepairBreach(),
-    type = "progression"
+    type = "progression",
+    id = 550074
 )
 
 achievement(
-    id = 550075,
     "Mad Scientist", 
     "Employ your alchemic ingenuity and gain access to the Vita Base Power Core", 
     points = 2,
     trigger = Progression_AccessPowerCore(),
-    type = "progression"
+    type = "progression",
+    id = 550075
 )
 
 achievement(
-    id = 550076,
     "Shoulder to Shoulder", 
     "Receive a helping hand from Jamison", 
     points = 2,
     trigger = Progression_CollectJamisonHand(),
-    type = "progression"
+    type = "progression",
+    id = 550076
 )
 
 achievement(
-    id = 550077,
     "Built to Order", 
     "Employ your engineering prowess and restore power to the Vita Base", 
     points = 4,
     trigger = Progression_RestoreVitaBasePower(),
-    type = "progression"
+    type = "progression",
+    id = 550077
 )
 
 achievement(
-    id = 550078,
     "Silver Bells", 
     "Adorn the Shamisen with a precious trinket and gain access to the Simureal Chamber Garden", 
     points = 2,
     trigger = Progression_AccessSimurealChamber(),
-    type = "progression"
+    type = "progression",
+    id = 550078
 )
 
 achievement(
-    id = 550079,
     "Breathe Easy", 
     "Grant your team some breathing room and release the Vita Base Emergency Bulkheads", 
     points = 2,
     trigger = Progression_ReleaseVitaBaseBulkheads(),
-    type = "progression"
+    type = "progression",
+    id = 550079
 )
 
 achievement(
-    id = 550080,
     "Sleep Quarters", 
     "Discover the use for a colorful tag and gain access to the Wall Street Dorm", 
     points = 3,
     trigger = Progression_AccessWallStreetDorm(),
-    type = "progression"
+    type = "progression",
+    id = 550080
 )
 
 achievement(
-    id = 550081,
     "Tag Team", 
     "Employ the help of a friend and trap the Trimorph that's stalking the Shuttle Bay", 
     points = 4,
     trigger = Progression_TrapShuttleBayTrimorph(),
-    type = "progression"
+    type = "progression",
+    id = 550081
 )
 
 achievement(
-    id = 550082,
     "Skin of Your Teeth", 
     "Don't let a deadly obstacle get in your way and gain access to the Shuttle Bay", 
     points = 3,
     trigger = Progression_AccessShuttleBay(),
-    type = "progression"
+    type = "progression",
+    id = 550082
 )
 
 achievement(
-    id = 550083,
     "Make Out Like a Bandit",
     "Find a Dillinger",
     points = 2,
-    trigger = Challenge_FindADillinger()
+    trigger = Challenge_FindADillinger(),
+    id = 550083
 )
 
 achievement(
-    id = 550084,
     "Fusion Cooking", 
     "Employ your welding skills and cut your way through to the Kitchen", 
     points = 3,
     trigger = Progression_AccessKitchen(),
-    type = "progression"
+    type = "progression",
+    id = 550084
 )
 
 achievement(
-    id = 550085,
     "Forty Winks", 
     "Discover the use for a colorful tag and gain access to the Madison Avenue Dorm", 
     points = 3,
     trigger = Progression_AccessMadisonAvenueDorm(),
-    type = "progression"
+    type = "progression",
+    id = 550085
 )
 
 achievement(
-    id = 550086,
     "A Stone's Throw Away", 
     "Keep Ben Gunn happy and earn yourself a Red Tag", 
     points = 4,
     trigger = Progression_TradeForRedTag(),
-    type = "progression"
+    type = "progression",
+    id = 550086
 )
 
 achievement(
-    id = 550087,
     "Catching Some Z's", 
     "Discover the use for a colorful tag and gain access to the Dead Man's Walk Dorm", 
     points = 3,
     trigger = Progression_AccessDeadMansWalkDorm(),
-    type = "progression"
+    type = "progression",
+    id = 550087
 )
 
 achievement(
-    id = 550088,
     "Go Big or Go Home",
     "Tempt fate and collect the Psionara without killing the Trimorph found in the Dead Man's Walk Dorm",
     points = 10,
-    trigger = Challenge_FindPsionaraEarly()
+    trigger = Challenge_FindPsionaraEarly(),
+    id = 550088
 )
 
 achievement(
-    id = 550089,
     "Cast the First Stone", 
     "Discover the use for a colorful tag and gain access to the Geo Lab", 
     points = 3,
     trigger = Progression_AccessGeoLab(),
-    type = "progression"
+    type = "progression",
+    id = 550089
 )
 
 achievement(
-    id = 550090,
     "Artistic License", 
     "Employ your sculpting know-how and break the Psychic Curse afflicting your team", 
     points = 4,
     trigger = Progression_BreakPsychicCurse(),
-    type = "progression"
+    type = "progression",
+    id = 550090
 )
 
 achievement(
-    id = 550091,
     "Devil's in the Details", 
     "Discover the use for a colorful tag and gain access to Mai Lin's Room", 
     points = 3,
     trigger = Progression_AccessMaiLinsRoom(),
-    type = "progression"
+    type = "progression",
+    id = 550091
 )
 
 achievement(
-    id = 550092,
     "Deal with the Devil",
     "Find a Diabolus",
     points = 2,
-    trigger = Challenge_FindADiabolus()
+    trigger = Challenge_FindADiabolus(),
+    id = 550092
 )
 
 achievement(
-    id = 550093,
     "Cut Above", 
     "Employ your surgical dexterity and gain access to the Bio Lab", 
     points = 3,
     trigger = Progression_AccessBioLab(),
-    type = "progression"
+    type = "progression",
+    id = 550093
 )
 
 achievement(
-    id = 550094,
     "Stir Crazy", 
     "Survive a clostrophobic event and gain access to the Project Director's Quarters", 
     points = 4,
     trigger = Progression_AccessProjectDirectorQuarters(),
-    type = "progression"
+    type = "progression",
+    id = 550094
 )
 
 achievement(
-    id = 550095,
     "Do Not Go Gently",
     "Discover a lost companion and commit to ending the Martian Virus at any cost",
     points = 2,
-    trigger = Challenge_FindJudithHarroway()
+    trigger = Challenge_FindJudithHarroway(),
+    id = 550095
 )
 
 achievement(
-    id = 550096,
     "Well-Oiled Machine", 
     "Employ your technical aptitude and gain access to the Kremlin", 
     points = 4,
     trigger = Progression_AccessKremlin(),
-    type = "progression"
+    type = "progression",
+    id = 550096
 )
 
 achievement(
-    id = 550097,
     "No I in Team", 
     "Employ the help of a friend and power on the Kremlin Computer", 
     points = 5,
     trigger = Progression_ActivateKremlinComputer(),
-    type = "progression"
+    type = "progression",
+    id = 550097
 )
 
 achievement(
-    id = 550098,
     "Playing with Fire",
     "Find a Flare Gun",
     points = 2,
-    trigger = Challenge_FindAFlareGun()
+    trigger = Challenge_FindAFlareGun(),
+    id = 550098
 )
 
 achievement(
-    id = 550099,
     "Hasta La Vista",
     "Find a Psionara",
     points = 2,
-    trigger = Challenge_FindAPsionara()
+    trigger = Challenge_FindAPsionara(),
+    id = 550099
 )
 
 achievement(
-    id = 550100,
     "Grease the Wheels", 
     "Employ your mechanical genius to repair the Vita Base Elevator and gain access to the Necropolis", 
     points = 4,
     trigger = Progression_AccessNecropolis(),
-    type = "progression"
+    type = "progression",
+    id = 550100
 )
 
 achievement(
-    id = 550101,
     "Hard Reset", 
     "Employ your electrical expertise and repair the Necropolis Arena Generator", 
     points = 4,
     trigger = Progression_RepairNecropolisGenerator(),
-    type = "progression"
+    type = "progression",
+    id = 550101
 )
 
 achievement(
-    id = 550102,
     "While You're at it",
     "Make your life easier and repair a portable computer",
     points = 2,
-    trigger = Challenge_FindAPortableComputer()
+    trigger = Challenge_FindAPortableComputer(),
+    id = 550102
 )
 
 achievement(
-    id = 550103,
     "Shock to the System", 
     "Use the energy of the Necropolis Obelisk and empower a mysterious artifact", 
     points = 5,
     trigger = Progression_ChargeChorus(),
-    type = "progression"
+    type = "progression",
+    id = 550103
 )
 
 achievement(
-    id = 550104,
     "Pray for a Miracle", 
     "Use the power of the Necropolis Altar and acquire a mysterious tag", 
     points = 5,
     trigger = Progression_AcquireArkhamTag(),
-    type = "progression"
+    type = "progression",
+    id = 550104
 )
 
 achievement(
-    id = 550105,
     "Lone Wolf", 
     "Discover the use for a colorless tag and gain access to the Lonely Street Dorm", 
     points = 4,
     trigger = Progression_AccessLonelyStreetDorm(),
-    type = "progression"
+    type = "progression",
+    id = 550105
 )
 
 achievement(
-    id = 550106,
     "Blow the Whistle", 
     "Employ your achromatic insight and gain access to the bunk locker in the Lonely Street Dorm ", 
     points = 5,
     trigger = Progression_AccessLonelyStreetDormBunk(),
-    type = "progression"
+    type = "progression",
+    id = 550106
 )
 
 achievement(
-    id = 550107,
     "Reborn of the Red Soil", 
     "Touch Martian soil and discover a haunted grave", 
     points = 4,
     trigger = Progression_AccessWhittakersGrave(),
-    type = "progression"
+    type = "progression",
+    id = 550107
 )
 
 achievement(
-    id = 550108,
     "Chasing Rainbows", 
     "Solve a chromatic conundrum in the Lonely Street Dorm", 
     points = 5,
     trigger = Progression_SolveLonelyStreetDormPuzzle(),
-    type = "progression"
+    type = "progression",
+    id = 550108
 )
 
 achievement(
-    id = 550109,
     "It's Alive", 
     "Employ your inner Frankenstein and finish Ben Gunn's experiment", 
     points = 3,
     trigger = Progression_CompleteBenGunnsExperiment(),
-    type = "progression"
+    type = "progression",
+    id = 550109
 )
 
 achievement(
-    id = 550110,
     "Out for Blood", 
     "Collect a blood sample from each member of your team", 
     points = 3,
     trigger = Progression_CollectBloodSamples(),
-    type = "progression"
+    type = "progression",
+    id = 550110
 )
 
 achievement(
-    id = 550111,
     "Tis but a Scratch", 
     "Collect a tissue sample from a Trimorph", 
     points = 3,
     trigger = Progression_CollectTrimorphSample(),
-    type = "progression"
+    type = "progression",
+    id = 550111
 )
 
 achievement(
-    id = 550112,
     "Drop in the Bucket", 
     "Collect a fluid sample from an ancient alien Sovereign", 
     points = 4,
     trigger = Progression_CollectAlienSample(),
-    type = "progression"
+    type = "progression",
+    id = 550112
 )
 
 achievement(
-    id = 550114,
     "Fit as a Fiddle", 
     "Employ your medical proficiency and cure your team of the deadly Martian Virus", 
     points = 5,
     trigger = Progression_CureTheVirus(),
-    type = "progression"
+    type = "progression",
+    id = 550114
 )
 
 achievement(
-    id = 550115,
     "Have a Blast", 
     "Employ your demolitions expertise and condemn the Vita Base to an explosive end", 
     points = 3,
     trigger = Progression_SetVitaBaseExplosive(),
-    type = "progression"
+    type = "progression",
+    id = 550115
 )
 
 achievement(
-    id = 550116,
     "Fly the Coop", 
     "Employ your aeronautical savvy and escape the Vita Base leaving Mars behind", 
     points = 10,
     trigger = Progression_EscapeVitaBase(),
-    type = "win_condition"
+    type = "win_condition",
+    id = 550116
 )
 
 achievement(
-    id = 550117,
     "Safety in Numbers",
     "Escape the Vita Base using 3 saves or less",
     points = 25,
-    trigger = Challenge_EscapeWithSaveLimit()
+    trigger = Challenge_EscapeWithSaveLimit(),
+    id = 550117
 )
 
 achievement(
-    id = 550118,
     "Against the Clock",
     "Escape the Vita Base in 3 hours or less",
     points = 25,
-    trigger = Challenge_EscapeWithTimeLimit(10800)
+    trigger = Challenge_EscapeWithTimeLimit(10800),
+    id = 550118
 )
 
 achievement(
-    id = 550119,
     "Joke's On You",
     "Go against your better judgement and listen to all Martian Mayhem scenes",
     points = 2,
-    trigger = Challenge_ListenToAllMartianMayhemScenes()
+    trigger = Challenge_ListenToAllMartianMayhemScenes(),
+    id = 550119
 )
 
 achievement(
-    id = 550120,
     "Three's Company",
     "Before finding a cure, defy your primary directive and have all 3 characters in the same room, then leave without dying",
     points = 10,
-    trigger = Challenge_ThreeCharactersInOneRoom()
+    trigger = Challenge_ThreeCharactersInOneRoom(),
+    id = 550120
 )
 
 achievement(
-    id = 550121,
     "Dance with Death",
     "Kill all Trimorphs stalking the halls of Vita Base",
     points = 5,
-    trigger = Challenge_KillAllTrimorphs()
+    trigger = Challenge_KillAllTrimorphs(),
+    id = 550121
 )
 
 achievement(
-    id = 550122,
     "Itchy Feet",
     "Employ your inner cartographer and visit all locations on the Vita Base",
     points = 5,
-    trigger = Challenge_VisitAllLocations()
+    trigger = Challenge_VisitAllLocations(),
+    id = 550122
 )
 
 // #endregion

@@ -44,6 +44,10 @@ player = Player()
 class Map {
     id = byte(0x10b5d4)
     screenId = word(0x10b5d6)
+
+    function IsLoaded() {
+        return this.id != 0x00
+    }
     
     function Transition(from, to){
         transitioned = prev(this.id) == from.id && this.id == to.id
@@ -622,6 +626,12 @@ class Game {
     state = GameState()
     saves = Saves()
     timer = Timer()
+
+    loaded = byte(0x1033a8)
+
+    function IsLoaded() {
+        return this.loaded != 0x00
+    }
 }
 
 game = Game()
@@ -1040,6 +1050,143 @@ function Challenge_FindJudithHarroway(){
         map.IsInRoom(locations.ProjectDirectorQuarters) &&
         events.ExamineJudithHarrowayCorpse.Trigger()
 }
+
+// #endregion
+
+// #region RP Lookups
+
+class Lookups {
+    characterIds = {
+        0x0: "Karne",
+        0x1: "Kenzo",
+        0x2: "Matlock",
+        0xf: "Babybug"
+    }
+
+    mapIds = {
+        0x00: "Loading...",
+        0x01: "MOOD Antichamber",
+        0x02: "Boulevard St. Michel",
+        0x03: "Boulevard St. Michel",
+        0x04: "Madison Avenue",
+        0x05: "Madison Avenue",
+        0x06: "Madison Avenue",
+        0x07: "Lonely Street",
+        0x08: "Med Lab",
+        0x09: "Lonely Street",
+        0x0a: "Whitehall",
+        0x0b: "Dead Man's Walk Dorm",
+        0x0c: "42nd Street",
+        0x0d: "Whitehall",
+        0x0e: "42nd Street",
+        0x0f: "42nd Street Store Room",
+        0x10: "Dead Man's Walk",
+        0x11: "State Street",
+        0x12: "Necropolis Elevator",
+        0x13: "Necropolis Elevator Antechamber",
+        0x14: "West Sterilization Room",
+        0x15: "Time Square",
+        0x16: "Time Square",
+        0x17: "Baker Street",
+        0x18: "Piccadilly Circus",
+        0x19: "Carnaby Street",
+        0x1a: "East Sterilization Room",
+        0x1b: "Broadway",
+        0x1c: "Shuttle Bay",
+        0x1d: "Shuttle Bay Entrance",
+        0x1e: "Power Core",
+        0x1f: "Lonely Street",
+        0x20: "Arkham Dorm",
+        0x21: "Broadway",
+        0x22: "Wall Street",
+        0x23: "Wall Street",
+        0x25: "Broadway",
+        0x26: "Madison Avenue",
+        0x27: "Downing Street",
+        0x28: "Dead Man's Walk",
+        0x29: "Lonely Street Decontamination",
+        0x2a: "Director's Quarters",
+        0x2b: "Project Director's Quarters",
+        0x2c: "Penny Lane",
+        0x2d: "Sunset Boulevard",
+        0x2e: "Lonely Street Airlock Entrance",
+        0x2f: "Arboretum",
+        0x30: "Park Lane",
+        0x31: "Park Lane",
+        0x32: "Inocashira Douri",
+        0x33: "Inocashira Douri",
+        0x34: "State Street",
+        0x35: "Broadway",
+        0x36: "Broadway",
+        0x37: "Time Square Decontamination",
+        0x38: "Time Square Airlock",
+        0x39: "Gymnasium",
+        0x3a: "Kremlin",
+        0x3b: "Kremlin Storage Room",
+        0x3c: "MOOD Chamber",
+        0x3d: "Recreation Room",
+        0x3e: "Geo Lab",
+        0x3f: "Chem Lab",
+        0x40: "Bio Lab Entrance",
+        0x41: "Mai Lin's Room",
+        0x42: "Lonely Street Airlock",
+        0x43: "Madison Avenue Decontamination Room",
+        0x44: "Madison Avenue Airlock",
+        0x45: "Carnaby Street Decontamination Chamber",
+        0x46: "Carnaby Street Airlock",
+        0x47: "Washroom",
+        0x48: "Kitchen",
+        0x49: "Study",
+        0x4a: "Wall Street Dorm",
+        0x4b: "Madison Avenue Dorm",
+        0x4c: "Inocashira Douri Decontamination",
+        0x4d: "Inocashira Douri Airlock",
+        0x4e: "Air Recycling Antichamber",
+        0x4f: "Air Recycling Center",
+        0x50: "Necropolis",
+        0x51: "Necropolis",
+        0x52: "Necropolis",
+        0x53: "Necropolis",
+        0x54: "Necropolis Pit Chamber",
+        0x55: "Necropolis",
+        0x56: "Necropolis",
+        0x57: "Necropolis",
+        0x59: "Simureal Chamber",
+        0x5a: "Boulevard St. Michel Vent",
+        0x5c: "Arboretum",
+        0x5d: "Arboretum",
+        0x5e: "Bio Lab",
+        0x5f: "Whittaker's Grave",
+        0x60: "Necropolis",
+        0x61: "Necropolis",
+        0x62: "Necropolis",
+        0x63: "Necropolis",
+        0x64: "Necropolis",
+        0x65: "Necropolis Altar",
+        0x66: "Necropolis Regal Tomb",
+        0x67: "Necropolis",
+        0x68: "Necropolis",
+        0x69: "Necropolis",
+        0x6a: "Necropolis",
+        0x6b: "Necropolis North Chamber",
+        0x6c: "Necropolis Obelisk",
+        0x6d: "Necropolis Obelisk",
+        0x6e: "Necropolis Obelisk",
+        0x6f: "Necropolis Pit Chamber",
+        0x70: "Necropolis Arena",
+        0x71: "Necropolis Arena Research Building",
+        0x72: "Space Shuttle",
+        0x73: "Royal Tomb Crane",
+        0x74: "Game Over",
+        0x75: "Necropolis",
+        0x76: "Necropolis",
+        0x77: "Necropolis",
+        0x79: "Inocashira Douri",
+        0xff: "Loading..."
+    }
+}
+
+lookups = Lookups()
 
 // #endregion
 
@@ -1539,6 +1686,49 @@ achievement(
     "Employ your inner cartographer and visit all locations on the Vita Base",
     points = 5,
     trigger = Challenge_VisitAllLocations()
+)
+
+// #endregion
+
+// #region Rich Presence Definitions
+
+rich_presence_conditional_display(
+    game.state.IsInGame() && map.IsLoaded() && !map.IsOnScreen(screens.EndingEnd), 
+    "{0} || 🗺️ {1} || ⏳ {2}",
+    rich_presence_lookup("Character", player.id, lookups.characterIds),
+    rich_presence_lookup("Location", map.id, lookups.mapIds),
+    rich_presence_value("Time", game.timer.GetTimeInSeconds(), "SECS_AS_MINS")
+)
+
+rich_presence_conditional_display(
+    game.IsLoaded() && game.state.IsInGame() && !map.IsLoaded() && map.IsOnScreen(screens.EndingEnd), 
+    "The Enigma Team is catching up on Martian history"
+)
+
+rich_presence_conditional_display(
+    game.IsLoaded() && game.state.IsInGame() && !map.IsLoaded() && map.IsOnScreen(screens.EndingStart), 
+    "The Enigma Team has cured the Martian Virus and is returning to Earth!"
+)
+
+rich_presence_conditional_display(
+    game.IsLoaded() && game.state.IsOnTitle(), 
+    "The Enigma Team is preparing for a voyage to Mars"
+)
+
+rich_presence_display("The Enigma Team is launching Martian Gothic: Unification")
+
+// #endregion
+
+// #region Leaderboard Definitions
+
+leaderboard("Enigma Team Speedrun", 
+    "Escape the Vita Base as quickly as possible!",
+    start = CompletedGame(),
+    cancel = always_false(),
+    submit = always_true(),
+    value = game.timer.GetTimeInSeconds(),
+    format = "SECS",
+    lower_is_better = true
 )
 
 // #endregion

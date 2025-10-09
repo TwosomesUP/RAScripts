@@ -1,0 +1,466 @@
+== Air Locks ==  
+ -- All --  
+ - Store personal items in each Storage Locker  
+ - Collect radios from helmets  
+
+ -- Matlock --  
+ - Collect Piccolo and Piccolo (Ammo) from Locker  
+
+ -- Kenzo --  
+ - Use radio  
+ - Enter contamination chamber and activate it  
+ - Collect Orange Tag + Felicci’s Microcorder on Boulevard St Michel 1  
+ - Head toward the Orange Door on Boulevard St. Michel 2  
+ - Unlock Orange Door 
+
+== Orange Door, Boulevard St. Michel - Director’s Quarters ==  
+ -- Kenzo --  
+ - Collect Piccolo (Ammo) from corpse  
+ - Use Felicci’s Microcorder to log into computer  
+ - Receive password: **PANDORA**  
+ - Save game  
+ - Listen to all of Martian Mayhem
+ - Use computer to release locks (Karne free, Matlock still locked)  
+ - Escape zombie  
+ - Store Microcorder in hatch outside Orange Door  
+ - Collect Health Boost from Broadway hatch  
+ - Collect MED Key on State Street  
+ - Collect Ben Gunn #1 Note from Vac-tube on Sunset Boulevard  
+ - Receive password: **PARK LANE**  
+ - Switch to Karne  
+
+ -- Karne --  
+ - Walk down hall until watch stops  
+ - Check watch → passwords: **4864**, **3172**, **2915**  
+ - Continue to Park Lane 1
+ - Unlock Park Lane 1 hatch with **4864** → collect Green Tag, Health Boost, Antitoxin  
+ - Send Green Tag to Kenzo via Park Lane 1 Vac-tube  
+ - Switch to Kenzo  
+
+ -- Kenzo --  
+ - Collect Green Tag from Vac-tube  
+ - Head to State Street → unlock Green Door (Gymnasium)  
+
+== Green Door, State Street - Gymnasium ==  
+ -- Kenzo --  
+ - Search hanging body → Notes (Paperclip), Bible, Microcorder (Mentz), Green Tag
+ - Examine Bible → password: **WORMWOOD**
+ - Collect Mars Hopper from floor  
+ - Collect Drive Belt from Exercise Bike  
+ - Return to Sunset Boulevard → unlock Green Door (Washroom)  
+
+== Green Door, Sunset Boulevard - Washroom ==  
+ -- Kenzo --  
+ - Search stall corpse → Purple Tag, Passcode (Arboretum)
+ - Open lockers → Green Tag, Vibro-scourer, Note (Power Core Request), Green Tag (Dorm 2), Antitoxin 
+ - Examine Passcode (Arboretum): 3376
+ - Store → store Bible, Microcorders, Notes  
+ - Send Vibro-scour, Paperclip, and Green and Purple Tags to Karne (Keep Dorm Tag)
+ - Switch to Karne  
+
+ -- Karne --  
+ - Collect items from Vac-tube  
+ - Head to Inocashira Douri → unlock Green Door → enter Recreation Room  
+
+== Green Door, Inocashira Douri - Recreation Room ==  
+ -- Karne --  
+ - Collect Pop-Gun + Biosensor from table  
+ - Examine Music Box → collect Desk Key
+ - Pick locked box with Paperclip → Magnetic Checker + Dillinger Ammo  
+ - (Optional: Search body for extra Green Tag)
+ - Head to Park Lane → unlock Purple Door (Study) 
+
+== Purple Door, Park Lane - Study ==  
+ -- Karne --  
+ - Unlock Desk → Blue Tag  
+ - Save using computer  
+ - Use watch codes to read restricted files (can't access Operation Akarak yet)
+ - Listen to all three of Judith Harroway's reports
+ - Book drops (collect later)  
+ - Head to Arboretum (Park Lane) → unlock with Passcode (Arboretum) - 3376
+
+== Arboretum, Park Lane ==  
+ -- Karne --  
+ - Search dead body on bench → collect items 
+ - Once the zombie wakes up skirt it and take the gun it drops 
+ - Lure zombie near garden shed and incapacitate it → Gun, Blue Tag, Microcorder (Tierney) 
+ - Listent to the Microcorder to get the Decontam 3 code: 2734  
+ - Examine Green Door (Trimorph blocking)  
+ - Return to Study (Purple Door) → collect dropped book  
+ - Send Piccolo Gun, Remote Control, Magnetic Checker, Blue Tags to Kenzo  
+ - Wait at Arboretum door → switch to Kenzo  
+
+ -- Kenzo --  
+ - Collect items from Vac-tube  
+ - Send MED Key, Blue Tags, Belt to Matlock via Vac-tube
+ - Return to Director’s Room (Orange Door) → enter  
+ - Kill zombie
+ - Use Tierney’s Microcorder code to free Matlock - 2734
+ - Stand outside the Director's Office (safe spot)
+ - Switch to Matlock  
+
+ -- Matlock --  
+ - Exit Airlock → head east  
+ - Collect Hacksaw from hatch  
+ - Collect Microcorder + Brown Tag from corpse (Piccadilly Circus)  
+ - Unlock Brown Door (Chem Lab) → enter  
+
+== Brown Door, Piccadilly Circus - Chem Lab ==  
+ -- Matlock --  
+ - Collect items from Vac-tube (Martian Rock, MED Key, Tags, Belt)  
+ - Store Hacksaw in Vac-tube (for Karne)  
+ - Store Martian Rock + Belt in locker
+ - Collect Flask + Biosensor → store in outside hatch  
+ - Lure zombie to Times Square, kill for safety  
+ - Unlock Eastern Blue Door (Sterile Room 1) → collect Microcorder, Locker Key, Dorm #1 Key, Yellow Tag  
+ - Unlock Southern Blue Door (Piccadilly Circus 2) → head toward Med Lab  
+
+== Med Lab, Piccadilly Circus ==  
+ -- Matlock --  
+ - Use Chemical Extractor → create health/antitoxin  
+ - Collect Blue Tag from locker  
+ - Note the 4 syringes (for blood samples later)  
+ - Use computer → hear Harroway’s message  
+
+== Arboretum - Garden Shed & Air Recycling Center (ARC) ==
+ -- Karne --
+ - Collect Hacksaw from Vac-tube (sent by Matlock)
+ - Return to Arboretum shed → cut chain, collect Weed Killer Gun + Gloves
+ - Examine Weed Killer and take empty cartridge
+ - Send empty cartridge to Matlock
+ - Matlock fills cartridge in Chem Lab with Hydrochloric Acid
+ - Send cartridge back to Karne → load Weed Killer Gun
+ - Use on Trimorph blocking Air Recycling Center
+ - Collect Bicycle Pump + Respirator Mask inside shed
+ - Enter Air Recycling Center (ARC)
+ - Stop fan by using the Recyc option in the Computer
+ - Enter the Fan and clean filter with Vibro-scour
+ - Restore power and restart fan
+ - Collect Oily Rag + Nail Gun + Ammo from Zombi
+ - Send Oily Rag to Matlock; Yellow Tag, Pump, Respirator Mask, and Desk Key to Kenzo
+
+== Yellow Door - MOOD Chamber ==
+ -- Kenzo --
+ - Use Desk Key in Director’s Quarters → collect Silver Bell
+ - Kill floating zombie, search body → Electric Screwdriver
+ - Use screwdriver on air duct → collect Babybug
+ - Use the Magnetic Checker with the Babybug to free space
+ - Enter Yellow Door - MOOD Antichamber
+ - Use Respirator Mask
+ - Patch wall breach: Mars Hopper + Bicycle Pump
+ - Enter MOOD chamber and interact with MOOD
+ - Requirement: Replace Receptor Panel in Power Core
+ - Switch to Matlock
+
+== Power Core (Times Square, North Door) ==
+ -- Matlock --
+ - Create Nitro bomb: Chem Lab - (Flask + Nitro)
+ - Head to the Power Core door on Time Square: Oily Rag + Lighter + Nitro
+ - Enter Power Core
+ - Get Passcode (Downing Street) from corpse: 1010
+ - Need fingerprint ID:
+   - Switch to Karne and send Hacksaw to Kenzo
+   - Find Jamison in the Washroom and use the Hacksaw to get his hand
+   - Sends severed hand + screwdriver to Matlock
+ - Unlock Power Core computer and activate Power Core Control
+ - Matlock replaces Receptor Panel on Generator Hood
+ - Restore power by activating the Arm Control again using the computer
+ - Return to MOOD → give password “PARK LANE”
+ - Interact with MOOD
+ - Sit in Simureal chair
+ - Unlock the door by Picking up the Shamisen and using the Silver Bell
+ - Inspect the Rock and release the bulkheads
+ - Switch to Matlock and head to Dorm 1 on Wall Street
+
+== Dorm #1 ==
+ -- Matlock --
+ - Kill zombies and grab Notes (Pickman), Martian Rock
+ - Unlock Locker with Locker Key → collect Notes (Oda), Dillinger Ammo, Green Tag (Dorm #1)
+ - Store Notes in Locker along with any extra Blue Tags (you still need 1)
+ - Exit Dorm #1 and head to Penny Lane
+ - Remove vent (to Shuttle Bay) with Screwdriver but don’t enter yet (Trimorph trap)
+ - Continue to the end of Penny Lane and enter the Shuttle Bay Entrance
+ - Walk up to the Hanger Doors at the end of the hall and switch to Kenzo
+ - Using the MOOD chair, enter the Simureal Room and interact with the rock
+ - Select the third map, then switch back to Matlock
+ - Open the Hanger Door, run to the second and open that too
+ - Once open, run back to the first hanger door and close it before the Trimorph gets you
+ - Switch back to Kenzo and have him close the hanger door from the Rock
+ - Switch back to Matlock and head back to the vent on Penny Lane
+ - Enter the vent to reach the Shuttle Bay
+
+== Shuttle Bay ==
+ -- Matlock --
+ - Collect Microcorder (Luke Barton), Microcorder (Nadja Kerenski), Gray Tag, Piccolo (if needed), Dillinger, and ammo from corpses and hatch
+ - Store any notes, microcorders, etc that you don't need in the hatch
+ - Find Welder on red crate
+ - Send Welding Torch to Karne
+ - Send Dillinger and Dillinger Ammo to Kenzo
+ - Hide in Shuttle (safe spot)
+ - Switch back to Karne and head back to the Airlock on Inocashira Douri 
+ - You can now cut the lock on the door across from that Airlock with the Torch
+ - Enter the Kitchen
+
+== Kitchen ==
+ -- Karne --
+ - Talk to Ben Gunn and go through each topic
+ - Ask about the Reg Tags around his next
+ - Ben demands Pumice Stone in exchange for Red Tag
+ - Switch to Kenzo and head to Dorm #2 on Madison Avenue
+
+== Dorm #2 ==
+ -- Kenzo --
+ - Collect Pumice Stone, Ammo
+ - Switch back to Karne and speak to Ben Gunn
+ - Ask about Red Tag
+ - Ask about Pumice Stone (this gives it to him)
+ - Pick up Red Tag on counter
+ - Switch back to Kenzo and head south on Madison Avenue into Downing Street/Dead Man's Walk and find Dorm 3
+
+== Dormitory Area ==
+ - Search Hatch (passcode 1010) on Downing Street for Green Tag (Dorm #3), Screwdriver, Diabolus Ammo, Piccolo Ammo
+ - Continue heading towards Dorm #3 on Dead Man's Walkway
+ - Search corpse for Microcorder (Jean Merrow)
+ - Enter Dorm #3
+
+== Dorm #3 ==
+ -- Kenzo --
+ ** Don't get too close to the Trimorph in this room
+ - Search corpse for Resonator, Nailgun, and Ammo
+ - Send Pumice Stone to Karne and get the Red Tag from Ben Gunn (if you haven't all ready) 
+ - Send Resonator, Screwdriver to Matlock
+ - Optional: Use Buggy + Magnetic Checker → collect Spectrometer
+ - Optional: Run past Trimorph into 42nd Street to collect Psionara, Crank, and an extra Dillinger
+ - Switch to Karne and send Red Tag to Matlock
+ - Switch to Matlock and retrieve all of the vac-tube items
+ - If you have the Martian Rocks stored, retrieve them - you'll need both plus the Resonator
+ - Head to the Geo Lab on Piccadilly Circus (Gray Door)
+
+== Geo Lab ==
+ -- Matlock --
+ - Examine corpse for Remote Control (Spiritus)
+ - Collect Shaped Rock from Drawer behind statue
+ - Place Shaped Rock in Statue
+ - Using the computer, activate the Rover and send it to Grid Cell C6 for the final Martian Rock
+ - Place Martian Rocks in Rock Cutter
+ - Activate rock cutter to shape martian rocks
+ - Place newly shaped rocks in statue slots
+ - Use Resonator on Statue and break the psychic curse
+
+== Bio Lab - Front ==
+ -- Matlock --
+ - Collect White Tag and Microcorder (Mai Lin) from Vac-tube
+ - Send White Tag and Remote Control (Spiritus) to Kenzo
+ - Switch to Kenzo and head to Mai Lin's room on Boulevard St. Michel (White Door)
+
+== Mai Lin’s Quarters ==
+ -- Kenzo --
+ - Collect Diabolus from the bed next to the vent
+ - Collect Needle & Thread from Jar next to the fireplace
+ - Use the Remove Control (Spiritus) on the fireplace to turn it off
+ - Collect the Black Tag
+ - Head back to the MOOD chamber
+ - Send Black Tag to Matlock
+ - Switch to Matlock, collect the Black Tag, and head to the Necropolis Elevator at the end of Time Square (Black Door)
+ 
+== Necropolis Elevator ==
+ -- Matlock --
+ - Collect the laser scalpel from the corpse
+ - Head back to the Bio Lab
+
+== Bio Lab - Back ==
+ -- Matlock --
+ - Cut the Trimorph tentacle with the Laser scalpel
+ - Send Scalpel to Karne
+ - Head into the Bio Lab back room
+ - Unlock computer (2915) and listen to Harroway's Journal
+ - Run back to the Med Lab and take a blood sample from Matlock using the stored syringes
+ - Switch to Karne, collect the Vac-tube items and start heading toward the Rainbow Room on Madison Avenue
+ - On the way, cut the lock on the Broadway 2 Door with the Laser Scalpel
+ - Hide Karne in the Madison Avenue Air Lock and switch to Matlock
+ - Head to Mai Lin's Room on Boulevard St. Michel and unscrew the air vent
+ - Switch to Kenzo, enter the Simureal Chamber, examine the rock, and view the vent map making sure the doors are open
+ - Switch back to Matlock and enter the vent.
+ - Continue to press forward to escape the Trimorph and enter the Project Director's Quarters
+ ** There is a bug where if you interacted with the Vent Doors through the Simureal chamber earlier in the game, the doors may not work correctly
+ ** Should I make a save after this point for people?
+
+== Rainbow Room - Project Director’s Quarters ==
+ -- Matlock --
+ - Search body on the bed for the Rainbow Tag
+ - Take the Alarm Clock from the Dresser
+ - Search the rug for a Desk Key
+ - Use the Desk Key to unlock the Desk and take the Passcode (Main Hatch): 3471
+ - Access computer and listen to Harroway's Journal 5
+ - Leave the Project Director's Quarters and head back to the Chem Lab
+ - Switch to Karne and head to the Project Director's Quarters
+ - Examine the Computer and listen to Harroway's Journal 6
+ - Use the Door Control to unlock the Kremlin
+ - Leave the room and head to Broadway 5 and enter the Kremlin (Rainbow Door on map)
+
+== Kremlin ==
+ - Use the Main Hatch passcode (3471) to unlock the main hatch. Grab 2 of the lenses.
+ - Switch to Kenzo and send the Spectrometer to Karne.
+ - Switch back to Karne and get the Spectrometer from the Vac-tube.
+ - Examine the painting with the spectrometer and write down the numbers:
+    - Red: 703.8
+    - Blue: 441.6
+    - Yellow: 563.7
+    - Orange: 600.8
+    - Green: 506.6
+ - Examine one of the corpses for the Microcorder (Simon Fellner), this will give you the code for the emergency hatch: 0756
+ - Unlock the Emergency Hatch and collect the Flare Bolts
+ - Switch to Matlock and bring her to the Kremlin. You need to keep both characters far apart otherwise gameover.
+ - Move Matlock close to the buttons, then move Karne close to the door
+ - Take out the popgun and shoot one of the buttons. Matlock will press the other activating the computer.
+ - Move Karne out of the way so Matlock can leave. Take her to the Med Lab
+ - Examine the computer as Karne
+ - Karne reveals true identity
+ - After examining the computer an Printout will be in your inventory. Read it to get the password: Erebus
+ - Send the Egyptian Book, Flare Bolts, and the Printout (maybe) to Matlock
+ - Switch back to Matlock, pick up the items from the Vac-tube, and head to the Carnaby Street Airlock
+
+== Carnaby Street Airlock ==
+ - Repair the control panel for the airlock with the Screwdriver
+ - Once the door opens, run into the Med lab
+ - Leave the med lab, walk a few steps forward, then run back to the med lab door (don't go in)
+ - Once the trimorph runs past you, sneak into the airlock
+ - Walk to the back door and use the scarab then use the book
+ - Quickly run just to the left of the airlock entrance and open the door
+ - The trimorph will run past you. When it does run into the decontamination chamber
+ - The door will close, the trimorph will be sucked out the airlock, and you can reenter to grab the flare gun
+ - Head to the Med or Chem lab and send the Flare Gun 
+ - Switch to Kenzo and head back to Dorm 3
+
+== Dorm #3 (Return) ==
+ - Grab the Flare gun from the Vac-tube
+ - Use Flare Gun → kill Trimorph guarding Spectrometer + Psionarra path
+ - Collect Spectrometer (if not earlier) using the baby bug + remote
+ - Head to 42nd Street
+ - You'll find a locked door (this is the storage room with the Psionara)
+ - Head to Lonely Street
+
+== Lonely Street & Storage ==
+ - Fight Dillinger zombie, disarm him (if you haven't already)
+ - Collect Storage Key from the Hatch
+ - Open Storage Room
+ - Collect Crank
+ - Open the silver case using Kenzo's watch code (3172) and collect the Psionara
+ - Head to the end of Lonely street and unlock the door with the crank
+ - Stop by the Director's Quarters and send the Flare Gun to Matlock
+ - Switch to Karne and send a pair of lenses to Matlock
+ - Switch back to Kenzo and head back to the MOOD Chamber
+ - Switch to Matlock and collect the items
+ - Head to Penny Lane and kill the Trimorph in the Shuttle Bay hall
+ - The Trimorph will drop a sample (we'll collect it later)
+ - Head back to the Necropolis Elevator on Time Square
+
+== Necropolis (via Black Door Elevator) ==
+ - Kill Trimorph with Flare Gun
+ - Search the crate and take ammo if you need it (leave explosives for now)
+ - Repair elevator with Drive Belt
+ - Use Erebus printout to descend into Necropolis (or interacto with the elevator with the printout in your inventory)
+ - Explore 4 Points:
+   - Pit Chamber (Site 1)
+      - Check the vac-tube and storage chest and grab any ammo you need as well as the passcode (5748) and monkey wrench
+      - Passcode is for the storage room in the Kremlin
+      - Head south and Kill the Trimorph with the Flare gun
+      - Check the fissure found at the end of the path (you'll destroy this later)
+      - Switch to Karne and explore the Kremlin Storage Room and grab any supplies you need
+      - Switch back to Matlock
+      - Head to Site 2 - Arena Site
+   - Arena Site (Site 2)
+      - Take note of the generator (we'll fix this later)
+      - Examine the Storage box and take any ammo you need, as well as the Artifact
+      - Enter the building
+      - Examine the corpse for Microcorder (Jonathon Darnley 2)
+      - Grab the Palmtop Computer and Note (Chorus) from the shelf
+      - Read note and listen to microcorders
+      - Head to Site 3 - Obelisk
+   - Obelisk
+      - Search the Storage Container and grab the Dead Battery
+      - Head West toward the Obelisk and the Giant Trimorph pounding on it
+      - Run past the Trimorph and continue heading west toward the Regal Tomb excavation site
+      - Head back to Site 2 (Arean Site) and repair the Generator with the Monkey Wrench
+      - Open Generator Hatch and place Dead Batter to recharge it
+      - Take the Charged Battery and use it to power on the Palmtop
+      - Read through the documents in the Palmtop - Restricted Password: Hammer
+      - Switch to Karne
+      - Send Dorm #4 tag to Kenzo
+      - Move Karne to the Royal Tomb (make sure you take some lenses)
+      - Enter the Obelisk room again but don't move, the trimorph should be stuck in it's running animation
+      - Switch to Matlock and move to the Obelisk room (just behind the Trimorph)
+      - run up to the Obelisk and place the Chorus
+      - Move both characters out of the way and the trimorph will strike the chorus charging it
+      - The trimorph will no longer be invulnerable so kill it with the flare gun
+      - Once the trimorph is dead, collect the Charged Chorus
+      - Head to the North Chamber (Site 4)
+      - Get the Dorm #4 Tag from the Vac-tub (send by Karne earlier)
+      - Keep heading north to the Alter Room
+   - Altar room
+      - Place the Chorus on the Alter and run off of it immediately
+      - Once the light goes down, run back on and place the Dorm #4 tag on it
+      - Run off again
+      - Once the light goes down again, run back on and grab the newly colored Dorm #4 tag (Arkham Tag)
+      - Send the tag to Kenzo
+      - Switch to Kenzo, take the Arkham Dorm tag from a vac-tube and head to the Arkham Dorm (Dorm 4)
+
+== Dorm #4 (Arkham Dorm) ==
+ - Unlock locker using the color sequence found in Mr. Oba's note (Red (3), Blue (4), Red (3), Green (2), Yellow (1), Blue (4))
+ - Once unlocked, there will be another code. Use the value of Yellow from the spectrometer reading in the Kremlin: 563.7
+ - Collect the Passcode (Airlock 5) and read it: 9689
+ - Head to Airlock 5 on Lonely Street
+
+== Airlock 5 ==
+ - Kill ghost zombie with Psionarra
+ - Unlock the door with the passcode (9689)
+ - Examine the EVA suits
+ - Leave through the Airlock Door
+
+== Whittaker’s Grave ==
+  - Examine the corpse
+  - Pick up the hourglass on the grave
+  - Explore the hole near the grave and a ghost appears
+  - Kill the ghost with the Psionara
+  - Grab the red sand that it drops and combine it with the hourglass
+  - Head back to the Arkham Dorm
+  - Use the Hourglass and pick up the Heart of Stone
+  - Take the Heart of Stone back to Ben Gunn on Inocashira Douri
+  - Collect Ben's Head and the Invitation on the counter
+
+== The Vaccine ==
+  - Head to the Med Lab and get kenzo's blood sample
+  - Have Kenzo send both Matlock and Karne syringes to collect their samples (if you haven't already), then send them back
+  - Switch to Karne and send Kenzo the Gloves
+  - Switch back to Kenzo and get the Gloves and any blood samples from the vac-tube
+  - Head to the Shuttle Bay and collect the Trimorph sample
+  - Head to the Bio Lab, add the blood samples to the centerfuge
+  - Place the trimorph sample under the microscope
+  - Place Ben Gunn's Head on the corpse
+  - Leave the Bio Lab and hide out in the Chem lab
+  - Switch to Matlock and head to the Bio Lab
+  - Have Kenzo send Needle and Thread and Heart of Stone to Matlock
+  - Sew the head on the corpse
+  - Place heart of stone in corpse
+  - Examine the reanimated corpse for the Flesh Heart
+  - Send Flesh Heart and Laser Scalpel to Kenzo
+  - Switch to Kenzo and grab the final syringe from the Med Lab
+  - Switch back to Karne and have him operate the crane (stay in it for now)
+  - Switch to Kenzo and head down to the Royal Tomb (make sure you grab some lenses)
+  - Place the flesh heart in the niche
+  - Climb on the crane and lower yourself into the Sarcophagus using the winch
+  - Use the laser scalpel to cut through the membrane
+  - Use the syringe to collect the sample, then send it back to Matlock
+  - Switch to Matlock and collect the sample
+  - Place the sample in the Termalizer
+  - Use the Computer to complete the vaccines
+  - Collect the vaccine and use it on each character
+
+== The Fissure ==
+  - Switch to Karne and head back up the elevator and collect the explosives
+  - Take the explosives to the Fissure at site 1 in the Necropolis
+  - Combine the Detonator and the Explosives, then use them at the fissure
+  - Escape to the Shuttle Bay
+  - Once you arrive, everyone will enter the Shuttle
+  - MOOD mentions a manual override
+  - Flip the switch and escape 

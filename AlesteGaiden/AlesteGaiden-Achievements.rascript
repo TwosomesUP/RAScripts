@@ -53,7 +53,7 @@ PlayerStates = {
 
 BossStates = {
     "Damaged": 0x01,
-    "Defeated": 0x03
+    "Defeated": 0x02
 }
 
 RoundStates = {
@@ -138,7 +138,7 @@ function DefeatedBoss(round){
     if (round == 1)
         defeatCheck = trigger_when(prev(bossCount) > 0 && bossCount == 0)
     else
-        defeatCheck = trigger_when(prev(bossState) != bossDefeated && bossState == bossDefeated)
+        defeatCheck = trigger_when(prev(bossState) < bossDefeated && bossState >= bossDefeated)
 
     return IsInGame() && 
         defeatCheck &&

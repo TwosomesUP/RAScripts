@@ -262,15 +262,15 @@ StageInfo = {
             "Checkpoints": [0, 6, 11, 19],
             "Secrets": {
                 "First": {
-                    "AltValue": false,
-                    "Checkpoint": 11,
-                    "Rooms": [9],
-                    "Blocks": []
+                    "AltValue": true,
+                    "Checkpoint": 6,
+                    "Rooms": [0],
+                    "Blocks": [0x550, 0x580, 0x52f, 0x56f]
                 },
                 "Second": {
                     "AltValue": false,
-                    "Checkpoint": 19,
-                    "Rooms": [],
+                    "Checkpoint": 11,
+                    "Rooms": [9],
                     "Blocks": []
                 }
             }
@@ -1121,11 +1121,11 @@ achievement("Cave of Spikes", "Clear Stage 4", points = 5, type = "progression",
 
 // Stage 5
 
-achievement("Poltergeist Pennies", "Collect all 3 hidden Yen blocks in Stage 5", points = 3, id = 539863,
+achievement("Poltergeist Pennies", "Collect 3 or more hidden Yen blocks in Stage 5", points = 3, id = 539863,
     trigger = Stage5_Yen()
 )
 
-achievement("Coming Up Roses", "Find the hidden bonus room in Stage 5", points = 3, id = 539864,
+achievement("Coming Up Roses", "Find 2 hidden bonus rooms in Stage 5", points = 3, id = 539864,
     trigger = Stage5_Secrets()
 )
 

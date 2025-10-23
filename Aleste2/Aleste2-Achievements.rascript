@@ -1131,9 +1131,11 @@ achievement("Passive Intervention", "On Hito (Level 1) difficulty or higher, sur
     trigger = Area4_BossTimerChallenge()
 )
 
+/* Demoting A Terrible Trap. Incompatible with the ROM conversion
 achievement("A Terrible Trap", "Reveal the post Area 4 story text after defeating Brahwell", points = 1, id = 537909,
     trigger = Area4_HiddenStoryText()
 )
+*/
 
 achievement("A Terrible Truth", "Watch the post Area 4 cutscene to the end after defeating Brahwell", points = 1, id = 537910,
     trigger = Area4_HiddenScene()
@@ -1241,6 +1243,7 @@ achievement("Gaizel", "On Hito (Level 1) difficulty or higher, defeat the Area 8
     trigger = Area8_BossDefeatChallenge()
 )
 
+/* Demoting A Heavy Heart and By Sheer Will - Incompatible with ROM conversion
 achievement("A Heavy Heart", "Reveal the ending text after clearing Area 8", points = 1, id = 537934,
     trigger = Area8_EndingText()
 )
@@ -1248,6 +1251,7 @@ achievement("A Heavy Heart", "Reveal the ending text after clearing Area 8", poi
 achievement("By Sheer Will", "Reveal the true ending text after clearing Area 8", points = 1, id = 537935,
     trigger = Area8_TrueEndingText()
 )
+*/
 
 achievement("A Bittersweet Victory", "Watch the ending cutscene to the end after clearing Area 8", points = 1, id = 537936,
     trigger = Area8_EndingScene()

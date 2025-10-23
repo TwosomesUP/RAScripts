@@ -108,7 +108,11 @@ function TriggeredScene(scene){
     state = Game["State"]
     stateId = scenes["State"]
     
-    return state == stateId &&
+    stateCheck = state == stateId
+    if (scene == "Intro")
+        stateCheck = stateCheck || state == 0x92
+    
+    return stateCheck &&
         prev(index) == start &&
         index == end
 }

@@ -26,7 +26,6 @@ SelectedStageLevel = byte(0x8a0f6a)
 BombActivatedState = byte(0x660b5e)
 ContinueScreenState = byte(0x660986)
 
-
 LifeUp = {
     "Bonus": byte(0x86d50c),
     "Collected": byte(0x86d50d),
@@ -261,6 +260,7 @@ LifeUpSizes = {
 function IsOnTitle() => ActivePlayer == 0
 function IsPlayer1() => ActivePlayer == 1
 function IsPlayer2() => ActivePlayer == 2
+function IsMultiplayer() => ActivePlayer == 3
 function IsCharacter(player, character) => Player[player]["Character"] == Characters[character]
 function IsInStage() => StageState == 1
 function IsOnStageSelect() => StageSelectState == 1
@@ -268,7 +268,7 @@ function IsOnCharacterSelect() => CharacterSelectState == 1
 function IsInTutorial() => TutorialState == 1
 function IsInEnding() => EndingState == 1
 function IsUsingValidSettings() => all_of(DefaultGameSettings, setting => GameSettings[setting] == DefaultGameSettings[setting])
-function IsValidSession() => NumberOfPlayers == 1 && IsUsingValidSettings() && !IsOnCharacterSelect() && !IsInTutorial()
+function IsValidSession() => NumberOfPlayers == 1 && !IsMultiplayer() && IsUsingValidSettings() && !IsOnCharacterSelect() && !IsInTutorial()
 function IsBossActive() => BossIndex > 0
 function IsBossDefeated() => BossDefeatedFlag == 1
 function IsFightingBoss(boss) => BossIndex == BossIndices[boss] && CurrentStage == BossStages[boss]
@@ -308,7 +308,8 @@ function StageCleared(stage, challenge){
         cleared = trigger_when(cleared)
         
     return trigger && cleared &&
-        disable_when(IsInTutorial(), prev(StageSelectState) == 1 && StageSelectState == 0)
+        disable_when(IsInTutorial()) && 
+        (always_false() || never(prev(StageSelectState) == 1 && StageSelectState == 0))
 }
 
 function GameCleared(character){
@@ -334,16 +335,30 @@ function SelectedEnding(character, ending){
 
 function ClearStageNoDamage(stage){
     return StageCleared(stage, true) &&
-        disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2"), IsOnStageSelect() || IsOnTitle())
+        disable_when(IsPlayer1() && CurrentStageIs(stage) && PlayerTookDamage("P1")) &&
+        disable_when(IsPlayer2() && CurrentStageIs(stage) && PlayerTookDamage("P2")) &&
+        (
+            always_false() || 
+            (
+                never(IsOnStageSelect()) &&
+                never(IsOnTitle())
+            )
+        )
 }
 
 function ClearFINALNoDamage(){
     return IsValidSession() &&
         CurrentStageIs("FINAL") &&
         trigger_when(PlayerClearedGame()) && 
-        disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1"), IsOnStageSelect() || IsOnTitle()) &&
-        disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2"), IsOnStageSelect() || IsOnTitle())
+        disable_when(IsPlayer1() && CurrentStageIs("FINAL") && PlayerTookDamage("P1")) &&
+        disable_when(IsPlayer2() && CurrentStageIs("FINAL") && PlayerTookDamage("P2")) &&
+        (
+            always_false() || 
+            (
+                never(IsOnStageSelect()) &&
+                never(IsOnTitle())
+            )
+        )
 }
 
 function GotScoreMillions(score){
@@ -458,16 +473,19 @@ function Got3Bombs(){
         measured(
             repeated(3, 
                 prev(MagicItem["Collected"]) != 0xff && 
-                MagicItem["Collected"] == 0xff && 
-                never(IsOnTitle())
+                MagicItem["Collected"] == 0xff
             ),
             IsValidSession()
         ) &&
-        disable_when(IsInStage() && PlayerUsedContinue(), IsOnTitle())
+        disable_when(IsInStage() && PlayerUsedContinue()) && 
+        (
+            always_false() || never(IsOnTitle())
+        )
 }
 
 function Got500CounterDuringBoss(){
     return IsValidSession() &&
+        disable_when(IsBossActive() && PlayerUsedContinue()) &&
         (
             measured(
                 tally_of(
@@ -475,8 +493,7 @@ function Got500CounterDuringBoss(){
                     count => !IsBossDefeated() && 
                         IsPlayer1() && 
                         GetPlayerItemCounter("P1") > prev(GetPlayerItemCounter("P1")) && 
-                        GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count && 
-                        never(!IsBossActive())
+                        GetPlayerItemCounter("P1") - prev(GetPlayerItemCounter("P1")) > count
                 ),
                 IsValidSession()
             ) ||
@@ -486,13 +503,12 @@ function Got500CounterDuringBoss(){
                     count => !IsBossDefeated() && 
                         IsPlayer2() && 
                         GetPlayerItemCounter("P2") > prev(GetPlayerItemCounter("P2")) && 
-                        GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count && 
-                        never(!IsBossActive())
+                        GetPlayerItemCounter("P2") - prev(GetPlayerItemCounter("P2")) > count
                 ),
                 IsValidSession()
-            )
-        ) &&
-        disable_when(IsBossActive() && PlayerUsedContinue(), !IsBossActive())
+            ) ||
+            never(!IsBossActive())
+        )
 }
 
 function GotItemChallenge(type, number){

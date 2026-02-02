@@ -81,6 +81,20 @@ class Region {
 }
 region = Region()
 
+class Messages {
+    BallLost = 0x00
+    MultiBall = 0x01
+    ExtraBall = 0x02
+    Action = 0x03
+    Tilt = 0x04
+    Danger = 0x05
+    Chance = 0x06
+    Warning = 0x07
+    UpPost = 0x08
+    RateUp = 0x09
+    WipedOut = 0x0a
+}
+
 class StageState {
     RegionalOffset = region.GetStageStateOffset()
 
@@ -90,6 +104,8 @@ class StageState {
     EventTextIndex = utilities.GetRegionalAddress(0x2f2e2c, RegionalOffset, dword_be)
     GameOverTextIndex = utilities.GetRegionalAddress(0x2f2e40, RegionalOffset, dword_be)
     StageClearFlag = utilities.GetRegionalAddress(0x2f2e48, RegionalOffset, dword_be)
+
+    Messages = Messages()
 }
 stageState = StageState()
 
@@ -131,49 +147,12 @@ class Settings {
     SEVolume = utilities.GetRegionalAddress(0x2f71a8, RegionalOffset, dword_be)
     Rumble = utilities.GetRegionalAddress(0x2f71ac, RegionalOffset, dword_be)
     Handedness = utilities.GetRegionalAddress(0x2f71b0, RegionalOffset, dword_be)
-
-    function GetCurrentStage(mode) {
-        stage = this.StoryModeStage
-        if (mode == 1)
-            stage = this.ArcadeModeStage
-        return stage
-    }
 }
 settings = Settings()
-
-class MessageValues {
-    BallLost = 0x00
-    MultiBall = 0x01
-    ExtraBall = 0x02
-    Action = 0x03
-    Tilt = 0x04
-    Danger = 0x05
-    Chance = 0x06
-    Warning = 0x07
-    UpPost = 0x08
-    RateUp = 0x09
-    WipedOut = 0x0a
-}
-
-class Message {
-    Values = MessageValues()
-
-    function Displayed(value) {
-        return stateState.EventTextFlag != 0xffffffff &&
-            stageState.EventTextIndex == value &&
-            prev(stageState.EventTextTimer) > 0 &&
-            prev(stageState.EventTextTimer) < this.Timer
-    }
-}
-message = Message()
 
 class EnemyOffsets {
     Health = 0x2a8
     AltHealth = 0x2ac
-}
-
-class EnemyTypes  {
-    Bonus1Boss = Enemy(Points = 2000000)
 }
 
 class Enemy  {
@@ -183,8 +162,12 @@ class Enemy  {
     UseAlt = false
 }
 
+class EnemyTypes  {
+    Bonus1Boss = Enemy(Points = 2000000)
+}
+
 class EnemyList {
-    RegionalOffset = utilities.GetEnemyListPointerOffset()
+    RegionalOffset = region.GetEnemyListPointerOffset()
     Pointer = utilities.GetRegionalAddress(0x33d124, RegionalOffset, dword_be)
     Base = utilities.MaskPointer(Pointer)
 
@@ -204,21 +187,6 @@ class EnemyList {
         enemy.AltHealth = dword_be(altHealthAddress)
 
         return enemy
-    }
-
-    function EnemyIsActive(index) {
-        enemy = this.GetEnemyData(index)
-        return enemy.Type != 0xffffffff
-    }
-
-    function EnemyWasDefeated(index, useAlt) {
-        enemy = this.GetEnemyData(index)
-
-        health = enemy.Health
-        if (useAlt)
-            health = enemy.AltHealth
-
-        return prev(health) > 0 && health <= 0
     }
 }
 enemyList = EnemyList()
@@ -261,7 +229,7 @@ class BallDLC {
     TrapBall = 0
 }
 
-class PlayerObject {
+class PlayerData {
     Name = 0
     HighScore = 0
     Score = 0
@@ -283,15 +251,16 @@ class ActionBalls {
     Trap = 0x06
 }
 
-class Player {
-    RegionalOffset = utilities.GetPlayerObjectPointerOffset()
+class PlayerObject {
+    RegionalOffset = region.GetPlayerObjectPointerOffset()
+
     Pointer = utilities.GetRegionalAddress(0x353128, RegionalOffset, dword_be)
     Base = utilities.MaskPointer(Pointer)
 
     Offsets = PlayerOffsets()
 
     function GetData() {
-        object = PlayerObject()
+        object = PlayerData()
 
         highScoreAddress = this.Base + this.Offsets.HighScore
         scoreAddress = this.Base + this.Offsets.Score
@@ -315,23 +284,107 @@ class Player {
         object.Score = dword_be(scoreAddress)
         object.ActionBall = dword_be(actionBallAddress)
         object.Unlocks.SpeedBall = dword_be(speedBallUnlockAddress)
-        object.Unlocks.Reverse = dword_be(reverseBallUnlockAddress)
-        object.Unlocks.Split = dword_be(splitBallUnlockAddress)
-        object.Unlocks.Tractor = dword_be(tractorBallUnlockAddress)
-        object.Unlocks.Bomb = dword_be(bombBallUnlockAddress)
-        object.Unlocks.Paralyze = dword_be(paralyzeBallUnlockAddress)
-        object.Unlocks.Trap = dword_be(trapBallUnlockAddress)
-        object.DLC.Tractor = dword_be(tractorBallDLCAddress)
-        object.DLC.Bomb = dword_be(bombBallDLCAddress)
-        object.DLC.Paralyze = dword_be(paralyzeBallDLCAddress)
-        object.DLC.Trap = dword_be(tractorBallDLCAddress)
-        object.ActionBallCooldown = float_be(actionBallCooldownTimerAddress)
+        object.Unlocks.ReverseBall = dword_be(reverseBallUnlockAddress)
+        object.Unlocks.SplitBall = dword_be(splitBallUnlockAddress)
+        object.Unlocks.TractorBall = dword_be(tractorBallUnlockAddress)
+        object.Unlocks.BombBall = dword_be(bombBallUnlockAddress)
+        object.Unlocks.ParalyzeBall = dword_be(paralyzeBallUnlockAddress)
+        object.Unlocks.TrapBall = dword_be(trapBallUnlockAddress)
+        object.DLC.TractorBall = dword_be(tractorBallDLCAddress)
+        object.DLC.BombBall = dword_be(bombBallDLCAddress)
+        object.DLC.ParalyzeBall = dword_be(paralyzeBallDLCAddress)
+        object.DLC.TrapBall = dword_be(tractorBallDLCAddress)
+        object.ActionBallTimer = float_be(actionBallCooldownTimerAddress)
         object.Balls = dword_be(ballsAddress)
-        object.scoreMultiplierAddress = float_be(scoreMultiplierAddress)
+        object.ScoreMultiplier = float_be(scoreMultiplierAddress)
 
         return object
     }
-} 
+}
+playerObject = PlayerObject()
+
+class Stage1Events {
+    // Bonus Portal
+    BonusPortalItem1 = 0
+    BonusPortalItem2 = 0
+    BonusPortalItem3 = 0
+    BonusPortalItem4 = 0
+    BonusPortalItem5 = 0
+    BonusPortalItem6 = 0
+    BonusPortalItem7 = 0
+    BonusPortalItem8 = 0
+    BonusVisited = 0
+    BonusBossTriggered = 0
+
+    // Bonus Rate
+    RateUpTrigger1 = 0
+    RateUpTrigger2 = 0
+    RateUpTrigger3 = 0
+    RateUpGate1 = 0
+    RateUpGate2 = 0
+    RateUpGate3 = 0
+    RateUpTriggered = 0
+    RateUpAchieved = 0
+
+    // Multi Ball
+    MultiBallTrigger1 = 0
+    MultiBallTrigger2 = 0
+    MultiBallTrigger3 = 0
+    MultiBallGate1 = 0
+    MultiBallGate2 = 0
+    MultiBallGate3 = 0
+
+    // Point Worms
+    Worm1 = 0
+    Worm2 = 0
+    Worm3 = 0
+    WormGate1 = 0
+    WormGate2 = 0
+    WormGate3 = 0
+}
+
+class StageEvents {
+    RegionalOffset = region.GetStageEventsOffset()
+    
+    function GetStage1Events() {
+        events = Stage1Events()
+
+        events.BonusPortalItem1 = utilities.GetRegionalAddress(0x3640c0, RegionalOffset, bit0)
+        events.BonusPortalItem2 = utilities.GetRegionalAddress(0x3640c0, RegionalOffset, bit1)
+        events.BonusPortalItem3 = utilities.GetRegionalAddress(0x3640c0, RegionalOffset, bit2)
+        events.BonusPortalItem4 = utilities.GetRegionalAddress(0x3640c1, RegionalOffset, bit3)
+        events.BonusPortalItem4 = utilities.GetRegionalAddress(0x3640c1, RegionalOffset, bit4)
+        events.BonusPortalItem4 = utilities.GetRegionalAddress(0x3640c1, RegionalOffset, bit5)
+        events.BonusPortalItem4 = utilities.GetRegionalAddress(0x3640c1, RegionalOffset, bit6)
+        events.BonusPortalItem4 = utilities.GetRegionalAddress(0x3640c1, RegionalOffset, bit7)
+        events.BonusVisited = utilities.GetRegionalAddress(0x3640c7, RegionalOffset, bit1)
+        events.BonusBossTriggered = utilities.GetRegionalAddress(0x364243, RegionalOffset, bit1)
+
+        events.RateUpTrigger1 = utilities.GetRegionalAddress(0x3640c2, RegionalOffset, bit0)
+        events.RateUpTrigger2 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit6)
+        events.RateUpTrigger3 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit7)
+        events.RateUpGate1 = utilities.GetRegionalAddress(0x3640c6, RegionalOffset, bit1)
+        events.RateUpGate2 = utilities.GetRegionalAddress(0x3640c6, RegionalOffset, bit2)
+        events.RateUpGate3 = utilities.GetRegionalAddress(0x3640c6, RegionalOffset, bit3)
+        events.RateUpTriggered = utilities.GetRegionalAddress(0x3640c6, RegionalOffset, bit6)
+        events.RateUpAchieved = utilities.GetRegionalAddress(0x3640c6, RegionalOffset, bit5)
+
+        events.MultiBallTrigger1 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit3)
+        events.MultiBallTrigger2 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit4)
+        events.MultiBallTrigger3 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit5)
+        events.MultiBallGate1 = utilities.GetRegionalAddress(0x3640c7, RegionalOffset, bit6)
+        events.MultiBallGate2 = utilities.GetRegionalAddress(0x3640c7, RegionalOffset, bit7)
+        events.MultiBallGate3 = utilities.GetRegionalAddress(0x3640c6, RegionalOffset, bit0)
+
+        events.Worm1 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit0)
+        events.Worm2 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit1)
+        events.Worm3 = utilities.GetRegionalAddress(0x3640c3, RegionalOffset, bit2)
+        events.WormGate1 = utilities.GetRegionalAddress(0x3640c7, RegionalOffset, bit3)
+        events.WormGate2 = utilities.GetRegionalAddress(0x3640c7, RegionalOffset, bit4)
+        events.WormGate3 = utilities.GetRegionalAddress(0x3640c7, RegionalOffset, bit5)
+    }
+}
+stageEvents = StageEvents()
 
 class GameStates {
     NewGame = 0x0000
@@ -340,62 +393,129 @@ class GameStates {
     Bonus = 0x0004
     BonusComplete = 0x0005
 }
-gameStates = GameStates() 
 
-class Game {
-    Mode = dword_be(0x2f2e54)
-    Difficulty = dword_be(0x2f719c)
-    State = dword_be(0x4d8dec)
-    Score = dword_be(0x34ab30)
+class ScreenIDRange {
+    Start = 0
+    End = 0
+}
 
+class ScreenIDs {
+    Loading = ScreenIDRange(0, 2)
+    Tutorial = ScreenIDRange(3, 4)
+    Start = ScreenIDRange(4, 5)
+    End = ScreenIDRange(9, 13)
+    Quit = ScreenIDRange(14, 15)
+    Save = ScreenIDRange(16, 18)
+    Title = ScreenIDRange(19, 19)
+}
+
+class GameState {
+    RegionalOffset = region.GetGameStateOffset()
+    ScreenID = utilities.GetRegionalAddress(0x4d8de0, RegionalOffset, byte)
+    ID = utilities.GetRegionalAddress(0x4d8dec, RegionalOffset, dword_be)
+    StageTime = utilities.GetRegionalAddress(0x4d8df8, RegionalOffset, dword_be)
+
+    States = GameStates()
+    ScreenIDs = ScreenIDs()
+}
+gameState = GameState()
+
+class AchievementHelpers {
     function AchievedScore(points) {
-        return prev(this.Score) < points && this.Score >= points
+        playerData = playerObject.GetData()
+        return prev(playerData.Score) < points && playerData.Score >= points
     }
 
-    function GainedPoints(amount) {
-        return this.Score == prev(this.Score) + amount
+    function GainedPointAmount(value) {
+        playerData = playerObject.GetData()
+        return playerData.Score == prev(playerData.Score) + value
+    }
+
+    function EnemyIsActive(index) {
+        enemy = enemyList.GetEnemyData(index)
+        return enemy.Type != 0xffffffff
+    }
+
+    function EnemyWasDefeated(index, useAlt) {
+        enemy = enemyList.GetEnemyData(index)
+
+        health = enemy.Health
+        if (useAlt)
+            health = enemy.AltHealth
+
+        return prev(health) > 0 && health <= 0
+    }
+
+    function MessageWasDisplayed(messageIndex) {
+        return stageState.EventTextFlag != 0xffffffff &&
+            stageState.EventTextIndex == messageIndex &&
+            prev(stageState.EventTextTimer) > 0 &&
+            prev(stageState.EventTextTimer) < stageState.EventTextTimer
+    }
+
+    function GetCurrentStage(mode) {
+        stage = settings.StoryModeStage
+        if (mode == 1)
+            stage = settings.ArcadeModeStage
+        return stage
+    }
+
+    function IsPlayingStage(mode, stage) {
+        currentStage = this.GetCurrentStage(mode)
+        return currentStage == stage
+    }
+
+    function StageWasCleared(mode, stage) {
+        currentStage = this.GetCurrentStage(mode)
+        return settings.Mode == mode &&
+            currentStage == stage &&
+            prev(stageState.StageClearFlag) == 0 &&
+            stageState.StageClearFlag == 1
+    }
+
+    function IsInGame() {
+        enemyListPointer = enemyList.Pointer
+        return enemyListPointer != 0 
+    }
+
+    function IsInBonus() {
+        return gameState.ID == gameState.States.Bonus
     }
 }
-game = Game()
+helpers = AchievementHelpers()
 
-class StageManager {
-    clearFlag = dword_be(0x2f2e40)
-    storyStage = dword_be(0x2f2e5c)
-    arcadeStage = dword_be(0x2f2e60)
-
-    function Cleared(in_mode, in_stage, in_difficulty) {
-        stage = this.storyStage
-
-        if (in_mode == 1)
-            stage = this.arcadeStage
-        
-        return game.Difficulty <= in_difficulty &&
-            game.Mode == in_mode &&
-            stage == in_stage &&
-            prev(this.clearFlag) == 0 &&
-            this.clearFlag == 1
+class AchievementTriggers {
+    function TriggeredStageMultiBall(stage) {
+        return helpers.IsInGame() &&
+            (settings.StoryModeStage == stage || settings.ArcadeModeStage == stage) &&
+            helpers.MessageWasDisplayed(stageState.Messages.MultiBall)
     }
 
-    function IsInStage(in_mode, in_stage) {
-        stage = this.storyStage
+    function StoryStageClearedOnDifficulty(stage, difficulty) {
+        return helpers.IsInGame() &&
+            settings.Difficulty >= difficulty &&
+            helpers.StageWasCleared(settings.Modes.Story, stage)
+    }
 
-        if (in_mode == 1)
-            stage = this.arcadeStage
-
-        return stage == in_stage
+    function DefeatedBonusBoss1() {
+        return helpers.IsInGame() &&
+            helpers.IsInBonus() &&
+            settings.Difficulty >= settings.Difficulties.Normal &&
+            (settings.StoryModeStage == settings.Stages.One || settings.ArcadeModeStage == settings.Stages.One) &&
+            helpers.GainedPointAmount(enemyList.Types.Bonus1Boss.Points)
     }
 }
-stageManager = StageManager()
+triggers = AchievementTriggers()
 
-//achievement("Multi Ball!", "While playing any mode, gain a Multi Ball", points = 5, trigger = message.Displayed(messageValues.MultiBall))
-//achievement("Clear Stage 1 - Easy", "Cleared Stage 1 on Easy or higher", points = 5, trigger = stageManager.Cleared(modes.Story, stages.One, difficulties.Easy))
-//achievement("Clear Stage 1 - Normal", "Cleared Stage 1 on Normal or higher", points = 5, trigger = stageManager.Cleared(modes.Story, stages.One, difficulties.Normal))
-//achievement("Clear Stage 1 - Hard", "Cleared Stage 1 on Hard", points = 5, trigger = stageManager.Cleared(modes.Story, stages.One, difficulties.Hard))
-//achievement("Defeated Bonus 1 Boss", "Defeated Bonus 1 Boss", points = 5, trigger = enemyManager.EnemyDefeated(modes.Story, stages.One, true, enemyManager.Types.Bonus1Boss))
+achievement("Stage 1 - Multi Ball!", "While playing any mode, gain a Multi Ball on Stage 1", points = 5, trigger = triggers.TriggeredStageMultiBall(settings.Stages.One))
+achievement("Clear Stage 1 - Easy", "Cleared Stage 1 on Easy or higher", points = 5, trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Easy))
+achievement("Clear Stage 1 - Normal", "Cleared Stage 1 on Normal or higher", points = 5, trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Normal))
+achievement("Clear Stage 1 - Hard", "Cleared Stage 1 on Hard", points = 5, trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard))
+achievement("Defeated Bonus 1 Boss", "Defeated Bonus 1 Boss on Normal or higher", points = 5, trigger = triggers.DefeatedBonusBoss1())
 
 rich_presence_display("Region: {0} | Event Text Index: {1}",
     rich_presence_lookup("Region", region.GetValue(), region.Lookup),
-    rich_presence_value("StateClear", stageState.EventTextIndex)
+    rich_presence_value("StateClear", playerObject.Base)
 )
 
 // #endregion

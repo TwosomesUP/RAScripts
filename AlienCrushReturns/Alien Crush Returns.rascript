@@ -568,9 +568,13 @@ class AchievementHelpers {
         return stage
     }
 
-    function IsPlayingStage(mode, stage) {
+    function IsPlayingStageByMode(mode, stage) {
         currentStage = this.GetCurrentStage(mode)
         return currentStage == stage
+    }
+
+    function IsPlayingStageAnyMode(stage) {
+        return (settings.StoryModeStage == stage || settings.ArcadeModeStage == stage)
     }
 
     function StageWasCleared(mode, stage) {
@@ -605,8 +609,14 @@ helpers = AchievementHelpers()
 class AchievementTriggers {
     function TriggeredStageMultiBall(stage) {
         return helpers.IsInGameAnyRegion() &&
-            (settings.StoryModeStage == stage || settings.ArcadeModeStage == stage) &&
+            helpers.IsPlayingStageAnyMode(stage) &&
             helpers.MessageWasDisplayed(stageState.Messages.MultiBall)
+    }
+
+    function TriggeredStageRateUP(stage) {
+        return helpers.IsInGameAnyRegion() &&
+            helpers.IsPlayingStageAnyMode(stage) &&
+            helpers.MessageWasDisplayed(stageState.Messages.RateUp)
     }
 
     function StoryStageClearedOnDifficulty(stage, difficulty) {
@@ -630,12 +640,29 @@ class AchievementTriggers {
 }
 triggers = AchievementTriggers()
 
-achievement("Stage 1 - Multi Ball!", "While playing any mode, gain a Multi Ball on Stage 1", points = 5, trigger = triggers.TriggeredStageMultiBall(settings.Stages.One))
-achievement("Clear Stage 1 - Easy", "Cleared Stage 1 on Easy or higher", points = 5, trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Easy))
-achievement("Clear Stage 1 - Normal", "Cleared Stage 1 on Normal or higher", points = 5, trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Normal))
-achievement("Clear Stage 1 - Hard", "Cleared Stage 1 on Hard", points = 5, trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard))
-achievement("Defeated Bonus 1 Boss", "Defeated Bonus 1 Boss on Normal or higher", points = 5, trigger = triggers.DefeatedBonusBoss1())
+// Progression
+achievement("Clear Stage 1 - Easy", "While playing Story Mode, clear Stage 1 on Easy difficulty or higher", points = 1, 
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Easy)
+)
+achievement("Clear Stage 1 - Normal", "While playing Story Mode, clear Stage 1 on Normal difficulty or higher", type = "progression", points = 3, 
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Normal)
+)
+achievement("Clear Stage 1 - Hard", "While playing Story Mode, clear Stage 1 on Hard difficulty", points = 5, 
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard)
+)
 
+// Challenges
+achievement("Stage 1 - Multi Ball!", "While playing Stage 1 on any mode, activate a Multi Ball on Normal difficulty or higher", points = 3, 
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.One)
+)
+achievement("Stage 1 - Rate UP!", "While playing Stage 1 on any mode, activate a Rate UP bonus on Normal difficulty or higher", points = 3, 
+    trigger = triggers.TriggeredStageRateUP(settings.Stages.One)
+)
+achievement("Defeated Bonus 1 Boss", "while playing Stage 1 on any mode, defeat the sub-boss on Bonus Stage 1", points = 5, 
+    trigger = triggers.DefeatedBonusBoss1()
+)
+
+// Rich Presence
 rich_presence_display("Region: {0} | Event Text Index: {1}",
     rich_presence_lookup("Region", region.GetValue(), region.Lookup),
     rich_presence_value("StateClear", playerObject.Base)

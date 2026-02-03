@@ -27,15 +27,6 @@ class Region {
     EU = "P"
     JP = "J"
 
-    function IsRegion(code) {
-        if (code == "E")
-            return this.USBit == 1 && this.EUBit == 0 && this.JPBit == 0
-        if (code == "P")
-            return this.USBit == 0 && this.EUBit == 1 && this.JPBit == 0
-        if (code == "J")
-            return this.USBit == 0 && this.EUBit == 0 && this.JPBit == 1
-    }
-
     function GetRegionalOffset(euOffset, jpOffset) {
         return (this.EUBit * euOffset) + (this.JPBit * jpOffset)
     }
@@ -58,38 +49,10 @@ class Region {
         return this.GetRegionalOffset(euOffset, jpOffset)
     }
 
-    function GetRegionalEnemyListPointer(code) {
-        usAddress = 0x33d124
-        euAddress = usAddress + 0x7a0
-        jpAddress = usAddress - 0x520
-        
-        address = usAddress
-        if (code == "P")
-            address = euAddress
-        if (code == "J")
-            address = jpAddress
-        
-        return dword_be(address)
-    }
-
     function GetPlayerObjectPointerOffset() {
         euOffset = 0x7a0
         jpOffset = -0x520
         return this.GetRegionalOffset(euOffset, jpOffset)
-    }
-
-    function GetRegionalPlayerObjectPointer(code) {
-        usAddress = 0x353128
-        euAddress = usAddress + 0x7a0
-        jpAddress = usAddress - 0x520
-        
-        address = usAddress
-        if (code == "P")
-            address = euAddress
-        if (code == "J")
-            address = jpAddress
-        
-        return dword_be(address)
     }
 
     function GetStageEventsOffset() {
@@ -211,25 +174,6 @@ class EnemyList {
     Offsets = EnemyOffsets()
     Types = EnemyTypes()
 
-    RegionalPointer = 0
-    RegionalBase = 0
-
-    function GetRegionalData(code, index) {
-        enemy = Enemy()
-
-        this.RegionalPointer = region.GetRegionalEnemyListPointer(code)
-        this.RegionalBase = utilities.MaskPointer(this.RegionalPointer)
-
-        enemyBase = this.RegionalBase + (index * this.NodeSize)
-        healthAddress = enemyBase + this.Offsets.Health
-        altHealthAddress = enemyBase + this.Offsets.AltHealth
-
-        enemy.Health = dword_be(healthAddress)
-        enemy.AltHealth = dword_be(altHealthAddress)
-
-        return enemy
-    }
-
     function GetEnemyData(index) {
         enemy = Enemy()
 
@@ -310,55 +254,7 @@ class PlayerObject {
     Pointer = utilities.GetRegionalAddress(0x353128, RegionalOffset, dword_be)
     Base = utilities.MaskPointer(Pointer)
 
-    RegionalPointer = 0
-    RegionalBase = 0
-
     Offsets = PlayerOffsets()
-
-    function GetRegionalData(code) {
-        object = PlayerData()
-
-        this.RegionalPointer = region.GetRegionalPlayerObjectPointer(code)
-        this.RegionalBase = utilities.MaskPointer(this.RegionalPointer)
-
-        highScoreAddress = this.RegionalBase + this.Offsets.HighScore
-        scoreAddress = this.RegionalBase + this.Offsets.Score
-        actionBallAddress = this.RegionalBase + this.Offsets.ActionBall
-        speedBallUnlockAddress = this.RegionalBase + this.Offsets.SpeedBallUnlock
-        reverseBallUnlockAddress = this.RegionalBase + this.Offsets.ReverseBallUnlock
-        splitBallUnlockAddress = this.RegionalBase + this.Offsets.SplitBallUnlock
-        tractorBallUnlockAddress = this.RegionalBase + this.Offsets.TractorBallUnlock
-        bombBallUnlockAddress = this.RegionalBase + this.Offsets.BombBallUnlock
-        paralyzeBallUnlockAddress = this.RegionalBase + this.Offsets.ParalyzeBallUnlock
-        trapBallUnlockAddress = this.RegionalBase + this.Offsets.TrapBallUnlock
-        tractorBallDLCAddress = this.RegionalBase + this.Offsets.TractorBallDLC
-        bombBallDLCAddress = this.RegionalBase + this.Offsets.BombBallDLC
-        paralyzeBallDLCAddress = this.RegionalBase + this.Offsets.ParalyzeBallDLC
-        trapBallDLCAddress = this.RegionalBase + this.Offsets.TrapBallDLC
-        actionBallCooldownTimerAddress = this.RegionalBase + this.Offsets.ActionBallCooldown
-        ballsAddress = this.RegionalBase + this.Offsets.Balls
-        scoreMultiplierAddress = this.RegionalBase + this.Offsets.ScoreMultiplier
-
-        object.HighScore = dword_be(highScoreAddress)
-        object.Score = dword_be(scoreAddress)
-        object.ActionBall = dword_be(actionBallAddress)
-        object.Unlocks.SpeedBall = dword_be(speedBallUnlockAddress)
-        object.Unlocks.ReverseBall = dword_be(reverseBallUnlockAddress)
-        object.Unlocks.SplitBall = dword_be(splitBallUnlockAddress)
-        object.Unlocks.TractorBall = dword_be(tractorBallUnlockAddress)
-        object.Unlocks.BombBall = dword_be(bombBallUnlockAddress)
-        object.Unlocks.ParalyzeBall = dword_be(paralyzeBallUnlockAddress)
-        object.Unlocks.TrapBall = dword_be(trapBallUnlockAddress)
-        object.DLC.TractorBall = dword_be(tractorBallDLCAddress)
-        object.DLC.BombBall = dword_be(bombBallDLCAddress)
-        object.DLC.ParalyzeBall = dword_be(paralyzeBallDLCAddress)
-        object.DLC.TrapBall = dword_be(tractorBallDLCAddress)
-        object.ActionBallTimer = float_be(actionBallCooldownTimerAddress)
-        object.Balls = dword_be(ballsAddress)
-        object.ScoreMultiplier = float_be(scoreMultiplierAddress)
-
-        return object
-    }
 
     function GetData() {
         object = PlayerData()
@@ -533,12 +429,6 @@ class AchievementHelpers {
         return playerData.Score == prev(playerData.Score) + value
     }
 
-    function GainedRegionalPointAmount(code, value) {
-        playerData = playerObject.GetRegionalData(code)
-        return (region.IsRegion(code) &&
-            playerData.Score == (prev(playerData.Score) + value))
-    }
-
     function EnemyIsActive(index) {
         enemy = enemyList.GetEnemyData(index)
         return enemy.Type != 0xffffffff
@@ -586,16 +476,6 @@ class AchievementHelpers {
         return enemyListPointer != 0 
     }
 
-    function IsInGameByRegion(code) {
-        enemyListPointer = region.GetRegionalEnemyListPointer(code)
-        return region.IsRegion(code) &&
-            enemyListPointer != 0
-    }
-
-    function IsInGameAnyRegion() {
-        return (this.IsInGameByRegion(region.US) || this.IsInGameByRegion(region.EU) || this.IsInGameByRegion(region.JP))
-    }
-
     function IsInBonus() {
         return gameState.ID == gameState.States.Bonus
     }
@@ -604,28 +484,23 @@ helpers = AchievementHelpers()
 
 class AchievementTriggers {
     function TriggeredStageMultiBall(stage) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsInGame() &&
             (settings.StoryModeStage == stage || settings.ArcadeModeStage == stage) &&
             helpers.MessageWasDisplayed(stageState.Messages.MultiBall)
     }
 
     function StoryStageClearedOnDifficulty(stage, difficulty) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsInGame() &&
             settings.Difficulty >= difficulty &&
             helpers.StageWasCleared(settings.Modes.Story, stage)
     }
 
     function DefeatedBonusBoss1() {
-        points = enemyList.Types.Bonus1Boss.Points
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsInGame() &&
             helpers.IsInBonus() &&
             settings.Difficulty >= settings.Difficulties.Normal &&
             (settings.StoryModeStage == settings.Stages.One || settings.ArcadeModeStage == settings.Stages.One) &&
-            (
-                helpers.GainedRegionalPointAmount(region.US, points) || 
-                helpers.GainedRegionalPointAmount(region.EU, points) || 
-                helpers.GainedRegionalPointAmount(region.JP, points)
-            )
+            helpers.GainedPointAmount(enemyList.Types.Bonus1Boss.Points)
     }
 }
 triggers = AchievementTriggers()

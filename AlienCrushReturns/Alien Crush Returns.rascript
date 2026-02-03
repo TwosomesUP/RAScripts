@@ -504,6 +504,9 @@ class ScreenIDs {
     Loading = ScreenIDRange(0, 2)
     Tutorial = ScreenIDRange(3, 4)
     Start = ScreenIDRange(4, 5)
+    Playing = ScreenIDRange(6, 6)
+    BallSunk = ScreenIDRange(7, 7)
+    GameOver = ScreenIDRange(8, 8)
     End = ScreenIDRange(9, 13)
     Quit = ScreenIDRange(14, 15)
     Save = ScreenIDRange(16, 18)
@@ -574,7 +577,11 @@ class AchievementHelpers {
     }
 
     function IsPlayingStageAnyMode(stage) {
-        return (settings.StoryModeStage == stage || settings.ArcadeModeStage == stage)
+        return 
+        (
+            (settings.Mode == settings.Modes.Story && settings.StoryModeStage == stage) || 
+            (settings.Mode == settings.Modes.Arcade && settings.ArcadeModeStage == stage)
+        )
     }
 
     function StageWasCleared(stage) {
@@ -586,7 +593,8 @@ class AchievementHelpers {
 
     function RegionalPlayerLostBall(code) {
         playerData = playerObject.GetRegionalData(code)
-        return region.IsRegion(code) &&
+        return gameState.ScreenID == gameState.ScreenIDs.Playing.Start &&
+            region.IsRegion(code) &&
             playerData.Balls < prev(playerData.Balls)
     }
 
@@ -624,8 +632,11 @@ class AchievementTriggers {
             helpers.MessageWasDisplayed(stageState.Messages.RateUp)
     }
 
-    function StoryStageClearedOnDifficulty(stage, difficulty) {
-        return helpers.IsInGameAnyRegion() &&
+    function StoryStageClearedOnDifficulty(stage, difficulty, challenge = false) {
+        regionCheck = helpers.IsInGameAnyRegion()
+        if (challenge)
+            regionCheck = (regionCheck || (this.ResetStageChallenge(stage)))
+        return regionCheck &&
             settings.Difficulty >= difficulty &&
             helpers.StageWasCleared(stage)
     }
@@ -644,15 +655,15 @@ class AchievementTriggers {
     }
 
     function StoryStageClearedWithoutLosingBall(stage) {
-        return this.StoryStageClearedOnDifficulty(stage, settings.Difficulties.Normal) &&
-            disable_when(helpers.RegionalPlayerLostBall(region.US), this.ResetStageChallenge(stage)) &&
-            disable_when(helpers.RegionalPlayerLostBall(region.EU), this.ResetStageChallenge(stage)) &&
-            disable_when(helpers.RegionalPlayerLostBall(region.JP), this.ResetStageChallenge(stage))
+        return this.StoryStageClearedOnDifficulty(stage, settings.Difficulties.Normal, true) &&
+            disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.US)) &&
+            disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.EU)) &&
+            disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.JP))
     }
 
     function ResetStageChallenge(stage) {
-        retriedState = gameState.States.Retried
-        return settings.StoryModeStage != stage && (prev(gameState.ID != retriedState) && gameState.ID == retriedState)
+        return never(settings.StoryModeStage != stage) && 
+            never(gameState.ScreenID == gameState.ScreenIDs.GameOver.Start)
     }
 }
 triggers = AchievementTriggers()

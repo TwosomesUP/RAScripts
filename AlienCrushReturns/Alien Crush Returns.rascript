@@ -531,6 +531,22 @@ class AchievementHelpers {
             playerData.Score >= points
     }
 
+    function AchievedRegionalScore(code, points) {
+        playerData = playerObject.GetRegionalData(code)
+        return 
+        (
+            region.IsRegion(code) &&
+            prev(playerData.Score) < points && 
+            playerData.Score >= points
+        )
+    }
+
+    function ReachedRegionalScore(code, score) {
+        playerData = playerObject.GetRegionalData(code)
+        return (region.IsRegion(code) &&
+            playerData.Score >= score)
+    }
+
     function GainedPointAmount(value) {
         playerData = playerObject.GetData()
         return playerData.Score == prev(playerData.Score) + value
@@ -632,6 +648,23 @@ class AchievementTriggers {
             helpers.MessageWasDisplayed(stageState.Messages.RateUp)
     }
 
+    function TriggeredStageWipedOut(stage) {
+        return helpers.IsInGameAnyRegion() &&
+            helpers.IsPlayingStageAnyMode(stage) &&
+            helpers.MessageWasDisplayed(stageState.Messages.WipedOut)
+    }
+
+    function TriggeredStageUpPost(stage) {
+        return helpers.IsInGameAnyRegion() &&
+            helpers.IsPlayingStageAnyMode(stage) &&
+            helpers.MessageWasDisplayed(stageState.Messages.UpPost)
+    }
+
+    function TriggeredExtraBall() {
+        return helpers.IsInGameAnyRegion() &&
+            helpers.MessageWasDisplayed(stageState.Messages.ExtraBall)
+    }
+
     function StoryStageClearedOnDifficulty(stage, difficulty, challenge = false) {
         regionCheck = helpers.IsInGameAnyRegion()
         if (challenge)
@@ -641,12 +674,12 @@ class AchievementTriggers {
             helpers.StageWasCleared(stage)
     }
 
-    function DefeatedBonusBoss1() {
+    function DefeatedBonusBoss(stage) {
         points = enemyList.Types.Bonus1Boss.Points
         return helpers.IsInGameAnyRegion() &&
             helpers.IsInBonus() &&
             settings.Difficulty >= settings.Difficulties.Normal &&
-            helpers.IsPlayingStageAnyMode(settings.Stages.One) &&
+            helpers.IsPlayingStageAnyMode(stage) &&
             (
                 helpers.GainedRegionalPointAmount(region.US, points) || 
                 helpers.GainedRegionalPointAmount(region.EU, points) || 
@@ -661,6 +694,26 @@ class AchievementTriggers {
             disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.JP))
     }
 
+    function ClearedGameWithHighscore(score) {
+        return this.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Normal) &&
+            (
+                helpers.ReachedRegionalScore(region.US, score) ||
+                helpers.ReachedRegionalScore(region.EU, score) ||
+                helpers.ReachedRegionalScore(region.JP, score)
+            )
+    }
+
+    function AchievedArcadeScoreOnStage(stage, score) {
+        return helpers.IsInGameAnyRegion() &&
+            settings.Mode == settings.Modes.Arcade &&
+            settings.ArcadeModeStage == stage &&
+            (
+                helpers.AchievedRegionalScore(region.US, score) ||
+                helpers.AchievedRegionalScore(region.EU, score) ||
+                helpers.AchievedRegionalScore(region.JP, score)
+            )
+    }
+
     function ResetStageChallenge(stage) {
         return never(settings.StoryModeStage != stage) && 
             never(gameState.ScreenID == gameState.ScreenIDs.GameOver.Start)
@@ -668,9 +721,7 @@ class AchievementTriggers {
 }
 triggers = AchievementTriggers()
 
-// Progression
-
-// Story - Stage 1
+// Stage 1 Progression
 
 achievement("Clear Stage 1 - Easy", "While playing Story Mode, clear Stage 1 on Easy difficulty or higher", points = 1, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Easy)
@@ -681,11 +732,23 @@ achievement("Clear Stage 1 - Normal", "While playing Story Mode, clear Stage 1 o
 achievement("Clear Stage 1 - Hard", "While playing Story Mode, clear Stage 1 on Hard difficulty", points = 5, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard)
 )
+
+// Stage 1 Challenges
+
 achievement("Clear Stage 1 - Ball Challenge", "While playing Story Mode, clear Stage 1 on Normal difficulty or higher withour losing a ball", points = 5, 
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.One)
 )
+achievement("Stage 1 - Multi Ball!", "While playing Stage 1 on any mode, activate a Multi Ball on Normal difficulty or higher", points = 3, 
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.One)
+)
+achievement("Stage 1 - Rate UP!", "While playing Stage 1 on any mode, activate a Rate UP bonus on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageRateUP(settings.Stages.One)
+)
+achievement("Defeated Bonus 1 Boss", "while playing Stage 1 on any mode, defeat the sub-boss on Bonus Stage 1", points = 10, 
+    trigger = triggers.DefeatedBonusBoss(settings.Stages.One)
+)
 
-// Story - Stage 2
+// Stage 2 Progression
 
 achievement("Clear Stage 2 - Easy", "While playing Story Mode, clear Stage 2 on Easy difficulty or higher", points = 1, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Easy)
@@ -696,11 +759,23 @@ achievement("Clear Stage 2 - Normal", "While playing Story Mode, clear Stage 2 o
 achievement("Clear Stage 2 - Hard", "While playing Story Mode, clear Stage 2 on Hard difficulty", points = 5, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Hard)
 )
+
+// Stage 2 Challenges
+
 achievement("Clear Stage 2 - Ball Challenge", "While playing Story Mode, clear Stage 2 on Normal difficulty or higher withour losing a ball", points = 5, 
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Two)
 )
+achievement("Stage 2 - Multi Ball!", "While playing Stage 2 on any mode, activate a Multi Ball on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.Two)
+)
+achievement("Stage 2 - Rate Up!", "While playing Stage 2 on any mode, activate a Rate Up bonus on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageRateUP(settings.Stages.Two)
+)
+achievement("Stage 2 - Wiped Out!", "While playing Stage 2 on any mode, activate a Wiped Out bonus on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageWipedOut(settings.Stages.Two)
+)
 
-// Story - Boss 1
+// Boss Stage 1 Progression
 
 achievement("Clear Boss 1 - Easy", "While playing Story Mode, clear Boss Stage 1 on Easy difficulty or higher", points = 1, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Easy)
@@ -711,11 +786,14 @@ achievement("Clear Boss 1 - Normal", "While playing Story Mode, clear Boss Stage
 achievement("Clear Boss 1 - Hard", "While playing Story Mode, clear Boss Stage 1 on Hard difficulty", points = 5, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Hard)
 )
+
+// Boss Stage 1 Challenges
+
 achievement("Clear Boss 1 - Ball Challenge", "While playing Story Mode, clear Boss Stage 1 on Normal difficulty or higher withour losing a ball", points = 5, 
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossOne)
 )
 
-// Story - Stage 3
+// Stage 3 Progression
 
 achievement("Clear Stage 3 - Easy", "While playing Story Mode, clear Stage 3 on Easy difficulty or higher", points = 1, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Easy)
@@ -726,11 +804,26 @@ achievement("Clear Stage 3 - Normal", "While playing Story Mode, clear Stage 3 o
 achievement("Clear Stage 3 - Hard", "While playing Story Mode, clear Stage 3 on Hard difficulty", points = 5, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Hard)
 )
+
+// Stage 3 Challenges
+
 achievement("Clear Stage 3 - Ball Challenge", "While playing Story Mode, clear Stage 3 on Normal difficulty or higher withour losing a ball", points = 5, 
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Three)
 )
+achievement("Stage 3 - Multi Ball!", "While playing Stage 3 on any mode, activate a Multi Ball on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.Three)
+)
+achievement("Stage 3 - Rate Up!", "While playing Stage 3 on any mode, activate a Rate Up bonus on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageRateUP(settings.Stages.Three)
+)
+achievement("Stage 3 - Up Post!", "While playing Stage 3 on any mode, activate a Wiped Out bonus on Normal difficulty or higher", points = 4, 
+    trigger = triggers.TriggeredStageUpPost(settings.Stages.Three)
+)
+achievement("Defeated Bonus 2 Boss", "While playing Stage 3 on any mode, defeat the sub-boss on Bonus Stage 2", points = 10, 
+    trigger = triggers.DefeatedBonusBoss(settings.Stages.Three)
+)
 
-// Story - Boss 2
+// Boss Stage 2 Progression
 
 achievement("Clear Boss 2 - Easy", "While playing Story Mode, clear Boss Stage 2 on Easy difficulty or higher", points = 1, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Easy)
@@ -741,23 +834,42 @@ achievement("Clear Boss 2 - Normal", "While playing Story Mode, clear Boss Stage
 achievement("Clear Boss 2 - Hard", "While playing Story Mode, clear Boss Stage 2 on Hard difficulty", points = 5, 
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Hard)
 )
+
+// Boss Stage 2 Challenges
+
 achievement("Clear Boss 2 - Ball Challenge", "While playing Story Mode, clear Boss Stage 2 on Normal difficulty or higher withour losing a ball", points = 5, 
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossTwo)
 )
-
-// Challenges
-
-achievement("Stage 1 - Multi Ball!", "While playing Stage 1 on any mode, activate a Multi Ball on Normal difficulty or higher", points = 3, 
-    trigger = triggers.TriggeredStageMultiBall(settings.Stages.One)
+achievement("Boss 2 - Multi Ball!", "While playing Story Mode, activate a Multi Ball on Boss Stage 2", points = 4,
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossTwo)
 )
-achievement("Stage 1 - Rate UP!", "While playing Stage 1 on any mode, activate a Rate UP bonus on Normal difficulty or higher", points = 3, 
-    trigger = triggers.TriggeredStageRateUP(settings.Stages.One)
+
+// Story Mode Challenges
+
+achievement("Cleared Game - High Score", "While playing Story Mode, clear all stages with 30 million points or more on Normal difficulty or higher", points = 10, 
+    trigger = triggers.ClearedGameWithHighscore(30000000)
 )
-achievement("Defeated Bonus 1 Boss", "while playing Stage 1 on any mode, defeat the sub-boss on Bonus Stage 1", points = 5, 
-    trigger = triggers.DefeatedBonusBoss1()
+
+// Arcade Mode Challenges
+
+achievement("Arcade High Score - Stage 1", "While playing Arcade Mode, score 10 million points or more on Stage 1", points = 5, 
+    trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 10000000)
+)
+achievement("Arcade High Score - Stage 2", "While playing Arcade Mode, score 10 million points or more on Stage 2", points = 5, 
+    trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 10000000)
+)
+achievement("Arcade High Score - Stage 3", "While playing Arcade Mode, score 10 million points or more on Stage 3", points = 5, 
+    trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 10000000)
+)
+
+// General Challenges
+
+achievement("Extra Ball!", "While playing any mode, gain an Extra Ball", points = 3, 
+    trigger = triggers.TriggeredExtraBall()
 )
 
 // Rich Presence
+
 rich_presence_display("Region: {0} | Event Text Index: {1}",
     rich_presence_lookup("Region", region.GetValue(), region.Lookup),
     rich_presence_value("StateClear", playerObject.Base)

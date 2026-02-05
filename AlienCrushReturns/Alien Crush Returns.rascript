@@ -109,9 +109,9 @@ class Region {
     }
 
     Lookup = {
-        1: "US",
-        10: "EU",
-        100: "JP"
+        1: "👽",
+        10: "🛸",
+        100: "👾"
     }
 }
 region = Region()
@@ -170,9 +170,23 @@ class Settings {
     Mode = utilities.GetRegionalAddress(0x2f2e54, RegionalOffset, dword_be)
     Modes = Modes()
 
+    ModeLookup = {
+        0x00: "Story Mode",
+        0x01: "Arcade Mode",
+        0x02: "Versus Mode"
+    }
+
     StoryModeStage = utilities.GetRegionalAddress(0x2f2e5c, RegionalOffset, dword_be)
     ArcadeModeStage = utilities.GetRegionalAddress(0x2f2e60, RegionalOffset, dword_be)
     Stages = Stages()
+
+    StageLookup = {
+        0x00: "Stage 1",
+        0x01: "Stage 2",
+        0x02: "Boss Stage 1",
+        0x03: "Stage 3",
+        0x04: "Boss Stage 2"
+    }
 
     Difficulty = utilities.GetRegionalAddress(0x2f719c, RegionalOffset, dword_be)
     Difficulties = Difficulties()
@@ -640,6 +654,10 @@ class AchievementHelpers {
         return (this.IsInGameByRegion(region.US) || this.IsInGameByRegion(region.EU) || this.IsInGameByRegion(region.JP))
     }
 
+    function NotInGameAnyRegion() {
+        return (this.NotInGameByRegion(region.US) || this.NotInGameByRegion(region.EU) || this.NotInGameByRegion(region.JP))
+    }
+
     function IsInBonus() {
         return gameState.ID == gameState.States.Bonus
     }
@@ -697,13 +715,6 @@ class AchievementTriggers {
                 helpers.GainedRegionalPointAmount(region.JP, points)
             )
     }
-
-    /*function StoryStageClearedWithoutLosingBall(stage) {
-        return this.StoryStageClearedOnDifficulty(stage, settings.Difficulties.Normal, true) &&
-            disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.US)) &&
-            disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.EU)) &&
-            disable_when(settings.StoryModeStage == stage && helpers.RegionalPlayerLostBall(region.JP))
-    }*/
 
     function StoryStageClearedWithoutLosingBall(stage) {
         return this.StoryStageClearedOnDifficulty(stage, settings.Difficulties.Normal, true) &&
@@ -914,7 +925,7 @@ class LeaderboardTriggers {
             gameState.ScreenID == gameState.ScreenIDs.GameOver.Start
     }
 
-    function GetValue() {
+    function GetScore() {
         usPlayerData = playerObject.GetRegionalData(region.US)
         euPlayerData = playerObject.GetRegionalData(region.EU)
         jpPlayerData = playerObject.GetRegionalData(region.JP)
@@ -932,47 +943,77 @@ leaderboard("Story Mode - Easy Score Attack", "While playing Story Mode on Easy,
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Easy),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetValue()
+    value = leaderboardTriggers.GetScore()
 )
 
 leaderboard("Story Mode - Normal Score Attack", "While playing Story Mode on Normal, get the highest score possible before getting a game over or beating the game",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Normal),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetValue()
+    value = leaderboardTriggers.GetScore()
 )
 
 leaderboard("Story Mode - Hard Score Attack", "While playing Story Mode on Hard, get the highest score possible before getting a game over or beating the game",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Hard),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetValue()
+    value = leaderboardTriggers.GetScore()
 )
 
 leaderboard("Arcade Mode - Stage 1 Score Attack", "While playing Stage 1 on Arcade Mode, get the highest score possible before getting a game over",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.One),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetValue()
+    value = leaderboardTriggers.GetScore()
 )
 
 leaderboard("Arcade Mode - Stage 2 Score Attack", "While playing Stage 2 on Arcade Mode, get the highest score possible before getting a game over",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.Two),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetValue()
+    value = leaderboardTriggers.GetScore()
 )
 
 leaderboard("Arcade Mode - Stage 3 Score Attack", "While playing Stage 3 on Arcade Mode, get the highest score possible before getting a game over",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.Three),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetValue()
+    value = leaderboardTriggers.GetScore()
 )
 
 // Rich Presence
 
-rich_presence_display("Region: {0} | Event Text Index: {1}",
-    rich_presence_lookup("Region", region.GetValue(), region.Lookup),
-    rich_presence_value("StateClear", playerObject.Base)
+class RichPresenceHelpers {
+    function GetBalls() {
+        usPlayerData = playerObject.GetRegionalData(region.US)
+        euPlayerData = playerObject.GetRegionalData(region.EU)
+        jpPlayerData = playerObject.GetRegionalData(region.JP)
+
+        return max_of (
+            measured(usPlayerData.Balls, region.IsRegion(region.US)),
+            measured(euPlayerData.Balls, region.IsRegion(region.EU)),
+            measured(jpPlayerData.Balls, region.IsRegion(region.JP))
+        )
+    }
+
+    function GetStage() {
+        return max_of(measured(settings.StoryModeStage, settings.Mode == settings.Modes.Story), measured(settings.ArcadeModeStage, settings.Mode == settings.Modes.Arcade))
+    }
+}
+richPresenceHelpers = RichPresenceHelpers()
+
+rich_presence_conditional_display(helpers.NotInGameAnyRegion(), "{0} Preparing for the Alien Invasion",
+    rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️")
+)
+
+rich_presence_conditional_display(helpers.IsInGameAnyRegion(), "{0} Fighting the Alien Invaders on {1} | {2} | ⚪ x {3} | 🔔 {4}",
+    rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️"),
+    rich_presence_lookup("Mode", settings.Mode, settings.ModeLookup),
+    rich_presence_lookup("Stage", richPresenceHelpers.GetStage(), settings.StageLookup),
+    rich_presence_value("Balls", richPresenceHelpers.GetBalls()),
+    rich_presence_value("Score", leaderboardTriggers.GetScore())
+)
+
+rich_presence_display("{0} Playing Alien Crush Returns",
+    rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️")
 )

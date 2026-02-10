@@ -753,151 +753,151 @@ triggers = AchievementTriggers()
 
 // Stage 1 Progression
 
-achievement("Not Rocket Science", "While playing Story Mode, clear Stage 1 on Easy difficulty or higher", points = 1, id = 580766,
+achievement("Not Rocket Science", "In Story Mode, clear Stage 1 on Easy difficulty or higher", points = 1, id = 580766,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Easy)
 )
-achievement("The Sky's The Limit", "While playing Story Mode, clear Stage 1 on Normal difficulty or higher", type = "progression", points = 3, id = 580767,
+achievement("The Sky's the Limit", "In Story Mode, clear Stage 1 on Normal difficulty or higher", type = "progression", points = 3, id = 580767,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Normal)
 )
-achievement("Over the Moon", "While playing Story Mode, clear Stage 1 on Hard difficulty", points = 5, id = 580768,
+achievement("Over the Moon", "In Story Mode, clear Stage 1 on Hard difficulty", points = 5, id = 580768,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard)
 )
 
 // Stage 1 Challenges
 
-achievement("A Rising Star", "While playing Story Mode, clear Stage 1 without losing a ball on Normal difficulty or higher", points = 5, id = 580769,
+achievement("A Rising Star", "In Story Mode, clear Stage 1 without losing a ball on Normal difficulty or higher", points = 5, id = 580769,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.One)
 )
-achievement("Space Balls", "While Story or Arcade Mode, activate a Multi Ball on Stage 1", points = 4, id = 580770,
+achievement("Space Balls", "In Story or Arcade Mode, activate a Multi Ball on Stage 1", points = 4, id = 580770,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.One)
 )
-achievement("To Infinity", "While Story or Arcade Mode, activate a Rate UP bonus on Stage 1", points = 4,  id = 580771,
+achievement("To Infinity", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 1", points = 4,  id = 580771,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.One)
 )
-achievement("Bugging Out", "While Story or Arcade Mode, enter the Bonus Room on Stage 1 and defeat the Scorpion Alien", points = 10, id = 580772,
+achievement("Bugging Out", "In Story or Arcade Mode, enter the Bonus Room on Stage 1 and defeat the Scorpion Alien", points = 10, id = 580772,
     trigger = triggers.DefeatedBonusBoss(settings.Stages.One)
 )
 
 // Stage 2 Progression
 
-achievement("Down To Earth", "While playing Story Mode, clear Stage 2 on Easy difficulty or higher", points = 1, id = 580773,
+achievement("Down to Earth", "In Story Mode, clear Stage 2 on Easy difficulty or higher", points = 1, id = 580773,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Easy)
 )
-achievement("Well Oiled Machine", "While playing Story Mode, clear Stage 2 on Normal difficulty or higher", type = "progression", points = 3, id = 580774,
+achievement("Well Oiled Machine", "In Story Mode, clear Stage 2 on Normal difficulty or higher", type = "progression", points = 3, id = 580774,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Normal)
 )
-achievement("Light Years Ahead", "While playing Story Mode, clear Stage 2 on Hard difficulty", points = 5, id = 580775,
+achievement("Light Years Ahead", "In Story Mode, clear Stage 2 on Hard difficulty", points = 5, id = 580775,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Hard)
 )
 
 // Stage 2 Challenges
 
-achievement("No Soldier Left Behind", "While playing Story Mode, clear Stage 2 without losing a ball on Normal difficulty or higher", points = 5, id = 580776,
+achievement("No Soldier Left Behind", "In Story Mode, clear Stage 2 without losing a ball on Normal difficulty or higher", points = 5, id = 580776,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Two)
 )
-achievement("A Whole New Ball Game", "While Story or Arcade Mode, activate a Multi Ball on Stage 2", points = 4, id = 580777,
+achievement("A Whole New Ball Game", "In Story or Arcade Mode, activate a Multi Ball on Stage 2", points = 4, id = 580777,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Two)
 )
-achievement("Stacks on Stacks", "While Story or Arcade Mode, activate a Rate UP bonus on Stage 2", points = 4, id = 580778,
+achievement("Stacks on Stacks", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 2", points = 4, id = 580778,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.Two)
 )
-achievement("Clean Plate Club", "While Story or Arcade Mode, activate a Wiped Out bonus on Stage 2", points = 4, id = 580779,
+achievement("Clean Plate Club", "In Story or Arcade Mode, activate a Wiped Out bonus on Stage 2", points = 4, id = 580779,
     trigger = triggers.TriggeredStageWipedOut(settings.Stages.Two)
 )
-achievement("Fire Bug", "While Story or Arcade Mode, enter the Bonus Room on Stage 2 and defeat the Scorpion Alien", points = 10, id = 580780,
+achievement("Fire Bug", "In Story or Arcade Mode, enter the Bonus Room on Stage 2 and defeat the Scorpion Alien", points = 10, id = 580780,
     trigger = triggers.DefeatedBonusBoss(settings.Stages.Two)
 )
 
 // Boss Stage 1 Progression
 
-achievement("Cosmic Sweep", "While playing Story Mode, clear Boss Stage 1 on Easy difficulty or higher", points = 1, id = 580781,
+achievement("Cosmic Sweep", "In Story Mode, clear Boss Stage 1 on Easy difficulty or higher", points = 1, id = 580781,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Easy)
 )
-achievement("Interstellar Upset", "While playing Story Mode, clear Boss Stage 1 on Normal difficulty or higher", type = "progression", points = 3, id = 580782,
+achievement("Interstellar Upset", "In Story Mode, clear Boss Stage 1 on Normal difficulty or higher", type = "progression", points = 3, id = 580782,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Normal)
 )
-achievement("Deep Space Defeat", "While playing Story Mode, clear Boss Stage 1 on Hard difficulty", points = 5, id = 580783,
+achievement("Deep Space Defeat", "In Story Mode, clear Boss Stage 1 on Hard difficulty", points = 5, id = 580783,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Hard)
 )
 
 // Boss Stage 1 Challenges
 
-achievement("Luminary Laurels", "While playing Story Mode, clear Boss Stage 1 without losing a ball on Normal difficulty or higher", points = 5, id = 580784,
+achievement("Luminary Laurels", "In Story Mode, clear Boss Stage 1 without losing a ball on Normal difficulty or higher", points = 5, id = 580784,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossOne)
 )
 
 // Stage 3 Progression
 
-achievement("Safe Space", "While playing Story Mode, clear Stage 3 on Easy difficulty or higher", points = 1, id = 580785,
+achievement("Safe Space", "In Story Mode, clear Stage 3 on Easy difficulty or higher", points = 1, id = 580785,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Easy)
 )
-achievement("Written in the Stars", "While playing Story Mode, clear Stage 3 on Normal difficulty or higher", type = "progression", points = 3, id = 580786,
+achievement("Written in the Stars", "In Story Mode, clear Stage 3 on Normal difficulty or higher", type = "progression", points = 3, id = 580786,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Normal)
 )
-achievement("Blood Moon", "While playing Story Mode, clear Stage 3 on Hard difficulty", points = 5, id = 580787,
+achievement("Blood Moon", "In Story Mode, clear Stage 3 on Hard difficulty", points = 5, id = 580787,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Hard)
 )
 
 // Stage 3 Challenges
 
-achievement("Supernova Success", "While playing Story Mode, clear Stage 3 without losing a ball on Normal difficulty or higher", points = 5, id = 580788,
+achievement("Supernova Success", "In Story Mode, clear Stage 3 without losing a ball on Normal difficulty or higher", points = 5, id = 580788,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Three)
 )
-achievement("Belle of the Balls", "While Story or Arcade Mode, activate a Multi Ball on Stage 3", points = 4, id = 580789,
+achievement("Belle of the Balls", "In Story or Arcade Mode, activate a Multi Ball on Stage 3", points = 4, id = 580789,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Three)
 )
-achievement("On Tilt", "While Story or Arcade Mode, activate a Rate UP bonus on Stage 3", points = 4, id = 580790,
+achievement("On Tilt", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 3", points = 4, id = 580790,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.Three)
 )
-achievement("Flipping Hell", "While Story or Arcade Mode, activate an Up Post bonus on Stage 3", points = 4, id = 580791,
+achievement("Flipping Hell", "In Story or Arcade Mode, activate an Up Post bonus on Stage 3", points = 4, id = 580791,
     trigger = triggers.TriggeredStageUpPost(settings.Stages.Three)
 )
-achievement("Catch the Bug", "While Story or Arcade Mode, enter the Bonus Room on Stage 3 and defeat the Scorpion Alien", points = 10, id = 580792,
+achievement("Catch the Bug", "In Story or Arcade Mode, enter the Bonus Room on Stage 3 and defeat the Scorpion Alien", points = 10, id = 580792,
     trigger = triggers.DefeatedBonusBoss(settings.Stages.Three)
 )
 
 // Boss Stage 2 Progression
 
-achievement("Celestial Supremacy", "While playing Story Mode, clear Boss Stage 2 on Easy difficulty or higher", points = 1, id = 580793,
+achievement("Celestial Supremacy", "In Story Mode, clear Boss Stage 2 on Easy difficulty or higher", points = 1, id = 580793,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Easy)
 )
-achievement("Infinite Upper Hand", "While playing Story Mode, clear Boss Stage 2 on Normal difficulty or higher", type = "win_condition", points = 3, id = 580794,
+achievement("Infinite Upper Hand", "In Story Mode, clear Boss Stage 2 on Normal difficulty or higher", type = "win_condition", points = 3, id = 580794,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Normal)
 )
-achievement("Galactic Domination", "While playing Story Mode, clear Boss Stage 2 on Hard difficulty", points = 5, id = 580795,
+achievement("Galactic Domination", "In Story Mode, clear Boss Stage 2 on Hard difficulty", points = 5, id = 580795,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Hard)
 )
 
 // Boss Stage 2 Challenges
 
-achievement("Starlet Spoils", "While playing Story Mode, clear Boss Stage 2 without losing a ball on Normal difficulty or higher", points = 10, id = 580796,
+achievement("Starlet Spoils", "In Story Mode, clear Boss Stage 2 without losing a ball on Normal difficulty or higher", points = 10, id = 580796,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossTwo)
 )
-achievement("Ball Breaker", "While playing Story Mode, activate a Multi Ball on Boss Stage 2", points = 4, id = 580797,
+achievement("Ball Breaker", "In Story Mode, activate a Multi Ball on Boss Stage 2", points = 4, id = 580797,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossTwo)
 )
 
 // Story Mode Challenges
 
-achievement("Would You Like to Know More?", "While playing Story Mode, clear all stages with 30 million points or more on Normal difficulty or higher", points = 10, id = 580798,
+achievement("Would You Like to Know More?", "In Story Mode, clear all stages with 30 million points or more on Normal difficulty or higher", points = 10, id = 580798,
     trigger = triggers.ClearedGameWithHighscore(30000000)
 )
 
 // Arcade Mode Challenges
 
-achievement("The Heavens", "While playing Arcade Mode, score 10 million points or more on Stage 1", points = 10, id = 580799,
+achievement("The Heavens", "In Arcade Mode, score 10 million points or more on Stage 1", points = 10, id = 580799,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 10000000)
 )
-achievement("The Universe", "While playing Arcade Mode, score 10 million points or more on Stage 2", points = 10, id = 580800,
+achievement("The Universe", "In Arcade Mode, score 10 million points or more on Stage 2", points = 10, id = 580800,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 10000000)
 )
-achievement("The Void", "While playing Arcade Mode, score 10 million points or more on Stage 3", points = 10, id = 580801,
+achievement("The Void", "In Arcade Mode, score 10 million points or more on Stage 3", points = 10, id = 580801,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 10000000)
 )
 
 // General Challenges
 
-achievement("Once in a Blue Moon", "While playing Story or Arcade Mode, gain an Extra Ball", points = 4, id = 580802,
+achievement("Once in a Blue Moon", "In Story or Arcade Mode, gain an Extra Ball", points = 4, id = 580802,
     trigger = triggers.TriggeredExtraBall()
 )
 
@@ -939,42 +939,42 @@ class LeaderboardTriggers {
 }
 leaderboardTriggers = LeaderboardTriggers()
 
-leaderboard("Story Mode - Easy Score Attack", "While playing Story Mode on Easy, get the highest score possible before getting a game over or beating the game",
+leaderboard("Story Mode - Easy Score Attack", "Get the highest score possible in Story Mode on Easy",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Easy),
     cancel = always_false(),
     submit = always_true(),
     value = leaderboardTriggers.GetScore()
 )
 
-leaderboard("Story Mode - Normal Score Attack", "While playing Story Mode on Normal, get the highest score possible before getting a game over or beating the game",
+leaderboard("Story Mode - Normal Score Attack", "Get the highest score possible in Story Mode on Normal",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Normal),
     cancel = always_false(),
     submit = always_true(),
     value = leaderboardTriggers.GetScore()
 )
 
-leaderboard("Story Mode - Hard Score Attack", "While playing Story Mode on Hard, get the highest score possible before getting a game over or beating the game",
+leaderboard("Story Mode - Hard Score Attack", "Get the highest score possible in Story Mode on Hard",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Hard),
     cancel = always_false(),
     submit = always_true(),
     value = leaderboardTriggers.GetScore()
 )
 
-leaderboard("Arcade Mode - Stage 1 Score Attack", "While playing Stage 1 on Arcade Mode, get the highest score possible before getting a game over",
+leaderboard("Arcade Mode - Stage 1 Score Attack", "Get the highest score possible in Stage 1 in Arcade Mode",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.One),
     cancel = always_false(),
     submit = always_true(),
     value = leaderboardTriggers.GetScore()
 )
 
-leaderboard("Arcade Mode - Stage 2 Score Attack", "While playing Stage 2 on Arcade Mode, get the highest score possible before getting a game over",
+leaderboard("Arcade Mode - Stage 2 Score Attack", "Get the highest score possible in Stage 2 in Arcade Mode",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.Two),
     cancel = always_false(),
     submit = always_true(),
     value = leaderboardTriggers.GetScore()
 )
 
-leaderboard("Arcade Mode - Stage 3 Score Attack", "While playing Stage 3 on Arcade Mode, get the highest score possible before getting a game over",
+leaderboard("Arcade Mode - Stage 3 Score Attack", "Get the highest score possible in Stage 3 in Arcade Mode",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.Three),
     cancel = always_false(),
     submit = always_true(),

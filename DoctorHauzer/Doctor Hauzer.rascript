@@ -11,7 +11,7 @@ class Region {
 region = Region()
 
 class Rooms {
-    Room = byte(0xa2078)
+    Room = dword(0xa2078)
     Lookup = {
         0x00: "Title", 0x01: "Entrance", 0x02: "Main Hall", 0x03: "F1 Big Hallway",
         0x04: "F1 Hallway", 0x05: "Guest Room", 0x06: "F1 Bed Room", 0x07: "F1 Living Room",
@@ -91,14 +91,17 @@ class Rooms {
         0xF0: "Room_0xF0", 0xF1: "Room_0xF1", 0xF2: "Room_0xF2", 0xF3: "Room_0xF3",
         0xF4: "Room_0xF4", 0xF5: "Room_0xF5", 0xF6: "Room_0xF6", 0xF7: "Room_0xF7",
         0xF8: "Room_0xF8", 0xF9: "Room_0xF9", 0xFA: "Room_0xFA", 0xFB: "Room_0xFB",
-        0xFC: "Room_0xFC", 0xFD: "Room_0xFD", 0xFE: "Room_0xFE", 0xFF: "Room_0xFF"
+        0xFC: "Room_0xFC", 0xFD: "Room_0xFD", 0xFE: "Room_0xFE", 0xFF: "Room_0xFF",
+
+        0x12D: "Cave Entrance", 0x12E: "Dungeon", 0x12F: "Underground Ruins",
+        0x130: "Cavern", 0x131: "Ruin Entrance"
     }
 }
 rooms = Rooms()
 
 rich_presence_conditional_display(region.Code != 0, "{0} | Room: {1}",
     rich_presence_lookup("Region", region.Code, region.Lookup, "Loading..."),
-    rich_presence_lookup("Room", rooms.Room, rooms.Lookup)
+    rich_presence_lookup("Room", rooms.Room, rooms.Lookup, "Not Found")
 )
 
 rich_presence_display("Playing Doctor Hauzer!")

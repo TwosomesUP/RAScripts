@@ -4,100 +4,296 @@
 class Region {
     Code = dword(0x4)
     Lookup = {
-        0xea0045ae: "US",
-        0xea0040a0: "JP"
+        0xea0045ae: "Translated Version",
+        0xea0040a0: "Original Version"
     }
 }
 region = Region()
 
+class States {
+    InGame = 0x7f670010
+    Cutscene = 0xf8374
+    Ending = 0x4f204920
+}
+
+class State {
+    Code = dword(0x12aaf0)
+    States = States()
+}
+state = State()
+
+class Options {
+    Demo = 0x00
+    Opening = 0x01
+    NewGame = 0x02
+    Continue = 0x03
+    Controls = 0x04
+}
+
+class Option {
+    Code = dword(0xa3ed4)
+    Options = Options()
+}
+option = Option()
+
 class Rooms {
     Room = dword(0xa2078)
     Lookup = {
-        0x00: "Title", 0x01: "Entrance", 0x02: "Main Hall", 0x03: "F1 Big Hallway",
-        0x04: "F1 Hallway", 0x05: "Guest Room", 0x06: "F1 Bed Room", 0x07: "F1 Living Room",
-        0x08: "Dining Room", 0x09: "Bath", 0x0A: "Pantry", 0x0B: "Kitchen",
-        0x0C: "Study", 0x0D: "Room_0x0D", 0x0E: "Room_0x0E", 0x0F: "Room_0x0F",
-
-        0x10: "Room_0x10", 0x11: "Room_0x11", 0x12: "Room_0x12", 0x13: "Room_0x13",
-        0x14: "Room_0x14", 0x15: "Room_0x15", 0x16: "Room_0x16", 0x17: "Room_0x17",
-        0x18: "Room_0x18", 0x19: "Room_0x19", 0x1A: "Room_0x1A", 0x1B: "Room_0x1B",
-        0x1C: "Room_0x1C", 0x1D: "Room_0x1D", 0x1E: "Room_0x1E", 0x1F: "Room_0x1F",
-
-        0x20: "Room_0x20", 0x21: "Room_0x21", 0x22: "Room_0x22", 0x23: "Room_0x23",
-        0x24: "Room_0x24", 0x25: "Room_0x25", 0x26: "Room_0x26", 0x27: "Room_0x27",
-        0x28: "Room_0x28", 0x29: "Room_0x29", 0x2A: "Room_0x2A", 0x2B: "Room_0x2B",
-        0x2C: "Room_0x2C", 0x2D: "Room_0x2D", 0x2E: "Room_0x2E", 0x2F: "Room_0x2F",
-
-        0x30: "Room_0x30", 0x31: "Room_0x31", 0x32: "Room_0x32", 0x33: "Room_0x33",
-        0x34: "Room_0x34", 0x35: "Room_0x35", 0x36: "Room_0x36", 0x37: "Room_0x37",
-        0x38: "Room_0x38", 0x39: "Room_0x39", 0x3A: "Room_0x3A", 0x3B: "Room_0x3B",
-        0x3C: "Room_0x3C", 0x3D: "Room_0x3D", 0x3E: "Room_0x3E", 0x3F: "Room_0x3F",
-
-        0x40: "Room_0x40", 0x41: "Room_0x41", 0x42: "Room_0x42", 0x43: "Room_0x43",
-        0x44: "Room_0x44", 0x45: "Room_0x45", 0x46: "Room_0x46", 0x47: "Room_0x47",
-        0x48: "Room_0x48", 0x49: "Room_0x49", 0x4A: "Room_0x4A", 0x4B: "Room_0x4B",
-        0x4C: "Room_0x4C", 0x4D: "Room_0x4D", 0x4E: "Room_0x4E", 0x4F: "Room_0x4F",
-
-        0x50: "Room_0x50", 0x51: "Room_0x51", 0x52: "Room_0x52", 0x53: "Room_0x53",
-        0x54: "Room_0x54", 0x55: "Room_0x55", 0x56: "Room_0x56", 0x57: "Room_0x57",
-        0x58: "Room_0x58", 0x59: "Room_0x59", 0x5A: "Room_0x5A", 0x5B: "Room_0x5B",
-        0x5C: "Room_0x5C", 0x5D: "Room_0x5D", 0x5E: "Room_0x5E", 0x5F: "Room_0x5F",
-
-        0x60: "Room_0x60", 0x61: "Room_0x61", 0x62: "Room_0x62", 0x63: "Room_0x63",
-        0x64: "Room_0x64", 0x65: "Room_0x65", 0x66: "Room_0x66", 0x67: "Room_0x67",
-        0x68: "Room_0x68", 0x69: "Room_0x69", 0x6A: "Room_0x6A", 0x6B: "Room_0x6B",
-        0x6C: "Room_0x6C", 0x6D: "Room_0x6D", 0x6E: "Room_0x6E", 0x6F: "Room_0x6F",
-
-        0x70: "Room_0x70", 0x71: "Room_0x71", 0x72: "Room_0x72", 0x73: "Room_0x73",
-        0x74: "Room_0x74", 0x75: "Room_0x75", 0x76: "Room_0x76", 0x77: "Room_0x77",
-        0x78: "Room_0x78", 0x79: "Room_0x79", 0x7A: "Room_0x7A", 0x7B: "Room_0x7B",
-        0x7C: "Room_0x7C", 0x7D: "Room_0x7D", 0x7E: "Room_0x7E", 0x7F: "Room_0x7F",
-
-        0x80: "Room_0x80", 0x81: "Room_0x81", 0x82: "Room_0x82", 0x83: "Room_0x83",
-        0x84: "Room_0x84", 0x85: "Room_0x85", 0x86: "Room_0x86", 0x87: "Room_0x87",
-        0x88: "Room_0x88", 0x89: "Room_0x89", 0x8A: "Room_0x8A", 0x8B: "Room_0x8B",
-        0x8C: "Room_0x8C", 0x8D: "Room_0x8D", 0x8E: "Room_0x8E", 0x8F: "Room_0x8F",
-
-        0x90: "Room_0x90", 0x91: "Room_0x91", 0x92: "Room_0x92", 0x93: "Room_0x93",
-        0x94: "Room_0x94", 0x95: "Room_0x95", 0x96: "Room_0x96", 0x97: "Room_0x97",
-        0x98: "Room_0x98", 0x99: "Room_0x99", 0x9A: "Room_0x9A", 0x9B: "Room_0x9B",
-        0x9C: "Room_0x9C", 0x9D: "Room_0x9D", 0x9E: "Room_0x9E", 0x9F: "Room_0x9F",
-
-        0xA0: "Room_0xA0", 0xA1: "Room_0xA1", 0xA2: "Room_0xA2", 0xA3: "Room_0xA3",
-        0xA4: "Room_0xA4", 0xA5: "Room_0xA5", 0xA6: "Room_0xA6", 0xA7: "Room_0xA7",
-        0xA8: "Room_0xA8", 0xA9: "Room_0xA9", 0xAA: "Room_0xAA", 0xAB: "Room_0xAB",
-        0xAC: "Room_0xAC", 0xAD: "Room_0xAD", 0xAE: "Room_0xAE", 0xAF: "Room_0xAF",
-
-        0xB0: "Room_0xB0", 0xB1: "Room_0xB1", 0xB2: "Room_0xB2", 0xB3: "Room_0xB3",
-        0xB4: "Room_0xB4", 0xB5: "Room_0xB5", 0xB6: "Room_0xB6", 0xB7: "Room_0xB7",
-        0xB8: "Room_0xB8", 0xB9: "Room_0xB9", 0xBA: "Room_0xBA", 0xBB: "Room_0xBB",
-        0xBC: "Room_0xBC", 0xBD: "Room_0xBD", 0xBE: "Room_0xBE", 0xBF: "Room_0xBF",
-
-        0xC0: "Room_0xC0", 0xC1: "Room_0xC1", 0xC2: "Room_0xC2", 0xC3: "Room_0xC3",
-        0xC4: "Room_0xC4", 0xC5: "Room_0xC5", 0xC6: "Room_0xC6", 0xC7: "Room_0xC7",
-        0xC8: "Room_0xC8", 0xC9: "F2 Bedroom", 0xCA: "Changing Room", 0xCB: "Laboratory",
-        0xCC: "F2 Living Room", 0xCD: "Dance Room", 0xCE: "Hidden Room", 0xCF: "Art Gallery",
-
-        0xD0: "Reference Room", 0xD1: "Storehouse", 0xD2: "F2 Hallway", 0xD3: "F2 Big Hallway",
-        0xD4: "Hidden Passage", 0xD5: "Stairwell", 0xD6: "Room_0xD6", 0xD7: "Cabinet",
-        0xD8: "Hidden Ladder", 0xD9: "Room_0xD9", 0xDA: "Room_0xDA", 0xDB: "Room_0xDB",
-        0xDC: "Room_0xDC", 0xDD: "Room_0xDD", 0xDE: "Room_0xDE", 0xDF: "Room_0xDF",
-
-        0xE0: "Room_0xE0", 0xE1: "Room_0xE1", 0xE2: "Room_0xE2", 0xE3: "Room_0xE3",
-        0xE4: "Room_0xE4", 0xE5: "Room_0xE5", 0xE6: "Room_0xE6", 0xE7: "Room_0xE7",
-        0xE8: "Room_0xE8", 0xE9: "Room_0xE9", 0xEA: "Room_0xEA", 0xEB: "Room_0xEB",
-        0xEC: "Room_0xEC", 0xED: "Room_0xED", 0xEE: "Room_0xEE", 0xEF: "Room_0xEF",
-
-        0xF0: "Room_0xF0", 0xF1: "Room_0xF1", 0xF2: "Room_0xF2", 0xF3: "Room_0xF3",
-        0xF4: "Room_0xF4", 0xF5: "Room_0xF5", 0xF6: "Room_0xF6", 0xF7: "Room_0xF7",
-        0xF8: "Room_0xF8", 0xF9: "Room_0xF9", 0xFA: "Room_0xFA", 0xFB: "Room_0xFB",
-        0xFC: "Room_0xFC", 0xFD: "Room_0xFD", 0xFE: "Room_0xFE", 0xFF: "Room_0xFF",
-
-        0x12D: "Cave Entrance", 0x12E: "Dungeon", 0x12F: "Underground Ruins",
-        0x130: "Cavern", 0x131: "Ruin Entrance"
+        0x00: "Title", 
+        0x01: "Entrance", 
+        0x02: "Main Hall", 
+        0x03: "F1 Big Hallway",
+        0x04: "F1 Hallway", 
+        0x05: "Guest Room", 
+        0x06: "F1 Bed Room", 
+        0x07: "F1 Living Room",
+        0x08: "Dining Room", 
+        0x09: "Bath", 
+        0x0A: "Pantry", 
+        0x0B: "Kitchen",
+        0x0C: "Study",
+        0xC9: "F2 Bedroom", 
+        0xCA: "Changing Room", 
+        0xCB: "Laboratory",
+        0xCC: "F2 Living Room",
+        0xCD: "Dance Room", 
+        0xCE: "Hidden Room", 
+        0xCF: "Art Gallery",
+        0xD0: "Reference Room", 
+        0xD1: "Storehouse", 
+        0xD2: "F2 Hallway", 
+        0xD3: "F2 Big Hallway",
+        0xD4: "Hidden Passage", 
+        0xD5: "Stairwell", 
+        0xD7: "Cabinet",
+        0xD8: "Hidden Ladder",
+        0x12D: "Cave Entrance", 
+        0x12E: "Dungeon", 
+        0x12F: "Underground Ruins",
+        0x130: "Cavern", 
+        0x131: "Ruin Entrance"
     }
 }
 rooms = Rooms()
+
+class UndergroundRuinEvents {
+    UsedWifePainting = dword(0xad30c)
+    BossHitsTaken = dword(0xad310) // 10 = Dead
+}
+
+class CaveEntranceEvents {
+    Cutscene = dword(0xad578)
+}
+
+class EntranceEvents {
+    ChandelierTimer = dword(0xad494)
+    Intro = dword(0xad560)
+    ChandelierTrap = dword(0xad624) // 1 = Triggered
+}
+
+class MainHallEvents {
+    IronKey = dword(0xad49c) // 1 = Obtained, 2 = Unlocked F1 Hallway
+    Cutscene = dword(0xad598)
+    HauzerPainting = dword(0xad600) // 1 = Examined
+    HauzerWifePainting = dword(0xad608) // 1 = Examined
+}
+
+class F1BedroomEvents {
+    RustedKey = dword(0xad4a0) // 1 = Obtained, 2 = Unlocked F1 Living Room
+    HauzerDiary1 = dword(0xad4c4)
+    F1RoughMap = dword(0xad4dc)
+}
+
+class F1BigHallwayEvents {
+    Switch = dword(0xad538)
+}
+
+class F2BigHallwayEvents {
+    StrangePainting = dword(0xad594) // 1 = Examined
+}
+
+class BathroomEvents {
+    RightFaucet = dword(0xad53c) // 1 = Unlock Door
+    LeftFaucet = dword(0xad56c) // Triggers Trap. When it reaches 100 it will kill the player.
+}
+
+class ReferenceRoomEvents {
+    F2RoughMap = dword(0xad4e0)
+    MansionPainting = dword(0xad558) // 1-3 = Examined, 4 = Cut with Knife, 5 = Obtained F2 Rough Map
+    Cutscene = dword(0xad57c)
+}
+
+class F1HallwayEvents {
+    BoulderTrap = dword(0xad604) // 1 = Triggered, 2 = Escaped
+}
+
+class F2HallwayEvents {
+    CopperKey = dword(0xad4a4) // 1 = Obtained, 2 = Unlocked Dance Room
+    WorkerMemo = dword(0xad4d8)
+}
+
+class DanceRoomEvents {
+    WoodenKey = dword(0xad4a8) // 1 = Obtained, 2 = Unlocked F2 Big Hallway
+    BladeTrapTimer = dword(0xad55c)
+}
+
+class StudyEvents {
+    BronzeKey = dword(0xad4ac) // 1 = Obtained, 2 = Unlocked Storehouse
+    HauzerDiary2 = dword(0xad4c8)
+    LithographMemo = dword(0xad4d4)
+    Dictionary = dword(0xad4e4)
+    LeatherBook = dword(0xad4e8)
+    VentCover = dword(0xad50c)
+}
+
+class StorehouseEvents {
+    Lighter = dword(0xad510) // 1 = Obtained, 2 = Lit Dynamite in Cavern, 3 = Dynamite Exploded
+    Crowbar = dword(0xad514) // 1 = Obtained, 2 = Revealed Hidden Passage, 4 = Prying Open Hidden Passage
+    Shotgun = dword(0xad518) // 1 = Obtained, 2 = Break Glass in Hidden Room
+}
+
+class CavernEvents {
+    DynamiteTimer = dword(0xad588)
+    RailCar = dword(0xad59c)
+}
+
+class CabinetEvents {
+    Dynamite = dword(0xad51c) // 1 = Obtained, 2 = Placed in Cavern
+}
+
+class F1LivingRoomEvents {
+    Dresser = dword(0xad570)
+    Table = dword(0xad58c) // 1 = Flipped Floor Switch
+}
+
+class F2LivingRoomEvents {
+    PhotoOfWife = dword(0xad520)
+    Fireplace = dword(0xad54c)
+}
+
+class ArtGalleryEvents {
+    Paintings = dword(0xad554) // 1-7 = Triggered Puzzle Step, 8 = Solved Puzzle
+    WallTrap = dword(0xad574) // 1 = Triggered
+}
+
+class HiddenPassageEvents {
+    Light = dword(0xad590)  // 1 = Used Candlestick, 2 = Lit Candlestick with Lighter
+}
+
+class HiddenRoomEvents {
+    HauzerDiary3 = dword(0xad4cc)
+}
+
+class ArtGalleryEvents {
+    PatinatedKey = dword(0xad4b0) // 1 = Obtained, 2 = Unlocked Reference Room
+}
+
+class LaboratoryEvents {
+    GoldKey = dword(0xad4b4) // 1 = Obtained, 2 = Unlocked Changing Room
+    HauzerDiary4 = dword(0xad4d0)
+}
+
+class PantryEvents {
+    BrassKey = dword(0xad4b8) // 1 = Obtained, 2 = Unlocked Dining Room
+    OilCan = dword(0xad4f4)
+    Knife = dword(0xad4f8)
+}
+
+class DiningRoomEvents {
+    Lithograph = dword(0xad4fc)
+    Candlestick = dword(0xad500)
+}
+
+class KitchenEvents {
+    Axe = dword(0xad504) // 1 = Obtained, 2 = Placed in rack in F2 Bedroom
+    Table = dword(0xad540) // 1 = Falls in Pit, 2 = Creates Bridge over Pit
+}
+
+class ChangingRoom {
+    F2BedroomClockDart = dword(0xad548) // 1 = Triggered, 2 = Disarmed
+    Cabinet = dword(0xad564) // 1 = Found Something, 2 = It's a Switch
+}
+
+class GuestRoomEvents {
+    SilverKey = dword(0xad4bc) // 1 = Obtained, 2 = Unlocked Reference Room Cabinet
+    DryFlower = dword(0xad4ec) // 1 = Obtained, 2 = Placed in Vase
+    VaseDeathScene = dword(0xad4f0)
+}
+
+class DungeonEvents {
+    BoneKey = dword(0xad4c0) // 1 = Obtained, 2 = Unlocked Underground Ruins
+}
+
+class Events {
+    Entrance = EntranceEvents()
+    MainHall = MainHallEvents()
+    F1BigHallway = F1BigHallwayEvents()
+    F1Hallway = F1HallwayEvents()
+    GuestRoom = GuestRoomEvents()
+    F1Bedroom = F1BedroomEvents()
+    F1LivingRoom = F1LivingRoomEvents()
+    DiningRoom = DiningRoomEvents()
+    Bath = BathroomEvents()
+    Pantry = PantryEvents()
+    Kitchen = KitchenEvents()
+    Study = StudyEvents()
+    F2Bedroom = F2BedroomEvents()
+    ChangingRoom = ChangingRoom()
+    Laboratory = LaboratoryEvents()
+    F2LivingRoom = F2LivingRoomEvents()
+    DanceRoom = DanceRoomEvents()
+    HiddenRoom = HiddenRoomEvents()
+    ArtGallery = ArtGalleryEvents()
+    ReferenceRoom = ReferenceRoomEvents()
+    Storehouse = StorehouseEvents()
+    F2Hallway = F2HallwayEvents()
+    F2BigHallway = F2BigHallwayEvents()
+    HiddenPassage = HiddenPassageEvents()
+    Cabinet = CabinetEvents()
+    CaveEntrance = CaveEntranceEvents()
+    Dungeon = DungeonEvents()
+    UndergroundRuins = UndergroundRuinEvents()
+    Cavern = CavernEvents()
+
+    Keys = [
+        MainHall.IronKey,
+        F1Bedroom.RustedKey,
+        F2Hallway.CopperKey,
+        DanceRoom.WoodenKey,
+        Study.BronzeKey,
+        ArtGallery.PatinatedKey,
+        Laboratory.GoldKey,
+        Pantry.BrassKey,
+        GuestRoom.SilverKey,
+        Dungeon.BoneKey
+    ]
+
+    BookAndMemos = [
+        F1Bedroom.HauzerDiary1,
+        Study.HauzerDiary2,
+        HiddenRoom.HauzerDiary3,
+        Laboratory.HauzerDiary4,
+        F2Hallway.WorkerMemo,
+        Study.LithographMemo,
+        Study.Dictionary,
+        Study.LeatherBook
+    ]
+
+    Maps = [
+        F1Bedroom.F1RoughMap,
+        ReferenceRoom.F2RoughMap
+    ]
+
+    WeaponsAndTools = [
+        Storehouse.Lighter,
+        Storehouse.Crowbar,
+        Storehouse.Shotgun,
+        Pantry.OilCan,
+        Pantry.Knife,
+        Kitchen.Axe,
+        Cabinet.Dynamite
+    ]
+}
 
 rich_presence_conditional_display(region.Code != 0, "{0} | Room: {1}",
     rich_presence_lookup("Region", region.Code, region.Lookup, "Loading..."),

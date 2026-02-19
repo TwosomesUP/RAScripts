@@ -268,13 +268,13 @@ class Events {
         Dungeon.BoneKey
     ]
 
-    BookAndMemos = [
+    BooksAndMemos = [
         F1Bedroom.HauzerDiary1,
         Study.HauzerDiary2,
         HiddenRoom.HauzerDiary3,
         Laboratory.HauzerDiary4,
-        F2Hallway.WorkerMemo,
         Study.LithographMemo,
+        F2Hallway.WorkerMemo,
         Study.Dictionary,
         Study.LeatherBook
     ]
@@ -285,15 +285,25 @@ class Events {
     ]
 
     WeaponsAndTools = [
+        Pantry.Knife,
+        DiningRoom.Candlestick,
+        Kitchen.Axe,
         Storehouse.Lighter,
         Storehouse.Crowbar,
         Storehouse.Shotgun,
-        Pantry.OilCan,
-        Pantry.Knife,
-        Kitchen.Axe,
         Cabinet.Dynamite
     ]
+
+    Progression = [
+        
+    ]
+
+    VentCover = Study.VentCover
+    OilCan = Pantry.OilCan
+    Lithograph = DiningRoom.Lithograph
+    PhotoOfWife = F2LivingRoom.PhotoOfWife
 }
+events = Events()
 
 rich_presence_conditional_display(region.Code != 0, "{0} | Room: {1}",
     rich_presence_lookup("Region", region.Code, region.Lookup, "Loading..."),

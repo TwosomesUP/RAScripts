@@ -11,6 +11,7 @@ class Region {
 region = Region()
 
 class States {
+    Title = 0x01
     InGame = 0x7f670010
     Cutscene = 0xf8374
     Ending = 0x4f204920
@@ -22,7 +23,7 @@ class State {
 }
 state = State()
 
-class Options {
+class Modes {
     Demo = 0x00
     Opening = 0x01
     NewGame = 0x02
@@ -30,48 +31,96 @@ class Options {
     Controls = 0x04
 }
 
-class Option {
+class Mode {
     Code = dword(0xa3ed4)
-    Options = Options()
+    Modes = Modes()
 }
-option = Option()
+mode = Mode()
+
+class Room {
+    Name = ""
+    Value = 0
+}
 
 class Rooms {
-    Room = dword(0xa2078)
-    Lookup = {
-        0x00: "Title", 
-        0x01: "Entrance", 
-        0x02: "Main Hall", 
-        0x03: "F1 Big Hallway",
-        0x04: "F1 Hallway", 
-        0x05: "Guest Room", 
-        0x06: "F1 Bed Room", 
-        0x07: "F1 Living Room",
-        0x08: "Dining Room", 
-        0x09: "Bath", 
-        0x0A: "Pantry", 
-        0x0B: "Kitchen",
-        0x0C: "Study",
-        0xC9: "F2 Bedroom", 
-        0xCA: "Changing Room", 
-        0xCB: "Laboratory",
-        0xCC: "F2 Living Room",
-        0xCD: "Dance Room", 
-        0xCE: "Hidden Room", 
-        0xCF: "Art Gallery",
-        0xD0: "Reference Room", 
-        0xD1: "Storehouse", 
-        0xD2: "F2 Hallway", 
-        0xD3: "F2 Big Hallway",
-        0xD4: "Hidden Passage", 
-        0xD5: "Stairwell", 
-        0xD7: "Cabinet",
-        0xD8: "Hidden Ladder",
-        0x12D: "Cave Entrance", 
-        0x12E: "Dungeon", 
-        0x12F: "Underground Ruins",
-        0x130: "Cavern", 
-        0x131: "Ruin Entrance"
+    Code = dword(0xa2078)
+
+    Title = Room("Title", 0x00)
+    Entrance = Room("Entrance", 0x01)
+    MainHall = Room("Main Hall", 0x02)
+    F1BigHallway = Room("F1 Big Hallway", 0x03)
+    F1Hallway = Room("F1 Hallway", 0x04)
+    GuestRoom = Room("Guest Room", 0x05)
+    F1BedRoom = Room("F1 Bed Room", 0x06)
+    F1LivingRoom = Room("F1 Living Room", 0x07)
+    DiningRoom = Room("Dining Room", 0x08)
+    Bath = Room("Bath", 0x09)
+    Pantry = Room("Pantry", 0x0a)
+    Kitchen = Room("Kitchen", 0x0b)
+    Study = Room("Study", 0x0c)
+    F2Bedroom = Room("F2 Bedroom", 0xc9)
+    ChangingRoom = Room("Changing Room", 0xca)
+    Laboratory = Room("Laboratory", 0xcb)
+    F2LivingRoom = Room("F2 Living Room", 0xcc)
+    DanceRoom = Room("Dance Room", 0xcd)
+    HiddenRoom = Room("Hidden Room", 0xce)
+    ArtGallery = Room("Art Gallery", 0xcf)
+    ReferenceRoom = Room("Reference Room", 0xd0)
+    Storehouse = Room("Storehouse", 0xd1)
+    F2Hallway = Room("F2 Hallway", 0xd2)
+    F2BigHallway = Room("F2 Big Hallway", 0xd3)
+    HiddenPassage = Room("Hidden Passage", 0xd4)
+    Stairwell = Room("Stairwell", 0xd5)
+    Cabinet = Room("Cabinet", 0xd7)
+    HiddenLadder = Room("Hidden Ladder", 0xd8)
+    CaveEntrance = Room("Cave Entrance", 0x12d)
+    Dungeon = Room("Dungeon", 0x12e)
+    UndergroundRuins = Room("Underground Ruins", 0x12f)
+    Cavern = Room("Cavern", 0x130)
+    RuinEntrance = Room("Ruin Entrance", 0x131)
+
+    AllRooms = [
+       Title,
+       Entrance,
+       MainHall,
+       F1BigHallway,
+       F1Hallway,
+       GuestRoom,
+       F1BedRoom,
+       F1LivingRoom,
+       DiningRoom,
+       Bath,
+       Pantry,
+       Kitchen,
+       Study,
+       F2Bedroom,
+       ChangingRoom,
+       Laboratory,
+       F2LivingRoom,
+       DanceRoom,
+       HiddenRoom,
+       ArtGallery,
+       ReferenceRoom,
+       Storehouse,
+       F2Hallway,
+       F2BigHallway,
+       HiddenPassage,
+       Stairwell,
+       Cabinet,
+       HiddenLadder,
+       CaveEntrance,
+       Dungeon,
+       UndergroundRuins,
+       Cavern,
+       RuinEntrance 
+    ]
+
+    function GetLookup() {
+        lookup = {}
+        for room in this.AllRooms {
+            lookup[room.Value] = room.Name
+        }
+        return lookup
     }
 }
 rooms = Rooms()
@@ -120,7 +169,7 @@ class BathroomEvents {
 class ReferenceRoomEvents {
     F2RoughMap = dword(0xad4e0)
     MansionPainting = dword(0xad558) // 1-3 = Examined, 4 = Cut with Knife, 5 = Obtained F2 Rough Map
-    Cutscene = dword(0xad57c)
+    HauzerGhost = dword(0xad57c)
 }
 
 class F1HallwayEvents {
@@ -224,6 +273,11 @@ class DungeonEvents {
     BoneKey = dword(0xad4c0) // 1 = Obtained, 2 = Unlocked Underground Ruins
 }
 
+class Door {
+    Event = 0
+    OpenValue = 2
+}
+
 class Events {
     Entrance = EntranceEvents()
     MainHall = MainHallEvents()
@@ -237,7 +291,6 @@ class Events {
     Pantry = PantryEvents()
     Kitchen = KitchenEvents()
     Study = StudyEvents()
-    F2Bedroom = F2BedroomEvents()
     ChangingRoom = ChangingRoom()
     Laboratory = LaboratoryEvents()
     F2LivingRoom = F2LivingRoomEvents()
@@ -268,6 +321,22 @@ class Events {
         Dungeon.BoneKey
     ]
 
+    Doors = [
+        Door(MainHall.IronKey),
+        Door(F1Bedroom.RustedKey),
+        Door(F2Hallway.CopperKey),
+        Door(DanceRoom.WoodenKey),
+        Door(Study.BronzeKey),
+        Door(ArtGallery.PatinatedKey),
+        Door(Laboratory.GoldKey),
+        Door(Pantry.BrassKey),
+        Door(GuestRoom.SilverKey),
+        Door(Dungeon.BoneKey),
+        Door(GuestRoom.DryFlower),
+        Door(F1LivingRoom.Table, 1),
+        Door(Kitchen.Axe)
+    ]
+
     BooksAndMemos = [
         F1Bedroom.HauzerDiary1,
         Study.HauzerDiary2,
@@ -293,21 +362,276 @@ class Events {
         Storehouse.Shotgun,
         Cabinet.Dynamite
     ]
-
-    Progression = [
-        
-    ]
-
-    VentCover = Study.VentCover
-    OilCan = Pantry.OilCan
-    Lithograph = DiningRoom.Lithograph
-    PhotoOfWife = F2LivingRoom.PhotoOfWife
 }
 events = Events()
 
+class Achievement {
+    Type = 0 // 0 = None, 1 = Progression, 2 = Win Condition, 3 = Missable
+    Points = 0
+    Title = ""
+    Description = ""
+    Trigger = always_false()
+    Id = 0
+}
+
+class AchievementHelpers {
+    function IsLoaded() {
+        return region.Code != 0
+    }
+
+    function IsPlaying() {
+        return mode.Code > mode.Modes.Opening &&
+            mode.Code < mode.Modes.Controls
+    }
+
+    function IsInGame() {
+        return state.Code == state.States.InGame
+    }
+
+    function IsInCutscene() {
+        return state.Code == state.States.Cutscene
+    }
+
+    function IsNewGame() {
+        return mode.Code == mode.Modes.NewGame
+    }
+
+    function IsContinuedGame() {
+        return mode.Code == mode.Modes.Continue
+    }
+
+    function IsOnTitle() {
+        return state.Code == state.States.Title
+    }
+
+    function IsInRoom(room) {
+        return rooms.Code == room.Value
+    }
+
+    function RoomTransition(from, to) {
+        return prev(rooms.Code) == from.Value &&
+            rooms.Code == to.Value
+    }
+
+    function TriggeredEvent(event, previous = 0, current = 1) {
+        return prev(event) == previous &&
+            event == current
+    }
+
+    function TriggeredAllEvents(eventList, end = 1) {
+        count = length(eventList)
+        start = end - 1
+
+        conditions = []
+        for event in eventList {
+            array_push(conditions, once(event > start))
+        }
+
+        return all_of(eventList, event => event > start) &&
+            any_of(eventList, event => prev(event) == start && event == end) &&
+            measured
+            (
+                tally(count, conditions), 
+                helpers.IsLoaded() && 
+                helpers.IsPlaying() && 
+                helpers.IsInGame()
+            ) &&
+            never(!helpers.IsLoaded()) &&
+            never(!helpers.IsPlaying()) &&
+            never(helpers.IsOnTitle())
+    }
+}
+helpers = AchievementHelpers()
+
+class AchievementTriggers{
+    function TheWitheredBouquet() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.GuestRoom.DryFlower == 2 &&
+            helpers.RoomTransition(rooms.GuestRoom, rooms.F1BedRoom)
+    }
+
+    function TheProperArrangement() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.F1LivingRoom.Dresser == 1 &&
+            events.F1LivingRoom.Table == 1 &&
+            helpers.RoomTransition(rooms.F1LivingRoom, rooms.F1Hallway)
+    }
+
+    function AHollowDiscovery() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.Pantry) &&
+            helpers.TriggeredEvent(events.Pantry.OilCan)
+    }
+
+    function AncientRemains() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.DiningRoom.Lithograph == 1 &&
+            helpers.RoomTransition(rooms.DiningRoom, rooms.F1Hallway)
+    }
+
+    function TheHouseBreathes() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.Study) &&
+            helpers.TriggeredEvent(events.Study.VentCover)
+    }
+
+    function TheGallerysAnswer() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.ArtGallery.PatinatedKey > 0 &&
+            helpers.RoomTransition(rooms.ArtGallery, rooms.F2Hallway)
+    }
+
+    function NotAlone() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.ReferenceRoom) &&
+            helpers.TriggeredEvent(events.ReferenceRoom.HauzerGhost)
+    }
+
+    function NoLongerLost() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.TriggeredAllEvents(events.Maps)
+    }
+
+    function ForcedExit() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.HiddenRoom) &&
+            helpers.TriggeredEvent(events.Storehouse.Shotgun, 1, 2)
+    }
+
+    function TheFinalStep() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.DanceRoom.WoodenKey == 1 &&
+            helpers.RoomTransition(rooms.DanceRoom, rooms.F2Hallway)
+    }
+
+    function CompleteAccount() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.TriggeredAllEvents(events.BooksAndMemos)
+    }
+
+    function NoSnareHolds() {
+        return always_false()
+    }
+
+    function HerPortrait() {
+        return always_false()
+    }
+
+    function WellEquipped() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.TriggeredAllEvents(events.WeaponsAndTools)
+    }
+
+    function BeneathTheHearth() {
+        return always_false()
+    }
+
+    function BearerOfKeys() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.TriggeredAllEvents(events.Keys)
+    }
+
+    function TheLowerLine() {
+        return always_false()
+    }
+
+    function NothingLeftClosed() {
+        return always_false()
+    }
+
+    function UntouchedResolve() {
+        return always_false()
+    }
+
+    function TheTieEndures() {
+        return always_false()
+    }
+
+    function SwiftDeparture() {
+        return always_false()
+    }
+}
+triggers = AchievementTriggers()
+
+class Achievements {
+    StartingID = 0
+    Data = [
+        Achievement(1, 2, "The Withered Bouquet", "Tend to the withering arrangement and leave the Guest Room behind", triggers.TheWitheredBouquet()),
+        Achievement(1, 2, "The Proper Arrangement", "Set the room in its proper order and depart the Living Room", triggers.TheProperArrangement()),
+        Achievement(0, 3, "A Hollow Discovery", "Collect what was carelessly left behind", triggers.AHollowDiscovery()),
+        Achievement(1, 3, "Ancient Remains", "Claim an prized relic and survive the Dining Hall", triggers.AncientRemains()),
+        Achievement(0, 3, "The House Breathes", "Unseal the cover and stir the stagnant air", triggers.TheHouseBreathes()),
+        Achievement(0, 3, "The Gallery's Answer", "Solve an artistic conundrum and escape with your life", triggers.TheGallerysAnswer()),
+        Achievement(1, 4, "Not Alone", "Witness who still walks the mansion", triggers.NotAlone()),
+        Achievement(0, 5, "No Longer Lost", "Gather all maps hidden throughout the Mansion", triggers.NoLongerLost()),
+        Achievement(1, 4, "Forced Exit", "Use excessive force and escape the Hidden Room", triggers.ForcedExit()),
+        Achievement(1, 4, "The Final Step", "Collect a whittled prize and safely shimmy out of the Dance Room", triggers.TheFinalStep()),
+        Achievement(0, 5, "Complete Account", "Piece together all of the Mansion's records", triggers.CompleteAccount()),
+        Achievement(0, 5, "No Snare Holds", "Escape or disarm all of the Mansion's deadly devices", triggers.NoSnareHolds()),
+        Achievement(1, 4, "Her Portrait", "Collect a framed memory", triggers.HerPortrait()),
+        Achievement(0, 5, "Well Equipped", "Gather all weapons and tools hidden throughout the Mansion", triggers.WellEquipped()),
+        Achievement(1, 4, "Beneath the Hearth", "Disturb a false hearth and fall into the depths of the mansion", triggers.BeneathTheHearth()),
+        Achievement(0, 5, "Bearer of Keys", "Gather all keys hidden throughout the Mansion", triggers.BearerOfKeys()),
+        Achievement(1, 4, "The Lower Line", "Break the wall and uncover the buried rails", triggers.TheLowerLine()),
+        Achievement(0, 5, "Nothing Left Closed", "Unlock all of the Mansion's sealed doors and cabinets", triggers.NothingLeftClosed()),
+        Achievement(0, 5, "Untouched Resolve", "Drive back the Evil Entity before taking 4 or more hits", triggers.UntouchedResolve()),
+        Achievement(2, 5, "The Tie Endures", "Drive back the Evil Entity with a lingering bond and flee the Mansion", triggers.TheTieEndures()),
+        Achievement(0, 10, "Swift Departure", "Escape the Mansion in less than an hour", triggers.SwiftDeparture())
+    ]
+
+    function Generate() {   
+        count = 0
+        for achievement in this.Data {
+            achievementType = ""
+
+            if (achievement.Type == 1)
+                achievementType = "progression"
+            else if (achievement.Type == 2)
+                achievementType = "win_condition"
+
+            if (this.StartingID != 0)
+                achievement.Id = this.StartingID
+
+            achievement.Id = achievement.Id + count
+
+            achievement(achievement.Title, achievement.Description, achievement.Points, achievement.Trigger, achievement.Id, type=achievementType)
+
+            count = count + 1
+        }
+    }
+}
+achievements = Achievements()
+achievements.Generate()
+
 rich_presence_conditional_display(region.Code != 0, "{0} | Room: {1}",
     rich_presence_lookup("Region", region.Code, region.Lookup, "Loading..."),
-    rich_presence_lookup("Room", rooms.Room, rooms.Lookup, "Not Found")
+    rich_presence_lookup("Room", rooms.Code, rooms.GetLookup(), "Not Found")
 )
 
 rich_presence_display("Playing Doctor Hauzer!")

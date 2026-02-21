@@ -419,11 +419,14 @@ class AchievementHelpers {
     }
 
     function TriggeredAllEvents(eventList, end = 1) {
+        assert(end > 0, "TriggeredAllEvents: Target value for the event must be greater than 0")
+
         count = length(eventList)
         start = end - 1
 
         conditions = []
         for event in eventList {
+            // Only register a hit when in game and an event was triggered at any point
             array_push(conditions, once(helpers.IsLoaded() && helpers.IsPlaying() && helpers.IsInGame() && event > start))
         }
 
@@ -433,13 +436,17 @@ class AchievementHelpers {
                 eventList, 
                 event => measured
                 (
-                    tally(count, conditions), 
+                    tally(count, conditions),
+
+                    // Save Protection: Only display measured counter when in game and only unlock if an event triggered this frame
                     helpers.IsLoaded() && 
                     helpers.IsPlaying() && 
                     helpers.IsInGame() && 
                     prev(event) == start && event == end
                 )
             ) &&
+
+            // Reset all hits if not in game
             never(!helpers.IsLoaded()) &&
             never(!helpers.IsPlaying()) &&
             never(helpers.IsOnTitle())

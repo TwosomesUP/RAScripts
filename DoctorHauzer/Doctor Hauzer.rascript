@@ -424,17 +424,21 @@ class AchievementHelpers {
 
         conditions = []
         for event in eventList {
-            array_push(conditions, once(event > start))
+            array_push(conditions, once(helpers.IsLoaded() && helpers.IsPlaying() && helpers.IsInGame() && event > start))
         }
 
         return all_of(eventList, event => event > start) &&
-            any_of(eventList, event => prev(event) == start && event == end) &&
-            measured
+            any_of
             (
-                tally(count, conditions), 
-                helpers.IsLoaded() && 
-                helpers.IsPlaying() && 
-                helpers.IsInGame()
+                eventList, 
+                event => measured
+                (
+                    tally(count, conditions), 
+                    helpers.IsLoaded() && 
+                    helpers.IsPlaying() && 
+                    helpers.IsInGame() && 
+                    prev(event) == start && event == end
+                )
             ) &&
             never(!helpers.IsLoaded()) &&
             never(!helpers.IsPlaying()) &&
@@ -502,10 +506,7 @@ class AchievementTriggers{
     }
 
     function NoLongerLost() {
-        return helpers.IsLoaded() &&
-            helpers.IsPlaying() &&
-            helpers.IsInGame() &&
-            helpers.TriggeredAllEvents(events.Maps)
+        return helpers.TriggeredAllEvents(events.Maps)
     }
 
     function ForcedExit() {
@@ -525,10 +526,7 @@ class AchievementTriggers{
     }
 
     function CompleteAccount() {
-        return helpers.IsLoaded() &&
-            helpers.IsPlaying() &&
-            helpers.IsInGame() &&
-            helpers.TriggeredAllEvents(events.BooksAndMemos)
+        return helpers.TriggeredAllEvents(events.BooksAndMemos)
     }
 
     function NoSnareHolds() {
@@ -540,10 +538,7 @@ class AchievementTriggers{
     }
 
     function WellEquipped() {
-        return helpers.IsLoaded() &&
-            helpers.IsPlaying() &&
-            helpers.IsInGame() &&
-            helpers.TriggeredAllEvents(events.WeaponsAndTools)
+        return helpers.TriggeredAllEvents(events.WeaponsAndTools)
     }
 
     function BeneathTheHearth() {
@@ -551,10 +546,7 @@ class AchievementTriggers{
     }
 
     function BearerOfKeys() {
-        return helpers.IsLoaded() &&
-            helpers.IsPlaying() &&
-            helpers.IsInGame() &&
-            helpers.TriggeredAllEvents(events.Keys)
+        return helpers.TriggeredAllEvents(events.Keys)
     }
 
     function TheLowerLine() {

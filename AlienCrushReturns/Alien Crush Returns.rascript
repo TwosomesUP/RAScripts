@@ -156,12 +156,14 @@ class Stages {
     BossOne = 0x02
     Three = 0x03
     BossTwo = 0x04
+    Extra = 0x05
 }
 
 class Difficulties {
     Easy = 0x00
     Normal = 0x01
     Hard = 0x02
+    Insane = 0x03
 }
 
 class Settings {
@@ -178,6 +180,8 @@ class Settings {
 
     StoryModeStage = utilities.GetRegionalAddress(0x2f2e5c, RegionalOffset, dword_be)
     ArcadeModeStage = utilities.GetRegionalAddress(0x2f2e60, RegionalOffset, dword_be)
+    StoryModeTiltRule = utilities.GetRegionalAddress(0x2f71b7, RegionalOffset, bit4)
+    ArcadeModeTiltRule = utilities.GetRegionalAddress(0x2f71b7, RegionalOffset, bit5)
     Stages = Stages()
 
     StageLookup = {
@@ -185,7 +189,8 @@ class Settings {
         0x01: "Stage 2",
         0x02: "Boss Stage 1",
         0x03: "Stage 3",
-        0x04: "Boss Stage 2"
+        0x04: "Boss Stage 2",
+        0x05: "EXtra Stage"
     }
 
     Difficulty = utilities.GetRegionalAddress(0x2f719c, RegionalOffset, dword_be)
@@ -572,6 +577,12 @@ class AchievementHelpers {
             playerData.Score == (prev(playerData.Score) + value))
     }
 
+    function HasMinimumRegionalPointAmount(code, value) {
+        playerData = playerObject.GetRegionalData(code)
+        return (region.IsRegion(code) &&
+            playerData.Score >= value)
+    }
+
     function EnemyIsActive(index) {
         enemy = enemyList.GetEnemyData(index)
         return enemy.Type != 0xffffffff
@@ -661,36 +672,65 @@ class AchievementHelpers {
     function IsInBonus() {
         return gameState.ID == gameState.States.Bonus
     }
+
+    function IsStoryModeNormalTilt() {
+        return settings.StoryModeTiltRule == 0
+    }
+
+    function IsArcadeModeNormalTilt() {
+        return settings.ArcadeModeTiltRule == 0
+    }
+
+    function IsNormalTiltAnyMode() {
+        return
+        (
+            (settings.Mode == settings.Modes.Story && helpers.IsStoryModeNormalTilt()) ||
+            (settings.Mode == settings.Modes.Arcade && helpers.IsArcadeModeNormalTilt())
+        )
+    }
+
+    function IsNoTiltAnyMode() {
+        return 
+        (
+            (settings.Mode == settings.Modes.Story && settings.StoryModeTiltRule == 1) ||
+            (settings.Mode == settings.Modes.Arcade && settings.ArcadeModeTiltRule == 1)
+        )
+    }
 }
 helpers = AchievementHelpers()
 
 class AchievementTriggers {
     function TriggeredStageMultiBall(stage) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsNormalTiltAnyMode() &&
+            helpers.IsInGameAnyRegion() &&
             helpers.IsPlayingStageAnyMode(stage) &&
             helpers.MessageWasDisplayed(stageState.Messages.MultiBall)
     }
 
     function TriggeredStageRateUP(stage) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsNormalTiltAnyMode() &&
+            helpers.IsInGameAnyRegion() &&
             helpers.IsPlayingStageAnyMode(stage) &&
             helpers.MessageWasDisplayed(stageState.Messages.RateUp)
     }
 
     function TriggeredStageWipedOut(stage) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsNormalTiltAnyMode() &&
+            helpers.IsInGameAnyRegion() &&
             helpers.IsPlayingStageAnyMode(stage) &&
             helpers.MessageWasDisplayed(stageState.Messages.WipedOut)
     }
 
     function TriggeredStageUpPost(stage) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsNormalTiltAnyMode() &&
+            helpers.IsInGameAnyRegion() &&
             helpers.IsPlayingStageAnyMode(stage) &&
             helpers.MessageWasDisplayed(stageState.Messages.UpPost)
     }
 
     function TriggeredExtraBall() {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsNormalTiltAnyMode() &&
+            helpers.IsInGameAnyRegion() &&
             helpers.MessageWasDisplayed(stageState.Messages.ExtraBall)
     }
 
@@ -698,17 +738,33 @@ class AchievementTriggers {
         regionCheck = helpers.IsInGameAnyRegion()
         if (challenge)
             regionCheck = (regionCheck || (this.ResetStageChallenge(stage)))
-        return regionCheck &&
+        return helpers.IsStoryModeNormalTilt() && 
+            regionCheck &&
             settings.Difficulty >= difficulty &&
             helpers.StageWasCleared(stage, challenge)
     }
 
     function DefeatedBonusBoss(stage) {
         points = enemyList.Types.Bonus1Boss.Points
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsStoryModeNormalTilt() && 
+            helpers.IsInGameAnyRegion() &&
             helpers.IsInBonus() &&
             settings.Difficulty >= settings.Difficulties.Normal &&
             helpers.IsPlayingStageAnyMode(stage) &&
+            (
+                helpers.GainedRegionalPointAmount(region.US, points) || 
+                helpers.GainedRegionalPointAmount(region.EU, points) || 
+                helpers.GainedRegionalPointAmount(region.JP, points)
+            )
+    }
+
+    function GotPointBonusOnExtraStage() {
+        points = 100000
+        return helpers.IsStoryModeNormalTilt() &&
+            helpers.IsInGameAnyRegion() &&
+            settings.Difficulty >= settings.Difficulties.Normal &&
+            settings.Mode == settings.Modes.Story && 
+            settings.StoryModeStage == settings.Stages.Extra &&
             (
                 helpers.GainedRegionalPointAmount(region.US, points) || 
                 helpers.GainedRegionalPointAmount(region.EU, points) || 
@@ -722,7 +778,7 @@ class AchievementTriggers {
     }
 
     function ClearedGameWithHighscore(score) {
-        return this.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Normal) &&
+        return this.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Normal) &&
             (
                 helpers.ReachedRegionalScore(region.US, score) ||
                 helpers.ReachedRegionalScore(region.EU, score) ||
@@ -731,7 +787,8 @@ class AchievementTriggers {
     }
 
     function AchievedArcadeScoreOnStage(stage, score) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsArcadeModeNormalTilt() && 
+            helpers.IsInGameAnyRegion() &&
             settings.Mode == settings.Modes.Arcade &&
             settings.ArcadeModeStage == stage &&
             (
@@ -753,151 +810,215 @@ triggers = AchievementTriggers()
 
 // Stage 1 Progression
 
-achievement("Not Rocket Science", "In Story Mode, clear Stage 1 on Easy difficulty or higher", points = 1, id = 580766,
+achievement("Not Rocket Science", "In Story Mode, clear Stage 1 on Easy difficulty or higher [Normal Tilt Rule]", points = 1, id = 580766,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Easy)
 )
-achievement("The Sky's the Limit", "In Story Mode, clear Stage 1 on Normal difficulty or higher", type = "progression", points = 3, id = 580767,
+achievement("The Sky's the Limit", "In Story Mode, clear Stage 1 on Normal difficulty or higher [Normal Tilt Rule]", type = "progression", points = 3, id = 580767,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Normal)
 )
-achievement("Over the Moon", "In Story Mode, clear Stage 1 on Hard difficulty", points = 5, id = 580768,
+achievement("Over the Moon", "In Story Mode, clear Stage 1 on Hard difficulty or higher [Normal Tilt Rule]", points = 5, id = 580768,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard)
+)
+// Add Insane Difficulty - DLC
+achievement("Insane - Over the Moon", "In Story Mode, clear Stage 1 on Insane difficulty [Normal Tilt Rule]", points = 10,
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Insane)
 )
 
 // Stage 1 Challenges
 
-achievement("A Rising Star", "In Story Mode, clear Stage 1 without losing a ball on Normal difficulty or higher", points = 5, id = 580769,
+achievement("A Rising Star", "In Story Mode, clear Stage 1 without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 5, id = 580769,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.One)
 )
-achievement("Space Balls", "In Story or Arcade Mode, activate a Multi Ball on Stage 1", points = 4, id = 580770,
+achievement("Space Balls", "In Story or Arcade Mode, activate a Multi Ball on Stage 1 [Normal Tilt Rule]", points = 4, id = 580770,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.One)
 )
-achievement("To Infinity", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 1", points = 4,  id = 580771,
+achievement("To Infinity", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 1 [Normal Tilt Rule]", points = 4,  id = 580771,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.One)
 )
-achievement("Bugging Out", "In Story or Arcade Mode, enter the Bonus Room on Stage 1 and defeat the Scorpion Alien", points = 10, id = 580772,
+achievement("Bugging Out", "In Story or Arcade Mode, enter the Bonus Room on Stage 1 and defeat the Scorpion Alien [Normal Tilt Rule]", points = 10, id = 580772,
     trigger = triggers.DefeatedBonusBoss(settings.Stages.One)
 )
 
 // Stage 2 Progression
 
-achievement("Down to Earth", "In Story Mode, clear Stage 2 on Easy difficulty or higher", points = 1, id = 580773,
+achievement("Down to Earth", "In Story Mode, clear Stage 2 on Easy difficulty or higher [Normal Tilt Rule]", points = 1, id = 580773,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Easy)
 )
-achievement("Well Oiled Machine", "In Story Mode, clear Stage 2 on Normal difficulty or higher", type = "progression", points = 3, id = 580774,
+achievement("Well Oiled Machine", "In Story Mode, clear Stage 2 on Normal difficulty or higher [Normal Tilt Rule]", type = "progression", points = 3, id = 580774,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Normal)
 )
-achievement("Light Years Ahead", "In Story Mode, clear Stage 2 on Hard difficulty", points = 5, id = 580775,
+achievement("Light Years Ahead", "In Story Mode, clear Stage 2 on Hard difficulty or higher [Normal Tilt Rule]", points = 5, id = 580775,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Hard)
+)
+// Add Insane Difficulty - DLC
+achievement("Insane - Light Years Ahead", "In Story Mode, clear Stage 2 on Insane difficulty [Normal Tilt Rule]", points = 10,
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Insane)
 )
 
 // Stage 2 Challenges
 
-achievement("No Soldier Left Behind", "In Story Mode, clear Stage 2 without losing a ball on Normal difficulty or higher", points = 5, id = 580776,
+achievement("No Soldier Left Behind", "In Story Mode, clear Stage 2 without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 5, id = 580776,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Two)
 )
-achievement("A Whole New Ball Game", "In Story or Arcade Mode, activate a Multi Ball on Stage 2", points = 4, id = 580777,
+achievement("A Whole New Ball Game", "In Story or Arcade Mode, activate a Multi Ball on Stage 2 [Normal Tilt Rule]", points = 4, id = 580777,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Two)
 )
-achievement("Stacks on Stacks", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 2", points = 4, id = 580778,
+achievement("Stacks on Stacks", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 2 [Normal Tilt Rule]", points = 4, id = 580778,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.Two)
 )
-achievement("Clean Plate Club", "In Story or Arcade Mode, activate a Wiped Out bonus on Stage 2", points = 4, id = 580779,
+achievement("Clean Plate Club", "In Story or Arcade Mode, activate a Wiped Out bonus on Stage 2 [Normal Tilt Rule]", points = 4, id = 580779,
     trigger = triggers.TriggeredStageWipedOut(settings.Stages.Two)
 )
-achievement("Fire Bug", "In Story or Arcade Mode, enter the Bonus Room on Stage 2 and defeat the Scorpion Alien", points = 10, id = 580780,
+achievement("Fire Bug", "In Story or Arcade Mode, enter the Bonus Room on Stage 2 and defeat the Scorpion Alien [Normal Tilt Rule]", points = 10, id = 580780,
     trigger = triggers.DefeatedBonusBoss(settings.Stages.Two)
 )
 
 // Boss Stage 1 Progression
 
-achievement("Cosmic Sweep", "In Story Mode, clear Boss Stage 1 on Easy difficulty or higher", points = 1, id = 580781,
+achievement("Cosmic Sweep", "In Story Mode, clear Boss Stage 1 on Easy difficulty or higher [Normal Tilt Rule]", points = 1, id = 580781,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Easy)
 )
-achievement("Interstellar Upset", "In Story Mode, clear Boss Stage 1 on Normal difficulty or higher", type = "progression", points = 3, id = 580782,
+achievement("Interstellar Upset", "In Story Mode, clear Boss Stage 1 on Normal difficulty or higher [Normal Tilt Rule]", type = "progression", points = 3, id = 580782,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Normal)
 )
-achievement("Deep Space Defeat", "In Story Mode, clear Boss Stage 1 on Hard difficulty", points = 5, id = 580783,
+achievement("Deep Space Defeat", "In Story Mode, clear Boss Stage 1 on Hard difficulty or higher [Normal Tilt Rule]", points = 5, id = 580783,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Hard)
+)
+// Add Insane Difficulty - DLC
+achievement("Insane - Deep Space Defeat", "In Story Mode, clear Boss Stage 1 on Insane difficulty [Normal Tilt Rule]", points = 10,
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Insane)
 )
 
 // Boss Stage 1 Challenges
 
-achievement("Luminary Laurels", "In Story Mode, clear Boss Stage 1 without losing a ball on Normal difficulty or higher", points = 5, id = 580784,
+achievement("Luminary Laurels", "In Story Mode, clear Boss Stage 1 without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 5, id = 580784,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossOne)
+)
+// Add Multi Ball Challenge
+achievement("Boss 2 Multi", "In Story Mode, activate a Multi Ball on Boss Stage 1 [Normal Tilt Rule]", points = 4,
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossTwo)
 )
 
 // Stage 3 Progression
 
-achievement("Safe Space", "In Story Mode, clear Stage 3 on Easy difficulty or higher", points = 1, id = 580785,
+achievement("Safe Space", "In Story Mode, clear Stage 3 on Easy difficulty or higher [Normal Tilt Rule]", points = 1, id = 580785,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Easy)
 )
-achievement("Written in the Stars", "In Story Mode, clear Stage 3 on Normal difficulty or higher", type = "progression", points = 3, id = 580786,
+achievement("Written in the Stars", "In Story Mode, clear Stage 3 on Normal difficulty or higher [Normal Tilt Rule]", type = "progression", points = 3, id = 580786,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Normal)
 )
-achievement("Blood Moon", "In Story Mode, clear Stage 3 on Hard difficulty", points = 5, id = 580787,
+achievement("Blood Moon", "In Story Mode, clear Stage 3 on Hard difficulty or higher [Normal Tilt Rule]", points = 5, id = 580787,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Hard)
+)
+// Add Insane Difficulty - DLC
+achievement("Insane - Blood Moon", "In Story Mode, clear Stage 3 on Insane difficulty [Normal Tilt Rule]", points = 10, 
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Insane)
 )
 
 // Stage 3 Challenges
 
-achievement("Supernova Success", "In Story Mode, clear Stage 3 without losing a ball on Normal difficulty or higher", points = 5, id = 580788,
+achievement("Supernova Success", "In Story Mode, clear Stage 3 without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 5, id = 580788,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Three)
 )
-achievement("Belle of the Balls", "In Story or Arcade Mode, activate a Multi Ball on Stage 3", points = 4, id = 580789,
+achievement("Belle of the Balls", "In Story or Arcade Mode, activate a Multi Ball on Stage 3 [Normal Tilt Rule]", points = 4, id = 580789,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Three)
 )
-achievement("On Tilt", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 3", points = 4, id = 580790,
+achievement("On Tilt", "In Story or Arcade Mode, activate a Rate UP bonus on Stage 3 [Normal Tilt Rule]", points = 4, id = 580790,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.Three)
 )
-achievement("Flipping Hell", "In Story or Arcade Mode, activate an Up Post bonus on Stage 3", points = 4, id = 580791,
+achievement("Flipping Hell", "In Story or Arcade Mode, activate an Up Post bonus on Stage 3 [Normal Tilt Rule]", points = 4, id = 580791,
     trigger = triggers.TriggeredStageUpPost(settings.Stages.Three)
 )
-achievement("Catch the Bug", "In Story or Arcade Mode, enter the Bonus Room on Stage 3 and defeat the Scorpion Alien", points = 10, id = 580792,
+achievement("Catch the Bug", "In Story or Arcade Mode, enter the Bonus Room on Stage 3 and defeat the Scorpion Alien [Normal Tilt Rule]", points = 10, id = 580792,
     trigger = triggers.DefeatedBonusBoss(settings.Stages.Three)
 )
 
 // Boss Stage 2 Progression
 
-achievement("Celestial Supremacy", "In Story Mode, clear Boss Stage 2 on Easy difficulty or higher", points = 1, id = 580793,
+achievement("Celestial Supremacy", "In Story Mode, clear Boss Stage 2 on Easy difficulty or higher [Normal Tilt Rule]", points = 1, id = 580793,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Easy)
 )
-achievement("Infinite Upper Hand", "In Story Mode, clear Boss Stage 2 on Normal difficulty or higher", type = "win_condition", points = 3, id = 580794,
+achievement("Infinite Upper Hand", "In Story Mode, clear Boss Stage 2 on Normal difficulty or higher [Normal Tilt Rule]", type = "progression", points = 3, id = 580794,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Normal)
 )
-achievement("Galactic Domination", "In Story Mode, clear Boss Stage 2 on Hard difficulty", points = 5, id = 580795,
+achievement("Galactic Domination", "In Story Mode, clear Boss Stage 2 on Hard difficulty or higher [Normal Tilt Rule]", points = 5, id = 580795,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Hard)
+)
+// Add Insane Difficulty - DLC
+achievement("Insane - Galactic Domination", "In Story Mode, clear Boss Stage 2 on Insane difficulty [Normal Tilt Rule]", points = 10, 
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Insane)
 )
 
 // Boss Stage 2 Challenges
 
-achievement("Starlet Spoils", "In Story Mode, clear Boss Stage 2 without losing a ball on Normal difficulty or higher", points = 10, id = 580796,
+achievement("Starlet Spoils", "In Story Mode, clear Boss Stage 2 without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 10, id = 580796,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossTwo)
 )
-achievement("Ball Breaker", "In Story Mode, activate a Multi Ball on Boss Stage 2", points = 4, id = 580797,
+achievement("Ball Breaker", "In Story Mode, activate a Multi Ball on Boss Stage 2 [Normal Tilt Rule]", points = 4, id = 580797,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossTwo)
+)
+
+// EXtra Stage Progression - DLC
+
+achievement("Extra Easy", "In Story Mode, clear EXtra Stage on Easy difficulty or higher [Normal Tilt Rule]", points = 1,
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Easy)
+)
+achievement("Extra Normal", "In Story Mode, clear EXtra Stage on Normal difficulty or higher [Normal Tilt Rule]", type = "win_condition", points = 3,
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Normal)
+)
+achievement("Extra Hard", "In Story Mode, clear EXtra Stage on Hard difficulty or higher [Normal Tilt Rule]", points = 5,
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Hard)
+)
+achievement("Extra Insane", "In Story Mode, clear EXtra Stage on Insane difficulty [Normal Tilt Rule]", points = 10, 
+    trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Insane)
+)
+
+// EXtra Stage Challenges - DLC
+
+achievement("Extra Ball Challenge", "In Story Mode, clear EXtra Stage without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 10,
+    trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Extra)
+)
+achievement("Extra Rate Up", "In Story Mode, activate a Rate UP bonus on EXtra Stage [Normal Tilt Rule]", points = 4,
+    trigger = triggers.TriggeredStageRateUP(settings.Stages.Extra)
+)
+achievement("Extra Multi", "In Story Mode, activate a Multi Ball on EXtra Stage [Normal Tilt Rule]", points = 4,
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.Extra)
+)
+achievement("Extra 100k", "In Story Mode, activate a 100K bonus on EXtra Stage [Normal Tilt Rule]", points = 4,
+    trigger = triggers.GotPointBonusOnExtraStage()
 )
 
 // Story Mode Challenges
 
-achievement("Would You Like to Know More?", "In Story Mode, clear all stages with 30 million points or more on Normal difficulty or higher", points = 10, id = 580798,
-    trigger = triggers.ClearedGameWithHighscore(30000000)
+// Update target score and final stage due to an extra stage being added in the DLC
+achievement("Would You Like to Know More?", "In Story Mode, clear all stages with 40 million points or more on Normal difficulty or higher [Normal Tilt Rule]", points = 10, id = 580798,
+    trigger = triggers.ClearedGameWithHighscore(40000000)
 )
 
 // Arcade Mode Challenges
 
-achievement("The Heavens", "In Arcade Mode, score 10 million points or more on Stage 1", points = 10, id = 580799,
+achievement("Arcade Stage 1 - 3 Million", "In Arcade Mode, score 3 million points or more on Stage 1 [Normal Tilt Rule]", points = 5,
+    trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 3000000)
+)
+achievement("The Heavens", "In Arcade Mode, score 10 million points or more on Stage 1 [Normal Tilt Rule]", points = 10, id = 580799,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 10000000)
 )
-achievement("The Universe", "In Arcade Mode, score 10 million points or more on Stage 2", points = 10, id = 580800,
+achievement("Arcade Stage 2 - 3 Million", "In Arcade Mode, score 3 million points or more on Stage 2 [Normal Tilt Rule]", points = 5,
+    trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 3000000)
+)
+achievement("The Universe", "In Arcade Mode, score 10 million points or more on Stage 2 [Normal Tilt Rule]", points = 10, id = 580800,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 10000000)
 )
-achievement("The Void", "In Arcade Mode, score 10 million points or more on Stage 3", points = 10, id = 580801,
+achievement("Arcade Stage 3 - 3 Million", "In Arcade Mode, score 3 million points or more on Stage 3 [Normal Tilt Rule]", points = 5,
+    trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 3000000)
+)
+achievement("The Void", "In Arcade Mode, score 10 million points or more on Stage 3 [Normal Tilt Rule]", points = 10, id = 580801,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 10000000)
 )
 
 // General Challenges
 
-achievement("Once in a Blue Moon", "In Story or Arcade Mode, gain an Extra Ball", points = 4, id = 580802,
+achievement("Once in a Blue Moon", "In Story or Arcade Mode, gain an Extra Ball [Normal Tilt Rule]", points = 4, id = 580802,
     trigger = triggers.TriggeredExtraBall()
 )
 
@@ -905,7 +1026,8 @@ achievement("Once in a Blue Moon", "In Story or Arcade Mode, gain an Extra Ball"
 
 class LeaderboardTriggers {
     function StoryStart(difficulty) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsStoryModeNormalTilt() &&
+            helpers.IsInGameAnyRegion() &&
             settings.Mode == settings.Modes.Story &&
             settings.Difficulty == difficulty &&
             (
@@ -913,16 +1035,27 @@ class LeaderboardTriggers {
                 (
                     prev(stageState.StageClearFlag) == 0 &&
                     stageState.StageClearFlag == 1 &&
-                    settings.StoryModeStage == settings.Stages.BossTwo
+                    settings.StoryModeStage == settings.Stages.Extra
                 )
+            ) &&
+            (
+                helpers.HasMinimumRegionalPointAmount(region.US, 100000) ||
+                helpers.HasMinimumRegionalPointAmount(region.EU, 100000) ||
+                helpers.HasMinimumRegionalPointAmount(region.JP, 100000)
             )
     }
 
     function ArcadeStart(stage) {
-        return helpers.IsInGameAnyRegion() &&
+        return helpers.IsArcadeModeNormalTilt() &&
+            helpers.IsInGameAnyRegion() &&
             settings.Mode == settings.Modes.Arcade &&
             settings.ArcadeModeStage == stage &&
-            gameState.ScreenID == gameState.ScreenIDs.GameOver.Start
+            gameState.ScreenID == gameState.ScreenIDs.GameOver.Start &&
+            (
+                helpers.HasMinimumRegionalPointAmount(region.US, 100000) ||
+                helpers.HasMinimumRegionalPointAmount(region.EU, 100000) ||
+                helpers.HasMinimumRegionalPointAmount(region.JP, 100000)
+            )
     }
 
     function GetScore() {
@@ -939,46 +1072,52 @@ class LeaderboardTriggers {
 }
 leaderboardTriggers = LeaderboardTriggers()
 
-leaderboard("Story Mode - Easy Score Attack", "Get the highest score possible in Story Mode on Easy",
+leaderboard("Story Mode - Easy Score Attack", "Get the highest score possible in Story Mode on Easy [Normal Tilt Rule]",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Easy),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetScore()
+    value = leaderboardTriggers.GetScore(),
+    id = 156019
 )
 
-leaderboard("Story Mode - Normal Score Attack", "Get the highest score possible in Story Mode on Normal",
+leaderboard("Story Mode - Normal Score Attack", "Get the highest score possible in Story Mode on Normal [Normal Tilt Rule]",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Normal),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetScore()
+    value = leaderboardTriggers.GetScore(),
+    id = 156020
 )
 
-leaderboard("Story Mode - Hard Score Attack", "Get the highest score possible in Story Mode on Hard",
+leaderboard("Story Mode - Hard Score Attack", "Get the highest score possible in Story Mode on Hard [Normal Tilt Rule]",
     start = leaderboardTriggers.StoryStart(settings.Difficulties.Hard),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetScore()
+    value = leaderboardTriggers.GetScore(),
+    id = 156021
 )
 
-leaderboard("Arcade Mode - Stage 1 Score Attack", "Get the highest score possible in Stage 1 in Arcade Mode",
+leaderboard("Arcade Mode - Stage 1 Score Attack", "Get the highest score possible in Stage 1 in Arcade Mode [Normal Tilt Rule]",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.One),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetScore()
+    value = leaderboardTriggers.GetScore(),
+    id = 156022
 )
 
-leaderboard("Arcade Mode - Stage 2 Score Attack", "Get the highest score possible in Stage 2 in Arcade Mode",
+leaderboard("Arcade Mode - Stage 2 Score Attack", "Get the highest score possible in Stage 2 in Arcade Mode [Normal Tilt Rule]",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.Two),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetScore()
+    value = leaderboardTriggers.GetScore(),
+    id = 156023
 )
 
-leaderboard("Arcade Mode - Stage 3 Score Attack", "Get the highest score possible in Stage 3 in Arcade Mode",
+leaderboard("Arcade Mode - Stage 3 Score Attack", "Get the highest score possible in Stage 3 in Arcade Mode [Normal Tilt Rule]",
     start = leaderboardTriggers.ArcadeStart(settings.Stages.Three),
     cancel = always_false(),
     submit = always_true(),
-    value = leaderboardTriggers.GetScore()
+    value = leaderboardTriggers.GetScore(),
+    id = 156024
 )
 
 // Rich Presence
@@ -1006,7 +1145,15 @@ rich_presence_conditional_display(helpers.NotInGameAnyRegion(), "{0} Preparing f
     rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️")
 )
 
-rich_presence_conditional_display(helpers.IsInGameAnyRegion(), "{0} Fighting the Alien Invaders on {1} | {2} | ⚪ x {3} | 🔔 {4}",
+rich_presence_conditional_display(helpers.IsInGameAnyRegion() && helpers.IsNormalTiltAnyMode(), "{0} Fighting the Alien Invaders on {1} | {2} | ⚪ x {3} | 🔔 {4}",
+    rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️"),
+    rich_presence_lookup("Mode", settings.Mode, settings.ModeLookup),
+    rich_presence_lookup("Stage", richPresenceHelpers.GetStage(), settings.StageLookup),
+    rich_presence_value("Balls", richPresenceHelpers.GetBalls()),
+    rich_presence_value("Score", leaderboardTriggers.GetScore())
+)
+
+rich_presence_conditional_display(helpers.IsInGameAnyRegion() && helpers.IsNoTiltAnyMode(), "{0} Fighting the Alien Invaders on {1} | {2} | ⚪ x {3} | 🔔 {4} ⛔",
     rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️"),
     rich_presence_lookup("Mode", settings.Mode, settings.ModeLookup),
     rich_presence_lookup("Stage", richPresenceHelpers.GetStage(), settings.StageLookup),

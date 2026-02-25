@@ -278,6 +278,11 @@ class Door {
     OpenValue = 2
 }
 
+class Trap {
+    Event = 0
+    DisarmValue = 2
+}
+
 class Events {
     Entrance = EntranceEvents()
     MainHall = MainHallEvents()
@@ -335,6 +340,16 @@ class Events {
         Door(GuestRoom.DryFlower),
         Door(F1LivingRoom.Table, 1),
         Door(Kitchen.Axe)
+    ]
+
+    Traps = [
+        Trap(GuestRoom.DryFlower),
+        Trap(F1BigHallway.Switch, 1),
+        Trap(Bath.RightFaucet, 1),
+        Trap(Kitchen.Table),
+        Trap(ChangingRoom.F2BedroomClockDart),
+        Trap(F1Hallway.BoulderTrap),
+        Trap(Entrace.ChandelierTrap, 1)
     ]
 
     BooksAndMemos = [

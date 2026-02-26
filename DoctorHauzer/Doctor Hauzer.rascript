@@ -275,12 +275,14 @@ class DungeonEvents {
 
 class Door {
     Event = 0
-    OpenValue = 2
+    Start = 1
+    End = 2
 }
 
 class Trap {
     Event = 0
-    DisarmValue = 2
+    Start = 0
+    End = 0
 }
 
 class Events {
@@ -327,29 +329,29 @@ class Events {
     ]
 
     Doors = [
-        Door(MainHall.IronKey),
-        Door(F1Bedroom.RustedKey),
-        Door(F2Hallway.CopperKey),
-        Door(DanceRoom.WoodenKey),
-        Door(Study.BronzeKey),
-        Door(ArtGallery.PatinatedKey),
-        Door(Laboratory.GoldKey),
-        Door(Pantry.BrassKey),
-        Door(GuestRoom.SilverKey),
-        Door(Dungeon.BoneKey),
-        Door(GuestRoom.DryFlower),
-        Door(F1LivingRoom.Table, 1),
-        Door(Kitchen.Axe)
+        Door(MainHall.IronKey), // F1 Big Hallway
+        Door(GuestRoom.DryFlower), // F1 Bed Room
+        Door(F1Bedroom.RustedKey), // F1 Living Room
+        Door(F1LivingRoom.Table, 0, 1), // F1 Hallway
+        Door(Pantry.BrassKey), // Dining Room
+        Door(Study.BronzeKey), // Storehouse
+        Door(ArtGallery.PatinatedKey), // Reference Room
+        Door(GuestRoom.SilverKey), // Reference Room Cabinet
+        Door(F2Hallway.CopperKey), // Dance Room
+        Door(DanceRoom.WoodenKey), // F2 Big Hallway
+        Door(Laboratory.GoldKey), // Changing Room
+        Door(Kitchen.Axe), // F2 Living Room
+        Door(Dungeon.BoneKey) // Underground Ruins
     ]
 
     Traps = [
-        Trap(GuestRoom.DryFlower),
-        Trap(F1BigHallway.Switch, 1),
-        Trap(Bath.RightFaucet, 1),
-        Trap(Kitchen.Table),
-        Trap(ChangingRoom.F2BedroomClockDart),
-        Trap(F1Hallway.BoulderTrap),
-        Trap(Entrace.ChandelierTrap, 1)
+        Trap(Entrance.ChandelierTrap, 0, 1),
+        Trap(GuestRoom.DryFlower, 1, 2),
+        Trap(F1BigHallway.Switch, 0, 1),
+        Trap(F1Hallway.BoulderTrap, 1, 2),
+        Trap(Bath.RightFaucet, 0, 1),
+        Trap(Kitchen.Table, 0, 2),
+        Trap(ChangingRoom.F2BedroomClockDart, 1, 2)
     ]
 
     BooksAndMemos = [
@@ -379,6 +381,19 @@ class Events {
     ]
 }
 events = Events()
+
+class DialogueEvents {
+    CaveEntrance = 0x155
+    BossDeath = 0x14f
+}
+
+class Dialogue {
+    Active = dword(0xa3dd4)
+    Timer = dword(0xa3dd8)
+    Index = dword(0xad088)
+    Events = DialogueEvents()
+}
+dialogue = Dialogue()
 
 class Achievement {
     Type = 0 // 0 = None, 1 = Progression, 2 = Win Condition, 3 = Missable
@@ -466,6 +481,49 @@ class AchievementHelpers {
             never(!helpers.IsPlaying()) &&
             never(helpers.IsOnTitle())
     }
+
+    function TriggeredAllSpecialEvents(eventList) {
+        count = length(eventList)
+
+        conditions = []
+        for event in eventList {
+            // Only register a hit when in game and an event was triggered at any point
+            array_push(conditions, once(helpers.IsLoaded() && helpers.IsPlaying() && helpers.IsInGame() && event.Event > event.Start))
+        }
+
+        return all_of(eventList, event => event.Event > event.Start) &&
+            any_of
+            (
+                eventList, 
+                event => measured
+                (
+                    tally(count, conditions),
+
+                    // Save Protection: Only display measured counter when in game and only unlock if an event triggered this frame
+                    helpers.IsLoaded() && 
+                    helpers.IsPlaying() && 
+                    helpers.IsInGame() && 
+                    prev(event.Event) == event.Start && event.Event == event.End
+                )
+            ) &&
+
+            // Reset all hits if not in game
+            never(!helpers.IsLoaded()) &&
+            never(!helpers.IsPlaying()) &&
+            never(helpers.IsOnTitle())
+    }
+
+    function TriggeredDialogueEvent(event) {
+        return prior(dialogue.Index) == event &&
+            prev(dialogue.Timer) > 0 &&
+            dialogue.Timer == 0
+    }
+
+    // Room == 0x131
+    function TriggeredEnding() {
+        return prev(state.Code) == state.States.Cutscene &&
+            state.Code == state.States.Ending
+    }
 }
 helpers = AchievementHelpers()
 
@@ -552,11 +610,15 @@ class AchievementTriggers{
     }
 
     function NoSnareHolds() {
-        return always_false()
+        return helpers.TriggeredAllSpecialEvents(events.Traps)
     }
 
     function HerPortrait() {
-        return always_false()
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.F2LivingRoom) &&
+            helpers.TriggeredEvent(events.F2LivingRoom.PhotoOfWife)
     }
 
     function WellEquipped() {
@@ -564,7 +626,11 @@ class AchievementTriggers{
     }
 
     function BeneathTheHearth() {
-        return always_false()
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.CaveEntrance) &&
+            helpers.TriggeredDialogueEvent(dialogue.Events.CaveEntrance)
     }
 
     function BearerOfKeys() {
@@ -572,19 +638,31 @@ class AchievementTriggers{
     }
 
     function TheLowerLine() {
-        return always_false()
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.Cavern) &&
+            helpers.TriggeredEvent(events.Cavern.RailCar)
     }
 
     function NothingLeftClosed() {
-        return always_false()
+        return helpers.TriggeredAllSpecialEvents(events.Doors)
     }
 
     function UntouchedResolve() {
-        return always_false()
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            helpers.IsInRoom(rooms.UndergroundRuins) &&
+            measured(events.UndergroundRuins.BossHitsTaken < 4) &&
+            trigger_when(helpers.TriggeredDialogueEvent(dialogue.Events.BossDeath))
     }
 
     function TheTieEndures() {
-        return always_false()
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInRoom(rooms.RuinEntrance) &&
+            helpers.TriggeredEnding()
     }
 
     function SwiftDeparture() {

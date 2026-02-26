@@ -654,6 +654,7 @@ class AchievementTriggers{
             helpers.IsPlaying() &&
             helpers.IsInGame() &&
             helpers.IsInRoom(rooms.UndergroundRuins) &&
+            events.Dungeon.BoneKey == 2 &&
             measured(events.UndergroundRuins.BossHitsTaken < 4) &&
             trigger_when(helpers.TriggeredDialogueEvent(dialogue.Events.BossDeath))
     }

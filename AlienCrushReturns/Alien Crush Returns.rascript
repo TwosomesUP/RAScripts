@@ -820,7 +820,7 @@ achievement("Over the Moon", "In Story Mode, clear Stage 1 on Hard difficulty or
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Hard)
 )
 // Add Insane Difficulty - DLC
-achievement("Insane - Over the Moon", "In Story Mode, clear Stage 1 on Insane difficulty [Normal Tilt Rule]", points = 10,
+achievement("Lunar Lunacy", "In Story Mode, clear Stage 1 on Insane difficulty [Normal Tilt Rule]", points = 10, id = 589171,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.One, settings.Difficulties.Insane)
 )
 
@@ -851,7 +851,7 @@ achievement("Light Years Ahead", "In Story Mode, clear Stage 2 on Hard difficult
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Hard)
 )
 // Add Insane Difficulty - DLC
-achievement("Insane - Light Years Ahead", "In Story Mode, clear Stage 2 on Insane difficulty [Normal Tilt Rule]", points = 10,
+achievement("Orbital Obliteration", "In Story Mode, clear Stage 2 on Insane difficulty [Normal Tilt Rule]", points = 10, id = 589172,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Insane)
 )
 
@@ -885,7 +885,7 @@ achievement("Deep Space Defeat", "In Story Mode, clear Boss Stage 1 on Hard diff
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Hard)
 )
 // Add Insane Difficulty - DLC
-achievement("Insane - Deep Space Defeat", "In Story Mode, clear Boss Stage 1 on Insane difficulty [Normal Tilt Rule]", points = 10,
+achievement("Singularity Showdown", "In Story Mode, clear Boss Stage 1 on Insane difficulty [Normal Tilt Rule]", points = 10, id = 589176,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossOne, settings.Difficulties.Insane)
 )
 
@@ -895,7 +895,7 @@ achievement("Luminary Laurels", "In Story Mode, clear Boss Stage 1 without losin
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.BossOne)
 )
 // Add Multi Ball Challenge
-achievement("Boss 2 Multi", "In Story Mode, activate a Multi Ball on Boss Stage 1 [Normal Tilt Rule]", points = 4,
+achievement("Gravity Well", "In Story Mode, activate a Multi Ball on Boss Stage 1 [Normal Tilt Rule]", points = 4, id = 589180,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossTwo)
 )
 
@@ -911,7 +911,7 @@ achievement("Blood Moon", "In Story Mode, clear Stage 3 on Hard difficulty or hi
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Hard)
 )
 // Add Insane Difficulty - DLC
-achievement("Insane - Blood Moon", "In Story Mode, clear Stage 3 on Insane difficulty [Normal Tilt Rule]", points = 10, 
+achievement("Event Horizon", "In Story Mode, clear Stage 3 on Insane difficulty [Normal Tilt Rule]", points = 10, id = 589183,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Three, settings.Difficulties.Insane)
 )
 
@@ -945,7 +945,7 @@ achievement("Galactic Domination", "In Story Mode, clear Boss Stage 2 on Hard di
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Hard)
 )
 // Add Insane Difficulty - DLC
-achievement("Insane - Galactic Domination", "In Story Mode, clear Boss Stage 2 on Insane difficulty [Normal Tilt Rule]", points = 10, 
+achievement("Cosmic Cataclysm", "In Story Mode, clear Boss Stage 2 on Insane difficulty [Normal Tilt Rule]", points = 10, id = 589185,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.BossTwo, settings.Difficulties.Insane)
 )
 
@@ -960,31 +960,31 @@ achievement("Ball Breaker", "In Story Mode, activate a Multi Ball on Boss Stage 
 
 // EXtra Stage Progression - DLC
 
-achievement("Extra Easy", "In Story Mode, clear EXtra Stage on Easy difficulty or higher [Normal Tilt Rule]", points = 1,
+achievement("Beyond the Pale", "In Story Mode, clear EXtra Stage on Easy difficulty or higher [Normal Tilt Rule]", points = 1, id = 589186,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Easy)
 )
-achievement("Extra Normal", "In Story Mode, clear EXtra Stage on Normal difficulty or higher [Normal Tilt Rule]", type = "win_condition", points = 3,
+achievement("Into the Unknown", "In Story Mode, clear EXtra Stage on Normal difficulty or higher [Normal Tilt Rule]", type = "win_condition", points = 3, id = 589179,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Normal)
 )
-achievement("Extra Hard", "In Story Mode, clear EXtra Stage on Hard difficulty or higher [Normal Tilt Rule]", points = 5,
+achievement("Stellar Trial", "In Story Mode, clear EXtra Stage on Hard difficulty or higher [Normal Tilt Rule]", points = 5, id = 589175,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Hard)
 )
-achievement("Extra Insane", "In Story Mode, clear EXtra Stage on Insane difficulty [Normal Tilt Rule]", points = 10, 
+achievement("Final Frontier", "In Story Mode, clear EXtra Stage on Insane difficulty [Normal Tilt Rule]", points = 10, id = 589182,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Extra, settings.Difficulties.Insane)
 )
 
 // EXtra Stage Challenges - DLC
 
-achievement("Extra Ball Challenge", "In Story Mode, clear EXtra Stage without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 10,
+achievement("Untouchable Orbit", "In Story Mode, clear EXtra Stage without losing a ball on Normal difficulty or higher [Normal Tilt Rule]", points = 10, id = 589173,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Extra)
 )
-achievement("Extra Rate Up", "In Story Mode, activate a Rate UP bonus on EXtra Stage [Normal Tilt Rule]", points = 4,
+achievement("Full Spectrum", "In Story Mode, activate a Rate UP bonus on EXtra Stage [Normal Tilt Rule]", points = 4, id = 589181,
     trigger = triggers.TriggeredStageRateUP(settings.Stages.Extra)
 )
-achievement("Extra Multi", "In Story Mode, activate a Multi Ball on EXtra Stage [Normal Tilt Rule]", points = 4,
+achievement("Pod Party", "In Story Mode, activate a Multi Ball on EXtra Stage [Normal Tilt Rule]", points = 4, id = 589177,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Extra)
 )
-achievement("Extra 100k", "In Story Mode, activate a 100K bonus on EXtra Stage [Normal Tilt Rule]", points = 4,
+achievement("Around the World", "In Story Mode, activate a 100K bonus on EXtra Stage [Normal Tilt Rule]", points = 4, id = 589187,
     trigger = triggers.GotPointBonusOnExtraStage()
 )
 
@@ -997,19 +997,19 @@ achievement("Would You Like to Know More?", "In Story Mode, clear all stages wit
 
 // Arcade Mode Challenges
 
-achievement("Arcade Stage 1 - 3 Million", "In Arcade Mode, score 3 million points or more on Stage 1 [Normal Tilt Rule]", points = 5,
+achievement("Stratosphere", "In Arcade Mode, score 3 million points or more on Stage 1 [Normal Tilt Rule]", points = 5, id = 589174,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 3000000)
 )
 achievement("The Heavens", "In Arcade Mode, score 10 million points or more on Stage 1 [Normal Tilt Rule]", points = 10, id = 580799,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 10000000)
 )
-achievement("Arcade Stage 2 - 3 Million", "In Arcade Mode, score 3 million points or more on Stage 2 [Normal Tilt Rule]", points = 5,
+achievement("Deep Space", "In Arcade Mode, score 3 million points or more on Stage 2 [Normal Tilt Rule]", points = 5, id = 589184,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 3000000)
 )
 achievement("The Universe", "In Arcade Mode, score 10 million points or more on Stage 2 [Normal Tilt Rule]", points = 10, id = 580800,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 10000000)
 )
-achievement("Arcade Stage 3 - 3 Million", "In Arcade Mode, score 3 million points or more on Stage 3 [Normal Tilt Rule]", points = 5,
+achievement("Outer Limits", "In Arcade Mode, score 3 million points or more on Stage 3 [Normal Tilt Rule]", points = 5, id = 589178,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 3000000)
 )
 achievement("The Void", "In Arcade Mode, score 10 million points or more on Stage 3 [Normal Tilt Rule]", points = 10, id = 580801,

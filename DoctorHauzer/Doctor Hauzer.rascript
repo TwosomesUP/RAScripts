@@ -13,6 +13,7 @@ region = Region()
 class States {
     Title = 0x01
     InGame = 0x7f670010
+    LoadingGame = 0x7fe70000
     Cutscene = 0xf8374
     Ending = 0x4f204920
 }
@@ -34,6 +35,10 @@ class Modes {
 class Mode {
     Code = dword(0xa3ed4)
     Modes = Modes()
+    Lookup = {
+        0x02: "🆕",
+        0x03: "🔁",
+    }
 }
 mode = Mode()
 
@@ -45,7 +50,7 @@ class Room {
 class Rooms {
     Code = dword(0xa2078)
 
-    Title = Room("Title", 0x00)
+    Title = Room("Entrance", 0x00)
     Entrance = Room("Entrance", 0x01)
     MainHall = Room("Main Hall", 0x02)
     F1BigHallway = Room("F1 Big Hallway", 0x03)
@@ -77,7 +82,7 @@ class Rooms {
     Dungeon = Room("Dungeon", 0x12e)
     UndergroundRuins = Room("Underground Ruins", 0x12f)
     Cavern = Room("Cavern", 0x130)
-    RuinEntrance = Room("Ruin Entrance", 0x131)
+    RuinEntrance = Room("Ruins Entrance", 0x131)
 
     AllRooms = [
        Title,
@@ -349,7 +354,8 @@ class Events {
         Trap(GuestRoom.DryFlower, 1, 2),
         Trap(F1BigHallway.Switch, 0, 1),
         Trap(F1Hallway.BoulderTrap, 1, 2),
-        Trap(Bath.RightFaucet, 0, 1),
+        // Flag gets reset once you leave
+        // Trap(Bath.RightFaucet, 0, 1),
         Trap(Kitchen.Table, 0, 2),
         Trap(ChangingRoom.F2BedroomClockDart, 1, 2)
     ]
@@ -422,6 +428,10 @@ class AchievementHelpers {
         return state.Code == state.States.Cutscene
     }
 
+    function IsLoadingGame() {
+        return state.Code == state.States.LoadingGame
+    }
+
     function IsNewGame() {
         return mode.Code == mode.Modes.NewGame
     }
@@ -446,6 +456,26 @@ class AchievementHelpers {
     function TriggeredEvent(event, previous = 0, current = 1) {
         return prev(event) == previous &&
             event == current
+    }
+
+    function CountTriggeredEvents(eventList, end = 1) {
+        count = length(eventList)
+        start = end - 1
+
+        conditions = []
+        for event in eventList {
+            array_push(conditions, once(helpers.IsLoaded() && helpers.IsPlaying() && event > start))
+        }
+
+        return measured
+        (
+            tally(count, conditions),
+            helpers.IsLoaded() && 
+            helpers.IsPlaying()
+        ) &&
+        never(!helpers.IsLoaded()) &&
+        never(!helpers.IsPlaying()) &&
+        never(helpers.IsOnTitle())
     }
 
     function TriggeredAllEvents(eventList, end = 1) {
@@ -488,7 +518,7 @@ class AchievementHelpers {
         conditions = []
         for event in eventList {
             // Only register a hit when in game and an event was triggered at any point
-            array_push(conditions, once(helpers.IsLoaded() && helpers.IsPlaying() && helpers.IsInGame() && event.Event > event.Start))
+            array_push(conditions, once(helpers.IsLoaded() && helpers.IsPlaying() && helpers.IsInGame() && event.Event == event.End))
         }
 
         return all_of(eventList, event => event.Event > event.Start) &&
@@ -543,6 +573,14 @@ class AchievementTriggers{
             events.F1LivingRoom.Dresser == 1 &&
             events.F1LivingRoom.Table == 1 &&
             helpers.RoomTransition(rooms.F1LivingRoom, rooms.F1Hallway)
+    }
+
+    function ChoseWisely() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.Bath.RightFaucet == 1 &&
+            helpers.RoomTransition(rooms.Bath, rooms.F1Hallway)
     }
 
     function AHollowDiscovery() {
@@ -603,6 +641,14 @@ class AchievementTriggers{
             helpers.IsInGame() &&
             events.DanceRoom.WoodenKey == 1 &&
             helpers.RoomTransition(rooms.DanceRoom, rooms.F2Hallway)
+    }
+
+    function LeapOfFaith() {
+        return helpers.IsLoaded() &&
+            helpers.IsPlaying() &&
+            helpers.IsInGame() &&
+            events.F2BigHallway.StrangePainting == 1 &&
+            helpers.RoomTransition(rooms.F2BigHallway, rooms.Laboratory)
     }
 
     function CompleteAccount() {
@@ -667,7 +713,41 @@ class AchievementTriggers{
     }
 
     function SwiftDeparture() {
-        return always_false()
+        return helpers.IsLoaded() &&
+            mode.Code == mode.Modes.NewGame &&
+            once
+            (
+                prev(events.Entrance.Intro) == 0 && 
+                events.Entrance.Intro == 1
+            ) &&
+            trigger_when
+            (
+                helpers.IsInRoom(rooms.RuinEntrance) && 
+                helpers.TriggeredEnding()
+            ) &&
+            disable_when
+            (
+                repeated
+                (
+                    216001, // 60 minutes and 1 frame
+                    helpers.IsLoaded() &&
+                    mode.Code == mode.Modes.NewGame &&
+                    once
+                    (
+                        prev(events.Entrance.Intro) == 0 && 
+                        events.Entrance.Intro == 1
+                    )
+                )
+            ) &&
+            (
+                always_false() ||
+                (
+                    // Reset all hits if not in a new game
+                    never(!helpers.IsLoaded()) &&
+                    never(mode.Code != mode.Modes.NewGame) &&
+                    never(helpers.IsOnTitle())
+                )
+            )
     }
 }
 triggers = AchievementTriggers()
@@ -675,16 +755,18 @@ triggers = AchievementTriggers()
 class Achievements {
     StartingID = 0
     Data = [
-        Achievement(1, 2, "The Withered Bouquet", "Tend to the withering arrangement and leave the Guest Room behind", triggers.TheWitheredBouquet()),
-        Achievement(1, 2, "The Proper Arrangement", "Set the room in its proper order and depart the Living Room", triggers.TheProperArrangement()),
+        Achievement(1, 3, "The Withered Bouquet", "Tend to the withering arrangement and leave the Guest Room behind", triggers.TheWitheredBouquet()),
+        Achievement(1, 3, "The Proper Arrangement", "Set the room in its proper order and depart the Living Room", triggers.TheProperArrangement()),
+        Achievement(1, 3, "Chose Wisely", "Complete the bathing rite and depart the Bath, still breathing", triggers.ChoseWisely()),
         Achievement(0, 3, "A Hollow Discovery", "Collect what was carelessly left behind", triggers.AHollowDiscovery()),
-        Achievement(1, 3, "Ancient Remains", "Claim an prized relic and survive the Dining Hall", triggers.AncientRemains()),
+        Achievement(1, 3, "Ancient Remains", "Claim a prized relic and survive the Dining Hall", triggers.AncientRemains()),
         Achievement(0, 3, "The House Breathes", "Unseal the cover and stir the stagnant air", triggers.TheHouseBreathes()),
-        Achievement(0, 3, "The Gallery's Answer", "Solve an artistic conundrum and escape with your life", triggers.TheGallerysAnswer()),
+        Achievement(0, 4, "The Gallery's Answer", "Solve an artistic conundrum and escape with your life", triggers.TheGallerysAnswer()),
         Achievement(1, 4, "Not Alone", "Witness who still walks the mansion", triggers.NotAlone()),
         Achievement(0, 5, "No Longer Lost", "Gather all maps hidden throughout the Mansion", triggers.NoLongerLost()),
-        Achievement(1, 4, "Forced Exit", "Use excessive force and escape the Hidden Room", triggers.ForcedExit()),
+        Achievement(1, 4, "Forced Exit", "Use excessive force in order to escape the Hidden Room", triggers.ForcedExit()),
         Achievement(1, 4, "The Final Step", "Collect a whittled prize and safely shimmy out of the Dance Room", triggers.TheFinalStep()),
+        Achievement(1, 4, "Leap of Faith", "Trust what cannot be seen and reach the Laboratory", triggers.LeapOfFaith()),
         Achievement(0, 5, "Complete Account", "Piece together all of the Mansion's records", triggers.CompleteAccount()),
         Achievement(0, 5, "No Snare Holds", "Escape or disarm all of the Mansion's deadly devices", triggers.NoSnareHolds()),
         Achievement(1, 4, "Her Portrait", "Collect a framed memory", triggers.HerPortrait()),
@@ -695,7 +777,7 @@ class Achievements {
         Achievement(0, 5, "Nothing Left Closed", "Unlock all of the Mansion's sealed doors and cabinets", triggers.NothingLeftClosed()),
         Achievement(0, 5, "Untouched Resolve", "Drive back the Evil Entity before taking 4 or more hits", triggers.UntouchedResolve()),
         Achievement(2, 5, "The Tie Endures", "Drive back the Evil Entity with a lingering bond and flee the Mansion", triggers.TheTieEndures()),
-        Achievement(0, 10, "Swift Departure", "Escape the Mansion in less than an hour", triggers.SwiftDeparture())
+        Achievement(0, 10, "Swift Departure", "Starting from a New Game, escape the Mansion in less than an hour in as single session", triggers.SwiftDeparture())
     ]
 
     function Generate() {   
@@ -722,9 +804,70 @@ class Achievements {
 achievements = Achievements()
 achievements.Generate()
 
-rich_presence_conditional_display(region.Code != 0, "{0} | Room: {1}",
-    rich_presence_lookup("Region", region.Code, region.Lookup, "Loading..."),
-    rich_presence_lookup("Room", rooms.Code, rooms.GetLookup(), "Not Found")
+class Leaderboards {
+    function Start() {
+        return helpers.IsLoaded() && 
+            mode.Code == mode.Modes.NewGame && 
+            prev(events.Entrance.Intro) == 0 && 
+            prev(events.Entrance.Intro) == 0 && events.Entrance.Intro == 1
+    }
+
+    function Cancel() {
+        return __ornext
+        (
+            !helpers.IsLoaded() || 
+            mode.Code != mode.Modes.NewGame || 
+            helpers.IsOnTitle()
+        )
+    }
+
+    function Submit() {
+        return helpers.IsLoaded() && 
+            helpers.IsInRoom(rooms.RuinEntrance) && 
+            mode.Code == mode.Modes.NewGame && 
+            helpers.TriggeredEnding()
+    }
+
+    function Value() {
+        return measured
+        (
+            always_true(), 
+            helpers.IsLoaded() && 
+            mode.Code == mode.Modes.NewGame && 
+            once
+            (
+                prev(events.Entrance.Intro) == 0 && 
+                events.Entrance.Intro == 1
+            )
+        ) &&
+        never(!helpers.IsLoaded()) &&
+        never(mode.Code != mode.Modes.NewGame) &&
+        never(helpers.IsOnTitle())
+    }
+}
+leaderboards = Leaderboards()
+
+leaderboard("Swift Escape", "Starting from a New Game, escape the Mansion as quickly as possible in a single session",
+    start = leaderboards.Start(),
+    cancel = leaderboards.Cancel(),
+    submit = leaderboards.Submit(),
+    value = leaderboards.Value(),
+    format = "FRAMES",
+    lower_is_better = true
+)
+
+rich_presence_conditional_display(helpers.IsLoaded() && helpers.IsPlaying() && !helpers.IsOnTitle() && !helpers.IsLoadingGame() && events.Entrance.Intro == 1, 
+    "{0} Adams is exploring the {1} | Keys: {2} | Notes: {3} | Tools: {4} | Maps: {5}",
+    rich_presence_lookup("Mode", mode.Code, mode.Lookup, ""),
+    rich_presence_lookup("Room", rooms.Code, rooms.GetLookup(), "⛔"),
+    rich_presence_value("Keys", helpers.CountTriggeredEvents(events.Keys)),
+    rich_presence_value("Notes", helpers.CountTriggeredEvents(events.BooksAndMemos)),
+    rich_presence_value("Tools", helpers.CountTriggeredEvents(events.WeaponsAndTools)),
+    rich_presence_value("Maps", helpers.CountTriggeredEvents(events.Maps))
+)
+
+rich_presence_conditional_display(helpers.IsLoaded() && ((!helpers.IsPlaying()) || helpers.IsOnTitle() || helpers.IsLoadingGame() || events.Entrance.Intro == 0), 
+    "Adams is preparing to investigate the trecherous Mansion"
 )
 
 rich_presence_display("Playing Doctor Hauzer!")

@@ -984,35 +984,35 @@ achievement("Full Spectrum", "In Story Mode, activate a Rate UP bonus on EXtra S
 achievement("Pod Party", "In Story Mode, activate a Multi Ball on EXtra Stage [Normal Tilt Rule]", points = 4, id = 589177,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Extra)
 )
-achievement("Around the World", "In Story Mode, activate a 100K bonus on EXtra Stage [Normal Tilt Rule]", points = 4, id = 589187,
+achievement("Around the World", "In Story Mode, activate a 100,000 point bonus on EXtra Stage [Normal Tilt Rule]", points = 4, id = 589187,
     trigger = triggers.GotPointBonusOnExtraStage()
 )
 
 // Story Mode Challenges
 
 // Update target score and final stage due to an extra stage being added in the DLC
-achievement("Would You Like to Know More?", "In Story Mode, clear all stages with 40 million points or more on Normal difficulty or higher [Normal Tilt Rule]", points = 10, id = 580798,
+achievement("Would You Like to Know More?", "In Story Mode, clear all stages with 40,000,000 points or more on Normal difficulty or higher [Normal Tilt Rule]", points = 10, id = 580798,
     trigger = triggers.ClearedGameWithHighscore(40000000)
 )
 
 // Arcade Mode Challenges
 
-achievement("Stratosphere", "In Arcade Mode, score 3 million points or more on Stage 1 [Normal Tilt Rule]", points = 5, id = 589174,
+achievement("Stratosphere", "In Arcade Mode, score 3,000,000 points or more on Stage 1 [Normal Tilt Rule]", points = 5, id = 589174,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 3000000)
 )
-achievement("The Heavens", "In Arcade Mode, score 10 million points or more on Stage 1 [Normal Tilt Rule]", points = 10, id = 580799,
+achievement("The Heavens", "In Arcade Mode, score 10,000,000 points or more on Stage 1 [Normal Tilt Rule]", points = 10, id = 580799,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.One, 10000000)
 )
-achievement("Deep Space", "In Arcade Mode, score 3 million points or more on Stage 2 [Normal Tilt Rule]", points = 5, id = 589184,
+achievement("Deep Space", "In Arcade Mode, score 3,000,000 points or more on Stage 2 [Normal Tilt Rule]", points = 5, id = 589184,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 3000000)
 )
-achievement("The Universe", "In Arcade Mode, score 10 million points or more on Stage 2 [Normal Tilt Rule]", points = 10, id = 580800,
+achievement("The Universe", "In Arcade Mode, score 10,000,000 points or more on Stage 2 [Normal Tilt Rule]", points = 10, id = 580800,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Two, 10000000)
 )
-achievement("Outer Limits", "In Arcade Mode, score 3 million points or more on Stage 3 [Normal Tilt Rule]", points = 5, id = 589178,
+achievement("Outer Limits", "In Arcade Mode, score 3,000,000 points or more on Stage 3 [Normal Tilt Rule]", points = 5, id = 589178,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 3000000)
 )
-achievement("The Void", "In Arcade Mode, score 10 million points or more on Stage 3 [Normal Tilt Rule]", points = 10, id = 580801,
+achievement("The Void", "In Arcade Mode, score 10,000,000 points or more on Stage 3 [Normal Tilt Rule]", points = 10, id = 580801,
     trigger = triggers.AchievedArcadeScoreOnStage(settings.Stages.Three, 10000000)
 )
 

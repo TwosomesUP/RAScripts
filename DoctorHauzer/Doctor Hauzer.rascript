@@ -755,29 +755,29 @@ triggers = AchievementTriggers()
 class Achievements {
     StartingID = 0
     Data = [
-        Achievement(1, 3, "The Withered Bouquet", "Tend to the withering arrangement and leave the Guest Room behind", triggers.TheWitheredBouquet()),
-        Achievement(1, 3, "The Proper Arrangement", "Set the room in its proper order and depart the Living Room", triggers.TheProperArrangement()),
-        Achievement(1, 3, "Chose Wisely", "Complete the bathing rite and depart the Bath, still breathing", triggers.ChoseWisely()),
-        Achievement(0, 3, "A Hollow Discovery", "Collect what was carelessly left behind", triggers.AHollowDiscovery()),
-        Achievement(1, 3, "Ancient Remains", "Claim a prized relic and survive the Dining Hall", triggers.AncientRemains()),
-        Achievement(0, 3, "The House Breathes", "Unseal the cover and stir the stagnant air", triggers.TheHouseBreathes()),
-        Achievement(0, 4, "The Gallery's Answer", "Solve an artistic conundrum and escape with your life", triggers.TheGallerysAnswer()),
-        Achievement(1, 4, "Not Alone", "Witness who still walks the mansion", triggers.NotAlone()),
-        Achievement(0, 5, "No Longer Lost", "Gather all maps hidden throughout the Mansion", triggers.NoLongerLost()),
-        Achievement(1, 4, "Forced Exit", "Use excessive force in order to escape the Hidden Room", triggers.ForcedExit()),
-        Achievement(1, 4, "The Final Step", "Collect a whittled prize and safely shimmy out of the Dance Room", triggers.TheFinalStep()),
-        Achievement(1, 4, "Leap of Faith", "Trust what cannot be seen and reach the Laboratory", triggers.LeapOfFaith()),
-        Achievement(0, 5, "Complete Account", "Piece together all of the Mansion's records", triggers.CompleteAccount()),
-        Achievement(0, 5, "No Snare Holds", "Escape or disarm all of the Mansion's deadly devices", triggers.NoSnareHolds()),
-        Achievement(1, 4, "Her Portrait", "Collect a framed memory", triggers.HerPortrait()),
-        Achievement(0, 5, "Well Equipped", "Gather all weapons and tools hidden throughout the Mansion", triggers.WellEquipped()),
-        Achievement(1, 4, "Beneath the Hearth", "Disturb a false hearth and fall into the depths of the mansion", triggers.BeneathTheHearth()),
-        Achievement(0, 5, "Bearer of Keys", "Gather all keys hidden throughout the Mansion", triggers.BearerOfKeys()),
-        Achievement(1, 4, "The Lower Line", "Break the wall and uncover the buried rails", triggers.TheLowerLine()),
-        Achievement(0, 5, "Nothing Left Closed", "Unlock all of the Mansion's sealed doors and cabinets", triggers.NothingLeftClosed()),
-        Achievement(0, 5, "Untouched Resolve", "Drive back the Evil Entity before taking 4 or more hits", triggers.UntouchedResolve()),
-        Achievement(2, 5, "The Tie Endures", "Drive back the Evil Entity with a lingering bond and flee the Mansion", triggers.TheTieEndures()),
-        Achievement(0, 10, "Swift Departure", "Starting from a New Game, escape the Mansion in less than an hour in as single session", triggers.SwiftDeparture())
+        Achievement(1, 3, "The Withered Bouquet", "Tend to the withering arrangement and leave the Guest Room behind", triggers.TheWitheredBouquet(), 590018),
+        Achievement(1, 3, "The Proper Arrangement", "Set the room in its proper order and depart the Living Room", triggers.TheProperArrangement(), 590019),
+        Achievement(1, 3, "Chose Wisely", "Complete the bathing rite and depart the Bath, still breathing", triggers.ChoseWisely(), 590020),
+        Achievement(0, 3, "A Hollow Discovery", "Collect what was carelessly left behind", triggers.AHollowDiscovery(), 590021),
+        Achievement(1, 3, "Ancient Remains", "Claim a prized relic and survive the Dining Hall", triggers.AncientRemains(), 590022),
+        Achievement(0, 3, "The House Breathes", "Unseal the cover and stir the stagnant air", triggers.TheHouseBreathes(), 590023),
+        Achievement(0, 4, "The Gallery's Answer", "Solve an artistic conundrum and escape with your life", triggers.TheGallerysAnswer(), 590024),
+        Achievement(1, 4, "Not Alone", "Witness who still walks the mansion", triggers.NotAlone(), 590025),
+        Achievement(0, 5, "No Longer Lost", "Gather all maps hidden throughout the Mansion", triggers.NoLongerLost(), 590026),
+        Achievement(1, 4, "Forced Exit", "Use excessive force in order to escape the Hidden Room", triggers.ForcedExit(), 590027),
+        Achievement(1, 4, "The Final Step", "Collect a whittled prize and safely shimmy out of the Dance Room", triggers.TheFinalStep(), 590028),
+        Achievement(1, 4, "Leap of Faith", "Trust what cannot be seen and reach the Laboratory", triggers.LeapOfFaith(), 590029),
+        Achievement(0, 5, "Complete Account", "Piece together all of the Mansion's records", triggers.CompleteAccount(), 590030),
+        Achievement(0, 5, "No Snare Holds", "Escape or disarm all of the Mansion's deadly devices", triggers.NoSnareHolds(), 590031),
+        Achievement(1, 4, "Her Portrait", "Collect a framed memory", triggers.HerPortrait(), 590032),
+        Achievement(0, 5, "Well Equipped", "Gather all weapons and tools hidden throughout the Mansion", triggers.WellEquipped(), 590033),
+        Achievement(1, 4, "Beneath the Hearth", "Disturb a false hearth and fall into the depths of the mansion", triggers.BeneathTheHearth(), 590034),
+        Achievement(0, 5, "Bearer of Keys", "Gather all keys hidden throughout the Mansion", triggers.BearerOfKeys(), 590035),
+        Achievement(1, 4, "The Lower Line", "Break the wall and uncover the buried rails", triggers.TheLowerLine(), 590036),
+        Achievement(0, 5, "Nothing Left Closed", "Unlock all of the Mansion's sealed doors and cabinets", triggers.NothingLeftClosed(), 590038),
+        Achievement(0, 5, "Untouched Resolve", "Drive back the Evil Entity before taking 4 or more hits", triggers.UntouchedResolve(), 590039),
+        Achievement(2, 5, "The Tie Endures", "Drive back the Evil Entity with a lingering bond and flee the Mansion", triggers.TheTieEndures(), 590040),
+        Achievement(0, 10, "Swift Departure", "Starting from a New Game, escape the Mansion in less than an hour in as single session", triggers.SwiftDeparture(), 590041)
     ]
 
     function Generate() {   
@@ -789,11 +789,6 @@ class Achievements {
                 achievementType = "progression"
             else if (achievement.Type == 2)
                 achievementType = "win_condition"
-
-            if (this.StartingID != 0)
-                achievement.Id = this.StartingID
-
-            achievement.Id = achievement.Id + count
 
             achievement(achievement.Title, achievement.Description, achievement.Points, achievement.Trigger, achievement.Id, type=achievementType)
 

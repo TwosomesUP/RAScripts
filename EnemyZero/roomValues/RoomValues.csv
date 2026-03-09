@@ -16,7 +16,7 @@ F1 Winter Tower - Laura's Room,0x17cf92,0x0020
 F1 Winter Tower - Laura's Room,0x17cf92,0x0026
 F1 Winter Tower - Laura's Room,0x17cf92,0x0015
 F1 Winter Tower - Laura's Room,0x17cf92,0x0014
-F1 Winter Tower - Hallway,0x17cf92,0x0027
+F1 Winter Tower - Laura's Room,0x17cf92,0x0027
 F1 Winter Tower - Store Room,0x17cf92,0x004a
 F1 Winter Tower - Store Room,0x17cf92,0x004b
 F1 Winter Tower - Store Room,0x17cf92,0x004c
@@ -36,11 +36,11 @@ F1 Winter Tower - Store Room,0x17cf92,0x0053
 F1 Winter Tower - Store Room,0x17cf92,0x0050
 F1 Winter Tower - Store Room,0x17cf92,0x0051
 F1 Winter Tower - Store Room,0x17cf92,0x005c
-F1 Winter Tower - Hallway,0x17cf92,0x005d
+F1 Winter Tower - Store Room,0x17cf92,0x005d
 F1 Winter Tower - Marcus's Room,0x17cf92,0x0006
-F1 Winter Tower - Elevator,0x17cf92,0x0070
-F1 Winter Tower - Elevator,0x17cf92,0x006f
-F1 Winter Tower - Hallway,0x17cf92,0x0071
+Winter Tower - Elevator,0x17cf92,0x0070
+Winter Tower - Elevator,0x17cf92,0x006f
+Winter Tower - Elevator,0x17cf92,0x0071
 F1 Winter Tower - Locker Room,0x17cf92,0x0041
 F1 Winter Tower - Locker Room,0x17cf92,0x0042
 F1 Winter Tower - Locker Room,0x17cf92,0x0043
@@ -49,38 +49,38 @@ F1 Winter Tower - Locker Room,0x17cf92,0x0045
 F1 Winter Tower - Locker Room,0x17cf92,0x0044
 F1 Winter Tower - Locker Room,0x17cf92,0x0048
 F1 Winter Tower - Locker Room,0x17cf92,0x0047
-F1 Winter Tower - Hallway,0x17cf92,0x0049
-F1 Winter Tower - Stair Room,0x17cf92,0x005f
-F1 Winter Tower - Stair Room,0x17cf92,0x005e
-F1 Winter Tower - Hallway,0x17cf92,0x006a
-F1 Winter Tower - Stair Room,0x17cf92,0x0061
-F1 Winter Tower - Stair Room,0x17cf92,0x0060
-F1 Winter Tower - Stair Room,0x17cf92,0x0063
-F1 Winter Tower - Stair Room,0x17cf92,0x0062
-B1 Winter Tower - Stair Room,0x17cf92,0x0064
-B1 Winter Tower - Stair Room,0x17cf92,0x0065
-B1 Winter Tower - Stair Room,0x17cf92,0x0066
-B1 Winter Tower - Stair Room,0x17cf92,0x0067
-B1 Winter Tower - Stair Room,0x17cf92,0x0068
-B1 Winter Tower - Stair Room,0x17cf92,0x0069
-B1 Winter Tower - Hallway,0x17cf92,0x006b
-B1 Winter Tower - Parker's Room,0x17cf92,0x0073
-B1 Winter Tower - Parker's Room,0x17cf92,0x0074
-B1 Winter Tower - Parker's Room,0x17cf92,0x0075
-B1 Winter Tower - Parker's Room,0x17cf92,0x0078
-B1 Winter Tower - Parker's Room,0x17cf92,0x0077
-B1 Winter Tower - Parker's Room,0x17cf92,0x0076
-B1 Winter Tower - Parker's Room,0x17cf92,0x007b
-B1 Winter Tower - Parker's Room,0x17cf92,0x007c
-B1 Winter Tower - Parker's Room,0x17cf92,0x0079
-B1 Winter Tower - Parker's Room,0x17cf92,0x007a
-B1 Winter Tower - Parker's Room,0x17cf92,0x007d
-B1 Winter Tower - Parker's Room,0x17cf92,0x007e
-B1 Winter Tower - Parker's Room,0x17cf92,0x007f
-B1 Winter Tower - Parker's Room,0x17cf92,0x0080
-B1 Winter Tower - Parker's Room,0x17cf92,0x0081
-B1 Winter Tower - Hallway,0x17cf92,0x0082
-F1 Winter Tower - Hallway,0x17cf92,0x0004
+F1 Winter Tower - Locker Room,0x17cf92,0x0049
+Stair Room,0x17cf92,0x005f
+Stair Room,0x17cf92,0x005e
+Stair Room,0x17cf92,0x006a
+Stair Room,0x17cf92,0x0061
+Stair Room,0x17cf92,0x0060
+Stair Room,0x17cf92,0x0063
+Stair Room,0x17cf92,0x0062
+Stair Room,0x17cf92,0x0064
+Stair Room,0x17cf92,0x0065
+Stair Room,0x17cf92,0x0066
+Stair Room,0x17cf92,0x0067
+Stair Room,0x17cf92,0x0068
+Stair Room,0x17cf92,0x0069
+Stair Room,0x17cf92,0x006b
+Winter Tower Basement - Parker's Room,0x17cf92,0x0073
+Winter Tower Basement - Parker's Room,0x17cf92,0x0074
+Winter Tower Basement - Parker's Room,0x17cf92,0x0075
+Winter Tower Basement - Parker's Room,0x17cf92,0x0078
+Winter Tower Basement - Parker's Room,0x17cf92,0x0077
+Winter Tower Basement - Parker's Room,0x17cf92,0x0076
+Winter Tower Basement - Parker's Room,0x17cf92,0x007b
+Winter Tower Basement - Parker's Room,0x17cf92,0x007c
+Winter Tower Basement - Parker's Room,0x17cf92,0x0079
+Winter Tower Basement - Parker's Room,0x17cf92,0x007a
+Winter Tower Basement - Parker's Room,0x17cf92,0x007d
+Winter Tower Basement - Parker's Room,0x17cf92,0x007e
+Winter Tower Basement - Parker's Room,0x17cf92,0x007f
+Winter Tower Basement - Parker's Room,0x17cf92,0x0080
+Winter Tower Basement - Parker's Room,0x17cf92,0x0081
+Winter Tower Basement - Parker's Room,0x17cf92,0x0082
+Stair Room,0x17cf92,0x0004
 F1 Winter Tower - Marcus's Room,0x17cf92,0x0028
 F1 Winter Tower - Marcus's Room,0x17cf92,0x0029
 F1 Winter Tower - Marcus's Room,0x17cf92,0x002b
@@ -101,20 +101,20 @@ F1 Winter Tower - Marcus's Room,0x17cf92,0x002f
 F1 Winter Tower - Marcus's Room,0x17cf92,0x0032
 F1 Winter Tower - Marcus's Room,0x17cf92,0x0031
 F1 Winter Tower - Marcus's Room,0x17cf92,0x003f
-F1 Winter Tower - Marcus's Room - Closet,0x17cf92,0x003c
-F1 Winter Tower - Marcus's Room - Closet,0x17cf92,0x003d
-F1 Winter Tower - Marcus's Room - Closet,0x17cf92,0x003e
-F1 Winter Tower - Hallway,0x17cf92,0x0040
-B1 Winter Tower - Hallway,0x17cf92,0x0003
+F1 Winter Tower - Marcus's Room,0x17cf92,0x003c
+F1 Winter Tower - Marcus's Room,0x17cf92,0x003d
+F1 Winter Tower - Marcus's Room ,0x17cf92,0x003e
+F1 Winter Tower - Marcus's Room,0x17cf92,0x0040
+B1 Winter Tower - Power Room,0x17cf92,0x0003
 B1 Winter Tower - Power Room,0x17cf92,0x0084
 B1 Winter Tower - Power Room,0x17cf92,0x0085
 B1 Winter Tower - Power Room,0x17cf92,0x0086
 B1 Winter Tower - Power Room,0x17cf92,0x0087
 B1 Winter Tower - Power Room,0x17cf92,0x0088
 B1 Winter Tower - Power Room,0x17cf92,0x0089
-B1 Winter Tower - Hallway,0x17cf92,0x008a
-F2 Winter Tower - Hallway,0x17cf92,0x0072
-F2 Winter Tower - Duct,0x17cf92,0x0007
+B1 Winter Tower - Power Room,0x17cf92,0x008a
+F2 Winter Tower - Air Ducts,0x17cf92,0x0072
+F2 Winter Tower - Air Ducts,0x17cf92,0x0007
 F2 Winter Tower - Archives,0x17cf92,0x008c
 F2 Winter Tower - Archives,0x17cf92,0x008d
 F2 Winter Tower - Archives,0x17cf92,0x008e
@@ -130,13 +130,13 @@ F2 Winter Tower - Archives,0x17cf92,0x0099
 F2 Winter Tower - Archives,0x17cf92,0x009a
 F2 Winter Tower - Archives,0x17cf92,0x0097
 F2 Winter Tower - Archives,0x17cf92,0x0098
-F2 Winter Tower - Duct,0x17cf92,0x009b
+F2 Winter Tower - Archives,0x17cf92,0x009b
 F2 Winter Tower - Tool Room,0x17cf92,0x009c
 F2 Winter Tower - Tool Room,0x17cf92,0x009d
 F2 Winter Tower - Tool Room,0x17cf92,0x009e
 F2 Winter Tower - Tool Room,0x17cf92,0x009f
 F2 Winter Tower - Tool Room,0x17cf92,0x00a1
-F2 Winter Tower - Duct,0x17cf92,0x00a0
+F2 Winter Tower - Tool Room,0x17cf92,0x00a0
 F2 Winter Tower - Maintenance Elevator,0x17cf92,0x00b2
 F3 Winter Tower - Kimberly's Room,0x17cf92,0x00ae
 F3 Winter Tower - Kimberly's Room,0x17cf92,0x00af
@@ -164,7 +164,7 @@ Summer Tower - Elevator,0x17cf92,0x0125
 Summer Tower - Elevator,0x17cf92,0x0123
 Summer Tower - Elevator,0x17cf92,0x0124
 Summer Tower - Elevator,0x17cf92,0x0127
-F7 Summer Tower - Hallway,0x17cf92,0x0128
+Summer Tower - Elevator,0x17cf92,0x0128
 F7 Summer Tower - Ronny's Room,0x17cf92,0x00df
 F7 Summer Tower - Ronny's Room,0x17cf92,0x00e0
 F7 Summer Tower - Ronny's Room,0x17cf92,0x0100
@@ -199,7 +199,7 @@ F7 Summer Tower - Ronny's Room,0x17cf92,0x00f9
 F7 Summer Tower - Ronny's Room,0x17cf92,0x00f6
 F7 Summer Tower - Ronny's Room,0x17cf92,0x00f7
 F7 Summer Tower - Ronny's Room,0x17cf92,0x00ff
-F7 Summer Tower - Hallway,0x17cf92,0x0101
+F7 Summer Tower - Ronny's Room,0x17cf92,0x0101
 F5 Summer Tower - George's Room,0x17cf92,0x00b5
 F5 Summer Tower - George's Room,0x17cf92,0x00b6
 F5 Summer Tower - George's Room,0x17cf92,0x00b7
@@ -219,7 +219,7 @@ F5 Summer Tower - George's Room,0x17cf92,0x00c5
 F5 Summer Tower - George's Room,0x17cf92,0x00c4
 F5 Summer Tower - George's Room,0x17cf92,0x00c7
 F5 Summer Tower - George's Room,0x17cf92,0x00c8
-F5 Summer Tower - Hallway,0x17cf92,0x00c9
+F5 Summer Tower - George's Room,0x17cf92,0x00c9
 F5 Summer Tower - David's Room,0x17cf92,0x00cb
 F5 Summer Tower - David's Room,0x17cf92,0x00cc
 F5 Summer Tower - David's Room,0x17cf92,0x00cd
@@ -239,7 +239,7 @@ F5 Summer Tower - David's Room,0x17cf92,0x00da
 F5 Summer Tower - David's Room,0x17cf92,0x00d9
 F5 Summer Tower - David's Room,0x17cf92,0x00dc
 F5 Summer Tower - David's Room,0x17cf92,0x00dd
-F5 Summer Tower - Hallway,0x17cf92,0x00de
+F5 Summer Tower - David's Room,0x17cf92,0x00de
 B0 Summer Tower - Store Room,0x17cf92,0x0102
 B0 Summer Tower - Store Room,0x17cf92,0x0103
 B0 Summer Tower - Store Room,0x17cf92,0x0104
@@ -260,7 +260,7 @@ B0 Summer Tower - Store Room,0x17cf92,0x0113
 B0 Summer Tower - Store Room,0x17cf92,0x0110
 B0 Summer Tower - Store Room,0x17cf92,0x0111
 B0 Summer Tower - Store Room,0x17cf92,0x0112
-B0 Summer Tower - Hallway,0x17cf92,0x0116
+B0 Summer Tower - Store Room,0x17cf92,0x0116
 F5 Summer Tower - George's Room,0x17cf92,0x00bf
 F5 Summer Tower - George's Room,0x17cf92,0x00ca
 F6 Summer Tower - Power Room,0x17cf92,0x0117
@@ -270,15 +270,15 @@ F6 Summer Tower - Power Room,0x17cf92,0x011a
 F6 Summer Tower - Power Room,0x17cf92,0x011b
 F6 Summer Tower - Power Room,0x17cf92,0x011c
 F6 Summer Tower - Power Room,0x17cf92,0x011d
-F6 Summer Tower - Hallway,0x17cf92,0x011e
-Summer/Fall Tower - Elevator,0x17cf92,0x011f
-Summer/Fall Tower - Elevator,0x17cf92,0x0120
-Summer/Fall Tower - Elevator,0x17cf92,0x0122
-Summer/Fall Tower - Elevator,0x17cf92,0x0121
-F1 Fall Tower - Elevator,0x17cf92,0x012a
-F1 Fall Tower - Elevator,0x17cf92,0x0129
-F1 Fall Tower - Elevator,0x17cf92,0x012b
-F1 Fall Tower - Elevator,0x17cf92,0x0001
+F6 Summer Tower - Power Room,0x17cf92,0x011e
+Fall Tower - Elevator,0x17cf92,0x011f
+Fall Tower - Elevator,0x17cf92,0x0120
+Fall Tower - Elevator,0x17cf92,0x0122
+Fall Tower - Elevator,0x17cf92,0x0121
+Fall Tower - Elevator,0x17cf92,0x012a
+Fall Tower - Elevator,0x17cf92,0x0129
+Fall Tower - Elevator,0x17cf92,0x012b
+Fall Tower - Elevator,0x17cf92,0x0001
 Fall Tower - Safe Room,0x17cf92,0x012c
 Fall Tower - Safe Room,0x17cf92,0x012d
 Fall Tower - Safe Room,0x17cf92,0x012e
@@ -287,7 +287,11 @@ Fall Tower - Safe Room,0x17cf92,0x0130
 Fall Tower - Safe Room,0x17cf92,0x0131
 Fall Tower - Safe Room,0x17cf92,0x0132
 Fall Tower - Safe Room,0x17cf92,0x0133
-F9 Fall Tower - Hallway,0x17cf92,0x000b
-F9 Fall Tower - Stair Room,0x17cf92,0x006d
-Fall Tower - Stair Room,0x17cf92,0x006c
-Fall Tower - Parker's Room,0x17cf92,0x0083
+F9 Fall Tower,0x17cf92,0x000b
+Stair Room,0x17cf92,0x006d
+Stair Room,0x17cf92,0x006c
+Winter Tower Basement - Parker's Room,0x17cf92,0x0083
+F9 Fall Tower,0x17cf92,0x006e
+F9 Fall Tower,0x17cf92,0x000e
+Escape Shuttle,0x17cf92,0x000f
+Escape Shuttle,0x17cf92,0x0000

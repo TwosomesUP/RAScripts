@@ -1,6 +1,567 @@
 // Doctor Hauzer
 // #ID = 14556
 
+class States {
+    LoadingGame = 0x00
+    SegaLogo = 0x01
+    LoadingData = 0x02
+    SearchModeMove = 0x03
+    SearchModeIdle = 0x04
+    SearchModeMenu = 0x05
+    LoadingSave = 0x06
+    ActiveMode = 0x08
+    VexxTerminal = 0x09
+}
+
+class PlayerState {
+    Id = byte(0x197714)
+    States = States()
+}
+playerState = PlayerState()
+
+class Saves {
+    Remaining = byte(0x196ea6)
+    HardMax = 13
+    NormalMax = 64
+}
+saves = Saves()
+
+class GameDifficulties {
+    Easy = 0x00
+    Normal = 0x01
+    Hard = 0x02
+    Beginner = 0x03
+}
+
+class GameDifficulty {
+    Id = byte(0x1976e1)
+    Difficulties = GameDifficulties()
+}
+gameDifficulty = GameDifficulty()
+
+class Items {
+    VoiceRecorder = byte(0x17d1ca)
+    VPSScanner = byte(0x17d1ce)
+    LauraKeycard = byte(0x17d1d2)
+    StairRoomKeycard = byte(0x17d1d6)
+    SeveredFingers = byte(0x17d1da)
+    ParkerGun = byte(0x17d1de)
+    WinterTowerPowerCode = byte(0x17d1e2) // Kimberly's Clue
+    GeorgeBlueKeycard = byte(0x17d1e6)
+    GeorgeGun = byte(0x17d1ea)
+    KimberlyGun = byte(0x17d1ee)
+    ScannerKey = byte(0x17d1f2)
+    SummerTowerPowerClue1 = byte(0x17d1f6) // George's Clue
+    GeorgeOrangeKeycard = byte(0x17d1fa)
+    Sunglasses = byte(0x17d1fe)
+    SummerTowerPowerClue2 = byte(0x17d202) // Store Room Hint
+    DavidDisk = byte(0x17d206)
+
+    // Need to figure out a solution for the guns since they get swapped out
+    // Maybe just have an achievement for collecting the final gun?
+    WinterTowerItems = [
+        VoiceRecorder, // Don't Lose
+        VPSScanner, // Lose in final sequence (won't impact achievement)
+        LauraKeycard, // Don't Lose
+        StairRoomKeycard, // Don't Lose
+        SeveredFingers, // Don't Lose
+        ParkerGun, // Lose
+        WinterTowerPowerCode, // Don't Lose
+        GeorgeBlueKeycard, // Don't Lose
+        GeorgeGun // Lose
+    ]
+
+    SummerTowerItems = [
+        KimberlyGun, // Lose
+        ScannerKey, // Don't Lose
+        SummerTowerPowerClue1, // Don't Lose
+        GeorgeOrangeKeycard, // Lose - used to access the fall tower - use the event as an alt?
+        Sunglasses, // Don't Lose
+        SummerTowerPowerClue2, // Don't Lose
+        DavidDisk // Lose - after meeting George? Use the event as an alt?
+    ]
+}
+
+class Location {
+    Name = ""
+    Value = 0
+}
+
+class SearchModeLocations {
+
+    // Winter Tower
+
+    // F1 Winter Tower | Laura's Room
+    F1WinterTowerLaurasRoom1 = Location("F1 Winter Tower | Laura's Room", 0x0014)
+    F1WinterTowerLaurasRoom2 = Location("F1 Winter Tower | Laura's Room", 0x0015)
+    F1WinterTowerLaurasRoom3 = Location("F1 Winter Tower | Laura's Room", 0x0016)
+    F1WinterTowerLaurasRoom4 = Location("F1 Winter Tower | Laura's Room", 0x0017)
+    F1WinterTowerLaurasRoom5 = Location("F1 Winter Tower | Laura's Room", 0x0018)
+    F1WinterTowerLaurasRoom6 = Location("F1 Winter Tower | Laura's Room", 0x0019)
+    F1WinterTowerLaurasRoom7 = Location("F1 Winter Tower | Laura's Room", 0x001a)
+    F1WinterTowerLaurasRoom8 = Location("F1 Winter Tower | Laura's Room", 0x001b)
+    F1WinterTowerLaurasRoom9 = Location("F1 Winter Tower | Laura's Room", 0x001c)
+    F1WinterTowerLaurasRoom10 = Location("F1 Winter Tower | Laura's Room", 0x001d)
+    F1WinterTowerLaurasRoom11 = Location("F1 Winter Tower | Laura's Room", 0x001e)
+    F1WinterTowerLaurasRoom12 = Location("F1 Winter Tower | Laura's Room", 0x001f)
+    F1WinterTowerLaurasRoom13 = Location("F1 Winter Tower | Laura's Room", 0x0020)
+    F1WinterTowerLaurasRoom14 = Location("F1 Winter Tower | Laura's Room", 0x0021)
+    F1WinterTowerLaurasRoom15 = Location("F1 Winter Tower | Laura's Room", 0x0022)
+    F1WinterTowerLaurasRoom16 = Location("F1 Winter Tower | Laura's Room", 0x0023)
+    F1WinterTowerLaurasRoom17 = Location("F1 Winter Tower | Laura's Room", 0x0026)
+    F1WinterTowerLaurasRoom18 = Location("F1 Winter Tower | Laura's Room", 0x0027)
+
+    // F1 Winter Tower | Store Room
+    F1WinterTowerStoreRoom1 = Location("F1 Winter Tower | Store Room", 0x004a)
+    F1WinterTowerStoreRoom2 = Location("F1 Winter Tower | Store Room", 0x004b)
+    F1WinterTowerStoreRoom3 = Location("F1 Winter Tower | Store Room", 0x004c)
+    F1WinterTowerStoreRoom4 = Location("F1 Winter Tower | Store Room", 0x004d)
+    F1WinterTowerStoreRoom5 = Location("F1 Winter Tower | Store Room", 0x004e)
+    F1WinterTowerStoreRoom6 = Location("F1 Winter Tower | Store Room", 0x004f)
+    F1WinterTowerStoreRoom7 = Location("F1 Winter Tower | Store Room", 0x0050)
+    F1WinterTowerStoreRoom8 = Location("F1 Winter Tower | Store Room", 0x0051)
+    F1WinterTowerStoreRoom9 = Location("F1 Winter Tower | Store Room", 0x0052)
+    F1WinterTowerStoreRoom10 = Location("F1 Winter Tower | Store Room", 0x0053)
+    F1WinterTowerStoreRoom11 = Location("F1 Winter Tower | Store Room", 0x0054)
+    F1WinterTowerStoreRoom12 = Location("F1 Winter Tower | Store Room", 0x0055)
+    F1WinterTowerStoreRoom13 = Location("F1 Winter Tower | Store Room", 0x0056)
+    F1WinterTowerStoreRoom14 = Location("F1 Winter Tower | Store Room", 0x0057)
+    F1WinterTowerStoreRoom15 = Location("F1 Winter Tower | Store Room", 0x0058)
+    F1WinterTowerStoreRoom16 = Location("F1 Winter Tower | Store Room", 0x0059)
+    F1WinterTowerStoreRoom17 = Location("F1 Winter Tower | Store Room", 0x005a)
+    F1WinterTowerStoreRoom18 = Location("F1 Winter Tower | Store Room", 0x005b)
+    F1WinterTowerStoreRoom19 = Location("F1 Winter Tower | Store Room", 0x005c)
+    F1WinterTowerStoreRoom20 = Location("F1 Winter Tower | Store Room", 0x005d)
+
+    // F1 Winter Tower | Marcus's Room
+    F1WinterTowerMarcusRoom1 = Location("F1 Winter Tower | Marcus's Room", 0x0006)
+    F1WinterTowerMarcusRoom2 = Location("F1 Winter Tower | Marcus's Room", 0x0028)
+    F1WinterTowerMarcusRoom3 = Location("F1 Winter Tower | Marcus's Room", 0x0029)
+    F1WinterTowerMarcusRoom4 = Location("F1 Winter Tower | Marcus's Room", 0x002a)
+    F1WinterTowerMarcusRoom5 = Location("F1 Winter Tower | Marcus's Room", 0x002b)
+    F1WinterTowerMarcusRoom6 = Location("F1 Winter Tower | Marcus's Room", 0x002c)
+    F1WinterTowerMarcusRoom7 = Location("F1 Winter Tower | Marcus's Room", 0x002d)
+    F1WinterTowerMarcusRoom8 = Location("F1 Winter Tower | Marcus's Room", 0x002e)
+    F1WinterTowerMarcusRoom9 = Location("F1 Winter Tower | Marcus's Room", 0x002f)
+    F1WinterTowerMarcusRoom10 = Location("F1 Winter Tower | Marcus's Room", 0x0030)
+    F1WinterTowerMarcusRoom11 = Location("F1 Winter Tower | Marcus's Room", 0x0031)
+    F1WinterTowerMarcusRoom12 = Location("F1 Winter Tower | Marcus's Room", 0x0032)
+    F1WinterTowerMarcusRoom13 = Location("F1 Winter Tower | Marcus's Room", 0x0033)
+    F1WinterTowerMarcusRoom14 = Location("F1 Winter Tower | Marcus's Room", 0x0034)
+    F1WinterTowerMarcusRoom15 = Location("F1 Winter Tower | Marcus's Room", 0x0035)
+    F1WinterTowerMarcusRoom16 = Location("F1 Winter Tower | Marcus's Room", 0x0036)
+    F1WinterTowerMarcusRoom17 = Location("F1 Winter Tower | Marcus's Room", 0x0037)
+    F1WinterTowerMarcusRoom18 = Location("F1 Winter Tower | Marcus's Room", 0x0038)
+    F1WinterTowerMarcusRoom19 = Location("F1 Winter Tower | Marcus's Room", 0x0039)
+    F1WinterTowerMarcusRoom20 = Location("F1 Winter Tower | Marcus's Room", 0x003a)
+    F1WinterTowerMarcusRoom21 = Location("F1 Winter Tower | Marcus's Room", 0x003c)
+    F1WinterTowerMarcusRoom22 = Location("F1 Winter Tower | Marcus's Room", 0x003d)
+    F1WinterTowerMarcusRoom23 = Location("F1 Winter Tower | Marcus's Room", 0x003e)
+    F1WinterTowerMarcusRoom24 = Location("F1 Winter Tower | Marcus's Room", 0x003f)
+    F1WinterTowerMarcusRoom25 = Location("F1 Winter Tower | Marcus's Room", 0x0040)
+
+    // Winter Tower | Elevator
+    WinterTowerElevator1 = Location("Winter Tower | Elevator", 0x006f)
+    WinterTowerElevator2 = Location("Winter Tower | Elevator", 0x0070)
+    WinterTowerElevator3 = Location("Winter Tower | Elevator", 0x0071)
+
+    // F1 Winter Tower | Locker Room
+    F1WinterTowerLockerRoom1 = Location("F1 Winter Tower | Locker Room", 0x0041)
+    F1WinterTowerLockerRoom2 = Location("F1 Winter Tower | Locker Room", 0x0042)
+    F1WinterTowerLockerRoom3 = Location("F1 Winter Tower | Locker Room", 0x0043)
+    F1WinterTowerLockerRoom4 = Location("F1 Winter Tower | Locker Room", 0x0044)
+    F1WinterTowerLockerRoom5 = Location("F1 Winter Tower | Locker Room", 0x0045)
+    F1WinterTowerLockerRoom6 = Location("F1 Winter Tower | Locker Room", 0x0046)
+    F1WinterTowerLockerRoom7 = Location("F1 Winter Tower | Locker Room", 0x0047)
+    F1WinterTowerLockerRoom8 = Location("F1 Winter Tower | Locker Room", 0x0048)
+    F1WinterTowerLockerRoom9 = Location("F1 Winter Tower | Locker Room", 0x0049)
+
+    // Winter Tower Basement | Parker's Room
+    WinterTowerBasementParkersRoom1 = Location("Winter Tower Basement | Parker's Room", 0x0073)
+    WinterTowerBasementParkersRoom2 = Location("Winter Tower Basement | Parker's Room", 0x0074)
+    WinterTowerBasementParkersRoom3 = Location("Winter Tower Basement | Parker's Room", 0x0075)
+    WinterTowerBasementParkersRoom4 = Location("Winter Tower Basement | Parker's Room", 0x0076)
+    WinterTowerBasementParkersRoom5 = Location("Winter Tower Basement | Parker's Room", 0x0077)
+    WinterTowerBasementParkersRoom6 = Location("Winter Tower Basement | Parker's Room", 0x0078)
+    WinterTowerBasementParkersRoom7 = Location("Winter Tower Basement | Parker's Room", 0x0079)
+    WinterTowerBasementParkersRoom8 = Location("Winter Tower Basement | Parker's Room", 0x007a)
+    WinterTowerBasementParkersRoom9 = Location("Winter Tower Basement | Parker's Room", 0x007b)
+    WinterTowerBasementParkersRoom10 = Location("Winter Tower Basement | Parker's Room", 0x007c)
+    WinterTowerBasementParkersRoom11 = Location("Winter Tower Basement | Parker's Room", 0x007d)
+    WinterTowerBasementParkersRoom12 = Location("Winter Tower Basement | Parker's Room", 0x007e)
+    WinterTowerBasementParkersRoom13 = Location("Winter Tower Basement | Parker's Room", 0x007f)
+    WinterTowerBasementParkersRoom14 = Location("Winter Tower Basement | Parker's Room", 0x0080)
+    WinterTowerBasementParkersRoom15 = Location("Winter Tower Basement | Parker's Room", 0x0081)
+    WinterTowerBasementParkersRoom16 = Location("Winter Tower Basement | Parker's Room", 0x0082)
+    WinterTowerBasementParkersRoom17 = Location("Winter Tower Basement | Parker's Room", 0x0083)
+
+    // B1 Winter Tower | Power Room
+    B1WinterTowerPowerRoom1 = Location("B1 Winter Tower | Power Room", 0x0003)
+    B1WinterTowerPowerRoom2 = Location("B1 Winter Tower | Power Room", 0x0084)
+    B1WinterTowerPowerRoom3 = Location("B1 Winter Tower | Power Room", 0x0085)
+    B1WinterTowerPowerRoom4 = Location("B1 Winter Tower | Power Room", 0x0086)
+    B1WinterTowerPowerRoom5 = Location("B1 Winter Tower | Power Room", 0x0087)
+    B1WinterTowerPowerRoom6 = Location("B1 Winter Tower | Power Room", 0x0088)
+    B1WinterTowerPowerRoom7 = Location("B1 Winter Tower | Power Room", 0x0089)
+    B1WinterTowerPowerRoom8 = Location("B1 Winter Tower | Power Room", 0x008a)
+
+    // F2 Winter Tower | Air Ducts
+    F2WinterTowerAirDucts1 = Location("F2 Winter Tower | Air Ducts", 0x0007)
+    F2WinterTowerAirDucts2 = Location("F2 Winter Tower | Air Ducts", 0x0072)
+
+    // F2 Winter Tower | Archives
+    F2WinterTowerArchives1 = Location("F2 Winter Tower | Archives", 0x008b)
+    F2WinterTowerArchives2 = Location("F2 Winter Tower | Archives", 0x008c)
+    F2WinterTowerArchives3 = Location("F2 Winter Tower | Archives", 0x008d)
+    F2WinterTowerArchives4 = Location("F2 Winter Tower | Archives", 0x008e)
+    F2WinterTowerArchives5 = Location("F2 Winter Tower | Archives", 0x008f)
+    F2WinterTowerArchives6 = Location("F2 Winter Tower | Archives", 0x0090)
+    F2WinterTowerArchives7 = Location("F2 Winter Tower | Archives", 0x0091)
+    F2WinterTowerArchives8 = Location("F2 Winter Tower | Archives", 0x0092)
+    F2WinterTowerArchives9 = Location("F2 Winter Tower | Archives", 0x0093)
+    F2WinterTowerArchives10 = Location("F2 Winter Tower | Archives", 0x0095)
+    F2WinterTowerArchives11 = Location("F2 Winter Tower | Archives", 0x0096)
+    F2WinterTowerArchives12 = Location("F2 Winter Tower | Archives", 0x0097)
+    F2WinterTowerArchives13 = Location("F2 Winter Tower | Archives", 0x0098)
+    F2WinterTowerArchives14 = Location("F2 Winter Tower | Archives", 0x0099)
+    F2WinterTowerArchives15 = Location("F2 Winter Tower | Archives", 0x009a)
+    F2WinterTowerArchives16 = Location("F2 Winter Tower | Archives", 0x009b)
+
+    // F2 Winter Tower | Tool Room
+    F2WinterTowerToolRoom1 = Location("F2 Winter Tower | Tool Room", 0x009c)
+    F2WinterTowerToolRoom2 = Location("F2 Winter Tower | Tool Room", 0x009d)
+    F2WinterTowerToolRoom3 = Location("F2 Winter Tower | Tool Room", 0x009e)
+    F2WinterTowerToolRoom4 = Location("F2 Winter Tower | Tool Room", 0x009f)
+    F2WinterTowerToolRoom5 = Location("F2 Winter Tower | Tool Room", 0x00a0)
+    F2WinterTowerToolRoom6 = Location("F2 Winter Tower | Tool Room", 0x00a1)
+
+    // F2 Winter Tower | Maintenance Elevator
+    F2WinterTowerMaintenanceElevator1 = Location("F2 Winter Tower | Maintenance Elevator", 0x00b2)
+
+    // F3 Winter Tower | Kimberly's Room
+    F3WinterTowerKimberlysRoom1 = Location("F3 Winter Tower | Kimberly's Room", 0x00a2)
+    F3WinterTowerKimberlysRoom2 = Location("F3 Winter Tower | Kimberly's Room", 0x00a3)
+    F3WinterTowerKimberlysRoom3 = Location("F3 Winter Tower | Kimberly's Room", 0x00a4)
+    F3WinterTowerKimberlysRoom4 = Location("F3 Winter Tower | Kimberly's Room", 0x00a5)
+    F3WinterTowerKimberlysRoom5 = Location("F3 Winter Tower | Kimberly's Room", 0x00a6)
+    F3WinterTowerKimberlysRoom6 = Location("F3 Winter Tower | Kimberly's Room", 0x00a7)
+    F3WinterTowerKimberlysRoom7 = Location("F3 Winter Tower | Kimberly's Room", 0x00a8)
+    F3WinterTowerKimberlysRoom8 = Location("F3 Winter Tower | Kimberly's Room", 0x00a9)
+    F3WinterTowerKimberlysRoom9 = Location("F3 Winter Tower | Kimberly's Room", 0x00aa)
+    F3WinterTowerKimberlysRoom10 = Location("F3 Winter Tower | Kimberly's Room", 0x00ab)
+    F3WinterTowerKimberlysRoom11 = Location("F3 Winter Tower | Kimberly's Room", 0x00ac)
+    F3WinterTowerKimberlysRoom12 = Location("F3 Winter Tower | Kimberly's Room", 0x00ad)
+    F3WinterTowerKimberlysRoom13 = Location("F3 Winter Tower | Kimberly's Room", 0x00ae)
+    F3WinterTowerKimberlysRoom14 = Location("F3 Winter Tower | Kimberly's Room", 0x00af)
+    F3WinterTowerKimberlysRoom15 = Location("F3 Winter Tower | Kimberly's Room", 0x00b0)
+    F3WinterTowerKimberlysRoom16 = Location("F3 Winter Tower | Kimberly's Room", 0x00b1)
+    F3WinterTowerKimberlysRoom17 = Location("F3 Winter Tower | Kimberly's Room", 0x00b3)
+    F3WinterTowerKimberlysRoom18 = Location("F3 Winter Tower | Kimberly's Room", 0x00b4)
+
+    // Summer Tower
+
+    // Summer Tower | Emergency Bridge
+    SummerTowerEmergencyBridge1 = Location("Summer Tower | Emergency Bridge", 0x0002)
+    SummerTowerEmergencyBridge2 = Location("Summer Tower | Emergency Bridge", 0x0008)
+    SummerTowerEmergencyBridge3 = Location("Summer Tower | Emergency Bridge", 0x0009)
+
+    // Summer Tower | Elevator
+    SummerTowerElevator1 = Location("Summer Tower | Elevator", 0x0123)
+    SummerTowerElevator2 = Location("Summer Tower | Elevator", 0x0124)
+    SummerTowerElevator3 = Location("Summer Tower | Elevator", 0x0125)
+    SummerTowerElevator4 = Location("Summer Tower | Elevator", 0x0126)
+    SummerTowerElevator5 = Location("Summer Tower | Elevator", 0x0127)
+    SummerTowerElevator6 = Location("Summer Tower | Elevator", 0x0128)
+
+    // F7 Summer Tower | Ronny's Room
+    F7SummerTowerRonnysRoom1 = Location("F7 Summer Tower | Ronny's Room", 0x00df)
+    F7SummerTowerRonnysRoom2 = Location("F7 Summer Tower | Ronny's Room", 0x00e0)
+    F7SummerTowerRonnysRoom3 = Location("F7 Summer Tower | Ronny's Room", 0x00e1)
+    F7SummerTowerRonnysRoom4 = Location("F7 Summer Tower | Ronny's Room", 0x00e2)
+    F7SummerTowerRonnysRoom5 = Location("F7 Summer Tower | Ronny's Room", 0x00e3)
+    F7SummerTowerRonnysRoom6 = Location("F7 Summer Tower | Ronny's Room", 0x00e4)
+    F7SummerTowerRonnysRoom7 = Location("F7 Summer Tower | Ronny's Room", 0x00e5)
+    F7SummerTowerRonnysRoom8 = Location("F7 Summer Tower | Ronny's Room", 0x00e6)
+    F7SummerTowerRonnysRoom9 = Location("F7 Summer Tower | Ronny's Room", 0x00e7)
+    F7SummerTowerRonnysRoom10 = Location("F7 Summer Tower | Ronny's Room", 0x00e8)
+    F7SummerTowerRonnysRoom11 = Location("F7 Summer Tower | Ronny's Room", 0x00e9)
+    F7SummerTowerRonnysRoom12 = Location("F7 Summer Tower | Ronny's Room", 0x00ea)
+    F7SummerTowerRonnysRoom13 = Location("F7 Summer Tower | Ronny's Room", 0x00eb)
+    F7SummerTowerRonnysRoom14 = Location("F7 Summer Tower | Ronny's Room", 0x00ec)
+    F7SummerTowerRonnysRoom15 = Location("F7 Summer Tower | Ronny's Room", 0x00ed)
+    F7SummerTowerRonnysRoom16 = Location("F7 Summer Tower | Ronny's Room", 0x00ee)
+    F7SummerTowerRonnysRoom17 = Location("F7 Summer Tower | Ronny's Room", 0x00ef)
+    F7SummerTowerRonnysRoom18 = Location("F7 Summer Tower | Ronny's Room", 0x00f0)
+    F7SummerTowerRonnysRoom19 = Location("F7 Summer Tower | Ronny's Room", 0x00f1)
+    F7SummerTowerRonnysRoom20 = Location("F7 Summer Tower | Ronny's Room", 0x00f2)
+    F7SummerTowerRonnysRoom21 = Location("F7 Summer Tower | Ronny's Room", 0x00f3)
+    F7SummerTowerRonnysRoom22 = Location("F7 Summer Tower | Ronny's Room", 0x00f4)
+    F7SummerTowerRonnysRoom23 = Location("F7 Summer Tower | Ronny's Room", 0x00f5)
+    F7SummerTowerRonnysRoom24 = Location("F7 Summer Tower | Ronny's Room", 0x00f6)
+    F7SummerTowerRonnysRoom25 = Location("F7 Summer Tower | Ronny's Room", 0x00f7)
+    F7SummerTowerRonnysRoom26 = Location("F7 Summer Tower | Ronny's Room", 0x00f8)
+    F7SummerTowerRonnysRoom27 = Location("F7 Summer Tower | Ronny's Room", 0x00f9)
+    F7SummerTowerRonnysRoom28 = Location("F7 Summer Tower | Ronny's Room", 0x00fa)
+    F7SummerTowerRonnysRoom29 = Location("F7 Summer Tower | Ronny's Room", 0x00fb)
+    F7SummerTowerRonnysRoom30 = Location("F7 Summer Tower | Ronny's Room", 0x00fc)
+    F7SummerTowerRonnysRoom31 = Location("F7 Summer Tower | Ronny's Room", 0x00fd)
+    F7SummerTowerRonnysRoom32 = Location("F7 Summer Tower | Ronny's Room", 0x00fe)
+    F7SummerTowerRonnysRoom33 = Location("F7 Summer Tower | Ronny's Room", 0x00ff)
+    F7SummerTowerRonnysRoom34 = Location("F7 Summer Tower | Ronny's Room", 0x0100)
+    F7SummerTowerRonnysRoom35 = Location("F7 Summer Tower | Ronny's Room", 0x0101)
+
+    // F5 Summer Tower | George's Room
+    F5SummerTowerGeorgesRoom1 = Location("F5 Summer Tower | George's Room", 0x00b5)
+    F5SummerTowerGeorgesRoom2 = Location("F5 Summer Tower | George's Room", 0x00b6)
+    F5SummerTowerGeorgesRoom3 = Location("F5 Summer Tower | George's Room", 0x00b7)
+    F5SummerTowerGeorgesRoom4 = Location("F5 Summer Tower | George's Room", 0x00b8)
+    F5SummerTowerGeorgesRoom5 = Location("F5 Summer Tower | George's Room", 0x00b9)
+    F5SummerTowerGeorgesRoom6 = Location("F5 Summer Tower | George's Room", 0x00ba)
+    F5SummerTowerGeorgesRoom7 = Location("F5 Summer Tower | George's Room", 0x00bb)
+    F5SummerTowerGeorgesRoom8 = Location("F5 Summer Tower | George's Room", 0x00bc)
+    F5SummerTowerGeorgesRoom9 = Location("F5 Summer Tower | George's Room", 0x00bd)
+    F5SummerTowerGeorgesRoom10 = Location("F5 Summer Tower | George's Room", 0x00be)
+    F5SummerTowerGeorgesRoom11 = Location("F5 Summer Tower | George's Room", 0x00bf)
+    F5SummerTowerGeorgesRoom12 = Location("F5 Summer Tower | George's Room", 0x00c0)
+    F5SummerTowerGeorgesRoom13 = Location("F5 Summer Tower | George's Room", 0x00c1)
+    F5SummerTowerGeorgesRoom14 = Location("F5 Summer Tower | George's Room", 0x00c2)
+    F5SummerTowerGeorgesRoom15 = Location("F5 Summer Tower | George's Room", 0x00c3)
+    F5SummerTowerGeorgesRoom16 = Location("F5 Summer Tower | George's Room", 0x00c4)
+    F5SummerTowerGeorgesRoom17 = Location("F5 Summer Tower | George's Room", 0x00c5)
+    F5SummerTowerGeorgesRoom18 = Location("F5 Summer Tower | George's Room", 0x00c6)
+    F5SummerTowerGeorgesRoom19 = Location("F5 Summer Tower | George's Room", 0x00c7)
+    F5SummerTowerGeorgesRoom20 = Location("F5 Summer Tower | George's Room", 0x00c8)
+    F5SummerTowerGeorgesRoom21 = Location("F5 Summer Tower | George's Room", 0x00c9)
+    F5SummerTowerGeorgesRoom22 = Location("F5 Summer Tower | George's Room", 0x00ca)
+
+    // F5 Summer Tower | David's Room
+    F5SummerTowerDavidsRoom1 = Location("F5 Summer Tower | David's Room", 0x00cb)
+    F5SummerTowerDavidsRoom2 = Location("F5 Summer Tower | David's Room", 0x00cc)
+    F5SummerTowerDavidsRoom3 = Location("F5 Summer Tower | David's Room", 0x00cd)
+    F5SummerTowerDavidsRoom4 = Location("F5 Summer Tower | David's Room", 0x00ce)
+    F5SummerTowerDavidsRoom5 = Location("F5 Summer Tower | David's Room", 0x00cf)
+    F5SummerTowerDavidsRoom6 = Location("F5 Summer Tower | David's Room", 0x00d0)
+    F5SummerTowerDavidsRoom7 = Location("F5 Summer Tower | David's Room", 0x00d1)
+    F5SummerTowerDavidsRoom8 = Location("F5 Summer Tower | David's Room", 0x00d2)
+    F5SummerTowerDavidsRoom9 = Location("F5 Summer Tower | David's Room", 0x00d3)
+    F5SummerTowerDavidsRoom10 = Location("F5 Summer Tower | David's Room", 0x00d4)
+    F5SummerTowerDavidsRoom11 = Location("F5 Summer Tower | David's Room", 0x00d5)
+    F5SummerTowerDavidsRoom12 = Location("F5 Summer Tower | David's Room", 0x00d6)
+    F5SummerTowerDavidsRoom13 = Location("F5 Summer Tower | David's Room", 0x00d7)
+    F5SummerTowerDavidsRoom14 = Location("F5 Summer Tower | David's Room", 0x00d8)
+    F5SummerTowerDavidsRoom15 = Location("F5 Summer Tower | David's Room", 0x00d9)
+    F5SummerTowerDavidsRoom16 = Location("F5 Summer Tower | David's Room", 0x00da)
+    F5SummerTowerDavidsRoom17 = Location("F5 Summer Tower | David's Room", 0x00db)
+    F5SummerTowerDavidsRoom18 = Location("F5 Summer Tower | David's Room", 0x00dc)
+    F5SummerTowerDavidsRoom19 = Location("F5 Summer Tower | David's Room", 0x00dd)
+    F5SummerTowerDavidsRoom20 = Location("F5 Summer Tower | David's Room", 0x00de)
+
+    // B0 Summer Tower | Store Room
+    B0SummerTowerStoreRoom1 = Location("B0 Summer Tower | Store Room", 0x0102)
+    B0SummerTowerStoreRoom2 = Location("B0 Summer Tower | Store Room", 0x0103)
+    B0SummerTowerStoreRoom3 = Location("B0 Summer Tower | Store Room", 0x0104)
+    B0SummerTowerStoreRoom4 = Location("B0 Summer Tower | Store Room", 0x0105)
+    B0SummerTowerStoreRoom5 = Location("B0 Summer Tower | Store Room", 0x0106)
+    B0SummerTowerStoreRoom6 = Location("B0 Summer Tower | Store Room", 0x0107)
+    B0SummerTowerStoreRoom7 = Location("B0 Summer Tower | Store Room", 0x0108)
+    B0SummerTowerStoreRoom8 = Location("B0 Summer Tower | Store Room", 0x0109)
+    B0SummerTowerStoreRoom9 = Location("B0 Summer Tower | Store Room", 0x010a)
+    B0SummerTowerStoreRoom10 = Location("B0 Summer Tower | Store Room", 0x010b)
+    B0SummerTowerStoreRoom11 = Location("B0 Summer Tower | Store Room", 0x010c)
+    B0SummerTowerStoreRoom12 = Location("B0 Summer Tower | Store Room", 0x010d)
+    B0SummerTowerStoreRoom13 = Location("B0 Summer Tower | Store Room", 0x010e)
+    B0SummerTowerStoreRoom14 = Location("B0 Summer Tower | Store Room", 0x010f)
+    B0SummerTowerStoreRoom15 = Location("B0 Summer Tower | Store Room", 0x0110)
+    B0SummerTowerStoreRoom16 = Location("B0 Summer Tower | Store Room", 0x0111)
+    B0SummerTowerStoreRoom17 = Location("B0 Summer Tower | Store Room", 0x0112)
+    B0SummerTowerStoreRoom18 = Location("B0 Summer Tower | Store Room", 0x0113)
+    B0SummerTowerStoreRoom19 = Location("B0 Summer Tower | Store Room", 0x0114)
+    B0SummerTowerStoreRoom20 = Location("B0 Summer Tower | Store Room", 0x0115)
+    B0SummerTowerStoreRoom21 = Location("B0 Summer Tower | Store Room", 0x0116)
+
+    // F6 Summer Tower | Power Room
+    F6SummerTowerPowerRoom1 = Location("F6 Summer Tower | Power Room", 0x0117)
+    F6SummerTowerPowerRoom2 = Location("F6 Summer Tower | Power Room", 0x0118)
+    F6SummerTowerPowerRoom3 = Location("F6 Summer Tower | Power Room", 0x0119)
+    F6SummerTowerPowerRoom4 = Location("F6 Summer Tower | Power Room", 0x011a)
+    F6SummerTowerPowerRoom5 = Location("F6 Summer Tower | Power Room", 0x011b)
+    F6SummerTowerPowerRoom6 = Location("F6 Summer Tower | Power Room", 0x011c)
+    F6SummerTowerPowerRoom7 = Location("F6 Summer Tower | Power Room", 0x011d)
+    F6SummerTowerPowerRoom8 = Location("F6 Summer Tower | Power Room", 0x011e)
+
+    // Fall Tower
+
+    // Fall Tower | Elevator
+    FallTowerElevator1 = Location("Fall Tower | Elevator", 0x0001)
+    FallTowerElevator2 = Location("Fall Tower | Elevator", 0x011f)
+    FallTowerElevator3 = Location("Fall Tower | Elevator", 0x0120)
+    FallTowerElevator4 = Location("Fall Tower | Elevator", 0x0121)
+    FallTowerElevator5 = Location("Fall Tower | Elevator", 0x0122)
+    FallTowerElevator6 = Location("Fall Tower | Elevator", 0x0129)
+    FallTowerElevator7 = Location("Fall Tower | Elevator", 0x012a)
+    FallTowerElevator8 = Location("Fall Tower | Elevator", 0x012b)
+
+    // Fall Tower | Safe Room
+    FallTowerSafeRoom1 = Location("Fall Tower | Safe Room", 0x012c)
+    FallTowerSafeRoom2 = Location("Fall Tower | Safe Room", 0x012d)
+    FallTowerSafeRoom3 = Location("Fall Tower | Safe Room", 0x012e)
+    FallTowerSafeRoom4 = Location("Fall Tower | Safe Room", 0x012f)
+    FallTowerSafeRoom5 = Location("Fall Tower | Safe Room", 0x0130)
+    FallTowerSafeRoom6 = Location("Fall Tower | Safe Room", 0x0131)
+    FallTowerSafeRoom7 = Location("Fall Tower | Safe Room", 0x0132)
+    FallTowerSafeRoom8 = Location("Fall Tower | Safe Room", 0x0133)
+
+    // F9 Fall Tower
+    F9FallTower1 = Location("F9 Fall Tower", 0x000b)
+    F9FallTower2 = Location("F9 Fall Tower", 0x000e)
+    F9FallTower3 = Location("F9 Fall Tower", 0x006e)
+
+    // Stair Room
+    StairRoom1 = Location("Stair Room", 0x0004)
+    StairRoom2 = Location("Stair Room", 0x005e)
+    StairRoom3 = Location("Stair Room", 0x005f)
+    StairRoom4 = Location("Stair Room", 0x0060)
+    StairRoom5 = Location("Stair Room", 0x0061)
+    StairRoom6 = Location("Stair Room", 0x0062)
+    StairRoom7 = Location("Stair Room", 0x0063)
+    StairRoom8 = Location("Stair Room", 0x0064)
+    StairRoom9 = Location("Stair Room", 0x0065)
+    StairRoom10 = Location("Stair Room", 0x0066)
+    StairRoom11 = Location("Stair Room", 0x0067)
+    StairRoom12 = Location("Stair Room", 0x0068)
+    StairRoom13 = Location("Stair Room", 0x0069)
+    StairRoom14 = Location("Stair Room", 0x006a)
+    StairRoom15 = Location("Stair Room", 0x006b)
+    StairRoom16 = Location("Stair Room", 0x006c)
+    StairRoom17 = Location("Stair Room", 0x006d)
+
+    // Escape Shuttle
+    EscapeShuttle1 = Location("Escape Shuttle", 0x000f)
+
+    AllLocations = [
+        F1WinterTowerLaurasRoom1, F1WinterTowerLaurasRoom2, F1WinterTowerLaurasRoom3, F1WinterTowerLaurasRoom4,
+        F1WinterTowerLaurasRoom5, F1WinterTowerLaurasRoom6, F1WinterTowerLaurasRoom7, F1WinterTowerLaurasRoom8,
+        F1WinterTowerLaurasRoom9, F1WinterTowerLaurasRoom10, F1WinterTowerLaurasRoom11, F1WinterTowerLaurasRoom12,
+        F1WinterTowerLaurasRoom13, F1WinterTowerLaurasRoom14, F1WinterTowerLaurasRoom15, F1WinterTowerLaurasRoom16,
+        F1WinterTowerLaurasRoom17, F1WinterTowerLaurasRoom18,
+
+        F1WinterTowerStoreRoom1, F1WinterTowerStoreRoom2, F1WinterTowerStoreRoom3, F1WinterTowerStoreRoom4,
+        F1WinterTowerStoreRoom5, F1WinterTowerStoreRoom6, F1WinterTowerStoreRoom7, F1WinterTowerStoreRoom8,
+        F1WinterTowerStoreRoom9, F1WinterTowerStoreRoom10, F1WinterTowerStoreRoom11, F1WinterTowerStoreRoom12,
+        F1WinterTowerStoreRoom13, F1WinterTowerStoreRoom14, F1WinterTowerStoreRoom15, F1WinterTowerStoreRoom16,
+        F1WinterTowerStoreRoom17, F1WinterTowerStoreRoom18, F1WinterTowerStoreRoom19, F1WinterTowerStoreRoom20,
+
+        F1WinterTowerMarcusRoom1, F1WinterTowerMarcusRoom2, F1WinterTowerMarcusRoom3, F1WinterTowerMarcusRoom4,
+        F1WinterTowerMarcusRoom5, F1WinterTowerMarcusRoom6, F1WinterTowerMarcusRoom7, F1WinterTowerMarcusRoom8,
+        F1WinterTowerMarcusRoom9, F1WinterTowerMarcusRoom10, F1WinterTowerMarcusRoom11, F1WinterTowerMarcusRoom12,
+        F1WinterTowerMarcusRoom13, F1WinterTowerMarcusRoom14, F1WinterTowerMarcusRoom15, F1WinterTowerMarcusRoom16,
+        F1WinterTowerMarcusRoom17, F1WinterTowerMarcusRoom18, F1WinterTowerMarcusRoom19, F1WinterTowerMarcusRoom20,
+        F1WinterTowerMarcusRoom21, F1WinterTowerMarcusRoom22, F1WinterTowerMarcusRoom23, F1WinterTowerMarcusRoom24,
+        F1WinterTowerMarcusRoom25,
+
+        WinterTowerElevator1, WinterTowerElevator2, WinterTowerElevator3,
+
+        F1WinterTowerLockerRoom1, F1WinterTowerLockerRoom2, F1WinterTowerLockerRoom3, F1WinterTowerLockerRoom4,
+        F1WinterTowerLockerRoom5, F1WinterTowerLockerRoom6, F1WinterTowerLockerRoom7, F1WinterTowerLockerRoom8,
+        F1WinterTowerLockerRoom9,
+
+        WinterTowerBasementParkersRoom1, WinterTowerBasementParkersRoom2, WinterTowerBasementParkersRoom3,
+        WinterTowerBasementParkersRoom4, WinterTowerBasementParkersRoom5, WinterTowerBasementParkersRoom6,
+        WinterTowerBasementParkersRoom7, WinterTowerBasementParkersRoom8, WinterTowerBasementParkersRoom9,
+        WinterTowerBasementParkersRoom10, WinterTowerBasementParkersRoom11, WinterTowerBasementParkersRoom12,
+        WinterTowerBasementParkersRoom13, WinterTowerBasementParkersRoom14, WinterTowerBasementParkersRoom15,
+        WinterTowerBasementParkersRoom16, WinterTowerBasementParkersRoom17,
+
+        B1WinterTowerPowerRoom1, B1WinterTowerPowerRoom2, B1WinterTowerPowerRoom3, B1WinterTowerPowerRoom4,
+        B1WinterTowerPowerRoom5, B1WinterTowerPowerRoom6, B1WinterTowerPowerRoom7, B1WinterTowerPowerRoom8,
+
+        F2WinterTowerAirDucts1, F2WinterTowerAirDucts2,
+
+        F2WinterTowerArchives1, F2WinterTowerArchives2, F2WinterTowerArchives3, F2WinterTowerArchives4,
+        F2WinterTowerArchives5, F2WinterTowerArchives6, F2WinterTowerArchives7, F2WinterTowerArchives8,
+        F2WinterTowerArchives9, F2WinterTowerArchives10, F2WinterTowerArchives11, F2WinterTowerArchives12,
+        F2WinterTowerArchives13, F2WinterTowerArchives14, F2WinterTowerArchives15, F2WinterTowerArchives16,
+
+        F2WinterTowerToolRoom1, F2WinterTowerToolRoom2, F2WinterTowerToolRoom3,
+        F2WinterTowerToolRoom4, F2WinterTowerToolRoom5, F2WinterTowerToolRoom6,
+
+        F2WinterTowerMaintenanceElevator1,
+
+        F3WinterTowerKimberlysRoom1, F3WinterTowerKimberlysRoom2, F3WinterTowerKimberlysRoom3,
+        F3WinterTowerKimberlysRoom4, F3WinterTowerKimberlysRoom5, F3WinterTowerKimberlysRoom6,
+        F3WinterTowerKimberlysRoom7, F3WinterTowerKimberlysRoom8, F3WinterTowerKimberlysRoom9,
+        F3WinterTowerKimberlysRoom10, F3WinterTowerKimberlysRoom11, F3WinterTowerKimberlysRoom12,
+        F3WinterTowerKimberlysRoom13, F3WinterTowerKimberlysRoom14, F3WinterTowerKimberlysRoom15,
+        F3WinterTowerKimberlysRoom16, F3WinterTowerKimberlysRoom17, F3WinterTowerKimberlysRoom18,
+
+        SummerTowerEmergencyBridge1, SummerTowerEmergencyBridge2, SummerTowerEmergencyBridge3,
+
+        SummerTowerElevator1, SummerTowerElevator2, SummerTowerElevator3,
+        SummerTowerElevator4, SummerTowerElevator5, SummerTowerElevator6,
+
+        F7SummerTowerRonnysRoom1, F7SummerTowerRonnysRoom2, F7SummerTowerRonnysRoom3, F7SummerTowerRonnysRoom4,
+        F7SummerTowerRonnysRoom5, F7SummerTowerRonnysRoom6, F7SummerTowerRonnysRoom7, F7SummerTowerRonnysRoom8,
+        F7SummerTowerRonnysRoom9, F7SummerTowerRonnysRoom10, F7SummerTowerRonnysRoom11, F7SummerTowerRonnysRoom12,
+        F7SummerTowerRonnysRoom13, F7SummerTowerRonnysRoom14, F7SummerTowerRonnysRoom15, F7SummerTowerRonnysRoom16,
+        F7SummerTowerRonnysRoom17, F7SummerTowerRonnysRoom18, F7SummerTowerRonnysRoom19, F7SummerTowerRonnysRoom20,
+        F7SummerTowerRonnysRoom21, F7SummerTowerRonnysRoom22, F7SummerTowerRonnysRoom23, F7SummerTowerRonnysRoom24,
+        F7SummerTowerRonnysRoom25, F7SummerTowerRonnysRoom26, F7SummerTowerRonnysRoom27, F7SummerTowerRonnysRoom28,
+        F7SummerTowerRonnysRoom29, F7SummerTowerRonnysRoom30, F7SummerTowerRonnysRoom31, F7SummerTowerRonnysRoom32,
+        F7SummerTowerRonnysRoom33, F7SummerTowerRonnysRoom34, F7SummerTowerRonnysRoom35,
+
+        F5SummerTowerGeorgesRoom1, F5SummerTowerGeorgesRoom2, F5SummerTowerGeorgesRoom3, F5SummerTowerGeorgesRoom4,
+        F5SummerTowerGeorgesRoom5, F5SummerTowerGeorgesRoom6, F5SummerTowerGeorgesRoom7, F5SummerTowerGeorgesRoom8,
+        F5SummerTowerGeorgesRoom9, F5SummerTowerGeorgesRoom10, F5SummerTowerGeorgesRoom11, F5SummerTowerGeorgesRoom12,
+        F5SummerTowerGeorgesRoom13, F5SummerTowerGeorgesRoom14, F5SummerTowerGeorgesRoom15, F5SummerTowerGeorgesRoom16,
+        F5SummerTowerGeorgesRoom17, F5SummerTowerGeorgesRoom18, F5SummerTowerGeorgesRoom19, F5SummerTowerGeorgesRoom20,
+        F5SummerTowerGeorgesRoom21, F5SummerTowerGeorgesRoom22,
+
+        F5SummerTowerDavidsRoom1, F5SummerTowerDavidsRoom2, F5SummerTowerDavidsRoom3, F5SummerTowerDavidsRoom4,
+        F5SummerTowerDavidsRoom5, F5SummerTowerDavidsRoom6, F5SummerTowerDavidsRoom7, F5SummerTowerDavidsRoom8,
+        F5SummerTowerDavidsRoom9, F5SummerTowerDavidsRoom10, F5SummerTowerDavidsRoom11, F5SummerTowerDavidsRoom12,
+        F5SummerTowerDavidsRoom13, F5SummerTowerDavidsRoom14, F5SummerTowerDavidsRoom15, F5SummerTowerDavidsRoom16,
+        F5SummerTowerDavidsRoom17, F5SummerTowerDavidsRoom18, F5SummerTowerDavidsRoom19, F5SummerTowerDavidsRoom20,
+
+        B0SummerTowerStoreRoom1, B0SummerTowerStoreRoom2, B0SummerTowerStoreRoom3, B0SummerTowerStoreRoom4,
+        B0SummerTowerStoreRoom5, B0SummerTowerStoreRoom6, B0SummerTowerStoreRoom7, B0SummerTowerStoreRoom8,
+        B0SummerTowerStoreRoom9, B0SummerTowerStoreRoom10, B0SummerTowerStoreRoom11, B0SummerTowerStoreRoom12,
+        B0SummerTowerStoreRoom13, B0SummerTowerStoreRoom14, B0SummerTowerStoreRoom15, B0SummerTowerStoreRoom16,
+        B0SummerTowerStoreRoom17, B0SummerTowerStoreRoom18, B0SummerTowerStoreRoom19, B0SummerTowerStoreRoom20,
+        B0SummerTowerStoreRoom21,
+
+        F6SummerTowerPowerRoom1, F6SummerTowerPowerRoom2, F6SummerTowerPowerRoom3, F6SummerTowerPowerRoom4,
+        F6SummerTowerPowerRoom5, F6SummerTowerPowerRoom6, F6SummerTowerPowerRoom7, F6SummerTowerPowerRoom8,
+
+        FallTowerElevator1, FallTowerElevator2, FallTowerElevator3, FallTowerElevator4,
+        FallTowerElevator5, FallTowerElevator6, FallTowerElevator7, FallTowerElevator8,
+
+        FallTowerSafeRoom1, FallTowerSafeRoom2, FallTowerSafeRoom3, FallTowerSafeRoom4,
+        FallTowerSafeRoom5, FallTowerSafeRoom6, FallTowerSafeRoom7, FallTowerSafeRoom8,
+
+        F9FallTower1, F9FallTower2, F9FallTower3,
+
+        StairRoom1, StairRoom2, StairRoom3, StairRoom4, StairRoom5, StairRoom6, StairRoom7, StairRoom8,
+        StairRoom9, StairRoom10, StairRoom11, StairRoom12, StairRoom13, StairRoom14, StairRoom15, StairRoom16,
+        StairRoom17,
+
+        EscapeShuttle1
+    ]
+
+   function GetLookup() {
+        lookup = {}
+        for location in this.AllLocations {
+            lookup[location.Value] = location.Name
+        }
+        return lookup
+    }
+}
+
+class SearchModeLocation {
+    Id = word(0x17cf92)
+    Locations = SearchModeLocations()
+}
+searchModeLocation = SearchModeLocation()
+
 class Achievement {
     Type = 0 // 0 = None, 1 = Progression, 2 = Win Condition, 3 = Missable
     Points = 0
@@ -11,7 +572,42 @@ class Achievement {
 }
 
 class AchievementHelpers {
-    
+    function IsSearchMode() {
+        return __ornext(
+            playerState.Id == playerStates.States.SearchModeMove ||
+            playerState.Id == playerStates.States.SearchModeIdle ||
+            playerState.Id == playerStates.States.SearchModeMenu ||
+            playerState.Id == playerStates.States.VexxTerminal
+        )
+    }
+
+    function IsActiveMode() {
+        return playerState.Id == playerStates.States.ActiveMode
+    }
+
+    function IsPlaying() {
+        __ornext(
+            playerState.Id == playerStates.States.SearchModeMove ||
+            playerState.Id == playerStates.States.SearchModeIdle ||
+            playerState.Id == playerStates.States.SearchModeMenu ||
+            playerState.Id == playerStates.States.VexxTerminal ||
+            playerState.Id == playerStates.States.ActiveMode
+        )
+    }
+
+    function HasSavePercentage(difficulty, value) {
+        assert(difficulty >= gameDifficulty.Difficulties.Normal && difficulty <= gameDifficulty.Difficulties.Hard, "Difficulty must be Normal or higher")
+        assert(value > 1.0 || value < 0.0, "Percentage must be between 0.0 and 1.0")
+
+        target = gameDifficulty.NormalMax
+
+        if (difficulty == difficulty.Difficulties.Hard)
+            target = gameDifficulty.HardMax
+
+        target = target * value
+
+        return saves.Remaining >= target
+    }
 }
 helpers = AchievementHelpers()
 
@@ -84,38 +680,73 @@ class Achievements {
     }
 }
 achievements = Achievements()
-achievements.Generate()
+
+class LeaderboardFormats {
+    Value = "VALUE"
+    Seconds = "SECS"
+    Frames = "FRAMES"
+    Points = "POINTS"
+    Milliseconds = "MILLISECS"
+    Minutes = "MINUTES"
+    SecondsAsMinutes = "SECS_AS_MINS"
+    Float1 = "FLOAT1"
+    Float2 = "FLOAT2"
+    Float3 = "FLOAT3"
+    Float4 = "FLOAT4"
+    Float5 = "FLOAT5"
+    Float6 = "FLOAT6"
+    Fixed1 = "FIXED1"
+    Fixed2 = "FIXED2"
+    Fixed3 = "FIXED3"
+    Tens = "TENS"
+    Hundreds = "HUNDREDS"
+    Thousands = "THOUSANDS"
+}
+leaderboardFormats = LeaderboardFormats()
+
+class Leaderboard {
+    Id = 0
+    Title = ""
+    Description = ""
+    Start = always_false()
+    Cancel = always_false()
+    Submit = always_false()
+    Value = 0
+    Format = leaderboardFormats.Value
+    LowerIsBetter = false
+    Set = 0
+}
 
 class Leaderboards {
-    function Start() {
-        return always_false()
-    }
+    Data = [
+        Leaderboard("Test", "Test")
+    ]
 
-    function Cancel() {
-        return always_false()
-    }
-
-    function Submit() {
-        return always_false()
-    }
-
-    function Value() {
-        return 0
+    function Generate() {   
+        count = 0
+        for leaderboardDef in this.Data {
+            leaderboard
+            (
+                leaderboardDef.Title, 
+                leaderboardDef.Description, 
+                leaderboardDef.Start, 
+                leaderboardDef.Cancel,
+                leaderboardDef.Submit,
+                leaderboardDef.Value,
+                leaderboardDef.Format,
+                leaderboardDef.LowerIsBetter,
+                leaderboardDef.Id,
+                leaderboardDef.Set
+            )
+            count = count + 1
+        }
     }
 }
 leaderboards = Leaderboards()
 
-leaderboard("Swift Escape", "Starting from a New Game, escape the Mansion as quickly as possible in a single session",
-    start = leaderboards.Start(),
-    cancel = leaderboards.Cancel(),
-    submit = leaderboards.Submit(),
-    value = leaderboards.Value(),
-    format = "FRAMES",
-    lower_is_better = true
-)
-
-rich_presence_conditional_display(always_false(), 
-    "Test"
+rich_presence_conditional_display(helpers.IsPlaying(), 
+    "Laura is exploring {0}",
+    rich_presence_lookup("Location", searchModeLocation.Id, searchModeLocation.Locations.GetLookup(), "Unknown Location")
 )
 
 rich_presence_conditional_display(always_false(), 
@@ -123,3 +754,6 @@ rich_presence_conditional_display(always_false(),
 )
 
 rich_presence_display("Playing Enemy Zero!")
+
+//achievements.Generate()
+//leaderboards.Generate()

@@ -113,53 +113,6 @@ class Timer {
 }
 timer = Timer()
 
-class Items {
-    VoiceRecorder = byte(0x17d1ca)
-    VPSScanner = byte(0x17d1ce)
-    LauraKeycard = byte(0x17d1d2)
-    StairRoomKeycard = byte(0x17d1d6)
-    SeveredFingers = byte(0x17d1da)
-    ParkerGun = byte(0x17d1de)
-    WinterTowerPowerCode = byte(0x17d1e2) // Kimberly's Clue
-    GeorgeBlueKeycard = byte(0x17d1e6)
-    GeorgeGun = byte(0x17d1ea)
-    KimberlyGun = byte(0x17d1ee)
-    ScannerKey = byte(0x17d1f2)
-    SummerTowerPowerClue1 = byte(0x17d1f6) // George's Clue
-    GeorgeOrangeKeycard = byte(0x17d1fa)
-    Sunglasses = byte(0x17d1fe)
-    SummerTowerPowerClue2 = byte(0x17d202) // Store Room Hint
-    DavidDisk = byte(0x17d206)
-
-    // Need to figure out a solution for the guns since they get swapped out
-    // Maybe just have an achievement for collecting the final gun?
-    WinterTowerItems = [
-        VoiceRecorder, // Don't Lose
-        VPSScanner, // Lose in final sequence (won't impact achievement)
-        LauraKeycard, // Don't Lose
-        StairRoomKeycard, // Don't Lose
-        SeveredFingers, // Don't Lose
-        ParkerGun, // Lose
-        WinterTowerPowerCode, // Don't Lose
-        GeorgeBlueKeycard, // Don't Lose
-        GeorgeGun // Lose
-    ]
-
-    SummerTowerItems = [
-        KimberlyGun, // Lose
-        ScannerKey, // Don't Lose
-        SummerTowerPowerClue1, // Don't Lose
-        GeorgeOrangeKeycard, // Lose - used to access the fall tower - use the event as an alt?
-        Sunglasses, // Don't Lose
-        SummerTowerPowerClue2, // Don't Lose
-        DavidDisk // Lose - after meeting George? Use the event as an alt?
-    ]
-}
-
-class Event {
-
-}
-
 class Location {
     Name = ""
     Value = 0
@@ -215,7 +168,6 @@ class ActionModeLocation {
 actionModeLocation = ActionModeLocation()
 
 class SearchModeLocations {
-
     // Winter Tower
 
     // F1 Winter Tower | Laura's Room
@@ -691,6 +643,7 @@ searchModeLocation = SearchModeLocation()
 
 class Cutscenes {
     // Progression Events
+    ArrivedInWinterTowerBasement = 0x00e7
     MarcusCorpse = 0x0088
     WinterTowerElevatorAttack = 0x010d
     ParkerCorpse = 0x0136
@@ -749,6 +702,135 @@ class Cutscene {
     Cutscenes = Cutscenes()
     NotPlaying = 0xffff
 }
+cutscene = Cutscene()
+
+class Enemies {
+    // Disc 1
+    WinterTowerAirDucts1 = bit7(0x1976e6)
+    WinterTowerAirDucts2 = bit0(0x1976e7) // Guarding Kimberly's Room
+
+    // Disc 2
+    SummerTowerBasement = bit3(0x1976e7)
+
+    // Disc 3
+    F1FallTowerHallway = bit6(0x1976e7)
+    F2FallTowerHallway = bit0(0x1976e4)
+    F3FallTowerHallway1 = bit1(0x1976e4)
+    F3FallTowerHallway2 = bit2(0x1976e4)
+    F5FallTowerHallway1 = bit3(0x1976e4)
+    F5FallTowerHallway2 = bit4(0x1976e4)
+    F6FallTowerHallway = bit5(0x1976e4)
+    F7FallTowerHallway1 = bit6(0x1976e4)
+    F7FallTowerHallway2 = bit7(0x1976e4)
+    F7FallTowerHallway3 = bit0(0x1976e5)
+    F8FallTowerHallway1 = bit1(0x1976e5)
+    F8FallTowerHallway2 = bit2(0x1976e5)
+    F8FallTowerHallway3 = bit3(0x1976e5)
+    F9FallTowerHallway1 = bit4(0x1976e5)
+    F9FallTowerHallway2 = bit5(0x1976e5)
+    F9FallTowerHallway3 = bit6(0x1976e5)
+}
+enemies = Enemies()
+
+class Events {
+    // Disc 1
+    EnterToolRoom = bit0(0x1976e8)
+    AccessToolRoomCharger = bit1(0x1976e8)
+    DestroyAirDuctBarrier = bit2(0x1976e8)
+    CallDavidInKimberlysRoom = bit3(0x1976e8)
+    CallGeorgeInKimberlysRoom = bit5(0x1976e8)
+    CallRonnyInKimberlysRoom = bit6(0x1976e8) // Check this an the next
+    EnterKimberlysRoom = bit6(0x1976e8)
+    ViewCrewPhotoInKimberlysRoom = bit7(0x1976e8)
+    WinterTowerEmergencyNotice = bit0(0x1976ea)
+    EnterMarcusRoom = bit1(0x1976ea)
+    EnterParkersRoom = bit2(0x1976ea)
+    ActivateWinterTowerPower = bit3(0x1976ea)
+    CallKimberly = bit4(0x1976ea)
+    GetKimberlysPowerRoomClue = bit5(0x1976ea)
+    UnlockStairRoom = bit6(0x1976ea)
+    ReturnToStairRoom = bit7(0x1976ea)
+    MonsterEscapesMarcusRoom = bit0(0x1976eb)
+    UnlockAllWinterTowerDoors = bit1(0x1976eb)
+    KillWinterTowerBasementEnemy = bit2(0x1976eb)
+    KimberlyPANotice = bit3(0x1976eb)
+    EscapeIntoWinterTowerAirDucts = bit4(0x1976eb)
+    EnterArchives = bit5(0x1976eb)
+    TryToAccessGeorgesComputer = bit6(0x1976eb)
+    ExamineGeorgesLocker = bit7(0x1976eb)
+    EscapeToSummerTower = bit0(0x1976ee)
+    RonnyDeathCall = byte(0x1976e0) // Changes from 2 to 3
+
+    // Disc 2
+    EscapeToFallTower = bit0(0x1976ec)
+    ReachSummerTowerElevator = bit1(0x1976ee)
+    SpearkToGeorgeFirstTime = bit2(0x1976ee)
+    SpeakToGeorgePostDavid = bit3(0x1976ee)
+    UseDavidsDisk = bit4(0x1976ee)
+    EnterDavidsRoom = bit5(0x1976ee)
+    ExamineDavidPhoto = bit6(0x1976ee)
+    SpeakToGeorgeAfterMedScan = bit7(0x1976ee)
+    UnlockRonnysRoom = bit0(0x1976ef)
+    ReadRonnyComputerDocument = bit1(0x1976ef)
+    ActivateMedicalScanner = bit2(0x1976ef)
+    AccessSummerTowerBasement = bit3(0x1976ef)
+    FindDavidsDisk = bit4(0x1976ef)
+    FindDavidsCorpse = bit5(0x1976ef)
+    ActivateSummerTowerPower = bit6(0x1976ef)
+    AccessFallTowerElevator = bit7(0x1976ef)
+
+    // Disc 3
+    FindDavidsHelmet = bit1(0x1976ec)
+    ReturnToParkersRoom = bit3(0x1976ec)
+    DestroyFallTowerBoss = bit4(0x1976ec)
+    VPSScannerBreaks = bit5(0x1976ec)
+    ReadNoteInParkersRoom = bit7(0x1976ec) // Make sure we're in Parker's Room
+}
+events = Events()
+
+class Items {
+    VoiceRecorder = byte(0x17d1ca)
+    VPSScanner = byte(0x17d1ce)
+    LauraKeycard = byte(0x17d1d2)
+    StairRoomKeycard = byte(0x17d1d6)
+    SeveredFingers = byte(0x17d1da)
+    ParkerGun = byte(0x17d1de)
+    WinterTowerPowerCode = byte(0x17d1e2) // Kimberly's Clue
+    GeorgeBlueKeycard = byte(0x17d1e6)
+    GeorgeGun = byte(0x17d1ea)
+    KimberlyGun = byte(0x17d1ee)
+    ScannerKey = byte(0x17d1f2)
+    SummerTowerPowerClue1 = byte(0x17d1f6) // George's Clue
+    GeorgeOrangeKeycard = byte(0x17d1fa)
+    Sunglasses = byte(0x17d1fe)
+    SummerTowerPowerClue2 = byte(0x17d202) // Store Room Hint
+    DavidDisk = byte(0x17d206)
+
+    // Need to figure out a solution for the guns since they get swapped out
+    // Maybe just have an achievement for collecting the final gun?
+    WinterTowerItems = [
+        VoiceRecorder, // Don't Lose
+        VPSScanner, // Lose in final sequence (won't impact achievement)
+        LauraKeycard, // Don't Lose
+        StairRoomKeycard, // Don't Lose
+        SeveredFingers, // Don't Lose
+        //ParkerGun, // Lose
+        WinterTowerPowerCode, // Don't Lose
+        //GeorgeBlueKeycard // Don't Lose
+        //GeorgeGun // Lose
+    ]
+
+    SummerTowerItems = [
+        //KimberlyGun, // Lose
+        ScannerKey, // Don't Lose
+        SummerTowerPowerClue1, // Don't Lose
+        //GeorgeOrangeKeycard, // Lose - used to access the fall tower - use the event as an alt?
+        Sunglasses, // Don't Lose
+        SummerTowerPowerClue2, // Don't Lose
+        //DavidDisk // Lose - after meeting George? Use the event as an alt?
+    ]
+}
+items = Items()
 
 class Achievement {
     Type = 0 // 0 = None, 1 = Progression, 2 = Win Condition, 3 = Missable
@@ -821,29 +903,44 @@ class AchievementHelpers {
             prev(cutscene.Timer) != cutscene.NotPlaying &&
             cutscene.Timer == cutscene.NotPlaying
     }
+
+    function EventWasTriggered(event) {
+        return event == 1
+    }
+
+    function IsOnDisc(id) {
+        return disc.Id == id
+    }
 }
 helpers = AchievementHelpers()
 
 class AchievementTriggers {
     function SharpenTheSaw() {
-        return disc.Id == 1 &&
+        return helpers.IsOnDisc(1) &&
             helpers.IsPlaying() &&
             prev(training.Level) == 2 &&
             training.Level == 3
     }
 
     function TheButterflyEffecT() {
-        return disc.Id == 2 &&
-            helpers.IsPlaying()
-
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ButterflyHolo)
     }
 
+    // Only happens on normal??
     function ThirdTimesTheCharm() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            events.RonnyDeathCall == 3 &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.RonnyStaticAttack)
     }
     
     function DownButNotOut() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.UnlockStairRoom) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ArrivedInWinterTowerBasement)
     }
     
     function WorkingStiff() {
@@ -937,6 +1034,10 @@ class AchievementTriggers {
     function FromTheAshes() {
         return always_false()
     }
+
+    function DualClearance() {
+        return always_false()
+    }
     
     function MixedBag() {
         return always_false()
@@ -1009,7 +1110,10 @@ class Achievements {
     Data = [
         Achievement(0, 5, "Sharpen the Saw", "Complete all three training missions on Disc 0", triggers.SharpenTheSaw()),
         Achievement(0, 3, "The Butterfly Effect", "Notice something delicate drifting through the silence...", triggers.TheButterflyEffecT()),
+
+        // May require normal or lower
         Achievement(0, 3, "Third Times the Charm", "Press Parker for answers... and hear the signal die", triggers.ThirdTimesTheCharm()),
+
         Achievement(1, 5, "Down but not Out", "Override the emergency lockdown and descend into the Winter Tower Basement", triggers.DownButNotOut()),
         Achievement(1, 5, "Working Stiff", "Discover why Parker stopped answering", triggers.WorkingStiff()),
         Achievement(1, 5, "One Step Ahead", "Witness a gruesome scene in Marcus's Room", triggers.OneStepAhead()),
@@ -1034,6 +1138,7 @@ class Achievements {
         Achievement(1, 5, "Bun in the Oven", "Learn what the creature left inside you", triggers.BunInTheOven()),
         Achievement(1, 5, "Good for the Goose", "Survive a desperate assault… and a stranger rescue", triggers.GoodForTheGoose()),
         Achievement(1, 5, "From the Ashes", "Bring life back to the Summer Tower", triggers.FromTheAshes()),
+        Achievement(0, 5, "Dual Clearance", "Find the copy of critical piece of equipment, and the original", triggers.DualClearance()),
         Achievement(0, 5, "Mixed Bag", "Gather every trace left by the Summer Tower crew", triggers.MixedBag()),
         Achievement(1, 10, "The Eleventh Hour", "Descend toward the final tower", triggers.TheEleventhHour()),
         Achievement(1, 5, "You Shouldn't Have", "Find a rare sanctuary within the Fall Tower and discover a parting gift from David", triggers.YouShouldntHave()),

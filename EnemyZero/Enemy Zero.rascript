@@ -1,6 +1,24 @@
 // Doctor Hauzer
 // #ID = 14556
 
+class Disc {
+    Id = byte(0x197716)
+}
+disc = Disc()
+
+class Training {
+    Level = byte(0x1969e4)
+    Active = bit0(0x1969ee)
+    Complete = bit4(0x1969ee)
+    Lookup = {
+        0x00: "Level 1",
+        0x01: "Level 2",
+        0x02: "Level 3",
+        0x03: "Level 3"
+    }
+}
+training = Training()
+
 class PlayerStates {
     LoadingGame = 0x00
     SegaLogo = 0x01
@@ -138,10 +156,63 @@ class Items {
     ]
 }
 
+class Event {
+
+}
+
 class Location {
     Name = ""
     Value = 0
 }
+
+class ActionModeLocations {
+    F1WinterTowerHallway = Location("F1 Winter Tower | Hallway", 0x0001)
+    WinterTowerBasementHallway = Location("Winter Tower Basement | Hallway", 0x0002)
+    WinterTowerBasementHanger = Location("Winter Tower Basement | Hangar", 0x0003)
+    WinterTowerAirDucts = Location("Winter Tower | Air Ducts", 0x0005)
+    SummerTowerEmergencyBridge1 = Location("Summer Tower | Emergency Bridge", 0x0006)
+    SummerTowerEmergencyBridge2 = Location("Summer Tower | Emergency Bridge", 0x0007)
+    SummerTowerBasementHallway = Location("Summer Tower Basement | Hallway", 0x0008)
+    F1SummerTowerHallway = Location("F1 Summer Tower | Hallway", 0x0009)
+    F5SummerTowerHallway = Location("F5 Summer Tower | Hallway", 0x000a)
+    F6SummerTowerHallway = Location("F6 Summer Tower | Hallway", 0x000b)
+    F7SummerTowerHallway = Location("F7 Summer Tower | Hallway", 0x000c)
+    F1FallTowerHallway = Location("F1 Fall Tower | Hallway", 0x000d)
+    F2FallTowerHallway = Location("F2 Fall Tower | Hallway", 0x000e)
+    F3FallTowerHallway = Location("F3 Fall Tower | Hallway", 0x000f)
+    F4FallTowerHallway = Location("F4 Fall Tower | Hallway", 0x0010)
+    F5FallTowerHallway = Location("F5 Fall Tower | Hallway", 0x0011)
+    F6FallTowerHallway = Location("F6 Fall Tower | Hallway", 0x0012)
+    F7FallTowerHallway = Location("F7 Fall Tower | Hallway", 0x0013)
+    F8FallTowerHallway = Location("F8 Fall Tower | Hallway", 0x0014)
+    F9FallTowerHallway = Location("F9 Fall Tower | Hallway", 0x0015)
+    F8FallTowerAirDucts = Location("F8 Fall Tower | Air Ducts", 0x0016)
+
+    AllLocations = [
+        F1WinterTowerHallway, WinterTowerBasementHallway, WinterTowerBasementHanger, WinterTowerAirDucts,
+
+        SummerTowerEmergencyBridge1, SummerTowerEmergencyBridge2, SummerTowerBasementHallway, F1SummerTowerHallway,
+        F5SummerTowerHallway, F6SummerTowerHallway, F7SummerTowerHallway,
+
+        F1FallTowerHallway, F2FallTowerHallway, F3FallTowerHallway, F4FallTowerHallway,
+        F5FallTowerHallway, F6FallTowerHallway, F7FallTowerHallway, F8FallTowerHallway,
+        F9FallTowerHallway, F8FallTowerAirDucts
+    ]
+
+    function GetLookup() {
+        lookup = {}
+        for location in this.AllLocations {
+            lookup[location.Value] = location.Name
+        }
+        return lookup
+    }
+}
+
+class ActionModeLocation {
+    Id = word(0x1881f8)
+    Locations = ActionModeLocations()
+}
+actionModeLocation = ActionModeLocation()
 
 class SearchModeLocations {
 
@@ -252,18 +323,18 @@ class SearchModeLocations {
     WinterTowerBasementParkersRoom17 = Location("Winter Tower Basement | Parker's Room", 0x0083)
 
     // B1 Winter Tower | Power Room
-    B1WinterTowerPowerRoom1 = Location("B1 Winter Tower | Power Room", 0x0003)
-    B1WinterTowerPowerRoom2 = Location("B1 Winter Tower | Power Room", 0x0084)
-    B1WinterTowerPowerRoom3 = Location("B1 Winter Tower | Power Room", 0x0085)
-    B1WinterTowerPowerRoom4 = Location("B1 Winter Tower | Power Room", 0x0086)
-    B1WinterTowerPowerRoom5 = Location("B1 Winter Tower | Power Room", 0x0087)
-    B1WinterTowerPowerRoom6 = Location("B1 Winter Tower | Power Room", 0x0088)
-    B1WinterTowerPowerRoom7 = Location("B1 Winter Tower | Power Room", 0x0089)
-    B1WinterTowerPowerRoom8 = Location("B1 Winter Tower | Power Room", 0x008a)
+    B1WinterTowerPowerRoom1 = Location("Winter Tower Basement | Power Room", 0x0003)
+    B1WinterTowerPowerRoom2 = Location("Winter Tower Basement | Power Room", 0x0084)
+    B1WinterTowerPowerRoom3 = Location("Winter Tower Basement | Power Room", 0x0085)
+    B1WinterTowerPowerRoom4 = Location("Winter Tower Basement | Power Room", 0x0086)
+    B1WinterTowerPowerRoom5 = Location("Winter Tower Basement | Power Room", 0x0087)
+    B1WinterTowerPowerRoom6 = Location("Winter Tower Basement | Power Room", 0x0088)
+    B1WinterTowerPowerRoom7 = Location("Winter Tower Basement | Power Room", 0x0089)
+    B1WinterTowerPowerRoom8 = Location("Winter Tower Basement | Power Room", 0x008a)
 
     // F2 Winter Tower | Air Ducts
-    F2WinterTowerAirDucts1 = Location("F2 Winter Tower | Air Ducts", 0x0007)
-    F2WinterTowerAirDucts2 = Location("F2 Winter Tower | Air Ducts", 0x0072)
+    F2WinterTowerAirDucts1 = Location("Winter Tower | Air Ducts", 0x0007)
+    F2WinterTowerAirDucts2 = Location("Winter Tower | Air Ducts", 0x0072)
 
     // F2 Winter Tower | Archives
     F2WinterTowerArchives1 = Location("F2 Winter Tower | Archives", 0x008b)
@@ -292,7 +363,7 @@ class SearchModeLocations {
     F2WinterTowerToolRoom6 = Location("F2 Winter Tower | Tool Room", 0x00a1)
 
     // F2 Winter Tower | Maintenance Elevator
-    F2WinterTowerMaintenanceElevator1 = Location("F2 Winter Tower | Maintenance Elevator", 0x00b2)
+    F2WinterTowerMaintenanceElevator1 = Location("Inter-Tower Elevator", 0x00b2)
 
     // F3 Winter Tower | Kimberly's Room
     F3WinterTowerKimberlysRoom1 = Location("F3 Winter Tower | Kimberly's Room", 0x00a2)
@@ -413,27 +484,27 @@ class SearchModeLocations {
     F5SummerTowerDavidsRoom20 = Location("F5 Summer Tower | David's Room", 0x00de)
 
     // B0 Summer Tower | Store Room
-    B0SummerTowerStoreRoom1 = Location("B0 Summer Tower | Store Room", 0x0102)
-    B0SummerTowerStoreRoom2 = Location("B0 Summer Tower | Store Room", 0x0103)
-    B0SummerTowerStoreRoom3 = Location("B0 Summer Tower | Store Room", 0x0104)
-    B0SummerTowerStoreRoom4 = Location("B0 Summer Tower | Store Room", 0x0105)
-    B0SummerTowerStoreRoom5 = Location("B0 Summer Tower | Store Room", 0x0106)
-    B0SummerTowerStoreRoom6 = Location("B0 Summer Tower | Store Room", 0x0107)
-    B0SummerTowerStoreRoom7 = Location("B0 Summer Tower | Store Room", 0x0108)
-    B0SummerTowerStoreRoom8 = Location("B0 Summer Tower | Store Room", 0x0109)
-    B0SummerTowerStoreRoom9 = Location("B0 Summer Tower | Store Room", 0x010a)
-    B0SummerTowerStoreRoom10 = Location("B0 Summer Tower | Store Room", 0x010b)
-    B0SummerTowerStoreRoom11 = Location("B0 Summer Tower | Store Room", 0x010c)
-    B0SummerTowerStoreRoom12 = Location("B0 Summer Tower | Store Room", 0x010d)
-    B0SummerTowerStoreRoom13 = Location("B0 Summer Tower | Store Room", 0x010e)
-    B0SummerTowerStoreRoom14 = Location("B0 Summer Tower | Store Room", 0x010f)
-    B0SummerTowerStoreRoom15 = Location("B0 Summer Tower | Store Room", 0x0110)
-    B0SummerTowerStoreRoom16 = Location("B0 Summer Tower | Store Room", 0x0111)
-    B0SummerTowerStoreRoom17 = Location("B0 Summer Tower | Store Room", 0x0112)
-    B0SummerTowerStoreRoom18 = Location("B0 Summer Tower | Store Room", 0x0113)
-    B0SummerTowerStoreRoom19 = Location("B0 Summer Tower | Store Room", 0x0114)
-    B0SummerTowerStoreRoom20 = Location("B0 Summer Tower | Store Room", 0x0115)
-    B0SummerTowerStoreRoom21 = Location("B0 Summer Tower | Store Room", 0x0116)
+    B0SummerTowerStoreRoom1 = Location("Summer Tower Basement | Store Room", 0x0102)
+    B0SummerTowerStoreRoom2 = Location("Summer Tower Basement | Store Room", 0x0103)
+    B0SummerTowerStoreRoom3 = Location("Summer Tower Basement | Store Room", 0x0104)
+    B0SummerTowerStoreRoom4 = Location("Summer Tower Basement | Store Room", 0x0105)
+    B0SummerTowerStoreRoom5 = Location("Summer Tower Basement | Store Room", 0x0106)
+    B0SummerTowerStoreRoom6 = Location("Summer Tower Basement | Store Room", 0x0107)
+    B0SummerTowerStoreRoom7 = Location("Summer Tower Basement | Store Room", 0x0108)
+    B0SummerTowerStoreRoom8 = Location("Summer Tower Basement | Store Room", 0x0109)
+    B0SummerTowerStoreRoom9 = Location("Summer Tower Basement | Store Room", 0x010a)
+    B0SummerTowerStoreRoom10 = Location("Summer Tower Basement | Store Room", 0x010b)
+    B0SummerTowerStoreRoom11 = Location("Summer Tower Basement | Store Room", 0x010c)
+    B0SummerTowerStoreRoom12 = Location("Summer Tower Basement | Store Room", 0x010d)
+    B0SummerTowerStoreRoom13 = Location("Summer Tower Basement | Store Room", 0x010e)
+    B0SummerTowerStoreRoom14 = Location("Summer Tower Basement | Store Room", 0x010f)
+    B0SummerTowerStoreRoom15 = Location("Summer Tower Basement | Store Room", 0x0110)
+    B0SummerTowerStoreRoom16 = Location("Summer Tower Basement | Store Room", 0x0111)
+    B0SummerTowerStoreRoom17 = Location("Summer Tower Basement | Store Room", 0x0112)
+    B0SummerTowerStoreRoom18 = Location("Summer Tower Basement | Store Room", 0x0113)
+    B0SummerTowerStoreRoom19 = Location("Summer Tower Basement | Store Room", 0x0114)
+    B0SummerTowerStoreRoom20 = Location("Summer Tower Basement | Store Room", 0x0115)
+    B0SummerTowerStoreRoom21 = Location("Summer Tower Basement | Store Room", 0x0116)
 
     // F6 Summer Tower | Power Room
     F6SummerTowerPowerRoom1 = Location("F6 Summer Tower | Power Room", 0x0117)
@@ -618,6 +689,67 @@ class SearchModeLocation {
 }
 searchModeLocation = SearchModeLocation()
 
+class Cutscenes {
+    // Progression Events
+    MarcusCorpse = 0x0088
+    WinterTowerElevatorAttack = 0x010d
+    ParkerCorpse = 0x0136
+    KimberlyCorpse = 0x0137
+    SelfDestructActivated = 0x138
+    ActivateWinterTowerPowerRoom = 0x156
+    LeaveSummerTower = 0x1c5
+    UseDavidsDisk = 0x01f0
+    ReadDavidDiskFile = 0x0241
+    MeetDavid = 0x0245
+    ExamineDavidPhoto = 0x246
+    PostMedicalScan = 0x0247
+    RonnyCorpse = 0x0297
+    ActivateMedicalScanner = 0x029a
+    ReadRonnyComputerDocument = 0x029c
+    DavidCorpse = 0x031a
+    ActivateSummerTowerPowerRoom = 0x033d
+    AccessSummerTowerElevator = 0x0365
+    FallTowerSafeRoomDavidHelmet = 0x03cd
+    KillFallTowerBoss = 0x03ce
+
+    // Optional Events 
+    ButterflyHolo = 0x0045
+    StarHolo = 0x0078
+    KillWinterTowerBasementEnemy = 0x015a
+    ChargeGunInToolRoom = 0x0198
+    GeorgesComputer = 0x0228
+    RonnyStaticAttack = 0x03f1
+
+    // Items and Tools
+    VoiceRecorder = 0x003e
+    VPSScanner = 0x003f
+    SeveredFingers = 0x0085
+    GeorgeGun = 0x0188
+    ScannerKey = 0x1f2
+    OrangeKeycard = 0x0248
+    GeorgeClue = 0x0249
+    Sunglasses = 0x298
+    SummerStoreRoomHint = 0x0333
+    KimberlyGun = 0x03ad
+
+    // Other Events
+    LaurasMemories = 0x0007
+    Credits = 0x0008
+    SavingLoading = 0x000a
+    DeathScene = 0x000b
+    Intro = 0x000f
+    EnterStorageRoomVexxTerminal = 0x00d3
+    ExitParkersVexxTerminal = 0x0135
+    EnterArchives = 0x015b
+}
+
+class Cutscene {
+    Id = word(0x17cfa2)
+    Timer = word(0x17dbd2)
+    Cutscenes = Cutscenes()
+    NotPlaying = 0xffff
+}
+
 class Achievement {
     Type = 0 // 0 = None, 1 = Progression, 2 = Win Condition, 3 = Missable
     Points = 0
@@ -683,16 +815,27 @@ class AchievementHelpers {
 
         return saves.Remaining >= target
     }
+
+    function CutscenePlayed(id) {
+        return cutscene.Id == id &&
+            prev(cutscene.Timer) != cutscene.NotPlaying &&
+            cutscene.Timer == cutscene.NotPlaying
+    }
 }
 helpers = AchievementHelpers()
 
 class AchievementTriggers {
     function SharpenTheSaw() {
-        return always_false()
+        return disc.Id == 1 &&
+            helpers.IsPlaying() &&
+            prev(training.Level) == 2 &&
+            training.Level == 3
     }
 
     function TheButterflyEffecT() {
-        return always_false()
+        return disc.Id == 2 &&
+            helpers.IsPlaying()
+
     }
 
     function ThirdTimesTheCharm() {
@@ -990,19 +1133,36 @@ class Leaderboards {
 }
 leaderboards = Leaderboards()
 
-rich_presence_conditional_display(helpers.IsPlaying(), 
+rich_presence_conditional_display(disc.Id >= 2 && helpers.IsSearchMode(), 
     "Laura is exploring {0} || Difficulty: {1} | Battery: {2}% | Time: {3}",
-    rich_presence_lookup("Location", searchModeLocation.Id, searchModeLocation.Locations.GetLookup(), "Unknown Location"),
+    rich_presence_lookup("SearchModeLocation", searchModeLocation.Id, searchModeLocation.Locations.GetLookup(), "Unknown Location"),
     rich_presence_lookup("Difficulty", gameDifficulty.Id, gameDifficulty.Lookup),
     rich_presence_value("Battery", helpers.GetSavePercentage()),
     rich_presence_value("Time", timer.TotalFrames, "FRAMES")
 )
 
-rich_presence_conditional_display(helpers.IsSavingOrLoading() && menuState.Id == menuState.States.SaveLoad, 
+rich_presence_conditional_display(disc.Id >= 2 && helpers.IsActiveMode(), 
+    "Laura is exploring {0} || Difficulty: {1} | Battery: {2}% | Time: {3}",
+    rich_presence_lookup("ActionModeLocation", actionModeLocation.Id, actionModeLocation.Locations.GetLookup(), "Unknown Location"),
+    rich_presence_lookup("Difficulty", gameDifficulty.Id, gameDifficulty.Lookup),
+    rich_presence_value("Battery", helpers.GetSavePercentage()),
+    rich_presence_value("Time", timer.TotalFrames, "FRAMES")
+)
+
+rich_presence_conditional_display(disc.Id >= 2 && helpers.IsSavingOrLoading() && menuState.Id == menuState.States.SaveLoad, 
     "Laura is logging her progress"
 )
 
-rich_presence_conditional_display(helpers.IsSavingOrLoading() && menuState.Id != menuState.States.SaveLoad, 
+rich_presence_conditional_display(disc.Id >= 2 && helpers.IsSavingOrLoading() && menuState.Id != menuState.States.SaveLoad, 
+    "Laura is preparing to investigate the Aki Station incident"
+)
+
+rich_presence_conditional_display(disc.Id == 1 && training.Active == 1, 
+    "Laura is training on {0} and preparing for the horrors that await her on the Aki Station",
+    rich_presence_lookup("TrainingLevel", training.Level, training.Lookup)
+)
+
+rich_presence_conditional_display(disc.Id == 1 && training.Active == 0, 
     "Laura is preparing to investigate the Aki Station incident"
 )
 

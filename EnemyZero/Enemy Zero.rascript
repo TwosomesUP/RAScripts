@@ -1,7 +1,7 @@
 // Doctor Hauzer
 // #ID = 14556
 
-class States {
+class PlayerStates {
     LoadingGame = 0x00
     SegaLogo = 0x01
     LoadingData = 0x02
@@ -15,14 +15,50 @@ class States {
 
 class PlayerState {
     Id = byte(0x197714)
-    States = States()
+    States = PlayerStates()
 }
 playerState = PlayerState()
+
+class MenuSequenceRange {
+    Start = 0
+    End = 0
+}
+
+class MenuStates {
+    NotOpened = 0x00
+    Title = 0x01
+    SaveLoad = 0x02
+}
+
+class MenuSequences {
+    SaveFMV = MenuSequenceRange(0x01, 0x01)
+    VoiceRecorderOpened = MenuSequenceRange(0x02, 0x03)
+    MenuAccessed = MenuSequenceRange(0x04, 0x04)
+    SaveLoadTransitionScreen = MenuSequenceRange(0x05, 0x06)
+    SlotSelection = MenuSequenceRange(0x07, 0x0b)
+    SaveLoadPrompt = MenuSequenceRange(0x0c, 0x0c)
+    LoadInitiated = MenuSequenceRange(0x0d, 0x0d)
+    LoadAudioPlaying = MenuSequenceRange(0x0e, 0x0e)
+    SaveInitiated = MenuSequenceRange(0x0f, 0x0f)
+    SavingLoading = MenuSequenceRange(0x14, 0x16)
+    ClosingRecorder = MenuSequenceRange(0x1e, 0x1f)
+    SaveLoadFinished = MenuSequenceRange(0x28, 0x29)
+}
+
+class MenuState {
+    Id = byte(0x17d194)
+    Sequence = word(0x17d196)
+    States = MenuStates()
+    Sequences = MenuSequences()
+}
+menuState = MenuState()
 
 class Saves {
     Remaining = byte(0x196ea6)
     HardMax = 13
     NormalMax = 64
+    EasyMax = 99
+    BeginnerMax = 99
 }
 saves = Saves()
 
@@ -36,8 +72,28 @@ class GameDifficulties {
 class GameDifficulty {
     Id = byte(0x1976e1)
     Difficulties = GameDifficulties()
+    Lookup = {
+        0x00: "Easy",
+        0x01: "Normal",
+        0x02: "Hard",
+        0x03: "Beginner"
+    }
 }
 gameDifficulty = GameDifficulty()
+
+class Timer {
+    CurrentFrameParts = [
+        word(0x197718),
+        word(0x19771a)
+    ]
+    CurrentFrames = ((CurrentFrameParts[0] * 0x10000) + CurrentFrameParts[1])
+    StoredHours = byte(0x1976f0)
+    StoredMinues = byte(0x1976f3)
+    StoredSeconds = byte(0x1976f2)
+    StoredFrames = ((StoredHours * 60 * 60 * 60) + (StoredMinues * 60 * 60) + (StoredSeconds * 60))
+    TotalFrames = CurrentFrames + StoredFrames
+}
+timer = Timer()
 
 class Items {
     VoiceRecorder = byte(0x17d1ca)
@@ -574,24 +630,43 @@ class Achievement {
 class AchievementHelpers {
     function IsSearchMode() {
         return __ornext(
-            playerState.Id == playerStates.States.SearchModeMove ||
-            playerState.Id == playerStates.States.SearchModeIdle ||
-            playerState.Id == playerStates.States.SearchModeMenu ||
-            playerState.Id == playerStates.States.VexxTerminal
+            playerState.Id == playerState.States.SearchModeMove ||
+            playerState.Id == playerState.States.SearchModeIdle ||
+            playerState.Id == playerState.States.SearchModeMenu ||
+            playerState.Id == playerState.States.VexxTerminal
         )
     }
 
     function IsActiveMode() {
-        return playerState.Id == playerStates.States.ActiveMode
+        return playerState.Id == playerState.States.ActiveMode
+    }
+
+    function IsSavingOrLoading() {
+        return __ornext
+        (
+            playerState.Id == playerState.States.LoadingSave ||
+            playerState.Id == playerState.States.SegaLogo ||
+            playerState.Id == playerState.States.LoadingData ||
+            playerState.Id == playerState.States.LoadingGame
+        )
     }
 
     function IsPlaying() {
-        __ornext(
-            playerState.Id == playerStates.States.SearchModeMove ||
-            playerState.Id == playerStates.States.SearchModeIdle ||
-            playerState.Id == playerStates.States.SearchModeMenu ||
-            playerState.Id == playerStates.States.VexxTerminal ||
-            playerState.Id == playerStates.States.ActiveMode
+        return __ornext(
+            playerState.Id == playerState.States.SearchModeMove ||
+            playerState.Id == playerState.States.SearchModeIdle ||
+            playerState.Id == playerState.States.SearchModeMenu ||
+            playerState.Id == playerState.States.VexxTerminal ||
+            playerState.Id == playerState.States.ActiveMode
+        )
+    }
+
+    function GetSavePercentage() {
+        return max_of(
+            measured((saves.Remaining / saves.BeginnerMax * 100.0), gameDifficulty.Id == gameDifficulty.Difficulties.Beginner),
+            measured((saves.Remaining / saves.EasyMax * 100.0), gameDifficulty.Id == gameDifficulty.Difficulties.Easy),
+            measured((saves.Remaining / saves.NormalMax * 100.0), gameDifficulty.Id == gameDifficulty.Difficulties.Normal),
+            measured((saves.Remaining / saves.HardMax * 100.0), gameDifficulty.Id == gameDifficulty.Difficulties.Hard)
         )
     }
 
@@ -612,55 +687,226 @@ class AchievementHelpers {
 helpers = AchievementHelpers()
 
 class AchievementTriggers {
+    function SharpenTheSaw() {
+        return always_false()
+    }
+
+    function TheButterflyEffecT() {
+        return always_false()
+    }
+
+    function ThirdTimesTheCharm() {
+        return always_false()
+    }
+    
+    function DownButNotOut() {
+        return always_false()
+    }
+    
+    function WorkingStiff() {
+        return always_false()
+    }
+    
+    function OneStepAhead() {
+        return always_false()
+    }
+    
+    function WatchYourSix() {
+        return always_false()
+    }
+    
+    function WrittenInTheStars() {
+        return always_false()
+    }
+    
+    function StoneColdKiller() {
+        return always_false()
+    }
+    
+    function TheColdLightOfDay() {
+        return always_false()
+    }
+    
+    function ABreathOfFreshAir() {
+        return always_false()
+    }
+    
+    function VeiledAttempt() {
+        return always_false()
+    }
+    
+    function NewHeights() {
+        return always_false()
+    }
+    
+    function BackOnTrack() {
+        return always_false()
+    }
+    
+    function PaveTheWay() {
+        return always_false()
+    }
+    
+    function SkeletonCrew() {
+        return always_false()
+    }
+    
+    function OddsAndEnds() {
+        return always_false()
+    }
+    
+    function OneDoorCloses() {
+        return always_false()
+    }
+    
+    function OpenSesame() {
+        return always_false()
+    }
+    
+    function RiddleMeThis() {
+        return always_false()
+    }
+    
+    function TrueColors() {
+        return always_false()
+    }
+    
+    function TheWayWeWere() {
+        return always_false()
+    }
+    
+    function InsultToInjury() {
+        return always_false()
+    }
+    
+    function BiteTheBullet() {
+        return always_false()
+    }
+    
+    function BunInTheOven() {
+        return always_false()
+    }
+    
+    function GoodForTheGoose() {
+        return always_false()
+    }
+    
+    function FromTheAshes() {
+        return always_false()
+    }
+    
+    function MixedBag() {
+        return always_false()
+    }
+    
+    function TheEleventhHour() {
+        return always_false()
+    }
+    
+    function YouShouldntHave() {
+        return always_false()
+    }
+    
+    function Checkmate() {
+        return always_false()
+    }
+    
+    function FromWhenceYouCame() {
+        return always_false()
+    }
+    
+    function LoveIsBlind() {
+        return always_false()
+    }
+    
+    function StrangerThanFiction() {
+        return always_false()
+    }
+    
+    function Intern() {
+        return always_false()
+    }
+    
+    function Junior() {
+        return always_false()
+    }
+    
+    function Associate() {
+        return always_false()
+    }
+    
+    function Senior() {
+        return always_false()
+    }
+    
+    function FlyingBlind() {
+        return always_false()
+    }
+    
+    function StepOnTheGas() {
+        return always_false()
+    }
+    
+    function GutFeeling() {
+        return always_false()
+    }
+    
+    function SixthSense() {
+        return always_false()
+    }
+    
+    function UnderTheRadar() {
+        return always_false()
+    }
 }
 triggers = AchievementTriggers()
 
 class Achievements {
     StartingID = 0
     Data = [
-        Achievement(0, 5, "Training", "Complete all three training missions on Disc 0", always_false()),
-        Achievement(0, 5, "Butterflies", "Notice something delicate drifting through the silence...", always_false()),
-        Achievement(0, 5, "Parker Static", "Press Parker for answers... and hear the signal die", always_false()),
-        Achievement(0, 5, "Stair Room", "Override the emergency lockdown and descend into the Winter Tower Basement", always_false()),
-        Achievement(0, 5, "Parker's Body", "Discover why Parker stopped answering", always_false()),
-        Achievement(0, 5, "Marcus's Body", "Witness a gruesome scene in Marcus's Room", always_false()),
-        Achievement(0, 5, "First Gun", "Find something to defend yourself with", always_false()),
-        Achievement(0, 5, "Space View", "Pause beneath the endless stars", always_false()),
-        Achievement(0, 5, "First Kill", "Strike down the unseen hunter below the Winter Tower", always_false()),
-        Achievement(0, 5, "Winter Power", "Restore light to the silent Winter Tower", always_false()),
-        Achievement(0, 5, "Air Ducts", "Escape an invisible stalker and slip away into the station's veins", always_false()),
-        Achievement(0, 5, "George's Computer", "Tamper with George's terminal and face his displeasure", always_false()),
-        Achievement(0, 5, "Archive Ladder", "Open a quiet path back into the air ducts", always_false()),
-        Achievement(0, 5, "Tool Room Recharge", "Break George's safeguards and revive your weapon", always_false()),
-        Achievement(0, 5, "Air Duct Enemy", "Silence the watcher in the vents and reach Kimberly", always_false()),
-        Achievement(0, 5, "Call Everyone", "Search for answers while there's still someone left to give them", always_false()),
-        Achievement(0, 5, "Winter Items", "Gather every trace left by the Winter Tower crew", always_false()),
-        Achievement(0, 5, "Winter Clear", "Leave the frozen tower behind", always_false()),
-        Achievement(0, 5, "Summer Lift", "Understand the strange logic of the Summer Tower lift", always_false()),
-        Achievement(0, 5, "Ronny's Lock", "Break Ronny's cryptic lock", always_false()),
-        Achievement(0, 5, "Ronny's Computer", "Follow Ronny's emotional trail and uncover the truth", always_false()),
-        Achievement(0, 5, "David", "Reunite with David and remember quieter days", always_false()),
-        Achievement(0, 5, "David Death", "Watch hope vanish in an instant", always_false()),
-        Achievement(0, 5, "David Disk", "Expose the secret hidden on David's disk—and live through the consequences", always_false()),
-        Achievement(0, 5, "Medical Scan", "Learn what the creature left inside you", always_false()),
-        Achievement(0, 5, "George Death", "Survive a desperate assault… and a stranger rescue", always_false()),
-        Achievement(0, 5, "Summer Power", "Bring life back to the Summer Tower", always_false()),
-        Achievement(0, 5, "Summer Items", "Gather every trace left by the Summer Tower crew", always_false()),
-        Achievement(0, 5, "Summer Clear", "Descend toward the final tower", always_false()),
-        Achievement(0, 5, "Fall Safe Room", "Find a rare sanctuary within the Fall Tower and discover a parting gift from David", always_false()),
-        Achievement(0, 5, "Heart Kill", "Put an end to the infectious horror in depths of the Fall Tower", always_false()),
-        Achievement(0, 5, "Fall Clear", "Flee the autumn labyrinth and return to the frozen tower", always_false()),
-        Achievement(0, 5, "Kimberly Body", "Find Kimberly forever united with Parker", always_false()),
-        Achievement(0, 5, "Final Document", "Uncover the truth Parker tried to hide", always_false()),
-        Achievement(0, 5, "Beginner Clear", "Escape the station on Beginner difficulty or higher", always_false()),
-        Achievement(0, 5, "Easy Clear", "Escape the station on Easy difficulty or higher", always_false()),
-        Achievement(0, 5, "Normal Clear", "Escape the station on Normal difficulty", always_false()),
-        Achievement(0, 5, "Hard Clear", "Escape the station on Hard difficulty", always_false()),
-        Achievement(0, 5, "No VPS", "Beat the game on Normal difficulty or higher without collecting the VPS scanner", always_false()),
-        Achievement(0, 5, "Speed Run", "Escape the station in 1.5 hours or less on Normal difficulty or higher", always_false()),
-        Achievement(0, 5, "Half Battery", "Escape the station with at least 50% save battery remaining on Normal difficulty or higher", always_false()),
-        Achievement(0, 5, "Full Battery", "Escape the station with 100% save battery remaining on Normal difficulty or higher", always_false()),
-        Achievement(0, 5, "Pacifist", "Escape the station having killed 3 enemies or less on Normal difficulty or higher", always_false()),
+        Achievement(0, 5, "Sharpen the Saw", "Complete all three training missions on Disc 0", triggers.SharpenTheSaw()),
+        Achievement(0, 3, "The Butterfly Effect", "Notice something delicate drifting through the silence...", triggers.TheButterflyEffecT()),
+        Achievement(0, 3, "Third Times the Charm", "Press Parker for answers... and hear the signal die", triggers.ThirdTimesTheCharm()),
+        Achievement(1, 5, "Down but not Out", "Override the emergency lockdown and descend into the Winter Tower Basement", triggers.DownButNotOut()),
+        Achievement(1, 5, "Working Stiff", "Discover why Parker stopped answering", triggers.WorkingStiff()),
+        Achievement(1, 5, "One Step Ahead", "Witness a gruesome scene in Marcus's Room", triggers.OneStepAhead()),
+        Achievement(1, 5, "Watch Your Six", "Find something to defend yourself with", triggers.WatchYourSix()),
+        Achievement(0, 3, "Written in the Stars", "Pause beneath the endless stars", triggers.WrittenInTheStars()),
+        Achievement(1, 5, "Stone Cold Killer", "Strike down the unseen hunter below the Winter Tower", triggers.StoneColdKiller()),
+        Achievement(1, 5, "The Cold Light of Day", "Restore light to the silent Winter Tower", triggers.TheColdLightOfDay()),
+        Achievement(1, 5, "A Breath of Fresh Air", "Escape an invisible stalker and slip away into the station's veins", triggers.ABreathOfFreshAir()),
+        Achievement(0, 3, "Veiled Attempt", "Tamper with George's terminal and face his displeasure", triggers.VeiledAttempt()),
+        Achievement(1, 5, "New Heights", "Open a quiet path back into the air ducts", triggers.NewHeights()),
+        Achievement(0, 3, "Back on Track", "Break George's safeguards and revive your weapon", triggers.BackOnTrack()),
+        Achievement(1, 5, "Pave the Way", "Silence the watcher in the vents and reach Kimberly", triggers.PaveTheWay()),
+        Achievement(1, 5, "Skeleton Crew", "Search for answers while there's still someone left to give them", triggers.SkeletonCrew()),
+        Achievement(0, 5, "Odds and Ends", "Gather every trace left by the Winter Tower crew", triggers.OddsAndEnds()),
+        Achievement(1, 10, "One Door Closes", "Leave the frozen tower behind", triggers.OneDoorCloses()),
+        Achievement(1, 5, "Open Sesame", "Understand the strange logic of the Summer Tower lift", triggers.OpenSesame()),
+        Achievement(1, 5, "Riddle Me This", "Break Ronny's cryptic lock", triggers.RiddleMeThis()),
+        Achievement(1, 5, "True Colors", "Follow Ronny's emotional trail and uncover the truth", triggers.TrueColors()),
+        Achievement(1, 5, "The Way We Were", "Reunite with David and remember quieter days", triggers.TheWayWeWere()),
+        Achievement(1, 5, "Insult to Injury", "Watch hope vanish in an instant", triggers.InsultToInjury()),
+        Achievement(1, 5, "Bite the Bullet", "Expose the secret hidden on David's disk—and live through the consequences", triggers.BiteTheBullet()),
+        Achievement(1, 5, "Bun in the Oven", "Learn what the creature left inside you", triggers.BunInTheOven()),
+        Achievement(1, 5, "Good for the Goose", "Survive a desperate assault… and a stranger rescue", triggers.GoodForTheGoose()),
+        Achievement(1, 5, "From the Ashes", "Bring life back to the Summer Tower", triggers.FromTheAshes()),
+        Achievement(0, 5, "Mixed Bag", "Gather every trace left by the Summer Tower crew", triggers.MixedBag()),
+        Achievement(1, 10, "The Eleventh Hour", "Descend toward the final tower", triggers.TheEleventhHour()),
+        Achievement(1, 5, "You Shouldn't Have", "Find a rare sanctuary within the Fall Tower and discover a parting gift from David", triggers.YouShouldntHave()),
+        Achievement(1, 5, "Checkmate", "Put an end to the infectious horror in depths of the Fall Tower", triggers.Checkmate()),
+        Achievement(1, 10, "From Whence You Came", "Flee the autumn labyrinth and return to the frozen tower", triggers.FromWhenceYouCame()),
+        Achievement(1, 5, "Love is Blind", "Find Kimberly forever united with Parker", triggers.LoveIsBlind()),
+        Achievement(1, 5, "Stranger Than Fiction", "Uncover the truth Parker tried to hide", triggers.StrangerThanFiction()),
+        Achievement(0, 1, "Intern", "Escape the station on Beginner difficulty or higher", triggers.Intern()),
+        Achievement(0, 3, "Junior", "Escape the station on Easy difficulty or higher", triggers.Junior()),
+        Achievement(2, 5, "Associate", "Escape the station on Normal difficulty or higher", triggers.Associate()),
+        Achievement(0, 10, "Senior", "Escape the station on Hard difficulty", triggers.Senior()),
+        Achievement(0, 25, "Flying Blind", "Beat the game on Normal difficulty or higher without collecting the VPS scanner", triggers.FlyingBlind()),
+        Achievement(0, 10, "Step on the Gas", "Escape the station in 1.5 hours or less on Normal difficulty or higher", triggers.StepOnTheGas()),
+        Achievement(0, 10, "Gut Feeling", "Escape the station with at least 50% save battery remaining on Normal difficulty or higher", triggers.GutFeeling()),
+        Achievement(0, 25, "Sixth Sense", "Escape the station with 100% save battery remaining on Normal difficulty or higher", triggers.SixthSense()),
+        Achievement(0, 10, "Under the Radar", "Escape the station having killed 3 enemies or less on Normal difficulty or higher", triggers.UnderTheRadar()),
     ]
 
     function Generate() {   
@@ -745,15 +991,22 @@ class Leaderboards {
 leaderboards = Leaderboards()
 
 rich_presence_conditional_display(helpers.IsPlaying(), 
-    "Laura is exploring {0}",
-    rich_presence_lookup("Location", searchModeLocation.Id, searchModeLocation.Locations.GetLookup(), "Unknown Location")
+    "Laura is exploring {0} || Difficulty: {1} | Battery: {2}% | Time: {3}",
+    rich_presence_lookup("Location", searchModeLocation.Id, searchModeLocation.Locations.GetLookup(), "Unknown Location"),
+    rich_presence_lookup("Difficulty", gameDifficulty.Id, gameDifficulty.Lookup),
+    rich_presence_value("Battery", helpers.GetSavePercentage()),
+    rich_presence_value("Time", timer.TotalFrames, "FRAMES")
 )
 
-rich_presence_conditional_display(always_false(), 
-    "Test"
+rich_presence_conditional_display(helpers.IsSavingOrLoading() && menuState.Id == menuState.States.SaveLoad, 
+    "Laura is logging her progress"
+)
+
+rich_presence_conditional_display(helpers.IsSavingOrLoading() && menuState.Id != menuState.States.SaveLoad, 
+    "Laura is preparing to investigate the Aki Station incident"
 )
 
 rich_presence_display("Playing Enemy Zero!")
 
-//achievements.Generate()
+achievements.Generate()
 //leaderboards.Generate()

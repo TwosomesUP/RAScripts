@@ -122,6 +122,7 @@ class ActionModeLocations {
     F1WinterTowerHallway = Location("F1 Winter Tower | Hallway", 0x0001)
     WinterTowerBasementHallway = Location("Winter Tower Basement | Hallway", 0x0002)
     WinterTowerBasementHanger = Location("Winter Tower Basement | Hangar", 0x0003)
+    F4WinterTowerHallway = Location("F4 Winter Tower | Hallway", 0x0004)
     WinterTowerAirDucts = Location("Winter Tower | Air Ducts", 0x0005)
     SummerTowerEmergencyBridge1 = Location("Summer Tower | Emergency Bridge", 0x0006)
     SummerTowerEmergencyBridge2 = Location("Summer Tower | Emergency Bridge", 0x0007)
@@ -142,7 +143,7 @@ class ActionModeLocations {
     F8FallTowerAirDucts = Location("F8 Fall Tower | Air Ducts", 0x0016)
 
     AllLocations = [
-        F1WinterTowerHallway, WinterTowerBasementHallway, WinterTowerBasementHanger, WinterTowerAirDucts,
+        F1WinterTowerHallway, WinterTowerBasementHallway, WinterTowerBasementHanger, F4WinterTowerHallway, WinterTowerAirDucts,
 
         SummerTowerEmergencyBridge1, SummerTowerEmergencyBridge2, SummerTowerBasementHallway, F1SummerTowerHallway,
         F5SummerTowerHallway, F6SummerTowerHallway, F7SummerTowerHallway,
@@ -243,6 +244,7 @@ class SearchModeLocations {
     WinterTowerElevator1 = Location("Winter Tower | Elevator", 0x006f)
     WinterTowerElevator2 = Location("Winter Tower | Elevator", 0x0070)
     WinterTowerElevator3 = Location("Winter Tower | Elevator", 0x0071)
+    WinterTowerElevator4 = Location("Winter Tower | Elevator", 0x0072)
 
     // F1 Winter Tower | Locker Room
     F1WinterTowerLockerRoom1 = Location("F1 Winter Tower | Locker Room", 0x0041)
@@ -286,56 +288,55 @@ class SearchModeLocations {
 
     // F2 Winter Tower | Air Ducts
     F2WinterTowerAirDucts1 = Location("Winter Tower | Air Ducts", 0x0007)
-    F2WinterTowerAirDucts2 = Location("Winter Tower | Air Ducts", 0x0072)
 
     // F2 Winter Tower | Archives
-    F2WinterTowerArchives1 = Location("F2 Winter Tower | Archives", 0x008b)
-    F2WinterTowerArchives2 = Location("F2 Winter Tower | Archives", 0x008c)
-    F2WinterTowerArchives3 = Location("F2 Winter Tower | Archives", 0x008d)
-    F2WinterTowerArchives4 = Location("F2 Winter Tower | Archives", 0x008e)
-    F2WinterTowerArchives5 = Location("F2 Winter Tower | Archives", 0x008f)
-    F2WinterTowerArchives6 = Location("F2 Winter Tower | Archives", 0x0090)
-    F2WinterTowerArchives7 = Location("F2 Winter Tower | Archives", 0x0091)
-    F2WinterTowerArchives8 = Location("F2 Winter Tower | Archives", 0x0092)
-    F2WinterTowerArchives9 = Location("F2 Winter Tower | Archives", 0x0093)
-    F2WinterTowerArchives10 = Location("F2 Winter Tower | Archives", 0x0095)
-    F2WinterTowerArchives11 = Location("F2 Winter Tower | Archives", 0x0096)
-    F2WinterTowerArchives12 = Location("F2 Winter Tower | Archives", 0x0097)
-    F2WinterTowerArchives13 = Location("F2 Winter Tower | Archives", 0x0098)
-    F2WinterTowerArchives14 = Location("F2 Winter Tower | Archives", 0x0099)
-    F2WinterTowerArchives15 = Location("F2 Winter Tower | Archives", 0x009a)
-    F2WinterTowerArchives16 = Location("F2 Winter Tower | Archives", 0x009b)
+    F2WinterTowerArchives1 = Location("F5 Winter Tower | Archives", 0x008b)
+    F2WinterTowerArchives2 = Location("F5 Winter Tower | Archives", 0x008c)
+    F2WinterTowerArchives3 = Location("F5 Winter Tower | Archives", 0x008d)
+    F2WinterTowerArchives4 = Location("F5 Winter Tower | Archives", 0x008e)
+    F2WinterTowerArchives5 = Location("F5 Winter Tower | Archives", 0x008f)
+    F2WinterTowerArchives6 = Location("F5 Winter Tower | Archives", 0x0090)
+    F2WinterTowerArchives7 = Location("F5 Winter Tower | Archives", 0x0091)
+    F2WinterTowerArchives8 = Location("F5 Winter Tower | Archives", 0x0092)
+    F2WinterTowerArchives9 = Location("F5 Winter Tower | Archives", 0x0093)
+    F2WinterTowerArchives10 = Location("F5 Winter Tower | Archives", 0x0095)
+    F2WinterTowerArchives11 = Location("F5 Winter Tower | Archives", 0x0096)
+    F2WinterTowerArchives12 = Location("F5 Winter Tower | Archives", 0x0097)
+    F2WinterTowerArchives13 = Location("F5 Winter Tower | Archives", 0x0098)
+    F2WinterTowerArchives14 = Location("F5 Winter Tower | Archives", 0x0099)
+    F2WinterTowerArchives15 = Location("F5 Winter Tower | Archives", 0x009a)
+    F2WinterTowerArchives16 = Location("F5 Winter Tower | Archives", 0x009b)
 
     // F2 Winter Tower | Tool Room
-    F2WinterTowerToolRoom1 = Location("F2 Winter Tower | Tool Room", 0x009c)
-    F2WinterTowerToolRoom2 = Location("F2 Winter Tower | Tool Room", 0x009d)
-    F2WinterTowerToolRoom3 = Location("F2 Winter Tower | Tool Room", 0x009e)
-    F2WinterTowerToolRoom4 = Location("F2 Winter Tower | Tool Room", 0x009f)
-    F2WinterTowerToolRoom5 = Location("F2 Winter Tower | Tool Room", 0x00a0)
-    F2WinterTowerToolRoom6 = Location("F2 Winter Tower | Tool Room", 0x00a1)
+    F2WinterTowerToolRoom1 = Location("F5 Winter Tower | Tool Room", 0x009c)
+    F2WinterTowerToolRoom2 = Location("F5 Winter Tower | Tool Room", 0x009d)
+    F2WinterTowerToolRoom3 = Location("F5 Winter Tower | Tool Room", 0x009e)
+    F2WinterTowerToolRoom4 = Location("F5 Winter Tower | Tool Room", 0x009f)
+    F2WinterTowerToolRoom5 = Location("F5 Winter Tower | Tool Room", 0x00a0)
+    F2WinterTowerToolRoom6 = Location("F5 Winter Tower | Tool Room", 0x00a1)
 
     // F2 Winter Tower | Maintenance Elevator
     F2WinterTowerMaintenanceElevator1 = Location("Inter-Tower Elevator", 0x00b2)
 
     // F3 Winter Tower | Kimberly's Room
-    F3WinterTowerKimberlysRoom1 = Location("F3 Winter Tower | Kimberly's Room", 0x00a2)
-    F3WinterTowerKimberlysRoom2 = Location("F3 Winter Tower | Kimberly's Room", 0x00a3)
-    F3WinterTowerKimberlysRoom3 = Location("F3 Winter Tower | Kimberly's Room", 0x00a4)
-    F3WinterTowerKimberlysRoom4 = Location("F3 Winter Tower | Kimberly's Room", 0x00a5)
-    F3WinterTowerKimberlysRoom5 = Location("F3 Winter Tower | Kimberly's Room", 0x00a6)
-    F3WinterTowerKimberlysRoom6 = Location("F3 Winter Tower | Kimberly's Room", 0x00a7)
-    F3WinterTowerKimberlysRoom7 = Location("F3 Winter Tower | Kimberly's Room", 0x00a8)
-    F3WinterTowerKimberlysRoom8 = Location("F3 Winter Tower | Kimberly's Room", 0x00a9)
-    F3WinterTowerKimberlysRoom9 = Location("F3 Winter Tower | Kimberly's Room", 0x00aa)
-    F3WinterTowerKimberlysRoom10 = Location("F3 Winter Tower | Kimberly's Room", 0x00ab)
-    F3WinterTowerKimberlysRoom11 = Location("F3 Winter Tower | Kimberly's Room", 0x00ac)
-    F3WinterTowerKimberlysRoom12 = Location("F3 Winter Tower | Kimberly's Room", 0x00ad)
-    F3WinterTowerKimberlysRoom13 = Location("F3 Winter Tower | Kimberly's Room", 0x00ae)
-    F3WinterTowerKimberlysRoom14 = Location("F3 Winter Tower | Kimberly's Room", 0x00af)
-    F3WinterTowerKimberlysRoom15 = Location("F3 Winter Tower | Kimberly's Room", 0x00b0)
-    F3WinterTowerKimberlysRoom16 = Location("F3 Winter Tower | Kimberly's Room", 0x00b1)
-    F3WinterTowerKimberlysRoom17 = Location("F3 Winter Tower | Kimberly's Room", 0x00b3)
-    F3WinterTowerKimberlysRoom18 = Location("F3 Winter Tower | Kimberly's Room", 0x00b4)
+    F3WinterTowerKimberlysRoom1 = Location("F5 Winter Tower | Kimberly's Room", 0x00a2)
+    F3WinterTowerKimberlysRoom2 = Location("F5 Winter Tower | Kimberly's Room", 0x00a3)
+    F3WinterTowerKimberlysRoom3 = Location("F5 Winter Tower | Kimberly's Room", 0x00a4)
+    F3WinterTowerKimberlysRoom4 = Location("F5 Winter Tower | Kimberly's Room", 0x00a5)
+    F3WinterTowerKimberlysRoom5 = Location("F5 Winter Tower | Kimberly's Room", 0x00a6)
+    F3WinterTowerKimberlysRoom6 = Location("F5 Winter Tower | Kimberly's Room", 0x00a7)
+    F3WinterTowerKimberlysRoom7 = Location("F5 Winter Tower | Kimberly's Room", 0x00a8)
+    F3WinterTowerKimberlysRoom8 = Location("F5 Winter Tower | Kimberly's Room", 0x00a9)
+    F3WinterTowerKimberlysRoom9 = Location("F5 Winter Tower | Kimberly's Room", 0x00aa)
+    F3WinterTowerKimberlysRoom10 = Location("F5 Winter Tower | Kimberly's Room", 0x00ab)
+    F3WinterTowerKimberlysRoom11 = Location("F5 Winter Tower | Kimberly's Room", 0x00ac)
+    F3WinterTowerKimberlysRoom12 = Location("F5 Winter Tower | Kimberly's Room", 0x00ad)
+    F3WinterTowerKimberlysRoom13 = Location("F5 Winter Tower | Kimberly's Room", 0x00ae)
+    F3WinterTowerKimberlysRoom14 = Location("F5 Winter Tower | Kimberly's Room", 0x00af)
+    F3WinterTowerKimberlysRoom15 = Location("F5 Winter Tower | Kimberly's Room", 0x00b0)
+    F3WinterTowerKimberlysRoom16 = Location("F5 Winter Tower | Kimberly's Room", 0x00b1)
+    F3WinterTowerKimberlysRoom17 = Location("F5 Winter Tower | Kimberly's Room", 0x00b3)
+    F3WinterTowerKimberlysRoom18 = Location("F5 Winter Tower | Kimberly's Room", 0x00b4)
 
     // Summer Tower
 
@@ -538,7 +539,7 @@ class SearchModeLocations {
         F1WinterTowerMarcusRoom21, F1WinterTowerMarcusRoom22, F1WinterTowerMarcusRoom23, F1WinterTowerMarcusRoom24,
         F1WinterTowerMarcusRoom25,
 
-        WinterTowerElevator1, WinterTowerElevator2, WinterTowerElevator3,
+        WinterTowerElevator1, WinterTowerElevator2, WinterTowerElevator3, WinterTowerElevator4,
 
         F1WinterTowerLockerRoom1, F1WinterTowerLockerRoom2, F1WinterTowerLockerRoom3, F1WinterTowerLockerRoom4,
         F1WinterTowerLockerRoom5, F1WinterTowerLockerRoom6, F1WinterTowerLockerRoom7, F1WinterTowerLockerRoom8,
@@ -554,7 +555,7 @@ class SearchModeLocations {
         B1WinterTowerPowerRoom1, B1WinterTowerPowerRoom2, B1WinterTowerPowerRoom3, B1WinterTowerPowerRoom4,
         B1WinterTowerPowerRoom5, B1WinterTowerPowerRoom6, B1WinterTowerPowerRoom7, B1WinterTowerPowerRoom8,
 
-        F2WinterTowerAirDucts1, F2WinterTowerAirDucts2,
+        F2WinterTowerAirDucts1,
 
         F2WinterTowerArchives1, F2WinterTowerArchives2, F2WinterTowerArchives3, F2WinterTowerArchives4,
         F2WinterTowerArchives5, F2WinterTowerArchives6, F2WinterTowerArchives7, F2WinterTowerArchives8,
@@ -644,13 +645,16 @@ searchModeLocation = SearchModeLocation()
 class Cutscenes {
     // Progression Events
     ArrivedInWinterTowerBasement = 0x00e7
+    MarcusGun = 0x0084
     MarcusCorpse = 0x0088
     WinterTowerElevatorAttack = 0x010d
+    EnteredParkerRoomFirstTime = 0x0133
     ParkerCorpse = 0x0136
     KimberlyCorpse = 0x0137
     SelfDestructActivated = 0x138
     ActivateWinterTowerPowerRoom = 0x156
     LeaveSummerTower = 0x1c5
+    EscapeIntoWinterTowerAirDucts = 0x1ed
     UseDavidsDisk = 0x01f0
     ReadDavidDiskFile = 0x0241
     MeetDavid = 0x0245
@@ -794,7 +798,7 @@ class Items {
     LauraKeycard = byte(0x17d1d2)
     StairRoomKeycard = byte(0x17d1d6)
     SeveredFingers = byte(0x17d1da)
-    ParkerGun = byte(0x17d1de)
+    MarcusGun = byte(0x17d1de)
     WinterTowerPowerCode = byte(0x17d1e2) // Kimberly's Clue
     GeorgeBlueKeycard = byte(0x17d1e6)
     GeorgeGun = byte(0x17d1ea)
@@ -814,7 +818,7 @@ class Items {
         LauraKeycard, // Don't Lose
         StairRoomKeycard, // Don't Lose
         SeveredFingers, // Don't Lose
-        //ParkerGun, // Lose
+        //MarcusGun, // Lose
         WinterTowerPowerCode, // Don't Lose
         //GeorgeBlueKeycard // Don't Lose
         //GeorgeGun // Lose
@@ -904,8 +908,17 @@ class AchievementHelpers {
             cutscene.Timer == cutscene.NotPlaying
     }
 
+    function CutsceneWasPlayed(id) {
+        return cutscene.Id == id
+    }
+
     function EventWasTriggered(event) {
         return event == 1
+    }
+
+    function TriggeredEvent(event) {
+        return prev(event) == 0 &&
+            event == 1
     }
 
     function IsOnDisc(id) {
@@ -944,31 +957,51 @@ class AchievementTriggers {
     }
     
     function WorkingStiff() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.EnterParkersRoom) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.EnteredParkerRoomFirstTime)
     }
     
     function OneStepAhead() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.EnterMarcusRoom) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.MarcusCorpse)
+    }
+
+    function WrittenInTheStars() {
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.StarHolo)
     }
     
     function WatchYourSix() {
-        return always_false()
-    }
-    
-    function WrittenInTheStars() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(items.MarcusGun) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.MarcusGun)
     }
     
     function StoneColdKiller() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.KillWinterTowerBasementEnemy) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.KillWinterTowerBasementEnemy)
     }
     
     function TheColdLightOfDay() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.ActivateWinterTowerPower) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ActivateWinterTowerPowerRoom)
     }
     
     function ABreathOfFreshAir() {
-        return always_false()
+        return helpers.IsOnDisc(2) &&
+            helpers.IsPlaying() &&
+            helpers.CutsceneWasPlayed(cutscene.Cutscenes.EscapeIntoWinterTowerAirDucts) &&
+            helpers.TriggeredEvent(events.EscapeIntoWinterTowerAirDucts)
     }
     
     function VeiledAttempt() {
@@ -1117,8 +1150,8 @@ class Achievements {
         Achievement(1, 5, "Down but not Out", "Override the emergency lockdown and descend into the Winter Tower Basement", triggers.DownButNotOut()),
         Achievement(1, 5, "Working Stiff", "Discover why Parker stopped answering", triggers.WorkingStiff()),
         Achievement(1, 5, "One Step Ahead", "Witness a gruesome scene in Marcus's Room", triggers.OneStepAhead()),
-        Achievement(1, 5, "Watch Your Six", "Find something to defend yourself with", triggers.WatchYourSix()),
         Achievement(0, 3, "Written in the Stars", "Pause beneath the endless stars", triggers.WrittenInTheStars()),
+        Achievement(1, 5, "Watch Your Six", "Find something to defend yourself with", triggers.WatchYourSix()),
         Achievement(1, 5, "Stone Cold Killer", "Strike down the unseen hunter below the Winter Tower", triggers.StoneColdKiller()),
         Achievement(1, 5, "The Cold Light of Day", "Restore light to the silent Winter Tower", triggers.TheColdLightOfDay()),
         Achievement(1, 5, "A Breath of Fresh Air", "Escape an invisible stalker and slip away into the station's veins", triggers.ABreathOfFreshAir()),

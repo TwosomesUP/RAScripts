@@ -663,6 +663,7 @@ class Cutscenes {
     MeetDavid = 0x0245
     ExamineDavidPhoto = 0x246
     PostMedicalScan = 0x0247
+    EnterRonnysRoom = 0x294
     RonnyCorpse = 0x0297
     ActivateMedicalScanner = 0x029a
     ReadRonnyComputerDocument = 0x029c
@@ -702,6 +703,7 @@ class Cutscenes {
     EnterStorageRoomVexxTerminal = 0x00d3
     ExitParkersVexxTerminal = 0x0135
     EnterArchives = 0x015b
+    SummerTowerElevatorToFloor7 = 0x370
 }
 
 class Cutscene {
@@ -731,6 +733,7 @@ class Enemies {
     ]
 
     // Disc 2
+    EmergencyBridge = bit2(0x1976e7)
     SummerTowerBasement = bit3(0x1976e7)
 
     // Disc 3
@@ -799,6 +802,7 @@ class Events {
     FindDavidsCorpse = bit5(0x1976ef)
     ActivateSummerTowerPower = bit6(0x1976ef)
     AccessFallTowerElevator = bit7(0x1976ef)
+    SummerTowerFloor = byte(0x1976f1)
 
     // Disc 3
     FindDavidsHelmet = bit1(0x1976ec)
@@ -840,12 +844,12 @@ class Items {
     ]
 
     SummerTowerItems = [
-        //KimberlyGun, // Lose
+        KimberlyGun, // Lose
         ScannerKey, // Don't Lose
         SummerTowerPowerClue1, // Don't Lose
         Sunglasses, // Don't Lose
         SummerTowerPowerClue2, // Don't Lose
-        //DavidDisk // Lose - after meeting George? Use the event as an alt?
+        DavidDisk // Lose - after meeting George? Use the event as an alt?
     ]
 }
 items = Items()
@@ -931,6 +935,11 @@ class AchievementHelpers {
 
         return cutsceneCheck &&
             prev(cutscene.Timer) != cutscene.NotPlaying &&
+            cutscene.Timer == cutscene.NotPlaying
+    }
+
+    function AnyCutscenePlayed(){
+        return prev(cutscene.Timer) != cutscene.NotPlaying &&
             cutscene.Timer == cutscene.NotPlaying
     }
 
@@ -1102,23 +1111,38 @@ class AchievementTriggers {
     }
     
     function OpenSesame() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            events.SummerTowerFloor == 7 &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.SummerTowerElevatorToFloor7)
     }
     
     function RiddleMeThis() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.UnlockRonnysRoom) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.EnterRonnysRoom)
     }
     
     function TrueColors() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.ReadRonnyComputerDocument) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ReadRonnyComputerDocument)
     }
     
     function TheWayWeWere() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.ExamineDavidPhoto) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ExamineDavidPhoto)
     }
     
     function InsultToInjury() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.FindDavidsCorpse) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.DavidCorpse)
     }
     
     function BiteTheBullet() {
@@ -1138,7 +1162,7 @@ class AchievementTriggers {
     }
     
     function MixedBag() {
-        return always_false()
+        return helpers.CollectedAllItems(3, items.SummerTowerItems)
     }
     
     function TheEleventhHour() {
@@ -1232,7 +1256,7 @@ class Achievements {
         Achievement(0, 5, "Odds and Ends", "Gather every trace left by the Winter Tower crew", triggers.OddsAndEnds()),
         Achievement(1, 10, "One Door Closes", "Leave the frozen tower behind", triggers.OneDoorCloses()),
         Achievement(0, 10, "Under the Radar", "Escape the Winter Tower having killed 2 enemies or less on Normal difficulty or higher", triggers.UnderTheRadar()),
-        Achievement(1, 5, "Open Sesame", "Understand the strange logic of the Summer Tower lift", triggers.OpenSesame()),
+        Achievement(1, 5, "Open Sesame", "Build an understanding of the Summer Tower lift and reach the highest floor", triggers.OpenSesame()),
         Achievement(1, 5, "Riddle Me This", "Break Ronny's cryptic lock", triggers.RiddleMeThis()),
         Achievement(1, 5, "True Colors", "Follow Ronny's emotional trail and uncover the truth", triggers.TrueColors()),
         Achievement(1, 5, "The Way We Were", "Reunite with David and remember quieter days", triggers.TheWayWeWere()),

@@ -436,6 +436,8 @@ class SearchModeLocations {
     F5SummerTowerDavidsRoom19 = Location("F5 Summer Tower | David's Room", 0x00dd)
     F5SummerTowerDavidsRoom20 = Location("F5 Summer Tower | David's Room", 0x00de)
 
+    SummerTowerBasementHallway = Location("Summer Tower Basement | Hallway", 0x00a)
+
     // B0 Summer Tower | Store Room
     B0SummerTowerStoreRoom1 = Location("Summer Tower Basement | Store Room", 0x0102)
     B0SummerTowerStoreRoom2 = Location("Summer Tower Basement | Store Room", 0x0103)
@@ -602,6 +604,8 @@ class SearchModeLocations {
         F5SummerTowerDavidsRoom13, F5SummerTowerDavidsRoom14, F5SummerTowerDavidsRoom15, F5SummerTowerDavidsRoom16,
         F5SummerTowerDavidsRoom17, F5SummerTowerDavidsRoom18, F5SummerTowerDavidsRoom19, F5SummerTowerDavidsRoom20,
 
+        SummerTowerBasementHallway,
+
         B0SummerTowerStoreRoom1, B0SummerTowerStoreRoom2, B0SummerTowerStoreRoom3, B0SummerTowerStoreRoom4,
         B0SummerTowerStoreRoom5, B0SummerTowerStoreRoom6, B0SummerTowerStoreRoom7, B0SummerTowerStoreRoom8,
         B0SummerTowerStoreRoom9, B0SummerTowerStoreRoom10, B0SummerTowerStoreRoom11, B0SummerTowerStoreRoom12,
@@ -669,9 +673,11 @@ class Cutscenes {
     ReadRonnyComputerDocument = 0x029c
     DavidCorpse = 0x031a
     ActivateSummerTowerPowerRoom = 0x033d
+    LeaveForFallTower = 0x360
     AccessSummerTowerElevator = 0x0365
     FallTowerSafeRoomDavidHelmet = 0x03cd
     KillFallTowerBoss = 0x03ce
+    ReturnToWinterTower = 0x104
 
     // Optional Events 
     ButterflyHolo = 0x0045
@@ -735,6 +741,13 @@ class Enemies {
     // Disc 2
     EmergencyBridge = bit2(0x1976e7)
     SummerTowerBasement = bit3(0x1976e7)
+    SummerTowerBasement2 = bit4(0x1976e7)
+    SummerTowerBasement3 = bit5(0x1976e7)
+
+    SummerTower = [
+        EmergencyBridge,
+        SummerTowerBasement, SummerTowerBasement2, SummerTowerBasement3
+    ]
 
     // Disc 3
     F1FallTowerHallway = bit6(0x1976e7)
@@ -753,6 +766,17 @@ class Enemies {
     F9FallTowerHallway1 = bit4(0x1976e5)
     F9FallTowerHallway2 = bit5(0x1976e5)
     F9FallTowerHallway3 = bit6(0x1976e5)
+
+    FallTower = [
+        F1FallTowerHallway,
+        F2FallTowerHallway,
+        F3FallTowerHallway1, F3FallTowerHallway2,
+        F5FallTowerHallway1, F5FallTowerHallway2,
+        F6FallTowerHallway,
+        F7FallTowerHallway1, F7FallTowerHallway2, F7FallTowerHallway3,
+        F8FallTowerHallway1, F8FallTowerHallway2, F8FallTowerHallway3,
+        F9FallTowerHallway1, F9FallTowerHallway2, F9FallTowerHallway3
+    ]
 }
 enemies = Enemies()
 
@@ -840,16 +864,17 @@ class Items {
         StairRoomKeycard, // Don't Lose
         SeveredFingers, // Don't Lose
         WinterTowerPowerCode, // Don't Lose
-        GeorgeBlackKeycard // Don't Lose
+        GeorgeBlackKeycard, // Don't Lose
+        GeorgeGun
     ]
 
     SummerTowerItems = [
         KimberlyGun, // Lose
         ScannerKey, // Don't Lose
         SummerTowerPowerClue1, // Don't Lose
+        GeorgeOrangeKeycard,
         Sunglasses, // Don't Lose
-        SummerTowerPowerClue2, // Don't Lose
-        DavidDisk // Lose - after meeting George? Use the event as an alt?
+        SummerTowerPowerClue2 // Don't Lose
     ]
 }
 items = Items()
@@ -970,13 +995,23 @@ class AchievementHelpers {
             measured(
                 sum_of(list, item => item) >= count,
                 helpers.IsOnDisc(disc) &&
-                helpers.IsPlaying()
+                helpers.IsPlaying() &&
+                prev(sum_of(list, item => item)) <
+                sum_of(list, item => item)
             )
     }
 
-    function CheckEnemiesKilled(list, target) {
+    function CheckEnemiesKilled(list, target, checkPrev = false) {
         count = length(list)
-        return count - sum_of(list, item => item) <= target
+        sum = sum_of(list, item => item)
+        if (checkPrev)
+            sum = prev(sum)
+        return count - sum <= target
+    }
+
+    function DifficultyCheck() {
+        return gameDifficulty.Id >= gameDifficulty.Difficulties.Normal &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Hard
     }
 }
 helpers = AchievementHelpers()
@@ -1105,6 +1140,7 @@ class AchievementTriggers {
     function UnderTheRadar() {
         return helpers.IsOnDisc(2) &&
             helpers.IsPlaying(true) &&
+            helpers.DifficultyCheck() &&
             helpers.CheckEnemiesKilled(enemies.WinterTower, 2) &&
             helpers.CutsceneWasPlayed(cutscene.Cutscenes.LeaveForSummerTower) &&
             helpers.TriggeredEvent(events.EscapeToSummerTower)
@@ -1146,47 +1182,77 @@ class AchievementTriggers {
     }
     
     function BiteTheBullet() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.UseDavidsDisk) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ReadDavidDiskFile)
     }
     
     function BunInTheOven() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.ActivateMedicalScanner) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ActivateMedicalScanner)
     }
     
     function GoodForTheGoose() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.SpeakToGeorgeAfterMedScan) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.PostMedicalScan)
     }
-    
-    function FromTheAshes() {
-        return always_false()
-    }
-    
+
     function MixedBag() {
         return helpers.CollectedAllItems(3, items.SummerTowerItems)
     }
     
+    function FromTheAshes() {
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.ActivateSummerTowerPower) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ActivateSummerTowerPowerRoom)
+    }
+    
     function TheEleventhHour() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying(true) &&
+            helpers.EventWasTriggered(events.AccessFallTowerElevator) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.LeaveForFallTower)
     }
 
     function GhostInTheMachine() {
-        return always_false()
+        return helpers.IsOnDisc(3) &&
+            helpers.IsPlaying(true) &&
+            helpers.DifficultyCheck() &&
+            helpers.CheckEnemiesKilled(enemies.SummerTower, 0) &&
+            helpers.EventWasTriggered(events.AccessFallTowerElevator) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.LeaveForFallTower)
     }
     
     function YouShouldntHave() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.FindDavidsHelmet) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.FallTowerSafeRoomDavidHelmet)
     }
     
     function Checkmate() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            helpers.TriggeredEvent(events.DestroyFallTowerBoss)
     }
     
     function FromWhenceYouCame() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.ReturnToWinterTower)
     }
     
     function LoveIsBlind() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            helpers.EventWasTriggered(events.ReturnToParkersRoom) &&
+            helpers.CutscenePlayed(cutscene.Cutscenes.SelfDestructActivated)
     }
     
     function StrangerThanFiction() {
@@ -1194,7 +1260,11 @@ class AchievementTriggers {
     }
 
     function QuiteDescent() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying(true) &&
+            helpers.DifficultyCheck() &&
+            helpers.CheckEnemiesKilled(enemies.FallTower, 0, true) &&
+            helpers.TriggeredEvent(events.ReturnToParkersRoom)
     }
     
     function Intern() {
@@ -1264,16 +1334,16 @@ class Achievements {
         Achievement(1, 5, "Bite the Bullet", "Expose the secret hidden on David's disk—and live through the consequences", triggers.BiteTheBullet()),
         Achievement(1, 5, "Bun in the Oven", "Learn what the creature left inside you", triggers.BunInTheOven()),
         Achievement(1, 5, "Good for the Goose", "Survive a desperate assault… and a stranger rescue", triggers.GoodForTheGoose()),
-        Achievement(1, 5, "From the Ashes", "Bring life back to the Summer Tower", triggers.FromTheAshes()),
         Achievement(0, 5, "Mixed Bag", "Gather every trace left by the Summer Tower crew", triggers.MixedBag()),
+        Achievement(1, 5, "From the Ashes", "Bring life back to the Summer Tower", triggers.FromTheAshes()),
         Achievement(1, 10, "The Eleventh Hour", "Descend toward the final tower", triggers.TheEleventhHour()),
         Achievement(0, 10, "Ghost in the Machine", "Escape the Summer Tower without killing any enemies on Normal difficulty or higher", triggers.GhostInTheMachine()),
         Achievement(1, 5, "You Shouldn't Have", "Find a rare sanctuary within the Fall Tower and discover a parting gift from David", triggers.YouShouldntHave()),
-        Achievement(1, 5, "Checkmate", "Put an end to the infectious horror in depths of the Fall Tower", triggers.Checkmate()),
+        Achievement(1, 5, "Checkmate", "Put an end to the infectious horror in the depths of the Fall Tower", triggers.Checkmate()),
         Achievement(1, 10, "From Whence You Came", "Flee the autumn labyrinth and return to the frozen tower", triggers.FromWhenceYouCame()),
         Achievement(1, 5, "Love is Blind", "Find Kimberly forever united with Parker", triggers.LoveIsBlind()),
         Achievement(1, 5, "Stranger Than Fiction", "Uncover the truth Parker tried to hide", triggers.StrangerThanFiction()),
-        Achievement(0, 10, "Quiet Descent", "Escape the Fall Tower without killing any enemies on Normal difficulty or higher", triggers.QuiteDescent()),
+        Achievement(0, 10, "Quiet Descent", "Escape the Fall Tower and reach Parker's Room without killing any enemies on Normal difficulty or higher", triggers.QuiteDescent()),
         Achievement(0, 1, "Intern", "Escape the station on Beginner difficulty or higher", triggers.Intern()),
         Achievement(0, 3, "Junior", "Escape the station on Easy difficulty or higher", triggers.Junior()),
         Achievement(2, 5, "Associate", "Escape the station on Normal difficulty or higher", triggers.Associate()),

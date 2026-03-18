@@ -678,6 +678,7 @@ class Cutscenes {
     FallTowerSafeRoomDavidHelmet = 0x03cd
     KillFallTowerBoss = 0x03ce
     ReturnToWinterTower = 0x104
+    EscapeTheStation = 0x3d2
 
     // Optional Events 
     ButterflyHolo = 0x0045
@@ -963,6 +964,12 @@ class AchievementHelpers {
             cutscene.Timer == cutscene.NotPlaying
     }
 
+    function EndingCutscenePlayed(id) {
+        return prev(cutscene.Id) == id &&
+            prev(cutscene.Timer) == 0x14ba &&
+            cutscene.Timer == 0x14bb
+    }
+
     function AnyCutscenePlayed(){
         return prev(cutscene.Timer) != cutscene.NotPlaying &&
             cutscene.Timer == cutscene.NotPlaying
@@ -1028,14 +1035,6 @@ class AchievementTriggers {
         return helpers.IsOnDisc(2) &&
             helpers.IsPlaying() &&
             helpers.CutscenePlayed(cutscene.Cutscenes.ButterflyHolo)
-    }
-
-    // Only happens on normal??
-    function ThirdTimesTheCharm() {
-        return helpers.IsOnDisc(2) &&
-            helpers.IsPlaying() &&
-            events.RonnyDeathCall == 3 &&
-            helpers.CutscenePlayed(cutscene.Cutscenes.RonnyStaticAttack)
     }
     
     function DownButNotOut() {
@@ -1254,10 +1253,6 @@ class AchievementTriggers {
             helpers.EventWasTriggered(events.ReturnToParkersRoom) &&
             helpers.CutscenePlayed(cutscene.Cutscenes.SelfDestructActivated)
     }
-    
-    function StrangerThanFiction() {
-        return always_false()
-    }
 
     function QuiteDescent() {
         return helpers.IsOnDisc(4) &&
@@ -1268,35 +1263,66 @@ class AchievementTriggers {
     }
     
     function Intern() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation)
     }
     
     function Junior() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            gameDifficulty.Id >= gameDifficulty.Difficulties.Easy &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Beginner &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation)
     }
     
     function Associate() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            gameDifficulty.Id >= gameDifficulty.Difficulties.Normal &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Beginner &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation)
     }
     
     function Senior() {
-        return always_false()
-    }
-    
-    function FlyingBlind() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            gameDifficulty.Id >= gameDifficulty.Difficulties.Hard &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Beginner &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation)
     }
     
     function StepOnTheGas() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            gameDifficulty.Id >= gameDifficulty.Difficulties.Normal &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Beginner &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation) &&
+            timer.TotalFrames <= 540000 // 2.5 hours
     }
     
     function GutFeeling() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            gameDifficulty.Id >= gameDifficulty.Difficulties.Normal &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Beginner &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation) &&
+            (
+                (gameDifficulty.Id == gameDifficulty.Difficulties.Normal && saves.Remaining >= saves.NormalMax / 2) ||
+                (gameDifficulty.Id == gameDifficulty.Difficulties.Hard && saves.Remaining >= saves.HardMax / 2)
+            )
     }
     
     function SixthSense() {
-        return always_false()
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            gameDifficulty.Id >= gameDifficulty.Difficulties.Normal &&
+            gameDifficulty.Id <= gameDifficulty.Difficulties.Beginner &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation) &&
+            (
+                (gameDifficulty.Id == gameDifficulty.Difficulties.Normal && saves.Remaining >= saves.NormalMax) ||
+                (gameDifficulty.Id == gameDifficulty.Difficulties.Hard && saves.Remaining >= saves.HardMax)
+            )
     }
 }
 triggers = AchievementTriggers()
@@ -1306,10 +1332,6 @@ class Achievements {
     Data = [
         Achievement(0, 5, "Sharpen the Saw", "Complete all three training missions on Disc 0", triggers.SharpenTheSaw()),
         Achievement(0, 3, "The Butterfly Effect", "Notice something delicate drifting through the silence...", triggers.TheButterflyEffecT()),
-
-        // May require normal or lower
-        Achievement(0, 3, "Third Times the Charm", "Press Parker for answers... and hear the signal die", triggers.ThirdTimesTheCharm()),
-
         Achievement(1, 5, "Down but not Out", "Override the emergency lockdown and descend into the Winter Tower Basement", triggers.DownButNotOut()),
         Achievement(1, 5, "Working Stiff", "Discover why Parker stopped answering", triggers.WorkingStiff()),
         Achievement(1, 5, "One Step Ahead", "Witness a gruesome scene in Marcus's Room", triggers.OneStepAhead()),
@@ -1341,15 +1363,13 @@ class Achievements {
         Achievement(1, 5, "You Shouldn't Have", "Find a rare sanctuary within the Fall Tower and discover a parting gift from David", triggers.YouShouldntHave()),
         Achievement(1, 5, "Checkmate", "Put an end to the infectious horror in the depths of the Fall Tower", triggers.Checkmate()),
         Achievement(1, 10, "From Whence You Came", "Flee the autumn labyrinth and return to the frozen tower", triggers.FromWhenceYouCame()),
-        Achievement(1, 5, "Love is Blind", "Find Kimberly forever united with Parker", triggers.LoveIsBlind()),
-        Achievement(1, 5, "Stranger Than Fiction", "Uncover the truth Parker tried to hide", triggers.StrangerThanFiction()),
+        Achievement(1, 5, "Love is Blind", "Leave Kimberly forever united with Parker", triggers.LoveIsBlind()),
         Achievement(0, 10, "Quiet Descent", "Escape the Fall Tower and reach Parker's Room without killing any enemies on Normal difficulty or higher", triggers.QuiteDescent()),
         Achievement(0, 1, "Intern", "Escape the station on Beginner difficulty or higher", triggers.Intern()),
         Achievement(0, 3, "Junior", "Escape the station on Easy difficulty or higher", triggers.Junior()),
         Achievement(2, 5, "Associate", "Escape the station on Normal difficulty or higher", triggers.Associate()),
         Achievement(0, 10, "Senior", "Escape the station on Hard difficulty", triggers.Senior()),
-        Achievement(0, 25, "Flying Blind", "Beat the game on Normal difficulty or higher without collecting the VPS scanner", triggers.FlyingBlind()),
-        Achievement(0, 10, "Step on the Gas", "Escape the station in 1.5 hours or less on Normal difficulty or higher", triggers.StepOnTheGas()),
+        Achievement(0, 10, "Step on the Gas", "Escape the station in 2.5 hours or less on Normal difficulty or higher", triggers.StepOnTheGas()),
         Achievement(0, 10, "Gut Feeling", "Escape the station with at least 50% save battery remaining on Normal difficulty or higher", triggers.GutFeeling()),
         Achievement(0, 25, "Sixth Sense", "Escape the station with 100% save battery remaining on Normal difficulty or higher", triggers.SixthSense()),
     ]
@@ -1408,9 +1428,33 @@ class Leaderboard {
     Set = 0
 }
 
+class LeaderboardHelpers {
+    function Start() {
+        return helpers.IsOnDisc(4) &&
+            helpers.IsPlaying() &&
+            helpers.EndingCutscenePlayed(cutscene.Cutscenes.EscapeTheStation)
+    }
+
+    function Value() {
+        return timer.TotalFrames
+    }
+}
+leaderboardHelpers = LeaderboardHelpers()
+
 class Leaderboards {
     Data = [
-        Leaderboard("Test", "Test")
+        Leaderboard
+        (
+            159377,
+            "Quick Escape", 
+            "Escape the Space Station Aki as quickly as possible", 
+            leaderboardHelpers.Start(), 
+            always_false(), 
+            always_true(), 
+            leaderboardHelpers.Value(),
+            leaderboardFormats.Frames,
+            true
+        )
     ]
 
     function Generate() {   
@@ -1471,4 +1515,4 @@ rich_presence_conditional_display(disc.Id == 1 && training.Active == 0,
 rich_presence_display("Playing Enemy Zero!")
 
 achievements.Generate()
-//leaderboards.Generate()
+leaderboards.Generate()

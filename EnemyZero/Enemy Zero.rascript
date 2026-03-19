@@ -732,7 +732,14 @@ class Enemies {
     WinterTowerAirDucts2 = bit0(0x1976e7) // Guarding Kimberly's Room
     WinterTowerAirDucts3 = bit1(0x1976e7)
 
-    WinterTower = [
+    NormalWinterTower = [
+        WinterTowerElevator, 
+        WinterTowerBasement1,
+        F1WinterTowerHallway1, F1WinterTowerHallway2,
+        WinterTowerAirDucts1, WinterTowerAirDucts2
+    ]
+
+    HardWinterTower = [
         WinterTowerElevator, 
         WinterTowerBasement1, WinterTowerBasement2,
         F1WinterTowerHallway1, F1WinterTowerHallway2,
@@ -1139,8 +1146,16 @@ class AchievementTriggers {
     function UnderTheRadar() {
         return helpers.IsOnDisc(2) &&
             helpers.IsPlaying(true) &&
-            helpers.DifficultyCheck() &&
-            helpers.CheckEnemiesKilled(enemies.WinterTower, 2) &&
+            (
+                (
+                    gameDifficulty.Id == gameDifficulty.Difficulties.Normal &&
+                    helpers.CheckEnemiesKilled(enemies.NormalWinterTower, 2)
+                ) ||
+                (
+                    gameDifficulty.Id == gameDifficulty.Difficulties.Hard &&
+                    helpers.CheckEnemiesKilled(enemies.HardWinterTower, 2)
+                )
+            ) &&
             helpers.CutsceneWasPlayed(cutscene.Cutscenes.LeaveForSummerTower) &&
             helpers.TriggeredEvent(events.EscapeToSummerTower)
     }

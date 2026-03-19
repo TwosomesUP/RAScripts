@@ -1343,7 +1343,7 @@ class AchievementTriggers {
 triggers = AchievementTriggers()
 
 class Achievements {
-    StartingID = 0
+    StartingID = 596238
     Data = [
         Achievement(0, 5, "Sharpen the Saw", "Complete all three training missions on Disc 0", triggers.SharpenTheSaw()),
         Achievement(0, 3, "The Butterfly Effect", "Notice something delicate drifting through the silence...", triggers.TheButterflyEffecT()),
@@ -1391,9 +1391,10 @@ class Achievements {
 
     function Generate() {   
         count = 0
+        currentId = this.StartingID
         for achievement in this.Data {
             achievementType = ""
-
+            achievement.Id = this.StartingID + count
             if (achievement.Type == 1)
                 achievementType = "progression"
             else if (achievement.Type == 2)

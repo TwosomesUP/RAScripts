@@ -164,6 +164,13 @@ class Difficulties {
     Normal = 0x01
     Hard = 0x02
     Insane = 0x03
+
+    Lookup = {
+        0x00: "Easy",
+        0x01: "Normal",
+        0x02: "Hard",
+        0x03: "Insane"
+    }
 }
 
 class Settings {
@@ -844,10 +851,10 @@ achievement("Bugging Out", "Enter the Bonus Room on Stage 1 and defeat the Scorp
 achievement("Down to Earth", "[Story Mode] Clear Stage 2 on Easy difficulty or higher", points = 1, id = 580773,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Easy)
 )
-achievement("Well Oiled Machine", "[Story Mode] Clear Stage 2 on Normal difficulty or higher", type = "progression", points = 3, id = 580774,
+achievement("Well-Oiled Machine", "[Story Mode] Clear Stage 2 on Normal difficulty or higher", type = "progression", points = 3, id = 580774,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Normal)
 )
-achievement("Light Years Ahead", "[Story Mode] Clear Stage 2 on Hard difficulty or higher", points = 5, id = 580775,
+achievement("Light-Years Ahead", "[Story Mode] Clear Stage 2 on Hard difficulty or higher", points = 5, id = 580775,
     trigger = triggers.StoryStageClearedOnDifficulty(settings.Stages.Two, settings.Difficulties.Hard)
 )
 // Add Insane Difficulty - DLC
@@ -896,7 +903,7 @@ achievement("Luminary Laurels", "[Story Mode] Clear Boss Stage 1 without losing 
 )
 // Add Multi Ball Challenge
 achievement("Gravity Well", "[Story Mode] Activate a Multi Ball on Boss Stage 1", points = 4, id = 589180,
-    trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossTwo)
+    trigger = triggers.TriggeredStageMultiBall(settings.Stages.BossOne)
 )
 
 // Stage 3 Progression
@@ -920,7 +927,7 @@ achievement("Event Horizon", "[Story Mode] Clear Stage 3 on Insane difficulty", 
 achievement("Supernova Success", "[Story Mode] Clear Stage 3 without losing a ball on Normal difficulty or higher", points = 5, id = 580788,
     trigger = triggers.StoryStageClearedWithoutLosingBall(settings.Stages.Three)
 )
-achievement("Belle of the Balls", "Activate a Multi Ball on Stage 3 ", points = 4, id = 580789,
+achievement("Belle of the Balls", "Activate a Multi Ball on Stage 3", points = 4, id = 580789,
     trigger = triggers.TriggeredStageMultiBall(settings.Stages.Three)
 )
 achievement("On Tilt", "Activate a Rate UP bonus on Stage 3", points = 4, id = 580790,
@@ -1153,20 +1160,22 @@ rich_presence_conditional_display(helpers.NotInGameAnyRegion(), "{0} Preparing f
     rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️")
 )
 
-rich_presence_conditional_display(helpers.IsInGameAnyRegion() && helpers.IsNormalTiltAnyMode(), "{0} Fighting the Alien Invaders on {1} | {2} | ⚪ x {3} | 🔔 {4}",
+rich_presence_conditional_display(helpers.IsInGameAnyRegion() && helpers.IsNormalTiltAnyMode(), "{0} Fighting the Alien Invaders on {1} | {5} | {2} | ⚪ x {3} | 🔔 {4}",
     rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️"),
     rich_presence_lookup("Mode", settings.Mode, settings.ModeLookup),
     rich_presence_lookup("Stage", richPresenceHelpers.GetStage(), settings.StageLookup),
     rich_presence_value("Balls", richPresenceHelpers.GetBalls()),
-    rich_presence_value("Score", leaderboardTriggers.GetScore())
+    rich_presence_value("Score", leaderboardTriggers.GetScore()),
+    rich_presence_lookup("Difficulty", settings.Difficulty, settings.Difficulties.Lookup)
 )
 
-rich_presence_conditional_display(helpers.IsInGameAnyRegion() && helpers.IsNoTiltAnyMode(), "{0} Fighting the Alien Invaders on {1} | {2} | ⚪ x {3} | 🔔 {4} ⛔",
+rich_presence_conditional_display(helpers.IsInGameAnyRegion() && helpers.IsNoTiltAnyMode(), "{0} Fighting the Alien Invaders on {1} | {5} | {2} | ⚪ x {3} | 🔔 {4} ⛔",
     rich_presence_lookup("Region", region.GetValue(), region.Lookup, "☄️"),
     rich_presence_lookup("Mode", settings.Mode, settings.ModeLookup),
     rich_presence_lookup("Stage", richPresenceHelpers.GetStage(), settings.StageLookup),
     rich_presence_value("Balls", richPresenceHelpers.GetBalls()),
-    rich_presence_value("Score", leaderboardTriggers.GetScore())
+    rich_presence_value("Score", leaderboardTriggers.GetScore()),
+    rich_presence_lookup("Difficulty", settings.Difficulty, settings.Difficulties.Lookup)
 )
 
 rich_presence_display("{0} Playing Alien Crush Returns",

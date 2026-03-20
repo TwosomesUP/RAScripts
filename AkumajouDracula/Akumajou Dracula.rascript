@@ -79,6 +79,57 @@ class Boss {
     Health = 0x1a9
 }
 
+class StageObjectIds {
+    MoneyBag = 0x49
+    PotRoast = 0x4b
+}
+stageObjectIds = StageObjectIds()
+
+class StageObjects {
+    SecretTimer = byte(0x547)
+
+    BreakablesStart = 0x191
+    IdsStart = 0x320
+    TimersStart = 0x56c
+
+    Size = 24
+
+    function GetBreakables() {
+        breakables = []
+        for index in range(0, this.Size -1) {
+            array_push(breakables, byte(this.BreakablesStart + index))
+        }
+        return breakables
+    }
+
+    function GetIds() {
+        ids = []
+        for index in range(0, this.Size -1) {
+            array_push(ids, byte(this.IdsStart + index))
+        }
+        return ids
+    }
+
+    function GetTimers() {
+        timers = []
+        for index in range(0, this.Size -1) {
+            array_push(timers, byte(this.TimersStart + index))
+        }
+        return timers
+    }
+}
+stageObjects = StageObjects()
+
+class ScreenIds {
+    Title = ScreenId(0x00, 0x03)
+    Intro = ScreenId(0x04, 0x04)
+    InGame = ScreenId(0x05, 0x0c)
+    GameOver = ScreenId(0x0d, 0x0d)
+    Loading = ScreenId(0x10,0x10)
+    SaveSelect = ScreenId(0x11, 0x11)
+}
+screenIds = ScreenIds()
+
 class Game {
     Screen = Screen()
     Stage = Stage()
@@ -95,16 +146,6 @@ class Achievement {
     Trigger = always_false()
     Id = 0
 }
-
-class ScreenIds {
-    Title = ScreenId(0x00, 0x03)
-    Intro = ScreenId(0x04, 0x04)
-    InGame = ScreenId(0x05, 0x0c)
-    GameOver = ScreenId(0x0d, 0x0d)
-    Loading = ScreenId(0x10,0x10)
-    SaveSelect = ScreenId(0x11, 0x11)
-}
-screenIds = ScreenIds()
 
 class AchievementHelpers {
     function IsPlaying() {
@@ -130,6 +171,28 @@ class AchievementHelpers {
             (game.Screen.Id >= screenIds.Title.Start && game.Screen.Id <= screenIds.Title.End) ||
             game.Screen.Id == screenIds.SaveSelect.Start
         )
+    }
+
+    function CollectedTimedItem(index, id) {
+        ids = stageObjects.GetIds()
+        timers = stageObjects.GetTimers()
+        return prev(ids[index]) == id &&
+            ids[index] != id &&
+            timers[index] > 0
+    }
+
+    function CollectedTimedSecretItem(index, id) {
+        ids = stageObjects.GetIds()
+        timer = stageObjects.SecretTimer
+        return prev(ids[index]) == id &&
+            ids[index] != id &&
+            timer > 0
+    }
+
+    function CollectedMoneyBag(index, pointId) {
+        ids = stageObjects.GetIds()
+        return prev(ids[index]) ==  stageObjectIds.MoneyBag &&
+            ids[index] == pointId
     }
 }
 helpers = AchievementHelpers()

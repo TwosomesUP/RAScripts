@@ -9,12 +9,22 @@ class ScreenId {
 }
 
 class ScreenIds {
+    // Ranges
     Title = ScreenId(0x00, 0x03)
-    Intro = ScreenId(0x04, 0x04)
     InGame = ScreenId(0x05, 0x0c)
-    GameOver = ScreenId(0x0d, 0x0d)
-    Loading = ScreenId(0x10,0x10)
-    SaveSelect = ScreenId(0x11, 0x11)
+
+    // Individual Values
+    StartScreenIntro = 0x00
+    StartScreenPressStart = 0x01
+    StartScreenTransition = 0x03
+    Intro = 0x04
+    Playing = 0x05
+    DeathWithLives = 0x6
+    DeathWithoutLives = 0x07
+    StageEnd = 0xc
+    GameOver = 0xd
+    Loading = 0x10
+    SaveSelect = 0x11
 }
 screenIds = ScreenIds()
 
@@ -97,7 +107,8 @@ class StageObjects {
     function GetBreakables() {
         breakables = []
         for index in range(0, this.Size -1) {
-            array_push(breakables, byte(this.BreakablesStart + index))
+            array_push(breakables, low4(this.BreakablesStart + index))
+            array_push(breakables, high4(this.BreakablesStart + index))
         }
         return breakables
     }
@@ -120,16 +131,6 @@ class StageObjects {
 }
 stageObjects = StageObjects()
 
-class ScreenIds {
-    Title = ScreenId(0x00, 0x03)
-    Intro = ScreenId(0x04, 0x04)
-    InGame = ScreenId(0x05, 0x0c)
-    GameOver = ScreenId(0x0d, 0x0d)
-    Loading = ScreenId(0x10,0x10)
-    SaveSelect = ScreenId(0x11, 0x11)
-}
-screenIds = ScreenIds()
-
 class Game {
     Screen = Screen()
     Stage = Stage()
@@ -148,28 +149,76 @@ class Achievement {
 }
 
 class AchievementHelpers {
-    function IsPlaying() {
+    function IsInGame() {
         return game.Screen.Id >= screenIds.InGame.Start &&
             game.Screen.Id <= screenIds.InGame.End
     }
 
     function IsGameOver() {
-        return game.Screen.Id == screenIds.GameOver.Start
+        return game.Screen.Id == screenIds.GameOver
     }
 
     function IsIntro() {
-        return game.Screen.Id == screenIds.Intro.Start
+        return game.Screen.Id == screenIds.Intro
     }
 
     function IsLoading() {
-        return game.Screen.Id == screenIds.Loading.Start
+        return game.Screen.Id == screenIds.Loading
     }
 
     function IsOnTitle() {
         return 
         (
             (game.Screen.Id >= screenIds.Title.Start && game.Screen.Id <= screenIds.Title.End) ||
-            game.Screen.Id == screenIds.SaveSelect.Start
+            game.Screen.Id == screenIds.SaveSelect
+        )
+    }
+
+    function BrokeAllCandlesInStage(stage, count) {
+        checks = []
+        for item in stageObjects.GetBreakables() {
+            array_push
+            (
+                checks,
+                game.Screen.Id == screenIds.Playing && 
+                game.Stage.Id == stage &&
+                prev(item) != 0xf && item == 0xf && 
+                never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives)
+            )
+        }
+
+        return tally(count, checks)
+    }
+
+    function BrokeAllCandlesInStageRange(start, end, count) {
+        checks = []
+        for stage in range(start, end) {
+            for item in stageObjects.GetBreakables() {
+                array_push
+                (
+                    checks,
+                    game.Screen.Id == screenIds.Playing && 
+                    game.Stage.Id == stage &&
+                    prev(item) != 0xf && item == 0xf && 
+                    never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                    never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives)
+                )
+            }
+        }
+        
+
+        return tally(count, checks)
+    }
+
+    function ResetStageChallenge() {
+        return             
+        (
+            always_false() ||
+            (
+                never(game.Screen.Id < screenIds.Playing) &&
+                never(game.Screen.Id > screenIds.StageEnd)
+            )
         )
     }
 
@@ -203,7 +252,12 @@ class AchievementTriggers {
     }
 
     function BlazeATrail() {
-        return always_false()
+        return
+        (
+            measured((helpers.BrokeAllCandlesInStageRange(0, 1, 29))) &&
+            helpers.ResetStageChallenge() &&
+            never(game.Stage.Id > 1)
+        )
     }
 
     function RubyReserve() {
@@ -608,7 +662,7 @@ class Achievements {
 achievements = Achievements()
 
 // Rich Presence
-rich_presence_conditional_display(helpers.IsPlaying(), 
+rich_presence_conditional_display(helpers.IsInGame(), 
     "Simon is hunting vampires in Stage {0}{1} | P-{2}{3} | ❤️-{5}{6} | {4}{7}{8} Score-{9} | Continues-{10}{11} ",
     rich_presence_value("Stage", game.Stage.Id / 10),
     rich_presence_value("Stage", game.Stage.Id % 10),

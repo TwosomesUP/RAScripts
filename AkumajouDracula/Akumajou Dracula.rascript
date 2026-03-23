@@ -200,15 +200,15 @@ class AchievementHelpers {
                     checks,
                     game.Screen.Id == screenIds.Playing && 
                     game.Stage.Id == stage &&
-                    prev(item) != 0xf && item == 0xf && 
+                    once(prev(item) != 0xf && item == 0xf) && 
                     never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
                     never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives)
                 )
             }
         }
         
-
-        return tally(count, checks)
+        return measured(tally(count, checks)) && 
+            never(game.Stage.Id > end)
     }
 
     function ResetStageChallenge() {
@@ -247,33 +247,22 @@ class AchievementHelpers {
 helpers = AchievementHelpers()
 
 class AchievementTriggers {
+
+    // Stages 1 - 3
     function AmethystAbundance() {
         return always_false()
-    }
-
-    function BlazeATrail() {
-        return
-        (
-            measured((helpers.BrokeAllCandlesInStageRange(0, 1, 29))) &&
-            helpers.ResetStageChallenge() &&
-            never(game.Stage.Id > 1)
-        )
     }
 
     function RubyReserve() {
         return always_false()
     }
 
-    function FireWithFire() {
-        return always_false()
-    }
-
-    function ByTheNumbers() {
-        return always_false()
-    }
-
-    function PlayingWithFire() {
-        return always_false()
+    function BlazeATrail() {
+        return
+        (
+            helpers.BrokeAllCandlesInStageRange(0, 3, 57) &&
+            helpers.ResetStageChallenge()
+        )
     }
 
     function RightOffTheBat() {
@@ -288,17 +277,14 @@ class AchievementTriggers {
         return always_false()
     }
 
+    // Stages 4 - 6
     function CitrineCache() {
-        return always_false()
-    }
-
-    function FireDrill() {
         return always_false()
     }
 
     function SapphireStash() {
         return always_false()
-    }
+    }  
 
     function HangFire() {
         return always_false()
@@ -324,11 +310,8 @@ class AchievementTriggers {
         return always_false()
     }
 
+    // Stages 7 - 9
     function OpalOpulence() {
-        return always_false()
-    }
-
-    function TrialByFire() {
         return always_false()
     }
 
@@ -336,15 +319,7 @@ class AchievementTriggers {
         return always_false()
     }
 
-    function LikeAHouseOnFire() {
-        return always_false()
-    }
-
-    function TurquoiseTreasure() {
-        return always_false()
-    }
-
-    function SmokeAndFire() {
+    function TrialByFire() {
         return always_false()
     }
 
@@ -360,19 +335,12 @@ class AchievementTriggers {
         return always_false()
     }
 
-    function BurnedOut() {
-        return always_false()
-    }
-
-    function WorldOnFire() {
-        return always_false()
-    }
-
+    // Stages 10 - 12
     function DiamonDough() {
         return always_false()
     }
 
-    function FiveAlarmFire() {
+    function WorldOnFire() {
         return always_false()
     }
 
@@ -388,23 +356,12 @@ class AchievementTriggers {
         return always_false()
     }
 
+    // Stages 13 - 15
     function EmeraldEndowment() {
         return always_false()
     }
 
-    function FuelTheFire() {
-        return always_false()
-    }
-
     function AquamarineAssets() {
-        return always_false()
-    }
-
-    function FireInTheHole() {
-        return always_false()
-    }
-
-    function MoonstoneMint() {
         return always_false()
     }
 
@@ -424,19 +381,16 @@ class AchievementTriggers {
         return always_false()
     }
 
-    function DrawFire() {
-        return always_false()
-    }
-
+    // Stages 16 - 18
     function PearlPortfolio() {
         return always_false()
     }
 
-    function CeaseFire() {
+    function EmeraldEndowment() {
         return always_false()
     }
 
-    function BetweenTwoFires() {
+    function CeaseFire() {
         return always_false()
     }
 
@@ -456,6 +410,7 @@ class AchievementTriggers {
         return always_false()
     }
 
+    // Loop 2
     function GetThatBag() {
         return always_false()
     }
@@ -504,6 +459,7 @@ class AchievementTriggers {
         return always_false()
     }
 
+    // Item Challenges
     function Heartfelt() {
         return always_false()
     }
@@ -532,6 +488,7 @@ class AchievementTriggers {
         return always_false()
     }
 
+    // Other Challenges
     function AxeToGrind() {
         return always_false()
     }
@@ -561,69 +518,69 @@ triggers = AchievementTriggers()
 class Achievements {
     StartingID = 0
     Data = [
-        Achievement(0, 3, "Amethyst Abundance", "Reveal and collect all loop 1 hidden treasures in Stage 1", triggers.AmethystAbundance()),
-        Achievement(0, 3, "Blaze a Trail", "Destroy all candles and braziers in Stage 1", triggers.BlazeATrail()),
-        Achievement(0, 2, "Ruby Reserve", "Reveal and collect all loop 1 hidden treasures in Stage 2", triggers.RubyReserve()),
-        Achievement(0, 3, "Fire with Fire", "Destroy all candles and braziers in Stage 2", triggers.FireWithFire()),
-        Achievement(0, 3, "By the Numbers", "Reveal and collect the loop 1 hidden Shot Multiplier in Stage 3", triggers.ByTheNumbers()),
-        Achievement(0, 3, "Playing with Fire", "Destroy all candles and braziers in Stage 3", triggers.PlayingWithFire()),
+        // Stages 1 - 3
+        Achievement(0, 5, "Amethyst Abundance", "In a single session, find and collect all hidden wall treasures in stages 1 through 3", triggers.AmethystAbundance()),
+        Achievement(0, 10, "Ruby Reserve", "In a single session, reveal and collect all hidden bonus treasures in stages 1 through 3", triggers.RubyReserve()),
+        Achievement(0, 5, "Blaze a Trail", "In a single session, destroy all candles and braziers in stages 1 through 3", triggers.BlazeATrail()),
         Achievement(1, 5, "Right Off the Bat", "Defeat the Phantom Bat in Stage 3", triggers.RightOffTheBat()),
         Achievement(0, 10, "Like a Bat Out of Hell", "Defeat the Phantom Bat in Stage 3 without using a sub-weapon", triggers.LikeABatOutOfHell()),
         Achievement(0, 10, "Beeline", "In a single session, clear stages 1 through 3 without losing a life", triggers.Beeline()),
-        Achievement(0, 3, "Citrine Cache", "Reveal and collect all loop 1 hidden treasures in Stage 4", triggers.CitrineCache()),
-        Achievement(0, 3, "Fire Drill", "Destroy all candles and braziers in Stage 4", triggers.FireDrill()),
-        Achievement(0, 3, "Sapphire Stash", "Reveal and collect all loop 1 hidden treasures in Stage 5", triggers.SapphireStash()),
-        Achievement(0, 3, "Hang Fire", "Destroy all candles and braziers in Stage 5", triggers.HangFire()),
-        Achievement(0, 3, "Topaz Trove", "Reveal and collect all loop 1 hidden treasures in Stage 6", triggers.TopazTrove()),
-        Achievement(0, 3, "Fired Up", "Destroy all candles and braziers in Stage 6", triggers.FiredUp()),
+
+        // Stages 4 - 6
+        Achievement(0, 5, "Citrine Cache", "In a single session, find and collect all hidden wall treasures in stages 4 through 6", triggers.CitrineCache()),
+        Achievement(0, 10, "Sapphire Stash", "In a single session, reveal and collect all hidden bonus treasures in stages 4 through 6", triggers.SapphireStash()),
+        Achievement(0, 5, "Hang Fire", "In a single session, destroy all candles and braziers in stages 4 through 6", triggers.HangFire()),
         Achievement(1, 5, "Snake in the Grass", "Defeat the Queen Medusa in Stage 6", triggers.SnakeInTheGrass()),
         Achievement(0, 10, "Snake Eyes", "Defeat the Queen Medusa in Stage 6 without using a sub-weapon", triggers.SnakeEyes()),
         Achievement(0, 10, "On Thin Ice", "In a single session, clear Stages 4 through 6 without losing a life", triggers.OnThinIce()),
-        Achievement(0, 3, "Opal Opulence", "Reveal and collect all loop 1 hidden treasures in Stage 7", triggers.OpalOpulence()),
-        Achievement(0, 3, "Trial by Fire", "Destroy all candles and braziers in Stage 7", triggers.TrialByFire()),
-        Achievement(0, 3, "Lapis Loot", "Reveal and collect the loop 1 hidden Flashing Money Bag in Stage 8", triggers.LapisLoot()),
-        Achievement(0, 3, "Like a House On Fire", "Destroy all candles and braziers in Stage 8", triggers.LikeAHouseOnFire()),
-        Achievement(0, 3, "Turquoise Treasure", "Reveal and collect the loop 1 hidden treasures in Stage 9", triggers.TurquoiseTreasure()),
-        Achievement(0, 3, "Smoke and Fire", "Destroy all candles and braziers in Stage 9", triggers.SmokeAndFire()),
+
+        // Stages 7 - 9
+        Achievement(0, 5, "Opal Opulence", "In a single session, find and collect all hidden wall treasures in stages 7 through 9", triggers.OpalOpulence()),
+        Achievement(0, 10, "Lapis Loot", "In a single session, reveal and collect all hidden bonus treasures in stages 7 through 9", triggers.LapisLoot()),
+        Achievement(0, 5, "Trial by Fire", "In a single session, destroy all candles and braziers in stages 7 through 9", triggers.TrialByFire()),
         Achievement(1, 5, "Mum's the Word", "Defeat the Mummy Men and clear Stage 9", triggers.MumsTheWord()),
         Achievement(0, 10, "Mummy's Boy", "Defeat the Mummy Men in Stage 9 without using a sub-weapon", triggers.MummysBoy()),
         Achievement(0, 10, "Dice with Death", "In a single session, clear stages 7 through 9 without losing a life", triggers.DiceWithDeath()),
-        Achievement(0, 3, "Burned Out", "Destroy all candles and braziers in Stage 10", triggers.BurnedOut()),
-        Achievement(0, 3, "World on Fire", "Destroy all candles and braziers in Stage 11", triggers.WorldOnFire()),
-        Achievement(0, 3, "Diamond Dough", "Reveal and collect the loop 1 hidden treasures in Stage 12", triggers.DiamonDough()),
-        Achievement(0, 3, "Five Alarm Fire", "Destroy all candles and braziers in Stage 12", triggers.FiveAlarmFire()),
+
+        // Stages 10 - 12
+        Achievement(0, 5, "Diamond Dough", "In a single session, find and collect all hidden wall treasures in stages 10 through 12", triggers.DiamonDough()),
+        Achievement(0, 5, "World on Fire", "In a single session, destroy all candles and braziers in stages 10 through 12", triggers.WorldOnFire()),
         Achievement(1, 5, "Green Eyed Monster", "Defeat Frankenstein's Monster & Igor and clear Stage 12", triggers.GreenEyedMonster()),
         Achievement(0, 10, "Monster Mash", "Defeat Frankenstein's Monster & Igor in Stage 12 without using a sub-weapon", triggers.MonsterMash()),
         Achievement(0, 10, "Go for Broke", "In a single session, clear stages 10 through 12 without losing a life", triggers.GoForBroke()),
-        Achievement(0, 3, "Emerald Endowment", "Reveal and collect the loop 1 hidden treasures in Stage 13", triggers.EmeraldEndowment()),
-        Achievement(0, 3, "Fuel the Fire", "Destroy all candles and braziers in Stage 13", triggers.FuelTheFire()),
-        Achievement(0, 3, "Aquamarine Assets", "Reveal and collect all loop 1 hidden treasures in Stage 14", triggers.AquamarineAssets()),
-        Achievement(0, 3, "Fire in the Hole", "Destroy all candles and braziers in Stage 14", triggers.FireInTheHole()),
-        Achievement(0, 3, "Moonstone Mint", "Reveal and collect the loop 1 hidden Pot Roast in Stage 15", triggers.MoonstoneMint()),
-        Achievement(0, 3, "Snuffed Out", "Destroy all candles and braziers in Stage 15", triggers.SnuffedOut()),
+
+        // Stages 13 - 15
+        Achievement(0, 5, "Emerald Endowment", "In a single session, find and collect all hidden wall treasures in stages 13 through 15", triggers.EmeraldEndowment()),
+        Achievement(0, 10, "Aquamarine Assets", "In a single session, reveal and collect all hidden bonus treasures in stages 13 through 15", triggers.AquamarineAssets()),
+        Achievement(0, 5, "Snuffed Out", "In a single session, destroy all candles and braziers in stages 13 through 15", triggers.SnuffedOut()),
         Achievement(1, 5, "At Death's Door", "Defeat Death and clear Stage 15", triggers.AtDeathsDoor()),
         Achievement(0, 10, "Dead Ringer", "Defeat Death in Stage 15 without using a sub-weapon", triggers.DeadRinger()),
         Achievement(0, 10, "Up the Ante", "In a single session, clear stages 13 through 15 without losing a life", triggers.UpTheAnte()),
-        Achievement(0, 3, "Draw Fire", "Destroy all candles and braziers in Stage 16", triggers.DrawFire()),
-        Achievement(0, 3, "Pearl Portfolio", "Reveal and collect all loop 1 hidden treasures in Stage 17", triggers.PearlPortfolio()),
-        Achievement(0, 3, "Cease Fire", "Destroy all candles and braziers in Stage 17", triggers.CeaseFire()),
-        Achievement(0, 3, "Between Two Fires", "Destroy all candles and braziers in Stage 18", triggers.BetweenTwoFires()),
+
+        // Stages 16 - 18
+        Achievement(0, 5, "Pearl Portfolio", "In a single session, find and collect all hidden wall treasures in stages 16 through 18", triggers.PearlPortfolio()),
+        Achievement(0, 10, "Emerald Endowment", "In a single session, reveal and collect all hidden bonus treasures in stages 16 through 18", triggers.EmeraldEndowment()),
+        Achievement(0, 5, "Cease Fire", "In a single session, destroy all candles and braziers in stages 16 through 18", triggers.CeaseFire()),
         Achievement(2, 5, "Beyond the Grave", "Defeat Dracula and clear the game", triggers.BeyondTheGrave()),
         Achievement(0, 10, "Final Nail in the Coffin", "Defeat Dracula in Stage 18 without using a sub-weapon", triggers.FinalNailInTheCoffin()),
         Achievement(0, 10, "Out on a Limb", "In a single session, clear stages 16 through 18 without losing a life", triggers.OutOnALimb()),
         Achievement(0, 25, "Rise to the Occasion", "Clear the first loop without using a continue", triggers.RiseToTheOccasion()),
-        Achievement(0, 5, "Get that Bag", "Reveal and collect the loop 2 hidden Flashing Money Bag in Stage 19", triggers.GetThatBag()),
-        Achievement(0, 5, "Left Holding the Bag", "Reveal and collect the loop 2 hidden Flashing Money Bag in Stage 20", triggers.LeftHoldingTheBag()),
-        Achievement(0, 5, "Slice of Life", "Reveal and collect the loop 2 hidden 1UP in Stage 21", triggers.SliceOfLife()),
-        Achievement(0, 5, "All Meat no Potatoes", "Reveal and collect the loop 2 hidden Pot Roast in Stage 23", triggers.AllMeatNoPotatoes()),
-        Achievement(0, 5, "Carved in Stone", "Reveal and collect the loop 2 hidden Moai figure in Stage 24", triggers.CarvedInStone()),
-        Achievement(0, 5, "Get a Life", "Reveal and collect the loop 2 hidden 1UP in Stage 25", triggers.GetALife()),
-        Achievement(0, 5, "A Rolling Stone", "Reveal and collect the loop 2 hidden Moai figure in Stage 26", triggers.ARollingStone()),
-        Achievement(0, 5, "Call the Shots", "Reveal and collect the loop 2 hidden Shot Multiplier in Stage 26", triggers.CallTheShots()),
-        Achievement(0, 5, "No Stone Unturned", "Reveal and collect the loop 2 hidden Moai figure in Stage 27", triggers.NoStoneUnturned()),
-        Achievement(0, 5, "Shot to Hell", "Reveal and collect the loop 2 hidden Shot Multiplier in Stage 34", triggers.ShotToHell()),
+
+        // Loop 2
+        Achievement(0, 5, "Get that Bag", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 19", triggers.GetThatBag()),
+        Achievement(0, 5, "Left Holding the Bag", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 20", triggers.LeftHoldingTheBag()),
+        Achievement(0, 5, "Slice of Life", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 21", triggers.SliceOfLife()),
+        Achievement(0, 5, "All Meat no Potatoes", "Reveal and collect the loop 2 exclusive hidden wall treasure in Stage 23", triggers.AllMeatNoPotatoes()),
+        Achievement(0, 5, "Carved in Stone", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 24", triggers.CarvedInStone()),
+        Achievement(0, 5, "Get a Life", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 25", triggers.GetALife()),
+        Achievement(0, 5, "A Rolling Stone", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 26", triggers.ARollingStone()),
+        Achievement(0, 5, "Call the Shots", "Reveal and collect the loop 2 exclusive hidden wall treasure in Stage 26", triggers.CallTheShots()),
+        Achievement(0, 5, "No Stone Unturned", "Reveal and collect the loop 2 exclusive hidden bonus treasure in Stage 27", triggers.NoStoneUnturned()),
+        Achievement(0, 5, "Shot to Hell", "Reveal and collect the loop 2 exclusive hidden wall treasure in Stage 34", triggers.ShotToHell()),
         Achievement(0, 25, "One More Time", "Clear the second loop", triggers.OneMoreTime()),
         Achievement(0, 50, "True Moxie", "Clear the first and second loop using 3 continues or less", triggers.TrueMoxie()),
+
+        // Item Challenges
         Achievement(0, 5, "Heartfelt", "Collect 99 hearts", triggers.Heartfelt()),
         Achievement(0, 5, "Five Finger Discount", "Collect a Rosary and kill 5 enemies at once", triggers.FiveFingerDiscount()),
         Achievement(0, 5, "Now You See Me", "Collect an Invisibility Potion and kill 5 enemies before it runs out", triggers.NowYouSeeMe()),
@@ -631,12 +588,14 @@ class Achievements {
         Achievement(0, 4, "Power Shot", "Collect a Shot Multiplier and power up your sub-weapon to level 3", triggers.PowerShot()),
         Achievement(0, 4, "Whip it Real Good", "Power up the whip to level 3", triggers.WhipItRealGood()),
         Achievement(0, 10, "Give Me Five!", "Collect all 5 sub-weapons in a single session", triggers.GiveMeFive()),
+
+        // Other Challenges
         Achievement(0, 4, "Axe to Grind", "Kill 10 enemies with the Axe and reveal a Shot Multiplier", triggers.AxeToGrind()),
         Achievement(0, 4, "Turn the Knife", "Kill 10 enemies with the Dagger and reveal a Shot Multiplier", triggers.TurnTheKnife()),
         Achievement(0, 4, "Cross to Carry", "Kill 10 enemies with the Cross and reveal a Shot Multiplier", triggers.CrossToCarry()),
         Achievement(0, 4, "Make a Splash", "Kill 10 enemies with the Holy Water and reveal a Shot Multiplier", triggers.MakeASplash()),
         Achievement(0, 4, "One Stop Shop", "Collect a Shot Multiplier while holding a Stopwatch and recieve a point bonus", triggers.OneStopShop()),
-        Achievement(0, 5, "Bloodbath", "Gain a special bonus by defeating 4 or more enemies with a single sub-weapon attack", triggers.Bloodbath())
+        Achievement(0, 5, "Bloodbath", "Gain a special bonus by defeating 4 or more enemies with a single sub-weapon attack", triggers.Bloodbath()),
     ]
 
     function Generate() {   

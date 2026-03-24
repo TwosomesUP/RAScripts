@@ -36,7 +36,11 @@ class Screen {
 
 class Stage {
     Id = byte(0x28)
+    Screen = byte(0x2f)
+    Floor = byte(0x46)
+    Scroll = byte(0x2e)
     Timer = low4(0x42) + high4(0x42) * 10 + low4(0x43) * 100 + high4(0x43) * 1000
+    Loop = byte(0x2b)
     
     function GetCandles() {
         objects = []
@@ -48,6 +52,16 @@ class Stage {
         }
     }
 }
+
+class SubWeapons {
+    Nothing = 0x00
+    Dagger = 0x08
+    Cross = 0x09
+    HolyWater = 0x0b
+    Axe = 0x0d
+    StopWatch = 0x0f
+}
+subWeapons = SubWeapons()
 
 class SubWeapon {
     Id = byte(0x15b)
@@ -70,7 +84,7 @@ class Player {
     Lives = byte(0x2a) - 1
     Health = byte(0x45)
     Continues = byte(0x7d9)
-    WhipLevel = byte(0x70)
+    Whip = byte(0x70)
     Hearts = byte(0x71)
     SubWeaponKills = byte(0x79)
     SubWeapon = SubWeapon()
@@ -130,6 +144,90 @@ class StageObjects {
     }
 }
 stageObjects = StageObjects()
+
+class Item {
+    Id = 0
+    AltId = 0
+    Points = 0
+    IsMoneyBag = false
+    IsShotMultiplier = false
+}
+
+class Items {
+    EnemyDeath = Item(0x2e)
+
+    OneHundredPoints = Item(0x5f)
+    TwoHundredPoints = Item(0x60)
+    FourHundredPoints = Item(0x61)
+    SevenHundredPoints = Item(0x62)
+    OneThousandPoints = Item(0x63)
+    TwoThousandPoints = Item(0xad)
+    FourThousandPoints = Item(0xae)
+
+    RedMoneyBag = Item(0x49, Points = OneHundredPoints, IsMoneyBag = true)
+    WhiteMoneyBag = Item(0x49, Points = SevenHundredPoints, IsMoneyBag = true)
+    PurpleMoneyBag = Item(0x49, Points = FourHundredPoints, IsMoneyBag = true)
+    FlashingMoneyBag = Item(0x49, Points = OneThousandPoints, IsMoneyBag = true)
+
+    ShotMultiplier = Item(0x51, 0x52, IsShotMultiplier = true)
+    OneUp = Item(0x2a)
+    LargeHeart = Item(0x26)
+    Cross = Item(0x27)
+    HolyWater = Item(0x2b)
+    InvisiblePotion = Item(0x2c)
+    StopWatch = Item(0x2d)
+    SmallHeart = Item(0x4a)
+    PotRoast = Item(0x4b)
+    Axe = Item(0x4c)
+    Dagger = Item(0x50)
+    Whip = Item(0x6f)
+    Rosary = Item(0x72)
+    PhantomOrb = Item(0xa2)
+}
+items = Items()
+
+class Secret {
+    Stage = 0
+    Index = 0
+    Flag = 0
+    Item = 0
+
+    // If needed we can hone in on the specific location in a stage
+    Screen = -99
+    Floor = -99
+    Scroll = -99
+}
+
+class Secrets {
+    Timer = byte(0x547)
+
+    Stage0MoneyBag = Secret(0, 19, 0, items.FlashingMoneyBag)
+    Stage2MoneyBag = Secret(2, 19, 0, items.FlashingMoneyBag)
+
+    Block1 = [
+        Stage0MoneyBag, Stage2MoneyBag
+    ]
+
+    function GetFlag(index) {
+        return bit(index, 0x144)
+    }
+}
+secrets = Secrets()
+
+class BreakableWalls {
+    Stage1PurpleMoneyBag = Secret(1, 0, 0, items.PurpleMoneyBag)
+    Stage2PotRoast = Secret(2, 0, 0, items.PotRoast, Floor = 1)
+    Stage3ShotMultiplier = Secret(3, 0, 0, items.ShotMultiplier)
+
+    Block1 = [
+        Stage1PurpleMoneyBag, Stage2PotRoast, Stage3ShotMultiplier
+    ]
+
+    function GetFlag(index) {
+        return bit(index, 0x146)
+    }
+}
+breakableWalls = BreakableWalls()
 
 class Game {
     Screen = Screen()
@@ -222,26 +320,192 @@ class AchievementHelpers {
         )
     }
 
-    function CollectedTimedItem(index, id) {
+    function CollectedItem(item, index) {
         ids = stageObjects.GetIds()
         timers = stageObjects.GetTimers()
-        return prev(ids[index]) == id &&
-            ids[index] != id &&
-            timers[index] > 0
+        idCheck = ids[index] != item.Id
+
+        if (item.IsMoneyBag) {
+            idCheck = ids[index] == item.Points.Id
+        }
+
+        return prev(ids[Index]) == item.Id &&
+            idCheck && timers[index] > 0  
     }
 
-    function CollectedTimedSecretItem(index, id) {
+    function GetMaxSecretStage(secrets) {
+        max = 0
+        for secret in secrets {
+            if (secret.Stage > max)
+                max = secret.Stage
+        }
+        return max
+    }
+
+    function CollectedSecretItem(secret) {
         ids = stageObjects.GetIds()
         timer = stageObjects.SecretTimer
-        return prev(ids[index]) == id &&
-            ids[index] != id &&
+        item = secret.Item
+        index = secret.Index
+        flag = secrets.GetFlag(secret.Flag)
+
+        idCheck = ids[index] != item.Id
+
+        if (item.IsMoneyBag) {
+            idCheck = ids[index] == item.Points.Id
+        }
+
+        stageCheck = game.Stage.Id == secret.Stage
+
+        if (secret.Floor >= 0)
+            stageCheck = stageCheck && 
+                game.Stage.Floor == secret.Floor
+
+        return stageCheck &&
+            flag == 1 && 
+            prev(ids[index]) == item.Id && 
+            idCheck && 
             timer > 0
     }
 
-    function CollectedMoneyBag(index, pointId) {
+    function CollectedWallItem(secret) {
         ids = stageObjects.GetIds()
-        return prev(ids[index]) ==  stageObjectIds.MoneyBag &&
-            ids[index] == pointId
+        timers = stageObjects.GetTimers()
+        item = secret.Item
+        index = secret.Index
+        flag = breakableWalls.GetFlag(secret.Flag)
+
+        idCheck = prev(ids[index]) == item.Id &&
+            ids[index] != item.Id
+
+        if (item.IsShotMultiplier) {
+            idCheck = __ornext
+            (
+                __ornext(prev(ids[index]) == item.Id || prev(ids[index]) == item.AltId) &&
+                ids[index] == 0
+            )
+        }
+
+        if (item.IsMoneyBag) {
+            idCheck = prev(ids[index]) == item.Id && 
+                ids[index] == item.Points.Id
+        }
+
+        stageCheck = game.Stage.Id == secret.Stage
+
+        if (secret.Floor >= 0)
+            stageCheck = stageCheck && 
+                game.Stage.Floor == secret.Floor
+
+        return stageCheck &&
+            flag == 1 && 
+            idCheck &&
+            timers[index] > 0  
+    }
+
+    function CollectedAllWallItems(secrets) {
+        conditions = []
+        count = length(secrets)
+
+        max = this.GetMaxSecretStage(secrets)
+
+        for secret in secrets {
+            array_push
+            (
+                conditions,
+                once(this.CollectedWallItem(secret)) &&
+                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
+            )
+        }
+
+        return measured(tally(count, conditions)) &&
+            never(game.Stage.Id > max)
+    }
+
+    function CollectedAllSecretItems(secrets) {
+        conditions = []
+        count = length(secrets)
+
+        max = this.GetMaxSecretStage(secrets)
+
+        for secret in secrets {
+            array_push
+            (
+                conditions,
+                once(this.CollectedSecretItem(secret)) &&
+                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
+            )
+        }
+
+        return measured(tally(count, conditions)) &&
+            never(game.Stage.Id > max)
+    }
+
+    function UpgradedWhip(level) {
+        return prev(game.Player.Whip) < level &&
+            game.Player.Whip >= level
+    }
+
+    function UpgradedShotMultiplier(level) {
+        return prev(game.Player.SubWeapon.Multiplier) < level &&
+            game.Player.SubWeapon.Multiplier >= level
+    }
+
+    function AcquiredHearts(amount) {
+        return prev(game.Player.Hearts) < amount &&
+            game.Player.Hearts >= amount
+    }
+
+    function GotSubWeaponKills(weapon, amount) {
+        return game.Player.SubWeapon.Id == weapon &&
+            prev(game.Player.SubWeaponKills) < amount &&
+            game.Player.SubWeaponKills >= amount
+    }
+
+    function GotSubWeaponBonus() {
+        ids = stageObjects.GetIds()
+        deathChecks = []
+        pointChecks = []
+
+        for index in range(0, 23) {
+            array_push
+            (
+                deathChecks, 
+                ids[index] == items.EnemyDeath.Id
+            )
+        }
+
+        for index in range(0, 23) {
+            array_push
+            (
+                pointChecks, 
+                prev(ids[index]) != items.FourThousandPoints.Id &&
+                ids[index] == items.FourThousandPoints.Id
+            )
+        }
+
+        return any_of(deathChecks, check => check) &&
+            any_of(pointChecks, check => check)
+    }
+
+    function GotStopwatchBonus() {
+        ids = stageObjects.GetIds()
+        
+        conditions = []
+
+        for index in range(0, 23) {
+            array_push
+            (
+                conditions, 
+                __ornext(prev(ids[index]) == items.ShotMultiplier.Id || prev(ids[index]) == items.ShotMultiplier.AltId) &&
+                ids[index] == items.SevenHundredPoints.Id
+            )
+        }
+
+        return game.Player.SubWeapon.Id == subWeapons.StopWatch &&
+            any_of(conditions, condition => condition)
     }
 }
 helpers = AchievementHelpers()
@@ -250,19 +514,18 @@ class AchievementTriggers {
 
     // Stages 1 - 3
     function AmethystAbundance() {
-        return always_false()
+        return helpers.CollectedAllWallItems(breakableWalls.Block1) &&
+            helpers.ResetStageChallenge()
     }
 
     function RubyReserve() {
-        return always_false()
+        return helpers.CollectedAllSecretItems(secrets.Block1) &&
+            helpers.ResetStageChallenge()
     }
 
     function BlazeATrail() {
-        return
-        (
-            helpers.BrokeAllCandlesInStageRange(0, 3, 57) &&
+        return helpers.BrokeAllCandlesInStageRange(0, 3, 57) &&
             helpers.ResetStageChallenge()
-        )
     }
 
     function RightOffTheBat() {
@@ -461,7 +724,8 @@ class AchievementTriggers {
 
     // Item Challenges
     function Heartfelt() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.AcquiredHearts(99)
     }
 
     function FiveFingerDiscount() {
@@ -473,15 +737,18 @@ class AchievementTriggers {
     }
 
     function BigShot() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.UpgradedShotMultiplier(1)
     }
 
     function PowerShot() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.UpgradedShotMultiplier(2)
     }
 
     function WhipItRealGood() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.UpgradedWhip(2)
     }
 
     function GiveMeFive() {
@@ -490,27 +757,33 @@ class AchievementTriggers {
 
     // Other Challenges
     function AxeToGrind() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.GotSubWeaponKills(subWeapons.Axe, 10)
     }
 
     function TurnTheKnife() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.GotSubWeaponKills(subWeapons.Dagger, 10)
     }
 
     function CrossToCarry() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.GotSubWeaponKills(subWeapons.Cross, 10)
     }
 
     function MakeASplash() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.GotSubWeaponKills(subWeapons.HolyWater, 10)
     }
 
     function OneStopShop() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.GotStopwatchBonus()
     }
 
     function Bloodbath() {
-        return always_false()
+        return helpers.IsInGame() &&
+            helpers.GotSubWeaponBonus()
     }
 }
 triggers = AchievementTriggers()
@@ -623,11 +896,11 @@ achievements = Achievements()
 // Rich Presence
 rich_presence_conditional_display(helpers.IsInGame(), 
     "Simon is hunting vampires in Stage {0}{1} | P-{2}{3} | ❤️-{5}{6} | {4}{7}{8} Score-{9} | Continues-{10}{11} ",
-    rich_presence_value("Stage", game.Stage.Id / 10),
-    rich_presence_value("Stage", game.Stage.Id % 10),
+    rich_presence_value("Stage", (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop)) / 10),
+    rich_presence_value("Stage", (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop)) % 10),
     rich_presence_value("Lives", game.Player.Lives / 10),
     rich_presence_value("Lives", game.Player.Lives % 10),
-    rich_presence_lookup("Whip", game.Player.WhipLevel, game.Player.WhipLookup, "Leather Whip"),
+    rich_presence_lookup("Whip", game.Player.Whip, game.Player.WhipLookup, "Leather Whip"),
     rich_presence_value("Hearts", game.Player.Hearts / 10),
     rich_presence_value("Hearts", game.Player.Hearts % 10),
     rich_presence_lookup("SubWeapon", game.Player.SubWeapon.Id, game.Player.SubWeapon.TypeLookup, ""),

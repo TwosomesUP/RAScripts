@@ -99,8 +99,21 @@ class Player {
     }
 }
 
+class BossStates {
+    NotSpawned = 0x01
+    Pattern1 = 0x02
+    Pattern2 = 0x03
+    OrbLanded = 0x04
+    Pattern3 = 0x05
+    Inactive1 = 0x80
+    Inactive2 = 0x81
+    SpawningOrb = 0x82
+}
+bossStates = BossStates()
+
 class Boss {
-    Health = 0x1a9
+    Health = byte(0x1a9)
+    State = byte(0x473)
 }
 
 class StageObjectIds {
@@ -507,6 +520,47 @@ class AchievementHelpers {
         return game.Player.SubWeapon.Id == subWeapons.StopWatch &&
             any_of(conditions, condition => condition)
     }
+
+    function BossIsActive(disableWhen = false) {
+        activeCheck = game.Boss.State > bossStates.NotSpawned
+        if (disableWhen) 
+            activeCheck = activeCheck &&
+                game.Boss.State < bossStates.Inactive1
+        return activeCheck  
+    }
+
+    function DefeatedStageBoss(stage, challenge = false) {
+        defeatCheck = game.Boss.Health == 0 &&
+            prev(game.Screen.Id) == screenIds.Playing &&
+            game.Screen.Id == screenIds.StageEnd
+
+        if (challenge)
+            defeatCheck = trigger_when(defeatCheck)
+
+        return this.BossIsActive() &&
+            game.Stage.Id == stage &&
+            defeatCheck
+    }
+
+    function NoSubWeaponBoss(stage) {
+        return this.DefeatedStageBoss(3, true) &&
+            disable_when
+            (
+                this.IsInGame() && 
+                this.BossIsActive(true) && 
+                game.Boss.Health > 0 && 
+                game.Stage.Id == stage && 
+                game.Player.Hearts < prev(game.Player.Hearts)
+            ) &&
+            (
+                always_false() || 
+                (
+                    never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                    never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives) &&
+                    never(game.Stage.Id != stage)
+                )
+            )
+    }
 }
 helpers = AchievementHelpers()
 
@@ -529,11 +583,11 @@ class AchievementTriggers {
     }
 
     function RightOffTheBat() {
-        return always_false()
+        return helpers.DefeatedStageBoss(3)
     }
 
     function LikeABatOutOfHell() {
-        return always_false()
+        return helpers.NoSubWeaponBoss(3)
     }
 
     function Beeline() {

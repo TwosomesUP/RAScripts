@@ -11,7 +11,7 @@ class ScreenId {
 class ScreenIds {
     // Ranges
     Title = ScreenId(0x00, 0x03)
-    InGame = ScreenId(0x05, 0x0c)
+    InGame = ScreenId(0x05, 0x0e)
 
     // Individual Values
     StartScreenIntro = 0x00
@@ -23,6 +23,7 @@ class ScreenIds {
     DeathWithoutLives = 0x07
     StageEnd = 0xc
     GameOver = 0xd
+    StageTen = 0xe
     Loading = 0x10
     SaveSelect = 0x11
 }
@@ -80,10 +81,41 @@ class SubWeapon {
     }
 }
 
+class AttackStatuses {
+    SuccessHolyWater = 0x00
+    SuccessDagger = 0x06
+    SuccessOther = 0x08
+
+    AllStatuses = {
+        subWeapons.Dagger: SuccessDagger,
+        subWeapons.Cross: SuccessOther,
+        subWeapons.HolyWater: SuccessHolyWater,
+        subWeapons.Axe: SuccessOther
+    }
+}
+attackStatuses = AttackStatuses()
+
+class AttackTypes {
+    Dagger = 0x00
+    Cross = 0x01
+    HolyWater = 0x03
+    Axe = 0x05
+
+    AllTypes = {
+        subWeapons.Dagger: Dagger,
+        subWeapons.Cross: Cross,
+        subWeapons.HolyWater: HolyWater,
+        subWeapons.Axe: Axe
+    }
+}
+attackTypes = AttackTypes()
+
 class Player {
     Lives = byte(0x2a) - 1
     Health = byte(0x45)
     Continues = byte(0x7d9)
+    AttackStatus = byte(0xd)
+    AttackType = byte(0xe)
     Whip = byte(0x70)
     Hearts = byte(0x71)
     SubWeaponKills = byte(0x79)
@@ -116,18 +148,32 @@ class Boss {
     State = byte(0x473)
 }
 
-class StageObjectIds {
-    MoneyBag = 0x49
-    PotRoast = 0x4b
+class EnemyIds {
+    Bandage = 0x03
+    Fireball = 0x08
+    Snake = 0x1d
+    Destroyed = 0x26
+    Bone = 0x4f
 }
-stageObjectIds = StageObjectIds()
+enemyIds = EnemyIds()
+
+class Enemies {
+    Base = 0x4c4
+    function GetSpriteIndexes() {
+        enemyList = []
+        for index in range(0, 9) {
+            array_push(enemyList, byte(this.Base + index))
+        }
+        return enemyList
+    }
+}
+enemies = Enemies()
 
 class StageObjects {
-    SecretTimer = byte(0x547)
-
     BreakablesStart = 0x191
     IdsStart = 0x320
     TimersStart = 0x56c
+    SecretTimersStart = 0x534
 
     Size = 24
 
@@ -152,6 +198,14 @@ class StageObjects {
         timers = []
         for index in range(0, this.Size -1) {
             array_push(timers, byte(this.TimersStart + index))
+        }
+        return timers
+    }
+
+    function GetSecretTimers() {
+        timers = []
+        for index in range(0, this.Size -1) {
+            array_push(timers, byte(this.SecretTimersStart + index))
         }
         return timers
     }
@@ -181,6 +235,10 @@ class Items {
     WhiteMoneyBag = Item(0x49, Points = SevenHundredPoints, IsMoneyBag = true)
     PurpleMoneyBag = Item(0x49, Points = FourHundredPoints, IsMoneyBag = true)
     FlashingMoneyBag = Item(0x49, Points = OneThousandPoints, IsMoneyBag = true)
+    Crown = Item(0xdf)
+    TreasureChest = Item(0xe0)
+    Moai = Item(0xe1) //actually -- 0xe1 - 0xe4
+    OneUp2 = Item(0xe5)
 
     ShotMultiplier = Item(0x51, 0x52, IsShotMultiplier = true)
     OneUp = Item(0x2a)
@@ -201,7 +259,6 @@ items = Items()
 
 class Secret {
     Stage = 0
-    Index = 0
     Flag = 0
     Item = 0
 
@@ -209,16 +266,31 @@ class Secret {
     Screen = -99
     Floor = -99
     Scroll = -99
+    Unreachable = false
 }
 
 class Secrets {
-    Timer = byte(0x547)
-
-    Stage0MoneyBag = Secret(0, 19, 0, items.FlashingMoneyBag)
-    Stage2MoneyBag = Secret(2, 19, 0, items.FlashingMoneyBag)
+    Stage0MoneyBag = Secret(0, 0, items.FlashingMoneyBag)
+    Stage2MoneyBag = Secret(2, 0, items.FlashingMoneyBag)
 
     Block1 = [
         Stage0MoneyBag, Stage2MoneyBag
+    ]
+
+    Stage4Crown = Secret(4, 0, items.Crown, Floor = 0)
+    Stage5TreasureBox = Secret(5, 0, items.TreasureChest, Floor = 0)
+    Stage6MoneyBag = Secret(6, 0, items.FlashingMoneyBag, Floor = 1)
+
+    Block2 = [
+        Stage4Crown, Stage5TreasureBox, Stage6MoneyBag
+    ]
+
+    Stage7MoneyBag = Secret(7, 0, items.FlashingMoneyBag, Floor = 1)
+    Stage8MoneyBag = Secret(8, 0, items.FlashingMoneyBag, Floor = 1)
+    Stage9MoneyBag = Secret(9, 0, items.FlashingMoneyBag, Floor = 0, Unreachable = true)
+
+    Block3 = [
+        Stage7MoneyBag, Stage8MoneyBag, Stage9MoneyBag
     ]
 
     function GetFlag(index) {
@@ -228,12 +300,28 @@ class Secrets {
 secrets = Secrets()
 
 class BreakableWalls {
-    Stage1PurpleMoneyBag = Secret(1, 0, 0, items.PurpleMoneyBag)
-    Stage2PotRoast = Secret(2, 0, 0, items.PotRoast, Floor = 1)
-    Stage3ShotMultiplier = Secret(3, 0, 0, items.ShotMultiplier)
+    Stage1PurpleMoneyBag = Secret(1, 0, items.PurpleMoneyBag)
+    Stage2PotRoast = Secret(2, 0, items.PotRoast, Floor = 1)
+    Stage3ShotMultiplier = Secret(3, 0, items.ShotMultiplier)
 
     Block1 = [
         Stage1PurpleMoneyBag, Stage2PotRoast, Stage3ShotMultiplier
+    ]
+
+    Stage4ShotMultiplier = Secret(4, 2, items.ShotMultiplier, Floor = 1)
+    Stage5PotRoast = Secret(5, 0, items.PotRoast, Floor = 1)
+    Stage6PotRoast = Secret(6, 0, items.PotRoast, Floor = 0)
+    Stage6ShotMultiplier = Secret(6, 1, items.ShotMultiplier, Floor = 0)
+
+    Block2 = [
+        Stage4ShotMultiplier, Stage5PotRoast, Stage6PotRoast, Stage6ShotMultiplier
+    ]
+
+    Stage7PotRoast = Secret(7, 0, items.PotRoast, Floor = 0)
+    Stage9PotRoast = Secret(9, 0, items.PotRoast, Floor = 0)
+
+    Block3 = [
+        Stage7PotRoast, Stage9PotRoast
     ]
 
     function GetFlag(index) {
@@ -265,6 +353,10 @@ class AchievementHelpers {
             game.Screen.Id <= screenIds.InGame.End
     }
 
+    function IsNotPlaying() {
+        return __ornext(game.Screen.Id < screenIds.Playing || game.Screen.Id > screenIds.StageEnd)
+    }
+
     function IsGameOver() {
         return game.Screen.Id == screenIds.GameOver
     }
@@ -283,6 +375,31 @@ class AchievementHelpers {
             (game.Screen.Id >= screenIds.Title.Start && game.Screen.Id <= screenIds.Title.End) ||
             game.Screen.Id == screenIds.SaveSelect
         )
+    }
+
+    function KilledEnemiesWithSubWeapon(weapon, count) {
+        checks = []
+        for enemy in enemies.GetSpriteIndexes() {
+            array_push
+            (
+                checks,
+                game.Screen.Id == screenIds.Playing &&
+                game.Player.SubWeapon.Id == weapon &&
+                game.Player.AttackStatus == attackStatuses.AllStatuses[weapon] &&
+                game.Player.AttackType == attackTypes.AllTypes[weapon] &&
+                prev(enemy) != enemyIds.Fireball &&
+                prev(enemy) != enemyIds.Bandage &&
+                prev(enemy) != enemyIds.Bone &&
+                prev(enemy) != enemyIds.Snake &&
+                prev(enemy) != enemyIds.Destroyed &&
+                enemy == enemyIds.Destroyed
+            )
+        }
+        return measured(tally(count, checks)) &&
+            never(helpers.IsNotPlaying()) &&
+            never(game.Screen.Id == screenIds.DeathWithLives) &&
+            never(game.Screen.Id == screenIds.DeathWithoutLives) &&
+            never(game.Player.SubWeapon.Id != weapon)
     }
 
     function BrokeAllCandlesInStage(stage, count) {
@@ -323,14 +440,7 @@ class AchievementHelpers {
     }
 
     function ResetStageChallenge() {
-        return             
-        (
-            always_false() ||
-            (
-                never(game.Screen.Id < screenIds.Playing) &&
-                never(game.Screen.Id > screenIds.StageEnd)
-            )
-        )
+        return (always_false() || never(helpers.IsNotPlaying()))
     }
 
     function CollectedItem(item, index) {
@@ -355,11 +465,10 @@ class AchievementHelpers {
         return max
     }
 
-    function CollectedSecretItem(secret) {
+    function CollectedSecretItem(secret, index) {
         ids = stageObjects.GetIds()
-        timer = stageObjects.SecretTimer
+        timer = stageObjects.GetSecretTimers()
         item = secret.Item
-        index = secret.Index
         flag = secrets.GetFlag(secret.Flag)
 
         idCheck = ids[index] != item.Id
@@ -374,18 +483,22 @@ class AchievementHelpers {
             stageCheck = stageCheck && 
                 game.Stage.Floor == secret.Floor
 
-        return stageCheck &&
-            flag == 1 && 
+        collectedCheck = flag == 1 && 
             prev(ids[index]) == item.Id && 
             idCheck && 
-            timer > 0
+            timer[index] > 0
+
+        if (secret.Unreachable) 
+            collectedCheck = prev(flag) == 0 && flag == 1
+
+        return stageCheck &&
+            collectedCheck
     }
 
-    function CollectedWallItem(secret) {
+    function CollectedWallItem(secret, index) {
         ids = stageObjects.GetIds()
         timers = stageObjects.GetTimers()
         item = secret.Item
-        index = secret.Index
         flag = breakableWalls.GetFlag(secret.Flag)
 
         idCheck = prev(ids[index]) == item.Id &&
@@ -423,13 +536,15 @@ class AchievementHelpers {
         max = this.GetMaxSecretStage(secrets)
 
         for secret in secrets {
-            array_push
-            (
-                conditions,
-                once(this.CollectedWallItem(secret)) &&
-                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
-                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
-            )
+            for index in range(0, 23) {
+                array_push
+                (
+                    conditions,
+                    once(this.CollectedWallItem(secret, index)) &&
+                    never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                    never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
+                )
+            }
         }
 
         return measured(tally(count, conditions)) &&
@@ -443,13 +558,25 @@ class AchievementHelpers {
         max = this.GetMaxSecretStage(secrets)
 
         for secret in secrets {
-            array_push
-            (
-                conditions,
-                once(this.CollectedSecretItem(secret)) &&
-                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
-                never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
-            )
+            if (secret.Unreachable) {
+                array_push
+                (
+                    conditions,
+                    once(this.CollectedSecretItem(secret, 0)) &&
+                    never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                    never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
+                )
+            } else {
+                for index in range(0, 23) {
+                    array_push
+                    (
+                        conditions,
+                        once(this.CollectedSecretItem(secret, index)) &&
+                        never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                        never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
+                    )
+                }
+            }
         }
 
         return measured(tally(count, conditions)) &&
@@ -469,12 +596,6 @@ class AchievementHelpers {
     function AcquiredHearts(amount) {
         return prev(game.Player.Hearts) < amount &&
             game.Player.Hearts >= amount
-    }
-
-    function GotSubWeaponKills(weapon, amount) {
-        return game.Player.SubWeapon.Id == weapon &&
-            prev(game.Player.SubWeaponKills) < amount &&
-            game.Player.SubWeaponKills >= amount
     }
 
     function GotSubWeaponBonus() {
@@ -529,7 +650,18 @@ class AchievementHelpers {
         return activeCheck  
     }
 
-    function DefeatedStageBoss(stage, challenge = false) {
+    function ClearedStage(stage, challenge = false) {
+        clearCheck = game.Stage.Id == stage &&
+            game.Boss.Health == 0 &&
+            game.Screen.Id == screenIds.StageEnd
+
+        if (challenge)
+            clearCheck = trigger_when(clearCheck)
+
+        return prev(game.Screen.Id) == screenIds.Playing && clearCheck
+    }
+
+    function DefeatedStageBoss(stage, screen, floor, challenge = false) {
         defeatCheck = game.Boss.Health == 0 &&
             prev(game.Screen.Id) == screenIds.Playing &&
             game.Screen.Id == screenIds.StageEnd
@@ -539,17 +671,21 @@ class AchievementHelpers {
 
         return this.BossIsActive() &&
             game.Stage.Id == stage &&
+            game.Stage.Screen == screen &&
+            game.Stage.Floor == floor &&
             defeatCheck
     }
 
-    function NoSubWeaponBoss(stage) {
-        return this.DefeatedStageBoss(3, true) &&
+    function NoSubWeaponBoss(stage, screen, floor) {
+        return this.DefeatedStageBoss(stage, screen, floor, true) &&
             disable_when
             (
                 this.IsInGame() && 
                 this.BossIsActive(true) && 
                 game.Boss.Health > 0 && 
-                game.Stage.Id == stage && 
+                game.Stage.Id == stage &&
+                game.Stage.Screen == screen &&
+                game.Stage.Floor == floor &&
                 game.Player.Hearts < prev(game.Player.Hearts)
             ) &&
             (
@@ -557,7 +693,29 @@ class AchievementHelpers {
                 (
                     never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
                     never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives) &&
-                    never(game.Stage.Id != stage)
+                    never(game.Stage.Id != stage) &&
+                    never(helpers.IsNotPlaying())
+                )
+            )
+    }
+
+    function NoDeathStageChallenge(start, end) {
+        return this.ClearedStage(end, true) &&
+            disable_when
+            (
+                game.Stage.Id >= start &&
+                game.Stage.Id <= end &&
+                prev(game.Screen.Id) == screenIds.Playing &&
+                game.Screen.Id == screenIds.DeathWithLives
+
+            ) &&
+            (
+                always_false() ||
+                (
+                    never(game.Stage.Id >= start && game.Stage.Id <= end && game.Screen.Id == screenIds.DeathWithoutLives) &&
+                    never(game.Stage.Id < start) &&
+                    never(game.Stage.Id > end) &&
+                    never(helpers.IsNotPlaying())
                 )
             )
     }
@@ -583,73 +741,71 @@ class AchievementTriggers {
     }
 
     function RightOffTheBat() {
-        return helpers.DefeatedStageBoss(3)
+        return helpers.DefeatedStageBoss(3, 2, 0)
     }
 
     function LikeABatOutOfHell() {
-        return helpers.NoSubWeaponBoss(3)
+        return helpers.NoSubWeaponBoss(3, 2, 0)
     }
 
     function Beeline() {
-        return always_false()
+        return helpers.NoDeathStageChallenge(0, 3)
     }
 
     // Stages 4 - 6
     function CitrineCache() {
-        return always_false()
+        return helpers.CollectedAllWallItems(breakableWalls.Block2) &&
+            helpers.ResetStageChallenge()
     }
 
     function SapphireStash() {
-        return always_false()
+        return helpers.CollectedAllSecretItems(secrets.Block2) &&
+            helpers.ResetStageChallenge()
     }  
 
     function HangFire() {
-        return always_false()
-    }
-
-    function TopazTrove() {
-        return always_false()
-    }
-
-    function FiredUp() {
-        return always_false()
+        return helpers.BrokeAllCandlesInStageRange(4, 6, 51) &&
+            helpers.ResetStageChallenge()
     }
 
     function SnakeInTheGrass() {
-        return always_false()
+        return helpers.DefeatedStageBoss(6, 0, 1)
     }
 
     function SnakeEyes() {
-        return always_false()
+        return helpers.NoSubWeaponBoss(6, 0, 1)
     }
 
     function OnThinIce() {
-        return always_false()
+        return helpers.NoDeathStageChallenge(4, 6)
     }
 
     // Stages 7 - 9
     function OpalOpulence() {
-        return always_false()
+        return helpers.CollectedAllWallItems(breakableWalls.Block3) &&
+            helpers.ResetStageChallenge()
     }
 
     function LapisLoot() {
-        return always_false()
+        return helpers.CollectedAllSecretItems(secrets.Block3) &&
+            helpers.ResetStageChallenge()
     }
 
     function TrialByFire() {
-        return always_false()
+        return helpers.BrokeAllCandlesInStageRange(7, 9, 37) &&
+            helpers.ResetStageChallenge()
     }
 
     function MumsTheWord() {
-        return always_false()
+        return helpers.DefeatedStageBoss(9, 5, 0)
     }
 
     function MummysBoy() {
-        return always_false()
+        return helpers.NoSubWeaponBoss(9, 5, 0)
     }
 
     function DiceWithDeath() {
-        return always_false()
+        return helpers.NoDeathStageChallenge(7, 9)
     }
 
     // Stages 10 - 12
@@ -811,23 +967,19 @@ class AchievementTriggers {
 
     // Other Challenges
     function AxeToGrind() {
-        return helpers.IsInGame() &&
-            helpers.GotSubWeaponKills(subWeapons.Axe, 10)
+        return helpers.KilledEnemiesWithSubWeapon(subWeapons.Axe, 20)
     }
 
     function TurnTheKnife() {
-        return helpers.IsInGame() &&
-            helpers.GotSubWeaponKills(subWeapons.Dagger, 10)
+        return helpers.KilledEnemiesWithSubWeapon(subWeapons.Dagger, 20)
     }
 
     function CrossToCarry() {
-        return helpers.IsInGame() &&
-            helpers.GotSubWeaponKills(subWeapons.Cross, 10)
+        return helpers.KilledEnemiesWithSubWeapon(subWeapons.Cross, 20)
     }
 
     function MakeASplash() {
-        return helpers.IsInGame() &&
-            helpers.GotSubWeaponKills(subWeapons.HolyWater, 10)
+        return helpers.KilledEnemiesWithSubWeapon(subWeapons.HolyWater, 20)
     }
 
     function OneStopShop() {
@@ -917,10 +1069,10 @@ class Achievements {
         Achievement(0, 10, "Give Me Five!", "Collect all 5 sub-weapons in a single session", triggers.GiveMeFive()),
 
         // Other Challenges
-        Achievement(0, 4, "Axe to Grind", "Kill 10 enemies with the Axe and reveal a Shot Multiplier", triggers.AxeToGrind()),
-        Achievement(0, 4, "Turn the Knife", "Kill 10 enemies with the Dagger and reveal a Shot Multiplier", triggers.TurnTheKnife()),
-        Achievement(0, 4, "Cross to Carry", "Kill 10 enemies with the Cross and reveal a Shot Multiplier", triggers.CrossToCarry()),
-        Achievement(0, 4, "Make a Splash", "Kill 10 enemies with the Holy Water and reveal a Shot Multiplier", triggers.MakeASplash()),
+        Achievement(0, 4, "Axe to Grind", "Kill 20 enemies with the Axe without losing a life or changing sub-weapons", triggers.AxeToGrind()),
+        Achievement(0, 4, "Turn the Knife", "Kill 20 enemies with the Dagger without losing a life or changing sub-weapons", triggers.TurnTheKnife()),
+        Achievement(0, 4, "Cross to Carry", "Kill 20 enemies with the Cross without losing a life or changing sub-weapons", triggers.CrossToCarry()),
+        Achievement(0, 4, "Make a Splash", "Kill 20 enemies with the Holy Water without losing a life or changing sub-weapons", triggers.MakeASplash()),
         Achievement(0, 4, "One Stop Shop", "Collect a Shot Multiplier while holding a Stopwatch and recieve a point bonus", triggers.OneStopShop()),
         Achievement(0, 5, "Bloodbath", "Gain a special bonus by defeating 4 or more enemies with a single sub-weapon attack", triggers.Bloodbath()),
     ]
@@ -948,7 +1100,7 @@ class Achievements {
 achievements = Achievements()
 
 // Rich Presence
-rich_presence_conditional_display(helpers.IsInGame(), 
+rich_presence_conditional_display(helpers.IsInGame() && game.Screen.Id != screenIds.GameOver, 
     "Simon is hunting vampires in Stage {0}{1} | P-{2}{3} | ❤️-{5}{6} | {4}{7}{8} Score-{9} | Continues-{10}{11} ",
     rich_presence_value("Stage", (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop)) / 10),
     rich_presence_value("Stage", (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop)) % 10),

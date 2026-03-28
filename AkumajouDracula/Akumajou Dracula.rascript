@@ -151,6 +151,7 @@ class Boss {
 class EnemyIds {
     Bandage = 0x03
     Fireball = 0x08
+    Axe = 0x16
     Snake = 0x1d
     Destroyed = 0x26
     Bone = 0x4f
@@ -238,10 +239,9 @@ class Items {
     Crown = Item(0xdf)
     TreasureChest = Item(0xe0)
     Moai = Item(0xe1) //actually -- 0xe1 - 0xe4
-    OneUp2 = Item(0xe5)
+    OneUp = Item(0xe5)
 
     ShotMultiplier = Item(0x51, 0x52, IsShotMultiplier = true)
-    OneUp = Item(0x2a)
     LargeHeart = Item(0x26)
     Cross = Item(0x27)
     HolyWater = Item(0x2b)
@@ -265,7 +265,8 @@ class Secret {
     // If needed we can hone in on the specific location in a stage
     Screen = -99
     Floor = -99
-    Scroll = -99
+    ScrollX = -99
+    ScrollY = -99
     Unreachable = false
 }
 
@@ -291,6 +292,15 @@ class Secrets {
 
     Block3 = [
         Stage7MoneyBag, Stage8MoneyBag, Stage9MoneyBag
+    ]
+
+    Stage13OneUp = Secret(13, 0, items.OneUp, Floor = 1)
+    Stage14MoneyBag1 = Secret(14, 0, items.FlashingMoneyBag, Floor = 1)
+    Stage14MoneyBag2 = Secret(14, 1, items.FlashingMoneyBag, Floor = 1)
+    Stage14MoneyBag3 = Secret(14, 2, items.FlashingMoneyBag, Floor = 1)
+
+    Block5 = [
+        Stage13OneUp, Stage14MoneyBag1, Stage14MoneyBag2, Stage14MoneyBag3
     ]
 
     function GetFlag(index) {
@@ -324,6 +334,21 @@ class BreakableWalls {
         Stage7PotRoast, Stage9PotRoast
     ]
 
+    Stage12PotRoast = Secret(12, 0, items.PotRoast, Floor = 0)
+
+    Block4 = [
+        Stage12PotRoast
+    ]
+
+    Stage13PotRoast = Secret(13, 1, items.PotRoast, Floor = 1)
+    Stage13ShotMultiplier = Secret(13, 0, items.ShotMultiplier, Floor = 1)
+    Stage14ShotMultiplier = Secret(14, 1, items.ShotMultiplier, Floor = 1)
+    Stage15PotRoast = Secret(15, 0, items.PotRoast, Floor = 0)
+
+    Block5 = [
+        Stage13PotRoast, Stage13ShotMultiplier, Stage14ShotMultiplier, Stage15PotRoast
+    ]
+
     function GetFlag(index) {
         return bit(index, 0x146)
     }
@@ -349,8 +374,31 @@ class Achievement {
 
 class AchievementHelpers {
     function IsInGame() {
-        return game.Screen.Id >= screenIds.InGame.Start &&
-            game.Screen.Id <= screenIds.InGame.End
+        return __ornext
+        (
+            game.Screen.Id == screenIds.Intro ||
+            game.Screen.Id == screenIds.Playing ||
+            game.Screen.Id == screenIds.DeathWithLives ||
+            game.Screen.Id == screenIds.DeathWithoutLives ||
+            game.Screen.Id == screenIds.StageTen ||
+            (
+                game.Screen.Id == screenIds.StageEnd &&
+                game.Screen.SubId != 4 &&
+                game.Screen.SubId != 5 &&
+                game.Screen.SubId != 6 &&
+                game.Screen.SubId != 7 &&
+                game.Screen.SubId != 8
+            )
+        )
+    }
+
+    function IsPlaying() {
+        return game.Screen.Id == screenIds.Playing
+    }
+
+    function IsOnMapTransition() {
+        return game.Screen.Id == screenIds.StageEnd &&
+            game.Screen.SubId >= 4 && game.Screen.SubId <= 8
     }
 
     function IsNotPlaying() {
@@ -367,6 +415,15 @@ class AchievementHelpers {
 
     function IsLoading() {
         return game.Screen.Id == screenIds.Loading
+    }
+
+    function IsNotOnMapTransition() {
+        return (game.Screen.Id == screenIds.StageEnd &&
+            game.Screen.SubId != 4 && 
+            game.Screen.SubId != 5 &&
+            game.Screen.SubId != 6 &&
+            game.Screen.SubId != 7 &&
+            game.Screen.SubId != 8)
     }
 
     function IsOnTitle() {
@@ -505,10 +562,11 @@ class AchievementHelpers {
             ids[index] != item.Id
 
         if (item.IsShotMultiplier) {
-            idCheck = __ornext
+            idCheck =
             (
                 __ornext(prev(ids[index]) == item.Id || prev(ids[index]) == item.AltId) &&
-                ids[index] == 0
+                ids[index] != items.ShotMultiplier.Id &&
+                ids[index] != items.ShotMultiplier.AltId
             )
         }
 
@@ -543,8 +601,32 @@ class AchievementHelpers {
                     once(this.CollectedWallItem(secret, index)) &&
                     never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
                     never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
-                )
+                ) 
             }
+
+            if (secret.Item == items.ShotMultiplier) {
+                flag = breakableWalls.GetFlag(secret.Flag)
+
+                stageCheck = game.Stage.Id == secret.Stage
+
+                if (secret.Floor >= 0)
+                    stageCheck = stageCheck &&
+                        game.Stage.Floor == secret.Floor
+
+                array_push
+                (
+                    conditions,
+                    once
+                    (
+                        game.Player.SubWeapon.Multiplier == 2 &&
+                        stageCheck &&
+                        prev(flag) == 0 &&
+                        flag == 1
+                    ) &&
+                    never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                    never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
+                )
+            } 
         }
 
         return measured(tally(count, conditions)) &&
@@ -680,7 +762,7 @@ class AchievementHelpers {
         return this.DefeatedStageBoss(stage, screen, floor, true) &&
             disable_when
             (
-                this.IsInGame() && 
+                this.IsPlaying() && 
                 this.BossIsActive(true) && 
                 game.Boss.Health > 0 && 
                 game.Stage.Id == stage &&
@@ -810,48 +892,53 @@ class AchievementTriggers {
 
     // Stages 10 - 12
     function DiamonDough() {
-        return always_false()
+        return helpers.CollectedAllWallItems(breakableWalls.Block4) &&
+            helpers.ResetStageChallenge()
     }
 
     function WorldOnFire() {
-        return always_false()
+        return helpers.BrokeAllCandlesInStageRange(10, 12, 34) &&
+            helpers.ResetStageChallenge()
     }
 
     function GreenEyedMonster() {
-        return always_false()
+        return helpers.DefeatedStageBoss(12, 3, 0)
     }
 
     function MonsterMash() {
-        return always_false()
+        return helpers.NoSubWeaponBoss(12, 3, 0)
     }
 
     function GoForBroke() {
-        return always_false()
+        return helpers.NoDeathStageChallenge(10, 12)
     }
 
     // Stages 13 - 15
     function EmeraldEndowment() {
-        return always_false()
+        return helpers.CollectedAllWallItems(breakableWalls.Block5) &&
+            helpers.ResetStageChallenge()
     }
 
     function AquamarineAssets() {
-        return always_false()
+        return helpers.CollectedAllSecretItems(secrets.Block5) &&
+            helpers.ResetStageChallenge()
     }
 
     function SnuffedOut() {
-        return always_false()
+        return helpers.BrokeAllCandlesInStageRange(13, 15, 74) &&
+            helpers.ResetStageChallenge()
     }
 
     function AtDeathsDoor() {
-        return always_false()
+        return helpers.DefeatedStageBoss(15, 3, 0)
     }
 
     function DeadRinger() {
-        return always_false()
+        return helpers.NoSubWeaponBoss(15, 3, 0)
     }
 
     function UpTheAnte() {
-        return always_false()
+        return helpers.NoDeathStageChallenge(13, 15)
     }
 
     // Stages 16 - 18
@@ -934,7 +1021,7 @@ class AchievementTriggers {
 
     // Item Challenges
     function Heartfelt() {
-        return helpers.IsInGame() &&
+        return helpers.IsPlaying() &&
             helpers.AcquiredHearts(99)
     }
 
@@ -947,17 +1034,17 @@ class AchievementTriggers {
     }
 
     function BigShot() {
-        return helpers.IsInGame() &&
+        return helpers.IsPlaying() &&
             helpers.UpgradedShotMultiplier(1)
     }
 
     function PowerShot() {
-        return helpers.IsInGame() &&
+        return helpers.IsPlaying() &&
             helpers.UpgradedShotMultiplier(2)
     }
 
     function WhipItRealGood() {
-        return helpers.IsInGame() &&
+        return helpers.IsPlaying() &&
             helpers.UpgradedWhip(2)
     }
 
@@ -983,12 +1070,12 @@ class AchievementTriggers {
     }
 
     function OneStopShop() {
-        return helpers.IsInGame() &&
+        return helpers.IsPlaying() &&
             helpers.GotStopwatchBonus()
     }
 
     function Bloodbath() {
-        return helpers.IsInGame() &&
+        return helpers.IsPlaying() &&
             helpers.GotSubWeaponBonus()
     }
 }
@@ -1100,7 +1187,8 @@ class Achievements {
 achievements = Achievements()
 
 // Rich Presence
-rich_presence_conditional_display(helpers.IsInGame() && game.Screen.Id != screenIds.GameOver, 
+rich_presence_conditional_display(
+    helpers.IsInGame(), 
     "Simon is hunting vampires in Stage {0}{1} | P-{2}{3} | ❤️-{5}{6} | {4}{7}{8} Score-{9} | Continues-{10}{11} ",
     rich_presence_value("Stage", (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop)) / 10),
     rich_presence_value("Stage", (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop)) % 10),
@@ -1115,6 +1203,8 @@ rich_presence_conditional_display(helpers.IsInGame() && game.Screen.Id != screen
     rich_presence_value("Continues", game.Player.Continues / 10),
     rich_presence_value("Continues", game.Player.Continues % 10)
 )
+
+rich_presence_conditional_display(helpers.IsOnMapTransition(), "Simon is traveling to the next section of Dracula's Castle")
 
 rich_presence_conditional_display(helpers.IsOnTitle() || helpers.IsLoading(), "Simon is preparing for his journey to Dracula's Castle")
 

@@ -37,9 +37,8 @@ class Screen {
 
 class Stage {
     Id = byte(0x28)
-    Screen = byte(0x2f)
     Floor = byte(0x46)
-    Scroll = byte(0x2e)
+    ScrollX = word(0x2e)
     Timer = low4(0x42) + high4(0x42) * 10 + low4(0x43) * 100 + high4(0x43) * 1000
     Loop = byte(0x2b)
     
@@ -123,6 +122,8 @@ class Player {
     RosaryTimer = byte(0x15d)
     Score = low4(0x7fc) + high4(0x7fc) * 10 + low4(0x7fd) * 100 + high4(0x7fd) * 1000 +
         low4(0x7fe) * 10000 + high4(0x7fe) * 100000 + low4(0x7ff) * 100 + high4(0x7ff) * 1000000
+    PositionY = byte(0x3f)
+    PositionX = word(0x40)
 
     WhipLookup = {
         0x00: "Leather Whip",
@@ -259,99 +260,94 @@ items = Items()
 
 class Secret {
     Stage = 0
-    Flag = 0
     Item = 0
 
     // If needed we can hone in on the specific location in a stage
-    Screen = -99
     Floor = -99
     ScrollX = -99
-    ScrollY = -99
+    PositionX = -99
+    PositionY = -99
     Unreachable = false
 }
 
 class Secrets {
-    Stage0MoneyBag = Secret(0, 0, items.FlashingMoneyBag)
-    Stage2MoneyBag = Secret(2, 0, items.FlashingMoneyBag)
+    Flags = byte(0x144)
+
+    Stage0MoneyBag = Secret(0, items.FlashingMoneyBag, Floor = 0, ScrollX = 0x1fa)
+    Stage2MoneyBag = Secret(2, items.FlashingMoneyBag, Floor = 0, ScrollX = 0xe0)
 
     Block1 = [
         Stage0MoneyBag, Stage2MoneyBag
     ]
 
-    Stage4Crown = Secret(4, 0, items.Crown, Floor = 0)
-    Stage5TreasureBox = Secret(5, 0, items.TreasureChest, Floor = 0)
-    Stage6MoneyBag = Secret(6, 0, items.FlashingMoneyBag, Floor = 1)
+    Stage4Crown = Secret(4, items.Crown, Floor = 0)
+    Stage5TreasureBox = Secret(5, items.TreasureChest, Floor = 0)
+    Stage6MoneyBag = Secret(6, items.FlashingMoneyBag, Floor = 1)
 
     Block2 = [
         Stage4Crown, Stage5TreasureBox, Stage6MoneyBag
     ]
 
-    Stage7MoneyBag = Secret(7, 0, items.FlashingMoneyBag, Floor = 1)
-    Stage8MoneyBag = Secret(8, 0, items.FlashingMoneyBag, Floor = 1)
-    Stage9MoneyBag = Secret(9, 0, items.FlashingMoneyBag, Floor = 0, Unreachable = true)
+    Stage7MoneyBag = Secret(7, items.FlashingMoneyBag, Floor = 1)
+    Stage8MoneyBag = Secret(8, items.FlashingMoneyBag, Floor = 1)
+    Stage9MoneyBag = Secret(9, items.FlashingMoneyBag, Floor = 0, Unreachable = true)
 
     Block3 = [
         Stage7MoneyBag, Stage8MoneyBag, Stage9MoneyBag
     ]
 
-    Stage13OneUp = Secret(13, 0, items.OneUp, Floor = 1)
-    Stage14MoneyBag1 = Secret(14, 0, items.FlashingMoneyBag, Floor = 1)
-    Stage14MoneyBag2 = Secret(14, 1, items.FlashingMoneyBag, Floor = 1)
-    Stage14MoneyBag3 = Secret(14, 2, items.FlashingMoneyBag, Floor = 1)
+    Stage13OneUp = Secret(13, items.OneUp, Floor = 1)
+    Stage14MoneyBag1 = Secret(14, items.FlashingMoneyBag, Floor = 1)
+    Stage14MoneyBag2 = Secret(14, items.FlashingMoneyBag, Floor = 1)
+    Stage14MoneyBag3 = Secret(14, items.FlashingMoneyBag, Floor = 1)
 
     Block5 = [
         Stage13OneUp, Stage14MoneyBag1, Stage14MoneyBag2, Stage14MoneyBag3
     ]
-
-    function GetFlag(index) {
-        return bit(index, 0x144)
-    }
 }
 secrets = Secrets()
 
 class BreakableWalls {
-    Stage1PurpleMoneyBag = Secret(1, 0, items.PurpleMoneyBag)
-    Stage2PotRoast = Secret(2, 0, items.PotRoast, Floor = 1)
-    Stage3ShotMultiplier = Secret(3, 0, items.ShotMultiplier)
+    Flags = byte(0x146)
+
+    Stage1PurpleMoneyBag = Secret(1, items.PurpleMoneyBag, Floor = 0, ScrollX = 0x379)
+    Stage2PotRoast = Secret(2, items.PotRoast, Floor = 1, ScrollX = 0x88)
+    Stage3ShotMultiplier = Secret(3, items.ShotMultiplier, Floor = 0, PositionX = 0x2b7)
 
     Block1 = [
         Stage1PurpleMoneyBag, Stage2PotRoast, Stage3ShotMultiplier
     ]
 
-    Stage4ShotMultiplier = Secret(4, 2, items.ShotMultiplier, Floor = 1)
-    Stage5PotRoast = Secret(5, 0, items.PotRoast, Floor = 1)
-    Stage6PotRoast = Secret(6, 0, items.PotRoast, Floor = 0)
-    Stage6ShotMultiplier = Secret(6, 1, items.ShotMultiplier, Floor = 0)
+    Stage4ShotMultiplier = Secret(4, items.ShotMultiplier, Floor = 1)
+    Stage5PotRoast = Secret(5, items.PotRoast, Floor = 1)
+    Stage6PotRoast = Secret(6, items.PotRoast, Floor = 0)
+    Stage6ShotMultiplier = Secret(6, items.ShotMultiplier, Floor = 0)
 
     Block2 = [
         Stage4ShotMultiplier, Stage5PotRoast, Stage6PotRoast, Stage6ShotMultiplier
     ]
 
-    Stage7PotRoast = Secret(7, 0, items.PotRoast, Floor = 0)
-    Stage9PotRoast = Secret(9, 0, items.PotRoast, Floor = 0)
+    Stage7PotRoast = Secret(7, items.PotRoast, Floor = 0)
+    Stage9PotRoast = Secret(9, items.PotRoast, Floor = 0)
 
     Block3 = [
         Stage7PotRoast, Stage9PotRoast
     ]
 
-    Stage12PotRoast = Secret(12, 0, items.PotRoast, Floor = 0)
+    Stage12PotRoast = Secret(12, items.PotRoast, Floor = 0)
 
     Block4 = [
         Stage12PotRoast
     ]
 
-    Stage13PotRoast = Secret(13, 1, items.PotRoast, Floor = 1)
-    Stage13ShotMultiplier = Secret(13, 0, items.ShotMultiplier, Floor = 1)
-    Stage14ShotMultiplier = Secret(14, 1, items.ShotMultiplier, Floor = 1)
-    Stage15PotRoast = Secret(15, 0, items.PotRoast, Floor = 0)
+    Stage13PotRoast = Secret(13, items.PotRoast, Floor = 1)
+    Stage13ShotMultiplier = Secret(13, items.ShotMultiplier, Floor = 1)
+    Stage14ShotMultiplier = Secret(14, items.ShotMultiplier, Floor = 1)
+    Stage15PotRoast = Secret(15, items.PotRoast, Floor = 0)
 
     Block5 = [
         Stage13PotRoast, Stage13ShotMultiplier, Stage14ShotMultiplier, Stage15PotRoast
     ]
-
-    function GetFlag(index) {
-        return bit(index, 0x146)
-    }
 }
 breakableWalls = BreakableWalls()
 
@@ -500,19 +496,6 @@ class AchievementHelpers {
         return (always_false() || never(helpers.IsNotPlaying()))
     }
 
-    function CollectedItem(item, index) {
-        ids = stageObjects.GetIds()
-        timers = stageObjects.GetTimers()
-        idCheck = ids[index] != item.Id
-
-        if (item.IsMoneyBag) {
-            idCheck = ids[index] == item.Points.Id
-        }
-
-        return prev(ids[Index]) == item.Id &&
-            idCheck && timers[index] > 0  
-    }
-
     function GetMaxSecretStage(secrets) {
         max = 0
         for secret in secrets {
@@ -526,7 +509,6 @@ class AchievementHelpers {
         ids = stageObjects.GetIds()
         timer = stageObjects.GetSecretTimers()
         item = secret.Item
-        flag = secrets.GetFlag(secret.Flag)
 
         idCheck = ids[index] != item.Id
 
@@ -540,13 +522,28 @@ class AchievementHelpers {
             stageCheck = stageCheck && 
                 game.Stage.Floor == secret.Floor
 
-        collectedCheck = flag == 1 && 
+        if (secret.ScrollX >= 0)
+            stageCheck = stageCheck &&
+                game.Stage.ScrollX >= secret.ScrollX - 0x10 &&
+                game.Stage.ScrollX <= secret.ScrollX + 0x10
+
+        if (secret.PositionX >= 0)
+            stageCheck = stageCheck &&
+                game.Player.PositionX >= secret.PositionX - 0x10 &&
+                game.Player.PositionX <= secret.PositionX + 0x10
+        
+        if (secret.PositionY >= 0)
+            stageCheck = stageCheck &&
+                game.Player.PositionY >= secret.PositionY - 0x10 &&
+                game.Player.PositionY <= secret.PositionY + 0x10
+
+        collectedCheck = secrets.Flags > 0 && 
             prev(ids[index]) == item.Id && 
             idCheck && 
             timer[index] > 0
 
         if (secret.Unreachable) 
-            collectedCheck = prev(flag) == 0 && flag == 1
+            collectedCheck = prev(secrets.Flags) < secrets.Flags
 
         return stageCheck &&
             collectedCheck
@@ -556,7 +553,6 @@ class AchievementHelpers {
         ids = stageObjects.GetIds()
         timers = stageObjects.GetTimers()
         item = secret.Item
-        flag = breakableWalls.GetFlag(secret.Flag)
 
         idCheck = prev(ids[index]) == item.Id &&
             ids[index] != item.Id
@@ -581,8 +577,23 @@ class AchievementHelpers {
             stageCheck = stageCheck && 
                 game.Stage.Floor == secret.Floor
 
-        return stageCheck &&
-            flag == 1 && 
+        if (secret.ScrollX >= 0)
+            stageCheck = stageCheck &&
+                game.Stage.ScrollX >= secret.ScrollX - 0x10 &&
+                game.Stage.ScrollX <= secret.ScrollX + 0x10
+
+        if (secret.PositionX >= 0)
+            stageCheck = stageCheck &&
+                game.Player.PositionX >= secret.PositionX - 0x10 &&
+                game.Player.PositionX <= secret.PositionX + 0x10
+        
+        if (secret.PositionY >= 0)
+            stageCheck = stageCheck &&
+                game.Player.PositionY >= secret.PositionY - 0x10 &&
+                game.Player.PositionY <= secret.PositionY + 0x10
+
+        return breakableWalls.Flags > 0 &&
+            stageCheck &&
             idCheck &&
             timers[index] > 0  
     }
@@ -605,8 +616,6 @@ class AchievementHelpers {
             }
 
             if (secret.Item == items.ShotMultiplier) {
-                flag = breakableWalls.GetFlag(secret.Flag)
-
                 stageCheck = game.Stage.Id == secret.Stage
 
                 if (secret.Floor >= 0)
@@ -620,8 +629,7 @@ class AchievementHelpers {
                     (
                         game.Player.SubWeapon.Multiplier == 2 &&
                         stageCheck &&
-                        prev(flag) == 0 &&
-                        flag == 1
+                        prev(breakableWalls.Flags) < breakableWalls.Flags
                     ) &&
                     never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
                     never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
@@ -743,7 +751,7 @@ class AchievementHelpers {
         return prev(game.Screen.Id) == screenIds.Playing && clearCheck
     }
 
-    function DefeatedStageBoss(stage, screen, floor, challenge = false) {
+    function DefeatedStageBoss(stage, scrollX, floor, challenge = false) {
         defeatCheck = game.Boss.Health == 0 &&
             prev(game.Screen.Id) == screenIds.Playing &&
             game.Screen.Id == screenIds.StageEnd
@@ -753,20 +761,20 @@ class AchievementHelpers {
 
         return this.BossIsActive() &&
             game.Stage.Id == stage &&
-            game.Stage.Screen == screen &&
+            game.Stage.ScrollX == scrollX &&
             game.Stage.Floor == floor &&
             defeatCheck
     }
 
-    function NoSubWeaponBoss(stage, screen, floor) {
-        return this.DefeatedStageBoss(stage, screen, floor, true) &&
+    function NoSubWeaponBoss(stage, scrollX, floor) {
+        return this.DefeatedStageBoss(stage, scrollX, floor, true) &&
             disable_when
             (
                 this.IsPlaying() && 
                 this.BossIsActive(true) && 
                 game.Boss.Health > 0 && 
                 game.Stage.Id == stage &&
-                game.Stage.Screen == screen &&
+                game.Stage.ScrollX == scrollX &&
                 game.Stage.Floor == floor &&
                 game.Player.Hearts < prev(game.Player.Hearts)
             ) &&
@@ -823,11 +831,11 @@ class AchievementTriggers {
     }
 
     function RightOffTheBat() {
-        return helpers.DefeatedStageBoss(3, 2, 0)
+        return helpers.DefeatedStageBoss(3, 0x200, 0)
     }
 
     function LikeABatOutOfHell() {
-        return helpers.NoSubWeaponBoss(3, 2, 0)
+        return helpers.NoSubWeaponBoss(3, 0x200, 0)
     }
 
     function Beeline() {

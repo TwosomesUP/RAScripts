@@ -271,6 +271,8 @@ class Secret {
     ScrollX = -99
     PositionX = -99
     PositionY = -99
+    BlockLow = -99 // This should be used for the exact tile address for a breakable wall
+    BlockHigh = -99
     Unreachable = false
 }
 
@@ -351,7 +353,7 @@ class Secrets {
         Stage26Moai
     ]
 
-    Stage27Moai = Secret(8, items.Moai, Floor = 0, PositionX = 0x40, Loop = 1)
+    Stage27Moai = Secret(8, items.Moai, Floor = 0, PositionX = 0x2a9, Loop = 1)
 
     Loop2Stage27 = [
         Stage27Moai
@@ -362,66 +364,66 @@ secrets = Secrets()
 class BreakableWalls {
     Flags = byte(0x146)
 
-    Stage1PurpleMoneyBag = Secret(1, items.PurpleMoneyBag, Floor = 0, ScrollX = 0x379)
-    Stage2PotRoast = Secret(2, items.PotRoast, Floor = 1, ScrollX = 0x88)
-    Stage3ShotMultiplier = Secret(3, items.ShotMultiplier, Floor = 0, PositionX = 0x2b7, PositionY = 0xc0)
+    Stage1PurpleMoneyBag = Secret(1, items.PurpleMoneyBag, Floor = 0, ScrollX = 0x379, BlockLow = 0x6b7)
+    Stage2PotRoast = Secret(2, items.PotRoast, Floor = 1, ScrollX = 0x88, BlockHigh = 0x6e0)
+    Stage3ShotMultiplier = Secret(3, items.ShotMultiplier, Floor = 0, PositionX = 0x2b7, PositionY = 0xc0, BlockLow = 0x625)
 
     Block1 = [
         Stage1PurpleMoneyBag, Stage2PotRoast, Stage3ShotMultiplier
     ]
 
-    Stage4ShotMultiplier = Secret(4, items.ShotMultiplier, Floor = 1, PositionX = 0x168, PositionY = 0x70)
-    Stage5PotRoast = Secret(5, items.PotRoast, Floor = 1, PositionX = 0x279)
-    Stage6PotRoast = Secret(6, items.PotRoast, Floor = 0, PositionX = 0x2c8)
-    Stage6ShotMultiplier = Secret(6, items.ShotMultiplier, Floor = 0, PositionX = 0x88, PositionY = 0xa0)
+    Stage4ShotMultiplier = Secret(4, items.ShotMultiplier, Floor = 1, PositionX = 0x168, PositionY = 0x70, BlockHigh = 0x693)
+    Stage5PotRoast = Secret(5, items.PotRoast, Floor = 1, PositionX = 0x279, BlockLow = 0x673)
+    Stage6PotRoast = Secret(6, items.PotRoast, Floor = 0, PositionX = 0x2c8, BlockHigh = 0x606)
+    Stage6ShotMultiplier = Secret(6, items.ShotMultiplier, Floor = 0, PositionX = 0x88, PositionY = 0xa0, BlockHigh = 0x614)
 
     Block2 = [
         Stage4ShotMultiplier, Stage5PotRoast, Stage6PotRoast, Stage6ShotMultiplier
     ]
 
-    Stage7PotRoast = Secret(7, items.PotRoast, Floor = 0, PositionX = 0x126)
-    Stage9PotRoast = Secret(9, items.PotRoast, Floor = 0, PositionX = 0x537)
+    Stage7PotRoast = Secret(7, items.PotRoast, Floor = 0, PositionX = 0x126, BlockHigh = 0x6c1)
+    Stage9PotRoast = Secret(9, items.PotRoast, Floor = 0, PositionX = 0x537, BlockLow = 0x6d1)
 
     Block3 = [
         Stage7PotRoast, Stage9PotRoast
     ]
 
-    Stage12PotRoast = Secret(12, items.PotRoast, Floor = 0, PositionX = 0x138)
-    Stage12LargeHeart = Secret(12, items.LargeHeart, Floor = 0, PositionX = 0x2e8, PositionY = 0xa0)
+    Stage12PotRoast = Secret(12, items.PotRoast, Floor = 0, PositionX = 0x138, BlockLow = 0x6c1)
+    Stage12LargeHeart = Secret(12, items.LargeHeart, Floor = 0, PositionX = 0x2e8, PositionY = 0xa0, BlockHigh = 0x617)
 
     Block4 = [
-        Stage12PotRoast
+        Stage12PotRoast, Stage12LargeHeart
     ]
 
-    Stage13PotRoast = Secret(13, items.PotRoast, Floor = 1, PositionX = 0x448)
-    Stage13ShotMultiplier = Secret(13, items.ShotMultiplier, Floor = 1, PositionX = 0x1b6)
-    Stage14ShotMultiplier = Secret(14, items.ShotMultiplier, Floor = 1, PositionX = 0x308, PositionY = 0x50)
-    Stage15PotRoast = Secret(15, items.PotRoast, Floor = 0, PositionX = 0x3e8)
+    Stage13PotRoast = Secret(13, items.PotRoast, Floor = 1, PositionX = 0x448, BlockHigh = 0x6c2)
+    Stage13ShotMultiplier = Secret(13, items.ShotMultiplier, Floor = 1, PositionX = 0x1b6, BlockLow = 0x5d5)
+    Stage14ShotMultiplier = Secret(14, items.ShotMultiplier, Floor = 1, PositionX = 0x308, PositionY = 0x50, BlockHigh = 0x670)
+    Stage15PotRoast = Secret(15, items.PotRoast, Floor = 0, PositionX = 0x3e8, BlockHigh = 0x677)
 
     Block5 = [
         Stage13PotRoast, Stage13ShotMultiplier, Stage14ShotMultiplier, Stage15PotRoast
     ]
 
-    Stage17PotRoast = Secret(17, items.PotRoast, Floor = 1, PositionX = 0x1e8)
-    Stage17ShotMultiplier = Secret(17, items.ShotMultiplier, Floor = 0, PositionX = 0xa7)
+    Stage17PotRoast = Secret(17, items.PotRoast, Floor = 1, PositionX = 0x1e8, BlockHigh = 0x6d7)
+    Stage17ShotMultiplier = Secret(17, items.ShotMultiplier, Floor = 0, PositionX = 0xa7, BlockHigh = 0x5c5)
 
     Block6 = [
         Stage17PotRoast, Stage17ShotMultiplier
     ]
 
-    Stage23PotRoast = Secret(4, items.PotRoast, Floor = 1, PositionX = 0x1e8, Loop = 1)
+    Stage23PotRoast = Secret(4, items.PotRoast, Floor = 1, PositionX = 0x1e8, Loop = 1, BlockHigh = 0x6a7)
 
     Loop2Stage23 = [
         Stage23PotRoast
     ]
 
-    Stage26ShotMultiplier = Secret(7, items.ShotMultiplier, Floor = 1, PositionX = 0xe7, Loop = 1)
+    Stage26ShotMultiplier = Secret(7, items.ShotMultiplier, Floor = 1, PositionX = 0xe7, Loop = 1, BlockHigh = 0x5f7)
 
     Loop2Stage26 = [
         Stage26ShotMultiplier
     ]
 
-    Stage34ShotMultiplier = Secret(15, items.ShotMultiplier, Floor = 0, PositionX = 0x217, Loop = 1)
+    Stage34ShotMultiplier = Secret(15, items.ShotMultiplier, Floor = 0, PositionX = 0x217, Loop = 1, BlockLow = 0x620)
 
     Loop2Stage34 = [
         Stage34ShotMultiplier
@@ -652,11 +654,9 @@ class AchievementHelpers {
         if (item.IsShotMultiplier) {
             idCheck =
             (
-                __ornext(prev(ids[index]) == item.Id || prev(ids[index]) == item.AltId || prev(ids[index]) == items.SmallHeart.Id || prev(ids[index]) == items.RedMoneyBag.Id) &&
+                __ornext(prev(ids[index]) == item.Id || prev(ids[index]) == item.AltId) &&
                 ids[index] != items.ShotMultiplier.Id &&
-                ids[index] != items.ShotMultiplier.AltId &&
-                ids[index] != items.SmallHeart.Id &&
-                ids[index] != items.RedMoneyBag.Id
+                ids[index] != items.ShotMultiplier.AltId
             )
         }
 
@@ -689,6 +689,16 @@ class AchievementHelpers {
             stageCheck = stageCheck &&
                 game.Player.PositionY >= secret.PositionY - 0x10 &&
                 game.Player.PositionY <= secret.PositionY + 0x10
+        
+        if (secret.BlockLow >= 0) {
+            stageCheck = stageCheck &&
+                low4(secret.BlockLow) == 0
+        }
+
+        if (secret.BlockHigh >= 0) {
+            stageCheck = stageCheck &&
+                high4(secret.BlockHigh) == 0
+        }
 
         return breakableWalls.Flags > 0 &&
             stageCheck &&
@@ -711,6 +721,58 @@ class AchievementHelpers {
                     never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithLives) &&
                     never(game.Stage.Id == secret.Stage && game.Screen.Id == screenIds.DeathWithoutLives)
                 ) 
+            }
+
+            // If the player has already maxed out their shot multiplier,
+            // then this item will be a small heart or a red money back
+            // Due to that, check if the block has been destroyed instead
+            if (secret.Item == items.ShotMultiplier) {
+                stageCheck = game.Stage.Id == secret.Stage
+
+                if (secret.Loop >= 0)
+                    stageCheck = stageCheck &&
+                        game.Stage.Loop >= secret.Loop
+
+                if (secret.Floor >= 0)
+                    stageCheck = stageCheck && 
+                        game.Stage.Floor == secret.Floor
+
+                if (secret.ScrollX >= 0)
+                    stageCheck = stageCheck &&
+                        game.Stage.ScrollX >= secret.ScrollX - 0x30 &&
+                        game.Stage.ScrollX <= secret.ScrollX + 0x30
+
+                if (secret.PositionX >= 0)
+                    stageCheck = stageCheck &&
+                        game.Player.PositionX >= secret.PositionX - 0x30 &&
+                        game.Player.PositionX <= secret.PositionX + 0x30
+                
+                if (secret.PositionY >= 0)
+                    stageCheck = stageCheck &&
+                        game.Player.PositionY >= secret.PositionY - 0x30 &&
+                        game.Player.PositionY <= secret.PositionY + 0x30
+                
+                if (secret.BlockLow >= 0) {
+                    stageCheck = stageCheck &&
+                        low4(secret.BlockLow) == 0
+                }
+
+                if (secret.BlockHigh >= 0) {
+                    stageCheck = stageCheck &&
+                        high4(secret.BlockHigh) == 0
+                }
+
+                array_push
+                (
+                    conditions,
+                    once
+                    (
+                        game.Player.SubWeapon.Multiplier >= 2 &&
+                        prev(breakableWalls.Flags) <
+                        breakableWalls.Flags &&
+                        stageCheck
+                    )
+                )
             }
         }
 
@@ -887,7 +949,7 @@ class AchievementHelpers {
     }
 
     function Loop1ContinueChallenge() {
-        return game.Stage.Loop == 0 &&
+        return game.Stage.Loop >= 0 &&
             game.Player.Continues == 0 && 
             this.ClearedStage(18, true) &&
             disable_when
@@ -902,7 +964,7 @@ class AchievementHelpers {
     }
 
     function Loop2ContinueChallenge() {
-        return trigger_when(game.Stage.Loop == 1) && 
+        return trigger_when(game.Stage.Loop >= 1) && 
             game.Player.Continues < 4 &&
             this.ClearedStage(18, true) &&
             disable_when
@@ -971,7 +1033,8 @@ class AchievementHelpers {
             )
         }
 
-        return measured(tally(count, kills)) &&
+        return 
+            measured(tally(count, kills), once(prev(game.Player.PotionTimer) < 0xb4 && game.Player.PotionTimer == 0xb4)) &&
             never(game.Player.PotionTimer == 0) &&
             never(helpers.IsNotPlaying())
     }
@@ -1121,7 +1184,7 @@ class AchievementTriggers {
             helpers.ResetStageChallenge()
     }
 
-    function EmeraldEndowment() {
+    function TopazTrove() {
         return helpers.CollectedAllSecretItems(secrets.Block6) &&
             helpers.ResetStageChallenge()
     }
@@ -1199,7 +1262,7 @@ class AchievementTriggers {
     }
 
     function OneMoreTime() {
-        return game.Stage.Loop == 2 &&
+        return game.Stage.Loop >= 1 &&
             helpers.DefeatedStageBoss(18, 0, 1)
     }
 
@@ -1313,7 +1376,7 @@ class Achievements {
 
         // Stages 16 - 18
         Achievement(0, 5, "Pearl Portfolio", "In a single session, find and collect all hidden wall treasures in stages 16 through 18", triggers.PearlPortfolio()),
-        Achievement(0, 10, "Emerald Endowment", "In a single session, reveal and collect all hidden bonus treasures in stages 16 through 18", triggers.EmeraldEndowment()),
+        Achievement(0, 10, "Topaz Trove", "In a single session, reveal and collect all hidden bonus treasures in stages 16 through 18", triggers.TopazTrove()),
         Achievement(0, 5, "Cease Fire", "In a single session, destroy all candles and braziers in stages 16 through 18", triggers.CeaseFire()),
         Achievement(2, 5, "Beyond the Grave", "Defeat Dracula and clear the game", triggers.BeyondTheGrave()),
         Achievement(0, 10, "Final Nail in the Coffin", "Defeat Dracula in Stage 18 without using a sub-weapon", triggers.FinalNailInTheCoffin()),

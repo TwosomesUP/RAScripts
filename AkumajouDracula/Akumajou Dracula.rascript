@@ -1333,7 +1333,7 @@ class AchievementTriggers {
 triggers = AchievementTriggers()
 
 class Achievements {
-    StartingID = 0
+    StartingID = 598306
     Data = [
         // Stages 1 - 3
         Achievement(0, 5, "Amethyst Abundance", "In a single session, find and collect all hidden wall treasures in stages 1 through 3", triggers.AmethystAbundance()),
@@ -1465,4 +1465,91 @@ rich_presence_conditional_display(helpers.IsGameOver(), "Simon has been bested b
 
 rich_presence_display("🏰 Playing Akumajou Dracula 🧛")
 
+class LeaderboardFormats {
+    Value = "VALUE"
+    Seconds = "SECS"
+    Frames = "FRAMES"
+    Points = "POINTS"
+    Milliseconds = "MILLISECS"
+    Minutes = "MINUTES"
+    SecondsAsMinutes = "SECS_AS_MINS"
+    Float1 = "FLOAT1"
+    Float2 = "FLOAT2"
+    Float3 = "FLOAT3"
+    Float4 = "FLOAT4"
+    Float5 = "FLOAT5"
+    Float6 = "FLOAT6"
+    Fixed1 = "FIXED1"
+    Fixed2 = "FIXED2"
+    Fixed3 = "FIXED3"
+    Tens = "TENS"
+    Hundreds = "HUNDREDS"
+    Thousands = "THOUSANDS"
+}
+leaderboardFormats = LeaderboardFormats()
+
+class Leaderboard {
+    Id = 0
+    Title = ""
+    Description = ""
+    Start = always_false()
+    Cancel = always_false()
+    Submit = always_false()
+    Value = 0
+    Format = leaderboardFormats.Value
+    LowerIsBetter = false
+    Set = 0
+}
+
+class LeaderboardHelpers {
+    function Start() {
+        return prev(game.Screen.Id) != screenIds.DeathWithoutLives &&
+            game.Screen.Id == screenIds.DeathWithoutLives
+    }
+
+    function Value() {
+        return (game.Stage.Id + (18 * game.Stage.Loop + game.Stage.Loop))
+    }
+}
+leaderboardHelpers = LeaderboardHelpers()
+
+class Leaderboards {
+    Data = [
+        Leaderboard
+        (
+            160456,
+            "Castle Mania", 
+            "Reach the highest stage before getting a game over", 
+            leaderboardHelpers.Start(), 
+            always_false(), 
+            always_true(), 
+            leaderboardHelpers.Value(),
+            leaderboardFormats.Value,
+            false
+        )
+    ]
+
+    function Generate() {   
+        count = 0
+        for leaderboardDef in this.Data {
+            leaderboard
+            (
+                leaderboardDef.Title, 
+                leaderboardDef.Description, 
+                leaderboardDef.Start, 
+                leaderboardDef.Cancel,
+                leaderboardDef.Submit,
+                leaderboardDef.Value,
+                leaderboardDef.Format,
+                leaderboardDef.LowerIsBetter,
+                leaderboardDef.Id,
+                leaderboardDef.Set
+            )
+            count = count + 1
+        }
+    }
+}
+leaderboards = Leaderboards()
+
+leaderboards.Generate()
 achievements.Generate()

@@ -1021,7 +1021,7 @@ class AchievementHelpers {
             never(helpers.IsNotPlaying())
     }
 
-    function PotionKills(count) {
+    function PotionKills_old(count) {
         kills = []
         ids = stageObjects.GetIds()
 
@@ -1030,6 +1030,29 @@ class AchievementHelpers {
             (
                 kills, 
                 game.Screen.Id == screenIds.Playing && game.Player.PotionTimer > 0 && prev(ids[index]) != items.EnemyDeath.Id && ids[index] == items.EnemyDeath.Id
+            )
+        }
+
+        return 
+            measured(tally(count, kills), once(prev(game.Player.PotionTimer) < 0xb4 && game.Player.PotionTimer == 0xb4)) &&
+            never(game.Player.PotionTimer == 0) &&
+            never(helpers.IsNotPlaying())
+    }
+
+    function PotionKills(count) {
+        kills = []
+        for enemy in enemies.GetSpriteIndexes() {
+            array_push
+            (
+                kills,
+                game.Screen.Id == screenIds.Playing &&
+                prev(enemy) != enemyIds.Fireball &&
+                prev(enemy) != enemyIds.Bandage &&
+                prev(enemy) != enemyIds.Bone &&
+                prev(enemy) != enemyIds.Snake &&
+                prev(enemy) != enemyIds.Scyth &&
+                prev(enemy) != enemyIds.Destroyed &&
+                enemy == enemyIds.Destroyed
             )
         }
 
@@ -1371,7 +1394,7 @@ class Achievements {
         Achievement(0, 10, "Aquamarine Assets", "In a single session, reveal and collect all hidden bonus treasures in stages 13 through 15", triggers.AquamarineAssets()),
         Achievement(0, 5, "Snuffed Out", "In a single session, destroy all candles and braziers in stages 13 through 15", triggers.SnuffedOut()),
         Achievement(1, 5, "At Death's Door", "Defeat Death and clear Stage 15", triggers.AtDeathsDoor()),
-        Achievement(0, 10, "Dead Ringer", "Defeat Death in Stage 15 without using a sub-weapon", triggers.DeadRinger()),
+        Achievement(0, 25, "Dead Ringer", "Defeat Death in Stage 15 without using a sub-weapon", triggers.DeadRinger()),
         Achievement(0, 10, "Up the Ante", "In a single session, clear stages 13 through 15 without losing a life", triggers.UpTheAnte()),
 
         // Stages 16 - 18

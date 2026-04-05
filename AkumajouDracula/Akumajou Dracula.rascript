@@ -556,16 +556,23 @@ class AchievementHelpers {
     function BrokeAllCandlesInStageRange(start, end, count) {
         checks = []
         for stage in range(start, end) {
-            for item in stageObjects.GetBreakables() {
-                array_push
-                (
-                    checks,
-                    game.Screen.Id == screenIds.Playing && 
-                    game.Stage.Id == stage &&
-                    once(prev(item) != 0xf && item == 0xf) && 
-                    never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
-                    never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives)
-                )
+            add = true
+            current = 0
+            for item in stageObjects.GetBreakables() {               
+                if (stage == 18 && current == 23)
+                    add = false
+                if (add) {
+                    array_push
+                    (
+                        checks,
+                        game.Screen.Id == screenIds.Playing && 
+                        game.Stage.Id == stage &&
+                        once(prev(item) != 0xf && item == 0xf) && 
+                        never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithLives) &&
+                        never(game.Stage.Id == stage && game.Screen.Id == screenIds.DeathWithoutLives)
+                    )
+                }
+                current = current + 1
             }
         }
         
@@ -1526,7 +1533,8 @@ class Leaderboard {
 
 class LeaderboardHelpers {
     function Start() {
-        return prev(game.Screen.Id) != screenIds.DeathWithoutLives &&
+        return game.Player.Continues == 0 &&
+            prev(game.Screen.Id) != screenIds.DeathWithoutLives &&
             game.Screen.Id == screenIds.DeathWithoutLives
     }
 

@@ -112,7 +112,8 @@ attackTypes = AttackTypes()
 class Player {
     Lives = byte(0x2a) - 1
     Health = byte(0x45)
-    Continues = byte(0x7d9)
+    SaveSlot = byte(0x1ae)
+    Continues = byte((SaveSlot * 0xa) + 0x7d9)
     AttackStatus = byte(0xd)
     AttackType = byte(0xe)
     Whip = byte(0x70)
@@ -935,7 +936,28 @@ class AchievementHelpers {
             )
     }
 
+    function IsNotPlaying() {
+        return __ornext(game.Screen.Id < screenIds.Playing || (game.Screen.Id > screenIds.StageEnd && game.Screen.Id != screenIds.Loading && game.Screen.Id != screenIds.StageTen))
+    }
+
     function NoDeathStageChallenge(start, end) {
+
+        reset = never(game.Stage.Id < start) &&
+            never(game.Stage.Id > end)
+
+        if (end == 18)
+            reset = never(game.Stage.Id >= start && game.Stage.Id <= 17 && game.Screen.Id == screenIds.DeathWithoutLives) &&
+                never(game.Screen.Id == screenIds.StartScreenIntro) &&
+                never(game.Screen.Id == screenIds.StartScreenPressStart) &&
+                never(game.Screen.Id == screenIds.StartScreenTransition) &&
+                never(game.Screen.Id == screenIds.Intro) &&
+                never(game.Screen.Id == screenIds.SaveSelect) &&
+                reset
+        else
+            reset = never(game.Stage.Id >= start && game.Stage.Id <= end && game.Screen.Id == screenIds.DeathWithoutLives) &&
+                reset &&
+                never(helpers.IsNotPlaying())
+
         return this.ClearedStage(end, true) &&
             disable_when
             (
@@ -947,10 +969,7 @@ class AchievementHelpers {
             (
                 always_false() ||
                 (
-                    never(game.Stage.Id >= start && game.Stage.Id <= end && game.Screen.Id == screenIds.DeathWithoutLives) &&
-                    never(game.Stage.Id < start) &&
-                    never(game.Stage.Id > end) &&
-                    never(helpers.IsNotPlaying())
+                    reset
                 )
             )
     }
@@ -1399,7 +1418,7 @@ class Achievements {
         // Stages 13 - 15
         Achievement(0, 5, "Emerald Endowment", "In a single session, find and collect all hidden wall treasures in stages 13 through 15", triggers.EmeraldEndowment()),
         Achievement(0, 10, "Aquamarine Assets", "In a single session, reveal and collect all hidden bonus treasures in stages 13 through 15", triggers.AquamarineAssets()),
-        Achievement(0, 5, "Snuffed Out", "In a single session, destroy all candles and braziers in stages 13 through 15", triggers.SnuffedOut()),
+        Achievement(0, 10, "Snuffed Out", "In a single session, destroy all candles and braziers in stages 13 through 15", triggers.SnuffedOut()),
         Achievement(1, 5, "At Death's Door", "Defeat Death and clear Stage 15", triggers.AtDeathsDoor()),
         Achievement(0, 25, "Dead Ringer", "Defeat Death in Stage 15 without using a sub-weapon", triggers.DeadRinger()),
         Achievement(0, 10, "Up the Ante", "In a single session, clear stages 13 through 15 without losing a life", triggers.UpTheAnte()),

@@ -551,7 +551,7 @@ class AchievementHelpers {
 
     // Room == 0x131
     function TriggeredEnding() {
-        return prev(state.Code) == state.States.Cutscene &&
+        return prev(state.Code) != state.States.Ending &&
             state.Code == state.States.Ending
     }
 }
@@ -848,7 +848,8 @@ leaderboard("Swift Escape", "Starting from a New Game, escape the Mansion as qui
     submit = leaderboards.Submit(),
     value = leaderboards.Value(),
     format = "FRAMES",
-    lower_is_better = true
+    lower_is_better = true,
+    id = 157396
 )
 
 rich_presence_conditional_display(helpers.IsLoaded() && helpers.IsPlaying() && !helpers.IsOnTitle() && !helpers.IsLoadingGame() && events.Entrance.Intro == 1, 

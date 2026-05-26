@@ -1,6 +1,47 @@
 // Fray: Shugyou Hen
 // #ID = 17328
 
+class GameData {
+    GameState = byte(0x1a5)
+    ContinueState = byte(0x1aa)
+    Stage = byte(0x1534)
+    CurrentEnemyHits = word(0x1936)
+    TargetEnemyHits = word(0x1938)
+    AwardedMedals = byte(0x1a60)
+}
+game = GameData()
+
+class PlayerData {
+    ActiveSpell = byte(0x1535)
+    MagicPoints = byte(0x1536)
+    HealthPoints = byte(0x1537)
+    UsedOneUps = byte(0x1538)
+    EquippedRod = byte(0x1931)
+    EquippedBoots = byte(0x1934)
+    CurrentMedals = byte(0x1935)
+    HaveDualRod = byte(0x193b)
+    HaveFireRod = byte(0x193c)
+    HaveHyperBoots = byte(0x193d)
+    HaveHyperShield = byte(0x193e)
+    OneUpStock = byte(0x193f)
+    RemainingContinues = byte(0x1940)
+    HaveDonationBonus = byte(0x1942)
+    HaveFireSpell = bit0(0x1944)
+    HaveLightningSpell = bit1(0x1944)
+    HaveTsunamiSpell = bit2(0x1944)
+    HavePhoenixSpell = bit3(0x1944)
+    HaveQuakeSpell = bit4(0x1944)
+    HyperShieldHitsRemaining = byte(0x1947)
+}
+player = PlayerData()
+
+class BossData {
+    Id = byte(0x1564)
+    Defeated = byte(0x173b)
+    HealthPoints = byte(0x18b1)
+}
+boss = BossData()
+
 class Achievement {
     Type = 0 // 0 = None, 1 = Progression, 2 = Win Condition, 3 = Missable
     Points = 0
@@ -11,7 +52,50 @@ class Achievement {
 }
 
 class AchievementHelpers {
+    function IsInGame() {
+        return game.GameState == 3
+    }
 
+    function IsNotInGame() {
+        return game.GameState < 3
+    }
+
+    function ClearedStage(stage) {
+        return prev(game.Stage) == stage &&
+            game.State == stage + 1
+    }
+
+    function AchievementMedalCount(amount) {
+        return player.CurrentMedals == prev(player.CurrentMedals) + amount
+    }
+
+    function DefeatedBoss(isChallenge = false) {
+        trigger = prev(boss.HealthPoints) > 0 &&
+            boss.HealthPoints == 0
+
+        if (isChallenge) {
+            trigger = boss.Id != 0 &&
+                trigger_when(trigger)
+        }
+
+        return trigger
+    }
+
+    // Need to figure out a value to detect the boss screen
+    function DefeatedBossNoDamage(stage) {
+        return this.IsInGame() && 
+            game.Stage == stage &&
+            this.DefeatedBoss(true) &&
+            disable_when(this.IsInGame() && game.Stage == stage && boss.HealthPoints > 0 && prev(player.HealthPoints) > player.HealthPoints) &&
+            (
+                always_false() ||
+                (
+                    never(game.Stage != stage) &&
+                    never(prev(player.RemainingContinues) > player.RemainingContinues) &&
+                    never(this.IsNotInGame())
+                )
+            )
+    }
 }
 helpers = AchievementHelpers()
 
@@ -25,7 +109,7 @@ class AchievementTriggers {
     }
 
     function Period1Boss() {
-        return always_false()
+        return helpers.DefeatedBossNoDamage(0)
     }
 
     function Period2() {

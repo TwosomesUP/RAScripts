@@ -941,6 +941,7 @@ class AchievementHelpers {
     }
 
     function NoDeathStageChallenge(start, end) {
+        started = once(game.Stage.Id == start)
 
         reset = never(game.Stage.Id < start) &&
             never(game.Stage.Id > end)
@@ -958,7 +959,7 @@ class AchievementHelpers {
                 reset &&
                 never(helpers.IsNotPlaying())
 
-        return this.ClearedStage(end, true) &&
+        return started && this.ClearedStage(end, true) &&
             disable_when
             (
                 game.Stage.Id >= start &&

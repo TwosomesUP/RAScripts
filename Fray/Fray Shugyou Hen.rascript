@@ -3,7 +3,6 @@
 
 class GameData {
     GameState = byte(0x1a5)
-    ContinueState = byte(0x1aa)
     Stage = byte(0x1534)
     CurrentEnemyHits = word(0x1936)
     TargetEnemyHits = word(0x1938)
@@ -37,6 +36,7 @@ player = PlayerData()
 
 class BossData {
     Id = byte(0x1564)
+    Active = byte(0x11f6)
     Defeated = byte(0x173b)
     HealthPoints = byte(0x18b1)
 }
@@ -60,6 +60,10 @@ class AchievementHelpers {
         return game.GameState < 3
     }
 
+    function BossIsActive() {
+        return boss.Active == 1
+    }
+
     function ClearedStage(stage) {
         return prev(game.Stage) == stage &&
             game.State == stage + 1
@@ -74,7 +78,7 @@ class AchievementHelpers {
             boss.HealthPoints == 0
 
         if (isChallenge) {
-            trigger = boss.Id != 0 &&
+            trigger = this.BossIsActive() &&
                 trigger_when(trigger)
         }
 
@@ -86,13 +90,14 @@ class AchievementHelpers {
         return this.IsInGame() && 
             game.Stage == stage &&
             this.DefeatedBoss(true) &&
-            disable_when(this.IsInGame() && game.Stage == stage && boss.HealthPoints > 0 && prev(player.HealthPoints) > player.HealthPoints) &&
+            disable_when(this.IsInGame() && this.BossIsActive() && game.Stage == stage && prev(player.HealthPoints) > player.HealthPoints) &&
             (
                 always_false() ||
                 (
+                    never(this.IsNotInGame()) &&
+                    never(!this.BossIsActive()) &&
                     never(game.Stage != stage) &&
-                    never(prev(player.RemainingContinues) > player.RemainingContinues) &&
-                    never(this.IsNotInGame())
+                    never(prev(player.RemainingContinues) > player.RemainingContinues)
                 )
             )
     }

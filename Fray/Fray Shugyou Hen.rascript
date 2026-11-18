@@ -66,11 +66,19 @@ class AchievementHelpers {
 
     function ClearedStage(stage) {
         return prev(game.Stage) == stage &&
-            game.State == stage + 1
+            game.Stage == stage + 1
     }
 
-    function AchievementMedalCount(amount) {
-        return player.CurrentMedals == prev(player.CurrentMedals) + amount
+    function AchievedMedalCount(stage, amount) {
+        nextStage = stage + 1
+        return once(this.IsInGame() && this.ClearedStage(stage)) &&
+            game.Stage == nextStage &&
+            prev(game.AwardedMedals) < amount &&
+            game.AwardedMedals >= amount &&
+            game.CurrentEnemyHits * 10 >= game.TargetEnemyHits * amount &&
+            never(this.IsNotInGame()) &&
+            never(game.Stage != nextStage) &&
+            never(this.IsInGame() && prev(game.CurrentEnemyHits) != 0 && game.CurrentEnemyHits == 0)
     }
 
     function DefeatedBoss(isChallenge = false) {
@@ -110,7 +118,7 @@ class AchievementTriggers {
     }
 
     function Period1Medals() {
-        return always_false()
+        return helpers.AchievedMedalCount(0, 9)
     }
 
     function Period1Boss() {

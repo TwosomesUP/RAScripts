@@ -491,7 +491,6 @@ FireShrineLevels = {
 }
 
 LitTorches = word(0x0029c4fc)
-ReaverState = word(0x1fd3671)
 
 //Update to check for end of Brazer 2 being lit for the final "never" condition
 function fireShrineChallenge(){
@@ -508,9 +507,9 @@ function fireShrineChallenge(){
         cameraState < prev(cameraState)
     ) &&
     never(all_of(FireShrineLevels, level => levelId != FireShrineLevels[level])) &&
-    never(prev(ReaverState) == ReaverState && FireShrineEvents["PuzzleSteps"] == 1 && prev(LitTorches) > LitTorches) &&
-    never(prev(ReaverState) == ReaverState && FireShrineEvents["PuzzleSteps"] == 4 && prev(LitTorches) > LitTorches) &&
-    never(prev(ReaverState) == ReaverState && FireShrineEvents["PuzzleSteps"] == 6 && cameraState == 0 && prev(LitTorches) > LitTorches)
+    never(heldItemType == HeldItemTypes["Sword"] && FireShrineEvents["PuzzleSteps"] == 1 && prev(LitTorches) > LitTorches) &&
+    never(heldItemType == HeldItemTypes["Sword"] && FireShrineEvents["PuzzleSteps"] == 4 && prev(LitTorches) > LitTorches) &&
+    never(heldItemType == HeldItemTypes["Sword"] && FireShrineEvents["PuzzleSteps"] == 6 && cameraState == 0 && prev(LitTorches) > LitTorches)
 }
 
 reaverElement = dword(0x1fd37c4)
